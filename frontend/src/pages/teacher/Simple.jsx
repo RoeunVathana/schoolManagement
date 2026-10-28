@@ -7,6 +7,7 @@ import Table from '../../components/Table';
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import { useLanguage } from '../../context/LanguageContext';
+import { useConfirmDialog } from '../../context/ConfirmContext';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
@@ -28,6 +29,7 @@ export default function Simple() {
   const { section } = useParams();
   const { user } = useAuth();
   const { language, t } = useLanguage();
+  const { ask } = useConfirmDialog();
   const [data, setData] = useState(null);
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
@@ -169,7 +171,7 @@ export default function Simple() {
   };
 
   const remove = async (row) => {
-    if (!user?.canDelete || !window.confirm(t('deleteRecordConfirm'))) return;
+    if (!user?.canDelete || !(await ask(t('deleteRecordConfirm')))) return;
     try {
       await api.delete(`${endpoint}/${row.id}`);
       await load();
@@ -187,7 +189,9 @@ export default function Simple() {
     : <span className="text-xs text-slate-400">{t('noFile')}</span>;
 
   const actionColumn = editable.includes(section) || section === 'submissions'
-    ? [{ key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2">{(editable.includes(section) || section === 'submissions') && <button disabled={!user?.canEdit} onClick={() => edit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 disabled:opacity-40">{section === 'submissions' ? t('review') : t('edit')}</button>}<button disabled={!user?.canDelete} onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 disabled:opacity-40">{t('delete')}</button></div> }]
+    ? [{ key: 'actions', label: t('actions'), render: (row) => section === 'submissions'
+      ? <button disabled={!user?.canEdit} onClick={() => edit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 disabled:opacity-40">{t('review')}</button>
+      : <div className="flex gap-2"><button disabled={!user?.canEdit} onClick={() => edit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 disabled:opacity-40">{t('edit')}</button><button disabled={!user?.canDelete} onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 disabled:opacity-40">{t('delete')}</button></div> }]
     : [];
 
   const columns = section === 'courses'
@@ -221,7 +225,7 @@ export default function Simple() {
   const descriptionKey = editable.includes(section) && !hasAssignedCourse ? 'noCourseAssigned' : 'learningRecords';
   const sectionName = section === 'announcements' ? t('announcement') : section === 'assignments' ? t('assignment') : section === 'exams' ? t('exam') : section === 'submissions' ? t('submission') : section;
 
-  return <><Header key={`${section}-${language}`} eyebrow="teacherWorkspace" title={titles[section] || 'announcements'} description={descriptionKey} action={(editable.includes(section) || section === 'submissions') && user?.canCreate && hasAssignedCourse ? <button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white">+ {t('add')} {sectionName}</button> : null} />{error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}{data ? <Table key={`${section}-${language}`} columns={columns} rows={rows} empty={editable.includes(section) && !hasAssignedCourse ? t('noCourseAssignedShort') : t('noRecords')} /> : <Loading />}
+  return <><Header eyebrow="teacherWorkspace" title={titles[section] || 'announcements'} description={descriptionKey} action={(editable.includes(section) || section === 'submissions') && user?.canCreate && hasAssignedCourse ? <button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white">+ {t('add')} {sectionName}</button> : null} />{error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}{data ? <Table columns={columns} rows={rows} empty={editable.includes(section) && !hasAssignedCourse ? t('noCourseAssignedShort') : t('noRecords')} /> : <Loading />}
     <Modal open={open} title={section === 'submissions' ? (editing ? t('reviewSubmission') : `${t('create')} ${sectionName}`) : `${editing ? t('edit') : t('create')} ${sectionName}`} onClose={close}>
       {section === 'submissions' ? <form onSubmit={save} className="space-y-4">
         {editing ? <><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('submissionDetails')}</p><div className="mt-3 grid gap-3 sm:grid-cols-2"><div><p className="text-xs text-slate-400">{t('student')}</p><p className="mt-1 font-semibold text-ink">{editing.student?.user?.fullName || '-'}</p></div><div><p className="text-xs text-slate-400">{t('assignment')}</p><p className="mt-1 font-semibold text-ink">{editing.assignment?.title || '-'}</p></div><div><p className="text-xs text-slate-400">{t('course')}</p><p className="mt-1 font-semibold text-ink">{editing.assignment?.course?.courseName || '-'}</p></div><div><p className="text-xs text-slate-400">{t('submitted')}</p><p className="mt-1 font-semibold text-ink">{formatDate(editing.submittedAt, language)}</p></div></div></div>{editing.answerText && <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('answer')}<textarea readOnly rows="6" value={editing.answerText} className="input mt-2 cursor-default bg-slate-50 dark:bg-slate-800" /></label>}{editing.fileUrl && <a href={mediaUrl(editing.fileUrl)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl bg-mint p-4 text-sm font-semibold text-emerald-800"><span>{t('attachment')}</span><span>{t('openFile')} ↗</span></a>}<div className="grid gap-3 sm:grid-cols-2"><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('score')}<input required type="number" min="0" max={editing.assignment?.maxScore || 100} step="0.01" value={form.score} className="input mt-2" placeholder={`0 - ${editing.assignment?.maxScore || 100}`} onChange={(event) => setForm({ ...form, score: event.target.value })} /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('status')}<select value={form.status} className="input mt-2" onChange={(event) => setForm({ ...form, status: event.target.value })}>{submissionStatuses.map((status) => <option key={status} value={status}>{status}</option>)}</select></label></div><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('feedback')}<textarea rows="4" value={form.feedback} className="input mt-2" placeholder={t('feedback')} onChange={(event) => setForm({ ...form, feedback: event.target.value })} /></label></> : <><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('assignment')}<select required value={form.assignmentId} className="input mt-2" onChange={(event) => { const assignmentId = event.target.value; const assignment = assignments.find((item) => item.id === assignmentId); setForm({ ...form, assignmentId, studentId: courseStudents[assignment?.courseId]?.[0]?.id || '' }); }}><option value="">{t('selectHomework')}</option>{assignments.map((assignment) => <option key={assignment.id} value={assignment.id}>{assignment.title} · {assignment.course?.courseName}</option>)}</select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('student')}<select required value={form.studentId} className="input mt-2" onChange={(event) => setForm({ ...form, studentId: event.target.value })}><option value="">{t('selectStudent')}</option>{submissionStudents.map((student) => <option key={student.id} value={student.id}>{student.studentCode} · {student.user?.fullName}</option>)}</select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('answer')}<textarea rows="5" value={form.answerText} className="input mt-2" placeholder={t('writeAnswer')} onChange={(event) => setForm({ ...form, answerText: event.target.value })} /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('attachment')}<input type="file" accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*" className="input mt-2 p-2" onChange={(event) => setForm({ ...form, file: event.target.files?.[0] || null })} /></label></>}

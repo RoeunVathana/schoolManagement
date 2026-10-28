@@ -82,6 +82,7 @@ export default function Login() {
     } catch (e) {
       await signOut(firebaseAuth).catch(() => undefined);
       const code = e.code || '';
+      const invalidApiKey = code === 'auth/invalid-api-key' || code.startsWith('auth/api-key-not-valid');
       const firebaseMessage = code === 'auth/popup-closed-by-user'
         ? t('googleSignInCancelled')
         : code === 'auth/operation-not-allowed'
@@ -90,8 +91,8 @@ export default function Login() {
             ? t('googleDomainNotAuthorized')
             : code === 'auth/popup-blocked'
               ? t('googlePopupBlocked')
-                : code === 'auth/invalid-api-key'
-                  ? 'Firebase API key is invalid. Check the Firebase web app configuration.'
+                : invalidApiKey
+                  ? t('firebaseApiKeyInvalid')
                   : code === 'auth/network-request-failed'
                     ? 'Firebase could not connect to Google. Check your internet connection and Firebase configuration.'
               : apiMessage(e, t('googleSignInFailed'));
@@ -133,7 +134,7 @@ export default function Login() {
           <div className="auth-hero-footer relative flex items-center justify-between gap-4 text-xs text-white/45"><span>PostgreSQL · NestJS · React</span><span>{language === 'km' ? 'សុវត្ថិភាព និងងាយស្រួលប្រើ' : 'Secure and simple to use'}</span></div>
         </aside>
 
-        <main className="flex min-w-0 items-center justify-center p-6 sm:p-10 lg:p-12">
+        <main className="auth-form-panel flex min-w-0 items-center justify-center p-6 sm:p-10 lg:p-12">
           <div className="w-full max-w-lg">
             <div className="mb-8 flex items-start justify-between gap-4 lg:hidden">
               <Link to="/login" className="text-2xl font-extrabold tracking-tight text-navy dark:text-white">Campus<span className="text-coral">Flow</span></Link>
@@ -175,7 +176,7 @@ export default function Login() {
               </>}
             </form>
 
-            {selectedRole === 'ADMIN' ? <p className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-center text-xs leading-6 text-slate-500 dark:border-slate-700 dark:bg-slate-800">{t('adminManagedAccount')}</p> : <p className="mt-7 text-center text-sm text-slate-500">{t('needAccount').replace('{role}', roleLabels[selectedRole].toLowerCase())} <Link to="/register" className="font-bold text-navy hover:underline dark:text-mint">{t('registerHere')}</Link></p>}
+            {selectedRole === 'ADMIN' ? <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-center text-xs leading-6 text-slate-500 dark:border-slate-700 dark:bg-slate-800"><p>{t('adminManagedAccount')}</p><Link to="/forgot-password" className="mt-2 inline-block font-bold text-navy hover:underline dark:text-mint">{t('forgotPasswordLink')}</Link></div> : <p className="mt-7 text-center text-sm text-slate-500">{t('needAccount').replace('{role}', roleLabels[selectedRole].toLowerCase())} <Link to="/register" className="font-bold text-navy hover:underline dark:text-mint">{t('registerHere')}</Link></p>}
           </div>
         </main>
       </div>

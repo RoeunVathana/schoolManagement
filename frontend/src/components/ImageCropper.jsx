@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const defaults = {
   title: 'Crop image',
@@ -100,9 +101,9 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
   };
 
   if (!file) return null;
-  return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="crop-image-title">
-      <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-white/20 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+  return createPortal(
+    <div className="cropper-overlay fixed inset-0 z-[200] grid min-h-dvh place-items-center overflow-y-auto bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" role="dialog" aria-modal="true" aria-labelledby="crop-image-title">
+      <div className="cropper-panel flex max-h-[calc(100dvh-1.5rem)] w-full max-w-2xl flex-col overflow-hidden rounded-[1.75rem] border border-white/20 bg-white shadow-2xl shadow-black/40 dark:border-slate-700 dark:bg-slate-900 sm:max-h-[calc(100dvh-3rem)]">
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-700">
           <div>
             <h2 id="crop-image-title" className="text-lg font-bold text-ink dark:text-white">{text.title}</h2>
@@ -111,7 +112,7 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
           <button type="button" onClick={onCancel} className="rounded-xl px-2 py-1 text-2xl leading-none text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={text.cancel}>×</button>
         </div>
 
-        <div className="p-5">
+        <div className="cropper-body min-h-0 overflow-y-auto p-5 sm:p-6">
           <div
             ref={areaRef}
             className={`relative mx-auto aspect-square w-full max-w-[360px] touch-none select-none overflow-hidden rounded-2xl bg-slate-950 ring-4 ring-white shadow-xl dark:ring-slate-800 ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
@@ -136,6 +137,7 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

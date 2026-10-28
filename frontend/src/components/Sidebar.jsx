@@ -40,7 +40,7 @@ export default function Sidebar({ open, onClose }) {
   const profilePath = user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
   const initials = user?.fullName?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'U';
 
-  return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-30 flex h-screen w-64 transform flex-col overflow-hidden px-5 py-6 text-white transition-transform md:translate-x-0`}>
+  return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(18rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform md:w-64 md:px-5 md:py-6 md:translate-x-0`}>
     <div className="mb-8 flex shrink-0 items-center justify-between">
       <div className="flex items-center gap-3">
         <div className="sidebar-logo flex h-10 w-10 items-center justify-center rounded-2xl text-sm font-extrabold tracking-tight">CF</div>

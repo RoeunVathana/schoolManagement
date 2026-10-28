@@ -83,6 +83,7 @@ model User {
   notifications        Notification[]
   createdAnnouncements Announcement[]        @relation("AnnouncementCreatedBy")
   registrationPayments RegistrationPayment[]
+  passwordResetOtps    PasswordResetOtp[]
 
   @@map("users")
 }
@@ -366,6 +367,20 @@ model RefreshToken {
 
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+model PasswordResetOtp {
+  id        String    @id @default(cuid())
+  userId    String
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int       @default(0)
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, usedAt, expiresAt])
+  @@map("password_reset_otps")
 }
 
 model AcademicYear {

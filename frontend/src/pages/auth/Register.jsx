@@ -293,7 +293,7 @@ export default function Register() {
           <p className="auth-hero-footer relative text-xs text-white/45">{copy.secure}</p>
         </aside>
 
-        <main className="min-w-0 p-6 sm:p-10 lg:p-12">
+        <main className="auth-form-panel min-w-0 p-6 sm:p-10 lg:p-12">
           <div className="flex items-start justify-between gap-5">
             <div>
               <Link to="/login" className="text-2xl font-extrabold tracking-tight text-navy dark:text-white lg:hidden">

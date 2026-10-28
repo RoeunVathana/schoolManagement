@@ -3,17 +3,19 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { createHash, randomBytes, randomUUID } from 'crypto';
+import { createHash, randomBytes, randomInt, randomUUID } from 'crypto';
 import { Role, UserStatus } from '@prisma/client';
 import { PaymentService } from '../payments/payment.service';
 import { FirebaseAuthService } from './firebase-auth.service';
+import { MailService } from './mail.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService) {}
+  constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService, private readonly mail: MailService) {}
 
   private safeUser(user: any) { const { password, ...safe } = user; return safe; }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
+  private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
 
   async register(input: { fullName: string; email: string; password: string; phone?: string; role?: Role; specialization?: string; language?: string; profileImageUrl?: string }) {
     if (input.role === Role.ADMIN) throw new BadRequestException('Public registration is limited to students and teachers');
@@ -44,6 +46,56 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (!user || user.status !== 'ACTIVE' || (expectedRole && user.role !== expectedRole) || !(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('Invalid credentials for the selected account type');
     return this.issueTokens(user);
+  }
+
+  async requestAdminPasswordReset(email: string) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
+    const genericMessage = 'If the administrator email exists, a verification code has been sent.';
+
+    // Keep this response generic for unknown addresses so the endpoint cannot enumerate users.
+    if (!user || user.role !== Role.ADMIN || user.status !== UserStatus.ACTIVE) return { message: genericMessage };
+
+    const expiresInMinutes = Math.max(5, Number(this.config.get<string>('PASSWORD_RESET_OTP_EXPIRES_MINUTES', '10')) || 10);
+    const latest = await this.prisma.passwordResetOtp.findFirst({ where: { userId: user.id, usedAt: null }, orderBy: { createdAt: 'desc' } });
+    if (latest && Date.now() - latest.createdAt.getTime() < 60_000) throw new BadRequestException('Please wait one minute before requesting another code.');
+
+    const otp = String(randomInt(100000, 1000000));
+    const reset = await this.prisma.$transaction(async (tx) => {
+      await tx.passwordResetOtp.updateMany({ where: { userId: user.id, usedAt: null }, data: { usedAt: new Date() } });
+      return tx.passwordResetOtp.create({ data: { userId: user.id, codeHash: this.hashOtp(otp, user.id), expiresAt: new Date(Date.now() + expiresInMinutes * 60_000) } });
+    });
+
+    try {
+      await this.mail.sendAdminPasswordOtp(user.email, otp, expiresInMinutes);
+    } catch (error) {
+      await this.prisma.passwordResetOtp.delete({ where: { id: reset.id } }).catch(() => undefined);
+      throw error;
+    }
+
+    return { message: genericMessage, expiresInMinutes };
+  }
+
+  async resetAdminPassword(email: string, otp: string, newPassword: string) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (!user || user.role !== Role.ADMIN || user.status !== UserStatus.ACTIVE) throw new BadRequestException('Invalid or expired verification code.');
+
+    const reset = await this.prisma.passwordResetOtp.findFirst({ where: { userId: user.id, usedAt: null, expiresAt: { gt: new Date() } }, orderBy: { createdAt: 'desc' } });
+    if (!reset || reset.attempts >= 5) throw new BadRequestException('Invalid or expired verification code.');
+    if (this.hashOtp(otp, user.id) !== reset.codeHash) {
+      const attempts = reset.attempts + 1;
+      await this.prisma.passwordResetOtp.update({ where: { id: reset.id }, data: { attempts, usedAt: attempts >= 5 ? new Date() : undefined } });
+      throw new BadRequestException(attempts >= 5 ? 'Too many invalid attempts. Request a new code.' : 'Invalid or expired verification code.');
+    }
+
+    const password = await bcrypt.hash(newPassword, 12);
+    await this.prisma.$transaction([
+      this.prisma.user.update({ where: { id: user.id }, data: { password } }),
+      this.prisma.passwordResetOtp.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
+      this.prisma.refreshToken.deleteMany({ where: { userId: user.id } }),
+    ]);
+    return { message: 'Password reset successfully. You can now sign in as administrator.' };
   }
 
   async loginWithGoogle(idToken: string, expectedRole: Role) {

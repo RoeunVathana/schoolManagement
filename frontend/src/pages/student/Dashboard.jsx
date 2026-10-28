@@ -20,12 +20,12 @@ export default function Dashboard() {
   const attendance = { ...emptyAttendance, ...(data.attendanceSummary || {}), percentage: data.attendanceSummary?.percentage ?? data.attendancePercentage ?? 0 };
 
   return <>
-    <Header eyebrow="Student space" title="Keep your momentum going." description="Everything you need for your classes, deadlines and results in one place." />
+    <Header eyebrow="studentSpace" title="keepMomentum" description="everythingInOnePlace" />
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <StatCard label="Enrolled courses" value={data.enrolledCourses} note="Current semester" />
-      <StatCard label="Pending homework" value={data.pendingHomework} accent="bg-coral" />
+      <StatCard label={t('enrolledCourses')} value={data.enrolledCourses} note={t('currentSemester')} />
+      <StatCard label={t('pendingHomework')} value={data.pendingHomework} accent="bg-coral" />
       <StatCard label={t('attendanceRate')} value={`${attendance.percentage}%`} accent="bg-[#7c8cf8]" />
-      <StatCard label="Average grade" value={`${data.averageGrade}%`} accent="bg-[#f6c453]" />
+      <StatCard label={t('averageGrade')} value={`${data.averageGrade}%`} accent="bg-[#f6c453]" />
     </div>
 
     <section className="card mt-6">
@@ -33,7 +33,7 @@ export default function Dashboard() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5"><AttendanceStat label={t('totalAttendance')} value={attendance.total} accent="bg-navy" /><AttendanceStat label={t('present')} value={attendance.present} accent="bg-emerald-400" /><AttendanceStat label={t('absent')} value={attendance.absent} accent="bg-rose-400" /><AttendanceStat label={t('late')} value={attendance.late} accent="bg-amber-400" /><AttendanceStat label={t('excused')} value={attendance.excused} accent="bg-[#7c8cf8]" /></div>
     </section>
 
-    <div className="mt-6 grid gap-6 lg:grid-cols-2"><div className="card"><h2 className="mb-1 font-bold text-ink">Upcoming classes</h2><p className="mb-5 text-sm text-slate-500">Your current timetable</p><Table columns={[{ key: 'course', label: 'Course', render: (row) => row.course.courseName }, { key: 'dayOfWeek', label: 'Day' }, { key: 'startTime', label: 'Time' }, { key: 'room', label: 'Room' }]} rows={data.schedules || []} /></div><div className="card"><h2 className="mb-1 font-bold text-ink">Latest announcements</h2><p className="mb-5 text-sm text-slate-500">Stay in the loop</p><div className="space-y-3">{(data.announcements || []).map((announcement) => <div key={announcement.id} className="rounded-xl bg-slate-50 p-4"><p className="font-semibold text-ink">{announcement.title}</p><p className="mt-1 text-sm text-slate-500">{announcement.content}</p></div>)}</div></div></div>
+    <div className="mt-6 grid gap-6 lg:grid-cols-2"><div className="card"><h2 className="mb-1 font-bold text-ink">{t('upcomingClasses')}</h2><p className="mb-5 text-sm text-slate-500">{t('yourCurrentTimetable')}</p><Table columns={[{ key: 'course', label: t('course'), render: (row) => row.course.courseName }, { key: 'dayOfWeek', label: t('day') }, { key: 'startTime', label: t('time') }, { key: 'room', label: t('room') }]} rows={data.schedules || []} /></div><div className="card"><h2 className="mb-1 font-bold text-ink">{t('latestAnnouncements')}</h2><p className="mb-5 text-sm text-slate-500">{t('stayInLoop')}</p><div className="space-y-3">{(data.announcements || []).map((announcement) => <div key={announcement.id} className="rounded-xl bg-slate-50 p-4"><p className="font-semibold text-ink">{announcement.title}</p><p className="mt-1 text-sm text-slate-500">{announcement.content}</p></div>)}</div></div></div>
   </>;
 }
 

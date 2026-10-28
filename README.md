@@ -39,6 +39,32 @@ npm run start
 
 The API runs at `http://localhost:3000` and Swagger is at `http://localhost:3000/api/docs`.
 
+### Administrator password recovery
+
+Administrator accounts cannot be registered publicly. If the administrator forgets the password, open `http://localhost:5173/login/admin`, select **Forgot administrator password?**, and complete the email OTP flow. The code is single-use, expires after 10 minutes, allows up to five attempts, and all existing administrator refresh sessions are revoked after a successful reset.
+
+Configure an SMTP mailbox in `backend/.env` before requesting a code:
+
+```env
+MAIL_HOST="smtp.gmail.com"
+MAIL_PORT="587"
+MAIL_SECURE="false"
+MAIL_USER="your-email@gmail.com"
+MAIL_PASSWORD="your-gmail-app-password"
+MAIL_FROM="CampusFlow <your-email@gmail.com>"
+PASSWORD_RESET_OTP_EXPIRES_MINUTES="10"
+```
+
+For Gmail, use a Google App Password with two-step verification enabled; do not use the normal Gmail password. Restart the backend after changing these values. The OTP is never returned by the API and is never stored in plaintext.
+
+The database migration creates the `password_reset_otps` table automatically:
+
+```powershell
+cd backend
+npx prisma migrate dev --name add_admin_password_reset_otp
+npx prisma generate
+```
+
 After migration, refresh pgAdmin and open **Databases → schoolManagement → Schemas → public → Tables**. Prisma creates `users`, `students`, `teachers`, `courses`, `enrollments`, `course_payments`, `class_schedules`, `attendance`, `assignments`, `submissions`, `grades`, `exams`, `exam_results`, `announcements`, `notifications`, `refresh_tokens`, `registration_payments`, `academic_years` and `semesters`.
 
 ## Student registration payment with KHQR

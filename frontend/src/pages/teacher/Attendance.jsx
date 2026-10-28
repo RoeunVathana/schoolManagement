@@ -6,6 +6,7 @@ import Table from '../../components/Table';
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import { useLanguage } from '../../context/LanguageContext';
+import { useConfirmDialog } from '../../context/ConfirmContext';
 
 const emptyForm = { courseId: '', studentId: '', attendanceDate: new Date().toISOString().slice(0, 10), status: 'PRESENT', note: '' };
 const statuses = ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'];
@@ -13,6 +14,7 @@ const statuses = ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'];
 export default function Attendance() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { ask } = useConfirmDialog();
   const [rows, setRows] = useState(null);
   const [courses, setCourses] = useState([]);
   const [courseStudents, setCourseStudents] = useState({});
@@ -85,7 +87,7 @@ export default function Attendance() {
     }
   };
   const remove = async (row) => {
-    if (!user?.canDelete || !window.confirm(t('deleteAttendanceConfirm'))) return;
+    if (!user?.canDelete || !(await ask(t('deleteAttendanceConfirm')))) return;
     try {
       await api.delete(`/attendance/${row.id}`);
       await load();

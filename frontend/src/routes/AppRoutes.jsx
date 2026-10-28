@@ -6,6 +6,7 @@ import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import ForgotPassword from '../pages/auth/ForgotPassword';
 import AdminDashboard from '../pages/admin/Dashboard';
 import Students from '../pages/admin/Students';
 import Teachers from '../pages/admin/Teachers';
@@ -30,6 +31,7 @@ export default function AppRoutes() {
     <Route path="/login/teacher" element={<Login />} />
     <Route path="/login/student" element={<Login />} />
     <Route path="/register" element={<Register />} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route element={<ProtectedRoute />}>
       <Route index element={<Home />} />
       <Route element={<RoleRoute role="ADMIN" />}>

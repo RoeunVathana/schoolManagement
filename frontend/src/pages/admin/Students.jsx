@@ -6,6 +6,7 @@ import Pagination from '../../components/Pagination';
 import Modal from '../../components/Modal';
 import Loading from '../../components/Loading';
 import { useLanguage } from '../../context/LanguageContext';
+import { useConfirmDialog } from '../../context/ConfirmContext';
 
 const emptyForm = { fullName: '', email: '', studentCode: '', phone: '', gender: '', dateOfBirth: '', address: '', guardianName: '', guardianPhone: '', password: '', status: 'ACTIVE' };
 const previewCode = (prefix) => `${prefix}-${(globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 8).toUpperCase()}`;
@@ -16,6 +17,7 @@ function Field({ label, hint, children, className = '' }) {
 
 export default function Students() {
   const { t } = useLanguage();
+  const { ask } = useConfirmDialog();
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -51,7 +53,7 @@ export default function Students() {
       setBusy(false);
     }
   };
-  const remove = async (student) => { if (!window.confirm(`${t('delete')} ${student.user?.fullName || t('students')}? ${t('deleteStudentConfirm')}`)) return; setError(''); try { await api.delete(`/students/${student.id}`); await load(page); } catch (e) { setError(e.response?.data?.message || t('couldNotSaveStudent')); } };
+  const remove = async (student) => { if (!(await ask(`${t('delete')} ${student.user?.fullName || t('students')}? ${t('deleteStudentConfirm')}`))) return; setError(''); try { await api.delete(`/students/${student.id}`); await load(page); } catch (e) { setError(e.response?.data?.message || t('couldNotSaveStudent')); } };
   const rows = result?.data || [];
 
   return <><Header eyebrow={t('directory')} title={t('students')} description={t('studentDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newStudent')}</button>} /><div className="mb-4 flex flex-wrap justify-end gap-3"><input className="input max-w-sm" placeholder={t('searchStudents')} value={search} onChange={(event) => setSearch(event.target.value)} onKeyDown={(event) => event.key === 'Enter' && searchStudents()} /><button onClick={searchStudents} className="rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">{t('search')}</button></div>{error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}{result ? <><Table columns={[{ key: 'studentCode', label: t('code') }, { key: 'name', label: t('fullName'), render: (row) => row.user?.fullName }, { key: 'email', label: t('email'), render: (row) => row.user?.email }, { key: 'phone', label: t('phone'), render: (row) => row.user?.phone || '-' }, { key: 'gender', label: t('gender'), render: (row) => row.gender || '-' }, { key: 'status', label: t('status'), render: (row) => <span className="badge bg-mint text-emerald-800">{row.user?.status === 'ACTIVE' ? t('active') : t('inactive')}</span> }, { key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2"><button onClick={() => openEdit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-200">{t('edit')}</button><button onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">{t('delete')}</button></div> }]} rows={rows} empty={t('noStudents')} /><Pagination value={result.pagination} onChange={setPage} /></> : <Loading />}

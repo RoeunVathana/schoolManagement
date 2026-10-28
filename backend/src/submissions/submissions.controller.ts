@@ -131,7 +131,7 @@ import { homeworkUpload } from '../common/upload.options';
     return this.prisma.submission.update({ where: { id }, data: { status: b.status } });
   }
 
-  @Delete(':id') @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('delete') async remove(@Param('id') id: string, @CurrentUser() user: any) {
+  @Delete(':id') @Roles(Role.ADMIN, Role.STUDENT) @Permissions('delete') async remove(@Param('id') id: string, @CurrentUser() user: any) {
     await this.assertStudentOwner(id, user);
     return this.prisma.submission.delete({ where: { id }, select: { id: true } });
   }
