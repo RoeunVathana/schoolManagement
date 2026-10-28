@@ -40,7 +40,8 @@ export class PaymentService {
     if (payment.status !== PaymentStatus.PENDING) return this.toPublicPayment(payment);
     const result = await this.checkBakong(payment.md5Hash);
     if (!result.enabled) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet.' });
-    if (result.unavailable) return this.toPublicPayment(payment, { verification: 'unavailable', message: 'Payment verification is temporarily unavailable.' });
+    if (result.rateLimited) return this.toPublicPayment(payment, { verification: 'rate_limited', message: result.message });
+    if (result.unavailable) return this.toPublicPayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable.' });
     if (result.data) return this.confirmRegistrationPayment(payment, result.data);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
@@ -50,7 +51,7 @@ export class PaymentService {
     return this.toPublicPayment(payment, { message });
   }
 
-  async createCoursePayment(courseId: string, userId: string) {
+  async createCoursePayment(courseId: string, userId: string, refresh = false) {
     const student = await this.prisma.student.findUniqueOrThrow({ where: { userId }, select: { id: true } });
     const course = await this.prisma.course.findFirst({ where: { id: courseId, status: 'ACTIVE' } });
     if (!course) throw new NotFoundException('This course is not available for purchase.');
@@ -58,7 +59,10 @@ export class PaymentService {
     if (currentEnrollment?.status === 'ACTIVE') throw new ConflictException('You have already purchased this course.');
 
     const pendingPayment = await this.prisma.coursePayment.findFirst({ where: { courseId, studentId: student.id, status: PaymentStatus.PENDING }, include: { course: true, student: { select: { userId: true } } }, orderBy: { createdAt: 'desc' } });
-    if (pendingPayment && pendingPayment.expiresAt > new Date()) return this.toPublicCoursePayment(pendingPayment);
+    // Older payments can contain a malformed QR generated before the optional
+    // KHQR fields were kept within the EMV two-digit length limit. Never reuse
+    // one of those codes: create a fresh payment instead.
+    if (!refresh && pendingPayment && pendingPayment.expiresAt > new Date() && this.isValidKhqr(pendingPayment.qrString)) return this.toPublicCoursePayment(pendingPayment);
     if (pendingPayment) await this.prisma.coursePayment.update({ where: { id: pendingPayment.id }, data: { status: PaymentStatus.EXPIRED } });
 
     const amount = Number(course.price);
@@ -86,7 +90,8 @@ export class PaymentService {
     if (payment.status !== PaymentStatus.PENDING) return this.toPublicCoursePayment(payment);
     const result = await this.checkBakong(payment.md5Hash);
     if (!result.enabled) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet.' });
-    if (result.unavailable) return this.toPublicCoursePayment(payment, { verification: 'unavailable', message: 'Payment verification is temporarily unavailable.' });
+    if (result.rateLimited) return this.toPublicCoursePayment(payment, { verification: 'rate_limited', message: result.message });
+    if (result.unavailable) return this.toPublicCoursePayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable.' });
     if (result.data) return this.confirmCoursePayment(payment, result.data);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
@@ -113,7 +118,10 @@ export class PaymentService {
       mobileNumber,
       storeLabel,
       terminalLabel: input.terminalLabel.slice(0, 25),
-      purposeOfTransaction: input.purpose.slice(0, 25),
+      // The SDK encodes the complete additional-data value with a two-digit
+      // length. Adding the course purpose can push that value over 99 chars
+      // and produce a QR that scans as invalid. The invoice already identifies
+      // the payment, so leave this optional field out.
       expirationTimestamp: input.expiresAt.getTime(),
       languagePreference: 'km',
       merchantNameAlternateLanguage: alternateName,
@@ -121,10 +129,19 @@ export class PaymentService {
     });
     const generated = new BakongKHQR().generateIndividual(info);
     if (generated?.status?.code !== 0 || !generated?.data?.qr || !generated?.data?.md5) throw new BadRequestException(generated?.status?.message || 'Unable to generate KHQR payment code.');
+    if (!this.isValidKhqr(generated.data.qr)) throw new BadRequestException('The generated KHQR is invalid. Please check the Bakong account configuration.');
     return { qr: generated.data.qr, md5: generated.data.md5 };
   }
 
-  private async checkBakong(md5: string): Promise<{ enabled: boolean; unavailable?: boolean; data?: any; message?: string }> {
+  private isValidKhqr(qrString: string) {
+    try {
+      return Boolean(qrString && BakongKHQR.verify(qrString)?.isValid);
+    } catch {
+      return false;
+    }
+  }
+
+  private async checkBakong(md5: string): Promise<{ enabled: boolean; unavailable?: boolean; rateLimited?: boolean; data?: any; message?: string }> {
     const enabled = this.config.get<string>('BAKONG_API_ENABLED', 'true') === 'true';
     const accessToken = this.config.get<string>('BAKONG_API_TOKEN') || this.config.get<string>('BAKONG_ACCESS_TOKEN');
     if (!enabled || !accessToken) return { enabled: false };
@@ -132,8 +149,12 @@ export class PaymentService {
     try {
       const response = await fetch(`${apiUrl}/v1/check_transaction_by_md5`, { method: 'POST', headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ md5 }) });
       const result: any = await response.json();
+      const message = String(result.responseMessage || '');
+      if (response.status === 429 || result.errorCode === 17 || /daily request limit|request limit.*exceeded/i.test(message)) {
+        return { enabled: true, rateLimited: true, message: 'Bakong verification has reached its daily request limit. Please try again tomorrow or configure a fresh Bakong API token.' };
+      }
       if (result.responseCode === 0 && result.data) return { enabled: true, data: result.data };
-      return { enabled: true, message: result.responseMessage || 'Payment is still pending.' };
+      return { enabled: true, message: message || 'Payment is still pending.' };
     } catch (error) {
       this.logger.warn(`Bakong payment check failed: ${error instanceof Error ? error.message : 'unknown error'}`);
       return { enabled: true, unavailable: true };

@@ -34,6 +34,9 @@ export default function Simple() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [courseStudents, setCourseStudents] = useState({});
+  const [courseRosters, setCourseRosters] = useState({});
+  const [rosterCourse, setRosterCourse] = useState(null);
+  const [rosterBusy, setRosterBusy] = useState(false);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ ...blank });
@@ -52,7 +55,7 @@ export default function Simple() {
     setData(null);
     setError('');
     load();
-    if (editable.includes(section) || section === 'submissions') {
+    if (editable.includes(section) || section === 'submissions' || section === 'courses') {
       Promise.all([
         api.get('/courses', { params: { limit: 100 } }),
         section === 'submissions' ? api.get('/assignments', { params: { limit: 100 } }) : Promise.resolve(null),
@@ -60,9 +63,11 @@ export default function Simple() {
         const teacherCourses = unwrap(coursesResponse).data || [];
         setCourses(teacherCourses);
         if (assignmentsResponse) setAssignments(unwrap(assignmentsResponse).data || []);
-        if (section === 'submissions') {
+        if (section === 'submissions' || section === 'courses') {
           const studentResponses = await Promise.all(teacherCourses.map((course) => api.get(`/courses/${course.id}/students`)));
-          setCourseStudents(Object.fromEntries(teacherCourses.map((course, index) => [course.id, (unwrap(studentResponses[index]) || []).map((enrollment) => enrollment.student)])));
+          const rosters = Object.fromEntries(teacherCourses.map((course, index) => [course.id, unwrap(studentResponses[index]) || []]));
+          setCourseRosters(rosters);
+          setCourseStudents(Object.fromEntries(teacherCourses.map((course) => [course.id, (rosters[course.id] || []).map((enrollment) => enrollment.student)])));
         }
       }).catch(() => setCourses([]));
     }
@@ -71,6 +76,22 @@ export default function Simple() {
   const rows = Array.isArray(data) ? data : data?.data || [];
   const hasAssignedCourse = courses.length > 0;
   const close = () => { setOpen(false); setEditing(null); setForm({ ...blank }); setError(''); };
+  const openRoster = async (course) => {
+    setRosterCourse(course);
+    const cached = courseRosters[course.id];
+    if (cached) return;
+    setRosterBusy(true);
+    try {
+      const response = await api.get(`/courses/${course.id}/students`);
+      const roster = unwrap(response) || [];
+      setCourseRosters((current) => ({ ...current, [course.id]: roster }));
+      setCourseStudents((current) => ({ ...current, [course.id]: roster.map((enrollment) => enrollment.student) }));
+    } catch (e) {
+      setError(e.response?.data?.message || t('noRecords'));
+    } finally {
+      setRosterBusy(false);
+    }
+  };
   const closeResults = () => { setResultExam(null); setExamStudents([]); setExamResults([]); setResultForm({ studentId: '', score: '', feedback: '' }); setError(''); };
 
   const openResults = async (exam) => {
@@ -195,7 +216,7 @@ export default function Simple() {
     : [];
 
   const columns = section === 'courses'
-    ? [{ key: 'courseCode', label: t('code') }, { key: 'courseName', label: t('course') }, { key: 'description', label: t('description'), render: (row) => <span className="block max-w-xs truncate">{row.description || '-'}</span> }, { key: 'startDate', label: t('starts'), render: (row) => formatDate(row.startDate) }, { key: 'endDate', label: t('ends'), render: (row) => formatDate(row.endDate) }, { key: 'status', label: t('status') }]
+    ? [{ key: 'courseCode', label: t('code') }, { key: 'courseName', label: t('course') }, { key: 'description', label: t('description'), render: (row) => <span className="block max-w-xs truncate">{row.description || '-'}</span> }, { key: 'students', label: t('students'), render: (row) => <button onClick={() => openRoster(row)} className="badge bg-mint text-emerald-800 transition hover:scale-105">{row._count?.enrollments || 0} {t('students')}</button> }, { key: 'startDate', label: t('starts'), render: (row) => formatDate(row.startDate) }, { key: 'endDate', label: t('ends'), render: (row) => formatDate(row.endDate) }, { key: 'status', label: t('status') }]
     : section === 'assignments'
       ? [{ key: 'title', label: t('title') }, { key: 'course', label: t('course'), render: (row) => row.course?.courseName }, { key: 'dueDate', label: t('dueDate'), render: (row) => formatDate(row.dueDate) }, { key: 'maxScore', label: t('maxScore') }, { key: 'attachment', label: t('attachment'), render: attachmentCell }, ...actionColumn]
       : section === 'exams'
@@ -226,6 +247,9 @@ export default function Simple() {
   const sectionName = section === 'announcements' ? t('announcement') : section === 'assignments' ? t('assignment') : section === 'exams' ? t('exam') : section === 'submissions' ? t('submission') : section;
 
   return <><Header eyebrow="teacherWorkspace" title={titles[section] || 'announcements'} description={descriptionKey} action={(editable.includes(section) || section === 'submissions') && user?.canCreate && hasAssignedCourse ? <button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white">+ {t('add')} {sectionName}</button> : null} />{error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}{data ? <Table columns={columns} rows={rows} empty={editable.includes(section) && !hasAssignedCourse ? t('noCourseAssignedShort') : t('noRecords')} /> : <Loading />}
+    <Modal open={!!rosterCourse} title={`${rosterCourse?.courseName || t('course')} · ${t('students')}`} onClose={() => setRosterCourse(null)}>
+      {rosterBusy ? <Loading /> : <div className="space-y-3">{(courseRosters[rosterCourse?.id] || []).length ? (courseRosters[rosterCourse?.id] || []).map((enrollment) => <div key={enrollment.id} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4"><div><p className="font-semibold text-ink">{enrollment.student?.user?.fullName || '-'}</p><p className="text-sm text-slate-500">{enrollment.student?.user?.email || '-'}</p></div><div className="text-right"><span className={`badge ${enrollment.paymentStatus === 'PAID' ? 'bg-mint text-emerald-800' : 'bg-slate-200 text-slate-700'}`}>{enrollment.paymentStatus === 'PAID' ? t('paid') : t('enrolled')}</span>{enrollment.paidAt && <p className="mt-1 text-xs text-slate-500">{formatDate(enrollment.paidAt, language)}</p>}</div></div>) : <p className="py-8 text-center text-slate-500">{t('noRecords')}</p>}</div>}
+    </Modal>
     <Modal open={open} title={section === 'submissions' ? (editing ? t('reviewSubmission') : `${t('create')} ${sectionName}`) : `${editing ? t('edit') : t('create')} ${sectionName}`} onClose={close}>
       {section === 'submissions' ? <form onSubmit={save} className="space-y-4">
         {editing ? <><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('submissionDetails')}</p><div className="mt-3 grid gap-3 sm:grid-cols-2"><div><p className="text-xs text-slate-400">{t('student')}</p><p className="mt-1 font-semibold text-ink">{editing.student?.user?.fullName || '-'}</p></div><div><p className="text-xs text-slate-400">{t('assignment')}</p><p className="mt-1 font-semibold text-ink">{editing.assignment?.title || '-'}</p></div><div><p className="text-xs text-slate-400">{t('course')}</p><p className="mt-1 font-semibold text-ink">{editing.assignment?.course?.courseName || '-'}</p></div><div><p className="text-xs text-slate-400">{t('submitted')}</p><p className="mt-1 font-semibold text-ink">{formatDate(editing.submittedAt, language)}</p></div></div></div>{editing.answerText && <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('answer')}<textarea readOnly rows="6" value={editing.answerText} className="input mt-2 cursor-default bg-slate-50 dark:bg-slate-800" /></label>}{editing.fileUrl && <a href={mediaUrl(editing.fileUrl)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl bg-mint p-4 text-sm font-semibold text-emerald-800"><span>{t('attachment')}</span><span>{t('openFile')} ↗</span></a>}<div className="grid gap-3 sm:grid-cols-2"><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('score')}<input required type="number" min="0" max={editing.assignment?.maxScore || 100} step="0.01" value={form.score} className="input mt-2" placeholder={`0 - ${editing.assignment?.maxScore || 100}`} onChange={(event) => setForm({ ...form, score: event.target.value })} /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('status')}<select value={form.status} className="input mt-2" onChange={(event) => setForm({ ...form, status: event.target.value })}>{submissionStatuses.map((status) => <option key={status} value={status}>{status}</option>)}</select></label></div><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('feedback')}<textarea rows="4" value={form.feedback} className="input mt-2" placeholder={t('feedback')} onChange={(event) => setForm({ ...form, feedback: event.target.value })} /></label></> : <><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('assignment')}<select required value={form.assignmentId} className="input mt-2" onChange={(event) => { const assignmentId = event.target.value; const assignment = assignments.find((item) => item.id === assignmentId); setForm({ ...form, assignmentId, studentId: courseStudents[assignment?.courseId]?.[0]?.id || '' }); }}><option value="">{t('selectHomework')}</option>{assignments.map((assignment) => <option key={assignment.id} value={assignment.id}>{assignment.title} · {assignment.course?.courseName}</option>)}</select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('student')}<select required value={form.studentId} className="input mt-2" onChange={(event) => setForm({ ...form, studentId: event.target.value })}><option value="">{t('selectStudent')}</option>{submissionStudents.map((student) => <option key={student.id} value={student.id}>{student.studentCode} · {student.user?.fullName}</option>)}</select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('answer')}<textarea rows="5" value={form.answerText} className="input mt-2" placeholder={t('writeAnswer')} onChange={(event) => setForm({ ...form, answerText: event.target.value })} /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('attachment')}<input type="file" accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*" className="input mt-2 p-2" onChange={(event) => setForm({ ...form, file: event.target.files?.[0] || null })} /></label></>}

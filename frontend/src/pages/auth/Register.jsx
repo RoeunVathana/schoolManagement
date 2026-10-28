@@ -168,8 +168,8 @@ export default function Register() {
     if (!payment?.qrString) return undefined;
 
     QRCode.toDataURL(payment.qrString, {
-      width: 300,
-      margin: 2,
+      width: 800,
+      margin: 4,
       errorCorrectionLevel: 'M',
       color: { dark: '#10243f', light: '#ffffff' },
     })

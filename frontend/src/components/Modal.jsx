@@ -1,7 +1,9 @@
-export default function Modal({ open, title, children, onClose, fullScreen = false }) {
+import { createPortal } from 'react-dom';
+
+export default function Modal({ open, title, children, onClose, fullScreen = false, className = '' }) {
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       className="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 p-3 backdrop-blur-md sm:p-5"
       role="presentation"
@@ -10,7 +12,7 @@ export default function Modal({ open, title, children, onClose, fullScreen = fal
       }}
     >
       <section
-        className={`modal-panel flex w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/70 bg-white shadow-2xl shadow-slate-950/30 ${fullScreen ? 'modal-panel-fullscreen h-[calc(100vh-1rem)] max-h-none max-w-6xl rounded-2xl sm:h-[calc(100vh-2rem)] sm:rounded-[2rem]' : 'max-h-[calc(100vh-1.5rem)] max-w-3xl sm:max-h-[calc(100vh-2.5rem)]'}`}
+        className={`modal-panel flex w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/70 bg-white shadow-2xl shadow-slate-950/30 ${fullScreen ? 'modal-panel-fullscreen h-[calc(100dvh-1rem)] max-h-none max-w-6xl rounded-2xl sm:h-[calc(100dvh-2rem)] sm:rounded-[2rem]' : 'max-h-[calc(100dvh-1.5rem)] max-w-3xl sm:max-h-[calc(100dvh-2.5rem)]'} ${className}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
@@ -30,6 +32,7 @@ export default function Modal({ open, title, children, onClose, fullScreen = fal
           {children}
         </div>
       </section>
-    </div>
+    </div>,
+    document.body,
   );
 }
