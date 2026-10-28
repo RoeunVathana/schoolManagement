@@ -1,0 +1,2 @@
+import { useLanguage } from '../context/LanguageContext';
+export default function Header({ eyebrow, title, description, action }) { const { t } = useLanguage(); return <div className="animate-fade-up mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.22em] text-coral">{t(eyebrow || 'CampusFlow')}</p><h1 className="text-3xl font-bold tracking-tight text-ink">{t(title)}</h1>{description && <p className="mt-2 max-w-2xl text-sm text-slate-500">{t(description)}</p>}</div>{action}</div>; }

@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: schoolManagement
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Nha12134
+    ports: ["5432:5432"]
+    volumes: [student_management_data:/var/lib/postgresql/data]
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql://postgres:Nha12134@postgres:5432/schoolManagement?schema=public
+      PORT: 3000
+      JWT_ACCESS_SECRET: student_management_access_secret
+      JWT_REFRESH_SECRET: student_management_refresh_secret
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      FRONTEND_URL: http://localhost:5173
+    depends_on: [postgres]
+    ports: ["3000:3000"]
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["5173:80"]
+volumes:
+  student_management_data:
