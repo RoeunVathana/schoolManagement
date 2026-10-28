@@ -1,0 +1,141 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+const defaults = {
+  title: 'Crop image',
+  description: 'Move and zoom the image, then confirm your crop.',
+  zoom: 'Zoom',
+  cancel: 'Cancel',
+  useImage: 'Use cropped image',
+  processing: 'Preparing image...',
+};
+
+export default function ImageCropper({ file, labels = {}, onCancel, onComplete }) {
+  const text = { ...defaults, ...labels };
+  const areaRef = useRef(null);
+  const imageRef = useRef(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
+  const [source, setSource] = useState('');
+  const [imageSize, setImageSize] = useState(null);
+  const [zoom, setZoom] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    if (!file) {
+      setSource('');
+      return undefined;
+    }
+    const objectUrl = URL.createObjectURL(file);
+    setSource(objectUrl);
+    setImageSize(null);
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+
+  const metrics = useMemo(() => {
+    if (!imageSize || !areaRef.current) return null;
+    const areaSize = areaRef.current.clientWidth;
+    const scale = Math.max(areaSize / imageSize.width, areaSize / imageSize.height) * zoom;
+    return { areaSize, width: imageSize.width * scale, height: imageSize.height * scale };
+  }, [imageSize, zoom, source]);
+
+  useEffect(() => {
+    if (!metrics) return;
+    setOffset({ x: (metrics.areaSize - metrics.width) / 2, y: (metrics.areaSize - metrics.height) / 2 });
+  }, [metrics?.areaSize, metrics?.width, metrics?.height]);
+
+  const clampOffset = (next) => {
+    if (!metrics) return next;
+    return {
+      x: Math.min(0, Math.max(metrics.areaSize - metrics.width, next.x)),
+      y: Math.min(0, Math.max(metrics.areaSize - metrics.height, next.y)),
+    };
+  };
+
+  const handlePointerDown = (event) => {
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    pointerRef.current = { x: event.clientX, y: event.clientY };
+    setDragging(true);
+  };
+
+  const handlePointerMove = (event) => {
+    if (!dragging) return;
+    const deltaX = event.clientX - pointerRef.current.x;
+    const deltaY = event.clientY - pointerRef.current.y;
+    pointerRef.current = { x: event.clientX, y: event.clientY };
+    setOffset((current) => clampOffset({ x: current.x + deltaX, y: current.y + deltaY }));
+  };
+
+  const finishDrag = () => setDragging(false);
+
+  const crop = () => {
+    const area = areaRef.current;
+    const image = imageRef.current;
+    if (!area || !image || !image.naturalWidth || !image.naturalHeight) return;
+
+    setProcessing(true);
+    const areaRect = area.getBoundingClientRect();
+    const imageRect = image.getBoundingClientRect();
+    const sourceScale = image.naturalWidth / imageRect.width;
+    const sourceX = Math.max(0, (areaRect.left - imageRect.left) * sourceScale);
+    const sourceY = Math.max(0, (areaRect.top - imageRect.top) * sourceScale);
+    const sourceWidth = Math.min(image.naturalWidth - sourceX, areaRect.width * sourceScale);
+    const sourceHeight = Math.min(image.naturalHeight - sourceY, areaRect.height * sourceScale);
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 800;
+    const context = canvas.getContext('2d');
+    context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        setProcessing(false);
+        return;
+      }
+      const fileName = `${file.name.replace(/\.[^/.]+$/, '') || 'profile-image'}-cropped.jpg`;
+      onComplete(new File([blob], fileName, { type: 'image/jpeg', lastModified: Date.now() }));
+      setProcessing(false);
+    }, 'image/jpeg', 0.9);
+  };
+
+  if (!file) return null;
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="crop-image-title">
+      <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-white/20 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-700">
+          <div>
+            <h2 id="crop-image-title" className="text-lg font-bold text-ink dark:text-white">{text.title}</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{text.description}</p>
+          </div>
+          <button type="button" onClick={onCancel} className="rounded-xl px-2 py-1 text-2xl leading-none text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white" aria-label={text.cancel}>×</button>
+        </div>
+
+        <div className="p-5">
+          <div
+            ref={areaRef}
+            className={`relative mx-auto aspect-square w-full max-w-[360px] touch-none select-none overflow-hidden rounded-2xl bg-slate-950 ring-4 ring-white shadow-xl dark:ring-slate-800 ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={finishDrag}
+            onPointerCancel={finishDrag}
+          >
+            {source && <img ref={imageRef} src={source} alt="" onLoad={(event) => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} className="pointer-events-none absolute max-w-none" style={metrics ? { width: metrics.width, height: metrics.height, left: offset.x, top: offset.y } : { inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />}
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/70" />
+            <div className="pointer-events-none absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(to right, transparent 33.1%, rgba(255,255,255,.6) 33.3%, transparent 33.5%, transparent 66.1%, rgba(255,255,255,.6) 66.3%, transparent 66.5%), linear-gradient(to bottom, transparent 33.1%, rgba(255,255,255,.6) 33.3%, transparent 33.5%, transparent 66.1%, rgba(255,255,255,.6) 66.3%, transparent 66.5%)' }} />
+          </div>
+
+          <label className="mt-5 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <span className="flex items-center justify-between"><span>{text.zoom}</span><span className="font-mono text-xs text-slate-400">{zoom.toFixed(1)}×</span></span>
+            <input type="range" min="1" max="3" step="0.1" value={zoom} onChange={(event) => setZoom(Number(event.target.value))} className="mt-3 w-full accent-[#10243f]" />
+          </label>
+
+          <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <button type="button" onClick={onCancel} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">{text.cancel}</button>
+            <button type="button" onClick={crop} disabled={!imageSize || processing} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">{processing ? text.processing : text.useImage}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,3 +1,63 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'; import api, { unwrap } from '../api/axios'; import { clearSession, getStoredUser, saveSession, saveTokens } from '../utils/storage'; import { useLanguage } from './LanguageContext';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import api, { unwrap } from '../api/axios';
+import { clearSession, getStoredUser, saveSession, saveTokens } from '../utils/storage';
+import { useLanguage } from './LanguageContext';
+
 export const AuthContext = createContext(null);
-export function AuthProvider({ children }) { const [user, setUser] = useState(getStoredUser); const [loading, setLoading] = useState(true); const { setLanguage } = useLanguage(); const syncLanguage = (profile) => setLanguage(localStorage.getItem('sms_language') || profile.language || 'en'); useEffect(() => { if (user) api.get('/auth/profile').then((r) => { const profile = unwrap(r); setUser(profile); syncLanguage(profile); saveTokens({ user: profile }); }).catch(() => { clearSession(); setUser(null); }).finally(() => setLoading(false)); else setLoading(false); }, []); const login = useCallback(async (credentials) => { const session = unwrap(await api.post('/auth/login', credentials)); saveSession(session); setUser(session.user); syncLanguage(session.user); return session.user; }, [setLanguage]); const updateUser = useCallback((profile) => { setUser(profile); syncLanguage(profile); saveTokens({ user: profile }); }, [setLanguage]); const logout = useCallback(async () => { try { await api.post('/auth/logout', { refreshToken: localStorage.getItem('sms_refresh_token') }); } catch {} clearSession(); setUser(null); }, []); const value = useMemo(() => ({ user, loading, login, updateUser, logout, isAuthenticated: !!user }), [user, loading, login, updateUser, logout]); return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>; }
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(getStoredUser);
+  const [loading, setLoading] = useState(true);
+  const { setLanguage } = useLanguage();
+
+  const syncLanguage = (profile) => setLanguage(localStorage.getItem('sms_language') || profile.language || 'en');
+
+  useEffect(() => {
+    if (user) {
+      api.get('/auth/profile')
+        .then((response) => {
+          const profile = unwrap(response);
+          setUser(profile);
+          syncLanguage(profile);
+          saveTokens({ user: profile });
+        })
+        .catch(() => {
+          clearSession();
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const saveLoginSession = useCallback((session) => {
+    saveSession(session);
+    setUser(session.user);
+    syncLanguage(session.user);
+    return session.user;
+  }, [setLanguage]);
+
+  const login = useCallback(async (credentials) => {
+    return saveLoginSession(unwrap(await api.post('/auth/login', credentials)));
+  }, [saveLoginSession]);
+
+  const loginWithGoogle = useCallback(async (credentials) => {
+    return saveLoginSession(unwrap(await api.post('/auth/google', credentials)));
+  }, [saveLoginSession]);
+
+  const updateUser = useCallback((profile) => {
+    setUser(profile);
+    syncLanguage(profile);
+    saveTokens({ user: profile });
+  }, [setLanguage]);
+
+  const logout = useCallback(async () => {
+    try { await api.post('/auth/logout', { refreshToken: localStorage.getItem('sms_refresh_token') }); } catch {}
+    clearSession();
+    setUser(null);
+  }, []);
+
+  const value = useMemo(() => ({ user, loading, login, loginWithGoogle, updateUser, logout, isAuthenticated: !!user }), [user, loading, login, loginWithGoogle, updateUser, logout]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}

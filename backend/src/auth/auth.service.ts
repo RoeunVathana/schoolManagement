@@ -3,13 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { createHash, randomUUID } from 'crypto';
+import { createHash, randomBytes, randomUUID } from 'crypto';
 import { Role, UserStatus } from '@prisma/client';
 import { PaymentService } from '../payments/payment.service';
+import { FirebaseAuthService } from './firebase-auth.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService) {}
+  constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService) {}
 
   private safeUser(user: any) { const { password, ...safe } = user; return safe; }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
@@ -39,8 +40,58 @@ export class AuthService {
   }
 
   async login(email: string, password: string, expectedRole?: Role) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (!user || user.status !== 'ACTIVE' || (expectedRole && user.role !== expectedRole) || !(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('Invalid credentials for the selected account type');
+    return this.issueTokens(user);
+  }
+
+  async loginWithGoogle(idToken: string, expectedRole: Role) {
+    if (expectedRole === Role.ADMIN) throw new UnauthorizedException('Google sign-in is not available for administrator accounts');
+
+    let decoded: any;
+    try {
+      decoded = await this.firebase.verifyIdToken(idToken);
+    } catch {
+      throw new UnauthorizedException('Google sign-in token is invalid or expired');
+    }
+
+    const email = String(decoded.email || '').trim().toLowerCase();
+    if (!email || decoded.email_verified === false) throw new UnauthorizedException('Your Google account must have a verified email address');
+
+    let user = await this.prisma.user.findFirst({ where: { OR: [{ firebaseUid: decoded.uid }, { email }] }, include: { student: true, teacher: true } });
+    if (user && user.role !== expectedRole) throw new UnauthorizedException('This Google account belongs to a different account type');
+    if (user && user.status !== UserStatus.ACTIVE) throw new UnauthorizedException('This account is not active');
+
+    if (!user) {
+      const password = await bcrypt.hash(randomBytes(32).toString('hex'), 12);
+      user = await this.prisma.$transaction(async (tx) => {
+        const created = await tx.user.create({
+          data: {
+            fullName: decoded.name || email.split('@')[0],
+            email,
+            firebaseUid: decoded.uid,
+            password,
+            profileImageUrl: decoded.picture,
+            role: expectedRole,
+            status: UserStatus.ACTIVE,
+            language: 'en',
+            canCreate: true,
+            canEdit: true,
+            canDelete: false,
+          },
+        });
+        if (expectedRole === Role.STUDENT) {
+          await tx.student.create({ data: { userId: created.id, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` } });
+        } else {
+          await tx.teacher.create({ data: { userId: created.id, teacherCode: `TCH-${randomUUID().slice(0, 8).toUpperCase()}` } });
+        }
+        return tx.user.findUniqueOrThrow({ where: { id: created.id }, include: { student: true, teacher: true } });
+      });
+    } else if (!user.firebaseUid) {
+      user = await this.prisma.user.update({ where: { id: user.id }, data: { firebaseUid: decoded.uid, profileImageUrl: user.profileImageUrl || decoded.picture }, include: { student: true, teacher: true } });
+    }
+
     return this.issueTokens(user);
   }
 

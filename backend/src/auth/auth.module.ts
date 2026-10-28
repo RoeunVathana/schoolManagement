@@ -5,7 +5,8 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
+import { FirebaseAuthService } from './firebase-auth.service';
 import { PaymentsModule } from '../payments/payments.module';
 
-@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController], providers: [AuthService, JwtStrategy], exports: [AuthService] })
+@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService], exports: [AuthService] })
 export class AuthModule {}

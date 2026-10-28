@@ -36,7 +36,7 @@ export const courseImageUpload = {
     destination: (_req, _file, cb) => { mkdirSync('uploads/courses', { recursive: true }); cb(null, 'uploads/courses'); },
     filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
   }),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
     const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
     if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP images are allowed'), false);
@@ -49,7 +49,7 @@ export const profileImageUpload = {
     destination: (_req, _file, cb) => { mkdirSync('uploads/profiles', { recursive: true }); cb(null, 'uploads/profiles'); },
     filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
   }),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
     const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
     if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP profile images are allowed'), false);

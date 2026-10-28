@@ -35,7 +35,7 @@ export class AnnouncementsController {
     if (user.role === Role.TEACHER) { const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id } }); where = { OR: [{ createdBy: user.id, course: { teacherId: teacher.id } }, { author: { role: Role.ADMIN } }] }; }
     if (user.role === Role.STUDENT) {
       const student = await this.prisma.student.findUnique({ where: { userId: user.id }, select: { id: true } });
-      const enrollments = student ? await this.prisma.enrollment.findMany({ where: { studentId: student.id }, select: { courseId: true } }) : [];
+      const enrollments = student ? await this.prisma.enrollment.findMany({ where: { studentId: student.id, status: 'ACTIVE' }, select: { courseId: true } }) : [];
       const courseIds = enrollments.map((enrollment) => enrollment.courseId);
       where = { OR: [{ courseId: null }, ...(courseIds.length ? [{ courseId: { in: courseIds } }] : [])] };
     }
@@ -43,7 +43,7 @@ export class AnnouncementsController {
   }
 
   @Get('course/:courseId')
-  byCourse(@Param('courseId') courseId: string) { return this.prisma.announcement.findMany({ where: { courseId }, include: { author: { select: { fullName: true, role: true } } }, orderBy: { createdAt: 'desc' } }); }
+  byCourse(@Param('courseId') courseId: string) { return this.prisma.announcement.findMany({ where: { courseId }, include: { course: true, author: { select: { fullName: true, role: true } } }, orderBy: { createdAt: 'desc' } }); }
 
   @Patch(':id')
   @Roles(Role.ADMIN, Role.TEACHER)
