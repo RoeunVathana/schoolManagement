@@ -1441,3 +1441,28 @@ table td { overflow-wrap: anywhere; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Centered loading states for the workspace and public storefront. */
+.loading-screen { position: relative; isolation: isolate; }
+.loading-screen::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 42%, rgb(34 158 217 / .12), transparent 28%), radial-gradient(circle at 30% 70%, rgb(141 228 202 / .1), transparent 22%); }
+.loading-card, .storefront-loading-card { position: relative; z-index: 1; }
+.loading-logo-wrap { animation: loadingFloat 2.8s ease-in-out infinite; }
+.loading-orbit { animation: loadingOrbit 1.8s linear infinite; }
+.loading-progress, .storefront-loading-progress { animation: loadingProgress 1.35s ease-in-out infinite; transform-origin: left center; }
+.loading-dot { animation: loadingDot 1.05s ease-in-out infinite; }
+.loading-dot-delay-1 { animation-delay: .15s; }
+.loading-dot-delay-2 { animation-delay: .3s; }
+.storefront-loading-state { position: relative; isolation: isolate; }
+.storefront-loading-state::before { content: ''; position: absolute; inset: 10% 5%; pointer-events: none; border-radius: 50%; background: radial-gradient(ellipse at center, rgb(141 228 202 / .14), transparent 64%); filter: blur(18px); }
+.storefront-loading-mark { animation: loadingFloat 2.8s ease-in-out infinite; }
+
+@keyframes loadingFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.03); } }
+@keyframes loadingOrbit { to { transform: rotate(360deg); } }
+@keyframes loadingProgress { 0% { transform: translateX(-110%) scaleX(.55); } 50% { transform: translateX(15%) scaleX(1); } 100% { transform: translateX(220%) scaleX(.55); } }
+@keyframes loadingDot { 0%, 100% { transform: translateY(0); opacity: .45; } 50% { transform: translateY(-4px); opacity: 1; } }
+
+@media (max-width: 639px) {
+  .loading-screen { min-height: calc(100dvh - 4rem); padding-inline: .75rem; }
+  .loading-card, .storefront-loading-card { border-radius: 1.35rem; padding: 1.5rem 1.25rem; }
+  .storefront-loading-state { min-height: calc(100svh - 4.25rem); padding-inline: .75rem; }
+}

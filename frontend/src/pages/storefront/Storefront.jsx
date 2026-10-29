@@ -1100,7 +1100,7 @@ function useScrollReveal(dependencies = []) {
 }
 
 function LoadingState({ copy }) {
-  return <div className="mx-auto flex max-w-7xl items-center justify-center px-5 py-24 text-sm font-bold text-slate-400">{copy.loading}</div>;
+  return <div className="storefront-loading-state flex min-h-[calc(100svh-5rem)] items-center justify-center px-5 py-12 text-sm font-bold text-slate-400"><div className="storefront-loading-card flex w-full max-w-xs flex-col items-center rounded-[1.75rem] border border-white/70 bg-white/85 px-7 py-8 text-center shadow-[0_24px_70px_rgba(16,36,63,.14)] backdrop-blur-xl dark:border-slate-700 dark:bg-[#101c30]/90 dark:shadow-black/30"><div className="storefront-loading-mark flex h-14 w-14 items-center justify-center rounded-2xl bg-[#10243f] text-sm font-black tracking-tight text-[#a5f1dc] shadow-lg shadow-[#10243f]/20">CF</div><p className="mt-5 font-extrabold text-[#10243f] dark:text-white">{copy.loading}</p><div className="mt-4 h-1.5 w-36 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"><span className="storefront-loading-progress block h-full w-1/2 rounded-full bg-gradient-to-r from-[#229ed9] via-[#8de4ca] to-[#f47b67]" /></div><div className="mt-4 flex items-center gap-1.5" aria-hidden="true"><span className="loading-dot h-1.5 w-1.5 rounded-full bg-[#229ed9]" /><span className="loading-dot loading-dot-delay-1 h-1.5 w-1.5 rounded-full bg-[#8de4ca]" /><span className="loading-dot loading-dot-delay-2 h-1.5 w-1.5 rounded-full bg-[#f47b67]" /></div></div></div>;
 }
 
 function EmptyState({ copy }) {
