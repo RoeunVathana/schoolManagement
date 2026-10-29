@@ -35,7 +35,7 @@ COPY --from=backend-build /build/backend/prisma ./prisma
 COPY --from=backend-build /build/backend/dist ./dist
 
 COPY --from=frontend-build /build/frontend/dist /usr/share/nginx/html
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY frontend/nginx-root.conf /etc/nginx/nginx.conf
 COPY railway-start.sh /app/railway-start.sh
 
 EXPOSE 80 3001
