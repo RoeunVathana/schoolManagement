@@ -102,19 +102,19 @@ import { homeworkUpload } from '../common/upload.options';
     const submittedAt = new Date();
     return this.prisma.submission.upsert({
       where: { assignmentId_studentId: { assignmentId, studentId } },
-      update: { fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
-      create: { assignmentId, studentId, fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
+      update: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
+      create: { assignmentId, studentId, answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
     });
   }
 
-  @Post(':id/file') @Roles(Role.STUDENT) @Permissions('edit') @UseInterceptors(FileInterceptor('file', homeworkUpload)) async updateFile(@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @CurrentUser() user: any) {
+  @Post(':id/file') @Roles(Role.STUDENT) @Permissions('edit') @UseInterceptors(FileInterceptor('file', homeworkUpload)) async updateFile(@Param('id') id: string, @Body() b: any, @UploadedFile() file: Express.Multer.File, @CurrentUser() user: any) {
     this.validateFile(file);
     const submission = await this.assertStudentOwner(id, user);
     this.assertStudentCanEdit(submission, user);
     const assignment = await this.prisma.assignment.findUniqueOrThrow({ where: { id: submission.assignmentId } });
     this.assertBeforeDeadline(assignment, user, file);
     const submittedAt = new Date();
-    return this.prisma.submission.update({ where: { id }, data: { fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED } });
+    return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED } });
   }
 
   @Get('my') @Roles(Role.STUDENT) async mine(@CurrentUser() user: any) {

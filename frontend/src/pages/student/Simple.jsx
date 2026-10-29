@@ -66,6 +66,40 @@ export default function Simple() {
   const [scheduleFilters, setScheduleFilters] = useState({ from: "", to: "" });
   const item = config[section];
 
+  const validateHomeworkFile = (candidate) => {
+    if (!candidate) return "";
+    const allowed = [
+      ".pdf", ".doc", ".docx", ".txt", ".xlsx", ".xls", ".ppt", ".pptx",
+      ".png", ".jpg", ".jpeg", ".webp", ".zip",
+    ];
+    const extension = `.${candidate.name.split(".").pop()?.toLowerCase() || ""}`;
+    if (!allowed.includes(extension)) {
+      return "Only PDF, DOC, DOCX, TXT, Excel, PowerPoint, image and ZIP files are allowed.";
+    }
+    const maxBytes = candidate.type.startsWith("image/")
+      ? 50 * 1024 * 1024
+      : 100 * 1024 * 1024;
+    if (candidate.size > maxBytes) {
+      return candidate.type.startsWith("image/")
+        ? "Images must be 50 MB or smaller."
+        : "Files must be 100 MB or smaller.";
+    }
+    return "";
+  };
+
+  const handleHomeworkFileChange = (event) => {
+    const nextFile = event.target.files?.[0] || null;
+    const fileError = validateHomeworkFile(nextFile);
+    if (fileError) {
+      event.target.value = "";
+      setFile(null);
+      setError(fileError);
+      return;
+    }
+    setError("");
+    setFile(nextFile);
+  };
+
   const load = async (targetPage = page) => {
     if (!item) return;
     try {
@@ -190,18 +224,18 @@ export default function Simple() {
     setBusy(true);
     setError("");
     try {
-      if (editing)
-        await api.patch(`/submissions/${editing.id}`, { answerText });
-      else await api.post("/submissions", { assignmentId, answerText });
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("answerText", answerText.trim());
         const uploadUrl = editing
           ? `/submissions/${editing.id}/file`
           : `/submissions/${assignmentId}/upload`;
-        await api.post(uploadUrl, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await api.post(uploadUrl, formData);
+      } else if (editing) {
+        await api.patch(`/submissions/${editing.id}`, { answerText: answerText.trim() });
+      } else {
+        await api.post("/submissions", { assignmentId, answerText: answerText.trim() });
       }
       close();
       await load();
@@ -1035,23 +1069,30 @@ export default function Simple() {
             placeholder={t("writeAnswer")}
             onChange={(e) => setAnswerText(e.target.value)}
           />
-          <label className="block text-sm font-semibold text-slate-700">
-            {t("attachFile")}{" "}
-            <span className="font-normal text-slate-400">
-              ({t("fileSizeHint")})
-            </span>
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <p className="text-sm font-extrabold text-slate-700 dark:text-slate-100">{t("attachFile")}</p>
+                <p className="mt-1 text-xs font-normal leading-5 text-slate-400">{t("fileSizeHint")}</p>
+              </div>
+              {file && <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{t("selected")}</span>}
+            </div>
+            <label className="mt-3 flex cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-sky-400 hover:bg-sky-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-sky-500 dark:hover:bg-slate-700">
+              <span>{file ? "Change file" : "Choose file"}</span>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*"
+                className="sr-only"
+                onChange={handleHomeworkFileChange}
+              />
+            </label>
             {file && (
-              <span className="mt-2 block rounded-lg bg-mint p-3 text-xs font-semibold text-emerald-800">
-                {t("selected")}: {file.name}
-              </span>
+              <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-2.5 text-xs dark:bg-slate-800">
+                <span className="min-w-0 truncate font-semibold text-slate-600 dark:text-slate-200">{file.name}</span>
+                <button type="button" className="shrink-0 font-bold text-red-500 hover:text-red-700" onClick={() => setFile(null)}>Remove</button>
+              </div>
             )}
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*"
-              className="input mt-2 p-2"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-          </label>
+          </div>
           <button
             disabled={busy || homeworkSubmissionOverdue}
             className="w-full rounded-xl bg-navy py-3 font-semibold text-white disabled:opacity-60"
