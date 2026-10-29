@@ -10,7 +10,7 @@ import Loading from '../../components/Loading';
 import { firebaseAuth } from '../../config/firebase';
 
 const roleOptions = {
-  ADMIN: { color: 'bg-coral', path: '/login/admin', placeholder: 'vothanarern@mail.com', icon: 'shield' },
+  ADMIN: { color: 'bg-coral', path: '/login/admin', placeholder: 'vothanarern@gmail.com', icon: 'shield' },
   TEACHER: { color: 'bg-[#7c8cf8]', path: '/login/teacher', placeholder: 'teacher@example.com', icon: 'teacher' },
   STUDENT: { color: 'bg-emerald-500', path: '/login/student', placeholder: 'student@example.com', icon: 'student' },
 };
