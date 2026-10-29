@@ -21,7 +21,7 @@ import { homeworkUpload } from '../common/upload.options';
   }
 
   private async assertStudentOwner(id: string, user: any) {
-    const submission = await this.prisma.submission.findUniqueOrThrow({ where: { id }, include: { assignment: true } });
+    const submission = await this.prisma.submission.findUniqueOrThrow({ where: { id }, include: { assignment: true, grade: true } });
     if (user.role === Role.STUDENT && submission.studentId !== await this.studentId(user)) throw new ForbiddenException('You can only manage your own submission');
     if (user.role === Role.TEACHER) {
       const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id } });
@@ -58,9 +58,33 @@ import { homeworkUpload } from '../common/upload.options';
     return studentId;
   }
 
+  private async assertStudentSubmissionCanBeReplaced(assignmentId: string, studentId: string, user: any) {
+    if (user.role !== Role.STUDENT) return;
+    const existing = await this.prisma.submission.findUnique({
+      where: { assignmentId_studentId: { assignmentId, studentId } },
+      include: { grade: true },
+    });
+    if (existing?.grade) throw new BadRequestException('A graded submission cannot be edited');
+  }
+
+  private assertBeforeDeadline(assignment: any, user: any, file?: Express.Multer.File) {
+    if (user.role === Role.STUDENT && new Date() > new Date(assignment.dueDate)) {
+      if (file?.path && existsSync(file.path)) unlinkSync(file.path);
+      throw new BadRequestException('The assignment submission deadline has passed');
+    }
+  }
+
+  private assertStudentCanEdit(submission: any, user: any) {
+    if (user.role === Role.STUDENT && submission.grade) {
+      throw new BadRequestException('A graded submission cannot be edited');
+    }
+  }
+
   @Post() @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('create') async create(@Body() b: any, @CurrentUser() user: any) {
     const assignment = await this.assertTeacherAssignment(b.assignmentId, user);
+    this.assertBeforeDeadline(assignment, user);
     const studentId = await this.assertEnrollment(assignment.courseId, await this.resolveStudentId(user, b.studentId));
+    await this.assertStudentSubmissionCanBeReplaced(assignment.id, studentId, user);
     const submittedAt = new Date();
     return this.prisma.submission.upsert({
       where: { assignmentId_studentId: { assignmentId: assignment.id, studentId } },
@@ -72,7 +96,9 @@ import { homeworkUpload } from '../common/upload.options';
   @Post(':assignmentId/upload') @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('create') @UseInterceptors(FileInterceptor('file', homeworkUpload)) async upload(@Param('assignmentId') assignmentId: string, @Body() b: any, @UploadedFile() file: Express.Multer.File, @CurrentUser() user: any) {
     this.validateFile(file);
     const assignment = await this.assertTeacherAssignment(assignmentId, user);
+    this.assertBeforeDeadline(assignment, user, file);
     const studentId = await this.assertEnrollment(assignment.courseId, await this.resolveStudentId(user, b.studentId));
+    await this.assertStudentSubmissionCanBeReplaced(assignmentId, studentId, user);
     const submittedAt = new Date();
     return this.prisma.submission.upsert({
       where: { assignmentId_studentId: { assignmentId, studentId } },
@@ -84,7 +110,9 @@ import { homeworkUpload } from '../common/upload.options';
   @Post(':id/file') @Roles(Role.STUDENT) @Permissions('edit') @UseInterceptors(FileInterceptor('file', homeworkUpload)) async updateFile(@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @CurrentUser() user: any) {
     this.validateFile(file);
     const submission = await this.assertStudentOwner(id, user);
+    this.assertStudentCanEdit(submission, user);
     const assignment = await this.prisma.assignment.findUniqueOrThrow({ where: { id: submission.assignmentId } });
+    this.assertBeforeDeadline(assignment, user, file);
     const submittedAt = new Date();
     return this.prisma.submission.update({ where: { id }, data: { fileUrl: `/uploads/homework/${file.filename}`, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED } });
   }
@@ -120,8 +148,12 @@ import { homeworkUpload } from '../common/upload.options';
   }
 
   @Patch(':id') @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('edit') async update(@Param('id') id: string, @Body() b: any, @CurrentUser() user: any) {
-    await this.assertStudentOwner(id, user);
-    if (user.role === Role.STUDENT) return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText } });
+    const submission = await this.assertStudentOwner(id, user);
+    if (user.role === Role.STUDENT) {
+      this.assertStudentCanEdit(submission, user);
+      this.assertBeforeDeadline(submission.assignment, user);
+      return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText, submittedAt: new Date(), status: SubmissionStatus.SUBMITTED } });
+    }
     return this.prisma.submission.update({ where: { id }, data: { status: b.status } });
   }
 

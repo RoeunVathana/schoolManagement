@@ -31,6 +31,32 @@ export const assignmentUpload = {
   },
 };
 
+export const examImageUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/exams', { recursive: true }); cb(null, 'uploads/exams'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 50 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
+    if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP exam images are allowed'), false);
+    cb(null, true);
+  },
+};
+
+export const examSubmissionUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/exam-submissions', { recursive: true }); cb(null, 'uploads/exam-submissions'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 100 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.pdf', '.doc', '.docx', '.txt', '.xlsx', '.xls', '.ppt', '.pptx', '.png', '.jpg', '.jpeg', '.webp', '.zip'];
+    if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PDF, DOC, DOCX, TXT, Excel, PowerPoint, image and ZIP files are allowed'), false);
+    cb(null, true);
+  },
+};
+
 export const courseImageUpload = {
   storage: diskStorage({
     destination: (_req, _file, cb) => { mkdirSync('uploads/courses', { recursive: true }); cb(null, 'uploads/courses'); },
@@ -40,6 +66,32 @@ export const courseImageUpload = {
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
     const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
     if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP images are allowed'), false);
+    cb(null, true);
+  },
+};
+
+export const courseMaterialUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/course-materials', { recursive: true }); cb(null, 'uploads/course-materials'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 100 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.pdf', '.epub', '.mobi', '.doc', '.docx', '.txt', '.xlsx', '.xls', '.ppt', '.pptx', '.png', '.jpg', '.jpeg', '.webp', '.zip'];
+    if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PDF, EPUB, MOBI, DOC, DOCX, TXT, Excel, PowerPoint, image and ZIP files are allowed'), false);
+    cb(null, true);
+  },
+};
+
+export const certificateUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/certificates', { recursive: true }); cb(null, 'uploads/certificates'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 50 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.pdf', '.png', '.jpg', '.jpeg', '.webp'];
+    if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PDF, PNG, JPG, JPEG and WEBP certificate files are allowed'), false);
     cb(null, true);
   },
 };

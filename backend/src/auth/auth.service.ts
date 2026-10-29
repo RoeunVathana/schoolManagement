@@ -13,7 +13,7 @@ import { MailService } from './mail.service';
 export class AuthService {
   constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService, private readonly mail: MailService) {}
 
-  private safeUser(user: any) { const { password, ...safe } = user; return safe; }
+  private safeUser(user: any) { const { password, ...safe } = user; return safe.role === Role.ADMIN ? { ...safe, canCreate: true, canEdit: true, canDelete: true } : safe; }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
   private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
 

@@ -21,6 +21,6 @@ export class NotificationsService {
       }
     }
     if (!userIds.length) return { count: 0 };
-    return this.prisma.notification.createMany({ data: userIds.map((userId) => ({ userId, title: announcement.title, message: announcement.content })) });
+    return this.prisma.notification.createMany({ data: userIds.map((userId) => ({ userId, senderId: actor.id, title: announcement.title, message: announcement.content })) });
   }
 }

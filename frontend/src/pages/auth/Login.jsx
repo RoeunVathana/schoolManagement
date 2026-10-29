@@ -60,7 +60,7 @@ export default function Login() {
       }
       setRedirecting(true);
       await transitionDelay(650);
-      navigate(roleHome(user.role), { replace: true });
+      navigate(location.state?.from || roleHome(user.role), { replace: true });
     } catch (e) {
       setError(apiMessage(e, t('unableToSignIn')));
     } finally {
@@ -78,7 +78,7 @@ export default function Login() {
       const user = await loginWithGoogle({ idToken, role: selectedRole });
       setRedirecting(true);
       await transitionDelay(650);
-      navigate(roleHome(user.role), { replace: true });
+      navigate(location.state?.from || roleHome(user.role), { replace: true });
     } catch (e) {
       await signOut(firebaseAuth).catch(() => undefined);
       const code = e.code || '';

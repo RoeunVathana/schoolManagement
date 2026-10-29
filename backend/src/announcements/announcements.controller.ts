@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -8,6 +8,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { NotificationsService } from '../notifications/notifications.service';
+import { pagination, paginationResult } from '../common/pagination';
 
 @ApiTags('announcements') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('announcements')
@@ -30,7 +31,7 @@ export class AnnouncementsController {
   }
 
   @Get()
-  async list(@CurrentUser() user: any) {
+  async list(@CurrentUser() user: any, @Query() q: any) {
     let where: any = {};
     if (user.role === Role.TEACHER) { const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id } }); where = { OR: [{ createdBy: user.id, course: { teacherId: teacher.id } }, { author: { role: Role.ADMIN } }] }; }
     if (user.role === Role.STUDENT) {
@@ -39,7 +40,10 @@ export class AnnouncementsController {
       const courseIds = enrollments.map((enrollment) => enrollment.courseId);
       where = { OR: [{ courseId: null }, ...(courseIds.length ? [{ courseId: { in: courseIds } }] : [])] };
     }
-    return this.prisma.announcement.findMany({ where, include: { course: true, author: { select: { fullName: true, role: true } } }, orderBy: { createdAt: 'desc' } });
+    const paged = q.page !== undefined || q.limit !== undefined;
+    const { page, limit, skip } = pagination(q.page, q.limit);
+    const [data, total] = await Promise.all([this.prisma.announcement.findMany({ where, skip: paged ? skip : undefined, take: paged ? limit : undefined, include: { course: true, author: { select: { fullName: true, role: true } } }, orderBy: { createdAt: 'desc' } }), paged ? this.prisma.announcement.count({ where }) : Promise.resolve(0)]);
+    return paged ? paginationResult(data, total, page, limit) : data;
   }
 
   @Get('course/:courseId')

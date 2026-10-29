@@ -1,8 +1,10 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, Logger, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PaymentStatus, UserStatus } from '@prisma/client';
+import { CoursePaymentPlan, PaymentStatus, UserStatus } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
+import { getCoursePricing } from '../common/course-pricing';
+import { TelegramService } from '../telegram/telegram.service';
 
 // The official NBC JavaScript KHQR SDK is CommonJS and does not ship TypeScript declarations.
 const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
@@ -11,7 +13,7 @@ const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
 export class PaymentService {
   private readonly logger = new Logger(PaymentService.name);
 
-  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService) {}
+  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService, private readonly telegram: TelegramService) {}
 
   isRegistrationPaymentRequired() {
     return this.config.get<string>('REGISTRATION_PAYMENT_REQUIRED', 'false') === 'true';
@@ -39,9 +41,9 @@ export class PaymentService {
     const payment = await this.expireRegistrationIfNeeded(publicToken);
     if (payment.status !== PaymentStatus.PENDING) return this.toPublicPayment(payment);
     const result = await this.checkBakong(payment.md5Hash);
-    if (!result.enabled) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet.' });
+    if (!result.enabled) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet. Please contact admin support.' });
     if (result.rateLimited) return this.toPublicPayment(payment, { verification: 'rate_limited', message: result.message });
-    if (result.unavailable) return this.toPublicPayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable.' });
+    if (result.unavailable) return this.toPublicPayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable. Please contact admin support.' });
     if (result.data) return this.confirmRegistrationPayment(payment, result.data);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
@@ -51,33 +53,61 @@ export class PaymentService {
     return this.toPublicPayment(payment, { message });
   }
 
-  async createCoursePayment(courseId: string, userId: string, refresh = false) {
+  async createCoursePayment(courseId: string, userId: string, refresh = false, requestedPlan = 'FULL') {
+    const paymentPlan = String(requestedPlan || 'FULL').toUpperCase() as CoursePaymentPlan;
+    if (![CoursePaymentPlan.FULL, CoursePaymentPlan.MONTHLY].includes(paymentPlan)) throw new BadRequestException('Choose a valid course payment plan.');
     const student = await this.prisma.student.findUniqueOrThrow({ where: { userId }, select: { id: true } });
     const course = await this.prisma.course.findFirst({ where: { id: courseId, status: 'ACTIVE' } });
     if (!course) throw new NotFoundException('This course is not available for purchase.');
     const currentEnrollment = await this.prisma.enrollment.findUnique({ where: { courseId_studentId: { courseId, studentId: student.id } } });
-    if (currentEnrollment?.status === 'ACTIVE') throw new ConflictException('You have already purchased this course.');
+    if (paymentPlan === CoursePaymentPlan.FULL && currentEnrollment?.status === 'ACTIVE') throw new ConflictException('You have already purchased this course.');
 
-    const pendingPayment = await this.prisma.coursePayment.findFirst({ where: { courseId, studentId: student.id, status: PaymentStatus.PENDING }, include: { course: true, student: { select: { userId: true } } }, orderBy: { createdAt: 'desc' } });
+    const pricing = getCoursePricing(course);
+    const billingPeriod = paymentPlan === CoursePaymentPlan.MONTHLY ? this.currentBillingPeriod() : null;
+    if (paymentPlan === CoursePaymentPlan.MONTHLY && (!course.monthlyPaymentEnabled || !course.monthlyPrice || Number(course.monthlyPrice) <= 0)) throw new BadRequestException('Monthly payment is not available for this course.');
+    const amount = paymentPlan === CoursePaymentPlan.MONTHLY ? Number(course.monthlyPrice) : pricing.salePrice;
+    if (!Number.isFinite(amount) || amount <= 0) throw new BadRequestException('This course has an invalid price.');
+
+    if (paymentPlan === CoursePaymentPlan.MONTHLY) {
+      const paidThisPeriod = await this.prisma.coursePayment.findFirst({ where: { courseId, studentId: student.id, paymentPlan, billingPeriod, status: PaymentStatus.PAID } });
+      if (paidThisPeriod) throw new ConflictException('Your monthly payment for this period is already completed.');
+    }
+
+    // Full-course payments have a nullable billing period, so a refreshed QR
+    // can safely create a new row. Monthly payments are unique per course,
+    // student and billing period; keep that row and refresh its QR instead of
+    // creating a second row that would violate the compound unique index.
+    if (refresh && paymentPlan !== CoursePaymentPlan.MONTHLY) await this.prisma.coursePayment.updateMany({ where: { courseId, studentId: student.id, status: PaymentStatus.PENDING }, data: { status: PaymentStatus.EXPIRED } });
+
+    const pendingPayment = await this.prisma.coursePayment.findFirst({ where: { courseId, studentId: student.id, paymentPlan, billingPeriod, status: PaymentStatus.PENDING }, include: { course: true, student: { select: { userId: true } } }, orderBy: { createdAt: 'desc' } });
     // Older payments can contain a malformed QR generated before the optional
     // KHQR fields were kept within the EMV two-digit length limit. Never reuse
     // one of those codes: create a fresh payment instead.
-    if (!refresh && pendingPayment && pendingPayment.expiresAt > new Date() && this.isValidKhqr(pendingPayment.qrString)) return this.toPublicCoursePayment(pendingPayment);
-    if (pendingPayment) await this.prisma.coursePayment.update({ where: { id: pendingPayment.id }, data: { status: PaymentStatus.EXPIRED } });
-
-    const amount = Number(course.price);
-    if (!Number.isFinite(amount) || amount <= 0) throw new BadRequestException('This course has an invalid price.');
+    const pendingMatchesCurrentPrice = pendingPayment && Math.abs(Number(pendingPayment.amount) - amount) < 0.0001;
+    if (!refresh && pendingMatchesCurrentPrice && pendingPayment.expiresAt > new Date() && this.isValidKhqr(pendingPayment.qrString)) return this.toPublicCoursePayment(pendingPayment, { originalAmount: pricing.originalPrice, discountPercent: pricing.discountPercent, discountActive: pricing.discountActive });
     const currencyName = this.normalizedCurrency(course.currency);
     // KHQR additional-data bill numbers may be at most 25 characters.
     const compactCourseCode = course.courseCode.replace(/[^A-Za-z0-9]/g, '').slice(-6);
     const invoiceNumber = `CP-${compactCourseCode}-${Date.now().toString().slice(-8)}-${randomUUID().slice(0, 4).toUpperCase()}`;
     const expiresAt = this.paymentExpiry();
     const generated = this.generateKhqr({ amount, currencyName, invoiceNumber, expiresAt, purpose: `Course ${course.courseName}`, terminalLabel: 'Course purchase' });
+    const paymentData = { invoiceNumber, publicToken: randomUUID(), qrString: generated.qr, md5Hash: generated.md5, amount, currency: currencyName, paymentPlan, billingPeriod, expiresAt, status: PaymentStatus.PENDING, paidAt: null, transactionHash: null, fromAccountId: null, toAccountId: null };
+
+    if (paymentPlan === CoursePaymentPlan.MONTHLY) {
+      const existingMonthlyPayment = await this.prisma.coursePayment.findUnique({ where: { courseId_studentId_paymentPlan_billingPeriod: { courseId, studentId: student.id, paymentPlan, billingPeriod: billingPeriod as string } } });
+      if (existingMonthlyPayment?.status === PaymentStatus.PAID) throw new ConflictException('Your monthly payment for this period is already completed.');
+      if (existingMonthlyPayment) {
+        const payment = await this.prisma.coursePayment.update({ where: { id: existingMonthlyPayment.id }, data: paymentData, include: { course: true, student: { select: { userId: true } } } });
+        return this.toPublicCoursePayment(payment, { originalAmount: pricing.originalPrice, discountPercent: pricing.discountPercent, discountActive: pricing.discountActive, monthlyPrice: course.monthlyPrice?.toString() || null, monthlyPaymentEnabled: course.monthlyPaymentEnabled });
+      }
+    }
+
+    if (pendingPayment) await this.prisma.coursePayment.update({ where: { id: pendingPayment.id }, data: { status: PaymentStatus.EXPIRED } });
     const payment = await this.prisma.coursePayment.create({
-      data: { courseId, studentId: student.id, invoiceNumber, publicToken: randomUUID(), qrString: generated.qr, md5Hash: generated.md5, amount, currency: currencyName, expiresAt },
+      data: { courseId, studentId: student.id, ...paymentData },
       include: { course: true, student: { select: { userId: true } } },
     });
-    return this.toPublicCoursePayment(payment);
+    return this.toPublicCoursePayment(payment, { originalAmount: pricing.originalPrice, discountPercent: pricing.discountPercent, discountActive: pricing.discountActive, monthlyPrice: course.monthlyPrice?.toString() || null, monthlyPaymentEnabled: course.monthlyPaymentEnabled });
   }
 
   async getCoursePayment(publicToken: string, userId: string) {
@@ -89,9 +119,9 @@ export class PaymentService {
     const payment = await this.expireCourseIfNeeded(publicToken, userId);
     if (payment.status !== PaymentStatus.PENDING) return this.toPublicCoursePayment(payment);
     const result = await this.checkBakong(payment.md5Hash);
-    if (!result.enabled) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet.' });
+    if (!result.enabled) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet. Please contact admin support.' });
     if (result.rateLimited) return this.toPublicCoursePayment(payment, { verification: 'rate_limited', message: result.message });
-    if (result.unavailable) return this.toPublicCoursePayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable.' });
+    if (result.unavailable) return this.toPublicCoursePayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable. Please contact admin support.' });
     if (result.data) return this.confirmCoursePayment(payment, result.data);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
@@ -103,7 +133,7 @@ export class PaymentService {
 
   private generateKhqr(input: { amount: number; currencyName: string; invoiceNumber: string; expiresAt: Date; purpose: string; terminalLabel: string }) {
     const accountId = this.config.get<string>('BAKONG_ACCOUNT_ID');
-    if (!accountId) throw new ServiceUnavailableException('KHQR payment is not configured. Set BAKONG_ACCOUNT_ID in backend/.env.');
+    if (!accountId) throw new ServiceUnavailableException('KHQR payment is not configured. Please contact admin support.');
     const currency = input.currencyName === 'KHR' ? khqrData.currency.khr : input.currencyName === 'USD' ? khqrData.currency.usd : null;
     if (!currency) throw new BadRequestException('Course currency must be USD or KHR.');
     const merchantName = (this.config.get<string>('MERCHANT_NAME') || this.config.get<string>('BAKONG_MERCHANT_NAME') || 'CampusFlow').slice(0, 25);
@@ -151,7 +181,7 @@ export class PaymentService {
       const result: any = await response.json();
       const message = String(result.responseMessage || '');
       if (response.status === 429 || result.errorCode === 17 || /daily request limit|request limit.*exceeded/i.test(message)) {
-        return { enabled: true, rateLimited: true, message: 'Bakong verification has reached its daily request limit. Please try again tomorrow or configure a fresh Bakong API token.' };
+        return { enabled: true, rateLimited: true, message: 'Bakong verification has reached its daily request limit. Please try again tomorrow or contact admin support to configure a fresh Bakong API token.' };
       }
       if (result.responseCode === 0 && result.data) return { enabled: true, data: result.data };
       return { enabled: true, message: message || 'Payment is still pending.' };
@@ -175,6 +205,8 @@ export class PaymentService {
       await tx.user.update({ where: { id: payment.userId }, data: { status: UserStatus.ACTIVE } });
       return updated;
     });
+    const customer = await this.prisma.user.findUnique({ where: { id: payment.userId }, select: { fullName: true, email: true } });
+    await this.telegram.sendPaymentReport({ type: 'Student registration', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paidAt: paid.paidAt, customerName: customer?.fullName, customerEmail: customer?.email, transactionHash: paid.transactionHash });
     return this.toPublicPayment(paid, { message: 'Payment confirmed. Your account is now active.' });
   }
 
@@ -192,12 +224,18 @@ export class PaymentService {
       await tx.enrollment.upsert({ where: { courseId_studentId: { courseId: updated.courseId, studentId: updated.studentId } }, update: { status: 'ACTIVE', enrollmentDate: new Date() }, create: { courseId: updated.courseId, studentId: updated.studentId, status: 'ACTIVE' } });
       return updated;
     });
+    const customer = await this.prisma.student.findUnique({ where: { id: paid.studentId }, include: { user: { select: { fullName: true, email: true } } } });
+    await this.telegram.sendPaymentReport({ type: 'Course purchase', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt, courseName: paid.course?.courseName, customerName: customer?.user.fullName, customerEmail: customer?.user.email, transactionHash: paid.transactionHash });
     return this.toPublicCoursePayment(paid, { message: 'Payment confirmed. The course is now unlocked.', enrolled: true });
   }
 
   private paymentExpiry() {
     const expirationMinutes = Math.min(Math.max(Number(this.config.get<string>('PAYMENT_QR_EXPIRES_MINUTES', '10')), 1), 10);
     return new Date(Date.now() + expirationMinutes * 60 * 1000);
+  }
+
+  private currentBillingPeriod() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Phnom_Penh', year: 'numeric', month: '2-digit' }).format(new Date());
   }
 
   private normalizedCurrency(value: string | undefined) {
@@ -226,6 +264,7 @@ export class PaymentService {
   }
 
   private toPublicCoursePayment(payment: any, extra: Record<string, unknown> = {}) {
-    return { ...this.toPublicPayment(payment, extra), courseId: payment.courseId, courseName: payment.course?.courseName, courseCode: payment.course?.courseCode };
+    const pricing = payment.course ? getCoursePricing(payment.course) : null;
+    return { ...this.toPublicPayment(payment, extra), courseId: payment.courseId, courseName: payment.course?.courseName, courseCode: payment.course?.courseCode, paymentPlan: payment.paymentPlan || CoursePaymentPlan.FULL, billingPeriod: payment.billingPeriod || null, monthlyPaymentEnabled: payment.course?.monthlyPaymentEnabled ?? false, monthlyPrice: payment.course?.monthlyPrice?.toString() || null, fullCourseAmount: pricing?.salePrice?.toString() || null };
   }
 }

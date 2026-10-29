@@ -17,7 +17,7 @@ export default function Table({ columns, rows, empty = 'No records found.', page
 
   return <>
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="overflow-x-auto">
+      <div className="table-scroll overflow-x-auto">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500"><tr>{columns.map((column) => <th key={column.key} className="px-5 py-4 font-semibold">{column.label}</th>)}</tr></thead>
           <tbody className="divide-y divide-slate-100">

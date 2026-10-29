@@ -2,13 +2,13 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../context/LanguageContext';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 
 const links = {
-  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['users', '/admin/users', 'users'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
-  TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['myCourses', '/teacher/courses', 'courses'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
-  STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['announcements', '/student/announcements', 'announcements']],
+  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
+  TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['myCourses', '/teacher/courses', 'courses'], ['courseMaterials', '/teacher/materials', 'materials'], ['certificates', '/teacher/certificates', 'certificates'], ['schedule', '/teacher/schedule', 'schedule'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
+  STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
 };
 
 const iconPaths = {
@@ -23,10 +23,13 @@ const iconPaths = {
   attendance: ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'm8 12 2.5 2.5L16 9'],
   announcements: ['M3 11v2h4l5 4V7l-5 4H3Z', 'M16 9a4 4 0 0 1 0 6', 'M19 6a8 8 0 0 1 0 12'],
   assignments: ['M6 3h9l3 3v15H6z', 'M9 12h6', 'M9 16h4', 'M14 3v4h4'],
+  materials: ['M6 3h9l3 3v15H6z', 'M9 12h6', 'M9 16h4', 'M14 3v4h4'],
+  certificates: ['M6 3h12v18H6z', 'M9 7h6', 'M9 11h6', 'M9 15h3', 'm14 15 1.5 1.5L18 14'],
   submissions: ['M12 16V4', 'm7 9 5-5 5 5', 'M5 20h14'],
   homework: ['M5 4h14v16H5z', 'M8 8h8', 'M8 12h8', 'm8 16 2 2 4-4'],
   grades: ['M4 19V5', 'M4 19h16', 'm7 15 3-4 3 2 4-6'],
   exams: ['M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z'],
+  telegram: ['M21 4 3 11l7 2 2 7 3-6 6-10Z', 'm10 13 5-4'],
 };
 
 function NavIcon({ name }) {
@@ -43,7 +46,7 @@ export default function Sidebar({ open, onClose }) {
   return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(18rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform md:w-64 md:px-5 md:py-6 md:translate-x-0`}>
     <div className="mb-8 flex shrink-0 items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="sidebar-logo flex h-10 w-10 items-center justify-center rounded-2xl text-sm font-extrabold tracking-tight">CF</div>
+        <div className="sidebar-logo flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl p-1.5 text-sm font-extrabold tracking-tight"><img src="/campusflow-logo.jpg" alt="CampusFlow logo" className="h-full w-full rounded-xl object-contain" /></div>
         <div>
           <div className="text-xl font-extrabold tracking-tight">Campus<span className="text-mint">Flow</span></div>
           <div className="mt-1 text-[10px] uppercase tracking-[.25em] text-slate-400">{t('learningSystem')}</div>

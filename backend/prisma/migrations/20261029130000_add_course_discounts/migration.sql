@@ -1,0 +1,3 @@
+ALTER TABLE "courses" ADD COLUMN "discountPercent" DOUBLE PRECISION NOT NULL DEFAULT 0;
+ALTER TABLE "courses" ADD COLUMN "discountStart" TIMESTAMP(3);
+ALTER TABLE "courses" ADD COLUMN "discountEnd" TIMESTAMP(3);

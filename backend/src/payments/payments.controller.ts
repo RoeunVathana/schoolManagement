@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
@@ -19,13 +19,6 @@ export class PaymentsController {
   @ApiOperation({ summary: 'Verify a registration payment with Bakong' })
   @Post('registration/:token/check')
   checkRegistrationPayment(@Param('token') token: string) { return this.payments.checkRegistrationPayment(token); }
-
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
-  @ApiOperation({ summary: 'Create a KHQR payment for a course' })
-  @Post('course/:courseId')
-  createCoursePayment(@Param('courseId') courseId: string, @CurrentUser() user: any, @Query('refresh') refresh?: string) { return this.payments.createCoursePayment(courseId, user.id, refresh === '1' || refresh === 'true'); }
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)

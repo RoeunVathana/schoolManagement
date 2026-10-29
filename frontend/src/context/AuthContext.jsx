@@ -5,8 +5,10 @@ import { useLanguage } from './LanguageContext';
 
 export const AuthContext = createContext(null);
 
+const normalizeUser = (profile) => profile?.role === 'ADMIN' ? { ...profile, canCreate: true, canEdit: true, canDelete: true } : profile;
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(getStoredUser);
+  const [user, setUser] = useState(() => normalizeUser(getStoredUser()));
   const [loading, setLoading] = useState(true);
   const { setLanguage } = useLanguage();
 
@@ -16,7 +18,7 @@ export function AuthProvider({ children }) {
     if (user) {
       api.get('/auth/profile')
         .then((response) => {
-          const profile = unwrap(response);
+          const profile = normalizeUser(unwrap(response));
           setUser(profile);
           syncLanguage(profile);
           saveTokens({ user: profile });
@@ -32,10 +34,11 @@ export function AuthProvider({ children }) {
   }, []);
 
   const saveLoginSession = useCallback((session) => {
-    saveSession(session);
-    setUser(session.user);
-    syncLanguage(session.user);
-    return session.user;
+    const normalizedSession = { ...session, user: normalizeUser(session.user) };
+    saveSession(normalizedSession);
+    setUser(normalizedSession.user);
+    syncLanguage(normalizedSession.user);
+    return normalizedSession.user;
   }, [setLanguage]);
 
   const login = useCallback(async (credentials) => {
@@ -47,9 +50,10 @@ export function AuthProvider({ children }) {
   }, [saveLoginSession]);
 
   const updateUser = useCallback((profile) => {
-    setUser(profile);
-    syncLanguage(profile);
-    saveTokens({ user: profile });
+    const normalizedProfile = normalizeUser(profile);
+    setUser(normalizedProfile);
+    syncLanguage(normalizedProfile);
+    saveTokens({ user: normalizedProfile });
   }, [setLanguage]);
 
   const logout = useCallback(async () => {

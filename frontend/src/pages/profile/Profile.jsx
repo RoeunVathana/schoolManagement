@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 import ImageCropper from '../../components/ImageCropper';
 import { isImageTooLarge } from '../../utils/fileValidation';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 const dateValue = (value) => value ? new Date(value).toISOString().slice(0, 10) : '';
 

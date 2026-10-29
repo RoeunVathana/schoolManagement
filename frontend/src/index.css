@@ -144,6 +144,7 @@
 .payment-status-card { display: flex; align-items: center; gap: .75rem; border: 1px solid #d7e1ee; border-radius: 1rem; background: #f8fafc; padding: .85rem 1rem; text-align: left; }
 .payment-status-icon { display: inline-flex; height: 2rem; width: 2rem; flex: 0 0 auto; align-items: center; justify-content: center; border-radius: .75rem; background: #dff8ee; color: #087f5b; font-weight: 900; }
 .payment-invoice { overflow-wrap: anywhere; border: 1px dashed #d7e1ee; border-radius: .85rem; padding: .65rem .8rem; }
+.payment-receipt-print { break-inside: avoid; }
 .payment-modal-actions { display: flex; flex-wrap: wrap; gap: .65rem; justify-content: flex-end; }
 .payment-primary-button, .payment-secondary-button { min-height: 2.75rem; border-radius: .85rem; padding: .7rem 1rem; font-size: .875rem; font-weight: 700; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
 .payment-primary-button { background: #174c92; color: #fff; box-shadow: 0 10px 20px rgb(23 76 146 / .18); }
@@ -166,6 +167,34 @@
 .dark .payment-secondary-button { border-color: #34506c; background: #17263b; color: #dbeafe; }
 .dark .payment-secondary-button:hover { background: #213651; }
 .dark .payment-qr-loading, .dark .payment-qr-placeholder { border-color: #34506c; background: #17263b; color: #a8bdd0; }
+
+/* Payment sheet v2: keep the QR and checkout details balanced on desktop. */
+.payment-modal-shell .payment-modal-hero { width: 100%; padding: .95rem 1.1rem; }
+.payment-modal-shell .payment-universal-card { width: 100%; max-width: none; margin-inline: 0; }
+.payment-modal-content { display: grid; width: 100%; gap: .85rem; }
+.payment-modal-visual { min-width: 0; display: flex; align-items: flex-start; justify-content: center; }
+.payment-modal-details { min-width: 0; display: flex; flex-direction: column; gap: .75rem; }
+.payment-modal-details .payment-modal-amount { width: 100%; max-width: none; margin-inline: 0; }
+.payment-modal-details .payment-status-card { min-height: 3.25rem; }
+.payment-plan-card { box-shadow: inset 0 1px 0 rgb(255 255 255 / .7), 0 10px 24px rgb(16 36 63 / .06); }
+.payment-error-card { overflow-wrap: anywhere; }
+.payment-modal-shell .payment-modal-actions { width: 100%; }
+.payment-modal-shell .payment-qr-frame { max-width: 100%; }
+
+@media (min-width: 700px) {
+  .payment-modal-shell { display: flex; gap: .85rem; }
+  .payment-modal-content { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); align-items: start; }
+  .payment-modal-visual { padding-top: .1rem; }
+  .payment-modal-details { padding-top: .1rem; }
+  .payment-modal-shell .payment-qr-frame { width: min(100%, 19rem); }
+  .payment-modal-shell .payment-qr-image-wrap img { height: 15rem; width: 15rem; }
+  .payment-modal-shell .payment-modal-actions { justify-content: flex-end; }
+}
+
+@media (max-width: 699px) {
+  .payment-modal-shell .payment-universal-card { align-items: flex-start; }
+  .payment-modal-shell .payment-qr-frame { width: min(100%, 20rem); }
+}
 
 /* Give course thumbnails more visual weight in the student catalog. */
 [class~="sm:grid-cols-2"][class~="xl:grid-cols-3"] > article > div:first-child { height: 14rem; overflow: hidden; }
@@ -203,7 +232,7 @@
 
 .sidebar-shell { background: linear-gradient(165deg, #122d4d 0%, #0d2340 55%, #091a31 100%); border-right: 1px solid rgb(255 255 255 / 0.07); box-shadow: 16px 0 40px rgb(8 25 48 / 0.16); }
 .sidebar-shell::before { content: ''; position: absolute; top: -120px; right: -100px; width: 260px; height: 260px; border-radius: 999px; background: rgb(94 234 212 / 0.08); filter: blur(10px); pointer-events: none; }
-.sidebar-logo { background: linear-gradient(135deg, #dff8ee, #8de4ca); color: #10243f; box-shadow: 0 8px 20px rgb(0 0 0 / 0.16); }
+.sidebar-logo { background: #fff; color: #10243f; box-shadow: 0 8px 20px rgb(0 0 0 / 0.16); }
 .sidebar-profile { background: rgb(255 255 255 / 0.07); border: 1px solid rgb(255 255 255 / 0.08); }
 .sidebar-profile:hover { background: rgb(255 255 255 / 0.13); transform: translateY(-2px); box-shadow: 0 10px 24px rgb(0 0 0 / 0.12); }
 .sidebar-icon { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border-radius: 10px; color: #a8bdd0; background: rgb(255 255 255 / 0.06); transition: color .2s ease, background .2s ease, transform .2s ease; }
@@ -220,6 +249,34 @@
 .sidebar-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .sidebar-scrollbar::-webkit-scrollbar-thumb { border-radius: 999px; background: rgb(148 163 184 / 0.38); }
 .sidebar-scrollbar::-webkit-scrollbar-thumb:hover { background: rgb(148 163 184 / 0.62); }
+.table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #4f7185 rgb(15 35 58 / 0.8);
+  scrollbar-gutter: stable;
+}
+.table-scroll::-webkit-scrollbar { height: 9px; }
+.table-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgb(8 25 48 / 0.94), rgb(16 36 63 / 0.94));
+}
+.table-scroll::-webkit-scrollbar-thumb {
+  min-width: 4rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5f8297, #8de4ca 52%, #5f8297);
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2), 0 1px 5px rgb(0 0 0 / 0.28);
+}
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #77a3b8, #b0f5df 52%, #77a3b8);
+  background-clip: padding-box;
+}
+.dark .table-scroll {
+  scrollbar-color: #6d9aae rgb(8 25 48 / 0.9);
+}
+.dark .table-scroll::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #091a31, #10243f);
+}
 body.mobile-nav-open { overflow: hidden; }
 @media (max-width: 639px) {
   .sidebar-link { min-height: 2.75rem; }
@@ -469,6 +526,21 @@ body.mobile-nav-open { overflow: hidden; }
   .confirm-panel { animation: none; }
 }
 
+@media print {
+  body * { visibility: hidden !important; }
+  .payment-receipt-print,
+  .payment-receipt-print * { visibility: visible !important; }
+  .payment-receipt-print {
+    position: absolute !important;
+    inset: 1.5rem !important;
+    width: auto !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #fff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+  }
+}
+
 @media (min-width: 1024px) {
   .auth-background .auth-hero-panel {
     justify-content: flex-start;
@@ -495,4 +567,146 @@ body.mobile-nav-open { overflow: hidden; }
   .auth-form-panel,
   .auth-form-panel::before,
   .auth-form-panel::after { animation: none; }
+}
+
+/* Public storefront theme polish */
+.storefront-reveal {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(0, 2rem, 0) scale(.985);
+  transition: opacity .7s cubic-bezier(.2,.75,.25,1), transform .7s cubic-bezier(.2,.75,.25,1);
+  transition-delay: var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.storefront-reveal.is-visible,
+.storefront-reveal-on-load {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.storefront-reveal-on-load {
+  animation: storefrontRevealIn .8s cubic-bezier(.2,.75,.25,1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+.storefront-reveal.is-visible .storefront-reveal,
+.storefront-reveal-on-load .storefront-reveal { opacity: 1; transform: none; }
+
+.dark .storefront article a { color: #a5f1dc; }
+.dark .storefront input { color-scheme: dark; }
+.dark .storefront input::placeholder { color: #94a3b8; }
+.dark .storefront .text-slate-500 { color: #a7b4c7; }
+.dark .storefront .text-slate-400 { color: #94a3b8; }
+
+.storefront-3d-scene {
+  perspective: 1400px;
+  isolation: isolate;
+}
+
+.storefront-3d-scene::before,
+.storefront-3d-scene::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(2px);
+}
+
+.storefront-3d-scene::before {
+  top: 12%;
+  right: -4%;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1px solid rgb(165 241 220 / .28);
+  background: rgb(141 228 202 / .1);
+  box-shadow: 0 0 45px rgb(141 228 202 / .24);
+  animation: storefrontOrbFloat 7s ease-in-out infinite;
+}
+
+.storefront-3d-scene::after {
+  bottom: 12%;
+  left: -8%;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(244 123 103 / .3);
+  background: rgb(244 123 103 / .12);
+  box-shadow: 0 0 36px rgb(244 123 103 / .22);
+  animation: storefrontOrbFloat 9s ease-in-out -2s infinite reverse;
+}
+
+.storefront-3d-card {
+  transform-style: preserve-3d;
+  animation: storefrontCardFloat 8s ease-in-out infinite;
+  transition: transform .5s cubic-bezier(.2,.75,.25,1), box-shadow .5s ease;
+}
+
+.storefront-3d-card:hover {
+  transform: rotateX(2deg) rotateY(-3deg) translateY(-8px) scale(1.01);
+  box-shadow: 0 35px 70px rgb(0 0 0 / .3);
+}
+
+.storefront-3d-surface {
+  position: relative;
+  transform: translateZ(34px);
+  transform-style: preserve-3d;
+}
+
+.storefront-3d-surface > * {
+  transform: translateZ(18px);
+}
+
+.storefront-course-card {
+  transform-style: preserve-3d;
+  transition: transform .35s cubic-bezier(.2,.75,.25,1), box-shadow .35s ease;
+}
+
+.storefront-course-card:hover {
+  transform: translateY(-8px) rotateX(1.5deg) rotateY(-1.5deg);
+}
+
+.storefront-course-card .storefront-course-visual {
+  transform: translateZ(10px);
+  transition: transform .45s ease, filter .45s ease;
+}
+
+.storefront-course-card:hover .storefront-course-visual {
+  transform: translateZ(22px) scale(1.015);
+  filter: saturate(1.08) contrast(1.02);
+}
+
+@keyframes storefrontCardFloat {
+  0%, 100% { transform: rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0); }
+  50% { transform: rotateX(1.3deg) rotateY(-1.8deg) translate3d(0, -10px, 0); }
+}
+
+@keyframes storefrontRevealIn {
+  from { opacity: 0; transform: translate3d(0, 2rem, 0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes storefrontOrbFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10px, -18px, 0) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storefront-reveal,
+  .storefront-reveal-on-load {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+
+  .storefront-3d-card,
+  .storefront-3d-scene::before,
+  .storefront-3d-scene::after { animation: none; }
+
+  .storefront-3d-card:hover,
+  .storefront-course-card:hover,
+  .storefront-course-card:hover .storefront-course-visual {
+    transform: none;
+  }
 }

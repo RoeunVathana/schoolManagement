@@ -17,5 +17,5 @@ export default function Loading({ label, fullScreen = false }) {
   </div>;
 
   if (fullScreen) return <div className="fixed inset-0 z-[200] flex min-h-screen items-center justify-center bg-slate-950/45 p-6 backdrop-blur-md"><div className="w-full max-w-xs rounded-[2rem] border border-white/70 bg-white/95 px-8 py-9 shadow-2xl shadow-slate-950/20 dark:border-slate-700 dark:bg-slate-900/95 dark:shadow-black/40">{content}</div></div>;
-  return <div className="flex min-h-40 flex-col items-center justify-center gap-3 text-sm text-slate-500">{content}</div>;
+  return <div className="flex min-h-[calc(100dvh-7rem)] w-full items-center justify-center px-4 py-10 text-sm text-slate-500">{content}</div>;
 }

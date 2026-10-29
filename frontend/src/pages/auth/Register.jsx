@@ -165,7 +165,7 @@ export default function Register() {
   }), [password]);
 
   useEffect(() => {
-    if (!payment?.qrString) return undefined;
+    if (!payment?.qrString || payment.status !== 'PENDING' || payment.verification === 'rate_limited') return undefined;
 
     QRCode.toDataURL(payment.qrString, {
       width: 800,
@@ -176,12 +176,11 @@ export default function Register() {
       .then(setQrImage)
       .catch(() => setError(copy.renderQrError));
 
-    if (payment.status !== 'PENDING') return undefined;
-
     const timer = window.setInterval(async () => {
       try {
         const latest = unwrap(await api.post(`/payments/registration/${payment.publicToken}/check`));
         setPayment((current) => ({ ...current, ...latest }));
+        if (latest.verification === 'rate_limited') setError(latest.message || copy.checkPaymentError);
       } catch (e) {
         const message = e.response?.data?.message || copy.checkPaymentError;
         setError(Array.isArray(message) ? message.join(', ') : message);
@@ -189,7 +188,7 @@ export default function Register() {
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [payment?.publicToken, payment?.qrString, payment?.status]);
+  }, [payment?.publicToken, payment?.qrString, payment?.status, payment?.verification]);
 
   const submit = async (data) => {
     setBusy(true);
@@ -229,6 +228,7 @@ export default function Register() {
     try {
       const latest = unwrap(await api.post(`/payments/registration/${payment.publicToken}/check`));
       setPayment((current) => ({ ...current, ...latest }));
+      if (latest.verification === 'rate_limited') setError(latest.message || copy.checkPaymentError);
     } catch (e) {
       const message = e.response?.data?.message || copy.checkPaymentError;
       setError(Array.isArray(message) ? message.join(', ') : message);
