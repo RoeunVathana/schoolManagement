@@ -89,7 +89,7 @@ model User {
   createdAnnouncements Announcement[]        @relation("AnnouncementCreatedBy")
   registrationPayments RegistrationPayment[]
   passwordResetOtps    PasswordResetOtp[]
-  sentNotifications    Notification[]     @relation("NotificationSender")
+  sentNotifications    Notification[]        @relation("NotificationSender")
 
   @@map("users")
 }
@@ -119,75 +119,76 @@ model RegistrationPayment {
 }
 
 model Student {
-  id            String       @id @default(cuid())
-  userId        String       @unique
-  studentCode   String       @unique
-  gender        String?
-  dateOfBirth   DateTime?
-  address       String?
-  guardianName  String?
-  guardianPhone String?
-  createdAt     DateTime     @default(now())
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  enrollments   Enrollment[]
-  attendance    Attendance[]
-  submissions   Submission[]
-  examResults   ExamResult[]
+  id             String              @id @default(cuid())
+  userId         String              @unique
+  studentCode    String              @unique
+  gender         String?
+  dateOfBirth    DateTime?
+  address        String?
+  guardianName   String?
+  guardianPhone  String?
+  createdAt      DateTime            @default(now())
+  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enrollments    Enrollment[]
+  attendance     Attendance[]
+  submissions    Submission[]
+  examResults    ExamResult[]
   coursePayments CoursePayment[]
-  certificates  CourseCertificate[]
+  certificates   CourseCertificate[]
 
   @@index([studentCode])
   @@map("students")
 }
 
 model Teacher {
-  id             String       @id @default(cuid())
-  userId         String       @unique
-  teacherCode    String       @unique
-  specialization String?
-  address        String?
-  createdAt      DateTime     @default(now())
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courses        Course[]
-  assignments    Assignment[]
-  grades         Grade[]
+  id                String              @id @default(cuid())
+  userId            String              @unique
+  teacherCode       String              @unique
+  specialization    String?
+  address           String?
+  createdAt         DateTime            @default(now())
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courses           Course[]
+  assignments       Assignment[]
+  grades            Grade[]
+  teacherAttendance TeacherAttendance[]
 
   @@index([teacherCode])
   @@map("teachers")
 }
 
 model Course {
-  id             String          @id @default(cuid())
-  courseCode     String          @unique
-  courseName     String
-  description    String?
-  teacherId      String
-  startDate      DateTime
-  endDate        DateTime
-  status         CourseStatus    @default(ACTIVE)
-  academicYearId String?
-  semesterId     String?
-  imageUrl       String?
-  price          Decimal         @default(1.00) @db.Decimal(12, 2)
-  currency       String          @default("USD")
-  discountPercent Float           @default(0)
-  discountStart  DateTime?
-  discountEnd    DateTime?
-  monthlyPaymentEnabled Boolean    @default(false)
-  monthlyPrice   Decimal?         @db.Decimal(12, 2)
-  createdAt      DateTime        @default(now())
-  teacher        Teacher         @relation(fields: [teacherId], references: [id], onDelete: Restrict)
-  academicYear   AcademicYear?   @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
-  semester       Semester?       @relation(fields: [semesterId], references: [id], onDelete: SetNull)
-  enrollments    Enrollment[]
-  schedules      ClassSchedule[]
-  attendance     Attendance[]
-  assignments    Assignment[]
-  exams          Exam[]
-  announcements  Announcement[]
-  coursePayments CoursePayment[]
-  materials      CourseMaterial[]
-  certificates   CourseCertificate[]
+  id                    String              @id @default(cuid())
+  courseCode            String              @unique
+  courseName            String
+  description           String?
+  teacherId             String
+  startDate             DateTime
+  endDate               DateTime
+  status                CourseStatus        @default(ACTIVE)
+  academicYearId        String?
+  semesterId            String?
+  imageUrl              String?
+  price                 Decimal             @default(1.00) @db.Decimal(12, 2)
+  currency              String              @default("USD")
+  discountPercent       Float               @default(0)
+  discountStart         DateTime?
+  discountEnd           DateTime?
+  monthlyPaymentEnabled Boolean             @default(false)
+  monthlyPrice          Decimal?            @db.Decimal(12, 2)
+  createdAt             DateTime            @default(now())
+  teacher               Teacher             @relation(fields: [teacherId], references: [id], onDelete: Restrict)
+  academicYear          AcademicYear?       @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
+  semester              Semester?           @relation(fields: [semesterId], references: [id], onDelete: SetNull)
+  enrollments           Enrollment[]
+  schedules             ClassSchedule[]
+  attendance            Attendance[]
+  assignments           Assignment[]
+  exams                 Exam[]
+  announcements         Announcement[]
+  coursePayments        CoursePayment[]
+  materials             CourseMaterial[]
+  certificates          CourseCertificate[]
 
   @@index([courseName])
   @@index([status])
@@ -210,32 +211,32 @@ model Enrollment {
 }
 
 model CoursePayment {
-  id              String        @id @default(cuid())
+  id              String            @id @default(cuid())
   courseId        String
   studentId       String
-  invoiceNumber   String        @unique
-  publicToken     String        @unique
-  qrString        String        @db.Text
-  md5Hash         String        @unique
-  amount          Decimal       @db.Decimal(12, 2)
-  currency        String        @default("USD")
+  invoiceNumber   String            @unique
+  publicToken     String            @unique
+  qrString        String            @db.Text
+  md5Hash         String            @unique
+  amount          Decimal           @db.Decimal(12, 2)
+  currency        String            @default("USD")
   paymentPlan     CoursePaymentPlan @default(FULL)
   billingPeriod   String?
-  status          PaymentStatus @default(PENDING)
+  status          PaymentStatus     @default(PENDING)
   expiresAt       DateTime
   paidAt          DateTime?
   transactionHash String?
   fromAccountId   String?
   toAccountId     String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  course          Course        @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  student         Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  course          Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student         Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
+  @@unique([courseId, studentId, paymentPlan, billingPeriod])
   @@index([courseId, studentId, status])
   @@index([studentId, status])
   @@index([status, expiresAt])
-  @@unique([courseId, studentId, paymentPlan, billingPeriod])
   @@map("course_payments")
 }
 
@@ -319,6 +320,23 @@ model Attendance {
   @@map("attendance")
 }
 
+model TeacherAttendance {
+  id             String           @id @default(cuid())
+  teacherId      String
+  attendanceDate DateTime
+  checkInAt      DateTime?
+  checkOutAt     DateTime?
+  status         AttendanceStatus @default(PRESENT)
+  note           String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  teacher        Teacher          @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([teacherId, attendanceDate])
+  @@index([attendanceDate])
+  @@map("teacher_attendance")
+}
+
 model Assignment {
   id            String       @id @default(cuid())
   courseId      String
@@ -370,33 +388,33 @@ model Grade {
 }
 
 model Exam {
-  id          String       @id @default(cuid())
-  courseId    String
-  title       String
-  examDate    DateTime
+  id                 String       @id @default(cuid())
+  courseId           String
+  title              String
+  examDate           DateTime
   submissionDeadline DateTime?
-  maxScore    Float
-  description String?
-  imageUrl    String?
-  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  results     ExamResult[]
+  maxScore           Float
+  description        String?
+  imageUrl           String?
+  course             Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  results            ExamResult[]
 
   @@index([courseId, examDate])
   @@map("exams")
 }
 
 model ExamResult {
-  id        String   @id @default(cuid())
-  examId    String
-  studentId String
-  score     Float?
-  feedback  String?
-  answerText String?
-  fileUrl   String?
+  id          String    @id @default(cuid())
+  examId      String
+  studentId   String
+  score       Float?
+  feedback    String?
+  answerText  String?
+  fileUrl     String?
   submittedAt DateTime?
-  createdAt DateTime @default(now())
-  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
-  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  exam        Exam      @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([examId, studentId])
   @@map("exam_results")

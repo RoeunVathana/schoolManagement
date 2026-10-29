@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Controller, ForbiddenException, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -59,6 +59,39 @@ export class StorefrontController {
 
   @Get('courses/:id')
   async getCourse(@Param('id') id: string) {
+    const course = await this.prisma.course.findFirstOrThrow({
+      where: { id, status: 'ACTIVE' },
+      select: {
+        id: true,
+        courseCode: true,
+        courseName: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        imageUrl: true,
+        price: true,
+        currency: true,
+        discountPercent: true,
+        discountStart: true,
+        discountEnd: true,
+        monthlyPaymentEnabled: true,
+        monthlyPrice: true,
+        teacher: { select: { specialization: true, user: { select: { fullName: true, email: true, profileImageUrl: true } } } },
+        _count: { select: { enrollments: true } },
+      },
+    });
+    return this.withPricing(course);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.STUDENT)
+  @Get('courses/:id/access')
+  async getCourseAccess(@Param('id') id: string, @CurrentUser() user: any) {
+    const student = await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } });
+    const enrollment = await this.prisma.enrollment.findFirst({ where: { courseId: id, studentId: student.id, status: 'ACTIVE' }, select: { id: true } });
+    if (!enrollment) throw new ForbiddenException('Purchase this course before viewing learning content');
+
     const course = await this.prisma.course.findFirstOrThrow({
       where: { id, status: 'ACTIVE' },
       select: {

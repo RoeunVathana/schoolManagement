@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import api, { unwrap } from '../api/axios';
 
 const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/announcements', STUDENT: '/student/announcements' };
+const countryFlag = { km: 'https://flagcdn.com/w40/kh.png', en: 'https://flagcdn.com/w40/gb.png' };
 
 export default function Navbar({ onMenu }) {
   const { user, logout } = useAuth();
@@ -15,6 +16,7 @@ export default function Navbar({ onMenu }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const loadNotifications = useCallback(async () => {
     if (!user?.id) return;
@@ -31,9 +33,20 @@ export default function Navbar({ onMenu }) {
     return () => window.clearInterval(timer);
   }, [loadNotifications]);
 
-  const changeLanguage = async () => {
-    const next = language === 'en' ? 'km' : 'en';
+  useEffect(() => {
+    if (!showLanguageMenu) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-dashboard-language]')) {
+        setShowLanguageMenu(false);
+      }
+    };
+    document.addEventListener('pointerdown', closeOnOutsideClick);
+    return () => document.removeEventListener('pointerdown', closeOnOutsideClick);
+  }, [showLanguageMenu]);
+
+  const changeLanguage = async (next) => {
     setLanguage(next);
+    setShowLanguageMenu(false);
     try { await api.patch('/auth/profile', { language: next }); } catch {}
   };
 
@@ -72,7 +85,18 @@ export default function Navbar({ onMenu }) {
         </div>}
       </div>
 
-      <button type="button" onClick={changeLanguage} className="flex h-10 min-w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" aria-label={t('language')} title={t('language')}><span className="sm:hidden">{language === 'en' ? 'ខ្មែរ' : 'EN'}</span><span className="hidden sm:inline">{language === 'en' ? 'ខ្មែរ' : 'English'}</span></button>
+      <div className="relative" data-dashboard-language>
+        <button type="button" onClick={() => setShowLanguageMenu((current) => !current)} className={`group flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-2xl border px-2 text-xs font-extrabold shadow-sm transition duration-200 hover:-translate-y-0.5 sm:px-3 sm:text-sm ${showLanguageMenu ? 'border-[#229ed9]/60 bg-[#e8f5fb] text-[#14536a] shadow-[#229ed9]/10 dark:border-[#4ab8df]/60 dark:bg-[#173d4d] dark:text-[#e8fff7]' : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'}`} aria-haspopup="menu" aria-expanded={showLanguageMenu} aria-label={t('language')} title={t('language')}>
+          <span className="flex h-5 w-7 shrink-0 items-center justify-center overflow-hidden rounded-[4px] bg-slate-200 shadow-sm ring-1 ring-black/10 transition duration-200 group-hover:scale-110 dark:bg-slate-700" aria-hidden="true"><img src={countryFlag[language]} alt="" className="h-full w-full object-cover" /></span>
+          <span>{language === 'en' ? 'English' : 'ខ្មែរ'}</span>
+          <span aria-hidden="true" className={`text-[11px] text-slate-400 transition duration-200 ${showLanguageMenu ? 'rotate-180 text-[#229ed9]' : ''}`}>⌄</span>
+        </button>
+        {showLanguageMenu && <div role="menu" className="absolute right-0 top-[calc(100%+.65rem)] z-[100] w-56 origin-top-right overflow-hidden rounded-[1.15rem] border border-slate-200 bg-white p-2 shadow-[0_22px_55px_rgba(16,36,63,.22)] ring-1 ring-black/5 backdrop-blur-xl dark:border-[#2d5570] dark:bg-[#0f1e32] dark:shadow-[0_22px_55px_rgba(0,0,0,.42)] dark:ring-white/5">
+          <div className="flex items-center justify-between px-3 pb-2 pt-1.5"><p className="text-[10px] font-black uppercase tracking-[.18em] text-slate-400 dark:text-slate-500">{t('language')}</p><span className="rounded-full bg-slate-100 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:bg-slate-800 dark:text-slate-500">{language === 'en' ? 'EN' : 'KH'}</span></div>
+          <button type="button" role="menuitemradio" aria-checked={language === 'km'} onClick={() => changeLanguage('km')} className={`group flex w-full items-center gap-3 rounded-[.9rem] px-3 py-2.5 text-left text-sm font-extrabold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#229ed9]/50 ${language === 'km' ? 'bg-gradient-to-r from-[#173f4f] to-[#18354b] text-white shadow-[0_8px_18px_rgba(16,66,83,.22)]' : 'text-slate-700 hover:bg-slate-100 dark:text-[#d9e9f5] dark:hover:bg-[#19324a]'}`}><span className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl transition duration-200 ${language === 'km' ? 'bg-white/10 shadow-inner' : 'bg-slate-100 group-hover:scale-105 dark:bg-[#203b55]'}`}><img src={countryFlag.km} alt="Cambodia" className="h-4 w-6 rounded-[3px] object-cover shadow-sm" /></span><span className="flex-1">ខ្មែរ</span>{language === 'km' && <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#229ed9] text-xs text-white shadow-sm">✓</span>}</button>
+          <button type="button" role="menuitemradio" aria-checked={language === 'en'} onClick={() => changeLanguage('en')} className={`group mt-1 flex w-full items-center gap-3 rounded-[.9rem] px-3 py-2.5 text-left text-sm font-extrabold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#229ed9]/50 ${language === 'en' ? 'bg-gradient-to-r from-[#173f4f] to-[#18354b] text-white shadow-[0_8px_18px_rgba(16,66,83,.22)]' : 'text-slate-700 hover:bg-slate-100 dark:text-[#d9e9f5] dark:hover:bg-[#19324a]'}`}><span className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl transition duration-200 ${language === 'en' ? 'bg-white/10 shadow-inner' : 'bg-slate-100 group-hover:scale-105 dark:bg-[#203b55]'}`}><img src={countryFlag.en} alt="United Kingdom" className="h-4 w-6 rounded-[3px] object-cover shadow-sm" /></span><span className="flex-1">English</span>{language === 'en' && <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#229ed9] text-xs text-white shadow-sm">✓</span>}</button>
+        </div>}
+      </div>
       <button type="button" onClick={toggleTheme} className="flex h-10 min-w-10 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" title="Toggle theme"><span aria-hidden="true" className="text-sm">{isDark ? <SunIcon /> : <MoonIcon />}</span><span className="hidden sm:inline">{isDark ? t('light') : t('dark')}</span></button>
       <div className="hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{user?.role}</p></div>
       <button type="button" className="flex h-10 min-w-10 items-center justify-center rounded-xl bg-slate-100 px-2 text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-200 sm:px-3 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" onClick={logout} aria-label={t('signOut')} title={t('signOut')}><span className="sm:hidden"><LogoutIcon /></span><span className="hidden sm:inline">{t('signOut')}</span></button>

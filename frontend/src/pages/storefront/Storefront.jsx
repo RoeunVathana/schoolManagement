@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api, { unwrap } from "../../api/axios";
 import CoursePayment from "../../components/CoursePayment";
+import AnimatedNumber from "../../components/AnimatedNumber";
+import BrandLogo from "../../components/BrandLogo";
 import Modal from "../../components/Modal";
 import TelegramSupport from "../../components/TelegramSupport";
 import ThemeSwitch from "../../components/ThemeSwitch";
@@ -212,16 +214,24 @@ export default function Storefront() {
   const [payment, setPayment] = useState(null);
   const [paymentError, setPaymentError] = useState("");
   const [planChanging, setPlanChanging] = useState(false);
+  const [checkingPayment, setCheckingPayment] = useState(false);
   const [paymentPlanCourse, setPaymentPlanCourse] = useState(null);
   const [hasPurchasedCourse, setHasPurchasedCourse] = useState(false);
   const [purchasedCourseIds, setPurchasedCourseIds] = useState([]);
+  const [purchasedCoursePlans, setPurchasedCoursePlans] = useState({});
+  const paymentCloseTimer = useRef(null);
   const storefrontRef = useScrollReveal([id, courses.length, course?.id, loading]);
+
+  useEffect(() => () => {
+    if (paymentCloseTimer.current) window.clearTimeout(paymentCloseTimer.current);
+  }, []);
 
   useEffect(() => {
     let active = true;
     if (user?.role !== "STUDENT") {
       setHasPurchasedCourse(false);
       setPurchasedCourseIds([]);
+      setPurchasedCoursePlans({});
       return undefined;
     }
 
@@ -229,19 +239,23 @@ export default function Storefront() {
       .then((response) => {
         if (!active) return;
         const enrollments = unwrap(response);
-        const purchasedIds = Array.isArray(enrollments)
-          ? enrollments
-            .filter((enrollment) => enrollment?.status === "ACTIVE" && ["PAID", "MANUAL"].includes(enrollment?.paymentStatus))
-            .map((enrollment) => enrollment.courseId)
-            .filter(Boolean)
+        const purchasedEnrollments = Array.isArray(enrollments)
+          ? enrollments.filter((enrollment) => enrollment?.status === "ACTIVE" && ["PAID", "MANUAL"].includes(enrollment?.paymentStatus))
           : [];
+        const purchasedIds = purchasedEnrollments.map((enrollment) => enrollment.courseId).filter(Boolean);
+        const plans = purchasedEnrollments.reduce((result, enrollment) => {
+          if (enrollment.courseId) result[enrollment.courseId] = String(enrollment.paymentPlan || "FULL").toUpperCase();
+          return result;
+        }, {});
         setPurchasedCourseIds(purchasedIds);
+        setPurchasedCoursePlans(plans);
         setHasPurchasedCourse(purchasedIds.length > 0);
       })
       .catch(() => {
         if (active) {
           setHasPurchasedCourse(false);
           setPurchasedCourseIds([]);
+          setPurchasedCoursePlans({});
         }
       });
 
@@ -256,7 +270,16 @@ export default function Storefront() {
       try {
         if (id) {
           const response = await api.get(`/storefront/courses/${id}`);
-          if (active) setCourse(unwrap(response));
+          let nextCourse = unwrap(response);
+          if (user?.role === "STUDENT") {
+            try {
+              const accessResponse = await api.get(`/storefront/courses/${id}/access`);
+              nextCourse = unwrap(accessResponse);
+            } catch (accessError) {
+              if (accessError.response?.status !== 403) throw accessError;
+            }
+          }
+          if (active) setCourse(nextCourse);
         } else {
           const response = await api.get("/storefront/courses", {
             params: search.trim() ? { search: search.trim() } : undefined,
@@ -279,7 +302,7 @@ export default function Storefront() {
       active = false;
       window.clearTimeout(timer);
     };
-  }, [id, search]);
+  }, [id, search, user?.id, user?.role]);
 
   const startCoursePayment = async (selectedCourse, plan = "FULL") => {
     setPaymentPlanCourse(null);
@@ -309,7 +332,8 @@ export default function Storefront() {
       return;
     }
     const alreadyPurchased = purchasedCourseIds.includes(selectedCourse.id);
-    if (alreadyPurchased && !selectedCourse.monthlyPaymentEnabled) {
+    const purchasePlan = purchasedCoursePlans[selectedCourse.id];
+    if (alreadyPurchased && purchasePlan !== "MONTHLY") {
       navigate(`/courses/${selectedCourse.id}`);
       return;
     }
@@ -321,18 +345,47 @@ export default function Storefront() {
   };
 
   const checkPayment = async () => {
-    if (!payment?.publicToken) return;
+    if (!payment?.publicToken || checkingPayment) return;
+    setCheckingPayment(true);
+    setPaymentError("");
     try {
       const response = await api.post(
         `/payments/course/${payment.publicToken}/check`,
       );
-      setPayment(unwrap(response));
+      const nextPayment = unwrap(response);
+      setPayment(nextPayment);
+      if (nextPayment.status === "PAID") {
+        const paidCourseId = nextPayment.courseId || payment.courseId;
+        const paidPlan = String(nextPayment.paymentPlan || payment.paymentPlan || "FULL").toUpperCase();
+        if (paidCourseId) {
+          setPurchasedCourseIds((current) => current.includes(paidCourseId) ? current : [...current, paidCourseId]);
+          setPurchasedCoursePlans((current) => ({ ...current, [paidCourseId]: paidPlan }));
+          setHasPurchasedCourse(true);
+        }
+        paymentCloseTimer.current = window.setTimeout(() => {
+          setPayment(null);
+          setPaymentError("");
+          navigate("/student/courses");
+        }, 1600);
+      } else {
+        setPaymentError(nextPayment.message || t("paymentPending"));
+      }
     } catch (requestError) {
       setPaymentError(
         requestError.response?.data?.message || copy.paymentError,
       );
+    } finally {
+      setCheckingPayment(false);
     }
   };
+
+  useEffect(() => {
+    if (!payment?.publicToken || payment.status !== "PENDING") return undefined;
+    const interval = window.setInterval(() => {
+      if (!document.hidden && !checkingPayment) checkPayment();
+    }, 10000);
+    return () => window.clearInterval(interval);
+  }, [payment?.publicToken, payment?.status, checkingPayment]);
 
   const refreshPayment = async () => {
     if (!payment?.courseId) return;
@@ -362,6 +415,10 @@ export default function Storefront() {
   };
 
   const closePayment = () => {
+    if (paymentCloseTimer.current) {
+      window.clearTimeout(paymentCloseTimer.current);
+      paymentCloseTimer.current = null;
+    }
     const paid = payment?.status === "PAID";
     setPayment(null);
     setPaymentError("");
@@ -374,6 +431,7 @@ export default function Storefront() {
       error={paymentError}
       paymentUnavailable={isBakongUnavailable(paymentError)}
       onCheck={checkPayment}
+      checkingPayment={checkingPayment}
       onRefresh={refreshPayment}
       onPlanChange={changePaymentPlan}
       planChanging={planChanging}
@@ -385,6 +443,7 @@ export default function Storefront() {
   if (id) {
     return (
       <div ref={storefrontRef} className="storefront min-h-screen bg-[#f6fafc] text-[#10243f] transition-colors dark:bg-[#0b1220] dark:text-slate-100">
+        <StorefrontAmbientBackground />
         <StorefrontNav
           copy={copy}
           language={language}
@@ -394,7 +453,7 @@ export default function Storefront() {
           hasPurchasedCourse={hasPurchasedCourse}
           t={t}
         />
-        <main>
+        <main className="pt-[4.5rem]">
           {loading && <LoadingState copy={copy} />}
           {!loading && course && (
             <CourseDetail
@@ -406,6 +465,7 @@ export default function Storefront() {
               buyBusy={buyBusy}
               onBuy={buyCourse}
               isPurchased={purchasedCourseIds.includes(course.id)}
+              paymentPlan={purchasedCoursePlans[course.id]}
             />
           )}
           {!loading && !course && <ErrorState message={error} fallback={copy.genericError} />}
@@ -420,6 +480,7 @@ export default function Storefront() {
 
   return (
     <div ref={storefrontRef} className="storefront min-h-screen bg-[#f6fafc] text-[#10243f] transition-colors dark:bg-[#0b1220] dark:text-slate-100">
+      <StorefrontAmbientBackground />
       <StorefrontNav
         copy={copy}
         language={language}
@@ -429,11 +490,11 @@ export default function Storefront() {
         hasPurchasedCourse={hasPurchasedCourse}
         t={t}
       />
-      <main>
-        <section className="relative flex min-h-[calc(100svh-4.5rem)] overflow-hidden bg-[#10243f] text-white">
+      <main className="pt-0">
+        <section className="relative flex min-h-[100svh] overflow-hidden bg-[#10243f] text-white">
           <div className="absolute -left-24 -top-40 h-96 w-96 rounded-full bg-[#8de4ca]/15 blur-3xl" />
           <div className="absolute -bottom-48 right-0 h-[34rem] w-[34rem] rounded-full bg-[#f47b67]/15 blur-3xl" />
-          <div className="relative mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-7xl gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:px-10 lg:py-16">
+          <div className="relative mx-auto grid min-h-[100svh] w-full max-w-7xl gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:px-10 lg:py-16">
             <div className="storefront-reveal storefront-reveal-on-load">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#8de4ca]/25 bg-white/10 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">
                 <span className="h-2 w-2 rounded-full bg-[#8de4ca] shadow-[0_0_14px_#8de4ca]" />
@@ -540,6 +601,7 @@ export default function Storefront() {
                   buyBusy={buyBusy}
                   onBuy={buyCourse}
                   isPurchased={purchasedCourseIds.includes(item.id)}
+                  paymentPlan={purchasedCoursePlans[item.id]}
                   revealDelay={Math.min(index * 85, 340)}
                 />
               ))}
@@ -615,6 +677,82 @@ function PaymentPlanChooser({ course, isPurchased = false, t, onChoose, onClose 
   </Modal>;
 }
 
+function StorefrontAmbientBackground() {
+  return (
+    <div className="storefront-ambient-background" aria-hidden="true">
+      <div className="storefront-ambient-grid" />
+      <div className="storefront-ambient-orb storefront-ambient-orb-a" />
+      <div className="storefront-ambient-orb storefront-ambient-orb-b" />
+      <div className="storefront-ambient-orb storefront-ambient-orb-c" />
+      <div className="storefront-ambient-ring storefront-ambient-ring-a" />
+      <div className="storefront-ambient-ring storefront-ambient-ring-b" />
+    </div>
+  );
+}
+
+function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
+  const [open, setOpen] = useState(false);
+  const current = language === "en" ? { flag: "🇬🇧", label: "English" } : { flag: "🇰🇭", label: "ខ្មែរ" };
+  const options = [
+    { value: "km", flag: "🇰🇭", label: "ខ្មែរ" },
+    { value: "en", flag: "🇬🇧", label: "English" },
+  ];
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!(event.target instanceof Element) || !event.target.closest("[data-language-menu]")) setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+  }, [open]);
+
+  const choose = (value) => {
+    setLanguage(value);
+    setOpen(false);
+    onSelect?.();
+  };
+
+  return (
+    <div className="relative" data-language-menu>
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={`Language: ${current.label}`}
+        title={`Language: ${current.label}`}
+        onClick={() => setOpen((value) => !value)}
+        className={compact
+          ? "inline-flex h-10 min-w-14 shrink-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white/90 px-2 text-sm shadow-sm transition hover:-translate-y-0.5 hover:border-[#10243f] dark:border-slate-600 dark:bg-slate-800/90 dark:hover:border-[#8de4ca]"
+          : "inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-extrabold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:border-[#10243f] hover:text-[#10243f] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-mint dark:hover:text-mint"}
+      >
+        <span aria-hidden="true" className="text-base leading-none">{current.flag}</span>
+        {!compact && <span>{current.label}</span>}
+        <span aria-hidden="true" className={`text-[11px] text-slate-400 transition ${open ? "rotate-180" : ""}`}>⌄</span>
+      </button>
+      {open && (
+        <div role="menu" className="absolute right-0 top-[calc(100%+.6rem)] z-[70] w-48 overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 p-1.5 shadow-[0_18px_42px_rgba(16,36,63,.2)] backdrop-blur-xl dark:border-slate-600 dark:bg-[#101b2d]/98 dark:shadow-[0_18px_42px_rgba(0,0,0,.4)]">
+          <p className="px-3 pb-1.5 pt-2 text-[10px] font-black uppercase tracking-[.16em] text-slate-400 dark:text-slate-500">{language === "en" ? "Language" : "ភាសា"}</p>
+          {options.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              role="menuitemradio"
+              aria-checked={language === option.value}
+              onClick={() => choose(option.value)}
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-extrabold transition ${language === option.value ? "bg-[#e8f5fb] text-[#17624e] dark:bg-[#1a3b4d] dark:text-[#a5f1dc]" : "text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"}`}
+            >
+              <span aria-hidden="true" className="text-lg leading-none">{option.flag}</span>
+              <span className="flex-1">{option.label}</span>
+              {language === option.value && <span aria-hidden="true" className="text-sm text-[#229ed9]">✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurchasedCourse, t }) {
   const dashboardPath = user?.role === "STUDENT" ? "/student/dashboard" : user?.role === "TEACHER" ? "/teacher/dashboard" : "/admin/dashboard";
   const hasSession = !authLoading && Boolean(user);
@@ -630,26 +768,24 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
     navigate("/", { replace: true });
   };
   return (
-    <header className="sticky top-0 z-40 border-b border-white/70 bg-white/90 backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/70 bg-white/90 shadow-[0_10px_30px_rgba(16,36,63,.08)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
+      <div className="storefront-mobile-header mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white p-1.5 shadow-lg shadow-[#10243f]/15 ring-1 ring-[#10243f]/10 dark:ring-white/10"><img src="/campusflow-logo.jpg" alt="CampusFlow logo" className="h-full w-full rounded-xl object-contain" /></span>
+          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white p-1.5 shadow-lg shadow-[#10243f]/15 ring-1 ring-[#10243f]/10 dark:ring-white/10"><BrandLogo className="h-full w-full rounded-xl object-contain" /></span>
           <span>
             <span className="block text-lg font-black tracking-tight text-[#10243f] dark:text-white">Campus<span className="text-[#f06f5b]">Flow</span></span>
             <span className="hidden text-[9px] font-extrabold uppercase tracking-[.2em] text-slate-400 sm:block">{copy.marketplace}</span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-bold text-slate-500 md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-bold text-slate-500 lg:flex">
           <a href="/#courses" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.browse}</a>
           <a href="/#about" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.about}</a>
           <a href="/#faq" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.faq}</a>
           <a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.supportLabel}</a>
         </nav>
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-2 lg:flex">
           <ThemeSwitch />
-          <button type="button" onClick={() => setLanguage(language === "en" ? "km" : "en")} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-extrabold text-slate-600 transition hover:border-[#10243f] hover:text-[#10243f] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-mint dark:hover:text-mint">
-            {language === "en" ? "ខ្មែរ" : "English"}
-          </button>
+          <LanguageMenu language={language} setLanguage={setLanguage} />
           {hasSession ? (
             <>
               {canOpenWorkspace ? (
@@ -666,14 +802,15 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
             </>
           )}
         </div>
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeSwitch />
-          <button type="button" aria-expanded={mobileMenuOpen} aria-controls="storefront-mobile-menu" onClick={() => setMobileMenuOpen((open) => !open)} className="inline-flex items-center gap-2 rounded-xl bg-[#10243f] px-3 py-2.5 text-xs font-extrabold text-white shadow-md transition hover:bg-[#1c4e6b] dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
+          <LanguageMenu language={language} setLanguage={setLanguage} compact onSelect={() => setMobileMenuOpen(false)} />
+          <button type="button" aria-expanded={mobileMenuOpen} aria-controls="storefront-mobile-menu" onClick={() => setMobileMenuOpen((open) => !open)} className="storefront-mobile-menu-button inline-flex items-center gap-2 rounded-xl bg-[#10243f] px-3 py-2.5 text-xs font-extrabold text-white shadow-md transition hover:bg-[#1c4e6b] dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
             <span className="text-base leading-none">{mobileMenuOpen ? "×" : "☰"}</span>{language === "en" ? "More" : "បន្ថែម"}
           </button>
         </div>
       </div>
-      {mobileMenuOpen && <div id="storefront-mobile-menu" className="border-t border-slate-200/80 bg-white/95 px-5 py-4 shadow-xl dark:border-slate-700/80 dark:bg-[#101b2d]/98 md:hidden"><div className="mx-auto max-w-7xl"><nav className="grid gap-2 text-sm font-bold text-slate-600 dark:text-slate-200"><a href="/#courses" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.browse}</a><a href="/#about" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.about}</a><a href="/#faq" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.faq}</a><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.supportLabel}</a></nav><div className="mt-3 grid gap-2 border-t border-slate-200 pt-3 dark:border-slate-700">{hasSession ? <><Link to={canOpenWorkspace ? dashboardPath : "/courses#courses"} onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-4 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{canOpenWorkspace ? t("dashboard") : copy.browse}</Link><button type="button" onClick={handleLogout} className="rounded-xl border border-rose-200 px-4 py-3 text-center text-xs font-extrabold text-rose-600 dark:border-rose-900/60 dark:text-rose-300">{logoutLabel}</button></> : <div className="grid grid-cols-2 gap-2"><Link to="/login/student" onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-slate-200 px-3 py-3 text-center text-xs font-extrabold text-[#10243f] dark:border-slate-600 dark:text-white">{loginLabel}</Link><Link to="/register" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-3 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{copy.register}</Link></div>}</div></div></div>}
+      {mobileMenuOpen && <div id="storefront-mobile-menu" className="border-t border-slate-200/80 bg-white/95 px-5 py-4 shadow-xl dark:border-slate-700/80 dark:bg-[#101b2d]/98 lg:hidden"><div className="mx-auto max-w-7xl"><nav className="grid gap-2 text-sm font-bold text-slate-600 dark:text-slate-200"><a href="/#courses" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.browse}</a><a href="/#about" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.about}</a><a href="/#faq" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.faq}</a><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.supportLabel}</a></nav><div className="mt-3 grid gap-2 border-t border-slate-200 pt-3 dark:border-slate-700">{hasSession ? <><Link to={canOpenWorkspace ? dashboardPath : "/courses#courses"} onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-4 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{canOpenWorkspace ? t("dashboard") : copy.browse}</Link><button type="button" onClick={handleLogout} className="rounded-xl border border-rose-200 px-4 py-3 text-center text-xs font-extrabold text-rose-600 dark:border-rose-900/60 dark:text-rose-300">{logoutLabel}</button></> : <div className="grid grid-cols-2 gap-2"><Link to="/login/student" onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-slate-200 px-3 py-3 text-center text-xs font-extrabold text-[#10243f] dark:border-slate-600 dark:text-white">{loginLabel}</Link><Link to="/register" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-3 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{copy.register}</Link></div>}</div></div></div>}
     </header>
   );
 }
@@ -688,7 +825,7 @@ function CoursePrice({ course, currency, large = false }) {
   </div>;
 }
 
-function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = false, revealDelay = 0 }) {
+function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = false, paymentPlan, revealDelay = 0 }) {
   return (
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
@@ -709,9 +846,9 @@ function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = f
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <Link to={`/courses/${course.id}`} className="rounded-xl px-2.5 py-2.5 text-xs font-extrabold text-[#1c4e6b] transition hover:bg-[#effcf7]">{copy.viewCourse} →</Link>
-          {isPurchased && !course.monthlyPaymentEnabled ? (
-            <Link to={`/courses/${course.id}`} className="rounded-xl border border-[#8de4ca]/40 bg-[#effcf7] px-3.5 py-2.5 text-xs font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
-              {t("alreadyEnrolled")}
+          {isPurchased && paymentPlan !== "MONTHLY" ? (
+            <Link to={`/courses/${course.id}`} className="inline-flex items-center gap-1.5 rounded-xl border border-[#8de4ca]/50 bg-[#effcf7] px-3.5 py-2.5 text-xs font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
+              <span aria-hidden="true">✓</span>{t("purchaseComplete")}
             </Link>
           ) : (
             <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="rounded-xl bg-[#10243f] px-3.5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] disabled:cursor-wait disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
@@ -725,7 +862,9 @@ function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = f
   );
 }
 
-function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false }) {
+function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan }) {
+  const canViewLearningContent = user?.role === "STUDENT" && isPurchased;
+
   return (
     <>
       <section data-scroll-reveal className="storefront-reveal bg-[#10243f] text-white">
@@ -737,8 +876,10 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
               <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">{course.courseName}</h1>
               <p className="mt-5 max-w-2xl text-base leading-8 text-white/70">{course.description || t("courseInformation")}</p>
               <div className="mt-7 flex flex-wrap gap-3 text-xs font-bold text-white/75">
-                <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.assignments || 0} {copy.projects}</span>
-                <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.exams || 0} {copy.exams}</span>
+                {canViewLearningContent ? <>
+                  <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.assignments || 0} {copy.projects}</span>
+                  <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.exams || 0} {copy.exams}</span>
+                </> : <span className="rounded-xl border border-white/15 bg-white/10 px-3 py-2">{t("courseContentLocked")}</span>}
                 <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.enrollments || 0} {copy.learners}</span>
               </div>
             </div>
@@ -751,7 +892,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
           <div className="grid gap-4 sm:grid-cols-3">
             <InfoCard label={t("teacher")} value={course.teacher?.user?.fullName || copy.teacherFallback} />
             <InfoCard label={t("coursePeriodLabel")} value={`${formatDate(course.startDate, language)} – ${formatDate(course.endDate, language)}`} />
-            <InfoCard label={copy.courseSchedule} value={`${course.schedules?.length || 0} ${copy.sessions}`} />
+            <InfoCard label={copy.courseSchedule} value={canViewLearningContent ? `${course.schedules?.length || 0} ${copy.sessions}` : t("courseContentLocked")} />
           </div>
           <section className="mt-10 rounded-[1.6rem] bg-[#10243f] p-6 text-white sm:p-7">
             <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">{copy.whatYouGet}</p>
@@ -764,6 +905,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
               ))}
             </div>
           </section>
+          {canViewLearningContent ? <>
           <section id="curriculum" className="mt-12 scroll-mt-24">
             <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#f06f5b]">{copy.courseRoadmap}</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight dark:text-white">{copy.learningPlan}</h2>
@@ -811,6 +953,23 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
               )) : <p className="rounded-2xl border border-dashed border-slate-300 p-5 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-300">{t("noMaterials")}</p>}
             </div>
           </section>
+          </> : (
+            <section className="mt-12 rounded-[1.7rem] border border-[#8de4ca]/25 bg-[#10243f] p-6 text-white shadow-xl shadow-[#10243f]/15 sm:p-8">
+              <div className="flex gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#8de4ca] text-xl text-[#10243f]" aria-hidden="true">âœ“</span>
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-[.2em] text-[#a5f1dc]">{t("courseContentLocked")}</p>
+                  <h2 className="mt-3 text-2xl font-black tracking-tight">{user?.role === "STUDENT" ? t("purchaseToUnlock") : t("signInToUnlock")}</h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">{t("courseContentLockedHint")}</p>
+                  {!user ? (
+                    <Link to="/login/student" state={{ from: `/courses/${course.id}` }} className="mt-6 inline-flex rounded-xl bg-[#8de4ca] px-4 py-3 text-sm font-extrabold text-[#10243f] transition hover:bg-[#a5f1dc]">{t("signInToUnlock")}</Link>
+                  ) : user.role === "STUDENT" && !isPurchased ? (
+                    <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 rounded-xl bg-[#229ed9] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button>
+                  ) : null}
+                </div>
+              </div>
+            </section>
+          )}
         </div>
         <aside className="lg:sticky lg:top-24 lg:self-start">
            <div className="rounded-[1.7rem] border border-slate-200 bg-white p-5 shadow-xl shadow-[#10243f]/10 sm:p-6 dark:border-slate-700 dark:bg-[#132238] dark:shadow-black/25">
@@ -819,9 +978,9 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
              {getCoursePricing(course).active && <p className="mt-2 text-sm font-bold text-emerald-700 dark:text-[#a5f1dc]">Save {formatPrice(getCoursePricing(course).savings, course.currency)}</p>}
              {course.monthlyPaymentEnabled && Number(course.monthlyPrice || 0) > 0 && <div className="mt-4 rounded-2xl border border-[#8de4ca]/60 bg-[#effcf7] p-3 dark:border-[#2f8b78] dark:bg-[#122e35]"><p className="text-[10px] font-extrabold uppercase tracking-[.16em] text-[#17624e] dark:text-[#a5f1dc]">{t('monthlyPayment')}</p><p className="mt-1 text-lg font-black text-[#10243f] dark:text-white">{formatPrice(course.monthlyPrice, course.currency)} <span className="text-xs font-bold text-slate-500 dark:text-slate-300">/ {t('month')}</span></p></div>}
              <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-300">{copy.purchaseHint}</p>
-            {isPurchased && !course.monthlyPaymentEnabled ? (
-              <Link to="/student/courses" className="mt-6 flex w-full items-center justify-center rounded-2xl border border-[#8de4ca]/50 bg-[#effcf7] px-4 py-4 text-sm font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
-                {t("alreadyEnrolled")}
+            {isPurchased && paymentPlan !== "MONTHLY" ? (
+              <Link to="/student/courses" className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#8de4ca]/50 bg-[#effcf7] px-4 py-4 text-sm font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
+                <span aria-hidden="true">✓</span>{t("purchaseComplete")}
               </Link>
             ) : (
               <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 w-full rounded-2xl bg-[#10243f] px-4 py-4 text-sm font-extrabold text-white shadow-lg shadow-[#10243f]/15 transition hover:-translate-y-0.5 hover:bg-[#1c4e6b] disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
@@ -858,7 +1017,7 @@ function InfoCard({ label, value }) {
 }
 
 function MiniStat({ value, label }) {
-  return <div className="rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur"><p className="text-lg font-black text-[#a5f1dc]">{value}</p><p className="mt-1 text-[10px] font-bold leading-4 text-white/55">{label}</p></div>;
+  return <div className="rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur"><p className="text-lg font-black text-[#a5f1dc]"><AnimatedNumber value={value} /></p><p className="mt-1 text-[10px] font-bold leading-4 text-white/55">{label}</p></div>;
 }
 
 function ProcessCard({ number, title, body, revealDelay = 0 }) {

@@ -5,7 +5,7 @@ import PaymentQrFrame from './PaymentQrFrame';
 import PaymentReceipt from './PaymentReceipt';
 import { useLanguage } from '../context/LanguageContext';
 
-export default function CoursePayment({ payment, error, paymentUnavailable = false, onCheck, onRefresh, onPlanChange, planChanging = false, onClose }) {
+export default function CoursePayment({ payment, error, paymentUnavailable = false, onCheck, checkingPayment = false, onRefresh, onPlanChange, planChanging = false, onClose }) {
   const { t, language } = useLanguage();
   const [qrImage, setQrImage] = useState('');
 
@@ -29,7 +29,7 @@ export default function CoursePayment({ payment, error, paymentUnavailable = fal
   const supportAlert = Boolean(error) && (paymentUnavailable || /bakong|daily request limit|request limit|not configured|temporarily unavailable|verification/i.test(String(error)));
 
   return <Modal open title={t('coursePayment')} onClose={onClose} className="payment-modal-panel">
-    <div className="payment-sheet payment-modal-shell mx-auto w-full space-y-3 text-center">
+    <div className="payment-sheet payment-modal-shell mx-auto w-full text-center">
       <div className="payment-modal-hero rounded-2xl border border-[#d7e7f2] bg-gradient-to-br from-[#f3f9ff] via-white to-[#f1fcf7] text-left shadow-sm dark:border-slate-700 dark:from-[#172f4b] dark:via-[#132238] dark:to-[#122e35]"><div className="flex items-start justify-between gap-4"><div className="min-w-0"><div className="flex items-center gap-2"><span className="payment-bakong-dot" /><span className="text-[10px] font-extrabold uppercase tracking-[.18em] text-[#174c92] dark:text-[#b9d7ff]">Secure KHQR checkout</span></div><h3 className="mt-2 truncate text-lg font-extrabold tracking-tight text-ink dark:text-white">{payment.courseName || t('course')}</h3><p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-300">{universalPaymentHint}</p></div><span className="payment-universal-mark">KHQR</span></div></div>
 
       <div className="payment-universal-card"><div className="payment-universal-mark">KHQR</div><div className="min-w-0 text-left"><p className="text-sm font-extrabold text-ink dark:text-white">{universalPaymentLabel}</p><p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-300">ABA Pay · Bakong · {otherBanksLabel}</p></div><span className="ml-auto hidden rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-extrabold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 sm:inline-flex">Verified network</span></div>
@@ -52,7 +52,7 @@ export default function CoursePayment({ payment, error, paymentUnavailable = fal
       <PaymentReceipt payment={payment} item={payment.courseName || t('course')} t={t} language={language} />
       {error && <div role="alert" aria-live="polite" className={`payment-error-card rounded-xl p-4 text-left text-sm leading-6 ${supportAlert ? 'border border-red-200 bg-red-50 text-red-700 dark:border-red-900/70 dark:bg-red-950/40 dark:text-red-200' : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-200'}`}><p className="font-bold">{supportAlert ? t('bakongUnavailable') : error}</p>{supportAlert && <><p className="mt-1">{t('contactAdminSupport')}</p><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="mt-3 inline-flex rounded-lg bg-[#229ed9] px-3 py-2 text-xs font-extrabold text-white transition hover:bg-[#168dcc]">{t('contactAdminSupportButton')} ↗</a></>}</div>}
       </div></div>
-      <div className="payment-modal-actions">{status === 'PENDING' && onRefresh && <button type="button" onClick={onRefresh} className="payment-secondary-button">{t('refreshPayment') || 'New QR code'}</button>}{status === 'PENDING' && <button type="button" onClick={onCheck} className="payment-secondary-button">{t('checkPayment')}</button>}<button type="button" onClick={onClose} className="payment-primary-button">{t('closePayment')}</button></div>
+      <div className="payment-modal-actions">{status === 'PENDING' && onRefresh && <button type="button" onClick={onRefresh} disabled={checkingPayment || planChanging} className="payment-secondary-button disabled:cursor-wait disabled:opacity-60">{t('refreshPayment') || 'New QR code'}</button>}{status === 'PENDING' && <button type="button" onClick={onCheck} disabled={checkingPayment || planChanging} aria-busy={checkingPayment} className="payment-secondary-button disabled:cursor-wait disabled:opacity-60">{checkingPayment ? t('verifyingPayment') : t('checkPayment')}</button>}<button type="button" onClick={onClose} disabled={checkingPayment} className="payment-primary-button disabled:cursor-not-allowed disabled:opacity-60">{t('closePayment')}</button></div>
     </div>
   </Modal>;
 }

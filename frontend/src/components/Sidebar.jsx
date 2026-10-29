@@ -1,12 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../context/LanguageContext';
+import BrandLogo from './BrandLogo';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 
 const links = {
-  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
+  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['teacherAttendanceManagement', '/admin/teacher-attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
   TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['myCourses', '/teacher/courses', 'courses'], ['courseMaterials', '/teacher/materials', 'materials'], ['certificates', '/teacher/certificates', 'certificates'], ['schedule', '/teacher/schedule', 'schedule'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
   STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
 };
@@ -46,7 +47,7 @@ export default function Sidebar({ open, onClose }) {
   return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(18rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform md:w-64 md:px-5 md:py-6 md:translate-x-0`}>
     <div className="mb-8 flex shrink-0 items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="sidebar-logo flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl p-1.5 text-sm font-extrabold tracking-tight"><img src="/campusflow-logo.jpg" alt="CampusFlow logo" className="h-full w-full rounded-xl object-contain" /></div>
+        <div className="sidebar-logo flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl p-1.5 text-sm font-extrabold tracking-tight"><BrandLogo className="h-full w-full rounded-xl object-contain" /></div>
         <div>
           <div className="text-xl font-extrabold tracking-tight">Campus<span className="text-mint">Flow</span></div>
           <div className="mt-1 text-[10px] uppercase tracking-[.25em] text-slate-400">{t('learningSystem')}</div>

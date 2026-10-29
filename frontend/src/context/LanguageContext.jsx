@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { formTranslations } from './formTranslations';
 import { recoveryTranslations } from './recoveryTranslations';
+import { dashboardTranslations } from './dashboardTranslations';
 
 const dictionary = {
   en: {
@@ -34,7 +35,7 @@ export function LanguageProvider({ children }) {
     setLanguageState((current) => current === normalized ? current : normalized);
   }, []);
 
-  const t = useCallback((key) => dictionary[language][key] || phraseAliases[language][key] || formTranslations[language]?.[key] || recoveryTranslations[language]?.[key] || key, [language]);
+  const t = useCallback((key) => dictionary[language][key] || phraseAliases[language][key] || formTranslations[language]?.[key] || dashboardTranslations[language]?.[key] || recoveryTranslations[language]?.[key] || key, [language]);
   const value = useMemo(() => ({ language, setLanguage, t }), [language, setLanguage, t]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }

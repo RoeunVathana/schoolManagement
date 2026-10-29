@@ -25,7 +25,7 @@ export default function TelegramSupport({ alwaysShow = false }) {
 
   const openTelegram = () => window.open(telegramUrl, '_blank', 'noopener,noreferrer');
 
-  return <div className="fixed bottom-5 right-5 z-40 flex items-end gap-2 sm:bottom-7 sm:right-7">
+  return <div className="storefront-floating-support fixed bottom-5 right-5 z-40 flex items-end gap-2 sm:bottom-7 sm:right-7">
     {showQr && <div className="absolute bottom-14 right-0 w-64 rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-2xl dark:border-slate-700 dark:bg-slate-900">
       <div className="mb-3 flex items-center justify-between gap-3"><div className="text-left"><p className="text-sm font-extrabold text-slate-800 dark:text-white">Scan for support</p><p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{telegramHandle}</p></div><button type="button" onClick={() => setShowQr(false)} className="rounded-lg px-2 py-1 text-lg leading-none text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Close QR code">×</button></div>
       {qrDataUrl ? <img src={qrDataUrl} alt={`Telegram QR code for ${telegramHandle}`} className="mx-auto h-52 w-52 rounded-xl border border-slate-100 object-contain dark:border-slate-700" /> : <div className="flex h-52 items-center justify-center rounded-xl bg-slate-100 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">Preparing QR code…</div>}

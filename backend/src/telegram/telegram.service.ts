@@ -57,6 +57,22 @@ export class TelegramService {
     return this.sendMessage(message);
   }
 
+  async sendTeacherAttendanceReport(input: { action: 'CHECK_IN' | 'CHECK_OUT'; teacherName: string; teacherCode?: string; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null; performedBy?: string; performedByRole?: string }) {
+    const formatDateTime = (value?: Date | string | null) => value ? new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : '—';
+    const formatDate = (value?: Date | string | null) => value ? new Date(value).toLocaleDateString('en-US', { dateStyle: 'medium', timeZone: 'Asia/Phnom_Penh' }) : '—';
+    const actionLabel = input.action === 'CHECK_IN' ? 'CHECKED IN' : 'CHECKED OUT';
+    const message = [
+      'CampusFlow teacher attendance report',
+      `Status: ${actionLabel}`,
+      `Teacher: ${input.teacherName}${input.teacherCode ? ` (${input.teacherCode})` : ''}`,
+      `Attendance date: ${formatDate(input.attendanceDate)}`,
+      `Check in: ${formatDateTime(input.checkInAt)}`,
+      `Check out: ${formatDateTime(input.checkOutAt)}`,
+      input.performedBy ? `Recorded by: ${input.performedBy}${input.performedByRole ? ` (${input.performedByRole})` : ''}` : null,
+    ].filter(Boolean).join('\n');
+    return this.sendMessage(message);
+  }
+
   private async sendMessage(text: string) {
     const current = await this.resolveConfig();
     if (!current.enabled || !current.botToken || !current.chatId) {
