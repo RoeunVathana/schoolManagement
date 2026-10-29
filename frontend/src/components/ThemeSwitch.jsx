@@ -15,7 +15,7 @@ export default function ThemeSwitch() {
       className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3.5 py-2 text-xs font-bold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:border-navy hover:text-navy dark:border-slate-600 dark:bg-slate-800/90 dark:text-slate-300 dark:hover:border-mint dark:hover:text-mint"
     >
       <span aria-hidden="true" className="text-sm">{isDark ? '☀️' : '🌙'}</span>
-      <span>{label}</span>
+      <span className="theme-switch-label">{label}</span>
     </button>
   );
 }

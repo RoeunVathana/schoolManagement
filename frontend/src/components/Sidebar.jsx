@@ -44,7 +44,7 @@ export default function Sidebar({ open, onClose }) {
   const profilePath = user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
   const initials = user?.fullName?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'U';
 
-  return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(18rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform md:w-64 md:px-5 md:py-6 md:translate-x-0`}>
+  return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(20rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform lg:w-72 lg:px-5 lg:py-6 lg:translate-x-0`}>
     <div className="mb-8 flex shrink-0 items-center justify-between">
       <div className="flex items-center gap-3">
         <div className="sidebar-logo flex h-11 w-11 items-center justify-center overflow-hidden rounded-[1.1rem] border border-white/20 bg-gradient-to-br from-[#d9fff1] via-white to-[#dcecff] p-1.5 text-sm font-extrabold tracking-tight shadow-[0_10px_24px_rgba(0,0,0,.18)] ring-1 ring-white/10 transition duration-300 hover:scale-105 hover:rotate-2"><BrandLogo className="rounded-[.85rem]" /></div>
@@ -53,7 +53,7 @@ export default function Sidebar({ open, onClose }) {
           <div className="mt-1 text-[10px] uppercase tracking-[.25em] text-slate-400">{t('learningSystem')}</div>
         </div>
       </div>
-      <button aria-label="Close menu" className="rounded-lg px-2 py-1 text-xl text-slate-300 transition hover:bg-white/10 hover:text-white md:hidden" onClick={onClose}>&times;</button>
+      <button aria-label="Close menu" className="rounded-lg px-2 py-1 text-xl text-slate-300 transition hover:bg-white/10 hover:text-white lg:hidden" onClick={onClose}>&times;</button>
     </div>
 
     <NavLink to={profilePath} onClick={onClose} className="group sidebar-profile mb-6 flex shrink-0 items-center gap-3 rounded-2xl p-3 transition-all duration-200">

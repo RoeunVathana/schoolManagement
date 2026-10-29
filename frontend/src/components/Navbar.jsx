@@ -66,11 +66,11 @@ export default function Navbar({ onMenu }) {
     setUnreadCount(0);
   };
 
-  return <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-3 backdrop-blur dark:border-slate-700 sm:px-4 md:px-8">
+  return <header className="app-navbar sticky top-0 z-30 flex min-h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-3 backdrop-blur dark:border-slate-700 sm:px-4 lg:px-8">
     <div className="flex min-w-0 items-center gap-2">
-      <button type="button" onClick={onMenu} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:bg-slate-100 md:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" aria-label="Open navigation"><MenuIcon /></button>
-      <div className="hidden min-w-0 truncate text-sm font-medium text-slate-500 md:block">{t('goodToSee')}, {user?.fullName?.split(' ')[0]}</div>
-      <div className="min-w-0 truncate text-xs font-semibold text-slate-500 sm:text-sm md:hidden">{user?.fullName?.split(' ')[0]}</div>
+      <button type="button" onClick={onMenu} className="app-menu-button flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:bg-slate-100 lg:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" aria-label="Open navigation"><MenuIcon /></button>
+      <div className="hidden min-w-0 truncate text-sm font-medium text-slate-500 lg:block">{t('goodToSee')}, {user?.fullName?.split(' ')[0]}</div>
+      <div className="min-w-0 truncate text-xs font-semibold text-slate-500 sm:text-sm lg:hidden">{user?.fullName?.split(' ')[0]}</div>
     </div>
 
     <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -97,9 +97,9 @@ export default function Navbar({ onMenu }) {
           <button type="button" role="menuitemradio" aria-checked={language === 'en'} onClick={() => changeLanguage('en')} className={`group mt-1 flex w-full items-center gap-3 rounded-[.9rem] px-3 py-2.5 text-left text-sm font-extrabold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#229ed9]/50 ${language === 'en' ? 'bg-gradient-to-r from-[#173f4f] to-[#18354b] text-white shadow-[0_8px_18px_rgba(16,66,83,.22)]' : 'text-slate-700 hover:bg-slate-100 dark:text-[#d9e9f5] dark:hover:bg-[#19324a]'}`}><span className={`flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl transition duration-200 ${language === 'en' ? 'bg-white/10 shadow-inner' : 'bg-slate-100 group-hover:scale-105 dark:bg-[#203b55]'}`}><img src={countryFlag.en} alt="United Kingdom" className="h-4 w-6 rounded-[3px] object-cover shadow-sm" /></span><span className="flex-1">English</span>{language === 'en' && <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#229ed9] text-xs text-white shadow-sm">✓</span>}</button>
         </div>}
       </div>
-      <button type="button" onClick={toggleTheme} className="flex h-10 min-w-10 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" title="Toggle theme"><span aria-hidden="true" className="text-sm">{isDark ? <SunIcon /> : <MoonIcon />}</span><span className="hidden sm:inline">{isDark ? t('light') : t('dark')}</span></button>
-      <div className="hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{user?.role}</p></div>
-      <button type="button" className="flex h-10 min-w-10 items-center justify-center rounded-xl bg-slate-100 px-2 text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-200 sm:px-3 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" onClick={logout} aria-label={t('signOut')} title={t('signOut')}><span className="sm:hidden"><LogoutIcon /></span><span className="hidden sm:inline">{t('signOut')}</span></button>
+      <button type="button" onClick={toggleTheme} className="app-theme-button flex h-10 min-w-10 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" title="Toggle theme"><span aria-hidden="true" className="text-sm">{isDark ? <SunIcon /> : <MoonIcon />}</span><span className="theme-label hidden sm:inline">{isDark ? t('light') : t('dark')}</span></button>
+      <div className="dashboard-user-meta hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{user?.role}</p></div>
+      <button type="button" className="app-logout-button flex h-10 min-w-10 items-center justify-center rounded-xl bg-slate-100 px-2 text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-200 sm:px-3 sm:text-sm dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" onClick={logout} aria-label={t('signOut')} title={t('signOut')}><span className="logout-icon sm:hidden"><LogoutIcon /></span><span className="logout-label hidden sm:inline">{t('signOut')}</span></button>
     </div>
   </header>;
 }

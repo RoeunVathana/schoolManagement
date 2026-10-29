@@ -1288,3 +1288,156 @@ body.mobile-nav-open { overflow: hidden; }
   border-color: rgb(141 228 202 / .28) !important;
   color: #f8fafc !important;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Shared responsive UI foundation                                             */
+/* -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --surface-page: #f6f8fb;
+  --surface-card: #ffffff;
+  --surface-muted: #f1f5f9;
+  --line-soft: #dbe4ee;
+  --ink-strong: #162033;
+  --ink-muted: #64748b;
+  --brand-blue: #10243f;
+  --brand-cyan: #229ed9;
+  --brand-mint: #8de4ca;
+}
+
+.dark {
+  color-scheme: dark;
+  --surface-page: #070d18;
+  --surface-card: #111c30;
+  --surface-muted: #0d192b;
+  --line-soft: #304661;
+  --ink-strong: #f8fafc;
+  --ink-muted: #a8bdd0;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+html { overflow-x: clip; background: var(--surface-page); }
+body { overflow-x: clip; background: var(--surface-page); transition: background-color .25s ease, color .25s ease; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid rgb(34 158 217 / .35); outline-offset: 2px; }
+
+.app-shell { min-height: 100dvh; overflow-x: clip; }
+.app-shell-content { min-width: 0; min-height: 100dvh; }
+.app-main { min-height: calc(100dvh - 4.25rem); min-width: 0; }
+.app-main > * { min-width: 0; }
+.app-navbar { min-height: 4.25rem; border-color: rgb(219 228 238 / .8); box-shadow: 0 8px 28px rgb(16 36 63 / .05); backdrop-filter: blur(18px); }
+.dark .app-navbar { border-color: rgb(48 70 97 / .72); background: rgb(13 25 43 / .92); box-shadow: 0 10px 30px rgb(0 0 0 / .18); }
+.app-navbar > div:last-child { min-width: 0; }
+.app-menu-button, .app-theme-button, .app-logout-button { flex: 0 0 auto; }
+.page-header-action > button, .page-header-action > a { min-height: 2.75rem; }
+
+.card,
+.table-card,
+.dashboard-chart-shell,
+.modal-panel { transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; }
+
+.dark .card { border-color: #304661; background: #111c30; color: #f8fafc; box-shadow: 0 16px 36px rgb(0 0 0 / .18); }
+.dark .table-card { border-color: #304661; box-shadow: 0 16px 36px rgb(0 0 0 / .18); }
+.dark .table-mobile-label { color: #8fa7bd; }
+.dark .table-mobile-record { border-color: #304661; background: rgb(13 25 43 / .72); }
+
+table { border-collapse: separate; border-spacing: 0; }
+table th, table td { vertical-align: middle; }
+table td { overflow-wrap: anywhere; }
+.table-scroll { max-width: 100%; -webkit-overflow-scrolling: touch; }
+.table-mobile-view { display: none; }
+.table-mobile-field { display: grid; grid-template-columns: minmax(6.25rem, 34%) minmax(0, 1fr); align-items: start; gap: .75rem; border-bottom: 1px solid rgb(219 228 238 / .75); padding: .7rem 0; }
+.table-mobile-field:last-child { border-bottom: 0; padding-bottom: 0; }
+.table-mobile-label { color: #64748b; font-size: .68rem; font-weight: 900; letter-spacing: .08em; line-height: 1.35; text-transform: uppercase; }
+.table-mobile-value { min-width: 0; overflow-wrap: anywhere; color: var(--ink-strong); font-size: .85rem; font-weight: 650; line-height: 1.5; }
+.table-mobile-actions { display: flex; flex-wrap: wrap; gap: .45rem; justify-content: flex-end; }
+.table-mobile-actions > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+
+.pagination-shell { min-height: 2.75rem; }
+.pagination-button { color: var(--ink-strong); }
+.dark .pagination-shell { color: #a8bdd0; }
+.dark .pagination-shell > .pagination-count { background: #20334c; color: #d9e7f5; }
+.dark .pagination-shell > div { border-color: #304661; background: #111c30; }
+
+.modal-overlay { overscroll-behavior: contain; }
+.modal-panel { max-width: min(100%, 56rem); }
+.modal-body { scrollbar-gutter: stable; }
+.dark .modal-panel { border-color: #304963; background: #101c30; }
+
+@media (max-width: 1023px) {
+  .app-main { min-height: calc(100dvh - 4rem); }
+  .page-header { align-items: stretch; }
+  .page-header-action { justify-content: flex-start; }
+}
+
+@media (max-width: 767px) {
+  .app-navbar { min-height: 4rem; gap: .5rem; padding-inline: .75rem; }
+  .app-navbar > div:last-child { gap: .35rem; }
+  .app-navbar [data-dashboard-language] > button { min-width: 2.5rem; padding-inline: .55rem; }
+  .app-navbar [data-dashboard-language] > button > span:nth-child(2),
+  .app-navbar .theme-label,
+  .app-navbar .dashboard-user-meta,
+  .app-navbar .logout-label { display: none; }
+  .app-navbar [data-dashboard-language] > button > span:first-child { height: 1.3rem; width: 1.9rem; }
+  .app-navbar .app-logout-button { background: #fef2f2; color: #be123c; }
+  .dark .app-navbar .app-logout-button { background: #351c2a; color: #fda4af; }
+  .app-main { padding: 1rem .75rem 5.5rem; }
+  .page-header { gap: 1rem; margin-bottom: 1.25rem; }
+  .page-header h1 { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.2; }
+  .page-header-action { width: 100%; }
+  .page-header-action > button, .page-header-action > a { flex: 1 1 auto; text-align: center; }
+  .card { border-radius: 1.15rem; padding: 1rem; }
+  .table-desktop-view { display: none; }
+  .table-mobile-view { display: grid; gap: .75rem; }
+  .table-card { border-radius: 1.15rem; background: transparent; border: 0; box-shadow: none; }
+  .table-mobile-record { box-shadow: 0 8px 22px rgb(16 36 63 / .05); }
+  .dark .table-mobile-record { box-shadow: 0 12px 28px rgb(0 0 0 / .16); }
+  .modal-panel { border-radius: 1.15rem; max-height: calc(100dvh - 1rem); }
+  .modal-body { scrollbar-width: thin; }
+  .modal-body form.space-y-5, .modal-body form.space-y-4, .modal-body form.space-y-3 { padding-bottom: .25rem; }
+  .pagination-shell { gap: .5rem; }
+  .pagination-count { width: 100%; text-align: center; }
+  .storefront-floating-support { bottom: .9rem !important; right: .9rem !important; }
+}
+
+@media (max-width: 420px) {
+  .app-navbar .app-menu-button, .app-navbar .app-theme-button, .app-navbar .app-logout-button, .app-navbar [data-dashboard-language] > button { height: 2.45rem; min-width: 2.45rem; border-radius: .75rem; }
+  .app-navbar .app-menu-button svg { height: 1.1rem; width: 1.1rem; }
+  .app-main { padding-inline: .65rem; }
+  .table-mobile-field { grid-template-columns: 1fr; gap: .2rem; }
+  .table-mobile-actions { justify-content: flex-start; }
+  .table-mobile-actions > div { justify-content: flex-start; }
+}
+
+@media (max-width: 639px) {
+  .storefront-mobile-header { gap: .45rem; padding-inline: .75rem; padding-block: .7rem; }
+  .storefront-mobile-header > a { gap: .55rem; }
+  .storefront-mobile-header > a > span:first-child { height: 2.35rem; width: 2.35rem; border-radius: .8rem; padding: .35rem; }
+  .storefront-mobile-header > a > span:nth-child(2) > span:first-child { font-size: 1rem; }
+  .storefront-mobile-header .inline-flex { padding-inline: .65rem; }
+  .storefront-mobile-header .theme-switch-label { display: none; }
+  .storefront-mobile-menu-button { padding-inline: .7rem; }
+  .storefront > main > section:first-child { min-height: auto; }
+  .storefront > main > section:first-child > .mx-auto { min-height: auto; gap: 2.75rem; padding-top: 6.75rem; padding-bottom: 3.5rem; }
+  .storefront > main > section:first-child h1 { max-width: 100%; font-size: clamp(2.35rem, 12vw, 4rem); line-height: 1.06; }
+  .storefront > main > section:first-child p { line-height: 1.75; }
+  .storefront > main > section:first-child .grid.max-w-xl { margin-top: 2rem; gap: .45rem; }
+  .storefront > main > section:first-child .grid.max-w-xl > * { min-width: 0; padding: .7rem .55rem; }
+  .storefront-3d-scene { width: min(100%, 25rem); }
+  .storefront-3d-card { padding: .7rem; border-radius: 1.5rem; }
+  .storefront-3d-surface { padding: 1.1rem; border-radius: 1.15rem; }
+  .storefront-3d-surface .mt-20 { margin-top: 3.5rem; }
+  .storefront-3d-surface .text-3xl { font-size: 1.65rem; }
+  .storefront-course-card { border-radius: 1.25rem; }
+  .storefront-course-card .storefront-course-visual { height: 12rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
