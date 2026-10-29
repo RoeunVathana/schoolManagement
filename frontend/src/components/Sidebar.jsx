@@ -47,7 +47,7 @@ export default function Sidebar({ open, onClose }) {
   return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(18rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform md:w-64 md:px-5 md:py-6 md:translate-x-0`}>
     <div className="mb-8 flex shrink-0 items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="sidebar-logo flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl p-1.5 text-sm font-extrabold tracking-tight"><BrandLogo className="h-full w-full rounded-xl object-contain" /></div>
+        <div className="sidebar-logo flex h-11 w-11 items-center justify-center overflow-hidden rounded-[1.1rem] border border-white/20 bg-gradient-to-br from-[#d9fff1] via-white to-[#dcecff] p-1.5 text-sm font-extrabold tracking-tight shadow-[0_10px_24px_rgba(0,0,0,.18)] ring-1 ring-white/10 transition duration-300 hover:scale-105 hover:rotate-2"><BrandLogo className="rounded-[.85rem]" /></div>
         <div>
           <div className="text-xl font-extrabold tracking-tight">Campus<span className="text-mint">Flow</span></div>
           <div className="mt-1 text-[10px] uppercase tracking-[.25em] text-slate-400">{t('learningSystem')}</div>

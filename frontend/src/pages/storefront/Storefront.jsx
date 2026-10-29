@@ -690,7 +690,7 @@ function StorefrontAmbientBackground() {
   );
 }
 
-function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
+function LegacyLanguageMenu({ language, setLanguage, compact = false, onSelect }) {
   const [open, setOpen] = useState(false);
   const current = language === "en" ? { flag: "🇬🇧", label: "English" } : { flag: "🇰🇭", label: "ខ្មែរ" };
   const options = [
@@ -753,6 +753,42 @@ function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
   );
 }
 
+function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
+  const [open, setOpen] = useState(false);
+  const options = [
+    { value: 'km', flag: 'https://flagcdn.com/w40/kh.png', label: 'ខ្មែរ', alt: 'Cambodia' },
+    { value: 'en', flag: 'https://flagcdn.com/w40/gb.png', label: 'English', alt: 'United Kingdom' },
+  ];
+  const current = options.find((option) => option.value === language) || options[1];
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-language-menu]')) setOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutsideClick);
+    return () => document.removeEventListener('pointerdown', closeOnOutsideClick);
+  }, [open]);
+
+  const choose = (value) => {
+    setLanguage(value);
+    setOpen(false);
+    onSelect?.();
+  };
+
+  return <div className="relative" data-language-menu>
+    <button type="button" aria-haspopup="menu" aria-expanded={open} aria-label={`Language: ${current.label}`} title={`Language: ${current.label}`} onClick={() => setOpen((value) => !value)} className={`group inline-flex h-10 items-center justify-center gap-2 rounded-xl border px-2.5 text-xs font-extrabold shadow-sm transition duration-200 hover:-translate-y-0.5 sm:px-3 sm:text-sm ${open ? 'border-[#229ed9] bg-[#e8f5fb] text-[#14536a] dark:border-[#4ab8df] dark:bg-[#173d4d] dark:text-[#e8fff7]' : 'border-slate-200 bg-white/95 text-slate-700 hover:border-[#229ed9] dark:border-slate-600 dark:bg-slate-800/95 dark:text-slate-100 dark:hover:border-[#8de4ca]'}`}>
+      <span className="flex h-5 w-7 shrink-0 items-center justify-center overflow-hidden rounded-[4px] bg-slate-100 ring-1 ring-black/10 dark:bg-slate-700" aria-hidden="true"><img src={current.flag} alt="" className="h-full w-full object-cover" /></span>
+      {!compact && <span>{current.label}</span>}
+      <span aria-hidden="true" className={`text-[11px] text-slate-400 transition duration-200 ${open ? 'rotate-180 text-[#229ed9]' : ''}`}>⌄</span>
+    </button>
+    {open && <div role="menu" className="absolute right-0 top-[calc(100%+.6rem)] z-[70] w-48 origin-top-right overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(16,36,63,.2)] ring-1 ring-black/5 dark:border-slate-600 dark:bg-[#101b2d] dark:shadow-[0_20px_45px_rgba(0,0,0,.42)]">
+      <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[.16em] text-slate-400 dark:text-slate-500">{language === 'en' ? 'Language' : 'ភាសា'}</p>
+      {options.map((option) => <button key={option.value} type="button" role="menuitemradio" aria-checked={language === option.value} onClick={() => choose(option.value)} className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-extrabold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#229ed9]/50 ${language === option.value ? 'bg-[#e8f5fb] text-[#14536a] dark:bg-[#173d4d] dark:text-[#a5f1dc]' : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><span className="flex h-7 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700"><img src={option.flag} alt={option.alt} className="h-4 w-6 rounded-[3px] object-cover shadow-sm" /></span><span className="flex-1">{option.label}</span>{language === option.value && <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-full bg-[#229ed9] text-xs text-white">✓</span>}</button>)}
+    </div>}
+  </div>;
+}
+
 function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurchasedCourse, t }) {
   const dashboardPath = user?.role === "STUDENT" ? "/student/dashboard" : user?.role === "TEACHER" ? "/teacher/dashboard" : "/admin/dashboard";
   const hasSession = !authLoading && Boolean(user);
@@ -771,7 +807,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/70 bg-white/90 shadow-[0_10px_30px_rgba(16,36,63,.08)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
       <div className="storefront-mobile-header mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white p-1.5 shadow-lg shadow-[#10243f]/15 ring-1 ring-[#10243f]/10 dark:ring-white/10"><BrandLogo className="h-full w-full rounded-xl object-contain" /></span>
+          <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[#cdece1] bg-gradient-to-br from-[#d9fff1] via-white to-[#dcecff] p-1.5 shadow-[0_10px_24px_rgba(16,36,63,.16)] ring-1 ring-[#10243f]/10 transition duration-300 hover:scale-105 hover:rotate-2 dark:border-white/15 dark:ring-white/10"><BrandLogo className="rounded-[.9rem]" /></span>
           <span>
             <span className="block text-lg font-black tracking-tight text-[#10243f] dark:text-white">Campus<span className="text-[#f06f5b]">Flow</span></span>
             <span className="hidden text-[9px] font-extrabold uppercase tracking-[.2em] text-slate-400 sm:block">{copy.marketplace}</span>
