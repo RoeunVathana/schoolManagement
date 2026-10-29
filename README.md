@@ -135,7 +135,7 @@ The seed creates an administrator, three teachers, ten students, five courses, e
 
 | Role | Email | Password |
 | --- | --- | --- |
-| Admin | `vothanarern@gmail.com` | `016555637` |
+| Admin | `mouychheak3227@gmail.com` | `016555637` |
 | Teacher | `teacher@school.com` | `Teacher@2026#Strong` |
 | Student | `student@school.com` | `Student@2026#Strong` |
 

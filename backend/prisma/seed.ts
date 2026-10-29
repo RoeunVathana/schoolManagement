@@ -8,7 +8,7 @@ async function main() {
   await prisma.$transaction(async (tx) => {
     await tx.refreshToken.deleteMany(); await tx.notification.deleteMany(); await tx.grade.deleteMany(); await tx.submission.deleteMany(); await tx.examResult.deleteMany(); await tx.exam.deleteMany(); await tx.attendance.deleteMany(); await tx.assignment.deleteMany(); await tx.announcement.deleteMany(); await tx.classSchedule.deleteMany(); await tx.enrollment.deleteMany(); await tx.course.deleteMany(); await tx.student.deleteMany(); await tx.teacher.deleteMany(); await tx.semester.deleteMany(); await tx.academicYear.deleteMany(); await tx.user.deleteMany();
     const password = async (v: string) => bcrypt.hash(v, 12);
-    const admin = await tx.user.create({ data: { fullName: 'System Administrator', email: 'vothanarern@gmail.com', password: await password('016555637'), role: Role.ADMIN } });
+    const admin = await tx.user.create({ data: { fullName: 'System Administrator', email: 'mouychheak3227@gmail.com', password: await password('016555637'), role: Role.ADMIN } });
     const teacherPassword = await password('Teacher@2026#Strong');
     const studentPassword = await password('Student@2026#Strong');
     const teacherUsers = await Promise.all([1, 2, 3].map((i) => tx.user.create({ data: { fullName: `Teacher ${i}`, email: i === 1 ? 'teacher@school.com' : `teacher${i}@school.com`, password: teacherPassword, role: Role.TEACHER } })));
@@ -25,7 +25,7 @@ async function main() {
     for (let i = 0; i < courses.length; i++) { const c = courses[i]; const teacherId = c.teacherId; const a = await tx.assignment.create({ data: { courseId: c.id, teacherId, title: `${courseNames[i]} Project`, description: 'Complete the practical exercise and submit your work.', maxScore: 100, dueDate: d('2026-12-15') } }); const enrolled = await tx.enrollment.findMany({ where: { courseId: c.id }, take: 2 }); for (const e of enrolled) { const submission = await tx.submission.create({ data: { assignmentId: a.id, studentId: e.studentId, answerText: 'My completed assignment is attached.', submittedAt: d('2026-12-01'), status: SubmissionStatus.GRADED } }); await tx.grade.create({ data: { submissionId: submission.id, teacherId, score: 85, feedback: 'Good work. Keep improving your explanations.' } }); } const exam = await tx.exam.create({ data: { courseId: c.id, title: `${courseNames[i]} Midterm`, examDate: d('2027-01-10'), maxScore: 100, description: 'Midterm examination' } }); const enrolledForExam = await tx.enrollment.findMany({ where: { courseId: c.id }, take: 3 }); for (const e of enrolledForExam) await tx.examResult.create({ data: { examId: exam.id, studentId: e.studentId, score: 78, feedback: 'Solid result.' } }); await tx.announcement.create({ data: { courseId: c.id, createdBy: teacherUsers[i % 3].id, title: `Welcome to ${courseNames[i]}`, content: 'Please review the course outline before the first class.' } }); }
     await tx.announcement.create({ data: { createdBy: admin.id, title: 'Welcome to the new academic year', content: 'Check your dashboard for schedules, homework and announcements.' } });
   });
-  console.log('Seed completed. Admin: vothanarern@gmail.com / 016555637. Teacher: teacher@school.com / Teacher@2026#Strong. Student: student@school.com / Student@2026#Strong.');
+  console.log('Seed completed. Admin: mouychheak3227@gmail.com / 016555637. Teacher: teacher@school.com / Teacher@2026#Strong. Student: student@school.com / Student@2026#Strong.');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); }).finally(() => prisma.$disconnect());
