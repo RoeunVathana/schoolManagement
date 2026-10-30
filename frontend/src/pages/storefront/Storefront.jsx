@@ -5,8 +5,7 @@ import CoursePayment from "../../components/CoursePayment";
 import AnimatedNumber from "../../components/AnimatedNumber";
 import BrandLogo from "../../components/BrandLogo";
 import Modal from "../../components/Modal";
-import TelegramSupport from "../../components/TelegramSupport";
-import CommunityAiSupport from "../../components/CommunityAiSupport";
+import SupportDock from "../../components/SupportDock";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../context/LanguageContext";
@@ -488,8 +487,7 @@ export default function Storefront() {
           {!loading && !course && <ErrorState message={error} fallback={copy.genericError} />}
         </main>
         <StorefrontFooter copy={copy} />
-        <CommunityAiSupport publicMode />
-        <TelegramSupport alwaysShow />
+        <SupportDock alwaysShow publicMode />
         {paymentPlanModal}
         {paymentModal}
       </div>
@@ -681,8 +679,7 @@ export default function Storefront() {
         </section>
       </main>
       <StorefrontFooter copy={copy} />
-      <CommunityAiSupport publicMode />
-      <TelegramSupport alwaysShow />
+      <SupportDock alwaysShow publicMode />
       {paymentPlanModal}
       {paymentModal}
     </div>

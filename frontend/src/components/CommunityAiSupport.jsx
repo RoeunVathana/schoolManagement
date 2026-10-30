@@ -34,7 +34,7 @@ const translations = {
   },
 };
 
-export default function CommunityAiSupport({ publicMode = false }) {
+export default function CommunityAiSupport({ publicMode = false, dockOpen = true }) {
   const { user } = useAuth();
   const { language } = useLanguage();
   const text = translations[language] || translations.en;
@@ -71,6 +71,10 @@ export default function CommunityAiSupport({ publicMode = false }) {
       closeTimerRef.current = null;
     }, 220);
   };
+
+  useEffect(() => {
+    if (!dockOpen && (open || (panelMounted && !panelClosing))) closePanel();
+  }, [dockOpen, open, panelMounted, panelClosing]);
 
   const togglePanel = () => (open ? closePanel() : openPanel());
 
@@ -122,7 +126,7 @@ export default function CommunityAiSupport({ publicMode = false }) {
     }
   };
 
-  return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px` }} className={`community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
+  return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px` }} aria-hidden={!dockOpen} className={`support-dock-item ${dockOpen ? 'is-expanded' : 'is-collapsed'} community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
     {panelMounted && <section className={`community-ai-panel ${panelClosing ? 'is-closing' : open ? 'is-open' : ''} mb-3 flex w-[min(24rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,36,63,.22)] dark:border-slate-700 dark:bg-[#101c30]`} aria-hidden={!open} aria-label={text.title} role="dialog">
       <header className="community-ai-header flex items-center justify-between gap-3 bg-navy px-4 py-3 text-white"><div><p className="text-sm font-black">{text.title}</p><p className="mt-0.5 text-[11px] font-semibold text-mint">{text.subtitle}</p></div><button type="button" onClick={closePanel} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">

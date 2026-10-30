@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import BrandLogo from '../../components/BrandLogo';
 import CommunityLanguageSwitch from '../../components/CommunityLanguageSwitch';
-import CommunityAiSupport from '../../components/CommunityAiSupport';
-import TelegramSupport from '../../components/TelegramSupport';
+import SupportDock from '../../components/SupportDock';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
@@ -76,8 +75,7 @@ export default function CommunityLanding() {
     </main>
 
     <footer className="public-community-footer"><Link to="/" className="public-community-brand"><span className="public-community-logo"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{text.marketplace}</small></span></Link><p>{text.footer}</p><span>© {new Date().getFullYear()} CampusFlow</span></footer>
-    <CommunityAiSupport publicMode />
-    <TelegramSupport alwaysShow publicMode />
+    <SupportDock alwaysShow publicMode />
   </div>;
 }
 
