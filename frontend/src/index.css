@@ -1,14 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;500;600;700;800&family=Siemreap&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Siemreap&display=swap');
 
 @tailwind base; @tailwind components; @tailwind utilities;
-@layer base { html { scroll-behavior: smooth; } body { @apply m-0 bg-[#f6f8fb] font-sans text-ink antialiased; font-family: 'Inter', sans-serif; } html:lang(km), html:lang(km) body, html:lang(km) button, html:lang(km) input, html:lang(km) textarea, html:lang(km) select { font-family: 'Siemreap', 'Inter', sans-serif; } button, input, textarea, select { font: inherit; } }
+@layer base {
+  :root { --campus-font: 'Khmer OS Siemreap', 'Siemreap', sans-serif; }
+  html { scroll-behavior: smooth; font-family: var(--campus-font); }
+  body { @apply m-0 bg-[#f6f8fb] font-sans text-ink antialiased; font-family: var(--campus-font); }
+  #root, #root * { font-family: var(--campus-font); }
+  button, input, textarea, select { font: inherit; }
+}
 @layer base {
   html:lang(km) body,
   html:lang(km) button,
   html:lang(km) input,
   html:lang(km) textarea,
   html:lang(km) select {
-    font-family: 'Khmer OS Siemreap', 'Siemreap', 'Noto Sans Khmer', sans-serif;
+    font-family: var(--campus-font);
     letter-spacing: normal;
     line-height: 1.8;
   }
