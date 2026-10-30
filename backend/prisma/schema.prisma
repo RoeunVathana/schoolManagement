@@ -312,6 +312,7 @@ model Message {
   conversationId String
   senderId       String
   body           String            @db.Text
+  imageUrl       String?
   readAt         DateTime?
   createdAt      DateTime          @default(now())
   conversation   Conversation      @relation(fields: [conversationId], references: [id], onDelete: Cascade)

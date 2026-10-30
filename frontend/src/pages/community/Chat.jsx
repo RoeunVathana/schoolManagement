@@ -5,6 +5,14 @@ import UserAvatar from '../../components/UserAvatar';
 import { useCommunityText } from '../../context/communityTranslations';
 import { useLanguage } from '../../context/LanguageContext';
 
+const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const MAX_CHAT_IMAGE_SIZE = 150 * 1024 * 1024;
+
+function mediaUrl(value) {
+  if (!value) return '';
+  return value.startsWith('http') ? value : `${API_ORIGIN}${value}`;
+}
+
 function displayDate(value) {
   if (!value) return '';
   return new Date(value).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -46,6 +54,10 @@ export default function Chat() {
   const [error, setError] = useState('');
   const [showList, setShowList] = useState(true);
   const [reactionMenuId, setReactionMenuId] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef(null);
   const messageEndRef = useRef(null);
 
   const loadConversations = useCallback(async () => {
@@ -103,11 +115,65 @@ export default function Chat() {
   useEffect(() => { messageEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages.length]);
 
   const activePerson = activeConversation?.otherUser;
-  const canSend = draft.trim().length > 0 && !sending && Boolean(activeConversation);
+  const canSend = Boolean(activeConversation) && !sending && !uploadingImage && (draft.trim().length > 0 || Boolean(imageFile));
   const selectConversation = (conversation) => { setActiveConversation(conversation); setShowList(false); setError(''); };
+
+  const clearImage = useCallback(() => {
+    setImageFile(null);
+    setImagePreview((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return '';
+    });
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }, []);
+
+  const selectImage = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setError(text.onlyImages || 'Please choose an image file.');
+      clearImage();
+      return;
+    }
+    if (file.size > MAX_CHAT_IMAGE_SIZE) {
+      setError(text.imageLimit || 'Images must be 150 MB or smaller.');
+      clearImage();
+      return;
+    }
+    setError('');
+    setImageFile(file);
+    setImagePreview((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return URL.createObjectURL(file);
+    });
+  };
+
+  const sendImage = async () => {
+    if (!activeConversation || !imageFile || uploadingImage || sending) return;
+    setUploadingImage(true);
+    setError('');
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      if (draft.trim()) formData.append('body', draft.trim());
+      const message = unwrap(await api.post(`/api/chat/conversations/${activeConversation.id}/images`, formData));
+      setMessages((current) => [...current, message]);
+      setDraft('');
+      clearImage();
+      await loadConversations();
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.messageNotSent);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const sendMessage = async (event) => {
     event.preventDefault();
+    if (imageFile) {
+      await sendImage();
+      return;
+    }
     if (!canSend) return;
     setSending(true);
     setError('');
@@ -148,13 +214,35 @@ export default function Chat() {
     <section className="community-chat-shell">
       <aside className={`community-chat-sidebar ${activeConversation && !showList ? 'community-chat-sidebar-mobile-hidden' : ''}`}>
         <div className="community-chat-sidebar-heading"><div><p className="community-eyebrow">{text.inbox}</p><h2>{text.yourChats}</h2></div><span className="community-chat-count">{conversations.length}</span></div>
-        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''}`}><UserAvatar person={conversation.otherUser} size="md" /><div className="community-conversation-copy"><strong>{conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || text.startConversation}</span></div><span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
+        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''}`}><UserAvatar person={conversation.otherUser} size="md" /><div className="community-conversation-copy"><strong>{conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || (conversation.lastMessage?.imageUrl ? '📷 Image' : text.startConversation)}</span></div><span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
         <div className="community-chat-header">{activePerson ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button><UserAvatar person={activePerson} size="md" /><div className="community-chat-person"><strong>{activePerson.fullName}</strong><span>{text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
-        <div className="community-message-list">{loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}><div className="community-message-bubble"><p>{message.body}</p><small>{displayDate(message.createdAt)}</small></div><div className="community-message-actions"><button type="button" className={`community-message-reaction-trigger ${message.myReaction ? 'is-selected' : ''}`} onClick={() => setReactionMenuId((current) => current === message.id ? null : message.id)} aria-label={message.myReaction ? `${reactionOptions.find((reaction) => reaction.type === message.myReaction)?.label[language] || 'Reaction'} selected` : 'Add reaction'}>{message.myReaction ? reactionEmoji[message.myReaction] : '👍'}</button>{reactionMenuId === message.id && <div className="community-message-reaction-menu">{reactionOptions.map((reaction) => <button type="button" key={reaction.type} onClick={() => reactToMessage(message, reaction.type)} title={reaction.label[language] || reaction.label.en} aria-label={reaction.label[language] || reaction.label.en} className={message.myReaction === reaction.type ? 'is-selected' : ''}>{reaction.emoji}</button>)}</div>}{message.reactionCount > 0 && <div className="community-message-reaction-summary" aria-label={`${message.reactionCount} reactions`}>{Object.entries(message.reactions || {}).slice(0, 3).map(([type]) => <span key={type}>{reactionEmoji[type]}</span>)}<small>{message.reactionCount}</small></div>}</div></div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}<div ref={messageEndRef} /></div>
-        <form onSubmit={sendMessage} className="community-message-form"><input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending} placeholder={activePerson ? text.writeMessage : text.selectFriend} /><button type="submit" disabled={!canSend} className="community-button community-button-primary">{sending ? text.sending : text.send}</button></form>
+        <div className="community-message-list">
+          {loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}>
+            <div className="community-message-bubble">
+              {message.imageUrl && <a href={mediaUrl(message.imageUrl)} target="_blank" rel="noreferrer" className="community-message-image-link"><img src={mediaUrl(message.imageUrl)} alt={text.chatImageAlt || 'Chat image'} /></a>}
+              {message.body && <p>{message.body}</p>}
+              <small>{displayDate(message.createdAt)}</small>
+            </div>
+            <div className="community-message-actions">
+              <button type="button" className={`community-message-reaction-trigger ${message.myReaction ? 'is-selected' : ''}`} onClick={() => setReactionMenuId((current) => current === message.id ? null : message.id)} aria-label={message.myReaction ? `${reactionOptions.find((reaction) => reaction.type === message.myReaction)?.label[language] || 'Reaction'} selected` : 'Add reaction'}>{message.myReaction ? reactionEmoji[message.myReaction] : '👍'}</button>
+              {reactionMenuId === message.id && <div className="community-message-reaction-menu">{reactionOptions.map((reaction) => <button type="button" key={reaction.type} onClick={() => reactToMessage(message, reaction.type)} title={reaction.label[language] || reaction.label.en} aria-label={reaction.label[language] || reaction.label.en} className={message.myReaction === reaction.type ? 'is-selected' : ''}>{reaction.emoji}</button>)}</div>}
+              {message.reactionCount > 0 && <div className="community-message-reaction-summary" aria-label={`${message.reactionCount} reactions`}>{Object.entries(message.reactions || {}).slice(0, 3).map(([type]) => <span key={type}>{reactionEmoji[type]}</span>)}<small>{message.reactionCount}</small></div>}
+            </div>
+          </div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}
+          <div ref={messageEndRef} />
+        </div>
+        <form onSubmit={sendMessage} className="community-message-form">
+          {imagePreview && <div className="community-chat-image-preview"><img src={imagePreview} alt={text.chatImagePreview || 'Selected image'} /><button type="button" onClick={clearImage} aria-label={text.removeImage || 'Remove image'}>×</button></div>}
+          <div className="community-message-form-row">
+            <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={selectImage} className="community-chat-file-input" aria-label={text.attachImage || 'Attach image'} disabled={!activeConversation || sending || uploadingImage} />
+            <button type="button" className="community-chat-attach-button" onClick={() => fileInputRef.current?.click()} disabled={!activeConversation || sending || uploadingImage} aria-label={text.attachImage || 'Attach image'}>🖼️</button>
+            <input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending || uploadingImage} placeholder={activePerson ? text.writeMessage : text.selectFriend} />
+            <button type="submit" disabled={!canSend} className="community-button community-button-primary">{uploadingImage ? (text.uploading || 'Uploading...') : sending ? text.sending : text.send}</button>
+          </div>
+        </form>
       </div>
     </section>
   </div>;

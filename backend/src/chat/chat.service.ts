@@ -94,6 +94,22 @@ export class ChatService {
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
 
+  async sendImage(userId: string, conversationId: string, file: Express.Multer.File, body = '') {
+    const conversation = await this.assertParticipant(conversationId, userId);
+    const messageBody = body.trim();
+    const message = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.message.create({
+        data: { conversationId, senderId: userId, body: messageBody, imageUrl: `/uploads/chat/${file.filename}` },
+        include: { sender: { select: userSelect } },
+      });
+      await tx.conversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } });
+      return created;
+    });
+    const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
+    await this.notifications.createMessageNotification(recipientId, userId, messageBody || 'Sent you an image.');
+    return this.presentMessage({ ...message, reactions: [] }, userId);
+  }
+
   private presentMessage(message: any, viewerId: string) {
     const reactionCounts = (message.reactions || []).reduce((counts: Record<string, number>, reaction: { type: MessageReactionType }) => {
       counts[reaction.type] = (counts[reaction.type] || 0) + 1;
