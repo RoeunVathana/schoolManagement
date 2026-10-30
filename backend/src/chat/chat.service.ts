@@ -31,22 +31,25 @@ export class ChatService {
     const blocked = await this.prisma.userBlock.findFirst({ where: { OR: [{ blockerId: firstId, blockedId: secondId }, { blockerId: secondId, blockedId: firstId }] }, select: { id: true } });
     if (blocked) throw new ForbiddenException('Blocked users cannot chat');
     const friendship = await this.prisma.friendship.findUnique({ where: { userAId_userBId: { userAId, userBId } }, select: { id: true } });
-    if (friendship) return { userAId, userBId };
-
     const teacherUserId = firstUser.role === Role.TEACHER ? firstId : secondUser.role === Role.TEACHER ? secondId : null;
     const studentUserId = isLearnerRole(firstUser.role) ? firstId : isLearnerRole(secondUser.role) ? secondId : null;
     if (teacherUserId && studentUserId) {
-      const activeEnrollment = await this.prisma.enrollment.findFirst({
+      const paidEnrollment = await this.prisma.enrollment.findFirst({
         where: {
           status: 'ACTIVE',
           student: { userId: studentUserId },
-          course: { teacher: { userId: teacherUserId } },
+          course: {
+            teacher: { userId: teacherUserId },
+            coursePayments: { some: { status: 'PAID', student: { userId: studentUserId } } },
+          },
         },
         select: { id: true },
       });
-      if (activeEnrollment) return { userAId, userBId };
+      if (paidEnrollment) return { userAId, userBId };
+      throw new ForbiddenException('Teachers can chat with students only after they have paid for one of the teacher\'s courses.');
     }
 
+    if (friendship) return { userAId, userBId };
     throw new ForbiddenException('Teachers can chat with students enrolled in their courses. Other users must be accepted friends.');
   }
 
@@ -114,10 +117,18 @@ export class ChatService {
     const contacts = user.role === Role.TEACHER
       ? (await this.prisma.enrollment.findMany({
         where: { status: 'ACTIVE', course: { teacher: { userId } } },
-        select: { student: { select: { user: { select: userSelect } } } },
-      })).map((enrollment) => enrollment.student.user)
+        select: {
+          studentId: true,
+          student: { select: { user: { select: userSelect } } },
+          course: { select: { coursePayments: { where: { status: 'PAID' }, select: { studentId: true } } } },
+        },
+      })).filter((enrollment) => enrollment.course.coursePayments.some((payment) => payment.studentId === enrollment.studentId)).map((enrollment) => enrollment.student.user)
       : (await this.prisma.enrollment.findMany({
-        where: { status: 'ACTIVE', student: { userId } },
+        where: {
+          status: 'ACTIVE',
+          student: { userId },
+          course: { coursePayments: { some: { status: 'PAID', student: { userId } } } },
+        },
         select: { course: { select: { teacher: { select: { user: { select: userSelect } } } } } },
       })).map((enrollment) => enrollment.course.teacher.user);
 
