@@ -3822,3 +3822,53 @@ a, button, input, textarea, select { max-width: 100%; }
     max-height: calc(100dvh - 9rem);
   }
 }
+
+/* Chat scroll ownership: the page keeps its normal scroll while the two chat
+   columns scroll their own content instead of expanding the grid endlessly. */
+.community-chat-shell {
+  height: min(42rem, calc(100dvh - 8rem));
+  min-height: 34rem;
+}
+
+.community-chat-sidebar,
+.community-chat-main {
+  min-height: 0;
+}
+
+.community-chat-sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.community-conversation-list {
+  max-height: none;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.community-message-list {
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 720px) {
+  .community-chat-shell {
+    height: calc(100dvh - 6.5rem);
+    min-height: min(34rem, calc(100dvh - 6.5rem));
+  }
+
+  .community-chat-sidebar {
+    display: block;
+    overflow: visible;
+  }
+
+  .community-conversation-list {
+    max-height: 34rem;
+    flex: none;
+  }
+}
