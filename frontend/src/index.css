@@ -2030,6 +2030,10 @@ a, button, input, textarea, select { max-width: 100%; }
 .public-community-nav-links a:hover, .public-community-nav-links a.is-active { color: var(--public-ink); }
 .public-community-nav-links a.is-active::after { position: absolute; right: 0; bottom: -.55rem; left: 0; height: 2px; border-radius: 999px; background: var(--public-coral); content: ""; }
 .public-community-nav-actions { display: flex; align-items: center; gap: .45rem; }
+.community-language-switch { display: inline-flex; align-items: center; gap: .15rem; border: 1px solid var(--public-line); border-radius: .75rem; padding: .2rem; background: var(--public-card); }
+.community-language-switch button { min-height: 2rem; border: 0; border-radius: .55rem; padding: .35rem .5rem; color: var(--public-muted); background: transparent; font-size: .6rem; font-weight: 950; cursor: pointer; transition: color .2s ease, background-color .2s ease, box-shadow .2s ease; }
+.community-language-switch button:hover { color: var(--public-ink); }
+.community-language-switch button.is-active { color: var(--public-ink); background: rgb(141 228 202 / .34); box-shadow: 0 3px 8px rgb(16 36 63 / .08); }
 .public-community-nav-actions .theme-switch-label { display: none; }
 .public-community-nav-button, .public-community-nav-login, .public-community-nav-logout { display: inline-flex; min-height: 2.45rem; align-items: center; justify-content: center; border-radius: .75rem; padding: .55rem .8rem; font-size: .68rem; font-weight: 900; text-decoration: none; cursor: pointer; }
 .public-community-nav-button { color: #fff; background: var(--public-ink); }
@@ -2141,6 +2145,7 @@ a, button, input, textarea, select { max-width: 100%; }
   .public-community-nav { min-height: 4.2rem; padding-inline: .8rem; }
   .public-community-brand small { display: none; }
   .public-community-nav-actions { gap: .3rem; }
+  .community-language-switch button { min-height: 2.2rem; padding-inline: .42rem; }
   .public-community-nav-actions .theme-switch-label { display: none; }
   .public-community-nav-actions .inline-flex { width: 2.45rem; height: 2.45rem; justify-content: center; padding-inline: 0; }
   .public-community-nav-login, .public-community-nav-button, .public-community-nav-logout { min-height: 2.35rem; padding-inline: .55rem; font-size: .62rem; }
