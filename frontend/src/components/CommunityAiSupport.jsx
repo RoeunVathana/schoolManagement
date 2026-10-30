@@ -42,6 +42,7 @@ export default function CommunityAiSupport({ publicMode = false }) {
   const [question, setQuestion] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [messages, setMessages] = useState(() => [{ id: 'welcome', role: 'assistant', text: translations.en.welcome }]);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
@@ -49,6 +50,28 @@ export default function CommunityAiSupport({ publicMode = false }) {
   useEffect(() => {
     setMessages((current) => current.length === 1 ? [{ ...current[0], text: text.welcome }] : current);
   }, [text.welcome]);
+
+  useEffect(() => {
+    if (!open || typeof window === 'undefined') {
+      setKeyboardOffset(0);
+      return undefined;
+    }
+    const viewport = window.visualViewport;
+    const updateKeyboardOffset = () => {
+      if (!viewport) return;
+      const offset = Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop);
+      setKeyboardOffset(offset > 80 ? Math.min(offset, window.innerHeight * 0.75) : 0);
+    };
+    updateKeyboardOffset();
+    viewport?.addEventListener('resize', updateKeyboardOffset);
+    viewport?.addEventListener('scroll', updateKeyboardOffset);
+    window.addEventListener('resize', updateKeyboardOffset);
+    return () => {
+      viewport?.removeEventListener('resize', updateKeyboardOffset);
+      viewport?.removeEventListener('scroll', updateKeyboardOffset);
+      window.removeEventListener('resize', updateKeyboardOffset);
+    };
+  }, [open]);
 
   if (!canUse) return null;
 
@@ -72,7 +95,7 @@ export default function CommunityAiSupport({ publicMode = false }) {
     }
   };
 
-  return <div className={`community-ai-support ${publicMode ? 'community-ai-support-public' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
+  return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px` }} className={`community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
     {open && <section className="community-ai-panel mb-3 flex w-[min(24rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,36,63,.22)] dark:border-slate-700 dark:bg-[#101c30]" aria-label={text.title} role="dialog">
       <header className="community-ai-header flex items-center justify-between gap-3 bg-navy px-4 py-3 text-white"><div><p className="text-sm font-black">{text.title}</p><p className="mt-0.5 text-[11px] font-semibold text-mint">{text.subtitle}</p></div><button type="button" onClick={() => setOpen(false)} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">
