@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import FriendRequestButton from '../../components/FriendRequestButton';
 import PostComposer from '../../components/PostComposer';
@@ -11,6 +11,7 @@ const visibilityLabel = { PUBLIC: '🌎 Public', FRIENDS_ONLY: '👥 Friends', P
 
 export default function PublicProfile() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [friends, setFriends] = useState([]);
@@ -58,7 +59,7 @@ export default function PublicProfile() {
   return <div className="mx-auto max-w-5xl space-y-6">
     <section className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
       <div className="relative h-40 bg-gradient-to-br from-[#10243f] via-[#1b6172] to-[#ef8b78] sm:h-56" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}><div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" /></div>
-      <div className="relative px-5 pb-5 sm:px-8"><div className="-mt-12 flex flex-col gap-4 sm:-mt-16 sm:flex-row sm:items-end sm:justify-between"><div className="flex min-w-0 items-end gap-4"><div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[1.6rem] border-4 border-white bg-navy text-3xl font-black text-mint shadow-xl dark:border-slate-900 sm:h-32 sm:w-32">{avatar ? <img src={mediaUrl(avatar)} alt={displayName} className="h-full w-full object-cover" /> : displayName?.charAt(0)?.toUpperCase()}</div><div className="min-w-0 pb-1"><h1 className="truncate text-2xl font-black text-ink dark:text-white sm:text-3xl">{displayName}</h1><p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{profileDetails.role || profile.user.role} · {profile.friendCount} Friends</p></div></div><FriendRequestButton userId={id} status={isSelf ? 'SELF' : profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${profile.user.role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => setNotice('Messaging will be available in the community inbox soon.')} /></div>{notice && <p className="mt-4 rounded-xl bg-mint/40 px-4 py-3 text-sm font-semibold text-emerald-800 dark:text-mint">{notice}</p>}</div>
+      <div className="relative px-5 pb-5 sm:px-8"><div className="-mt-12 flex flex-col gap-4 sm:-mt-16 sm:flex-row sm:items-end sm:justify-between"><div className="flex min-w-0 items-end gap-4"><div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[1.6rem] border-4 border-white bg-navy text-3xl font-black text-mint shadow-xl dark:border-slate-900 sm:h-32 sm:w-32">{avatar ? <img src={mediaUrl(avatar)} alt={displayName} className="h-full w-full object-cover" /> : displayName?.charAt(0)?.toUpperCase()}</div><div className="min-w-0 pb-1"><h1 className="truncate text-2xl font-black text-ink dark:text-white sm:text-3xl">{displayName}</h1><p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{profileDetails.role || profile.user.role} · {profile.friendCount} Friends</p></div></div><FriendRequestButton userId={id} status={isSelf ? 'SELF' : profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${profile.user.role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice('Accept the friend request before starting a chat.')} /></div>{notice && <p className="mt-4 rounded-xl bg-mint/40 px-4 py-3 text-sm font-semibold text-emerald-800 dark:text-mint">{notice}</p>}</div>
       <div className="flex gap-1 overflow-x-auto border-t border-slate-100 px-4 pt-2 dark:border-slate-700 sm:px-7">{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={`shrink-0 border-b-2 px-4 py-3 text-sm font-bold transition ${tab === item ? 'border-coral text-coral' : 'border-transparent text-slate-500 hover:text-navy dark:text-slate-400 dark:hover:text-white'}`}>{item}</button>)}</div>
     </section>
 

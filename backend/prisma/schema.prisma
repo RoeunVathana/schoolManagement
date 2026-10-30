@@ -84,51 +84,54 @@ enum FriendRequestStatus {
 }
 
 model User {
-  id                   String                @id @default(cuid())
-  fullName             String
-  email                String                @unique
-  firstName            String?
-  lastName             String?
-  firebaseUid          String?               @unique
-  password             String
-  phone                String?
-  profileImageUrl      String?
-  role                 Role                  @default(STUDENT)
-  status               UserStatus            @default(ACTIVE)
-  language             String                @default("en")
-  canCreate            Boolean               @default(true)
-  canEdit              Boolean               @default(true)
-  canDelete            Boolean               @default(false)
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  profile              Profile?
-  student              Student?
-  teacher              Teacher?
-  refreshTokens        RefreshToken[]
-  notifications        Notification[]
-  createdAnnouncements Announcement[]        @relation("AnnouncementCreatedBy")
-  registrationPayments RegistrationPayment[]
-  passwordResetOtps    PasswordResetOtp[]
-  sentNotifications    Notification[]        @relation("NotificationSender")
-  posts                Post[]
-  sentFriendRequests   FriendRequest[]       @relation("FriendRequestSender")
-  receivedFriendRequests FriendRequest[]     @relation("FriendRequestReceiver")
-  friendshipsA         Friendship[]          @relation("FriendshipUserA")
-  friendshipsB         Friendship[]          @relation("FriendshipUserB")
-  blocksGiven          UserBlock[]            @relation("UserBlocker")
-  blocksReceived       UserBlock[]            @relation("UserBlocked")
+  id                     String                @id @default(cuid())
+  fullName               String
+  email                  String                @unique
+  firstName              String?
+  lastName               String?
+  firebaseUid            String?               @unique
+  password               String
+  phone                  String?
+  profileImageUrl        String?
+  role                   Role                  @default(STUDENT)
+  status                 UserStatus            @default(ACTIVE)
+  language               String                @default("en")
+  canCreate              Boolean               @default(true)
+  canEdit                Boolean               @default(true)
+  canDelete              Boolean               @default(false)
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  profile                Profile?
+  student                Student?
+  teacher                Teacher?
+  refreshTokens          RefreshToken[]
+  notifications          Notification[]
+  createdAnnouncements   Announcement[]        @relation("AnnouncementCreatedBy")
+  registrationPayments   RegistrationPayment[]
+  passwordResetOtps      PasswordResetOtp[]
+  sentNotifications      Notification[]        @relation("NotificationSender")
+  posts                  Post[]
+  sentFriendRequests     FriendRequest[]       @relation("FriendRequestSender")
+  receivedFriendRequests FriendRequest[]       @relation("FriendRequestReceiver")
+  friendshipsA           Friendship[]          @relation("FriendshipUserA")
+  friendshipsB           Friendship[]          @relation("FriendshipUserB")
+  blocksGiven            UserBlock[]           @relation("UserBlocker")
+  blocksReceived         UserBlock[]           @relation("UserBlocked")
+  conversationsA         Conversation[]        @relation("ConversationUserA")
+  conversationsB         Conversation[]        @relation("ConversationUserB")
+  messagesSent           Message[]             @relation("MessageSender")
 
   @@map("users")
 }
 
 model Profile {
-  id            String      @id @default(cuid())
-  userId        String      @unique
-  username      String      @unique
-  email         String      @unique
+  id            String     @id @default(cuid())
+  userId        String     @unique
+  username      String     @unique
+  email         String     @unique
   firstName     String?
   lastName      String?
-  bio           String?     @db.Text
+  bio           String?    @db.Text
   avatar        String?
   coverImage    String?
   phone         String?
@@ -138,11 +141,11 @@ model Profile {
   course        String?
   yearLevel     String?
   company       String?
-  role          Role        @default(STUDENT)
-  accountStatus UserStatus  @default(ACTIVE)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          Role       @default(STUDENT)
+  accountStatus UserStatus @default(ACTIVE)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([role, accountStatus])
   @@map("profiles")
@@ -174,9 +177,9 @@ model FriendRequest {
   sender     User                @relation("FriendRequestSender", fields: [senderId], references: [id], onDelete: Cascade)
   receiver   User                @relation("FriendRequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
+  @@unique([requestKey, status])
   @@index([senderId, status, createdAt])
   @@index([receiverId, status, createdAt])
-  @@unique([requestKey, status])
   @@map("friend_requests")
 }
 
@@ -205,6 +208,37 @@ model UserBlock {
   @@unique([blockerId, blockedId])
   @@index([blockedId])
   @@map("user_blocks")
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userAId   String
+  userBId   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userA     User      @relation("ConversationUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User      @relation("ConversationUserB", fields: [userBId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@unique([userAId, userBId])
+  @@index([userAId, updatedAt])
+  @@index([userBId, updatedAt])
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  body           String       @db.Text
+  readAt         DateTime?
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+  @@index([senderId, createdAt])
+  @@map("messages")
 }
 
 model RegistrationPayment {
