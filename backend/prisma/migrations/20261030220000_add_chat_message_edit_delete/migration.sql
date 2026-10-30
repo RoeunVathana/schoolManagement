@@ -1,0 +1,2 @@
+ALTER TABLE "messages" ADD COLUMN "editedAt" TIMESTAMP(3);
+ALTER TABLE "messages" ADD COLUMN "deletedAt" TIMESTAMP(3);

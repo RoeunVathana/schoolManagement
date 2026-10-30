@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { MessageReactionType, Role, UserStatus } from '@prisma/client';
-import { existsSync } from 'fs';
+import { existsSync, unlinkSync } from 'fs';
 import { basename, extname, join } from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -123,13 +123,58 @@ export class ChatService {
     return { filePath, fileName: basename(filePath), contentType: contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream' };
   }
 
+  private async assertMessageOwner(userId: string, messageId: string) {
+    const message = await this.prisma.message.findUnique({ where: { id: messageId }, select: { id: true, conversationId: true, senderId: true, body: true, imageUrl: true, deletedAt: true } });
+    if (!message) throw new NotFoundException('Message not found');
+    await this.assertParticipant(message.conversationId, userId);
+    if (message.senderId !== userId) throw new ForbiddenException('You can only change your own messages');
+    return message;
+  }
+
+  async editMessage(userId: string, messageId: string, body: string) {
+    const message = await this.assertMessageOwner(userId, messageId);
+    if (message.deletedAt) throw new BadRequestException('Deleted messages cannot be edited');
+    const nextBody = body.trim();
+    if (!nextBody) throw new BadRequestException('Message cannot be empty');
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const result = await tx.message.update({
+        where: { id: messageId },
+        data: { body: nextBody, editedAt: new Date() },
+        include: { sender: { select: userSelect }, reactions: { select: { userId: true, type: true } } },
+      });
+      await tx.conversation.update({ where: { id: message.conversationId }, data: { updatedAt: new Date() } });
+      return result;
+    });
+    return this.presentMessage(updated, userId);
+  }
+
+  async deleteMessage(userId: string, messageId: string) {
+    const message = await this.assertMessageOwner(userId, messageId);
+    if (message.deletedAt) return { id: messageId, isDeleted: true };
+    const deleted = await this.prisma.$transaction(async (tx) => {
+      await tx.messageReaction.deleteMany({ where: { messageId } });
+      const result = await tx.message.update({
+        where: { id: messageId },
+        data: { body: '', imageUrl: null, editedAt: null, deletedAt: new Date() },
+        include: { sender: { select: userSelect } },
+      });
+      await tx.conversation.update({ where: { id: message.conversationId }, data: { updatedAt: new Date() } });
+      return result;
+    });
+    if (message.imageUrl) {
+      const filePath = join(process.cwd(), message.imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/'));
+      if (existsSync(filePath)) unlinkSync(filePath);
+    }
+    return this.presentMessage({ ...deleted, reactions: [] }, userId);
+  }
+
   private presentMessage(message: any, viewerId: string) {
     const reactionCounts = (message.reactions || []).reduce((counts: Record<string, number>, reaction: { type: MessageReactionType }) => {
       counts[reaction.type] = (counts[reaction.type] || 0) + 1;
       return counts;
     }, {});
     const reactionCount = Object.keys(reactionCounts).reduce((total, type) => total + reactionCounts[type], 0);
-    return { ...message, reactions: reactionCounts, reactionCount, myReaction: (message.reactions || []).find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+    return { ...message, isEdited: Boolean(message.editedAt), isDeleted: Boolean(message.deletedAt), reactions: reactionCounts, reactionCount, myReaction: (message.reactions || []).find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
   }
 
   private async assertMessageParticipant(userId: string, messageId: string) {

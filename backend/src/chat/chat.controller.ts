@@ -6,6 +6,7 @@ import type { Response } from 'express';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { SendMessageDto } from './dto/send-message.dto';
+import { EditMessageDto } from './dto/edit-message.dto';
 import { MessageReactionDto } from './dto/message-reaction.dto';
 import { ChatService } from './chat.service';
 import { chatImageUpload } from '../common/upload.options';
@@ -35,6 +36,8 @@ export class ChatController {
     response.setHeader('Content-Type', image.contentType);
     return new StreamableFile(createReadStream(image.filePath));
   }
+  @Patch('messages/:messageId') edit(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Body() dto: EditMessageDto) { return this.chat.editMessage(user.id, messageId, dto.body); }
+  @Delete('messages/:messageId') delete(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string) { return this.chat.deleteMessage(user.id, messageId); }
   @Patch('messages/:messageId/reaction') react(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Body() dto: MessageReactionDto) { return this.chat.reactMessage(user.id, messageId, dto.type); }
   @Delete('messages/:messageId/reaction') removeReaction(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string) { return this.chat.removeReaction(user.id, messageId); }
   @Patch('conversations/:id/read') read(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.chat.markRead(user.id, id); }

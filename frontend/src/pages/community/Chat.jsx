@@ -63,6 +63,10 @@ export default function Chat() {
   const [imagePreview, setImagePreview] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [downloadingImageId, setDownloadingImageId] = useState(null);
+  const [editingMessageId, setEditingMessageId] = useState(null);
+  const [editDraft, setEditDraft] = useState('');
+  const [messageMenuId, setMessageMenuId] = useState(null);
+  const [deletingMessageId, setDeletingMessageId] = useState(null);
   const fileInputRef = useRef(null);
   const messageEndRef = useRef(null);
 
@@ -195,6 +199,53 @@ export default function Chat() {
     }
   };
 
+  const startEditing = (message) => {
+    setMessageMenuId(null);
+    setReactionMenuId(null);
+    setEditingMessageId(message.id);
+    setEditDraft(message.body || '');
+  };
+
+  const cancelEditing = () => {
+    setEditingMessageId(null);
+    setEditDraft('');
+  };
+
+  const saveEdit = async (event, message) => {
+    event.preventDefault();
+    const body = editDraft.trim();
+    if (!body || !activeConversation || editingMessageId !== message.id) return;
+    setSending(true);
+    setError('');
+    try {
+      const updated = unwrap(await api.patch(`/api/chat/messages/${message.id}`, { body }));
+      setMessages((current) => current.map((item) => item.id === message.id ? updated : item));
+      cancelEditing();
+      await loadConversations();
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.editFailed || 'Could not edit this message.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const removeMessage = async (message) => {
+    if (!activeConversation || deletingMessageId) return;
+    if (!window.confirm(text.deleteMessageConfirm || 'Delete this message?')) return;
+    setMessageMenuId(null);
+    setDeletingMessageId(message.id);
+    setError('');
+    try {
+      const deleted = unwrap(await api.delete(`/api/chat/messages/${message.id}`));
+      setMessages((current) => current.map((item) => item.id === message.id ? deleted : item));
+      await loadConversations();
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.deleteFailed || 'Could not delete this message.');
+    } finally {
+      setDeletingMessageId(null);
+    }
+  };
+
   const sendMessage = async (event) => {
     event.preventDefault();
     if (imageFile) {
@@ -248,15 +299,18 @@ export default function Chat() {
         <div className="community-chat-header">{activePerson ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button><UserAvatar person={activePerson} size="md" /><div className="community-chat-person"><strong>{activePerson.fullName}</strong><span>{text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
         <div className="community-message-list">
           {loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}>
-            <div className="community-message-bubble">
+            <div className={`community-message-bubble ${message.isDeleted ? 'is-deleted' : ''} ${editingMessageId === message.id ? 'is-editing' : ''}`}>
+              {message.isDeleted && <p className="community-message-deleted">{text.messageDeleted || 'Message deleted'}</p>}
+              {editingMessageId === message.id && !message.isDeleted && <form className="community-message-edit-form" onSubmit={(event) => saveEdit(event, message)}><textarea value={editDraft} onChange={(event) => setEditDraft(event.target.value)} autoFocus rows={3} maxLength={2000} aria-label={text.editMessage || 'Edit message'} /><div><button type="button" onClick={cancelEditing}>{text.cancel || 'Cancel'}</button><button type="submit" disabled={!editDraft.trim() || sending}>{sending ? (text.saving || 'Saving...') : (text.save || 'Save')}</button></div></form>}
               {message.imageUrl && <div className="community-message-attachment"><a href={mediaUrl(message.imageUrl)} target="_blank" rel="noreferrer" className="community-message-image-link"><img src={mediaUrl(message.imageUrl)} alt={text.chatImageAlt || 'Chat image'} /></a><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : `↓ ${text.downloadImage || 'Download'}`}</button></div></div>}
               {message.body && <p>{message.body}</p>}
-              <small>{displayDate(message.createdAt)}</small>
+              <small>{displayDate(message.createdAt)}{message.isEdited ? ` · ${text.edited || 'Edited'}` : ''}</small>
             </div>
             <div className="community-message-actions">
               <button type="button" className={`community-message-reaction-trigger ${message.myReaction ? 'is-selected' : ''}`} onClick={() => setReactionMenuId((current) => current === message.id ? null : message.id)} aria-label={message.myReaction ? `${reactionOptions.find((reaction) => reaction.type === message.myReaction)?.label[language] || 'Reaction'} selected` : 'Add reaction'}>{message.myReaction ? reactionEmoji[message.myReaction] : '👍'}</button>
               {reactionMenuId === message.id && <div className="community-message-reaction-menu">{reactionOptions.map((reaction) => <button type="button" key={reaction.type} onClick={() => reactToMessage(message, reaction.type)} title={reaction.label[language] || reaction.label.en} aria-label={reaction.label[language] || reaction.label.en} className={message.myReaction === reaction.type ? 'is-selected' : ''}>{reaction.emoji}</button>)}</div>}
               {message.reactionCount > 0 && <div className="community-message-reaction-summary" aria-label={`${message.reactionCount} reactions`}>{Object.entries(message.reactions || {}).slice(0, 3).map(([type]) => <span key={type}>{reactionEmoji[type]}</span>)}<small>{message.reactionCount}</small></div>}
+              {message.senderId !== activePerson?.id && !message.isDeleted && <div className="community-message-more"><button type="button" className="community-message-more-trigger" onClick={() => setMessageMenuId((current) => current === message.id ? null : message.id)} aria-label={text.moreActions || 'More actions'}>•••</button>{messageMenuId === message.id && <div className="community-message-more-menu"><button type="button" onClick={() => startEditing(message)} disabled={!message.body}>{text.editMessage || 'Edit'}</button><button type="button" onClick={() => removeMessage(message)} disabled={deletingMessageId === message.id}>{deletingMessageId === message.id ? (text.deleting || 'Deleting...') : (text.deleteMessage || 'Delete')}</button></div>}</div>}
             </div>
           </div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}
           <div ref={messageEndRef} />
