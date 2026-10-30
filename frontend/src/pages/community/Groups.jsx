@@ -204,6 +204,7 @@ export default function Groups() {
         <p>{group.description || text.groupsDescription}</p>
         <div className="community-group-owner"><UserAvatar person={group.owner} size="sm" /><span><strong>{group.owner?.fullName}</strong><small>{group.isOwner ? text.owner : group.owner?.role}</small></span></div>
         <div className="community-group-footer"><span>{group.memberCount} {text.members}</span><div className="community-group-actions">
+          {group.isMember && <Link to="/chat" state={{ groupId: group.id }} className="community-button community-button-primary">{text.openGroupChat || 'Group chat'}</Link>}
           {group.isLeader && <button type="button" className="community-button community-button-soft" disabled={busyId === group.id} onClick={() => openInvite(group)}>{text.inviteFriends}</button>}
           {group.isOwner ? <button type="button" className="community-button community-button-danger" disabled={busyId === group.id} onClick={() => remove(group)}>{text.deleteGroup}</button> : group.isMember ? <button type="button" className="community-button community-button-soft" disabled={busyId === group.id} onClick={() => leave(group)}>{text.leaveGroup}</button> : <button type="button" className="community-button community-button-primary" disabled={busyId === group.id} onClick={() => join(group)}>{busyId === group.id ? '...' : text.joinGroup}</button>}
         </div></div>

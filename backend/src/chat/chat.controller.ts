@@ -19,13 +19,24 @@ export class ChatController {
   constructor(private readonly chat: ChatService) {}
 
   @Get('conversations') list(@CurrentUser() user: { id: string }) { return this.chat.listConversations(user.id); }
+  @Get('group-conversations') listGroups(@CurrentUser() user: { id: string }) { return this.chat.listGroupConversations(user.id); }
   @Post('with/:userId') open(@CurrentUser() user: { id: string }, @Param('userId') userId: string) { return this.chat.openWith(user.id, userId); }
+  @Post('groups/:groupId') openGroup(@CurrentUser() user: { id: string }, @Param('groupId') groupId: string) { return this.chat.openGroup(user.id, groupId); }
   @Get('conversations/:id/messages') messages(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.chat.listMessages(user.id, id); }
+  @Get('group-conversations/:id/messages') groupMessages(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.chat.listMessages(user.id, id); }
   @Post('conversations/:id/messages') send(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: SendMessageDto) { return this.chat.sendMessage(user.id, id, dto.body); }
+  @Post('group-conversations/:id/messages') sendGroup(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: SendMessageDto) { return this.chat.sendMessage(user.id, id, dto.body); }
   @Post('conversations/:id/images')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image', chatMediaUpload))
   sendImage(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: { body?: string }, @UploadedFile() file?: Express.Multer.File) {
+    if (!file) throw new BadRequestException('Please select an image or video to send');
+    return this.chat.sendImage(user.id, id, file, dto.body);
+  }
+  @Post('group-conversations/:id/images')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image', chatMediaUpload))
+  sendGroupImage(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: { body?: string }, @UploadedFile() file?: Express.Multer.File) {
     if (!file) throw new BadRequestException('Please select an image or video to send');
     return this.chat.sendImage(user.id, id, file, dto.body);
   }
@@ -42,4 +53,5 @@ export class ChatController {
   @Patch('messages/:messageId/reaction') react(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Body() dto: MessageReactionDto) { return this.chat.reactMessage(user.id, messageId, dto.type); }
   @Delete('messages/:messageId/reaction') removeReaction(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string) { return this.chat.removeReaction(user.id, messageId); }
   @Patch('conversations/:id/read') read(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.chat.markRead(user.id, id); }
+  @Patch('group-conversations/:id/read') readGroup(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.chat.markRead(user.id, id); }
 }

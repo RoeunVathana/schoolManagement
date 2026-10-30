@@ -275,6 +275,7 @@ model CommunityGroup {
   owner         User                     @relation("CommunityGroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   members       CommunityGroupMember[]
   invites       CommunityGroupInvite[]
+  conversation  Conversation?          @relation("ConversationGroup")
 
   @@index([ownerId])
   @@index([visibility, createdAt])
@@ -327,13 +328,15 @@ model UserBlock {
 }
 
 model Conversation {
-  id        String    @id @default(cuid())
-  userAId   String
-  userBId   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userA     User      @relation("ConversationUserA", fields: [userAId], references: [id], onDelete: Cascade)
-  userB     User      @relation("ConversationUserB", fields: [userBId], references: [id], onDelete: Cascade)
+  id        String          @id @default(cuid())
+  userAId   String?
+  userBId   String?
+  groupId   String?         @unique
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  userA     User?           @relation("ConversationUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User?           @relation("ConversationUserB", fields: [userBId], references: [id], onDelete: Cascade)
+  group     CommunityGroup? @relation("ConversationGroup", fields: [groupId], references: [id], onDelete: Cascade)
   messages  Message[]
 
   @@unique([userAId, userBId])

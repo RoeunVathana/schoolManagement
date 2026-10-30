@@ -39,9 +39,23 @@ export class ChatService {
     return conversation;
   }
 
+  private async assertGroupMember(groupId: string, userId: string) {
+    const [user, membership] = await Promise.all([
+      this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } }),
+      this.prisma.communityGroupMember.findUnique({ where: { groupId_userId: { groupId, userId } }, select: { id: true } }),
+    ]);
+    if (!user || user.status !== UserStatus.ACTIVE || !([Role.STUDENT, Role.CUSTOMER, Role.TEACHER] as Role[]).includes(user.role)) throw new ForbiddenException('Only active community members can use group chat');
+    if (!membership) throw new ForbiddenException('Only group members can access this group chat');
+  }
+
   private async assertParticipant(conversationId: string, userId: string) {
-    await this.assertMember(userId);
     const conversation = await this.getConversation(conversationId);
+    if (conversation.groupId) {
+      await this.assertGroupMember(conversation.groupId, userId);
+      return conversation;
+    }
+    await this.assertMember(userId);
+    if (!conversation.userAId || !conversation.userBId) throw new ForbiddenException('This conversation is not configured correctly');
     if (conversation.userAId !== userId && conversation.userBId !== userId) throw new ForbiddenException('You cannot access this conversation');
     await this.assertFriends(conversation.userAId, conversation.userBId);
     return conversation;
@@ -53,12 +67,17 @@ export class ChatService {
       include: {
         userA: { select: userSelect },
         userB: { select: userSelect },
+        group: { select: { id: true, name: true, description: true, visibility: true, _count: { select: { members: true } } } },
         messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, fullName: true } } } },
       },
     });
     if (!conversation) throw new NotFoundException('Conversation not found');
+    if (conversation.groupId) {
+      const group = conversation.group ? { ...conversation.group, memberCount: conversation.group._count.members } : null;
+      return { id: conversation.id, isGroup: true, group, otherUser: null, lastMessage: conversation.messages[0] || null, updatedAt: conversation.updatedAt };
+    }
     const otherUser = conversation.userAId === viewerId ? conversation.userB : conversation.userA;
-    return { id: conversation.id, otherUser, lastMessage: conversation.messages[0] || null, updatedAt: conversation.updatedAt };
+    return { id: conversation.id, isGroup: false, group: null, otherUser, lastMessage: conversation.messages[0] || null, updatedAt: conversation.updatedAt };
   }
 
   async openWith(userId: string, friendId: string) {
@@ -70,10 +89,32 @@ export class ChatService {
   async listConversations(userId: string) {
     await this.assertMember(userId);
     const conversations = await this.prisma.conversation.findMany({
-      where: { OR: [{ userAId: userId }, { userBId: userId }] },
+      where: { groupId: null, OR: [{ userAId: userId }, { userBId: userId }] },
       orderBy: { updatedAt: 'desc' },
       select: { id: true },
     });
+    return Promise.all(conversations.map((conversation) => this.present(conversation.id, userId)));
+  }
+
+  async openGroup(userId: string, groupId: string) {
+    await this.assertGroupMember(groupId, userId);
+    const conversation = await this.prisma.conversation.upsert({
+      where: { groupId },
+      update: {},
+      create: { groupId },
+    });
+    return this.present(conversation.id, userId);
+  }
+
+  async listGroupConversations(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { role: true, status: true } });
+    if (!user || user.status !== UserStatus.ACTIVE || !([Role.STUDENT, Role.CUSTOMER, Role.TEACHER] as Role[]).includes(user.role)) throw new ForbiddenException('Only active community members can use group chat');
+    const groups = await this.prisma.communityGroup.findMany({
+      where: { members: { some: { userId } } },
+      select: { id: true },
+      orderBy: { updatedAt: 'desc' },
+    });
+    const conversations = await Promise.all(groups.map((group) => this.prisma.conversation.upsert({ where: { groupId: group.id }, update: {}, create: { groupId: group.id }, select: { id: true } })));
     return Promise.all(conversations.map((conversation) => this.present(conversation.id, userId)));
   }
 
@@ -92,8 +133,13 @@ export class ChatService {
       await tx.conversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } });
       return created;
     });
-    const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
-    await this.notifications.createMessageNotification(recipientId, userId, messageBody);
+    if (conversation.groupId) {
+      const members = await this.prisma.communityGroupMember.findMany({ where: { groupId: conversation.groupId, userId: { not: userId } }, select: { userId: true } });
+      await Promise.all(members.map((member) => this.notifications.createMessageNotification(member.userId, userId, messageBody)));
+    } else if (conversation.userAId && conversation.userBId) {
+      const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
+      await this.notifications.createMessageNotification(recipientId, userId, messageBody);
+    }
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
 
@@ -109,8 +155,14 @@ export class ChatService {
       await tx.conversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } });
       return created;
     });
-    const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
-    await this.notifications.createMessageNotification(recipientId, userId, messageBody || (uploadedMedia.mediaType === 'VIDEO' ? 'Sent you a video.' : 'Sent you an image.'));
+    const notificationBody = messageBody || (uploadedMedia.mediaType === 'VIDEO' ? (conversation.groupId ? 'Sent a video to the group.' : 'Sent you a video.') : (conversation.groupId ? 'Sent an image to the group.' : 'Sent you an image.'));
+    if (conversation.groupId) {
+      const members = await this.prisma.communityGroupMember.findMany({ where: { groupId: conversation.groupId, userId: { not: userId } }, select: { userId: true } });
+      await Promise.all(members.map((member) => this.notifications.createMessageNotification(member.userId, userId, notificationBody)));
+    } else if (conversation.userAId && conversation.userBId) {
+      const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
+      await this.notifications.createMessageNotification(recipientId, userId, notificationBody);
+    }
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
 
