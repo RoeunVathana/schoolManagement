@@ -3874,7 +3874,7 @@ a, button, input, textarea, select { max-width: 100%; }
 /* Chat scroll ownership: the page keeps its normal scroll while the two chat
    columns scroll their own content instead of expanding the grid endlessly. */
 .community-chat-shell {
-  height: min(42rem, calc(100dvh - 8rem));
+  height: min(56rem, calc(100dvh - 5.25rem));
   min-height: 34rem;
   overflow: clip;
   overscroll-behavior-y: auto;
