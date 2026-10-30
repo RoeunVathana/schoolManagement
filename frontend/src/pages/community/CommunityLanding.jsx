@@ -9,6 +9,7 @@ import ThemeSwitch from '../../components/ThemeSwitch';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../context/LanguageContext';
+import { useCommunityText } from '../../context/communityTranslations';
 import { roleHome } from '../../utils/roles';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -82,7 +83,20 @@ export default function CommunityLanding() {
 
 function PublicPost({ post, text }) {
   const author = post.author || {};
-  return <article className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={author} size="public" /><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Community update" className="public-community-post-image" />}<div className="public-community-post-footer"><span>{text.shared}</span><Link to="/login/student">{text.signInConnect} →</Link></div></article>;
+  const communityText = useCommunityText();
+  const [shareNotice, setShareNotice] = useState('');
+  const share = async () => {
+    setShareNotice('');
+    try {
+      const url = `${window.location.origin}/profile/${author.id || ''}#post-${post.id}`;
+      if (navigator.share) await navigator.share({ title: author.fullName || 'CampusFlow', text: post.content.slice(0, 140), url });
+      else await navigator.clipboard.writeText(url);
+      setShareNotice(communityText.postLinkCopied);
+    } catch (shareError) {
+      if (shareError?.name !== 'AbortError') setShareNotice(communityText.shareFailed);
+    }
+  };
+  return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={author} size="public" /><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Community update" className="public-community-post-image" />}<div className="public-community-post-footer"><span>{text.shared}{post.reactionCount ? ` · ♥ ${post.reactionCount}` : ''}</span><button type="button" onClick={share} className="public-community-post-share">↗ {communityText.share}</button>{shareNotice && <small>{shareNotice}</small>}<Link to="/login/student">{text.signInConnect} →</Link></div></article>;
 }
 
 function CommunityLoading({ text }) {

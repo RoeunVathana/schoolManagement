@@ -28,5 +28,7 @@ export class PostsController {
   update(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: UpdatePostDto, @UploadedFile() file?: Express.Multer.File) {
     return this.posts.update(id, user.id, { ...dto, imageUrl: file ? `/uploads/posts/${file.filename}` : undefined });
   }
+  @Post(':id/reaction') react(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.addReaction(id, user.id); }
+  @Delete(':id/reaction') unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.removeReaction(id, user.id); }
   @Delete(':id') remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.remove(id, user.id); }
 }

@@ -9,6 +9,19 @@ export class PostsService {
 
   private readonly authorSelect = { id: true, fullName: true, email: true, role: true, profileImageUrl: true, profile: { select: { username: true, firstName: true, lastName: true, avatar: true } } } as const;
 
+  private postInclude(viewerId: string) {
+    return {
+      author: { select: this.authorSelect },
+      reactions: { where: { userId: viewerId }, select: { type: true } },
+      _count: { select: { reactions: true } },
+    } as const;
+  }
+
+  private presentPost(post: any) {
+    const { reactions, _count, ...safePost } = post;
+    return { ...safePost, reactionCount: _count?.reactions || 0, viewerReaction: reactions?.[0]?.type || null };
+  }
+
   private async assertPostOwner(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } });
     if (!user || user.status !== 'ACTIVE' || (user.role !== Role.STUDENT && user.role !== Role.CUSTOMER)) throw new ForbiddenException('Only active students and customers can create posts');
@@ -18,7 +31,8 @@ export class PostsService {
     await this.assertPostOwner(userId);
     const content = input.content.trim();
     if (!content) throw new BadRequestException('Post content cannot be empty');
-    return this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl }, include: { author: { select: this.authorSelect } } });
+    const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl }, include: this.postInclude(userId) });
+    return this.presentPost(post);
   }
 
   async canView(post: { authorId: string; visibility: PostVisibility }, viewerId: string) {
@@ -32,7 +46,8 @@ export class PostsService {
     if (!owner || owner.status !== 'ACTIVE') throw new NotFoundException('Profile not found');
     const relationship = await this.friends.friendshipStatus(viewerId, ownerId);
     const visibility = relationship === 'SELF' ? undefined : relationship === 'FRIENDS' ? { in: [PostVisibility.PUBLIC, PostVisibility.FRIENDS_ONLY] } : PostVisibility.PUBLIC;
-    return this.prisma.post.findMany({ where: { authorId: ownerId, visibility }, include: { author: { select: this.authorSelect } }, orderBy: { createdAt: 'desc' } });
+    const posts = await this.prisma.post.findMany({ where: { authorId: ownerId, visibility }, include: this.postInclude(viewerId), orderBy: { createdAt: 'desc' } });
+    return posts.map((post) => this.presentPost(post));
   }
 
   async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string }) {
@@ -47,7 +62,8 @@ export class PostsService {
     }
     if (input.visibility !== undefined) data.visibility = input.visibility;
     if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
-    return this.prisma.post.update({ where: { id: postId }, data, include: { author: { select: this.authorSelect } } });
+    const updatedPost = await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
+    return this.presentPost(updatedPost);
   }
 
   async remove(postId: string, userId: string) {
@@ -56,5 +72,26 @@ export class PostsService {
     if (post.authorId !== userId) throw new ForbiddenException('You can only delete your own posts');
     await this.prisma.post.delete({ where: { id: postId } });
     return { message: 'Post deleted' };
+  }
+
+  async addReaction(postId: string, userId: string) {
+    const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true, visibility: true } });
+    if (!post) throw new NotFoundException('Post not found');
+    if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot react to this post');
+    await this.prisma.postReaction.upsert({ where: { postId_userId: { postId, userId } }, create: { postId, userId }, update: {} });
+    return this.reactionResult(postId, userId);
+  }
+
+  async removeReaction(postId: string, userId: string) {
+    await this.prisma.postReaction.deleteMany({ where: { postId, userId } });
+    return this.reactionResult(postId, userId);
+  }
+
+  private async reactionResult(postId: string, userId: string) {
+    const [reactionCount, reaction] = await this.prisma.$transaction([
+      this.prisma.postReaction.count({ where: { postId } }),
+      this.prisma.postReaction.findUnique({ where: { postId_userId: { postId, userId } }, select: { type: true } }),
+    ]);
+    return { reacted: Boolean(reaction), reactionCount, viewerReaction: reaction?.type || null };
   }
 }

@@ -193,7 +193,43 @@ export default function PublicProfile() {
 function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
   const text = useCommunityText();
   const visibility = { PUBLIC: text.public, FRIENDS_ONLY: text.friendsOnly, PRIVATE: text.onlyMe };
-  return <article className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}</article>;
+  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionBusy, setReactionBusy] = useState(false);
+  const [shareNotice, setShareNotice] = useState('');
+
+  useEffect(() => {
+    setReacted(post.viewerReaction === 'LIKE');
+    setReactionCount(post.reactionCount || 0);
+  }, [post.id, post.viewerReaction, post.reactionCount]);
+
+  const toggleReaction = async () => {
+    if (reactionBusy) return;
+    setReactionBusy(true);
+    try {
+      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
+      setReacted(Boolean(result.reacted));
+      setReactionCount(result.reactionCount || 0);
+    } catch {
+      setShareNotice(text.reactionFailed);
+    } finally {
+      setReactionBusy(false);
+    }
+  };
+
+  const share = async () => {
+    setShareNotice('');
+    try {
+      const url = `${window.location.origin}/profile/${post.author?.id || ''}#post-${post.id}`;
+      if (navigator.share) await navigator.share({ title: post.author?.fullName || text.post, text: post.content.slice(0, 140), url });
+      else await navigator.clipboard.writeText(url);
+      setShareNotice(text.postLinkCopied);
+    } catch (shareError) {
+      if (shareError?.name !== 'AbortError') setShareNotice(text.shareFailed);
+    }
+  };
+
+  return <article id={`post-${post.id}`} className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}<div className="community-post-engagement"><button type="button" disabled={reactionBusy} onClick={toggleReaction} className={`community-post-reaction${reacted ? ' is-active' : ''}`} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? text.liked : text.like}<b>{reactionCount}</b></button><button type="button" onClick={share} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div></article>;
 }
 
 function About({ profile, details, isSelf, editing, form, busy, onEdit, onChange, onSave, onDelete, onCancel }) {
