@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { isLearnerRole } from '../common/learner-roles';
 import { pagination, paginationResult } from '../common/pagination';
 
 const days = (value: unknown): DayOfWeek[] => {
@@ -86,7 +87,7 @@ export class SchedulesController {
       const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } });
       where.course = { teacherId: teacher.id };
     }
-    if (user.role === Role.STUDENT) {
+    if (isLearnerRole(user.role)) {
       const student = await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } });
       where.course = { enrollments: { some: { studentId: student.id, status: 'ACTIVE' } } };
     }

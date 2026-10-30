@@ -76,7 +76,7 @@ export default function AppRoutes() {
           <Route path="teacher/:section" element={<TeacherSimple />} />
         </Route>
       </Route>
-      <Route element={<RoleRoute role="STUDENT" />}>
+      <Route element={<RoleRoute role={['STUDENT', 'CUSTOMER']} />}>
         {/* Students should always be able to edit their own profile. */}
         <Route element={<StudentLayout />}>
           <Route path="student/profile" element={<Profile />} />

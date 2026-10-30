@@ -11,6 +11,7 @@ import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { homeworkUpload } from '../common/upload.options';
+import { isLearnerRole } from '../common/learner-roles';
 
 @ApiTags('submissions') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('submissions') export class SubmissionsController {
@@ -22,7 +23,7 @@ import { homeworkUpload } from '../common/upload.options';
 
   private async assertStudentOwner(id: string, user: any) {
     const submission = await this.prisma.submission.findUniqueOrThrow({ where: { id }, include: { assignment: true, grade: true } });
-    if (user.role === Role.STUDENT && submission.studentId !== await this.studentId(user)) throw new ForbiddenException('You can only manage your own submission');
+    if (isLearnerRole(user.role) && submission.studentId !== await this.studentId(user)) throw new ForbiddenException('You can only manage your own submission');
     if (user.role === Role.TEACHER) {
       const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id } });
       if (submission.assignment.teacherId !== teacher.id) throw new ForbiddenException('You can only manage submissions for your assigned courses');
@@ -48,7 +49,7 @@ import { homeworkUpload } from '../common/upload.options';
   }
 
   private async resolveStudentId(user: any, suppliedStudentId?: string) {
-    return user.role === Role.STUDENT ? this.studentId(user) : suppliedStudentId;
+    return isLearnerRole(user.role) ? this.studentId(user) : suppliedStudentId;
   }
 
   private async assertEnrollment(courseId: string, studentId?: string) {
@@ -59,7 +60,7 @@ import { homeworkUpload } from '../common/upload.options';
   }
 
   private async assertStudentSubmissionCanBeReplaced(assignmentId: string, studentId: string, user: any) {
-    if (user.role !== Role.STUDENT) return;
+    if (!isLearnerRole(user.role)) return;
     const existing = await this.prisma.submission.findUnique({
       where: { assignmentId_studentId: { assignmentId, studentId } },
       include: { grade: true },
@@ -68,14 +69,14 @@ import { homeworkUpload } from '../common/upload.options';
   }
 
   private assertBeforeDeadline(assignment: any, user: any, file?: Express.Multer.File) {
-    if (user.role === Role.STUDENT && new Date() > new Date(assignment.dueDate)) {
+    if (isLearnerRole(user.role) && new Date() > new Date(assignment.dueDate)) {
       if (file?.path && existsSync(file.path)) unlinkSync(file.path);
       throw new BadRequestException('The assignment submission deadline has passed');
     }
   }
 
   private assertStudentCanEdit(submission: any, user: any) {
-    if (user.role === Role.STUDENT && submission.grade) {
+    if (isLearnerRole(user.role) && submission.grade) {
       throw new BadRequestException('A graded submission cannot be edited');
     }
   }
@@ -149,7 +150,7 @@ import { homeworkUpload } from '../common/upload.options';
 
   @Patch(':id') @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('edit') async update(@Param('id') id: string, @Body() b: any, @CurrentUser() user: any) {
     const submission = await this.assertStudentOwner(id, user);
-    if (user.role === Role.STUDENT) {
+    if (isLearnerRole(user.role)) {
       this.assertStudentCanEdit(submission, user);
       this.assertBeforeDeadline(submission.assignment, user);
       return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText, submittedAt: new Date(), status: SubmissionStatus.SUBMITTED } });

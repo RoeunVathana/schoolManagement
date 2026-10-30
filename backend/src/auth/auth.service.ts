@@ -8,6 +8,7 @@ import { Role, UserStatus } from '@prisma/client';
 import { PaymentService } from '../payments/payment.service';
 import { FirebaseAuthService } from './firebase-auth.service';
 import { MailService } from './mail.service';
+import { isLearnerRole } from '../common/learner-roles';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,11 @@ export class AuthService {
 
   private isOnline(lastSeenAt?: Date | string | null) { return !!lastSeenAt && Date.now() - new Date(lastSeenAt).getTime() <= 90_000; }
   private safeUser(user: any) { const { password, ...safe } = user; const withPresence = { ...safe, isOnline: this.isOnline(safe.lastSeenAt) }; return withPresence.role === Role.ADMIN ? { ...withPresence, canCreate: true, canEdit: true, canDelete: true } : withPresence; }
+  private async ensureStudentRecord(userId: string) {
+    const existing = await this.prisma.student.findUnique({ where: { userId }, select: { id: true } });
+    if (existing) return existing;
+    return this.prisma.student.create({ data: { userId, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` }, select: { id: true } });
+  }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
   private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
 
@@ -52,7 +58,7 @@ export class AuthService {
           canDelete: false,
           profile: { create: { username, email: input.email.trim().toLowerCase(), firstName, lastName, phone: input.phone, avatar: input.profileImageUrl, role, accountStatus: status } },
         } });
-        if (role === Role.STUDENT) {
+        if (isLearnerRole(role)) {
           await tx.student.create({ data: { userId: created.id, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` } });
         }
         return tx.user.findUniqueOrThrow({ where: { id: created.id }, include: { profile: true, student: true, teacher: true } });
@@ -75,6 +81,7 @@ export class AuthService {
     const normalizedEmail = email.trim().toLowerCase();
     const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail }, include: { profile: true, student: true, teacher: true } });
     if (!user || user.status !== 'ACTIVE' || (expectedRole && user.role !== expectedRole) || !(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('Invalid credentials for the selected account type');
+    if (isLearnerRole(user.role)) await this.ensureStudentRecord(user.id);
     return this.issueTokens(user);
   }
 
@@ -163,7 +170,7 @@ export class AuthService {
             canDelete: false,
           },
         });
-        if (expectedRole === Role.STUDENT) {
+        if (isLearnerRole(expectedRole)) {
           await tx.student.create({ data: { userId: created.id, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` } });
         } else {
           await tx.teacher.create({ data: { userId: created.id, teacherCode: `TCH-${randomUUID().slice(0, 8).toUpperCase()}` } });
@@ -174,11 +181,16 @@ export class AuthService {
       user = await this.prisma.user.update({ where: { id: user.id }, data: { firebaseUid: decoded.uid, profileImageUrl: user.profileImageUrl || decoded.picture }, include: { student: true, teacher: true } });
     }
 
+    if (isLearnerRole(user.role)) await this.ensureStudentRecord(user.id);
     return this.issueTokens(user);
   }
 
   async getProfile(userId: string) {
     let user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    if (isLearnerRole(user.role) && !user.student) {
+      await this.ensureStudentRecord(user.id);
+      user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    }
     if (!user.profile) {
       const username = `legacy_${user.id}`;
       await this.prisma.profile.create({ data: { userId: user.id, username, email: user.email, firstName: user.firstName, lastName: user.lastName, phone: user.phone, avatar: user.profileImageUrl, role: user.role, accountStatus: user.status } }).catch((error) => {
@@ -223,7 +235,7 @@ export class AuthService {
     const profile = await this.prisma.$transaction(async (tx) => {
       if (Object.keys(userData).length) await tx.user.update({ where: { id: userId }, data: userData });
       if (Object.keys(profileData).length && current.profile) await tx.profile.update({ where: { userId }, data: profileData });
-      if (current.role === Role.STUDENT && current.student) {
+      if (isLearnerRole(current.role) && current.student) {
         await tx.student.update({ where: { userId }, data: { gender: input.gender, dateOfBirth: input.dateOfBirth ? new Date(input.dateOfBirth) : undefined, address: input.address, guardianName: input.guardianName, guardianPhone: input.guardianPhone } });
       }
       if (current.role === Role.TEACHER && current.teacher) {

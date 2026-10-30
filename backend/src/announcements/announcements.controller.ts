@@ -9,6 +9,7 @@ import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { NotificationsService } from '../notifications/notifications.service';
 import { pagination, paginationResult } from '../common/pagination';
+import { isLearnerRole } from '../common/learner-roles';
 
 @ApiTags('announcements') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('announcements')
@@ -34,7 +35,7 @@ export class AnnouncementsController {
   async list(@CurrentUser() user: any, @Query() q: any) {
     let where: any = {};
     if (user.role === Role.TEACHER) { const teacher = await this.prisma.teacher.findUniqueOrThrow({ where: { userId: user.id } }); where = { OR: [{ createdBy: user.id, course: { teacherId: teacher.id } }, { author: { role: Role.ADMIN } }] }; }
-    if (user.role === Role.STUDENT) {
+    if (isLearnerRole(user.role)) {
       const student = await this.prisma.student.findUnique({ where: { userId: user.id }, select: { id: true } });
       const enrollments = student ? await this.prisma.enrollment.findMany({ where: { studentId: student.id, status: 'ACTIVE' }, select: { courseId: true } }) : [];
       const courseIds = enrollments.map((enrollment) => enrollment.courseId);

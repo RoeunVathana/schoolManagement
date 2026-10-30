@@ -234,7 +234,7 @@ export default function Storefront() {
 
   useEffect(() => {
     let active = true;
-    if (user?.role !== "STUDENT") {
+    if (!['STUDENT', 'CUSTOMER'].includes(user?.role)) {
       setHasPurchasedCourse(false);
       setPurchasedCourseIds([]);
       setPurchasedCoursePlans({});
@@ -277,7 +277,7 @@ export default function Storefront() {
         if (id) {
           const response = await api.get(`/storefront/courses/${id}`);
           let nextCourse = unwrap(response);
-          if (user?.role === "STUDENT") {
+          if (['STUDENT', 'CUSTOMER'].includes(user?.role)) {
             try {
               const accessResponse = await api.get(`/storefront/courses/${id}/access`);
               nextCourse = unwrap(accessResponse);
@@ -317,7 +317,7 @@ export default function Storefront() {
       });
       return;
     }
-    if (user.role !== "STUDENT") {
+    if (!['STUDENT', 'CUSTOMER'].includes(user.role)) {
       setError(copy.studentOnly);
       return;
     }
@@ -343,7 +343,7 @@ export default function Storefront() {
       });
       return;
     }
-    if (user.role !== "STUDENT") {
+    if (!['STUDENT', 'CUSTOMER'].includes(user.role)) {
       setError(copy.studentOnly);
       return;
     }
@@ -816,7 +816,7 @@ function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
 function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurchasedCourse, t }) {
   const dashboardPath = roleHome(user?.role);
   const hasSession = !authLoading && Boolean(user);
-  const canOpenWorkspace = hasSession && (user?.role !== "STUDENT" || hasPurchasedCourse);
+  const canOpenWorkspace = hasSession && (!['STUDENT', 'CUSTOMER'].includes(user?.role) || hasPurchasedCourse);
   const communityPath = "/community";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { logout } = useAuth();
@@ -925,7 +925,7 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
 }
 
 function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan }) {
-  const canViewLearningContent = user?.role === "STUDENT" && isPurchased;
+  const canViewLearningContent = ['STUDENT', 'CUSTOMER'].includes(user?.role) && isPurchased;
 
   return (
     <>
@@ -1021,11 +1021,11 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#8de4ca] text-xl text-[#10243f]" aria-hidden="true">âœ“</span>
                 <div>
                   <p className="text-xs font-extrabold uppercase tracking-[.2em] text-[#a5f1dc]">{t("courseContentLocked")}</p>
-                  <h2 className="mt-3 text-2xl font-black tracking-tight">{user?.role === "STUDENT" ? t("purchaseToUnlock") : t("signInToUnlock")}</h2>
+                  <h2 className="mt-3 text-2xl font-black tracking-tight">{['STUDENT', 'CUSTOMER'].includes(user?.role) ? t("purchaseToUnlock") : t("signInToUnlock")}</h2>
                   <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">{t("courseContentLockedHint")}</p>
                   {!user ? (
                     <Link to="/login/student" state={{ from: `/courses/${course.id}` }} className="mt-6 inline-flex rounded-xl bg-[#8de4ca] px-4 py-3 text-sm font-extrabold text-[#10243f] transition hover:bg-[#a5f1dc]">{t("signInToUnlock")}</Link>
-                  ) : user.role === "STUDENT" && !isPurchased ? (
+                  ) : ['STUDENT', 'CUSTOMER'].includes(user.role) && !isPurchased ? (
                     <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 rounded-xl bg-[#229ed9] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button>
                   ) : null}
                 </div>

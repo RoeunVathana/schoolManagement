@@ -5,6 +5,7 @@ import { basename, extname, join } from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
+import { isLearnerRole } from '../common/learner-roles';
 
 const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
 const DIRECT_CHAT_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
@@ -33,7 +34,7 @@ export class ChatService {
     if (friendship) return { userAId, userBId };
 
     const teacherUserId = firstUser.role === Role.TEACHER ? firstId : secondUser.role === Role.TEACHER ? secondId : null;
-    const studentUserId = firstUser.role === Role.STUDENT ? firstId : secondUser.role === Role.STUDENT ? secondId : null;
+    const studentUserId = isLearnerRole(firstUser.role) ? firstId : isLearnerRole(secondUser.role) ? secondId : null;
     if (teacherUserId && studentUserId) {
       const activeEnrollment = await this.prisma.enrollment.findFirst({
         where: {
@@ -108,7 +109,7 @@ export class ChatService {
 
   async listContacts(userId: string) {
     const user = await this.assertMember(userId);
-    if (user.role !== Role.TEACHER && user.role !== Role.STUDENT) return [];
+    if (user.role !== Role.TEACHER && !isLearnerRole(user.role)) return [];
 
     const contacts = user.role === Role.TEACHER
       ? (await this.prisma.enrollment.findMany({

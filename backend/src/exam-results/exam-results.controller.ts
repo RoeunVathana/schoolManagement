@@ -9,6 +9,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { examSubmissionUpload } from '../common/upload.options';
+import { isLearnerRole } from '../common/learner-roles';
 
 @ApiTags('exam-results')
 @ApiBearerAuth()
@@ -155,7 +156,7 @@ export class ExamResultsController {
   @Get('exam/:examId')
   async byExam(@Param('examId') examId: string, @CurrentUser() user: any) {
     const exam = await this.assertExamAccess(examId, user);
-    if (user.role === Role.STUDENT) {
+    if (isLearnerRole(user.role)) {
       const { student } = await this.assertStudentExamAccess(examId, user);
       return this.prisma.examResult.findMany({ where: { examId, studentId: student.id }, include: { exam: { include: { course: true } }, student: { include: { user: { select: { fullName: true } } } } } });
     }

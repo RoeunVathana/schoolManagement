@@ -19,7 +19,7 @@ export default function StudentPurchaseRoute() {
     let active = true;
 
     if (authLoading) return undefined;
-    if (!user || user.role !== 'STUDENT') {
+    if (!user || !['STUDENT', 'CUSTOMER'].includes(user.role)) {
       setAccess('denied');
       return undefined;
     }
@@ -38,7 +38,7 @@ export default function StudentPurchaseRoute() {
     return () => { active = false; };
   }, [authLoading, user?.id, user?.role]);
 
-  if (authLoading || (user?.role === 'STUDENT' && access === 'checking')) {
+  if (authLoading || (['STUDENT', 'CUSTOMER'].includes(user?.role) && access === 'checking')) {
     return <Loading label="Checking student access..." fullScreen />;
   }
 
@@ -55,7 +55,7 @@ export default function StudentPurchaseRoute() {
     );
   }
 
-  if (user.role !== 'STUDENT') return <Navigate to={roleHome(user.role)} replace />;
+  if (!['STUDENT', 'CUSTOMER'].includes(user.role)) return <Navigate to={roleHome(user.role)} replace />;
 
   if (access !== 'allowed') {
     return (

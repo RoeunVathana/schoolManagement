@@ -10,6 +10,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Permissions } from '../common/decorators/permissions.decorator';
+import { isLearnerRole } from '../common/learner-roles';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { certificateUpload } from '../common/upload.options';
@@ -38,7 +39,7 @@ export class CertificatesController {
   private async assertCertificateAccess(id: string, user: any) {
     const certificate = await this.prisma.courseCertificate.findUniqueOrThrow({ where: { id }, include: { course: true } });
     if (user.role === Role.TEACHER) await this.assertCourseAccess(certificate.courseId, user);
-    if (user.role === Role.STUDENT && certificate.studentId !== await this.studentId(user)) throw new ForbiddenException('You can only access your own certificates.');
+    if (isLearnerRole(user.role) && certificate.studentId !== await this.studentId(user)) throw new ForbiddenException('You can only access your own certificates.');
     return certificate;
   }
 

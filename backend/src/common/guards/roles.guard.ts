@@ -11,7 +11,8 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [context.getHandler(), context.getClass()]);
     const user = context.switchToHttp().getRequest().user;
-    if (roles?.length && (!user || !roles.includes(user.role))) return false;
+    const learnerAlias = user?.role === Role.CUSTOMER && roles?.includes(Role.STUDENT);
+    if (roles?.length && (!user || (!roles.includes(user.role) && !learnerAlias))) return false;
     const permissions = this.reflector.getAllAndOverride<Permission[]>(PERMISSIONS_KEY, [context.getHandler(), context.getClass()]);
     if (!permissions?.length || user?.role === Role.ADMIN || user?.role === Role.OWNER) return true;
     const permissionMap: Record<Permission, string> = { create: 'canCreate', edit: 'canEdit', delete: 'canDelete' };

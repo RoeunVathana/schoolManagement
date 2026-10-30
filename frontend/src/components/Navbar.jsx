@@ -6,14 +6,14 @@ import { useLanguage } from '../context/LanguageContext';
 import api, { unwrap } from '../api/axios';
 import LanguageSwitcher from './LanguageSwitcher';
 
-const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/announcements', STUDENT: '/student/announcements' };
+const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/announcements', STUDENT: '/student/announcements', CUSTOMER: '/student/announcements' };
 
 function notificationPath(notification, role) {
   const title = String(notification?.title || '').toLowerCase();
   if (title.includes('friend request')) return '/friends';
   if (title.includes('group invitation')) return '/groups';
   if (title.includes('new message')) return '/chat';
-  if (title.includes('monthly payment')) return role === 'STUDENT' ? '/student/courses' : '/courses';
+  if (title.includes('monthly payment')) return ['STUDENT', 'CUSTOMER'].includes(role) ? '/student/courses' : '/courses';
   return announcementPath[role] || '/community';
 }
 

@@ -56,14 +56,14 @@ export class NotificationsService {
   async notifyAnnouncement(announcement: { id: string; courseId: string | null; title: string; content: string }, actor: { id: string; role: Role }) {
     let userIds: string[] = [];
     if (actor.role === Role.ADMIN) {
-      const recipients = await this.prisma.user.findMany({ where: { id: { not: actor.id }, role: { in: [Role.TEACHER, Role.STUDENT] }, status: UserStatus.ACTIVE }, select: { id: true } });
+      const recipients = await this.prisma.user.findMany({ where: { id: { not: actor.id }, role: { in: [Role.TEACHER, Role.STUDENT, Role.CUSTOMER] }, status: UserStatus.ACTIVE }, select: { id: true } });
       userIds = recipients.map((user) => user.id);
     } else if (actor.role === Role.TEACHER) {
       if (announcement.courseId) {
         const enrollments = await this.prisma.enrollment.findMany({ where: { courseId: announcement.courseId, status: EnrollmentStatus.ACTIVE }, select: { student: { select: { userId: true } } } });
         userIds = enrollments.map((enrollment) => enrollment.student.userId);
       } else {
-        const recipients = await this.prisma.user.findMany({ where: { role: Role.STUDENT, status: UserStatus.ACTIVE }, select: { id: true } });
+        const recipients = await this.prisma.user.findMany({ where: { role: { in: [Role.STUDENT, Role.CUSTOMER] }, status: UserStatus.ACTIVE }, select: { id: true } });
         userIds = recipients.map((user) => user.id);
       }
     }
