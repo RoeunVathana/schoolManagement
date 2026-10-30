@@ -9,7 +9,7 @@ export class FirebaseAuthService {
   private readonly apiKey?: string;
 
   constructor(config: ConfigService) {
-    const projectId = config.get<string>('FIREBASE_PROJECT_ID', 'midterm-fe002');
+    const projectId = config.get<string>('FIREBASE_PROJECT_ID', 'schoolmanagement-65b53');
     // Use the backend Firebase web API key for the Identity Toolkit REST
     // fallback when Admin SDK credentials are not set.
     this.apiKey = config.get<string>('FIREBASE_API_KEY') || config.get<string>('VITE_FIREBASE_API_KEY');
