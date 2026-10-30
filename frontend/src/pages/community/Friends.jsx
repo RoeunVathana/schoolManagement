@@ -3,21 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import FriendRequestButton from '../../components/FriendRequestButton';
 import CommunityStories from '../../components/CommunityStories';
-
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-
-const avatarUrl = (person) => {
-  const path = person?.profile?.avatar || person?.profileImageUrl;
-  return path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-};
-
-const initials = (name) => name?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
+import UserAvatar from '../../components/UserAvatar';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Friends() {
   const [data, setData] = useState({ incoming: [], outgoing: [], suggestions: [], friends: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -44,9 +38,7 @@ export default function Friends() {
     const target = person(value);
     return <article key={value.id} className="community-person-card">
       <Link to={`/profile/${target.id}`} className="community-person-link">
-        <div className="community-avatar community-avatar-md">
-          {target.profile?.avatar || target.profileImageUrl ? <img src={avatarUrl(target)} alt={target.fullName} /> : initials(target.fullName)}
-        </div>
+        <UserAvatar person={target} size="md" />
         <div className="community-person-copy">
           <p className="community-person-name">{target.fullName}</p>
           <p className="community-person-role">{target.role}</p>
@@ -73,8 +65,8 @@ export default function Friends() {
       <div className="community-hero-orb community-hero-orb-two" />
       <div className="community-hero-copy">
         <p className="community-eyebrow">CampusFlow community</p>
-        <h1>Find your people.</h1>
-        <p>Build your learning circle, share moments, and stay close to the people moving forward with you.</p>
+        <h1>Welcome to your circle.</h1>
+        <p>{user?.fullName ? `Hey ${user.fullName.split(' ')[0]}, ` : ''}find people who make learning feel easier, more useful, and more fun.</p>
       </div>
       <div className="community-hero-actions">
         <Link to="/chat" className="community-button community-button-primary">Open messages</Link>

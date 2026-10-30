@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import FriendRequestButton from '../../components/FriendRequestButton';
 import PostComposer from '../../components/PostComposer';
+import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 
@@ -48,7 +49,6 @@ export default function PublicProfile() {
 
   const isSelf = user?.id === id;
   const profileDetails = profile?.user?.profile || {};
-  const avatar = profileDetails.avatar || profile?.user?.profileImageUrl;
   const displayName = profile?.user?.fullName || `${profile?.user?.firstName || ''} ${profile?.user?.lastName || ''}`.trim();
   const role = profile?.user?.role;
 
@@ -117,7 +117,7 @@ export default function PublicProfile() {
 
       <div className="community-profile-identity">
         <div className="community-profile-heading">
-          <div className="community-profile-avatar">{avatar ? <img src={mediaUrl(avatar)} alt={displayName} /> : displayName?.charAt(0)?.toUpperCase()}</div>
+          <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />
           <div className="community-profile-name-block"><p className="community-eyebrow">{role || 'Community member'}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} friends <span>·</span> {profileDetails.location || 'CampusFlow learning community'}</p><p className="community-profile-bio">{profileDetails.bio || `Learning with CampusFlow as a ${String(role || 'community member').toLowerCase()}.`}</p></div>
         </div>
         <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">Dashboard</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice('Accept the friend request before starting a chat.')} />}</div>
@@ -152,8 +152,7 @@ function About({ profile, details }) {
 }
 
 function PersonCard({ person }) {
-  const avatar = person.profile?.avatar || person.profileImageUrl;
-  return <Link to={`/profile/${person.id}`} className="community-profile-person-card"><div className="community-avatar community-avatar-md">{avatar ? <img src={avatar.startsWith('http') ? avatar : `${API_ORIGIN}${avatar}`} alt={person.fullName} /> : person.fullName?.charAt(0)?.toUpperCase()}</div><div><p>{person.fullName}</p><span>{person.role}</span></div><span aria-hidden="true">→</span></Link>;
+  return <Link to={`/profile/${person.id}`} className="community-profile-person-card"><UserAvatar person={person} size="md" /><div><p>{person.fullName}</p><span>{person.role}</span></div><span aria-hidden="true">→</span></Link>;
 }
 
 function EmptyState({ title, description }) {

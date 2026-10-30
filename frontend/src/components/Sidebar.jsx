@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../context/LanguageContext';
 import BrandLogo from './BrandLogo';
+import UserAvatar from './UserAvatar';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
@@ -60,7 +61,7 @@ export default function Sidebar({ open, onClose }) {
     </div>
 
     <NavLink to={profilePath} onClick={onClose} className="group sidebar-profile mb-6 flex shrink-0 items-center gap-3 rounded-2xl p-3 transition-all duration-200">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/15 text-sm font-bold text-mint ring-1 ring-white/10">{user?.profileImageUrl ? <img src={mediaUrl(user.profileImageUrl)} alt={user.fullName} className="h-full w-full object-cover" /> : initials}</div>
+      <UserAvatar person={user} size="sidebar" className="ring-1 ring-white/10" />
       <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-white">{user?.fullName || 'User'}</p><p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">{user?.role || 'Account'}</p></div>
       <span className="text-lg text-slate-500 transition group-hover:text-mint">›</span>
     </NavLink>

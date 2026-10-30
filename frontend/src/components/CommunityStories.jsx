@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import api, { unwrap } from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
+import UserAvatar from './UserAvatar';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_IMAGE_SIZE = 150 * 1024 * 1024;
@@ -11,7 +12,6 @@ const visibilityOptions = [
 ];
 
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const initials = (name) => name?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
 
 export default function CommunityStories() {
   const { user } = useAuth();
@@ -74,11 +74,10 @@ export default function CommunityStories() {
 
 function StoryTile({ group, own, onOpen }) {
   const latest = group.stories[group.stories.length - 1];
-  const avatar = group.author?.profile?.avatar || group.author?.profileImageUrl;
   return <button type="button" onClick={onOpen} className="community-story-tile community-story-person">
     <div className="community-story-media">{latest.imageUrl ? <img src={mediaUrl(latest.imageUrl)} alt="" /> : <div className="community-story-text">{latest.content || 'New story'}</div>}</div>
     <div className="community-story-shade" />
-    <div className="community-story-ring"><div className="community-avatar community-avatar-sm">{avatar ? <img src={mediaUrl(avatar)} alt="" /> : initials(group.author?.fullName)}</div></div>
+    <div className="community-story-ring"><UserAvatar person={group.author} size="sm" /></div>
     <span className="community-story-name">{own ? 'Your story' : group.author?.fullName || 'Community member'}</span>
     {group.stories.length > 1 && <span className="community-story-count">{group.stories.length}</span>}
   </button>;

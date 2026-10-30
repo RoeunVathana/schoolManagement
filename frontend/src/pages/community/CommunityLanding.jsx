@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import BrandLogo from '../../components/BrandLogo';
 import ThemeSwitch from '../../components/ThemeSwitch';
+import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 
@@ -58,6 +59,5 @@ export default function CommunityLanding() {
 
 function PublicPost({ post }) {
   const author = post.author || {};
-  const avatar = author.profile?.avatar || author.profileImageUrl;
-  return <article className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><span className="public-community-avatar public-community-avatar-lg">{avatar ? <img src={mediaUrl(avatar)} alt="" /> : initials(author.fullName)}</span><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">Public</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Community update" className="public-community-post-image" />}<div className="public-community-post-footer"><span>Shared with the CampusFlow community</span><Link to="/login/student">Sign in to connect →</Link></div></article>;
+  return <article className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={author} size="public" /><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">Public</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Community update" className="public-community-post-image" />}<div className="public-community-post-footer"><span>Shared with the CampusFlow community</span><Link to="/login/student">Sign in to connect →</Link></div></article>;
 }
