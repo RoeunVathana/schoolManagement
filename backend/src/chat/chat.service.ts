@@ -84,7 +84,7 @@ export class ChatService {
         include: {
           userA: { select: userSelect },
           userB: { select: userSelect },
-          group: { select: { id: true, name: true, description: true, visibility: true, _count: { select: { members: true } } } },
+          group: { select: { id: true, name: true, description: true, coverImageUrl: true, visibility: true, _count: { select: { members: true } } } },
           messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, fullName: true } } } },
         },
       }),

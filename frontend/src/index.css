@@ -2152,6 +2152,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-conversation-item.is-unread:not(.is-active)::before { position: absolute; top: .45rem; left: .45rem; width: .48rem; height: .48rem; border: 2px solid var(--community-card); border-radius: 999px; background: #f47b67; box-shadow: 0 0 0 .18rem rgb(244 123 103 / .16); content: ''; }
 .community-group-chat-avatar { display: inline-grid; width: 2.5rem; height: 2.5rem; flex: 0 0 2.5rem; place-items: center; border: 1px solid rgb(126 231 207 / .35); border-radius: .85rem; color: #071326; background: linear-gradient(135deg, #8ce6cf, #33a7d8); font-size: 1.15rem; font-weight: 950; }
 .community-group-chat-avatar-large { width: 2.8rem; height: 2.8rem; flex-basis: 2.8rem; border-radius: .95rem; }
+.community-group-chat-avatar-image { overflow: hidden; padding: 0; background: var(--community-card); }
+.community-group-chat-avatar-media { display: block; width: 100%; height: 100%; object-fit: cover; }
 .community-group-message-sender { display: block; margin-bottom: .25rem; color: #7ee7cf; font-size: .65rem; }
 .community-conversation-copy { min-width: 0; flex: 1; }
 .community-conversation-copy strong, .community-conversation-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
