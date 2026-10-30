@@ -1996,9 +1996,14 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-message-row.is-incoming .community-message-bubble { border-bottom-left-radius: .35rem; }
 .community-message-row.is-outgoing .community-message-bubble { border-color: transparent; border-bottom-right-radius: .35rem; color: #fff; background: linear-gradient(135deg, #10243f, #1b6172); }
 .community-message-bubble p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .78rem; line-height: 1.55; }
-.community-message-image-link { display: block; max-width: min(22rem, 100%); overflow: hidden; border-radius: .8rem; background: rgb(16 36 63 / .08); }
+.community-message-attachment { width: min(22rem, 100%); }
+.community-message-image-link { display: block; overflow: hidden; border-radius: .8rem; background: rgb(16 36 63 / .08); }
 .community-message-image-link img { display: block; width: 100%; max-height: 22rem; object-fit: cover; }
 .community-message-bubble .community-message-image-link + p { margin-top: .55rem; }
+.community-message-image-actions { display: flex; justify-content: flex-end; padding-top: .4rem; }
+.community-message-image-actions button { border: 1px solid var(--community-line); border-radius: 999px; padding: .3rem .55rem; color: var(--community-muted); background: var(--community-card); font-size: .6rem; font-weight: 850; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }
+.community-message-image-actions button:hover:not(:disabled) { border-color: var(--community-blue); color: var(--community-blue); background: rgb(34 158 217 / .08); transform: translateY(-1px); }
+.community-message-image-actions button:disabled { cursor: wait; opacity: .6; }
 .community-message-bubble small { display: block; margin-top: .35rem; color: var(--community-muted); font-size: .56rem; }
 .community-message-row.is-outgoing .community-message-bubble small { color: rgb(255 255 255 / .65); }
 .community-message-actions { position: relative; display: flex; align-items: center; gap: .3rem; min-height: 1.55rem; margin-top: -.15rem; padding-inline: .25rem; }

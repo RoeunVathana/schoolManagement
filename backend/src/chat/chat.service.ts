@@ -1,5 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { MessageReactionType, Role, UserStatus } from '@prisma/client';
+import { existsSync } from 'fs';
+import { basename, extname, join } from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -108,6 +110,17 @@ export class ChatService {
     const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
     await this.notifications.createMessageNotification(recipientId, userId, messageBody || 'Sent you an image.');
     return this.presentMessage({ ...message, reactions: [] }, userId);
+  }
+
+  async getImageForDownload(userId: string, messageId: string) {
+    const message = await this.assertMessageParticipant(userId, messageId);
+    const imageUrl = (await this.prisma.message.findUnique({ where: { id: message.id }, select: { imageUrl: true } }))?.imageUrl;
+    if (!imageUrl) throw new BadRequestException('This message does not contain an image');
+    const relativePath = imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/');
+    const filePath = join(process.cwd(), relativePath);
+    if (!existsSync(filePath)) throw new NotFoundException('Chat image not found');
+    const contentTypes: Record<string, string> = { '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
+    return { filePath, fileName: basename(filePath), contentType: contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream' };
   }
 
   private presentMessage(message: any, viewerId: string) {

@@ -1,6 +1,8 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { createReadStream } from 'fs';
+import type { Response } from 'express';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { SendMessageDto } from './dto/send-message.dto';
@@ -25,6 +27,13 @@ export class ChatController {
   sendImage(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: { body?: string }, @UploadedFile() file?: Express.Multer.File) {
     if (!file) throw new BadRequestException('Please select an image to send');
     return this.chat.sendImage(user.id, id, file, dto.body);
+  }
+  @Get('messages/:messageId/image')
+  async downloadImage(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Res({ passthrough: true }) response: Response) {
+    const image = await this.chat.getImageForDownload(user.id, messageId);
+    response.setHeader('Content-Disposition', `attachment; filename="${image.fileName}"`);
+    response.setHeader('Content-Type', image.contentType);
+    return new StreamableFile(createReadStream(image.filePath));
   }
   @Patch('messages/:messageId/reaction') react(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Body() dto: MessageReactionDto) { return this.chat.reactMessage(user.id, messageId, dto.type); }
   @Delete('messages/:messageId/reaction') removeReaction(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string) { return this.chat.removeReaction(user.id, messageId); }

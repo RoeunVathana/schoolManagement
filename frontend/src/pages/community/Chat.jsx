@@ -13,6 +13,11 @@ function mediaUrl(value) {
   return value.startsWith('http') ? value : `${API_ORIGIN}${value}`;
 }
 
+function imageFileName(value, fallbackId) {
+  const name = value?.split('/').pop()?.split('?')[0];
+  return name || `campusflow-chat-${fallbackId}.jpg`;
+}
+
 function displayDate(value) {
   if (!value) return '';
   return new Date(value).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -57,6 +62,7 @@ export default function Chat() {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [downloadingImageId, setDownloadingImageId] = useState(null);
   const fileInputRef = useRef(null);
   const messageEndRef = useRef(null);
 
@@ -168,6 +174,27 @@ export default function Chat() {
     }
   };
 
+  const downloadImage = async (message) => {
+    if (!message?.imageUrl || downloadingImageId) return;
+    setDownloadingImageId(message.id);
+    setError('');
+    try {
+      const response = await api.get(`/api/chat/messages/${message.id}/image`, { responseType: 'blob' });
+      const downloadUrl = URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = imageFileName(message.imageUrl, message.id);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(downloadUrl);
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.downloadFailed || 'Could not download this image.');
+    } finally {
+      setDownloadingImageId(null);
+    }
+  };
+
   const sendMessage = async (event) => {
     event.preventDefault();
     if (imageFile) {
@@ -222,7 +249,7 @@ export default function Chat() {
         <div className="community-message-list">
           {loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}>
             <div className="community-message-bubble">
-              {message.imageUrl && <a href={mediaUrl(message.imageUrl)} target="_blank" rel="noreferrer" className="community-message-image-link"><img src={mediaUrl(message.imageUrl)} alt={text.chatImageAlt || 'Chat image'} /></a>}
+              {message.imageUrl && <div className="community-message-attachment"><a href={mediaUrl(message.imageUrl)} target="_blank" rel="noreferrer" className="community-message-image-link"><img src={mediaUrl(message.imageUrl)} alt={text.chatImageAlt || 'Chat image'} /></a><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : `↓ ${text.downloadImage || 'Download'}`}</button></div></div>}
               {message.body && <p>{message.body}</p>}
               <small>{displayDate(message.createdAt)}</small>
             </div>
