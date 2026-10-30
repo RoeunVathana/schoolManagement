@@ -3985,6 +3985,26 @@ a, button, input, textarea, select { max-width: 100%; }
   opacity: .9;
 }
 
+.community-conversation-item.is-unread.is-active {
+  border-color: rgb(244 123 103 / .48);
+  background: linear-gradient(135deg, rgb(34 158 217 / .18), rgb(244 123 103 / .12));
+  box-shadow: inset 3px 0 0 var(--community-coral), 0 9px 24px rgb(34 158 217 / .11);
+}
+
+.community-conversation-item.is-unread.is-active::before {
+  position: absolute;
+  top: 50%;
+  left: .25rem;
+  width: .48rem;
+  height: .48rem;
+  border: 2px solid var(--community-card);
+  border-radius: 999px;
+  background: var(--community-coral);
+  box-shadow: 0 0 0 .18rem rgb(244 123 103 / .18);
+  content: '';
+  transform: translateY(-50%);
+}
+
 @keyframes communityUnreadPulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08); }

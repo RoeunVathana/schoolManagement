@@ -76,6 +76,7 @@ export default function Chat() {
   const messageListRef = useRef(null);
   const shouldAutoScrollRef = useRef(true);
   const activeConversationRef = useRef(null);
+  const viewedConversationRef = useRef(null);
   activeConversationRef.current = activeConversation;
 
   const loadConversations = useCallback(async () => {
@@ -110,9 +111,11 @@ export default function Chat() {
       const basePath = conversation?.isGroup ? 'group-conversations' : 'conversations';
       const result = unwrap(await api.get(`/api/chat/${basePath}/${conversationId}/messages`)) || [];
       setMessages(result);
-      await api.patch(`/api/chat/${basePath}/${conversationId}/read`);
-      setConversations((current) => current.map((item) => item.id === conversationId ? { ...item, unreadCount: 0 } : item));
-      setActiveConversation((current) => current?.id === conversationId ? { ...current, unreadCount: 0 } : current);
+      if (viewedConversationRef.current === conversationId) {
+        await api.patch(`/api/chat/${basePath}/${conversationId}/read`);
+        setConversations((current) => current.map((item) => item.id === conversationId ? { ...item, unreadCount: 0 } : item));
+        setActiveConversation((current) => current?.id === conversationId ? { ...current, unreadCount: 0 } : current);
+      }
     } catch (requestError) {
       if (!silent) setError(requestError.response?.data?.message || text.couldNotLoadConversation);
     } finally {
@@ -124,6 +127,7 @@ export default function Chat() {
     setError('');
     try {
       const conversation = unwrap(await api.post(`/api/chat/with/${userId}`));
+      viewedConversationRef.current = conversation.id;
       setConversations((current) => [conversation, ...current.filter((item) => item.id !== conversation.id)]);
       setActiveConversation(conversation);
       setShowList(false);
@@ -138,6 +142,7 @@ export default function Chat() {
     setError('');
     try {
       const conversation = unwrap(await api.post(`/api/chat/groups/${groupId}`));
+      viewedConversationRef.current = conversation.id;
       setConversations((current) => [conversation, ...current.filter((item) => item.id !== conversation.id)]);
       setActiveConversation(conversation);
       setShowList(false);
@@ -177,6 +182,7 @@ export default function Chat() {
   const availableContacts = contacts.filter((contact) => !conversationContactIds.has(contact.id));
   const canSend = Boolean(activeConversation) && !sending && !uploadingImage && (draft.trim().length > 0 || Boolean(imageFile));
   const selectConversation = (conversation) => {
+    viewedConversationRef.current = conversation.id;
     setConversations((current) => current.map((item) => item.id === conversation.id ? { ...item, unreadCount: 0 } : item));
     setActiveConversation({ ...conversation, unreadCount: 0 });
     setShowList(false);
@@ -354,7 +360,7 @@ export default function Chat() {
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
-        <div className="community-chat-header">{activeConversation ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button>{activeGroup ? <GroupChatAvatar group={activeGroup} large /> : <UserAvatar person={activePerson} size="md" />}<div className="community-chat-person"><strong>{activeGroup?.name || activePerson?.fullName}</strong><span>{activeGroup ? `${activeGroup.memberCount || 0} ${text.members || 'members'}` : text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
+        <div className="community-chat-header">{activeConversation ? <><button type="button" onClick={() => { viewedConversationRef.current = null; setShowList(true); }} className="community-chat-back">← <span>{text.inbox}</span></button>{activeGroup ? <GroupChatAvatar group={activeGroup} large /> : <UserAvatar person={activePerson} size="md" />}<div className="community-chat-person"><strong>{activeGroup?.name || activePerson?.fullName}</strong><span>{activeGroup ? `${activeGroup.memberCount || 0} ${text.members || 'members'}` : text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
         <div ref={messageListRef} onScroll={(event) => {
           const list = event.currentTarget;
           shouldAutoScrollRef.current = list.scrollHeight - list.scrollTop - list.clientHeight < 96;
