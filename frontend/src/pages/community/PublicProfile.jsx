@@ -9,7 +9,7 @@ import { roleHome } from '../../utils/roles';
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_COVER_SIZE = 50 * 1024 * 1024;
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const visibilityLabel = { PUBLIC: '🌎 Public', FRIENDS_ONLY: '👥 Friends only', PRIVATE: '🔒 Only me' };
+const visibilityLabel = { PUBLIC: 'Public', FRIENDS_ONLY: 'Friends only', PRIVATE: 'Only me' };
 
 export default function PublicProfile() {
   const { id } = useParams();
@@ -28,23 +28,29 @@ export default function PublicProfile() {
   const coverInputRef = useRef(null);
 
   const load = async () => {
-    setLoading(true); setError('');
+    setLoading(true);
+    setError('');
     try {
       const result = unwrap(await api.get(`/api/users/${id}/profile`));
       setProfile(result);
       if (tab === 'Friends') setFriends(unwrap(await api.get(`/api/users/${id}/friends`)) || []);
     } catch (requestError) {
       setError(requestError.response?.data?.message || 'Could not load this profile.');
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, [id]);
-  useEffect(() => { if (tab === 'Friends' && profile) api.get(`/api/users/${id}/friends`).then((response) => setFriends(unwrap(response) || [])).catch(() => undefined); }, [tab, id, profile]);
+  useEffect(() => {
+    if (tab === 'Friends' && profile) api.get(`/api/users/${id}/friends`).then((response) => setFriends(unwrap(response) || [])).catch(() => undefined);
+  }, [tab, id, profile]);
 
   const isSelf = user?.id === id;
   const profileDetails = profile?.user?.profile || {};
   const avatar = profileDetails.avatar || profile?.user?.profileImageUrl;
   const displayName = profile?.user?.fullName || `${profile?.user?.firstName || ''} ${profile?.user?.lastName || ''}`.trim();
+  const role = profile?.user?.role;
 
   const handleRelationship = (nextStatus, nextRequestId, requestError) => {
     if (requestError) { setNotice(requestError.response?.data?.message || 'That action could not be completed.'); return; }
@@ -58,56 +64,98 @@ export default function PublicProfile() {
   };
 
   const addPost = (post) => { setProfile((current) => current ? { ...current, posts: [post, ...(current.posts || [])] } : current); setPostNotice('Post published successfully.'); };
-  const updatePost = (post) => {
-    setProfile((current) => current ? { ...current, posts: current.posts.map((item) => item.id === post.id ? post : item) } : current);
-    setEditingPostId(null); setPostNotice('Post updated successfully.');
-  };
+  const updatePost = (post) => { setProfile((current) => current ? { ...current, posts: current.posts.map((item) => item.id === post.id ? post : item) } : current); setEditingPostId(null); setPostNotice('Post updated successfully.'); };
+
   const deletePost = async (postId) => {
     if (!window.confirm('Delete this post? This action cannot be undone.')) return;
-    setDeletingPostId(postId); setPostNotice('');
+    setDeletingPostId(postId);
+    setPostNotice('');
     try {
       await api.delete(`/api/posts/${postId}`);
       setProfile((current) => current ? { ...current, posts: current.posts.filter((item) => item.id !== postId) } : current);
       if (editingPostId === postId) setEditingPostId(null);
       setPostNotice('Post deleted.');
-    } catch (requestError) { setPostNotice(requestError.response?.data?.message || 'Could not delete this post.'); }
-    finally { setDeletingPostId(null); }
+    } catch (requestError) {
+      setPostNotice(requestError.response?.data?.message || 'Could not delete this post.');
+    } finally {
+      setDeletingPostId(null);
+    }
   };
+
   const uploadCover = async (event) => {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/')) { setNotice('Please choose an image for your cover photo.'); return; }
     if (file.size > MAX_COVER_SIZE) { setNotice('Cover images must be 50 MB or smaller.'); return; }
-    setCoverBusy(true); setNotice('');
+    setCoverBusy(true);
+    setNotice('');
     try {
-      const form = new FormData(); form.append('coverImage', file);
+      const form = new FormData();
+      form.append('coverImage', file);
       await api.post('/auth/profile/cover', form);
-      await load(); setNotice('Cover photo updated successfully.');
-    } catch (requestError) { setNotice(requestError.response?.data?.message || 'Could not update the cover photo.'); }
-    finally { setCoverBusy(false); }
+      await load();
+      setNotice('Cover photo updated successfully.');
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || 'Could not update the cover photo.');
+    } finally {
+      setCoverBusy(false);
+    }
   };
 
-  if (loading && !profile) return <div className="py-20 text-center text-sm font-semibold text-slate-500">Loading profile…</div>;
-  if (error && !profile) return <div className="rounded-2xl bg-red-50 p-6 font-semibold text-red-700 dark:bg-red-950/30 dark:text-red-300">{error}</div>;
+  if (loading && !profile) return <div className="community-loading-page"><div className="community-loading-orbit" /><p>Loading profile...</p></div>;
+  if (error && !profile) return <div className="community-alert" role="alert">{error}</div>;
   if (!profile) return null;
 
-  const role = profile.user.role;
-  return <div className="mx-auto max-w-6xl space-y-6">
-    <section className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
-      <div className="relative h-56 bg-gradient-to-br from-[#10243f] via-[#1b6172] to-[#ef8b78] sm:h-72 lg:h-80" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}><div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-black/10" />{isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="absolute bottom-4 right-4 rounded-xl bg-white px-3.5 py-2.5 text-xs font-black text-navy shadow-lg transition hover:-translate-y-0.5 disabled:opacity-60">{coverBusy ? 'Uploading…' : '📷 Edit cover photo'}</button></>}</div>
-      <div className="relative px-5 pb-5 sm:px-8"><div className="-mt-14 flex flex-col gap-5 sm:-mt-16 lg:-mt-20 lg:flex-row lg:items-end lg:justify-between"><div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end"><div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-navy text-3xl font-black text-mint shadow-xl ring-4 ring-blue-500/90 dark:border-slate-900 sm:h-36 sm:w-36">{avatar ? <img src={mediaUrl(avatar)} alt={displayName} className="h-full w-full object-cover" /> : displayName?.charAt(0)?.toUpperCase()}</div><div className="min-w-0 pb-1"><h1 className="truncate text-3xl font-black tracking-tight text-ink dark:text-white sm:text-4xl">{displayName}</h1><p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{profileDetails.role || role} · {profile.friendCount} friends</p><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">{profileDetails.bio || `Learning with CampusFlow as a ${String(role || 'community member').toLowerCase()}.`}</p><div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs font-bold text-slate-500 dark:text-slate-400"><span>◉ CampusFlow community</span>{profileDetails.location && <span>⌖ {profileDetails.location}</span>}{profileDetails.school && <span>◆ {profileDetails.school}</span>}</div></div></div><div className="flex flex-wrap items-center gap-2 lg:pb-1">{isSelf ? <><Link to={roleHome(role)} className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">▣ Dashboard</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice('Accept the friend request before starting a chat.')} />}</div></div>{notice && <p className="mt-4 rounded-xl bg-mint/40 px-4 py-3 text-sm font-semibold text-emerald-800 dark:text-mint">{notice}</p>}</div>
-      <div className="flex gap-1 overflow-x-auto border-t border-slate-100 px-4 pt-2 dark:border-slate-700 sm:px-7">{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={`shrink-0 border-b-2 px-4 py-3 text-sm font-bold transition ${tab === item ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-navy dark:text-slate-400 dark:hover:text-white'}`}>{item}</button>)}<button type="button" onClick={() => setNotice('Use the tabs to browse this profile.')} className="ml-auto shrink-0 rounded-xl px-4 py-2 text-lg font-black text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">…</button></div>
+  return <div className="community-page community-profile-page">
+    <section className="community-profile-shell">
+      <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
+        <div className="community-profile-cover-shade" />
+        <div className="community-profile-cover-label"><span>CampusFlow community</span><small>Profile</small></div>
+        {isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="community-cover-button">{coverBusy ? 'Uploading...' : 'Edit cover photo'}</button></>}
+      </div>
+
+      <div className="community-profile-identity">
+        <div className="community-profile-heading">
+          <div className="community-profile-avatar">{avatar ? <img src={mediaUrl(avatar)} alt={displayName} /> : displayName?.charAt(0)?.toUpperCase()}</div>
+          <div className="community-profile-name-block"><p className="community-eyebrow">{role || 'Community member'}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} friends <span>·</span> {profileDetails.location || 'CampusFlow learning community'}</p><p className="community-profile-bio">{profileDetails.bio || `Learning with CampusFlow as a ${String(role || 'community member').toLowerCase()}.`}</p></div>
+        </div>
+        <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">Dashboard</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice('Accept the friend request before starting a chat.')} />}</div>
+      </div>
+      {(notice || postNotice) && <p className="community-profile-notice">{notice || postNotice}</p>}
+      <nav className="community-profile-tabs" aria-label="Profile sections">{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={tab === item ? 'is-active' : ''}>{item}{item === 'Friends' && <span>{profile.friendCount}</span>}</button>)}</nav>
     </section>
 
-    {tab === 'Posts' && <div className="mx-auto max-w-3xl space-y-5">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && <p className="rounded-xl bg-mint/40 px-4 py-3 text-sm font-semibold text-emerald-800 dark:text-mint">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title="No posts yet" description={isSelf ? 'Share your first update with friends.' : 'This profile has not shared any visible posts.'} />}</div>}
-    {tab === 'About' && <About profile={profile} details={profileDetails} />}
-    {tab === 'Friends' && <div className="grid gap-4 sm:grid-cols-2">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title="No friends yet" description="Accepted friends will appear here." />}</div>}
-    {tab === 'Photos' && <EmptyState title="No photos yet" description="Photos shared by this user will appear here." />}
+    <div className="community-profile-layout">
+      <aside className="community-profile-side">
+        <section className="community-profile-info-card"><p className="community-eyebrow">About this profile</p><h2>{displayName}</h2><p>{profileDetails.bio || 'A member of the CampusFlow learning community.'}</p><div className="community-profile-facts">{profileDetails.location && <span><strong>Location</strong>{profileDetails.location}</span>}{profileDetails.school && <span><strong>School</strong>{profileDetails.school}</span>}{profileDetails.course && <span><strong>Course</strong>{profileDetails.course}</span>}{profileDetails.website && <span><strong>Website</strong>{profileDetails.website}</span>}</div></section>
+        <section className="community-profile-info-card community-profile-mini-stat"><span className="community-side-icon">+</span><strong>{profile.friendCount}</strong><p>People in this circle</p><button type="button" onClick={() => setTab('Friends')} className="community-text-link">View friends <span aria-hidden="true">→</span></button></section>
+      </aside>
+
+      <main className="community-profile-main">
+        {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title="No posts yet" description={isSelf ? 'Share your first update with friends.' : 'This profile has not shared any visible posts.'} />}</div>}
+        {tab === 'About' && <About profile={profile} details={profileDetails} />}
+        {tab === 'Friends' && <div className="community-profile-friends-grid">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title="No friends yet" description="Accepted friends will appear here." />}</div>}
+        {tab === 'Photos' && <EmptyState title="No photos yet" description="Photos shared by this user will appear here." />}
+      </main>
+    </div>
   </div>;
 }
 
-function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) { return <article className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/80"><div className="flex items-start justify-between gap-3"><div><p className="font-bold text-ink dark:text-white">{post.author?.fullName || 'Community member'}</p><p className="mt-1 text-xs font-semibold text-slate-400">{new Date(post.createdAt).toLocaleString()} · {visibilityLabel[post.visibility]}</p></div>{isOwner ? <div className="flex shrink-0 items-center gap-2"><button type="button" onClick={onEdit} disabled={deleting} className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-black text-navy transition hover:border-mint hover:bg-mint/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:text-white">Edit</button><button type="button" onClick={onDelete} disabled={deleting} className="rounded-lg border border-red-200 px-3 py-2 text-xs font-black text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-red-900/60 dark:text-red-300">{deleting ? 'Deleting…' : 'Delete'}</button></div> : <span className="flex h-9 w-9 items-center justify-center rounded-full bg-mint/40 text-sm">✦</span>}</div><p className="mt-5 whitespace-pre-wrap text-[15px] leading-7 text-slate-700 dark:text-slate-200">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Post" className="mt-4 max-h-[28rem] w-full rounded-2xl object-cover" />}</article>; }
-function About({ profile, details }) { return <section className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/80"><h2 className="text-xl font-black text-ink dark:text-white">About</h2><div className="mt-5 grid gap-4 sm:grid-cols-2">{[['Username', details.username], ['Email', profile.user.email], ['Phone', details.phone || profile.user.phone], ['Location', details.location], ['School', details.school], ['Course', details.course], ['Year level', details.yearLevel], ['Website', details.website]].filter(([, value]) => value).map(([label, value]) => <div key={label} className="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/70"><p className="text-xs font-black uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 font-semibold text-ink dark:text-white">{value}</p></div>)}</div>{details.bio && <p className="mt-5 rounded-xl bg-mint/20 p-4 text-sm leading-6 text-slate-700 dark:text-slate-200">{details.bio}</p>}</section>; }
-function PersonCard({ person }) { const avatar = person.profile?.avatar || person.profileImageUrl; return <Link to={`/profile/${person.id}`} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-mint dark:border-slate-700 dark:bg-slate-900/80"><div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-navy font-bold text-mint">{avatar ? <img src={avatar.startsWith('http') ? avatar : `${API_ORIGIN}${avatar}`} alt={person.fullName} className="h-full w-full object-cover" /> : person.fullName?.charAt(0)?.toUpperCase()}</div><div className="min-w-0"><p className="truncate font-bold text-ink dark:text-white">{person.fullName}</p><p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{person.role}</p></div></Link>; }
-function EmptyState({ title, description }) { return <div className="rounded-[1.5rem] border border-dashed border-slate-300 bg-white p-10 text-center dark:border-slate-600 dark:bg-slate-900/60"><p className="font-black text-ink dark:text-white">{title}</p><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{description}</p></div>; }
+function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
+  return <article className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || 'Community member'}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibilityLabel[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>Edit</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? 'Deleting...' : 'Delete'}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Post" className="community-post-image" />}</article>;
+}
+
+function About({ profile, details }) {
+  const fields = [['Username', details.username], ['Email', profile.user.email], ['Phone', details.phone || profile.user.phone], ['Location', details.location], ['School', details.school], ['Course', details.course], ['Year level', details.yearLevel], ['Website', details.website]].filter(([, value]) => value);
+  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>About</h2></div></div><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}</section>;
+}
+
+function PersonCard({ person }) {
+  const avatar = person.profile?.avatar || person.profileImageUrl;
+  return <Link to={`/profile/${person.id}`} className="community-profile-person-card"><div className="community-avatar community-avatar-md">{avatar ? <img src={avatar.startsWith('http') ? avatar : `${API_ORIGIN}${avatar}`} alt={person.fullName} /> : person.fullName?.charAt(0)?.toUpperCase()}</div><div><p>{person.fullName}</p><span>{person.role}</span></div><span aria-hidden="true">→</span></Link>;
+}
+
+function EmptyState({ title, description }) {
+  return <div className="community-empty community-empty-large"><span className="community-empty-mark">○</span><p className="community-empty-title">{title}</p><p>{description}</p></div>;
+}
