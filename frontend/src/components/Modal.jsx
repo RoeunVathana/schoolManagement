@@ -5,7 +5,7 @@ export default function Modal({ open, title, children, onClose, fullScreen = fal
 
   return createPortal(
     <div
-      className="modal-overlay fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/65 p-2 backdrop-blur-md sm:p-5"
+      className="modal-overlay fixed inset-0 z-[210] flex items-center justify-center overflow-y-auto bg-slate-950/65 p-2 backdrop-blur-md sm:p-5"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose?.();
