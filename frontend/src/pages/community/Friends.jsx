@@ -8,6 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useCommunityText } from '../../context/communityTranslations';
 
 export default function Friends() {
+  const FRIEND_PREVIEW_LIMIT = 3;
   const [data, setData] = useState({ incoming: [], outgoing: [], suggestions: [], friends: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -16,6 +17,7 @@ export default function Friends() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [processingAll, setProcessingAll] = useState(false);
+  const [showAllFriends, setShowAllFriends] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
   const text = useCommunityText();
@@ -181,8 +183,8 @@ export default function Friends() {
           {data.suggestions.length ? <div className="community-person-grid">{data.suggestions.map((suggestion) => renderPersonCard(suggestion, 'NONE'))}</div> : <Empty text={text.noSuggestions} />}
         </CommunitySection>
 
-        <CommunitySection title={text.yourFriends} count={data.friends.length} accent="mint" action={data.friends.length ? text.viewAll : undefined}>
-          {data.friends.length ? <div className="community-person-grid">{data.friends.map((friend) => renderPersonCard(friend, 'FRIENDS'))}</div> : <Empty text={text.acceptedAppear} />}
+        <CommunitySection title={text.yourFriends} count={data.friends.length} accent="mint" action={data.friends.length > FRIEND_PREVIEW_LIMIT ? (showAllFriends ? text.showLess : text.viewAll) : undefined} onAction={() => setShowAllFriends((current) => !current)}>
+          {data.friends.length ? <div className="community-person-grid">{data.friends.slice(0, showAllFriends ? data.friends.length : FRIEND_PREVIEW_LIMIT).map((friend) => renderPersonCard(friend, 'FRIENDS'))}</div> : <Empty text={text.acceptedAppear} />}
         </CommunitySection>
       </main>
 
