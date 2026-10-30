@@ -4182,7 +4182,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-chat-sidebar::-webkit-scrollbar-thumb:hover,
 .community-message-list::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7ee7cf, #229ed9) padding-box; }
 .community-chat-sidebar { overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
-.community-chat-sidebar-heading { position: sticky; top: 0; z-index: 3; }
+.community-chat-sidebar-heading { position: sticky; top: 0; z-index: 3; background: var(--community-soft); box-shadow: 0 8px 16px rgb(16 36 63 / .08); }
+.dark .community-chat-sidebar-heading { background: #0d1b2e; box-shadow: 0 8px 18px rgb(0 0 0 / .22); }
 .community-conversation-list { flex: none; max-height: none; overflow: visible; }
 .community-chat-contacts { flex: none; max-height: none; overflow: visible; }
 
