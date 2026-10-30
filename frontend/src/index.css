@@ -2171,8 +2171,8 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-story-skeleton, .community-skeleton-card, .community-loading-orbit, .community-chat-loading span { animation: none; }
 }
 
-/* Keep community dialogs centered in the visible viewport, including on small screens. */
-.community-modal-backdrop { align-items: center !important; justify-content: center; min-height: 100dvh; box-sizing: border-box; }
+/* Keep community dialogs centered and above the fixed navbar. */
+.community-modal-backdrop { z-index: 120; align-items: center !important; justify-content: center; min-height: 100dvh; box-sizing: border-box; }
 .community-modal-backdrop .community-modal { margin-block: auto; }
 
 /* Friendlier community tone and dependable image fallbacks. */
