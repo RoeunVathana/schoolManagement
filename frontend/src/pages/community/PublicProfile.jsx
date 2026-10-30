@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import FriendRequestButton from '../../components/FriendRequestButton';
+import ImageCropper from '../../components/ImageCropper';
 import PostComposer from '../../components/PostComposer';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
@@ -27,6 +28,7 @@ export default function PublicProfile() {
   const [editingPostId, setEditingPostId] = useState(null);
   const [deletingPostId, setDeletingPostId] = useState(null);
   const [coverBusy, setCoverBusy] = useState(false);
+  const [coverCropFile, setCoverCropFile] = useState(null);
   const [aboutEditing, setAboutEditing] = useState(false);
   const [aboutBusy, setAboutBusy] = useState(false);
   const [aboutForm, setAboutForm] = useState({ bio: '', location: '', website: '', school: '', course: '', yearLevel: '' });
@@ -128,22 +130,29 @@ export default function PublicProfile() {
     }
   };
 
-  const uploadCover = async (event) => {
+  const selectCover = (event) => {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/')) { setNotice(text.onlyImages); return; }
     if (file.size > MAX_COVER_SIZE) { setNotice(text.imageLimit); return; }
+    setNotice('');
+    setCoverCropFile(file);
+  };
+
+  const uploadCover = async (croppedFile) => {
+    if (!croppedFile) return;
+    setCoverCropFile(null);
     setCoverBusy(true);
     setNotice('');
     try {
       const form = new FormData();
-      form.append('coverImage', file);
+      form.append('coverImage', croppedFile);
       await api.post('/auth/profile/cover', form);
       await load();
-      setNotice(text.postUpdated);
+      setNotice(text.coverUpdated);
     } catch (requestError) {
-      setNotice(requestError.response?.data?.message || text.couldNotSavePost);
+      setNotice(requestError.response?.data?.message || text.coverUploadFailed);
     } finally {
       setCoverBusy(false);
     }
@@ -156,11 +165,12 @@ export default function PublicProfile() {
   const tabs = [['Posts', text.posts], ['About', text.about], ['Friends', text.friends], ['Photos', text.noPhotos]];
 
   return <div className="community-page community-profile-page">
+    {coverCropFile && <ImageCropper file={coverCropFile} aspectRatio={3.2} outputWidth={1600} outputHeight={500} areaClassName="max-w-[560px]" labels={{ title: text.cropCoverTitle, description: text.cropCoverDescription, zoom: text.zoom, cancel: text.cancel, useImage: text.useCroppedImage, processing: text.preparingImage }} onCancel={() => setCoverCropFile(null)} onComplete={uploadCover} />}
     <section className="community-profile-shell">
       <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
         <div className="community-profile-cover-shade" />
         <div className="community-profile-cover-label"><span>{text.community}</span><small>{text.profile}</small></div>
-        {isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="community-cover-button">{coverBusy ? text.uploading : text.editCover}</button></>}
+        {isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={selectCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="community-cover-button">{coverBusy ? text.uploading : text.editCover}</button></>}
       </div>
 
       <div className="community-profile-identity">

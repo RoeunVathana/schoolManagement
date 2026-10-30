@@ -10,8 +10,9 @@ const defaults = {
   processing: 'Preparing image...',
 };
 
-export default function ImageCropper({ file, labels = {}, onCancel, onComplete }) {
+export default function ImageCropper({ file, labels = {}, onCancel, onComplete, aspectRatio = 1, outputWidth = 800, outputHeight = 800, areaClassName = 'max-w-[360px]' }) {
   const text = { ...defaults, ...labels };
+  const cropAspectRatio = Number.isFinite(Number(aspectRatio)) && Number(aspectRatio) > 0 ? Number(aspectRatio) : 1;
   const areaRef = useRef(null);
   const imageRef = useRef(null);
   const pointerRef = useRef({ x: 0, y: 0 });
@@ -37,21 +38,22 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
 
   const metrics = useMemo(() => {
     if (!imageSize || !areaRef.current) return null;
-    const areaSize = areaRef.current.clientWidth;
-    const scale = Math.max(areaSize / imageSize.width, areaSize / imageSize.height) * zoom;
-    return { areaSize, width: imageSize.width * scale, height: imageSize.height * scale };
-  }, [imageSize, zoom, source]);
+    const areaWidth = areaRef.current.clientWidth;
+    const areaHeight = areaRef.current.clientHeight;
+    const scale = Math.max(areaWidth / imageSize.width, areaHeight / imageSize.height) * zoom;
+    return { areaWidth, areaHeight, width: imageSize.width * scale, height: imageSize.height * scale };
+  }, [imageSize, zoom, source, cropAspectRatio]);
 
   useEffect(() => {
     if (!metrics) return;
-    setOffset({ x: (metrics.areaSize - metrics.width) / 2, y: (metrics.areaSize - metrics.height) / 2 });
-  }, [metrics?.areaSize, metrics?.width, metrics?.height]);
+    setOffset({ x: (metrics.areaWidth - metrics.width) / 2, y: (metrics.areaHeight - metrics.height) / 2 });
+  }, [metrics?.areaWidth, metrics?.areaHeight, metrics?.width, metrics?.height]);
 
   const clampOffset = (next) => {
     if (!metrics) return next;
     return {
-      x: Math.min(0, Math.max(metrics.areaSize - metrics.width, next.x)),
-      y: Math.min(0, Math.max(metrics.areaSize - metrics.height, next.y)),
+      x: Math.min(0, Math.max(metrics.areaWidth - metrics.width, next.x)),
+      y: Math.min(0, Math.max(metrics.areaHeight - metrics.height, next.y)),
     };
   };
 
@@ -85,8 +87,8 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
     const sourceWidth = Math.min(image.naturalWidth - sourceX, areaRect.width * sourceScale);
     const sourceHeight = Math.min(image.naturalHeight - sourceY, areaRect.height * sourceScale);
     const canvas = document.createElement('canvas');
-    canvas.width = 800;
-    canvas.height = 800;
+    canvas.width = outputWidth;
+    canvas.height = outputHeight;
     const context = canvas.getContext('2d');
     context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
     canvas.toBlob((blob) => {
@@ -115,7 +117,8 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete }
         <div className="cropper-body min-h-0 overflow-y-auto p-5 sm:p-6">
           <div
             ref={areaRef}
-            className={`relative mx-auto aspect-square w-full max-w-[360px] touch-none select-none overflow-hidden rounded-2xl bg-slate-950 ring-4 ring-white shadow-xl dark:ring-slate-800 ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`relative mx-auto w-full ${areaClassName} touch-none select-none overflow-hidden rounded-2xl bg-slate-950 ring-4 ring-white shadow-xl dark:ring-slate-800 ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            style={{ aspectRatio: cropAspectRatio }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={finishDrag}
