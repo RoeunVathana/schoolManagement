@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
 import { isLearnerRole } from '../common/learner-roles';
 
-const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
+const userSelect = { id: true, fullName: true, role: true, phone: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
 const DIRECT_CHAT_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()

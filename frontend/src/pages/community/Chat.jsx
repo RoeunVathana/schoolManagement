@@ -61,6 +61,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [sending, setSending] = useState(false);
+  const [sendingStudyReminder, setSendingStudyReminder] = useState(false);
   const [error, setError] = useState('');
   const [showList, setShowList] = useState(true);
   const [reactionMenuId, setReactionMenuId] = useState(null);
@@ -181,6 +182,30 @@ export default function Chat() {
   const conversationContactIds = new Set(conversations.filter((conversation) => !conversation.isGroup && conversation.otherUser?.id).map((conversation) => conversation.otherUser.id));
   const availableContacts = contacts.filter((contact) => !conversationContactIds.has(contact.id));
   const canSend = Boolean(activeConversation) && !sending && !uploadingImage && (draft.trim().length > 0 || Boolean(imageFile));
+  const canTeacherSupportStudent = user?.role === 'TEACHER' && Boolean(activeConversation) && !activeConversation.isGroup && Boolean(activePerson) && activePerson.role !== 'TEACHER';
+  const sendStudyReminder = async () => {
+    if (!canTeacherSupportStudent || sendingStudyReminder) return;
+    setSendingStudyReminder(true);
+    setError('');
+    try {
+      const name = activePerson.fullName?.split(' ')?.[0] || 'there';
+      const message = unwrap(await api.post(`/api/chat/conversations/${activeConversation.id}/messages`, { body: `Hello ${name}, please come to study when you are available. Let me know if you need help.` }));
+      setMessages((current) => [...current, message]);
+      await loadConversations();
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || 'Could not send the study reminder.');
+    } finally {
+      setSendingStudyReminder(false);
+    }
+  };
+  const callStudent = () => {
+    const phone = activePerson?.phone?.trim();
+    if (!phone) {
+      setError('This student has no phone number saved.');
+      return;
+    }
+    window.location.href = `tel:${phone.replace(/[^\d+]/g, '')}`;
+  };
   const selectConversation = (conversation) => {
     viewedConversationRef.current = conversation.id;
     setConversations((current) => current.map((item) => item.id === conversation.id ? { ...item, unreadCount: 0 } : item));
@@ -360,7 +385,7 @@ export default function Chat() {
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
-        <div className="community-chat-header">{activeConversation ? <><button type="button" onClick={() => { viewedConversationRef.current = null; setShowList(true); }} className="community-chat-back">← <span>{text.inbox}</span></button>{activeGroup ? <GroupChatAvatar group={activeGroup} large /> : <UserAvatar person={activePerson} size="md" />}<div className="community-chat-person"><strong>{activeGroup?.name || activePerson?.fullName}</strong><span>{activeGroup ? `${activeGroup.memberCount || 0} ${text.members || 'members'}` : text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
+        <div className="community-chat-header">{activeConversation ? <><button type="button" onClick={() => { viewedConversationRef.current = null; setShowList(true); }} className="community-chat-back">← <span>{text.inbox}</span></button>{activeGroup ? <GroupChatAvatar group={activeGroup} large /> : <UserAvatar person={activePerson} size="md" />}<div className="community-chat-person"><strong>{activeGroup?.name || activePerson?.fullName}</strong><span>{activeGroup ? `${activeGroup.memberCount || 0} ${text.members || 'members'}` : ['STUDENT', 'CUSTOMER'].includes(activePerson?.role) ? `${text.student || 'Student'} · ${activePerson?.isOnline ? 'Online' : 'Offline'}` : text.acceptedFriend}</span></div>{canTeacherSupportStudent && <div className="community-chat-header-actions"><button type="button" onClick={sendStudyReminder} disabled={sendingStudyReminder} className="community-chat-header-action community-chat-study-action" title="Send study reminder">📚 <span>{sendingStudyReminder ? 'Sending...' : 'Invite to study'}</span></button><button type="button" onClick={callStudent} disabled={!activePerson?.phone} className="community-chat-header-action community-chat-call-action" title={activePerson?.phone ? 'Call student' : 'No phone number saved'}>☎ <span>Call</span></button></div>}</> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
         <div ref={messageListRef} onScroll={(event) => {
           const list = event.currentTarget;
           shouldAutoScrollRef.current = list.scrollHeight - list.scrollTop - list.clientHeight < 96;
