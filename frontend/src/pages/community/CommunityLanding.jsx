@@ -81,7 +81,7 @@ export default function CommunityLanding() {
   </div>;
 }
 
-function PublicPost({ post, text }) {
+function PublicPostLegacy({ post, text }) {
   const author = post.author || {};
   const communityText = useCommunityText();
   const [shareNotice, setShareNotice] = useState('');
@@ -97,6 +97,37 @@ function PublicPost({ post, text }) {
     }
   };
   return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={author} size="public" /><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Community update" className="public-community-post-image" />}<div className="public-community-post-footer"><span>{text.shared}{post.reactionCount ? ` · ♥ ${post.reactionCount}` : ''}</span><button type="button" onClick={share} className="public-community-post-share">↗ {communityText.share}</button>{shareNotice && <small>{shareNotice}</small>}<Link to="/login/student">{text.signInConnect} →</Link></div></article>;
+}
+
+function PublicPost({ post, text }) {
+  const communityText = useCommunityText();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionBusy, setReactionBusy] = useState(false);
+  const [notice, setNotice] = useState('');
+
+  const toggleReaction = async () => {
+    if (reactionBusy) return;
+    if (!user) {
+      navigate('/login/student', { state: { from: '/community' } });
+      return;
+    }
+    setReactionBusy(true);
+    setNotice('');
+    try {
+      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
+      setReacted(Boolean(result.reacted));
+      setReactionCount(result.reactionCount || 0);
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || communityText.reactionFailed);
+    } finally {
+      setReactionBusy(false);
+    }
+  };
+
+  return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={post.author || {}} size="public" /><div><strong>{post.author?.fullName || 'CampusFlow member'}</strong><span>{post.author?.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={communityText.postImageAlt} className="public-community-post-image" onError={(event) => { event.currentTarget.style.display = 'none'; }} />}<div className="public-community-post-footer"><button type="button" className={`public-community-post-reaction${reacted ? ' is-active' : ''}`} disabled={reactionBusy} onClick={toggleReaction} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? communityText.liked : communityText.like}<b>{reactionCount}</b></button><button type="button" onClick={() => setNotice(communityText.signInConnect)} className="public-community-post-share">↗ {communityText.share}</button>{notice && <small>{notice}</small>}<span>{text.shared}</span></div></article>;
 }
 
 function CommunityLoading({ text }) {
