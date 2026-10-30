@@ -68,6 +68,8 @@ export default function Chat() {
   const fileInputRef = useRef(null);
   const messageListRef = useRef(null);
   const shouldAutoScrollRef = useRef(true);
+  const activeConversationRef = useRef(null);
+  activeConversationRef.current = activeConversation;
 
   const loadConversations = useCallback(async () => {
     try {
@@ -93,7 +95,7 @@ export default function Chat() {
     if (!conversationId) return;
     if (!silent) setLoadingMessages(true);
     try {
-      const conversation = conversations.find((item) => item.id === conversationId) || activeConversation;
+      const conversation = activeConversationRef.current?.id === conversationId ? activeConversationRef.current : null;
       const basePath = conversation?.isGroup ? 'group-conversations' : 'conversations';
       const result = unwrap(await api.get(`/api/chat/${basePath}/${conversationId}/messages`)) || [];
       setMessages(result);
@@ -105,7 +107,7 @@ export default function Chat() {
     } finally {
       if (!silent) setLoadingMessages(false);
     }
-  }, [activeConversation, conversations, text.couldNotLoadConversation]);
+  }, [text.couldNotLoadConversation]);
 
   const openConversation = useCallback(async (userId) => {
     setError('');
