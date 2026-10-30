@@ -13,7 +13,8 @@ import { MailService } from './mail.service';
 export class AuthService {
   constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService, private readonly mail: MailService) {}
 
-  private safeUser(user: any) { const { password, ...safe } = user; return safe.role === Role.ADMIN ? { ...safe, canCreate: true, canEdit: true, canDelete: true } : safe; }
+  private isOnline(lastSeenAt?: Date | string | null) { return !!lastSeenAt && Date.now() - new Date(lastSeenAt).getTime() <= 90_000; }
+  private safeUser(user: any) { const { password, ...safe } = user; const withPresence = { ...safe, isOnline: this.isOnline(safe.lastSeenAt) }; return withPresence.role === Role.ADMIN ? { ...withPresence, canCreate: true, canEdit: true, canDelete: true } : withPresence; }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
   private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
 
@@ -186,6 +187,12 @@ export class AuthService {
       user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
     }
     return this.safeUser(user);
+  }
+
+  async updatePresence(userId: string, online = true) {
+    const lastSeenAt = online ? new Date() : null;
+    const user = await this.prisma.user.update({ where: { id: userId }, data: { lastSeenAt }, select: { lastSeenAt: true } });
+    return { online, lastSeenAt: user.lastSeenAt };
   }
 
   async changePassword(userId: string, currentPassword: string, newPassword: string) {

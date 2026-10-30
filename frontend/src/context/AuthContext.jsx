@@ -33,6 +33,24 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (!user?.id) return undefined;
+
+    const heartbeat = () => {
+      if (document.visibilityState === 'visible') api.patch('/auth/presence', { online: true }).catch(() => undefined);
+    };
+
+    heartbeat();
+    const interval = window.setInterval(heartbeat, 30_000);
+    window.addEventListener('focus', heartbeat);
+    document.addEventListener('visibilitychange', heartbeat);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('focus', heartbeat);
+      document.removeEventListener('visibilitychange', heartbeat);
+    };
+  }, [user?.id]);
+
   const saveLoginSession = useCallback((session) => {
     const normalizedSession = { ...session, user: normalizeUser(session.user) };
     saveSession(normalizedSession);
@@ -57,6 +75,7 @@ export function AuthProvider({ children }) {
   }, [setLanguage]);
 
   const logout = useCallback(async () => {
+    try { await api.patch('/auth/presence', { online: false }); } catch {}
     try { await api.post('/auth/logout', { refreshToken: localStorage.getItem('sms_refresh_token') }); } catch {}
     clearSession();
     setUser(null);

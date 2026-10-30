@@ -131,6 +131,7 @@ model User {
   canCreate                     Boolean                @default(true)
   canEdit                       Boolean                @default(true)
   canDelete                     Boolean                @default(false)
+  lastSeenAt                    DateTime?
   createdAt                     DateTime               @default(now())
   updatedAt                     DateTime               @updatedAt
   profile                       Profile?
@@ -160,6 +161,7 @@ model User {
   messagesSent                  Message[]              @relation("MessageSender")
   messageReactions              MessageReaction[]      @relation("MessageReactionUser")
 
+  @@index([role, lastSeenAt])
   @@map("users")
 }
 

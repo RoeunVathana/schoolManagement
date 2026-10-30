@@ -91,6 +91,8 @@ export default function Chat() {
       const result = unwrap(await api.get(`/api/chat/${basePath}/${conversationId}/messages`)) || [];
       setMessages(result);
       await api.patch(`/api/chat/${basePath}/${conversationId}/read`);
+      setConversations((current) => current.map((item) => item.id === conversationId ? { ...item, unreadCount: 0 } : item));
+      setActiveConversation((current) => current?.id === conversationId ? { ...current, unreadCount: 0 } : current);
     } catch (requestError) {
       if (!silent) setError(requestError.response?.data?.message || text.couldNotLoadConversation);
     } finally {
@@ -127,6 +129,10 @@ export default function Chat() {
   }, [text.groupChatFailed]);
 
   useEffect(() => { loadConversations(); }, [loadConversations]);
+  useEffect(() => {
+    const timer = window.setInterval(() => loadConversations(), 4000);
+    return () => window.clearInterval(timer);
+  }, [loadConversations]);
   useEffect(() => { if (requestedUserId) openConversation(requestedUserId); }, [requestedUserId, openConversation]);
   useEffect(() => { if (requestedGroupId) openGroup(requestedGroupId); }, [requestedGroupId, openGroup]);
   useEffect(() => {
@@ -310,7 +316,7 @@ export default function Chat() {
     <section className="community-chat-shell">
       <aside className={`community-chat-sidebar ${activeConversation && !showList ? 'community-chat-sidebar-mobile-hidden' : ''}`}>
         <div className="community-chat-sidebar-heading"><div><p className="community-eyebrow">{text.inbox}</p><h2>{text.yourChats}</h2></div><span className="community-chat-count">{conversations.length}</span></div>
-        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''}`}>{conversation.isGroup ? <span className="community-group-chat-avatar" aria-hidden="true">#</span> : <UserAvatar person={conversation.otherUser} size="md" />}<div className="community-conversation-copy"><strong>{conversation.isGroup ? conversation.group?.name : conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || (conversation.lastMessage?.imageUrl ? '📷 Image' : conversation.isGroup ? `${conversation.group?.memberCount || 0} ${text.members || 'members'}` : text.startConversation)}</span></div><span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
+        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''} ${conversation.unreadCount > 0 ? 'is-unread' : ''}`}>{conversation.isGroup ? <span className="community-group-chat-avatar" aria-hidden="true">#</span> : <UserAvatar person={conversation.otherUser} size="md" />}<div className="community-conversation-copy"><strong>{conversation.isGroup ? conversation.group?.name : conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || (conversation.lastMessage?.imageUrl ? '📷 Image' : conversation.isGroup ? `${conversation.group?.memberCount || 0} ${text.members || 'members'}` : text.startConversation)}</span></div>{conversation.unreadCount > 0 && <span className="community-conversation-unread" aria-label={`${conversation.unreadCount} ${text.unreadMessages || 'unread messages'}`}>{conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}</span>}<span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>

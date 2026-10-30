@@ -122,7 +122,7 @@ export class FriendsService {
   }
 
   private publicUser(user: any) {
-    return { id: user.id, fullName: user.fullName, email: user.email, role: user.role, profileImageUrl: user.profileImageUrl, profile: user.profile || null };
+    return { id: user.id, fullName: user.fullName, email: user.email, role: user.role, profileImageUrl: user.profileImageUrl, isOnline: !!user.lastSeenAt && Date.now() - new Date(user.lastSeenAt).getTime() <= 90_000, profile: user.profile || null };
   }
 
   private publicRequest(request: any, direction: 'incoming' | 'outgoing') {

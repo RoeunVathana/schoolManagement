@@ -84,10 +84,10 @@ export class CoursesController {
 
   @Get(':id/students')
   async students(@Param('id') courseId: string) {
-    const enrollments = await this.prisma.enrollment.findMany({ where: { courseId, status: 'ACTIVE' }, include: { student: { include: { user: { select: { id: true, fullName: true, email: true, phone: true } } } } } });
+    const enrollments = await this.prisma.enrollment.findMany({ where: { courseId, status: 'ACTIVE' }, include: { student: { include: { user: { select: { id: true, fullName: true, email: true, phone: true, lastSeenAt: true } } } } } });
     const paidPayments = await this.prisma.coursePayment.findMany({ where: { courseId, status: PaymentStatus.PAID, studentId: { in: enrollments.map((enrollment) => enrollment.studentId) } }, select: { studentId: true, paidAt: true }, orderBy: { paidAt: 'desc' } });
     const paidByStudent = new Map(paidPayments.map((payment) => [payment.studentId, payment]));
-    return enrollments.map((enrollment) => ({ ...enrollment, paymentStatus: paidByStudent.has(enrollment.studentId) ? PaymentStatus.PAID : 'MANUAL', paidAt: paidByStudent.get(enrollment.studentId)?.paidAt || null }));
+    return enrollments.map((enrollment) => ({ ...enrollment, student: { ...enrollment.student, user: { ...enrollment.student.user, isOnline: !!enrollment.student.user.lastSeenAt && Date.now() - new Date(enrollment.student.user.lastSeenAt).getTime() <= 90_000 } }, paymentStatus: paidByStudent.has(enrollment.studentId) ? PaymentStatus.PAID : 'MANUAL', paidAt: paidByStudent.get(enrollment.studentId)?.paidAt || null }));
   }
 
   @Get(':id/assignments')

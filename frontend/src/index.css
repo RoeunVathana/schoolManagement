@@ -2099,6 +2099,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-conversation-item { display: flex; min-width: 0; align-items: center; gap: .65rem; border: 1px solid transparent; border-radius: 1rem; padding: .7rem; color: var(--community-ink); background: transparent; text-align: left; cursor: pointer; transition: background-color .2s ease, border-color .2s ease; }
 .community-conversation-item:hover { border-color: var(--community-line); background: var(--community-card); }
 .community-conversation-item.is-active { border-color: rgb(34 158 217 / .35); background: rgb(34 158 217 / .1); }
+.community-conversation-item.is-unread:not(.is-active) { border-color: rgb(244 123 103 / .3); background: rgb(244 123 103 / .06); }
 .community-group-chat-avatar { display: inline-grid; width: 2.5rem; height: 2.5rem; flex: 0 0 2.5rem; place-items: center; border: 1px solid rgb(126 231 207 / .35); border-radius: .85rem; color: #071326; background: linear-gradient(135deg, #8ce6cf, #33a7d8); font-size: 1.15rem; font-weight: 950; }
 .community-group-chat-avatar-large { width: 2.8rem; height: 2.8rem; flex-basis: 2.8rem; border-radius: .95rem; }
 .community-group-message-sender { display: block; margin-bottom: .25rem; color: #7ee7cf; font-size: .65rem; }
@@ -2106,6 +2107,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-conversation-copy strong, .community-conversation-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .community-conversation-copy strong { font-size: .76rem; font-weight: 900; }
 .community-conversation-copy span { margin-top: .25rem; color: var(--community-muted); font-size: .65rem; }
+.community-conversation-item.is-unread .community-conversation-copy strong { font-weight: 950; }
+.community-conversation-unread { display: inline-flex; min-width: 1.35rem; height: 1.35rem; align-items: center; justify-content: center; border-radius: 999px; padding: 0 .3rem; color: #fff; background: #f47b67; font-size: .58rem; font-weight: 950; line-height: 1; }
 .community-conversation-arrow { color: var(--community-blue); opacity: 0; transition: opacity .2s ease, transform .2s ease; }
 .community-conversation-item:hover .community-conversation-arrow, .community-conversation-item.is-active .community-conversation-arrow { opacity: 1; transform: translateX(2px); }
 .community-avatar { display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 999px; color: var(--community-mint); background: var(--community-ink); font-weight: 950; }

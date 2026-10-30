@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsIn, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsIn, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Role } from '@prisma/client';
 import { AuthService } from './auth.service';
@@ -13,6 +13,7 @@ class RegisterDto { @IsString() fullName!: string; @IsEmail() email!: string; @M
 class LoginDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string; @IsString() password!: string; @IsOptional() @IsEnum(Role) role?: Role; }
 class GoogleLoginDto { @IsString() idToken!: string; @IsEnum(Role) role!: Role; }
 class RefreshDto { @IsString() refreshToken!: string; }
+class PresenceDto { @IsOptional() @IsBoolean() online?: boolean; }
 class UpdateProfileDto { @IsOptional() @IsString() fullName?: string; @IsOptional() @IsString() phone?: string; @IsOptional() @MinLength(8) password?: string; @IsOptional() @IsString() gender?: string; @IsOptional() @IsString() dateOfBirth?: string; @IsOptional() @IsString() address?: string; @IsOptional() @IsString() guardianName?: string; @IsOptional() @IsString() guardianPhone?: string; @IsOptional() @IsString() specialization?: string; @IsOptional() @IsString() bio?: string; @IsOptional() @IsString() location?: string; @IsOptional() @IsString() website?: string; @IsOptional() @IsString() school?: string; @IsOptional() @IsString() course?: string; @IsOptional() @IsString() yearLevel?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
 class AdminForgotPasswordDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string; }
 class AdminResetPasswordDto {
@@ -33,6 +34,7 @@ export class AuthController {
   @Post('refresh') refresh(@Body() dto: RefreshDto) { return this.auth.refresh(dto.refreshToken); }
   @Post('logout') logout(@Body() dto: RefreshDto) { return this.auth.logout(dto.refreshToken); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Get('profile') profile(@CurrentUser() user: any) { return this.auth.getProfile(user.id); }
+  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Patch('presence') presence(@CurrentUser() user: any, @Body() dto: PresenceDto) { return this.auth.updatePresence(user.id, dto.online !== false); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Patch('profile') updateProfile(@CurrentUser() user: any, @Body() dto: UpdateProfileDto) { return this.auth.updateProfile(user.id, dto); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/image') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) async updateProfileImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a profile image'); return this.auth.updateProfileImage(user.id, `/uploads/profiles/${file.filename}`); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/cover') @UseInterceptors(FileInterceptor('coverImage', coverImageUpload)) async updateCoverImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a cover image'); return this.auth.updateCoverImage(user.id, `/uploads/covers/${file.filename}`); }

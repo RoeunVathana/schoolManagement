@@ -6,7 +6,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
 
-const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, profile: { select: { avatar: true, username: true } } } as const;
+const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
 
 @Injectable()
 export class ChatService {
@@ -62,22 +62,26 @@ export class ChatService {
   }
 
   private async present(conversationId: string, viewerId: string) {
-    const conversation = await this.prisma.conversation.findUnique({
-      where: { id: conversationId },
-      include: {
-        userA: { select: userSelect },
-        userB: { select: userSelect },
-        group: { select: { id: true, name: true, description: true, visibility: true, _count: { select: { members: true } } } },
-        messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, fullName: true } } } },
-      },
-    });
+    const [conversation, unreadCount] = await Promise.all([
+      this.prisma.conversation.findUnique({
+        where: { id: conversationId },
+        include: {
+          userA: { select: userSelect },
+          userB: { select: userSelect },
+          group: { select: { id: true, name: true, description: true, visibility: true, _count: { select: { members: true } } } },
+          messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, fullName: true } } } },
+        },
+      }),
+      this.prisma.message.count({ where: { conversationId, senderId: { not: viewerId }, readAt: null } }),
+    ]);
     if (!conversation) throw new NotFoundException('Conversation not found');
     if (conversation.groupId) {
       const group = conversation.group ? { ...conversation.group, memberCount: conversation.group._count.members } : null;
-      return { id: conversation.id, isGroup: true, group, otherUser: null, lastMessage: conversation.messages[0] || null, updatedAt: conversation.updatedAt };
+      return { id: conversation.id, isGroup: true, group, otherUser: null, lastMessage: conversation.messages[0] || null, unreadCount, updatedAt: conversation.updatedAt };
     }
     const otherUser = conversation.userAId === viewerId ? conversation.userB : conversation.userA;
-    return { id: conversation.id, isGroup: false, group: null, otherUser, lastMessage: conversation.messages[0] || null, updatedAt: conversation.updatedAt };
+    const otherUserWithPresence = otherUser ? { ...otherUser, isOnline: !!otherUser.lastSeenAt && Date.now() - new Date(otherUser.lastSeenAt).getTime() <= 90_000 } : null;
+    return { id: conversation.id, isGroup: false, group: null, otherUser: otherUserWithPresence, lastMessage: conversation.messages[0] || null, unreadCount, updatedAt: conversation.updatedAt };
   }
 
   async openWith(userId: string, friendId: string) {

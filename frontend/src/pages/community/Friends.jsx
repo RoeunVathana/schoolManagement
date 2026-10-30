@@ -15,6 +15,7 @@ export default function Friends() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
+  const [processingAll, setProcessingAll] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
   const text = useCommunityText();
@@ -69,6 +70,23 @@ export default function Friends() {
     setError('');
   };
 
+  const acceptAllRequests = async () => {
+    if (!data.incoming.length || processingAll) return;
+    setProcessingAll(true);
+    setError('');
+    try {
+      const results = await Promise.allSettled(data.incoming.map((request) => api.patch(`/api/friends/request/${request.id}/accept`)));
+      const failed = results.filter((result) => result.status === 'rejected').length;
+      await load({ preserveError: failed > 0 });
+      if (failed) setError(`${failed} ${failed === 1 ? text.requestFailed : text.requestsFailed}`);
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.actionFailed);
+      await load({ preserveError: true });
+    } finally {
+      setProcessingAll(false);
+    }
+  };
+
   const person = (value) => value.user || value;
 
   const renderPersonCard = (value, status, requestId) => {
@@ -78,7 +96,7 @@ export default function Friends() {
         <UserAvatar person={target} size="md" />
         <div className="community-person-copy">
           <p className="community-person-name">{target.fullName}</p>
-          <p className="community-person-role">{target.role}</p>
+          <p className="community-person-role">{target.role} · {target.isOnline ? 'Online' : 'Offline'}</p>
         </div>
       </Link>
       <FriendRequestButton
@@ -155,7 +173,7 @@ export default function Friends() {
       {[1, 2, 3].map((item) => <div className="community-skeleton-card" key={item}><span /><span /><span /></div>)}
     </div> : <div className="community-content-grid">
       <main className="community-main-column">
-        <CommunitySection title={text.friendRequests} count={data.incoming.length} accent="coral" action={data.incoming.length ? text.reviewNow : undefined}>
+        <CommunitySection title={text.friendRequests} count={data.incoming.length} accent="coral" action={data.incoming.length ? (processingAll ? text.processingAll : text.acceptAll) : undefined} onAction={acceptAllRequests} actionDisabled={processingAll}>
           {data.incoming.length ? <div className="community-person-grid">{data.incoming.map((request) => renderPersonCard(request, 'REQUEST_RECEIVED', request.id))}</div> : <Empty text={text.noPendingRequests} />}
         </CommunitySection>
 
@@ -192,9 +210,9 @@ function Stat({ value, label, tone }) {
   return <div className={`community-stat community-stat-${tone}`}><strong>{value}</strong><span>{label}</span><i aria-hidden="true" /></div>;
 }
 
-function CommunitySection({ title, count, accent, action, children }) {
+function CommunitySection({ title, count, accent, action, onAction, actionDisabled = false, children }) {
   return <section className="community-section">
-    <div className="community-section-heading"><div><span className={`community-section-marker community-section-marker-${accent}`} /><h2>{title}</h2>{typeof count === 'number' && <span className="community-section-count">{count}</span>}</div>{action && <button type="button" className="community-section-action">{action}<span aria-hidden="true">→</span></button>}</div>
+    <div className="community-section-heading"><div><span className={`community-section-marker community-section-marker-${accent}`} /><h2>{title}</h2>{typeof count === 'number' && <span className="community-section-count">{count}</span>}</div>{action && <button type="button" className="community-section-action" onClick={onAction} disabled={actionDisabled}>{action}{!actionDisabled && <span aria-hidden="true">→</span>}</button>}</div>
     <div className="community-section-body">{children}</div>
   </section>;
 }
