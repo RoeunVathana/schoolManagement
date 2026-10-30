@@ -228,8 +228,12 @@ export class AuthService {
   }
 
   async updateProfileImage(userId: string, profileImageUrl: string) {
-    const profile = await this.prisma.user.update({ where: { id: userId }, data: { profileImageUrl }, include: { student: true, teacher: true } });
-    return this.safeUser(profile);
+    await this.getProfile(userId);
+    await this.prisma.$transaction([
+      this.prisma.user.update({ where: { id: userId }, data: { profileImageUrl } }),
+      this.prisma.profile.update({ where: { userId }, data: { avatar: profileImageUrl } }),
+    ]);
+    return this.getProfile(userId);
   }
 
   async updateCoverImage(userId: string, coverImage: string) {

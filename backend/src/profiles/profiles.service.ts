@@ -12,7 +12,7 @@ export class ProfilesService {
     if (!user || user.status !== 'ACTIVE') throw new NotFoundException('Profile not found');
     const [relationship, friends, posts] = await Promise.all([this.friends.relationship(viewerId, targetId), this.friends.listFriends(targetId), this.posts.listForProfile(targetId, viewerId)]);
     return {
-      user: { ...user, profile: user.profile || { userId: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, avatar: user.profileImageUrl, role: user.role, accountStatus: user.status } },
+      user: { ...user, profile: user.profile ? { ...user.profile, avatar: user.profileImageUrl || user.profile.avatar } : { userId: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, avatar: user.profileImageUrl, role: user.role, accountStatus: user.status } },
       friendshipStatus: relationship.status,
       friendRequestId: relationship.requestId,
       friendCount: friends.length,
