@@ -11,7 +11,6 @@ import { useCommunityText } from '../../context/communityTranslations';
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_COVER_SIZE = 50 * 1024 * 1024;
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const visibilityLabel = { PUBLIC: 'Public', FRIENDS_ONLY: 'Friends only', PRIVATE: 'Only me' };
 
 export default function PublicProfile() {
   const { id } = useParams();
@@ -89,7 +88,7 @@ export default function PublicProfile() {
     event.target.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/')) { setNotice(text.onlyImages); return; }
-    if (file.size > MAX_COVER_SIZE) { setNotice('Cover images must be 50 MB or smaller.'); return; }
+    if (file.size > MAX_COVER_SIZE) { setNotice(text.imageLimit); return; }
     setCoverBusy(true);
     setNotice('');
     try {
@@ -109,6 +108,8 @@ export default function PublicProfile() {
   if (error && !profile) return <div className="community-alert" role="alert">{error}</div>;
   if (!profile) return null;
 
+  const tabs = [['Posts', text.posts], ['About', text.about], ['Friends', text.friends], ['Photos', text.noPhotos]];
+
   return <div className="community-page community-profile-page">
     <section className="community-profile-shell">
       <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
@@ -120,37 +121,40 @@ export default function PublicProfile() {
       <div className="community-profile-identity">
         <div className="community-profile-heading">
           <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />
-          <div className="community-profile-name-block"><p className="community-eyebrow">{role || 'Community member'}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} friends <span>·</span> {profileDetails.location || 'CampusFlow learning community'}</p><p className="community-profile-bio">{profileDetails.bio || `Learning with CampusFlow as a ${String(role || 'community member').toLowerCase()}.`}</p></div>
+          <div className="community-profile-name-block"><p className="community-eyebrow">{role || text.communityMember}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} {text.friends} <span>·</span> {profileDetails.location || text.community}</p><p className="community-profile-bio">{profileDetails.bio || text.memberBio}</p></div>
         </div>
         <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">{text.dashboard}</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice(text.acceptBeforeChat)} />}</div>
       </div>
       {(notice || postNotice) && <p className="community-profile-notice">{notice || postNotice}</p>}
-      <nav className="community-profile-tabs" aria-label={text.profile}>{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={tab === item ? 'is-active' : ''}>{item === 'Posts' ? 'Posts' : text[item === 'About' ? 'about' : item === 'Friends' ? 'friends' : 'noPhotos']}{item === 'Friends' && <span>{profile.friendCount}</span>}</button>)}</nav>
+      <nav className="community-profile-tabs" aria-label={text.profile}>{tabs.map(([value, label]) => <button type="button" key={value} onClick={() => setTab(value)} className={tab === value ? 'is-active' : ''}>{label}{value === 'Friends' && <span>{profile.friendCount}</span>}</button>)}</nav>
     </section>
 
     <div className="community-profile-layout">
       <aside className="community-profile-side">
-        <section className="community-profile-info-card"><p className="community-eyebrow">About this profile</p><h2>{displayName}</h2><p>{profileDetails.bio || 'A member of the CampusFlow learning community.'}</p><div className="community-profile-facts">{profileDetails.location && <span><strong>Location</strong>{profileDetails.location}</span>}{profileDetails.school && <span><strong>School</strong>{profileDetails.school}</span>}{profileDetails.course && <span><strong>Course</strong>{profileDetails.course}</span>}{profileDetails.website && <span><strong>Website</strong>{profileDetails.website}</span>}</div></section>
-        <section className="community-profile-info-card community-profile-mini-stat"><span className="community-side-icon">+</span><strong>{profile.friendCount}</strong><p>People in this circle</p><button type="button" onClick={() => setTab('Friends')} className="community-text-link">View friends <span aria-hidden="true">→</span></button></section>
+        <section className="community-profile-info-card"><p className="community-eyebrow">{text.aboutThisProfile}</p><h2>{displayName}</h2><p>{profileDetails.bio || text.memberBio}</p><div className="community-profile-facts">{profileDetails.location && <span><strong>{text.location}</strong>{profileDetails.location}</span>}{profileDetails.school && <span><strong>{text.school}</strong>{profileDetails.school}</span>}{profileDetails.course && <span><strong>{text.course}</strong>{profileDetails.course}</span>}{profileDetails.website && <span><strong>{text.website}</strong>{profileDetails.website}</span>}</div></section>
+        <section className="community-profile-info-card community-profile-mini-stat"><span className="community-side-icon">+</span><strong>{profile.friendCount}</strong><p>{text.peopleInCircle}</p><button type="button" onClick={() => setTab('Friends')} className="community-text-link">{text.viewFriends} <span aria-hidden="true">→</span></button></section>
       </aside>
 
       <main className="community-profile-main">
-        {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title="No posts yet" description={isSelf ? 'Share your first update with friends.' : 'This profile has not shared any visible posts.'} />}</div>}
+        {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title={text.noPosts} description={isSelf ? text.shareFirstUpdate : text.noVisiblePosts} />}</div>}
         {tab === 'About' && <About profile={profile} details={profileDetails} />}
-        {tab === 'Friends' && <div className="community-profile-friends-grid">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title="No friends yet" description="Accepted friends will appear here." />}</div>}
-        {tab === 'Photos' && <EmptyState title="No photos yet" description="Photos shared by this user will appear here." />}
+        {tab === 'Friends' && <div className="community-profile-friends-grid">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title={text.noFriends} description={text.acceptedFriendsAppear} />}</div>}
+        {tab === 'Photos' && <EmptyState title={text.noPhotos} description={text.photosAppear} />}
       </main>
     </div>
   </div>;
 }
 
 function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
-  return <article className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || 'Community member'}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibilityLabel[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>Edit</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? 'Deleting...' : 'Delete'}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt="Post" className="community-post-image" />}</article>;
+  const text = useCommunityText();
+  const visibility = { PUBLIC: text.public, FRIENDS_ONLY: text.friendsOnly, PRIVATE: text.onlyMe };
+  return <article className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}</article>;
 }
 
 function About({ profile, details }) {
-  const fields = [['Username', details.username], ['Email', profile.user.email], ['Phone', details.phone || profile.user.phone], ['Location', details.location], ['School', details.school], ['Course', details.course], ['Year level', details.yearLevel], ['Website', details.website]].filter(([, value]) => value);
-  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>About</h2></div></div><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}</section>;
+  const text = useCommunityText();
+  const fields = [[text.username, details.username], [text.email, profile.user.email], [text.phone, details.phone || profile.user.phone], [text.location, details.location], [text.school, details.school], [text.course, details.course], [text.yearLevel, details.yearLevel], [text.website, details.website]].filter(([, value]) => value);
+  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>{text.about}</h2></div></div><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}</section>;
 }
 
 function PersonCard({ person }) {
@@ -158,5 +162,5 @@ function PersonCard({ person }) {
 }
 
 function EmptyState({ title, description }) {
-  return <div className="community-empty community-empty-large"><span className="community-empty-mark">○</span><p className="community-empty-title">{title}</p><p>{description}</p></div>;
+  return <div className="community-empty community-empty-large"><span className="community-empty-mark">◊</span><p className="community-empty-title">{title}</p><p>{description}</p></div>;
 }

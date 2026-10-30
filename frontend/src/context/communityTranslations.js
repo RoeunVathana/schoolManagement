@@ -31,7 +31,16 @@ export const communityTranslations = {
   },
 };
 
+const communityProfileTranslations = {
+  en: {
+    posts: 'Posts', post: 'Post', aboutThisProfile: 'About this profile', edit: 'Edit', deleting: 'Deleting...', delete: 'Delete', postImageAlt: 'Post image', memberBio: 'A member of the CampusFlow learning community.',
+  },
+  km: {
+    posts: 'ការបង្ហោះ', post: 'ការបង្ហោះ', aboutThisProfile: 'អំពីប្រវត្តិរូបនេះ', edit: 'កែសម្រួល', deleting: 'កំពុងលុប...', delete: 'លុប', postImageAlt: 'រូបភាពការបង្ហោះ', memberBio: 'សមាជិកម្នាក់នៃសហគមន៍សិក្សា CampusFlow។',
+  },
+};
+
 export function useCommunityText() {
   const { language } = useLanguage();
-  return communityTranslations[language] || communityTranslations.en;
+  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en) };
 }
