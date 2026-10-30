@@ -305,6 +305,16 @@ export default function Storefront() {
   }, [id, search, user?.id, user?.role]);
 
   const startCoursePayment = async (selectedCourse, plan = "FULL") => {
+    if (!user) {
+      navigate("/login/student", {
+        state: { message: copy.signInToBuy, from: `/courses/${selectedCourse.id}` },
+      });
+      return;
+    }
+    if (user.role !== "STUDENT") {
+      setError(copy.studentOnly);
+      return;
+    }
     setPaymentPlanCourse(null);
     setBuyBusy(selectedCourse.id);
     setPaymentError("");
@@ -598,6 +608,7 @@ export default function Storefront() {
                   copy={copy}
                   language={language}
                   t={t}
+                  user={user}
                   buyBusy={buyBusy}
                   onBuy={buyCourse}
                   isPurchased={purchasedCourseIds.includes(item.id)}
@@ -861,7 +872,7 @@ function CoursePrice({ course, currency, large = false }) {
   </div>;
 }
 
-function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = false, paymentPlan, revealDelay = 0 }) {
+function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan, revealDelay = 0 }) {
   return (
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
@@ -887,8 +898,8 @@ function CourseCard({ course, copy, language, t, buyBusy, onBuy, isPurchased = f
               <span aria-hidden="true">✓</span>{t("purchaseComplete")}
             </Link>
           ) : (
-            <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="rounded-xl bg-[#10243f] px-3.5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] disabled:cursor-wait disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
-              {buyBusy === course.id ? "..." : isPurchased ? t("payMonthly") : t("buyCourse")}
+            <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} aria-label={!user ? copy.signInToBuy : undefined} className="rounded-xl bg-[#10243f] px-3.5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] disabled:cursor-wait disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
+              {buyBusy === course.id ? "..." : isPurchased ? t("payMonthly") : user ? t("buyCourse") : `${copy.signIn} · ${t("buyCourse")}`}
             </button>
           )}
         </div>
@@ -1020,7 +1031,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
               </Link>
             ) : (
               <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 w-full rounded-2xl bg-[#10243f] px-4 py-4 text-sm font-extrabold text-white shadow-lg shadow-[#10243f]/15 transition hover:-translate-y-0.5 hover:bg-[#1c4e6b] disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
-                {buyBusy === course.id ? "..." : user ? (isPurchased ? t("payMonthly") : t("buyCourse")) : copy.startLearning}
+                {buyBusy === course.id ? "..." : user ? (isPurchased ? t("payMonthly") : t("buyCourse")) : `${copy.signIn} · ${t("buyCourse")}`}
               </button>
             )}
             <p className="mt-4 text-center text-xs font-semibold text-slate-400">{copy.paymentMethods}</p>
