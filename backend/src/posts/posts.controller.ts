@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { postImageUpload } from '../common/upload.options';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
@@ -13,7 +15,18 @@ import { PostsService } from './posts.service';
 export class PostsController {
   constructor(private readonly posts: PostsService) {}
 
-  @Post() create(@CurrentUser() user: { id: string }, @Body() dto: CreatePostDto) { return this.posts.create(user.id, dto); }
-  @Patch(':id') update(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: UpdatePostDto) { return this.posts.update(id, user.id, dto); }
+  @Post()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image', postImageUpload))
+  create(@CurrentUser() user: { id: string }, @Body() dto: CreatePostDto, @UploadedFile() file?: Express.Multer.File) {
+    return this.posts.create(user.id, { ...dto, imageUrl: file ? `/uploads/posts/${file.filename}` : undefined });
+  }
+
+  @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image', postImageUpload))
+  update(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: UpdatePostDto, @UploadedFile() file?: Express.Multer.File) {
+    return this.posts.update(id, user.id, { ...dto, imageUrl: file ? `/uploads/posts/${file.filename}` : undefined });
+  }
   @Delete(':id') remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.remove(id, user.id); }
 }
