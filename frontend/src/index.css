@@ -3474,6 +3474,55 @@ a, button, input, textarea, select { max-width: 100%; }
   box-shadow: 0 8px 20px rgb(34 158 217 / .16);
 }
 
+/* Sign-out control: keep the destructive action clear without letting it
+   collapse into an unreadable red square on phones. */
+.app-logout-button {
+  border-color: rgb(244 123 103 / .42) !important;
+  background: linear-gradient(145deg, #fff7f5, #ffe7e4) !important;
+  color: #b83d43 !important;
+  box-shadow: 0 6px 16px rgb(184 61 67 / .1);
+}
+
+.app-logout-button:hover:not(:disabled) {
+  border-color: rgb(198 70 56 / .68) !important;
+  background: linear-gradient(145deg, #fff1ed, #ffd9d5) !important;
+  box-shadow: 0 9px 20px rgb(184 61 67 / .17);
+}
+
+.app-logout-button:active:not(:disabled) { transform: translateY(0) scale(.96); }
+.logout-icon { display: inline-flex; align-items: center; justify-content: center; width: 1.2rem; height: 1.2rem; }
+.logout-icon svg { display: block; width: 1.1rem; height: 1.1rem; }
+
+.dark .app-logout-button {
+  border-color: rgb(244 123 103 / .4) !important;
+  background: linear-gradient(145deg, #432238, #321d31) !important;
+  color: #ffaca8 !important;
+  box-shadow: 0 7px 18px rgb(0 0 0 / .22);
+}
+
+.dark .app-logout-button:hover:not(:disabled) {
+  border-color: rgb(244 123 103 / .74) !important;
+  background: linear-gradient(145deg, #55273b, #40223b) !important;
+}
+
+@media (max-width: 639px) {
+  .app-navbar .app-logout-button {
+    width: 2.6rem;
+    min-width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    border-radius: .9rem;
+  }
+
+  .app-navbar .app-logout-button .logout-icon { width: 1.25rem; height: 1.25rem; }
+  .app-navbar .app-logout-button .logout-icon svg { width: 1.2rem; height: 1.2rem; }
+}
+
+@media (max-width: 380px) {
+  .app-navbar .app-logout-button { width: 2.4rem; min-width: 2.4rem; height: 2.4rem; border-radius: .78rem; }
+  .app-navbar .app-logout-button .logout-icon svg { width: 1.08rem; height: 1.08rem; }
+}
+
 .dark .app-navbar .app-menu-button.is-open {
   border-color: rgb(141 228 202 / .6);
   color: #d9fff3;
