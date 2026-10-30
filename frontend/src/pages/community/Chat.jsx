@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
-import CommunityMedia from '../../components/CommunityMedia';
+import CommunityMedia, { isCommunityVideo } from '../../components/CommunityMedia';
 import UserAvatar from '../../components/UserAvatar';
 import { AuthContext } from '../../context/AuthContext';
 import { useCommunityText } from '../../context/communityTranslations';
@@ -357,7 +357,7 @@ export default function Chat() {
               {activeGroup && message.senderId !== user?.id && !message.isDeleted && <strong className="community-group-message-sender">{message.sender?.fullName}</strong>}
               {message.isDeleted && <p className="community-message-deleted">{text.messageDeleted || 'Message deleted'}</p>}
               {editingMessageId === message.id && !message.isDeleted && <form className="community-message-edit-form" onSubmit={(event) => saveEdit(event, message)}><textarea value={editDraft} onChange={(event) => setEditDraft(event.target.value)} autoFocus rows={3} maxLength={2000} aria-label={text.editMessage || 'Edit message'} /><div><button type="button" onClick={cancelEditing}>{text.cancel || 'Cancel'}</button><button type="submit" disabled={!editDraft.trim() || sending}>{sending ? (text.saving || 'Saving...') : (text.save || 'Save')}</button></div></form>}
-              {message.imageUrl && <div className="community-message-attachment"><div className="community-message-image-link"><CommunityMedia url={message.imageUrl} mediaType={message.mediaType} alt={message.mediaType === 'VIDEO' ? (text.chatVideoAlt || 'Chat video') : (text.chatImageAlt || 'Chat image')} className="community-message-media" /></div><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : (text.downloadImage || 'Download')}</button></div></div>}
+              {message.imageUrl && <div className="community-message-attachment"><div className="community-message-image-link"><CommunityMedia url={message.imageUrl} mediaType={message.mediaType} alt={isCommunityVideo(message.mediaType, message.imageUrl) ? (text.chatVideoAlt || 'Chat video') : (text.chatImageAlt || 'Chat image')} className="community-message-media" /></div><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : (text.downloadImage || 'Download')}</button></div></div>}
               {message.body && <p>{message.body}</p>}
               <small>{displayDate(message.createdAt)}{message.isEdited ? ` · ${text.edited || 'Edited'}` : ''}</small>
             </div>

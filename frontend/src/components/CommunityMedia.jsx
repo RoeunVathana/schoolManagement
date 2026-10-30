@@ -7,7 +7,20 @@ export function communityMediaUrl(path) {
 }
 
 export function isCommunityVideo(mediaType, url = '') {
-  return mediaType === 'VIDEO' || /\.(mp4|webm|mov|m4v)(?:[?#].*)?$/i.test(url);
+  const normalizedType = String(mediaType || '').toUpperCase();
+  let pathname = url || '';
+  try {
+    pathname = new URL(url, typeof window !== 'undefined' ? window.location.href : 'http://localhost').pathname;
+  } catch {
+    // Keep the original value for blob/data URLs and malformed legacy paths.
+  }
+  let decodedPathname = pathname;
+  try {
+    decodedPathname = decodeURIComponent(pathname);
+  } catch {
+    // Keep the encoded pathname when a legacy URL contains an invalid escape.
+  }
+  return normalizedType === 'VIDEO' || /\.(mp4|webm|mov|m4v)$/i.test(decodedPathname);
 }
 
 export function communityPostMedia(post) {
