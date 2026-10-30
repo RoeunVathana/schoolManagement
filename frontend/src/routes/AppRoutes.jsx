@@ -32,6 +32,7 @@ import AppShell from '../layouts/AppShell';
 import PublicProfile from '../pages/community/PublicProfile';
 import Friends from '../pages/community/Friends';
 import Chat from '../pages/community/Chat';
+import CommunityLanding from '../pages/community/CommunityLanding';
 
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
@@ -46,6 +47,7 @@ export default function AppRoutes() {
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
+    <Route path="/community" element={<CommunityLanding />} />
     <Route path="/" element={<Storefront />} />
     <Route element={<ProtectedRoute />}>
       <Route element={<RoleRoute role="ADMIN" />}>
