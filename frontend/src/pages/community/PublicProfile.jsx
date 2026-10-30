@@ -11,6 +11,7 @@ import ReactionPicker from '../../components/ReactionPicker';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 import { useCommunityText } from '../../context/communityTranslations';
+import { isImageTooLarge } from '../../utils/fileValidation';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_COVER_SIZE = 50 * 1024 * 1024;
@@ -19,7 +20,7 @@ const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${pat
 export default function PublicProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const text = useCommunityText();
   const [profile, setProfile] = useState(null);
   const [profileStories, setProfileStories] = useState([]);
@@ -32,11 +33,14 @@ export default function PublicProfile() {
   const [postNotice, setPostNotice] = useState('');
   const [editingPostId, setEditingPostId] = useState(null);
   const [deletingPostId, setDeletingPostId] = useState(null);
+  const [profileBusy, setProfileBusy] = useState(false);
+  const [profileCropFile, setProfileCropFile] = useState(null);
   const [coverBusy, setCoverBusy] = useState(false);
   const [coverCropFile, setCoverCropFile] = useState(null);
   const [aboutEditing, setAboutEditing] = useState(false);
   const [aboutBusy, setAboutBusy] = useState(false);
   const [aboutForm, setAboutForm] = useState({ bio: '', location: '', website: '', school: '', course: '', yearLevel: '' });
+  const profileInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
   const load = async () => {
@@ -155,6 +159,35 @@ export default function PublicProfile() {
     setCoverCropFile(file);
   };
 
+  const selectProfileImage = (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setNotice(text.onlyImages); return; }
+    if (isImageTooLarge(file)) { setNotice('Profile image must be 5 MB or smaller.'); return; }
+    setNotice('');
+    setProfileCropFile(file);
+  };
+
+  const uploadProfileImage = async (croppedFile) => {
+    if (!croppedFile) return;
+    setProfileCropFile(null);
+    setProfileBusy(true);
+    setNotice('');
+    try {
+      const form = new FormData();
+      form.append('profileImage', croppedFile);
+      const updated = unwrap(await api.post('/auth/profile/image', form, { headers: { 'Content-Type': 'multipart/form-data' } }));
+      updateUser(updated);
+      setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
+      setNotice('Profile photo updated.');
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || 'Could not upload the profile photo.');
+    } finally {
+      setProfileBusy(false);
+    }
+  };
+
   const uploadCover = async (croppedFile) => {
     if (!croppedFile) return;
     setCoverCropFile(null);
@@ -180,6 +213,7 @@ export default function PublicProfile() {
   const tabs = [['Posts', text.posts], ['About', text.about], ['Friends', text.friends], ['Photos', text.noPhotos]];
 
   return <div className="community-page community-profile-page">
+    {profileCropFile && <ImageCropper file={profileCropFile} aspectRatio={1} outputWidth={800} outputHeight={800} areaClassName="max-w-[520px]" labels={{ title: 'Crop profile photo', description: 'Adjust your profile photo before uploading.', zoom: text.zoom, cancel: text.cancel, useImage: text.useCroppedImage, processing: text.preparingImage }} onCancel={() => setProfileCropFile(null)} onComplete={uploadProfileImage} />}
     {coverCropFile && <ImageCropper file={coverCropFile} aspectRatio={3.2} outputWidth={1600} outputHeight={500} areaClassName="max-w-[560px]" labels={{ title: text.cropCoverTitle, description: text.cropCoverDescription, zoom: text.zoom, cancel: text.cancel, useImage: text.useCroppedImage, processing: text.preparingImage }} onCancel={() => setCoverCropFile(null)} onComplete={uploadCover} />}
     <section className="community-profile-shell">
       <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
@@ -190,7 +224,7 @@ export default function PublicProfile() {
 
       <div className="community-profile-identity">
         <div className="community-profile-heading">
-          {profileStoryGroup ? <button type="button" className="community-profile-story-trigger" onClick={() => setActiveStoryGroup(profileStoryGroup)} aria-label={`View ${displayName}'s story`} title="View story"><span className="community-profile-story-ring"><UserAvatar person={profile.user} size="profile" className="community-profile-avatar" /></span></button> : <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />}
+          <div className="community-profile-avatar-wrap">{profileStoryGroup ? <button type="button" className="community-profile-story-trigger" onClick={() => setActiveStoryGroup(profileStoryGroup)} aria-label={`View ${displayName}'s story`} title="View story"><span className="community-profile-story-ring"><UserAvatar person={profile.user} size="profile" className="community-profile-avatar" /></span></button> : <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />}{isSelf && <><input ref={profileInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={selectProfileImage} className="sr-only" /><button type="button" disabled={profileBusy} onClick={() => profileInputRef.current?.click()} className="community-profile-avatar-edit" aria-label="Upload profile photo" title="Upload profile photo">{profileBusy ? '…' : '✎'}</button></>}</div>
           <div className="community-profile-name-block"><p className="community-eyebrow">{role || text.communityMember}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} {text.friends} <span>·</span> {profileDetails.location || text.community}</p><p className="community-profile-bio">{profileDetails.bio || text.memberBio}</p></div>
         </div>
         <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">{text.dashboard}</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice(text.acceptBeforeChat)} />}</div>

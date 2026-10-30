@@ -2027,8 +2027,14 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-cover-button:hover { border-color: #fff; box-shadow: 0 14px 28px rgb(34 158 217 / .3); transform: translateY(-2px); }
 .community-profile-identity { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; min-height: 9.4rem; padding: 0 1.35rem 1.2rem; background: linear-gradient(180deg, var(--community-card), var(--community-soft)); }
 .community-profile-heading { display: flex; min-width: 0; align-items: flex-end; gap: 1rem; }
+.community-profile-avatar-wrap { position: relative; display: block; flex: 0 0 auto; margin-top: -3.9rem; }
 .community-profile-avatar { display: flex; width: clamp(6.5rem, 16vw, 9rem); height: clamp(6.5rem, 16vw, 9rem); flex: 0 0 auto; align-items: center; justify-content: center; overflow: hidden; margin-top: -3.9rem; border: 5px solid var(--community-card); border-radius: 999px; color: var(--community-mint); background: var(--community-ink); font-size: 2.6rem; font-weight: 950; box-shadow: 0 0 0 4px #229ed9, 0 16px 32px rgb(16 36 63 / .2); }
+.community-profile-avatar-wrap > .community-profile-avatar { margin-top: 0; }
 .community-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.community-profile-avatar-edit { position: absolute; right: .35rem; bottom: .35rem; display: inline-flex; width: 2.2rem; height: 2.2rem; align-items: center; justify-content: center; border: 2px solid var(--community-card); border-radius: 999px; color: #fff; background: linear-gradient(135deg, #229ed9, #173b5a); font-size: .9rem; font-weight: 950; cursor: pointer; box-shadow: 0 8px 18px rgb(16 36 63 / .25); transition: transform .2s ease, filter .2s ease; }
+.community-profile-avatar-edit:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-2px); }
+.community-profile-avatar-edit:disabled { cursor: wait; opacity: .65; }
+.community-profile-avatar-wrap > .community-profile-story-trigger { margin-top: 0; }
 .community-profile-story-trigger { display: block; flex: 0 0 auto; margin-top: -3.9rem; padding: 4px; border: 0; border-radius: 999px; background: linear-gradient(135deg, #229ed9, #8de4ca, #ef8b78); cursor: pointer; transition: transform .2s ease, filter .2s ease; }
 .community-profile-story-trigger:hover { filter: brightness(1.06); transform: translateY(-2px); }
 .community-profile-story-trigger:focus-visible { outline: 3px solid var(--community-mint); outline-offset: 4px; }
@@ -2361,8 +2367,11 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-cover-button { right: .8rem; bottom: .8rem; }
   .community-profile-identity { display: block; padding: 0 .9rem .9rem; }
   .community-profile-heading { display: block; }
+  .community-profile-avatar-wrap { width: fit-content; margin-top: -3.25rem; }
   .community-profile-avatar { width: 6.9rem; height: 6.9rem; margin-top: -3.25rem; }
+  .community-profile-avatar-wrap > .community-profile-avatar { margin-top: 0; }
   .community-profile-story-trigger { margin-top: -3.25rem; }
+  .community-profile-avatar-wrap > .community-profile-story-trigger { margin-top: 0; }
   .community-profile-name-block { margin-top: .8rem; }
   .community-profile-actions { justify-content: flex-start; margin-top: 1rem; }
   .community-profile-tabs { padding-inline: .55rem; }
