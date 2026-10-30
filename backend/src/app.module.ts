@@ -31,6 +31,7 @@ import { CommunitySupportModule } from './community-support/community-support.mo
 import { StoriesModule } from './stories/stories.module';
 import { PublicCommunityModule } from './public-community/public-community.module';
 import { GroupsModule } from './groups/groups.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { GroupsModule } from './groups/groups.module';
     StoriesModule,
     PublicCommunityModule,
     GroupsModule,
+    MediaModule,
   ],
 })
 export class AppModule {}

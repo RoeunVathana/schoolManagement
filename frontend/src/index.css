@@ -1694,9 +1694,9 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-story-create strong { margin-top: .85rem; font-size: .78rem; font-weight: 950; }
 .community-story-create small { margin-top: .3rem; color: var(--community-muted); font-size: .62rem; line-height: 1.35; }
 .community-story-person { background: linear-gradient(135deg, #10243f, #1d6174 56%, #ef8b78); }
-.community-story-media, .community-story-media img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.community-story-media img { object-fit: cover; transition: transform .5s ease; }
-.community-story-person:hover .community-story-media img { transform: scale(1.06); }
+.community-story-media, .community-story-media img, .community-story-media video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.community-story-media img, .community-story-media video { object-fit: cover; transition: transform .5s ease; }
+.community-story-person:hover .community-story-media img, .community-story-person:hover .community-story-media video { transform: scale(1.06); }
 .community-story-text { display: flex; height: 100%; align-items: center; justify-content: center; padding: 1.5rem .75rem; color: #fff; font-size: .86rem; font-weight: 850; line-height: 1.45; text-align: center; }
 .community-story-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(0 0 0 / .12), transparent 42%, rgb(0 0 0 / .8)); }
 .community-story-ring { position: absolute; left: .7rem; top: .7rem; padding: 3px; border-radius: 999px; background: linear-gradient(135deg, #229ed9, #8de4ca, #ef8b78); }
@@ -1794,7 +1794,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-composer-note, .community-remove-media { color: var(--community-muted); font-size: .66rem; font-weight: 700; }
 .community-remove-media { border: 0; color: #c84638; background: transparent; cursor: pointer; }
 .community-media-preview { overflow: hidden; margin-top: .75rem; border: 1px solid var(--community-line); border-radius: 1rem; background: var(--community-soft); }
-.community-media-preview img { display: block; width: 100%; max-height: 22rem; object-fit: contain; }
+.community-media-preview img, .community-media-preview video { display: block; width: 100%; max-height: 22rem; object-fit: contain; }
 .community-media-preview p { margin: 0; border-top: 1px solid var(--community-line); padding: .55rem .7rem; color: var(--community-muted); font-size: .66rem; font-weight: 750; }
 .community-composer-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: .75rem; margin-top: .85rem; padding-top: .85rem; border-top: 1px solid var(--community-line); }
 .community-visibility-field { display: grid; min-width: 0; gap: .3rem; color: var(--community-ink); font-size: .7rem; font-weight: 850; }
@@ -1820,7 +1820,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-story-modal-backdrop .community-modal-close { color: rgb(255 255 255 / .72); }
 .community-story-modal-backdrop .community-modal-close:hover { color: #fff; background: rgb(255 255 255 / .1); }
 .community-story-viewer { position: relative; display: flex; width: 100%; height: min(68dvh, 38rem); min-height: min(20rem, calc(100dvh - 12rem)); flex: 1 1 auto; align-items: center; justify-content: center; border: 1px solid rgb(255 255 255 / .14); border-radius: 1.35rem; background: radial-gradient(circle at 50% 0, rgb(141 228 202 / .22), transparent 42%), linear-gradient(145deg, #10243f, #173f54 58%, #292b4c); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .03), 0 18px 45px rgb(0 0 0 / .25); }
-.community-story-viewer > img { display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; background: rgb(0 0 0 / .16); }
+.community-story-viewer > img, .community-story-viewer > video { display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; background: rgb(0 0 0 / .16); }
 .community-story-viewer-text { display: flex; min-height: 20rem; align-items: center; justify-content: center; padding: 3rem; color: #fff; font-size: 1.2rem; font-weight: 900; line-height: 1.5; text-align: center; }
 .community-story-viewer-fallback { display: flex; width: 100%; height: 100%; min-height: 20rem; flex-direction: column; align-items: center; justify-content: center; gap: .7rem; padding: 3rem; color: #fff; text-align: center; }
 .community-story-viewer-fallback span { display: inline-flex; width: 4rem; height: 4rem; align-items: center; justify-content: center; border: 1px solid rgb(141 228 202 / .55); border-radius: 1.3rem; color: #10243f; background: var(--community-mint); font-size: 1.6rem; box-shadow: 0 10px 28px rgb(141 228 202 / .22); }

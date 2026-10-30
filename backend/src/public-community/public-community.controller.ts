@@ -22,7 +22,7 @@ export class PublicCommunityController {
 
     const [members, posts] = await Promise.all([
       this.prisma.user.findMany({ where: publicUserWhere, select: authorSelect, orderBy: { createdAt: 'desc' }, take: 8 }),
-      this.prisma.post.findMany({ where: { visibility: 'PUBLIC', author: publicUserWhere }, select: { id: true, content: true, imageUrl: true, createdAt: true, visibility: true, _count: { select: { reactions: true } }, author: { select: authorSelect } }, orderBy: { createdAt: 'desc' }, take }),
+      this.prisma.post.findMany({ where: { visibility: 'PUBLIC', author: publicUserWhere }, select: { id: true, content: true, imageUrl: true, mediaType: true, createdAt: true, visibility: true, _count: { select: { reactions: true } }, author: { select: authorSelect } }, orderBy: { createdAt: 'desc' }, take }),
     ]);
 
     return { members, posts: posts.map(({ _count, ...post }) => ({ ...post, reactionCount: _count.reactions, viewerReaction: null })) };

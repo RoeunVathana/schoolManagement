@@ -123,33 +123,43 @@ export const coverImageUpload = {
   },
 };
 
-export const postImageUpload = {
+export const postMediaUpload = {
   storage: diskStorage({
     destination: (_req, _file, cb) => { mkdirSync('uploads/posts', { recursive: true }); cb(null, 'uploads/posts'); },
     filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
   }),
-  limits: { fileSize: 150 * 1024 * 1024 },
+  limits: { fileSize: 250 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
-    const allowed = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const allowedImages = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const allowedVideos = ['.mp4', '.webm', '.mov', '.m4v'];
     const extension = extname(file.originalname).toLowerCase();
-    if (!file.mimetype.startsWith('image/') || !allowed.includes(extension)) return cb(new BadRequestException('Only PNG, JPG, JPEG, WEBP or GIF images can be posted. Videos and documents are not allowed.'), false);
+    const validImage = file.mimetype.startsWith('image/') && allowedImages.includes(extension);
+    const validVideo = file.mimetype.startsWith('video/') && allowedVideos.includes(extension);
+    if (!validImage && !validVideo) return cb(new BadRequestException('Only PNG/JPG/WEBP/GIF images or MP4/WEBM/MOV videos can be posted.'), false);
     cb(null, true);
   },
 };
 
-export const storyImageUpload = {
+export const postImageUpload = postMediaUpload;
+
+export const storyMediaUpload = {
   storage: diskStorage({
     destination: (_req, _file, cb) => { mkdirSync('uploads/stories', { recursive: true }); cb(null, 'uploads/stories'); },
     filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
   }),
-  limits: { fileSize: 150 * 1024 * 1024 },
+  limits: { fileSize: 250 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
-    const allowed = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const allowedImages = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const allowedVideos = ['.mp4', '.webm', '.mov', '.m4v'];
     const extension = extname(file.originalname).toLowerCase();
-    if (!file.mimetype.startsWith('image/') || !allowed.includes(extension)) return cb(new BadRequestException('Only PNG, JPG, JPEG, WEBP or GIF images can be used in stories. Videos and documents are not allowed.'), false);
+    const validImage = file.mimetype.startsWith('image/') && allowedImages.includes(extension);
+    const validVideo = file.mimetype.startsWith('video/') && allowedVideos.includes(extension);
+    if (!validImage && !validVideo) return cb(new BadRequestException('Only PNG/JPG/WEBP/GIF images or MP4/WEBM/MOV videos can be used in stories.'), false);
     cb(null, true);
   },
 };
+
+export const storyImageUpload = storyMediaUpload;
 
 export const chatImageUpload = {
   storage: diskStorage({

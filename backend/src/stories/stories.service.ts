@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { PostVisibility, Role } from '@prisma/client';
+import { MediaType, PostVisibility, Role } from '@prisma/client';
 import { FriendsService } from '../friends/friends.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -35,15 +35,15 @@ export class StoriesService {
     });
   }
 
-  async create(userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string }) {
+  async create(userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
     await this.assertCommunityUser(userId);
     const content = input.content?.trim() || null;
     if (!content && !input.imageUrl) throw new BadRequestException('Add story text or an image before posting');
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    return this.prisma.story.create({ data: { authorId: userId, content, imageUrl: input.imageUrl, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, expiresAt }, include: { author: { select: this.authorSelect } } });
+    return this.prisma.story.create({ data: { authorId: userId, content, imageUrl: input.imageUrl, mediaType: input.mediaType, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, expiresAt }, include: { author: { select: this.authorSelect } } });
   }
 
-  async update(storyId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string }) {
+  async update(storyId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
     await this.assertCommunityUser(userId);
     const story = await this.prisma.story.findUnique({ where: { id: storyId }, select: { authorId: true, content: true, imageUrl: true } });
     if (!story) throw new NotFoundException('Story not found');
@@ -51,7 +51,7 @@ export class StoriesService {
     const content = input.content === undefined ? story.content : (input.content.trim() || null);
     const imageUrl = input.imageUrl === undefined ? story.imageUrl : input.imageUrl;
     if (!content && !imageUrl) throw new BadRequestException('A story must contain text or an image');
-    return this.prisma.story.update({ where: { id: storyId }, data: { content, imageUrl, visibility: input.visibility }, include: { author: { select: this.authorSelect } } });
+    return this.prisma.story.update({ where: { id: storyId }, data: { content, imageUrl, mediaType: input.mediaType, visibility: input.visibility }, include: { author: { select: this.authorSelect } } });
   }
 
   async remove(storyId: string, userId: string) {

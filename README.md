@@ -145,6 +145,22 @@ Students and teachers can also create their own accounts from the **Register as 
 
 Administrators can manage schedules, attendance, announcements and enrollments directly from their sidebar pages with add, edit and delete actions. Courses and profile images support PNG, JPG, JPEG and WEBP files up to 50 MB; course images are stored in `backend/uploads/courses/`, profile images are stored in `backend/uploads/profiles/`, and both are served through `/uploads/...`. Teachers can attach one PDF up to 100 MB or one image (PNG, JPG, JPEG or WEBP) up to 50 MB to each assignment; assignment files are stored in `backend/uploads/assignments/` and served through `/uploads/assignments/...`.
 
+### Community post and story media
+
+Community posts and stories accept PNG, JPG, JPEG, WEBP and GIF images plus MP4, WEBM, MOV and M4V videos up to 250 MB. The backend validates the MIME type and extension, records `mediaType` as `IMAGE` or `VIDEO`, and the frontend renders video with native controls.
+
+For local development, media remains in `backend/uploads/`. To store community media in Firebase Storage (Google Cloud Storage), configure the backend environment on Railway:
+
+```env
+MEDIA_STORAGE="firebase"
+FIREBASE_PROJECT_ID="your-project-id"
+FIREBASE_STORAGE_BUCKET="your-project-id.firebasestorage.app"
+FIREBASE_CLIENT_EMAIL="firebase-adminsdk-...@your-project-id.iam.gserviceaccount.com"
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n"
+```
+
+The Firebase web API key alone is not an Admin Storage credential. Generate the service-account values in Firebase Console → Project settings → Service accounts and keep them only in Railway variables or an uncommitted local `.env`. Storage pricing and free quotas depend on the current Firebase/Google Cloud plan; a 250 MB upload is supported by the application, but it is not an unlimited-free-storage guarantee.
+
 Announcements are role-aware. Administrators can view all announcements and their new announcements notify active teachers and students. Teachers see administrator announcements and their own announcements; teacher announcements notify students enrolled in the selected course, or all active students for a school-wide announcement. The navbar polls notifications, shows an unread count, and supports marking one or all notifications as read.
 
 CRUD access is role-aware: administrators have full access, teachers can create/edit/delete their assigned learning records when their permissions are enabled, and students can create/edit/delete their own homework submissions when their permissions are enabled. Profile updates are available to every authenticated account.

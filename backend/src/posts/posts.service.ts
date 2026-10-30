@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { PostVisibility, Role } from '@prisma/client';
+import { MediaType, PostVisibility, Role } from '@prisma/client';
 import { FriendsService } from '../friends/friends.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -27,11 +27,11 @@ export class PostsService {
     if (!user || user.status !== 'ACTIVE' || (user.role !== Role.STUDENT && user.role !== Role.CUSTOMER)) throw new ForbiddenException('Only active students and customers can create posts');
   }
 
-  async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string }) {
+  async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
     await this.assertPostOwner(userId);
     const content = input.content.trim();
     if (!content) throw new BadRequestException('Post content cannot be empty');
-    const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl }, include: this.postInclude(userId) });
+    const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl, mediaType: input.mediaType }, include: this.postInclude(userId) });
     return this.presentPost(post);
   }
 
@@ -50,11 +50,11 @@ export class PostsService {
     return posts.map((post) => this.presentPost(post));
   }
 
-  async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string }) {
+  async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
     const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true } });
     if (!post) throw new NotFoundException('Post not found');
     if (post.authorId !== userId) throw new ForbiddenException('You can only edit your own posts');
-    const data: { content?: string; visibility?: PostVisibility; imageUrl?: string } = {};
+    const data: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType } = {};
     if (input.content !== undefined) {
       const content = input.content.trim();
       if (!content) throw new BadRequestException('Post content cannot be empty');
@@ -62,6 +62,7 @@ export class PostsService {
     }
     if (input.visibility !== undefined) data.visibility = input.visibility;
     if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
+    if (input.mediaType !== undefined) data.mediaType = input.mediaType;
     const updatedPost = await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
     return this.presentPost(updatedPost);
   }

@@ -4,16 +4,15 @@ import api, { unwrap } from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
 import UserAvatar from './UserAvatar';
 import { useCommunityText } from '../context/communityTranslations';
+import CommunityMedia from './CommunityMedia';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-const MAX_IMAGE_SIZE = 150 * 1024 * 1024;
+const MAX_MEDIA_SIZE = 250 * 1024 * 1024;
 const visibilityOptions = [
   { value: 'PUBLIC', label: 'Public' },
   { value: 'FRIENDS_ONLY', label: 'Friends only' },
   { value: 'PRIVATE', label: 'Only me' },
 ];
 
-const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 
 export default function CommunityStories() {
   const { user } = useAuth();
@@ -79,7 +78,7 @@ function StoryTile({ group, own, onOpen }) {
   const text = useCommunityText();
   const latest = group.stories[group.stories.length - 1];
   return <button type="button" onClick={onOpen} className="community-story-tile community-story-person">
-    <div className="community-story-media">{latest.imageUrl ? <img src={mediaUrl(latest.imageUrl)} alt="" /> : <div className="community-story-text">{latest.content || text.createStory}</div>}</div>
+    <div className="community-story-media">{latest.imageUrl ? <CommunityMedia url={latest.imageUrl} mediaType={latest.mediaType} alt="" /> : <div className="community-story-text">{latest.content || text.createStory}</div>}</div>
     <div className="community-story-shade" />
     <div className="community-story-ring"><UserAvatar person={group.author} size="sm" /></div>
     <span className="community-story-name">{own ? text.yourStory : group.author?.fullName || text.communityMember}</span>
@@ -107,8 +106,8 @@ function StoryComposer({ onClose, onSaved }) {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
-    if (!file.type.startsWith('image/')) { setError(text.onlyImages); return; }
-    if (file.size > MAX_IMAGE_SIZE) { setError(text.imageLimit); return; }
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) { setError(text.onlyImages); return; }
+    if (file.size > MAX_MEDIA_SIZE) { setError(text.imageLimit); return; }
     setError('');
     setImageFile(file);
   };
@@ -134,8 +133,8 @@ function StoryComposer({ onClose, onSaved }) {
   return <Modal title={text.createStoryTitle} onClose={onClose}><form onSubmit={submit} className="community-modal-form">
     <textarea value={content} onChange={(event) => setContent(event.target.value)} maxLength={500} rows={4} className="input resize-none" placeholder={text.shareQuickUpdate} />
     <label className="community-field-label">{text.whoSeeStory}<select value={visibility} onChange={(event) => setVisibility(event.target.value)} className="input mt-2">{visibilityOptions.map((option) => <option key={option.value} value={option.value}>{text[option.value === 'PUBLIC' ? 'public' : option.value === 'FRIENDS_ONLY' ? 'friendsOnly' : 'onlyMe']}</option>)}</select></label>
-    <label className="community-upload-field"><span>Add an image <small>PNG, JPG, WEBP or GIF · max 150 MB</small></span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={selectImage} className="sr-only" /></label>
-    {preview && <div className="community-media-preview"><img src={preview} alt="Story preview" /><p>{imageFile.name} · {(imageFile.size / (1024 * 1024)).toFixed(1)} MB</p></div>}
+    <label className="community-upload-field"><span>Add image or video <small>PNG, JPG, WEBP, GIF, MP4, WEBM or MOV · max 250 MB</small></span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v" onChange={selectImage} className="sr-only" /></label>
+    {preview && <div className="community-media-preview"><CommunityMedia url={preview} mediaType={imageFile?.type.startsWith('video/') ? 'VIDEO' : 'IMAGE'} alt="Story preview" /><p>{imageFile.name} · {(imageFile.size / (1024 * 1024)).toFixed(1)} MB</p></div>}
     {error && <p className="community-alert community-alert-inline">{error}</p>}
     <div className="community-modal-actions"><button type="button" onClick={onClose} className="community-button community-button-ghost">{text.cancel}</button><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.publishing : text.shareStory}</button></div>
   </form></Modal>;
@@ -158,7 +157,7 @@ function StoryViewer({ group, viewerId, onClose, onDeleted }) {
   return <Modal title={group.author?.id === viewerId ? text.yourStory : `${group.author?.fullName || text.communityMember}'s story`} onClose={onClose} className="community-story-modal">
     <div className="community-story-viewer">
       <div className="community-story-progress">{group.stories.map((item, storyIndex) => <span className={storyIndex <= index ? 'is-active' : ''} key={item.id} />)}</div>
-      {story.imageUrl && !imageFailed ? <img src={mediaUrl(story.imageUrl)} alt={text.postImageAlt || 'Story'} onError={() => setImageFailed(true)} /> : story.content ? <div className="community-story-viewer-text">{story.content}</div> : <div className="community-story-viewer-fallback"><span>✦</span><strong>{text.storyImageUnavailable || 'Story image unavailable'}</strong></div>}
+      {story.imageUrl && !imageFailed ? <CommunityMedia url={story.imageUrl} mediaType={story.mediaType} alt={text.postImageAlt || 'Story'} onError={() => setImageFailed(true)} /> : story.content ? <div className="community-story-viewer-text">{story.content}</div> : <div className="community-story-viewer-fallback"><span>✦</span><strong>{text.storyImageUnavailable || 'Story image unavailable'}</strong></div>}
       <div className="community-story-viewer-caption"><p>{story.visibility === 'PRIVATE' ? 'Only me' : story.visibility === 'FRIENDS_ONLY' ? 'Friends only' : 'Public'} · {new Date(story.createdAt).toLocaleString()}</p>{story.content && story.imageUrl && <strong>{story.content}</strong>}</div>
       {group.stories.length > 1 && <><button type="button" onClick={() => setIndex((current) => Math.max(0, current - 1))} disabled={index === 0} className="community-story-nav community-story-nav-left" aria-label="Previous story">←</button><button type="button" onClick={() => setIndex((current) => Math.min(group.stories.length - 1, current + 1))} disabled={index === group.stories.length - 1} className="community-story-nav community-story-nav-right" aria-label="Next story">→</button></>}
     </div>
