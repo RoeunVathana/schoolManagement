@@ -6,6 +6,7 @@ import PostComposer from '../../components/PostComposer';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
+import { useCommunityText } from '../../context/communityTranslations';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_COVER_SIZE = 50 * 1024 * 1024;
@@ -16,6 +17,7 @@ export default function PublicProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const text = useCommunityText();
   const [profile, setProfile] = useState(null);
   const [friends, setFriends] = useState([]);
   const [tab, setTab] = useState('Posts');
@@ -36,7 +38,7 @@ export default function PublicProfile() {
       setProfile(result);
       if (tab === 'Friends') setFriends(unwrap(await api.get(`/api/users/${id}/friends`)) || []);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not load this profile.');
+      setError(requestError.response?.data?.message || text.noVisiblePosts);
     } finally {
       setLoading(false);
     }
@@ -53,7 +55,7 @@ export default function PublicProfile() {
   const role = profile?.user?.role;
 
   const handleRelationship = (nextStatus, nextRequestId, requestError) => {
-    if (requestError) { setNotice(requestError.response?.data?.message || 'That action could not be completed.'); return; }
+    if (requestError) { setNotice(requestError.response?.data?.message || text.actionFailed); return; }
     setNotice('');
     setProfile((current) => {
       if (!current) return current;
@@ -63,20 +65,20 @@ export default function PublicProfile() {
     });
   };
 
-  const addPost = (post) => { setProfile((current) => current ? { ...current, posts: [post, ...(current.posts || [])] } : current); setPostNotice('Post published successfully.'); };
-  const updatePost = (post) => { setProfile((current) => current ? { ...current, posts: current.posts.map((item) => item.id === post.id ? post : item) } : current); setEditingPostId(null); setPostNotice('Post updated successfully.'); };
+  const addPost = (post) => { setProfile((current) => current ? { ...current, posts: [post, ...(current.posts || [])] } : current); setPostNotice(text.postPublished); };
+  const updatePost = (post) => { setProfile((current) => current ? { ...current, posts: current.posts.map((item) => item.id === post.id ? post : item) } : current); setEditingPostId(null); setPostNotice(text.postUpdated); };
 
   const deletePost = async (postId) => {
-    if (!window.confirm('Delete this post? This action cannot be undone.')) return;
+    if (!window.confirm(text.deletePostConfirm)) return;
     setDeletingPostId(postId);
     setPostNotice('');
     try {
       await api.delete(`/api/posts/${postId}`);
       setProfile((current) => current ? { ...current, posts: current.posts.filter((item) => item.id !== postId) } : current);
       if (editingPostId === postId) setEditingPostId(null);
-      setPostNotice('Post deleted.');
+      setPostNotice(text.postDeleted);
     } catch (requestError) {
-      setPostNotice(requestError.response?.data?.message || 'Could not delete this post.');
+      setPostNotice(requestError.response?.data?.message || text.couldNotSavePost);
     } finally {
       setDeletingPostId(null);
     }
@@ -86,7 +88,7 @@ export default function PublicProfile() {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
-    if (!file.type.startsWith('image/')) { setNotice('Please choose an image for your cover photo.'); return; }
+    if (!file.type.startsWith('image/')) { setNotice(text.onlyImages); return; }
     if (file.size > MAX_COVER_SIZE) { setNotice('Cover images must be 50 MB or smaller.'); return; }
     setCoverBusy(true);
     setNotice('');
@@ -95,15 +97,15 @@ export default function PublicProfile() {
       form.append('coverImage', file);
       await api.post('/auth/profile/cover', form);
       await load();
-      setNotice('Cover photo updated successfully.');
+      setNotice(text.postUpdated);
     } catch (requestError) {
-      setNotice(requestError.response?.data?.message || 'Could not update the cover photo.');
+      setNotice(requestError.response?.data?.message || text.couldNotSavePost);
     } finally {
       setCoverBusy(false);
     }
   };
 
-  if (loading && !profile) return <div className="community-loading-page"><div className="community-loading-orbit" /><p>Loading profile...</p></div>;
+  if (loading && !profile) return <div className="community-loading-page"><div className="community-loading-orbit" /><p>{text.loadingCommunity}...</p></div>;
   if (error && !profile) return <div className="community-alert" role="alert">{error}</div>;
   if (!profile) return null;
 
@@ -111,8 +113,8 @@ export default function PublicProfile() {
     <section className="community-profile-shell">
       <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
         <div className="community-profile-cover-shade" />
-        <div className="community-profile-cover-label"><span>CampusFlow community</span><small>Profile</small></div>
-        {isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="community-cover-button">{coverBusy ? 'Uploading...' : 'Edit cover photo'}</button></>}
+        <div className="community-profile-cover-label"><span>{text.community}</span><small>{text.profile}</small></div>
+        {isSelf && <><input ref={coverInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadCover} className="sr-only" /><button type="button" disabled={coverBusy} onClick={() => coverInputRef.current?.click()} className="community-cover-button">{coverBusy ? text.uploading : text.editCover}</button></>}
       </div>
 
       <div className="community-profile-identity">
@@ -120,10 +122,10 @@ export default function PublicProfile() {
           <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />
           <div className="community-profile-name-block"><p className="community-eyebrow">{role || 'Community member'}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} friends <span>·</span> {profileDetails.location || 'CampusFlow learning community'}</p><p className="community-profile-bio">{profileDetails.bio || `Learning with CampusFlow as a ${String(role || 'community member').toLowerCase()}.`}</p></div>
         </div>
-        <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">Dashboard</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice('Accept the friend request before starting a chat.')} />}</div>
+        <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">{text.dashboard}</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice(text.acceptBeforeChat)} />}</div>
       </div>
       {(notice || postNotice) && <p className="community-profile-notice">{notice || postNotice}</p>}
-      <nav className="community-profile-tabs" aria-label="Profile sections">{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={tab === item ? 'is-active' : ''}>{item}{item === 'Friends' && <span>{profile.friendCount}</span>}</button>)}</nav>
+      <nav className="community-profile-tabs" aria-label={text.profile}>{['Posts', 'About', 'Friends', 'Photos'].map((item) => <button type="button" key={item} onClick={() => setTab(item)} className={tab === item ? 'is-active' : ''}>{item === 'Posts' ? 'Posts' : text[item === 'About' ? 'about' : item === 'Friends' ? 'friends' : 'noPhotos']}{item === 'Friends' && <span>{profile.friendCount}</span>}</button>)}</nav>
     </section>
 
     <div className="community-profile-layout">

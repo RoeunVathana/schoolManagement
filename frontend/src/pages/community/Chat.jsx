@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import UserAvatar from '../../components/UserAvatar';
+import { useCommunityText } from '../../context/communityTranslations';
 
 function displayDate(value) {
   if (!value) return '';
@@ -11,6 +12,7 @@ function displayDate(value) {
 export default function Chat() {
   const location = useLocation();
   const navigate = useNavigate();
+  const text = useCommunityText();
   const requestedUserId = location.state?.userId || '';
   const [conversations, setConversations] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
@@ -30,12 +32,12 @@ export default function Chat() {
       setActiveConversation((current) => current ? result.find((item) => item.id === current.id) || current : result[0] || null);
       return result;
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not load your conversations.');
+      setError(requestError.response?.data?.message || text.couldNotLoadConversations);
       return [];
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [text.couldNotLoadConversations]);
 
   const loadMessages = useCallback(async (conversationId, silent = false) => {
     if (!conversationId) return;
@@ -45,11 +47,11 @@ export default function Chat() {
       setMessages(result);
       await api.patch(`/api/chat/conversations/${conversationId}/read`);
     } catch (requestError) {
-      if (!silent) setError(requestError.response?.data?.message || 'Could not load this conversation.');
+      if (!silent) setError(requestError.response?.data?.message || text.couldNotLoadConversation);
     } finally {
       if (!silent) setLoadingMessages(false);
     }
-  }, []);
+  }, [text.couldNotLoadConversation]);
 
   const openConversation = useCallback(async (userId) => {
     setError('');
@@ -60,10 +62,10 @@ export default function Chat() {
       setShowList(false);
       return conversation;
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Only accepted friends can start a chat.');
+      setError(requestError.response?.data?.message || text.onlyAcceptedChat);
       return null;
     }
-  }, []);
+  }, [text.onlyAcceptedChat]);
 
   useEffect(() => { loadConversations(); }, [loadConversations]);
   useEffect(() => { if (requestedUserId) openConversation(requestedUserId); }, [requestedUserId, openConversation]);
@@ -79,12 +81,7 @@ export default function Chat() {
 
   const activePerson = activeConversation?.otherUser;
   const canSend = draft.trim().length > 0 && !sending && Boolean(activeConversation);
-
-  const selectConversation = (conversation) => {
-    setActiveConversation(conversation);
-    setShowList(false);
-    setError('');
-  };
+  const selectConversation = (conversation) => { setActiveConversation(conversation); setShowList(false); setError(''); };
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -97,7 +94,7 @@ export default function Chat() {
       setDraft('');
       await loadConversations();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Message could not be sent.');
+      setError(requestError.response?.data?.message || text.messageNotSent);
     } finally {
       setSending(false);
     }
@@ -106,21 +103,21 @@ export default function Chat() {
   return <div className="community-page community-chat-page">
     <section className="community-hero community-hero-compact">
       <div className="community-hero-orb community-hero-orb-one" />
-      <div className="community-hero-copy"><p className="community-eyebrow">Private conversations</p><h1>Messages.</h1><p>Keep the conversation going with your accepted friends.</p></div>
-      <button type="button" onClick={() => navigate('/friends')} className="community-button community-button-primary">Find friends</button>
+      <div className="community-hero-copy"><p className="community-eyebrow">{text.privateConversations}</p><h1>{text.messages}.</h1><p>{text.messagesDescription}</p></div>
+      <button type="button" onClick={() => navigate('/friends')} className="community-button community-button-primary">{text.findFriends}</button>
     </section>
     {error && <div className="community-alert" role="alert">{error}</div>}
 
     <section className="community-chat-shell">
       <aside className={`community-chat-sidebar ${activeConversation && !showList ? 'community-chat-sidebar-mobile-hidden' : ''}`}>
-        <div className="community-chat-sidebar-heading"><div><p className="community-eyebrow">Inbox</p><h2>Your chats</h2></div><span className="community-chat-count">{conversations.length}</span></div>
-        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''}`}><UserAvatar person={conversation.otherUser} size="md" /><div className="community-conversation-copy"><strong>{conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || 'Start a conversation'}</span></div><span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>You have no conversations yet.</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">Find friends <span aria-hidden="true">→</span></button></div>}
+        <div className="community-chat-sidebar-heading"><div><p className="community-eyebrow">{text.inbox}</p><h2>{text.yourChats}</h2></div><span className="community-chat-count">{conversations.length}</span></div>
+        {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''}`}><UserAvatar person={conversation.otherUser} size="md" /><div className="community-conversation-copy"><strong>{conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || text.startConversation}</span></div><span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
-        <div className="community-chat-header">{activePerson ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>Inbox</span></button><UserAvatar person={activePerson} size="md" /><div className="community-chat-person"><strong>{activePerson.fullName}</strong><span>Accepted friend</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>Choose a conversation</strong><span>Your messages will appear here.</span></div></div>}</div>
-        <div className="community-message-list">{loadingMessages ? <p className="community-message-state">Loading messages...</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}><div className="community-message-bubble"><p>{message.body}</p><small>{displayDate(message.createdAt)}</small></div></div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? 'No messages yet. Say hello.' : 'Choose a conversation from the inbox.'}</p></div>}<div ref={messageEndRef} /></div>
-        <form onSubmit={sendMessage} className="community-message-form"><input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending} placeholder={activePerson ? 'Write a message...' : 'Select a friend first'} /><button type="submit" disabled={!canSend} className="community-button community-button-primary">{sending ? 'Sending...' : 'Send'}</button></form>
+        <div className="community-chat-header">{activePerson ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button><UserAvatar person={activePerson} size="md" /><div className="community-chat-person"><strong>{activePerson.fullName}</strong><span>{text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
+        <div className="community-message-list">{loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}><div className="community-message-bubble"><p>{message.body}</p><small>{displayDate(message.createdAt)}</small></div></div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}<div ref={messageEndRef} /></div>
+        <form onSubmit={sendMessage} className="community-message-form"><input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending} placeholder={activePerson ? text.writeMessage : text.selectFriend} /><button type="submit" disabled={!canSend} className="community-button community-button-primary">{sending ? text.sending : text.send}</button></form>
       </div>
     </section>
   </div>;

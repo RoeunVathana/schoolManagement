@@ -5,6 +5,7 @@ import FriendRequestButton from '../../components/FriendRequestButton';
 import CommunityStories from '../../components/CommunityStories';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
+import { useCommunityText } from '../../context/communityTranslations';
 
 export default function Friends() {
   const [data, setData] = useState({ incoming: [], outgoing: [], suggestions: [], friends: [] });
@@ -12,6 +13,7 @@ export default function Friends() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { user } = useAuth();
+  const text = useCommunityText();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -24,7 +26,7 @@ export default function Friends() {
       ]);
       setData({ ...unwrap(requests), suggestions: unwrap(suggestions) || [], friends: unwrap(friends) || [] });
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not load your friends.');
+      setError(requestError.response?.data?.message || text.couldNotLoadFriends);
     } finally {
       setLoading(false);
     }
@@ -49,12 +51,12 @@ export default function Friends() {
         status={status}
         requestId={requestId}
         onChange={(_next, _requestId, requestError) => {
-          if (requestError) setError(requestError.response?.data?.message || 'Action failed.');
+          if (requestError) setError(requestError.response?.data?.message || text.actionFailed);
           else load();
         }}
         onMessage={() => status === 'FRIENDS'
           ? navigate('/chat', { state: { userId: target.id } })
-          : setError('Accept the friend request before starting a chat.')}
+          : setError(text.acceptBeforeChat)}
       />
     </article>;
   };
@@ -64,20 +66,20 @@ export default function Friends() {
       <div className="community-hero-orb community-hero-orb-one" />
       <div className="community-hero-orb community-hero-orb-two" />
       <div className="community-hero-copy">
-        <p className="community-eyebrow">CampusFlow community</p>
-        <h1>Welcome to your circle.</h1>
-        <p>{user?.fullName ? `Hey ${user.fullName.split(' ')[0]}, ` : ''}find people who make learning feel easier, more useful, and more fun.</p>
+        <p className="community-eyebrow">{text.community}</p>
+        <h1>{text.friendsTitle}</h1>
+        <p>{user?.fullName ? `${user.fullName.split(' ')[0]}, ` : ''}{text.friendsDescription}</p>
       </div>
       <div className="community-hero-actions">
-        <Link to="/chat" className="community-button community-button-primary">Open messages</Link>
-        <Link to="/courses" className="community-button community-button-soft">Browse courses</Link>
+        <Link to="/chat" className="community-button community-button-primary">{text.openMessages}</Link>
+        <Link to="/courses" className="community-button community-button-soft">{text.browseCourses}</Link>
       </div>
     </section>
 
-    <div className="community-stat-grid" aria-label="Community overview">
-      <Stat value={data.friends.length} label="Your friends" tone="mint" />
-      <Stat value={data.incoming.length} label="New requests" tone="coral" />
-      <Stat value={data.suggestions.length} label="People to meet" tone="blue" />
+    <div className="community-stat-grid" aria-label={text.community}>
+      <Stat value={data.friends.length} label={text.yourFriends} tone="mint" />
+      <Stat value={data.incoming.length} label={text.friendRequests} tone="coral" />
+      <Stat value={data.suggestions.length} label={text.peopleYouMayKnow} tone="blue" />
     </div>
 
     <section className="community-stories-frame">
@@ -86,36 +88,36 @@ export default function Friends() {
 
     {error && <div className="community-alert" role="alert">{error}</div>}
 
-    {loading ? <div className="community-loading-grid" aria-label="Loading community">
+    {loading ? <div className="community-loading-grid" aria-label={text.loadingCommunity}>
       {[1, 2, 3].map((item) => <div className="community-skeleton-card" key={item}><span /><span /><span /></div>)}
     </div> : <div className="community-content-grid">
       <main className="community-main-column">
-        <CommunitySection title="Friend requests" count={data.incoming.length} accent="coral" action={data.incoming.length ? 'Review now' : undefined}>
-          {data.incoming.length ? <div className="community-person-grid">{data.incoming.map((request) => renderPersonCard(request, 'REQUEST_RECEIVED', request.id))}</div> : <Empty text="No pending requests. New invitations will appear here." />}
+        <CommunitySection title={text.friendRequests} count={data.incoming.length} accent="coral" action={data.incoming.length ? text.reviewNow : undefined}>
+          {data.incoming.length ? <div className="community-person-grid">{data.incoming.map((request) => renderPersonCard(request, 'REQUEST_RECEIVED', request.id))}</div> : <Empty text={text.noPendingRequests} />}
         </CommunitySection>
 
-        <CommunitySection title="People you may know" count={data.suggestions.length} accent="blue">
-          {data.suggestions.length ? <div className="community-person-grid">{data.suggestions.map((suggestion) => renderPersonCard(suggestion, 'NONE'))}</div> : <Empty text="No suggestions right now. Keep exploring the community." />}
+        <CommunitySection title={text.peopleYouMayKnow} count={data.suggestions.length} accent="blue">
+          {data.suggestions.length ? <div className="community-person-grid">{data.suggestions.map((suggestion) => renderPersonCard(suggestion, 'NONE'))}</div> : <Empty text={text.noSuggestions} />}
         </CommunitySection>
 
-        <CommunitySection title="Your friends" count={data.friends.length} accent="mint" action={data.friends.length ? 'View all' : undefined}>
-          {data.friends.length ? <div className="community-person-grid">{data.friends.map((friend) => renderPersonCard(friend, 'FRIENDS'))}</div> : <Empty text="Your accepted friends will appear here." />}
+        <CommunitySection title={text.yourFriends} count={data.friends.length} accent="mint" action={data.friends.length ? text.viewAll : undefined}>
+          {data.friends.length ? <div className="community-person-grid">{data.friends.map((friend) => renderPersonCard(friend, 'FRIENDS'))}</div> : <Empty text={text.acceptedAppear} />}
         </CommunitySection>
       </main>
 
       <aside className="community-side-column">
         <section className="community-side-card community-guide-card">
           <span className="community-side-icon">+</span>
-          <p className="community-eyebrow">Your circle</p>
-          <h2>Learn together, grow together.</h2>
-          <p>Connect with classmates and customers who share your goals. Accepted friends can message each other privately.</p>
+          <p className="community-eyebrow">{text.yourCircle}</p>
+          <h2>{text.learnTogether}</h2>
+          <p>{text.circleDescription}</p>
           <Link to="/chat" className="community-text-link">Go to conversations <span aria-hidden="true">→</span></Link>
         </section>
         <section className="community-side-card">
-          <div className="community-side-card-heading"><div><p className="community-eyebrow">Quick links</p><h2>Keep exploring</h2></div><span className="community-side-dot" /></div>
+          <div className="community-side-card-heading"><div><p className="community-eyebrow">{text.quickLinks}</p><h2>{text.keepExploring}</h2></div><span className="community-side-dot" /></div>
           <div className="community-quick-links">
-            <Link to="/courses"><span className="community-quick-icon">01</span><span><strong>Courses</strong><small>Learn something useful</small></span><span aria-hidden="true">→</span></Link>
-            <Link to="/chat"><span className="community-quick-icon">02</span><span><strong>Messages</strong><small>Chat with your friends</small></span><span aria-hidden="true">→</span></Link>
+            <Link to="/courses"><span className="community-quick-icon">01</span><span><strong>{text.course}</strong><small>{text.learnUseful}</small></span><span aria-hidden="true">→</span></Link>
+            <Link to="/chat"><span className="community-quick-icon">02</span><span><strong>{text.messages}</strong><small>{text.chatFriends}</small></span><span aria-hidden="true">→</span></Link>
           </div>
         </section>
       </aside>

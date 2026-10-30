@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import api, { unwrap } from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
 import UserAvatar from './UserAvatar';
+import { useCommunityText } from '../context/communityTranslations';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_IMAGE_SIZE = 150 * 1024 * 1024;
@@ -15,6 +16,7 @@ const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${pat
 
 export default function CommunityStories() {
   const { user } = useAuth();
+  const text = useCommunityText();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -31,7 +33,7 @@ export default function CommunityStories() {
     try {
       setStories(unwrap(await api.get('/api/stories')) || []);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not load stories.');
+      setError(requestError.response?.data?.message || text.couldNotPublishStory);
     } finally {
       setLoading(false);
     }
@@ -53,18 +55,18 @@ export default function CommunityStories() {
 
   return <section className="community-stories-card">
     <div className="community-stories-heading">
-      <div className="community-stories-title-wrap">
+        <div className="community-stories-title-wrap">
         <span className="community-stories-icon">+</span>
-        <div><p className="community-eyebrow">Stories</p><h2>Share a moment</h2><p>Short updates that disappear after 24 hours.</p></div>
+        <div><p className="community-eyebrow">{text.stories}</p><h2>{text.shareMoment}</h2><p>{text.shortUpdates}</p></div>
       </div>
-      <button type="button" onClick={() => setComposerOpen(true)} className="community-button community-button-primary community-button-small">Create story</button>
+      <button type="button" onClick={() => setComposerOpen(true)} className="community-button community-button-primary community-button-small">{text.createStory}</button>
     </div>
 
     {error && <p className="community-alert community-alert-inline">{error}</p>}
     {loading ? <div className="community-story-row">{[1, 2, 3, 4].map((item) => <div className="community-story-skeleton" key={item} />)}</div> : <div className="community-story-row">
-      <button type="button" onClick={() => setComposerOpen(true)} className="community-story-tile community-story-create"><span className="community-story-create-icon">+</span><strong>Create story</strong><small>Share an image or thought</small></button>
+      <button type="button" onClick={() => setComposerOpen(true)} className="community-story-tile community-story-create"><span className="community-story-create-icon">+</span><strong>{text.createStory}</strong><small>{text.shareImageThought}</small></button>
       {groups.map((group) => <StoryTile key={group.author?.id || group.stories[0]?.authorId} group={group} own={group.author?.id === user.id} onOpen={() => setActiveGroup(group)} />)}
-      {!groups.length && <p className="community-story-empty">No active stories yet. Be the first to share one.</p>}
+      {!groups.length && <p className="community-story-empty">{text.noActiveStories}</p>}
     </div>}
 
     {composerOpen && <StoryComposer onClose={() => setComposerOpen(false)} onSaved={(story) => { setStories((current) => [...current, story]); setComposerOpen(false); }} />}
@@ -73,17 +75,19 @@ export default function CommunityStories() {
 }
 
 function StoryTile({ group, own, onOpen }) {
+  const text = useCommunityText();
   const latest = group.stories[group.stories.length - 1];
   return <button type="button" onClick={onOpen} className="community-story-tile community-story-person">
-    <div className="community-story-media">{latest.imageUrl ? <img src={mediaUrl(latest.imageUrl)} alt="" /> : <div className="community-story-text">{latest.content || 'New story'}</div>}</div>
+    <div className="community-story-media">{latest.imageUrl ? <img src={mediaUrl(latest.imageUrl)} alt="" /> : <div className="community-story-text">{latest.content || text.createStory}</div>}</div>
     <div className="community-story-shade" />
     <div className="community-story-ring"><UserAvatar person={group.author} size="sm" /></div>
-    <span className="community-story-name">{own ? 'Your story' : group.author?.fullName || 'Community member'}</span>
+    <span className="community-story-name">{own ? text.yourStory : group.author?.fullName || text.communityMember}</span>
     {group.stories.length > 1 && <span className="community-story-count">{group.stories.length}</span>}
   </button>;
 }
 
 function StoryComposer({ onClose, onSaved }) {
+  const text = useCommunityText();
   const [content, setContent] = useState('');
   const [visibility, setVisibility] = useState('FRIENDS_ONLY');
   const [imageFile, setImageFile] = useState(null);
@@ -102,15 +106,15 @@ function StoryComposer({ onClose, onSaved }) {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
-    if (!file.type.startsWith('image/')) { setError('Only image files are allowed. Videos and documents cannot be posted.'); return; }
-    if (file.size > MAX_IMAGE_SIZE) { setError('Images must be 150 MB or smaller.'); return; }
+    if (!file.type.startsWith('image/')) { setError(text.onlyImages); return; }
+    if (file.size > MAX_IMAGE_SIZE) { setError(text.imageLimit); return; }
     setError('');
     setImageFile(file);
   };
 
   const submit = async (event) => {
     event.preventDefault();
-    if (!content.trim() && !imageFile) { setError('Add story text or choose an image.'); return; }
+    if (!content.trim() && !imageFile) { setError(text.addStoryText); return; }
     setBusy(true);
     setError('');
     try {
@@ -120,19 +124,19 @@ function StoryComposer({ onClose, onSaved }) {
       if (imageFile) form.append('image', imageFile);
       onSaved(unwrap(await api.post('/api/stories', form)));
     } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Could not publish your story.');
+      setError(requestError.response?.data?.message || text.couldNotPublishStory);
     } finally {
       setBusy(false);
     }
   };
 
-  return <Modal title="Create story" onClose={onClose}><form onSubmit={submit} className="community-modal-form">
-    <textarea value={content} onChange={(event) => setContent(event.target.value)} maxLength={500} rows={4} className="input resize-none" placeholder="Share a quick update..." />
-    <label className="community-field-label">Who can see your story?<select value={visibility} onChange={(event) => setVisibility(event.target.value)} className="input mt-2">{visibilityOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+  return <Modal title={text.createStoryTitle} onClose={onClose}><form onSubmit={submit} className="community-modal-form">
+    <textarea value={content} onChange={(event) => setContent(event.target.value)} maxLength={500} rows={4} className="input resize-none" placeholder={text.shareQuickUpdate} />
+    <label className="community-field-label">{text.whoSeeStory}<select value={visibility} onChange={(event) => setVisibility(event.target.value)} className="input mt-2">{visibilityOptions.map((option) => <option key={option.value} value={option.value}>{text[option.value === 'PUBLIC' ? 'public' : option.value === 'FRIENDS_ONLY' ? 'friendsOnly' : 'onlyMe']}</option>)}</select></label>
     <label className="community-upload-field"><span>Add an image <small>PNG, JPG, WEBP or GIF · max 150 MB</small></span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={selectImage} className="sr-only" /></label>
     {preview && <div className="community-media-preview"><img src={preview} alt="Story preview" /><p>{imageFile.name} · {(imageFile.size / (1024 * 1024)).toFixed(1)} MB</p></div>}
     {error && <p className="community-alert community-alert-inline">{error}</p>}
-    <div className="community-modal-actions"><button type="button" onClick={onClose} className="community-button community-button-ghost">Cancel</button><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? 'Publishing...' : 'Share story'}</button></div>
+    <div className="community-modal-actions"><button type="button" onClick={onClose} className="community-button community-button-ghost">{text.cancel}</button><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.publishing : text.shareStory}</button></div>
   </form></Modal>;
 }
 
