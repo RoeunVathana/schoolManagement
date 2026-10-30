@@ -1795,9 +1795,14 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-tool-icon { display: inline-flex; width: 1.25rem; height: 1.25rem; align-items: center; justify-content: center; border-radius: .35rem; color: #fff; background: var(--community-blue); font-weight: 400; }
 .community-composer-note, .community-remove-media { color: var(--community-muted); font-size: .66rem; font-weight: 700; }
 .community-remove-media { border: 0; color: #c84638; background: transparent; cursor: pointer; }
+.community-media-preview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin-top: .75rem; }
+.community-media-preview-grid.is-single { display: block; }
 .community-media-preview { overflow: hidden; margin-top: .75rem; border: 1px solid var(--community-line); border-radius: 1rem; background: var(--community-soft); }
+.community-media-preview-grid .community-media-preview { position: relative; min-width: 0; margin-top: 0; }
 .community-media-preview img, .community-media-preview video { display: block; width: 100%; max-height: 22rem; object-fit: contain; }
+.community-media-preview-grid:not(.is-single) .community-media-preview img, .community-media-preview-grid:not(.is-single) .community-media-preview video { aspect-ratio: 1 / 1; object-fit: cover; }
 .community-media-preview p { margin: 0; border-top: 1px solid var(--community-line); padding: .55rem .7rem; color: var(--community-muted); font-size: .66rem; font-weight: 750; }
+.community-media-preview-remove { position: absolute; top: .45rem; right: .45rem; display: inline-flex; width: 1.8rem; height: 1.8rem; align-items: center; justify-content: center; border: 1px solid rgb(255 255 255 / .55); border-radius: 999px; color: #fff; background: rgb(4 12 25 / .7); font-size: 1.1rem; cursor: pointer; }
 .community-composer-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: .75rem; margin-top: .85rem; padding-top: .85rem; border-top: 1px solid var(--community-line); }
 .community-visibility-field { display: grid; min-width: 0; gap: .3rem; color: var(--community-ink); font-size: .7rem; font-weight: 850; }
 .community-visibility-field select { width: min(12rem, 100%); border: 1px solid var(--community-line); border-radius: .7rem; padding: .55rem .65rem; color: var(--community-ink); background: var(--community-soft); font-size: .72rem; font-weight: 850; outline: none; }
@@ -1903,7 +1908,11 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-actions button.is-danger { color: #c84638; }
 .community-post-more { color: var(--community-muted); font-size: 1.2rem; font-weight: 950; letter-spacing: .1em; }
 .community-post-content { margin: 1rem 0 0; white-space: pre-wrap; color: var(--community-ink); font-size: .86rem; line-height: 1.75; }
+.community-media-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .35rem; margin-top: 1rem; overflow: hidden; border-radius: 1rem; }
+.community-media-gallery.is-single { display: block; }
 .community-post-image { display: block; width: 100%; max-height: 32rem; margin-top: 1rem; border-radius: 1rem; object-fit: cover; }
+.community-media-gallery .community-post-image, .community-media-gallery .public-community-post-image { width: 100%; height: 100%; min-height: 10rem; max-height: 22rem; margin-top: 0; border-radius: 0; background: var(--community-soft); object-fit: cover; }
+.community-media-gallery.is-single .community-post-image, .community-media-gallery.is-single .public-community-post-image { min-height: 0; max-height: 32rem; border-radius: 1rem; }
 .community-post-engagement { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: 1rem; border-top: 1px solid var(--community-line); padding-top: .75rem; }
 .community-reaction-control { position: relative; display: inline-flex; align-items: center; gap: .28rem; min-width: 0; }
 .community-reaction-action { display: inline-flex; min-height: 2rem; align-items: center; gap: .28rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .38rem .62rem; color: var(--community-muted); background: transparent; font-size: .68rem; font-weight: 900; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }

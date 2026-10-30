@@ -10,6 +10,12 @@ export function isCommunityVideo(mediaType, url = '') {
   return mediaType === 'VIDEO' || /\.(mp4|webm|mov|m4v)(?:[?#].*)?$/i.test(url);
 }
 
+export function communityPostMedia(post) {
+  if (post?.media?.length) return post.media;
+  if (post?.imageUrl) return [{ id: `${post.id || 'post'}-legacy`, url: post.imageUrl, mediaType: post.mediaType || 'IMAGE', sortOrder: 0 }];
+  return [];
+}
+
 export default function CommunityMedia({ url, mediaType, alt = '', className = '', onError, autoPlayOnView = false }) {
   const videoRef = useRef(null);
   const src = communityMediaUrl(url);
@@ -41,4 +47,12 @@ export default function CommunityMedia({ url, mediaType, alt = '', className = '
     return <video ref={videoRef} src={src} className={className} controls playsInline muted={autoPlayOnView} loop={autoPlayOnView} preload="metadata" onError={onError} aria-label={alt} />;
   }
   return <img src={src} alt={alt} className={className} loading="lazy" onError={onError} />;
+}
+
+export function CommunityMediaGallery({ post, itemClassName = '', autoPlayOnView = false, alt = 'Post media' }) {
+  const media = communityPostMedia(post);
+  if (!media.length) return null;
+  return <div className={`community-media-gallery ${media.length === 1 ? 'is-single' : ''}`}>
+    {media.map((item, index) => <CommunityMedia key={item.id || `${item.url}-${index}`} url={item.url} mediaType={item.mediaType} alt={`${alt} ${index + 1}`} className={itemClassName} autoPlayOnView />)}
+  </div>;
 }

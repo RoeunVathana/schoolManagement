@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { BadRequestException, Body, Controller, Delete, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -19,18 +19,22 @@ export class PostsController {
 
   @Post()
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image', postMediaUpload))
-  async create(@CurrentUser() user: { id: string }, @Body() dto: CreatePostDto, @UploadedFile() file?: Express.Multer.File) {
-    const media = file ? await this.media.upload(file, 'posts') : undefined;
-    return this.posts.create(user.id, { ...dto, imageUrl: media?.url, mediaType: media?.mediaType });
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'images', maxCount: 10 }, { name: 'image', maxCount: 1 }], postMediaUpload))
+  async create(@CurrentUser() user: { id: string }, @Body() dto: CreatePostDto, @UploadedFiles() files?: { images?: Express.Multer.File[]; image?: Express.Multer.File[] }) {
+    const mediaFiles = [...(files?.images || []), ...(files?.image || [])];
+    if (mediaFiles.length > 10) throw new BadRequestException('You can attach up to 10 images or videos per post.');
+    const media = await Promise.all(mediaFiles.map((file) => this.media.upload(file, 'posts')));
+    return this.posts.create(user.id, { ...dto, media });
   }
 
   @Patch(':id')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image', postMediaUpload))
-  async update(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: UpdatePostDto, @UploadedFile() file?: Express.Multer.File) {
-    const media = file ? await this.media.upload(file, 'posts') : undefined;
-    return this.posts.update(id, user.id, { ...dto, imageUrl: media?.url, mediaType: media?.mediaType });
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'images', maxCount: 10 }, { name: 'image', maxCount: 1 }], postMediaUpload))
+  async update(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: UpdatePostDto, @UploadedFiles() files?: { images?: Express.Multer.File[]; image?: Express.Multer.File[] }) {
+    const mediaFiles = [...(files?.images || []), ...(files?.image || [])];
+    if (mediaFiles.length > 10) throw new BadRequestException('You can attach up to 10 images or videos per post.');
+    const media = mediaFiles.length ? await Promise.all(mediaFiles.map((file) => this.media.upload(file, 'posts'))) : undefined;
+    return this.posts.update(id, user.id, { ...dto, media });
   }
   @Post(':id/reaction') react(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto?: PostReactionDto) { return this.posts.addReaction(id, user.id, dto?.type); }
   @Delete(':id/reaction') unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.removeReaction(id, user.id); }

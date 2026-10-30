@@ -12,18 +12,20 @@ export class PostsService {
   private postInclude(viewerId: string) {
     return {
       author: { select: this.authorSelect },
+      media: { orderBy: { sortOrder: 'asc' as const }, select: { id: true, url: true, mediaType: true, sortOrder: true } },
       reactions: { select: { userId: true, type: true } },
       _count: { select: { reactions: true } },
     } as const;
   }
 
   private presentPost(post: any, viewerId?: string) {
-    const { reactions, _count, ...safePost } = post;
+    const { reactions, _count, media, ...safePost } = post;
+    const postMedia = media?.length ? media : safePost.imageUrl ? [{ id: `${safePost.id}-legacy`, url: safePost.imageUrl, mediaType: safePost.mediaType || MediaType.IMAGE, sortOrder: 0 }] : [];
     const reactionCounts = (reactions || []).reduce((counts: Record<string, number>, reaction: { type: PostReactionType }) => {
       counts[reaction.type] = (counts[reaction.type] || 0) + 1;
       return counts;
     }, {});
-    return { ...safePost, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+    return { ...safePost, media: postMedia, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
   }
 
   private async assertPostOwner(userId: string) {
@@ -31,11 +33,12 @@ export class PostsService {
     if (!user || user.status !== 'ACTIVE' || (user.role !== Role.STUDENT && user.role !== Role.CUSTOMER)) throw new ForbiddenException('Only active students and customers can create posts');
   }
 
-  async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
+  async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType; media?: { url: string; mediaType: MediaType }[] }) {
     await this.assertPostOwner(userId);
     const content = input.content.trim();
     if (!content) throw new BadRequestException('Post content cannot be empty');
-    const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl, mediaType: input.mediaType }, include: this.postInclude(userId) });
+    const media = input.media?.length ? input.media : input.imageUrl ? [{ url: input.imageUrl, mediaType: input.mediaType || MediaType.IMAGE }] : [];
+    const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: media[0]?.url, mediaType: media[0]?.mediaType, media: media.length ? { create: media.map((item, sortOrder) => ({ url: item.url, mediaType: item.mediaType, sortOrder })) } : undefined }, include: this.postInclude(userId) });
     return this.presentPost(post, userId);
   }
 
@@ -54,11 +57,11 @@ export class PostsService {
     return posts.map((post) => this.presentPost(post, viewerId));
   }
 
-  async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
+  async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType; media?: { url: string; mediaType: MediaType }[] }) {
     const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true } });
     if (!post) throw new NotFoundException('Post not found');
     if (post.authorId !== userId) throw new ForbiddenException('You can only edit your own posts');
-    const data: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType } = {};
+    const data: { content?: string; visibility?: PostVisibility; imageUrl?: string | null; mediaType?: MediaType | null } = {};
     if (input.content !== undefined) {
       const content = input.content.trim();
       if (!content) throw new BadRequestException('Post content cannot be empty');
@@ -67,7 +70,13 @@ export class PostsService {
     if (input.visibility !== undefined) data.visibility = input.visibility;
     if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
     if (input.mediaType !== undefined) data.mediaType = input.mediaType;
-    const updatedPost = await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
+    if (input.media !== undefined) {
+      data.imageUrl = input.media[0]?.url || null;
+      data.mediaType = input.media[0]?.mediaType || null;
+    }
+    const updatedPost = input.media !== undefined
+      ? await this.prisma.post.update({ where: { id: postId }, data: { ...data, media: { deleteMany: {}, create: input.media.map((item, sortOrder) => ({ url: item.url, mediaType: item.mediaType, sortOrder })) } }, include: this.postInclude(userId) })
+      : await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
     return this.presentPost(updatedPost, userId);
   }
 
