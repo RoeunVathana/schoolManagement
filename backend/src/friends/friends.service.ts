@@ -69,13 +69,19 @@ export class FriendsService {
   async acceptRequest(requestId: string, receiverId: string) {
     const request = await this.prisma.friendRequest.findUnique({ where: { id: requestId }, include: { sender: { select: { id: true, fullName: true, email: true } }, receiver: { select: { id: true, fullName: true, email: true } } } });
     if (!request || request.receiverId !== receiverId) throw new NotFoundException('Friend request not found');
+    const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
+    const existingFriendship = await this.prisma.friendship.findUnique({ where: { userAId_userBId: { userAId, userBId } }, select: { id: true } });
+    if (existingFriendship) {
+      if (request.status !== FriendRequestStatus.ACCEPTED) {
+        await this.prisma.friendRequest.update({ where: { id: requestId }, data: { status: FriendRequestStatus.ACCEPTED } });
+      }
+      return { ...request, status: FriendRequestStatus.ACCEPTED };
+    }
     if (request.status === FriendRequestStatus.ACCEPTED) {
-      const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
       await this.prisma.friendship.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
       return request;
     }
     if (request.status !== FriendRequestStatus.PENDING) throw new BadRequestException('This friend request is no longer pending');
-    const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
     const accepted = await this.prisma.$transaction(async (tx) => {
       const updated = await tx.friendRequest.update({ where: { id: requestId }, data: { status: FriendRequestStatus.ACCEPTED } });
       await tx.friendRequest.updateMany({ where: { id: { not: requestId }, status: FriendRequestStatus.PENDING, OR: [{ senderId: request.senderId, receiverId: request.receiverId }, { senderId: request.receiverId, receiverId: request.senderId }] }, data: { status: FriendRequestStatus.CANCELLED } });

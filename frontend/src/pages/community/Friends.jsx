@@ -19,9 +19,9 @@ export default function Friends() {
   const { user } = useAuth();
   const text = useCommunityText();
 
-  const load = useCallback(async () => {
+  const load = useCallback(async ({ preserveError = false } = {}) => {
     setLoading(true);
-    setError('');
+    if (!preserveError) setError('');
     try {
       const [requests, suggestions, friends] = await Promise.all([
         api.get('/api/friends/requests'),
@@ -85,14 +85,17 @@ export default function Friends() {
         userId={target.id}
         status={status}
         requestId={requestId}
-        onChange={(_next, _requestId, requestError) => {
+        onChange={async (_next, _requestId, requestError) => {
           if (requestError) {
-            const message = requestError.response?.data?.message || text.actionFailed;
+            const responseMessage = requestError.response?.data?.message;
+            const message = Array.isArray(responseMessage) ? responseMessage.join(', ') : responseMessage || requestError.message || text.actionFailed;
             setError(message.toLowerCase().includes('no longer pending')
               ? 'This friend request was already handled. The friend list has been refreshed.'
               : message);
+            await load({ preserveError: true });
+            return;
           }
-          load();
+          await load();
         }}
         onMessage={() => status === 'FRIENDS'
           ? navigate('/chat', { state: { userId: target.id } })
