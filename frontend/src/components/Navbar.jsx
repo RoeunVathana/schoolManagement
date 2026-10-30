@@ -8,6 +8,14 @@ import LanguageSwitcher from './LanguageSwitcher';
 
 const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/announcements', STUDENT: '/student/announcements' };
 
+function notificationPath(notification, role) {
+  const title = String(notification?.title || '').toLowerCase();
+  if (title.includes('friend request')) return '/friends';
+  if (title.includes('new message')) return '/chat';
+  if (title.includes('monthly payment')) return role === 'STUDENT' ? '/student/courses' : '/courses';
+  return announcementPath[role] || '/community';
+}
+
 export default function Navbar({ onMenu }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
@@ -39,7 +47,7 @@ export default function Navbar({ onMenu }) {
       setUnreadCount((current) => Math.max(0, current - 1));
     }
     setShowNotifications(false);
-    navigate(announcementPath[user?.role] || '/');
+    navigate(notificationPath(notification, user?.role));
   };
 
   const markAllRead = async () => {
