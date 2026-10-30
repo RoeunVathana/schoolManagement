@@ -7,6 +7,7 @@ import { postMediaUpload } from '../common/upload.options';
 import { MediaStorageService } from '../media/media-storage.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { PostReactionDto } from './dto/post-reaction.dto';
 import { PostsService } from './posts.service';
 
 @ApiTags('posts')
@@ -31,7 +32,7 @@ export class PostsController {
     const media = file ? await this.media.upload(file, 'posts') : undefined;
     return this.posts.update(id, user.id, { ...dto, imageUrl: media?.url, mediaType: media?.mediaType });
   }
-  @Post(':id/reaction') react(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.addReaction(id, user.id); }
+  @Post(':id/reaction') react(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto?: PostReactionDto) { return this.posts.addReaction(id, user.id, dto?.type); }
   @Delete(':id/reaction') unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.removeReaction(id, user.id); }
   @Delete(':id') remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.remove(id, user.id); }
 }

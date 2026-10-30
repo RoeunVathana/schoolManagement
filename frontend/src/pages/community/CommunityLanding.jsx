@@ -7,6 +7,7 @@ import SupportDock from '../../components/SupportDock';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import UserAvatar from '../../components/UserAvatar';
 import CommunityMedia from '../../components/CommunityMedia';
+import ReactionPicker from '../../components/ReactionPicker';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCommunityText } from '../../context/communityTranslations';
@@ -108,12 +109,14 @@ function PublicPost({ post, text }) {
   const communityText = useCommunityText();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionType, setReactionType] = useState(post.viewerReaction || null);
   const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionCounts, setReactionCounts] = useState(post.reactionCounts || {});
   const [reactionBusy, setReactionBusy] = useState(false);
+  const [reactionMenuOpen, setReactionMenuOpen] = useState(false);
   const [notice, setNotice] = useState('');
 
-  const toggleReaction = async () => {
+  const toggleReaction = async (nextType) => {
     if (reactionBusy) return;
     if (!user) {
       navigate('/login/student', { state: { from: '/community' } });
@@ -122,9 +125,11 @@ function PublicPost({ post, text }) {
     setReactionBusy(true);
     setNotice('');
     try {
-      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
-      setReacted(Boolean(result.reacted));
+      const result = unwrap(await (nextType ? api.post(`/api/posts/${post.id}/reaction`, { type: nextType }) : api.delete(`/api/posts/${post.id}/reaction`)));
+      setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
+      setReactionCounts(result.reactionCounts || {});
+      setReactionMenuOpen(false);
     } catch (requestError) {
       setNotice(requestError.response?.data?.message || communityText.reactionFailed);
     } finally {
@@ -132,7 +137,7 @@ function PublicPost({ post, text }) {
     }
   };
 
-  return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={post.author || {}} size="public" /><div><strong>{post.author?.fullName || 'CampusFlow member'}</strong><span>{post.author?.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <CommunityMedia url={post.imageUrl} mediaType={post.mediaType} alt={communityText.postImageAlt} className="public-community-post-image" autoPlayOnView onError={(event) => { event.currentTarget.style.display = 'none'; }} />}<div className="public-community-post-footer"><button type="button" className={`public-community-post-reaction${reacted ? ' is-active' : ''}`} disabled={reactionBusy} onClick={toggleReaction} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? communityText.liked : communityText.like}<b>{reactionCount}</b></button><button type="button" onClick={() => setNotice(communityText.signInConnect)} className="public-community-post-share">↗ {communityText.share}</button>{notice && <small>{notice}</small>}<span>{text.shared}</span></div></article>;
+  return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={post.author || {}} size="public" /><div><strong>{post.author?.fullName || 'CampusFlow member'}</strong><span>{post.author?.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p>{post.imageUrl && <CommunityMedia url={post.imageUrl} mediaType={post.mediaType} alt={communityText.postImageAlt} className="public-community-post-image" autoPlayOnView onError={(event) => { event.currentTarget.style.display = 'none'; }} />}<div className="public-community-post-footer"><ReactionPicker selected={reactionType} count={reactionCount} counts={reactionCounts} open={reactionMenuOpen} onToggle={() => setReactionMenuOpen((current) => !current)} onSelect={toggleReaction} disabled={reactionBusy} label={communityText.like} /><button type="button" onClick={() => setNotice(communityText.signInConnect)} className="public-community-post-share">↗ {communityText.share}</button>{notice && <small>{notice}</small>}<span>{text.shared}</span></div></article>;
 }
 
 function CommunityLoading({ text }) {

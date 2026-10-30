@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { MediaType, PostVisibility, Role } from '@prisma/client';
+import { MediaType, PostReactionType, PostVisibility, Role } from '@prisma/client';
 import { FriendsService } from '../friends/friends.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -12,14 +12,18 @@ export class PostsService {
   private postInclude(viewerId: string) {
     return {
       author: { select: this.authorSelect },
-      reactions: { where: { userId: viewerId }, select: { type: true } },
+      reactions: { select: { userId: true, type: true } },
       _count: { select: { reactions: true } },
     } as const;
   }
 
-  private presentPost(post: any) {
+  private presentPost(post: any, viewerId?: string) {
     const { reactions, _count, ...safePost } = post;
-    return { ...safePost, reactionCount: _count?.reactions || 0, viewerReaction: reactions?.[0]?.type || null };
+    const reactionCounts = (reactions || []).reduce((counts: Record<string, number>, reaction: { type: PostReactionType }) => {
+      counts[reaction.type] = (counts[reaction.type] || 0) + 1;
+      return counts;
+    }, {});
+    return { ...safePost, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
   }
 
   private async assertPostOwner(userId: string) {
@@ -32,7 +36,7 @@ export class PostsService {
     const content = input.content.trim();
     if (!content) throw new BadRequestException('Post content cannot be empty');
     const post = await this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl, mediaType: input.mediaType }, include: this.postInclude(userId) });
-    return this.presentPost(post);
+    return this.presentPost(post, userId);
   }
 
   async canView(post: { authorId: string; visibility: PostVisibility }, viewerId: string) {
@@ -47,7 +51,7 @@ export class PostsService {
     const relationship = await this.friends.friendshipStatus(viewerId, ownerId);
     const visibility = relationship === 'SELF' ? undefined : relationship === 'FRIENDS' ? { in: [PostVisibility.PUBLIC, PostVisibility.FRIENDS_ONLY] } : PostVisibility.PUBLIC;
     const posts = await this.prisma.post.findMany({ where: { authorId: ownerId, visibility }, include: this.postInclude(viewerId), orderBy: { createdAt: 'desc' } });
-    return posts.map((post) => this.presentPost(post));
+    return posts.map((post) => this.presentPost(post, viewerId));
   }
 
   async update(postId: string, userId: string, input: { content?: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType }) {
@@ -64,7 +68,7 @@ export class PostsService {
     if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
     if (input.mediaType !== undefined) data.mediaType = input.mediaType;
     const updatedPost = await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
-    return this.presentPost(updatedPost);
+    return this.presentPost(updatedPost, userId);
   }
 
   async remove(postId: string, userId: string) {
@@ -75,11 +79,11 @@ export class PostsService {
     return { message: 'Post deleted' };
   }
 
-  async addReaction(postId: string, userId: string) {
+  async addReaction(postId: string, userId: string, type: PostReactionType = PostReactionType.LIKE) {
     const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true, visibility: true } });
     if (!post) throw new NotFoundException('Post not found');
     if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot react to this post');
-    await this.prisma.postReaction.upsert({ where: { postId_userId: { postId, userId } }, create: { postId, userId }, update: {} });
+    await this.prisma.postReaction.upsert({ where: { postId_userId: { postId, userId } }, create: { postId, userId, type }, update: { type } });
     return this.reactionResult(postId, userId);
   }
 
@@ -89,10 +93,14 @@ export class PostsService {
   }
 
   private async reactionResult(postId: string, userId: string) {
-    const [reactionCount, reaction] = await this.prisma.$transaction([
-      this.prisma.postReaction.count({ where: { postId } }),
+    const [reactions, reaction] = await this.prisma.$transaction([
+      this.prisma.postReaction.findMany({ where: { postId }, select: { type: true } }),
       this.prisma.postReaction.findUnique({ where: { postId_userId: { postId, userId } }, select: { type: true } }),
     ]);
-    return { reacted: Boolean(reaction), reactionCount, viewerReaction: reaction?.type || null };
+    const reactionCounts = reactions.reduce((counts: Record<string, number>, item: { type: PostReactionType }) => {
+      counts[item.type] = (counts[item.type] || 0) + 1;
+      return counts;
+    }, {});
+    return { reacted: Boolean(reaction), reactionCount: reactions.length, reactionCounts, viewerReaction: reaction?.type || null };
   }
 }

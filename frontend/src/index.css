@@ -976,6 +976,8 @@ body.mobile-nav-open { overflow: hidden; }
   .storefront-ambient-ring { opacity: .62; }
   .storefront-ambient-orb-a { right: -2rem; }
   .storefront-ambient-orb-b { left: -1rem; }
+  .community-reaction-picker { max-width: calc(100vw - 2.5rem); overflow-x: auto; }
+  .community-reaction-picker button { width: 1.85rem; height: 1.85rem; font-size: 1.12rem; }
 }
 
 .animated-number {
@@ -1903,6 +1905,19 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-content { margin: 1rem 0 0; white-space: pre-wrap; color: var(--community-ink); font-size: .86rem; line-height: 1.75; }
 .community-post-image { display: block; width: 100%; max-height: 32rem; margin-top: 1rem; border-radius: 1rem; object-fit: cover; }
 .community-post-engagement { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: 1rem; border-top: 1px solid var(--community-line); padding-top: .75rem; }
+.community-reaction-control { position: relative; display: inline-flex; align-items: center; gap: .28rem; min-width: 0; }
+.community-reaction-action { display: inline-flex; min-height: 2rem; align-items: center; gap: .28rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .38rem .62rem; color: var(--community-muted); background: transparent; font-size: .68rem; font-weight: 900; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }
+.community-reaction-action:hover:not(:disabled), .community-reaction-action.is-active { border-color: var(--community-blue); color: var(--community-blue); background: rgb(34 158 217 / .1); transform: translateY(-1px); }
+.community-reaction-action:disabled, .community-reaction-picker-toggle:disabled, .community-reaction-picker button:disabled { cursor: wait; opacity: .6; }
+.community-reaction-emojis { display: inline-flex; align-items: center; gap: .04rem; margin-right: .04rem; line-height: 1; }
+.community-reaction-emojis span { display: inline-flex; align-items: center; justify-content: center; font-size: .88rem; line-height: 1; }
+.community-reaction-action b { min-width: 1rem; color: inherit; font-size: .63rem; text-align: center; }
+.community-reaction-picker-toggle { display: inline-flex; width: 1.85rem; height: 1.85rem; align-items: center; justify-content: center; border: 1px solid var(--community-line); border-radius: 999px; color: var(--community-muted); background: var(--community-card); font-size: 1rem; font-weight: 900; line-height: 1; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }
+.community-reaction-picker-toggle:hover:not(:disabled), .community-reaction-picker-toggle.is-open { border-color: var(--community-blue); color: var(--community-blue); background: var(--community-soft); transform: translateY(-1px); }
+.community-reaction-picker { position: absolute; z-index: 30; bottom: calc(100% + .45rem); left: 0; display: flex; align-items: center; gap: .12rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .32rem .42rem; background: var(--community-card); box-shadow: 0 16px 30px rgb(16 36 63 / .2); animation: communityReactionPop .18s ease-out both; transform-origin: bottom left; }
+.community-reaction-picker button { display: inline-flex; width: 2rem; height: 2rem; align-items: center; justify-content: center; border: 0; border-radius: 999px; padding: 0; background: transparent; font-size: 1.28rem; line-height: 1; cursor: pointer; transition: background-color .15s ease, transform .15s ease, filter .15s ease; }
+.community-reaction-picker button:hover, .community-reaction-picker button.is-selected { background: var(--community-soft); filter: saturate(1.15); transform: scale(1.2) translateY(-.12rem); }
+@keyframes communityReactionPop { from { opacity: 0; transform: scale(.82) translateY(.25rem); } to { opacity: 1; transform: scale(1) translateY(0); } }
 .community-post-reaction, .community-post-share { display: inline-flex; align-items: center; gap: .35rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .48rem .7rem; color: var(--community-muted); background: transparent; font-size: .68rem; font-weight: 900; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }
 .community-post-reaction:hover, .community-post-share:hover { border-color: var(--community-blue); color: var(--community-blue); background: rgb(34 158 217 / .08); transform: translateY(-1px); }
 .community-post-reaction span, .community-post-share span { color: var(--community-blue); font-size: .95rem; line-height: 1; }
@@ -2344,6 +2359,12 @@ a, button, input, textarea, select { max-width: 100%; }
 .public-community-post-content { margin: 1rem 0 0; white-space: pre-wrap; color: var(--public-ink); font-size: .86rem; line-height: 1.75; }
 .public-community-post-image { display: block; width: 100%; max-height: 31rem; margin-top: .9rem; border-radius: 1rem; object-fit: cover; }
 .public-community-post-footer { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-top: 1rem; border-top: 1px solid var(--public-line); padding-top: .75rem; color: var(--public-muted); font-size: .63rem; font-weight: 700; }
+.public-community-post-footer .community-reaction-control { flex: 0 0 auto; }
+.public-community-post-footer .community-reaction-action { border-color: var(--public-line); color: var(--public-muted); background: transparent; }
+.public-community-post-footer .community-reaction-action:hover:not(:disabled), .public-community-post-footer .community-reaction-action.is-active { border-color: var(--public-cyan); color: var(--public-cyan); background: rgb(34 158 217 / .1); }
+.public-community-post-footer .community-reaction-picker-toggle { border-color: var(--public-line); color: var(--public-muted); background: transparent; }
+.public-community-post-footer .community-reaction-picker-toggle:hover:not(:disabled), .public-community-post-footer .community-reaction-picker-toggle.is-open { border-color: var(--public-cyan); color: var(--public-cyan); background: rgb(34 158 217 / .1); }
+.public-community-post-footer .community-reaction-picker { border-color: var(--public-line); background: var(--public-card); }
 .public-community-post-footer a { color: var(--public-cyan); font-weight: 900; text-decoration: none; }
 .public-community-post-share { border: 0; padding: 0; color: var(--public-cyan); background: transparent; font: inherit; font-weight: 900; cursor: pointer; }
 .public-community-post-reaction { display: inline-flex; align-items: center; gap: .35rem; border: 1px solid var(--public-line); border-radius: 999px; padding: .45rem .65rem; color: var(--public-muted); background: transparent; font: inherit; font-weight: 900; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }

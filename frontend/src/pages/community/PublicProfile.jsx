@@ -6,6 +6,7 @@ import ImageCropper from '../../components/ImageCropper';
 import PostComposer from '../../components/PostComposer';
 import UserAvatar from '../../components/UserAvatar';
 import CommunityMedia from '../../components/CommunityMedia';
+import ReactionPicker from '../../components/ReactionPicker';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 import { useCommunityText } from '../../context/communityTranslations';
@@ -204,23 +205,28 @@ export default function PublicProfile() {
 function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
   const text = useCommunityText();
   const visibility = { PUBLIC: text.public, FRIENDS_ONLY: text.friendsOnly, PRIVATE: text.onlyMe };
-  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionType, setReactionType] = useState(post.viewerReaction || null);
   const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionCounts, setReactionCounts] = useState(post.reactionCounts || {});
+  const [reactionMenuOpen, setReactionMenuOpen] = useState(false);
   const [reactionBusy, setReactionBusy] = useState(false);
   const [shareNotice, setShareNotice] = useState('');
 
   useEffect(() => {
-    setReacted(post.viewerReaction === 'LIKE');
+    setReactionType(post.viewerReaction || null);
     setReactionCount(post.reactionCount || 0);
-  }, [post.id, post.viewerReaction, post.reactionCount]);
+    setReactionCounts(post.reactionCounts || {});
+  }, [post.id, post.viewerReaction, post.reactionCount, post.reactionCounts]);
 
-  const toggleReaction = async () => {
+  const toggleReaction = async (nextType) => {
     if (reactionBusy) return;
     setReactionBusy(true);
     try {
-      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
-      setReacted(Boolean(result.reacted));
+      const result = unwrap(await (nextType ? api.post(`/api/posts/${post.id}/reaction`, { type: nextType }) : api.delete(`/api/posts/${post.id}/reaction`)));
+      setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
+      setReactionCounts(result.reactionCounts || {});
+      setReactionMenuOpen(false);
     } catch {
       setShareNotice(text.reactionFailed);
     } finally {
@@ -240,14 +246,16 @@ function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
     }
   };
 
-  return <article id={`post-${post.id}`} className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <CommunityMedia url={post.imageUrl} mediaType={post.mediaType} alt={text.postImageAlt} className="community-post-image" />}<div className="community-post-engagement"><button type="button" disabled={reactionBusy} onClick={toggleReaction} className={`community-post-reaction${reacted ? ' is-active' : ''}`} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? text.liked : text.like}<b>{reactionCount}</b></button><button type="button" onClick={share} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div></article>;
+  return <article id={`post-${post.id}`} className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <CommunityMedia url={post.imageUrl} mediaType={post.mediaType} alt={text.postImageAlt} className="community-post-image" />}<div className="community-post-engagement"><ReactionPicker selected={reactionType} count={reactionCount} counts={reactionCounts} open={reactionMenuOpen} onToggle={() => setReactionMenuOpen((current) => !current)} onSelect={toggleReaction} disabled={reactionBusy} label={text.like} /><button type="button" onClick={share} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div></article>;
 }
 
 function ShareablePostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
   const text = useCommunityText();
   const visibility = { PUBLIC: text.public, FRIENDS_ONLY: text.friendsOnly, PRIVATE: text.onlyMe };
-  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionType, setReactionType] = useState(post.viewerReaction || null);
   const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionCounts, setReactionCounts] = useState(post.reactionCounts || {});
+  const [reactionMenuOpen, setReactionMenuOpen] = useState(false);
   const [reactionBusy, setReactionBusy] = useState(false);
   const [shareNotice, setShareNotice] = useState('');
   const [shareOpen, setShareOpen] = useState(false);
@@ -256,17 +264,20 @@ function ShareablePostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl
   const [shareSending, setShareSending] = useState(false);
 
   useEffect(() => {
-    setReacted(post.viewerReaction === 'LIKE');
+    setReactionType(post.viewerReaction || null);
     setReactionCount(post.reactionCount || 0);
-  }, [post.id, post.viewerReaction, post.reactionCount]);
+    setReactionCounts(post.reactionCounts || {});
+  }, [post.id, post.viewerReaction, post.reactionCount, post.reactionCounts]);
 
-  const toggleReaction = async () => {
+  const toggleReaction = async (nextType) => {
     if (reactionBusy) return;
     setReactionBusy(true);
     try {
-      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
-      setReacted(Boolean(result.reacted));
+      const result = unwrap(await (nextType ? api.post(`/api/posts/${post.id}/reaction`, { type: nextType }) : api.delete(`/api/posts/${post.id}/reaction`)));
+      setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
+      setReactionCounts(result.reactionCounts || {});
+      setReactionMenuOpen(false);
     } catch {
       setShareNotice(text.reactionFailed);
     } finally {
@@ -311,7 +322,7 @@ function ShareablePostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl
       <div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} - {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div>
       <p className="community-post-content">{post.content}</p>
       {post.imageUrl && <CommunityMedia url={post.imageUrl} mediaType={post.mediaType} alt={text.postImageAlt} className="community-post-image" autoPlayOnView />}
-      <div className="community-post-engagement"><button type="button" disabled={reactionBusy} onClick={toggleReaction} className={`community-post-reaction${reacted ? ' is-active' : ''}`} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? text.liked : text.like}<b>{reactionCount}</b></button><button type="button" onClick={openShare} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div>
+      <div className="community-post-engagement"><ReactionPicker selected={reactionType} count={reactionCount} counts={reactionCounts} open={reactionMenuOpen} onToggle={() => setReactionMenuOpen((current) => !current)} onSelect={toggleReaction} disabled={reactionBusy} label={text.like} /><button type="button" onClick={openShare} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div>
     </article>
     {shareOpen && <SharePostDialog text={text} friends={shareFriends} loading={shareLoading} sending={shareSending} onClose={() => !shareSending && setShareOpen(false)} onShare={shareToFriend} />}
   </>;
