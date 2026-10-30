@@ -2224,3 +2224,81 @@ a, button, input, textarea, select { max-width: 100%; }
   .app-main { padding-inline: .55rem; }
   .schedule-filters { padding: .7rem; }
 }
+
+/* Full-screen website layout: keep the visual system edge-to-edge while
+   retaining comfortable reading gutters at every viewport size. */
+.storefront,
+.public-community-page {
+  width: 100%;
+  min-width: 0;
+  min-height: 100svh;
+}
+
+.storefront > header,
+.storefront > main,
+.storefront > footer,
+.public-community-page > main,
+.public-community-page > footer {
+  width: 100%;
+}
+
+.storefront > header > .storefront-mobile-header,
+.storefront > footer > div,
+.storefront > main > section.mx-auto,
+.storefront > main > section > .mx-auto {
+  width: 100%;
+  max-width: none !important;
+}
+
+.storefront > header > .storefront-mobile-header,
+.storefront > footer > div,
+.storefront > main > section.mx-auto,
+.storefront > main > section > .mx-auto {
+  padding-inline: clamp(1rem, 5vw, 5rem);
+}
+
+.storefront > main > section:first-child {
+  min-height: max(39rem, calc(100svh - 4.5rem));
+}
+
+.public-community-hero,
+.public-community-section,
+.public-community-footer {
+  width: 100%;
+  max-width: none;
+}
+
+.public-community-hero,
+.public-community-section,
+.public-community-footer {
+  padding-inline: clamp(1rem, 6vw, 6rem);
+}
+
+.public-community-hero {
+  min-height: max(39rem, calc(100svh - 4.5rem));
+}
+
+/* Dashboard workspaces should fill the available area beside the sidebar. */
+.app-main {
+  width: 100%;
+  max-width: none !important;
+}
+
+@media (max-width: 980px) {
+  .storefront > main > section:first-child,
+  .public-community-hero {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .storefront > header > .storefront-mobile-header,
+  .storefront > footer > div,
+  .storefront > main > section.mx-auto,
+  .storefront > main > section > .mx-auto,
+  .public-community-hero,
+  .public-community-section,
+  .public-community-footer {
+    padding-inline: .9rem;
+  }
+}
