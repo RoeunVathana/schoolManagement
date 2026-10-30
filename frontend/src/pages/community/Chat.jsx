@@ -78,7 +78,11 @@ export default function Chat() {
         api.get('/api/chat/group-conversations').catch(() => null),
         api.get('/api/chat/contacts').catch(() => null),
       ]);
-      const result = [...(unwrap(privateResult) || []), ...(groupResult ? (unwrap(groupResult) || []) : [])].sort((first, second) => new Date(second.updatedAt) - new Date(first.updatedAt));
+      const result = [...(unwrap(privateResult) || []), ...(groupResult ? (unwrap(groupResult) || []) : [])].sort((first, second) => {
+        const unreadPriority = Number(second.unreadCount > 0) - Number(first.unreadCount > 0);
+        if (unreadPriority) return unreadPriority;
+        return new Date(second.updatedAt || second.lastMessage?.createdAt || 0) - new Date(first.updatedAt || first.lastMessage?.createdAt || 0);
+      });
       setConversations(result);
       setContacts(contactsResult ? unwrap(contactsResult) || [] : []);
       setActiveConversation((current) => current ? result.find((item) => item.id === current.id) || current : result[0] || null);
