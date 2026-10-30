@@ -9,6 +9,7 @@ import TelegramSupport from "../../components/TelegramSupport";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../context/LanguageContext";
+import { roleHome } from "../../utils/roles";
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || "http://localhost:3001";
 const mediaUrl = (path) =>
@@ -113,6 +114,8 @@ const copyByLanguage = {
     heroPanelItems: ["Lessons", "Practice", "Results"],
     liveSupport: "Live support",
     marketplace: "Learning marketplace",
+    community: "Community",
+    signInToCommunity: "Sign in to join the community.",
     supportLabel: "Support",
     teacherFallback: "CampusFlow teacher",
     assignmentFallback: "Practice with a guided task and receive teacher feedback.",
@@ -186,6 +189,8 @@ const copyByLanguage = {
     heroPanelItems: ["មេរៀន", "អនុវត្ត", "លទ្ធផល"],
     liveSupport: "ការគាំទ្រផ្ទាល់",
     marketplace: "ទីផ្សារវគ្គសិក្សា",
+    community: "Community",
+    signInToCommunity: "សូមចូលប្រើ ដើម្បីចូលរួមសហគមន៍។",
     supportLabel: "ជំនួយ",
     teacherFallback: "គ្រូ CampusFlow",
     assignmentFallback: "អនុវត្តតាមកិច្ចការដែលមានការណែនាំ និងទទួលមតិយោបល់ពីគ្រូ។",
@@ -205,6 +210,7 @@ export default function Storefront() {
   const { user, loading: authLoading } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const copy = copyByLanguage[language] || copyByLanguage.en;
+  const communityPath = user ? "/friends" : "/login/student";
   const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState(null);
   const [search, setSearch] = useState("");
@@ -529,6 +535,13 @@ export default function Storefront() {
                 >
                   {copy.register}
                 </Link>
+                <Link
+                  to={communityPath}
+                  state={!user ? { message: copy.signInToCommunity, from: "/friends" } : undefined}
+                  className="rounded-2xl border border-[#8de4ca]/30 bg-[#8de4ca]/10 px-5 py-3.5 text-sm font-extrabold text-[#a5f1dc] transition hover:bg-[#8de4ca]/20"
+                >
+                  {copy.community}
+                </Link>
               </div>
               <div className="mt-11 grid max-w-xl grid-cols-3 gap-3">
                 <MiniStat value={courses.length || "—"} label={copy.activeCourses} />
@@ -801,9 +814,10 @@ function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
 }
 
 function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurchasedCourse, t }) {
-  const dashboardPath = user?.role === "STUDENT" ? "/student/dashboard" : user?.role === "TEACHER" ? "/teacher/dashboard" : "/admin/dashboard";
+  const dashboardPath = roleHome(user?.role);
   const hasSession = !authLoading && Boolean(user);
   const canOpenWorkspace = hasSession && (user?.role !== "STUDENT" || hasPurchasedCourse);
+  const communityPath = hasSession ? "/friends" : "/login/student";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -826,6 +840,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-bold text-slate-500 lg:flex">
           <a href="/#courses" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.browse}</a>
+          <Link to={communityPath} state={!hasSession ? { message: copy.signInToCommunity, from: "/friends" } : undefined} className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.community}</Link>
           <a href="/#about" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.about}</a>
           <a href="/#faq" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.faq}</a>
           <a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.supportLabel}</a>
