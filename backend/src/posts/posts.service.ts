@@ -16,7 +16,9 @@ export class PostsService {
 
   async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string }) {
     await this.assertPostOwner(userId);
-    return this.prisma.post.create({ data: { authorId: userId, content: input.content.trim(), visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl }, include: { author: { select: this.authorSelect } } });
+    const content = input.content.trim();
+    if (!content) throw new BadRequestException('Post content cannot be empty');
+    return this.prisma.post.create({ data: { authorId: userId, content, visibility: input.visibility || PostVisibility.FRIENDS_ONLY, imageUrl: input.imageUrl }, include: { author: { select: this.authorSelect } } });
   }
 
   async canView(post: { authorId: string; visibility: PostVisibility }, viewerId: string) {
@@ -37,7 +39,15 @@ export class PostsService {
     const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true } });
     if (!post) throw new NotFoundException('Post not found');
     if (post.authorId !== userId) throw new ForbiddenException('You can only edit your own posts');
-    return this.prisma.post.update({ where: { id: postId }, data: { content: input.content?.trim(), visibility: input.visibility, imageUrl: input.imageUrl }, include: { author: { select: this.authorSelect } } });
+    const data: { content?: string; visibility?: PostVisibility; imageUrl?: string } = {};
+    if (input.content !== undefined) {
+      const content = input.content.trim();
+      if (!content) throw new BadRequestException('Post content cannot be empty');
+      data.content = content;
+    }
+    if (input.visibility !== undefined) data.visibility = input.visibility;
+    if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
+    return this.prisma.post.update({ where: { id: postId }, data, include: { author: { select: this.authorSelect } } });
   }
 
   async remove(postId: string, userId: string) {
