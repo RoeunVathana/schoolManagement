@@ -141,19 +141,23 @@ function StoryComposer({ onClose, onSaved }) {
 }
 
 function StoryViewer({ group, viewerId, onClose, onDeleted }) {
+  const text = useCommunityText();
   const [index, setIndex] = useState(group.stories.length - 1);
+  const [imageFailed, setImageFailed] = useState(false);
   const story = group.stories[index];
   const own = story.authorId === viewerId;
+
+  useEffect(() => { setImageFailed(false); }, [story.id]);
 
   const remove = async () => {
     if (!window.confirm('Delete this story?')) return;
     try { await api.delete(`/api/stories/${story.id}`); onDeleted(); } catch (requestError) { window.alert(requestError.response?.data?.message || 'Could not delete this story.'); }
   };
 
-  return <Modal title={group.author?.id === viewerId ? 'Your story' : `${group.author?.fullName || 'Community member'}'s story`} onClose={onClose}>
+  return <Modal title={group.author?.id === viewerId ? text.yourStory : `${group.author?.fullName || text.communityMember}'s story`} onClose={onClose} className="community-story-modal">
     <div className="community-story-viewer">
       <div className="community-story-progress">{group.stories.map((item, storyIndex) => <span className={storyIndex <= index ? 'is-active' : ''} key={item.id} />)}</div>
-      {story.imageUrl ? <img src={mediaUrl(story.imageUrl)} alt="Story" /> : <div className="community-story-viewer-text">{story.content}</div>}
+      {story.imageUrl && !imageFailed ? <img src={mediaUrl(story.imageUrl)} alt={text.postImageAlt || 'Story'} onError={() => setImageFailed(true)} /> : story.content ? <div className="community-story-viewer-text">{story.content}</div> : <div className="community-story-viewer-fallback"><span>✦</span><strong>{text.storyImageUnavailable || 'Story image unavailable'}</strong></div>}
       <div className="community-story-viewer-caption"><p>{story.visibility === 'PRIVATE' ? 'Only me' : story.visibility === 'FRIENDS_ONLY' ? 'Friends only' : 'Public'} · {new Date(story.createdAt).toLocaleString()}</p>{story.content && story.imageUrl && <strong>{story.content}</strong>}</div>
       {group.stories.length > 1 && <><button type="button" onClick={() => setIndex((current) => Math.max(0, current - 1))} disabled={index === 0} className="community-story-nav community-story-nav-left" aria-label="Previous story">←</button><button type="button" onClick={() => setIndex((current) => Math.min(group.stories.length - 1, current + 1))} disabled={index === group.stories.length - 1} className="community-story-nav community-story-nav-right" aria-label="Next story">→</button></>}
     </div>
@@ -161,8 +165,8 @@ function StoryViewer({ group, viewerId, onClose, onDeleted }) {
   </Modal>;
 }
 
-function Modal({ title, onClose, children }) {
-  return <div className="community-modal-backdrop" role="dialog" aria-modal="true" aria-label={title}>
+function Modal({ title, onClose, children, className = '' }) {
+  return <div className={`community-modal-backdrop ${className ? `${className}-backdrop` : ''}`} role="dialog" aria-modal="true" aria-label={title}>
     <div className="community-modal"><div className="community-modal-heading"><h2>{title}</h2><button type="button" onClick={onClose} aria-label="Close" className="community-modal-close">×</button></div>{children}</div>
   </div>;
 }
