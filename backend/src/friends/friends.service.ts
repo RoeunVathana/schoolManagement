@@ -88,7 +88,12 @@ export class FriendsService {
       await tx.friendship.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
       return updated;
     });
-    await this.notifications.createFriendRequestAcceptedNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`);
+    try {
+      await this.notifications.createFriendRequestAcceptedNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`);
+    } catch (error) {
+      // A notification failure must not roll back or hide a successful friendship.
+      console.error('Could not create friend request accepted notification', error);
+    }
     await this.mail.sendFriendRequestAcceptedNotification(request.sender.email, request.sender.fullName, request.receiver.fullName).catch(() => false);
     return accepted;
   }
