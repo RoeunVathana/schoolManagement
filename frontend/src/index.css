@@ -1904,7 +1904,10 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-person-link { display: flex; min-width: 0; align-items: center; gap: .65rem; color: inherit; text-decoration: none; }
 .community-person-copy { min-width: 0; }
 .community-person-name { overflow: hidden; margin: 0; color: var(--community-ink); font-size: .8rem; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
-.community-person-role { margin: .25rem 0 0; color: var(--community-muted); font-size: .62rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.community-person-role { display: inline-flex; align-items: center; gap: .3rem; margin: .25rem 0 0; color: var(--community-muted); font-size: .62rem; font-weight: 850; letter-spacing: .02em; }
+.community-person-role.is-online { color: #13916d; }
+.community-presence-dot { display: inline-block; width: .42rem; height: .42rem; border-radius: 999px; background: #94a3b8; box-shadow: 0 0 0 3px rgb(148 163 184 / .12); }
+.community-person-role.is-online .community-presence-dot { background: #35d399; box-shadow: 0 0 0 3px rgb(53 211 153 / .14); }
 .community-person-card > div:last-child { display: flex; flex-wrap: wrap; gap: .4rem; }
 .community-person-card .inline-flex { min-height: 2.25rem; border-radius: .75rem; padding: .55rem .7rem; font-size: .68rem; }
 .community-empty { display: flex; min-height: 6rem; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 1px dashed var(--community-line); border-radius: 1rem; padding: 1.2rem; color: var(--community-muted); text-align: center; }
@@ -4055,7 +4058,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-chat-contact > span:nth-child(2) { min-width: 0; flex: 1; }
 .community-chat-contact strong, .community-chat-contact small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .community-chat-contact strong { font-size: .7rem; font-weight: 900; }
-.community-chat-contact small { margin-top: .16rem; color: var(--community-muted); font-size: .58rem; font-weight: 750; }
+.community-chat-contact small { display: flex; align-items: center; gap: .28rem; margin-top: .16rem; color: var(--community-muted); font-size: .58rem; font-weight: 750; }
+.community-chat-contact small.is-online { color: #13916d; }
 .community-chat-contact > span:last-child { color: var(--community-blue); font-size: .95rem; }
 
 @media (max-width: 720px) {

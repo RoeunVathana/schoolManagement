@@ -90,6 +90,7 @@ export default function Friends() {
   };
 
   const person = (value) => value.user || value;
+  const roleLabel = (role) => role === 'TEACHER' ? 'Teacher' : role === 'CUSTOMER' ? 'Customer' : 'Student';
 
   const renderPersonCard = (value, status, requestId) => {
     const target = person(value);
@@ -98,7 +99,7 @@ export default function Friends() {
         <UserAvatar person={target} size="md" />
         <div className="community-person-copy">
           <p className="community-person-name">{target.fullName}</p>
-          <p className="community-person-role">{target.role} · {target.isOnline ? 'Online' : 'Offline'}</p>
+          <p className={`community-person-role ${target.isOnline ? 'is-online' : 'is-offline'}`}><span className="community-presence-dot" aria-hidden="true" />{roleLabel(target.role)} · {target.isOnline ? 'Online' : 'Offline'}</p>
         </div>
       </Link>
       <FriendRequestButton
