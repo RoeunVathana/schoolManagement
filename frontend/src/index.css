@@ -2313,6 +2313,11 @@ a, button, input, textarea, select { max-width: 100%; }
    and Community website, with safe-area spacing on phones. */
 .community-ai-support-public {
   right: clamp(.75rem, 3vw, 1.5rem);
+  bottom: max(5.75rem, calc(env(safe-area-inset-bottom) + 4.5rem));
+}
+
+.community-telegram-support {
+  right: clamp(.75rem, 3vw, 1.5rem);
   bottom: max(1.25rem, env(safe-area-inset-bottom));
 }
 
@@ -2333,7 +2338,8 @@ a, button, input, textarea, select { max-width: 100%; }
 @media (max-width: 620px) {
   .community-ai-support-public {
     right: .75rem;
-    left: .75rem;
+    left: auto;
+    bottom: max(5.75rem, calc(env(safe-area-inset-bottom) + 4.5rem));
   }
 
   .community-ai-support-public .community-ai-panel {
@@ -2342,6 +2348,11 @@ a, button, input, textarea, select { max-width: 100%; }
 
   .community-ai-support-public .community-ai-launcher {
     margin-left: auto;
+  }
+
+  .community-telegram-support {
+    right: .75rem;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
   }
 }
 
