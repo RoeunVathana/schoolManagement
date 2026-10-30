@@ -1381,6 +1381,49 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .app-menu-button, .app-theme-button, .app-logout-button { flex: 0 0 auto; }
 .page-header-action > button, .page-header-action > a { min-height: 2.75rem; }
 
+.app-notification-panel {
+  position: absolute;
+  top: calc(100% + .7rem);
+  right: 0;
+  z-index: 120;
+  width: min(23rem, calc(100vw - 1.5rem));
+  overflow: hidden;
+  border: 1px solid rgb(148 163 184 / .28);
+  border-radius: 1.25rem;
+  background: rgb(255 255 255 / .98);
+  box-shadow: 0 22px 55px rgb(16 36 63 / .2), 0 3px 10px rgb(16 36 63 / .08);
+  animation: notificationPanelIn .18s ease-out both;
+}
+.dark .app-notification-panel { border-color: rgb(100 141 174 / .42); background: linear-gradient(145deg, #12243b, #0d1b2e); box-shadow: 0 24px 60px rgb(0 0 0 / .42), 0 0 0 1px rgb(141 228 202 / .05); }
+.app-notification-header { display: flex; align-items: center; justify-content: space-between; gap: .75rem; border-bottom: 1px solid rgb(148 163 184 / .2); padding: .8rem .9rem .75rem; background: linear-gradient(135deg, rgb(34 158 217 / .08), rgb(141 228 202 / .12)); }
+.dark .app-notification-header { border-bottom-color: rgb(100 141 174 / .26); background: linear-gradient(135deg, rgb(34 158 217 / .14), rgb(141 228 202 / .08)); }
+.app-notification-kicker { margin: 0; color: #229ed9; font-size: .52rem; font-weight: 950; letter-spacing: .18em; }
+.app-notification-title { margin: .18rem 0 0; color: #10243f; font-size: .92rem; font-weight: 950; }
+.dark .app-notification-title { color: #f1fbff; }
+.app-notification-mark-read { border: 0; border-radius: .6rem; padding: .4rem .5rem; color: #d85c58; background: transparent; font-size: .58rem; font-weight: 900; cursor: pointer; }
+.app-notification-mark-read:hover { background: rgb(244 123 103 / .12); }
+.app-notification-list { max-height: min(25rem, 64dvh); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.app-notification-item { position: relative; display: flex; width: 100%; min-width: 0; align-items: flex-start; gap: .6rem; border: 0; border-bottom: 1px solid rgb(148 163 184 / .16); padding: .78rem .85rem; color: #10243f; background: transparent; text-align: left; cursor: pointer; transition: background-color .18s ease, transform .18s ease; }
+.app-notification-item:hover { background: rgb(34 158 217 / .08); }
+.app-notification-item.is-unread { background: linear-gradient(90deg, rgb(141 228 202 / .18), rgb(34 158 217 / .06)); }
+.dark .app-notification-item { border-bottom-color: rgb(100 141 174 / .2); color: #e8f4fb; }
+.dark .app-notification-item:hover { background: rgb(34 158 217 / .14); }
+.dark .app-notification-item.is-unread { background: linear-gradient(90deg, rgb(141 228 202 / .16), rgb(34 158 217 / .12)); }
+.app-notification-dot { width: .52rem; height: .52rem; flex: 0 0 .52rem; margin-top: .3rem; border-radius: 999px; background: #a6b4c2; box-shadow: 0 0 0 .2rem rgb(166 180 194 / .12); }
+.app-notification-dot:not(.is-read) { background: #f47b67; box-shadow: 0 0 0 .2rem rgb(244 123 103 / .16); }
+.app-notification-copy { display: grid; min-width: 0; flex: 1; gap: .18rem; }
+.app-notification-item-title, .app-notification-sender, .app-notification-message, .app-notification-copy time { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.app-notification-item-title { color: inherit; font-size: .72rem; font-weight: 950; line-height: 1.35; }
+.app-notification-item.is-read .app-notification-item-title { font-weight: 750; }
+.app-notification-sender { color: #d85c58; font-size: .58rem; font-weight: 850; line-height: 1.35; }
+.app-notification-message { display: -webkit-box; overflow: hidden; color: #61748a; font-size: .65rem; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.dark .app-notification-message { color: #a9bdcd; }
+.app-notification-copy time { color: #91a1b0; font-size: .53rem; line-height: 1.3; }
+.app-notification-arrow { align-self: center; color: #229ed9; font-size: .9rem; font-weight: 950; opacity: .65; transition: transform .18s ease, opacity .18s ease; }
+.app-notification-item:hover .app-notification-arrow { opacity: 1; transform: translateX(2px); }
+.app-notification-empty { margin: 0; padding: 2.2rem 1rem; color: #91a1b0; font-size: .7rem; text-align: center; }
+@keyframes notificationPanelIn { from { opacity: 0; transform: translateY(-5px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
 .card,
 .table-card,
 .dashboard-chart-shell,
@@ -3984,4 +4027,21 @@ a, button, input, textarea, select { max-width: 100%; }
 
 @media (max-width: 720px) {
   .community-chat-contacts { max-height: 14rem; }
+}
+
+/* Mobile notification panel: use the full phone width so message previews stay readable. */
+@media (max-width: 639px) {
+  .app-notification-panel {
+    position: fixed;
+    top: calc(4.35rem + env(safe-area-inset-top));
+    right: .65rem;
+    left: .65rem;
+    width: auto;
+    max-width: none;
+    border-radius: 1.15rem;
+  }
+
+  .app-notification-header { padding: .85rem .9rem .8rem; }
+  .app-notification-list { max-height: min(70dvh, 28rem); }
+  .app-notification-item { padding: .85rem .9rem; }
 }
