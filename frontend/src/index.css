@@ -2367,14 +2367,20 @@ a, button, input, textarea, select { max-width: 100%; }
 /* Public AI assistant: a consistent floating entry point for the storefront
    and Community website, with safe-area spacing on phones. */
 .community-ai-support-public {
-  right: clamp(.75rem, 3vw, 1.5rem);
-  bottom: max(5.75rem, calc(env(safe-area-inset-bottom) + 4.5rem));
+  right: clamp(.75rem, 3vw, 1.5rem) !important;
+  bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 3.75rem);
   z-index: 60;
 }
 
 .community-telegram-support {
-  right: clamp(.75rem, 3vw, 1.5rem);
+  right: clamp(.75rem, 3vw, 1.5rem) !important;
   bottom: max(1.25rem, env(safe-area-inset-bottom));
+}
+
+.community-ai-support-public .community-ai-launcher,
+.community-telegram-support > button:last-child {
+  min-width: 7.25rem;
+  justify-content: center;
 }
 
 .community-ai-support-public .community-ai-panel {
@@ -2423,9 +2429,9 @@ a, button, input, textarea, select { max-width: 100%; }
 
 @media (max-width: 620px) {
   .community-ai-support-public {
-    right: .75rem;
+    right: .75rem !important;
     left: auto;
-    bottom: max(5.75rem, calc(env(safe-area-inset-bottom) + 4.5rem));
+    bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 3.75rem);
   }
 
   .community-ai-support-public .community-ai-panel {
@@ -2443,7 +2449,7 @@ a, button, input, textarea, select { max-width: 100%; }
   }
 
   .community-telegram-support {
-    right: .75rem;
+    right: .75rem !important;
     bottom: max(1.25rem, env(safe-area-inset-bottom));
   }
 }
