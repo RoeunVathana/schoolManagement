@@ -3,7 +3,18 @@ export default function AppShell() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   useEffect(() => { setOpen(false); }, [location.pathname]);
-  useEffect(() => { document.body.classList.toggle('mobile-nav-open', open); return () => document.body.classList.remove('mobile-nav-open'); }, [open]);
+  useEffect(() => {
+    const syncBodyScroll = () => {
+      const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+      document.body.classList.toggle('mobile-nav-open', open && isMobile);
+    };
+    syncBodyScroll();
+    window.addEventListener('resize', syncBodyScroll);
+    return () => {
+      window.removeEventListener('resize', syncBodyScroll);
+      document.body.classList.remove('mobile-nav-open');
+    };
+  }, [open]);
   useEffect(() => {
     if (!open) return undefined;
     const closeOnEscape = (event) => {

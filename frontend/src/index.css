@@ -3831,6 +3831,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-chat-shell {
   height: min(42rem, calc(100dvh - 8rem));
   min-height: 34rem;
+  overflow: clip;
+  overscroll-behavior-y: auto;
 }
 
 .community-chat-sidebar,
@@ -3856,6 +3858,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-message-list {
   min-height: 0;
   overscroll-behavior-y: auto;
+  touch-action: pan-y;
   scrollbar-width: thin;
 }
 
