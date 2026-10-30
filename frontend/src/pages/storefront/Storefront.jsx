@@ -190,7 +190,7 @@ const copyByLanguage = {
     heroPanelItems: ["មេរៀន", "អនុវត្ត", "លទ្ធផល"],
     liveSupport: "ការគាំទ្រផ្ទាល់",
     marketplace: "ទីផ្សារវគ្គសិក្សា",
-    community: "Community",
+    community: "សហគមន៍",
     signInToCommunity: "សូមចូលប្រើ ដើម្បីចូលរួមសហគមន៍។",
     supportLabel: "ជំនួយ",
     teacherFallback: "គ្រូ CampusFlow",
