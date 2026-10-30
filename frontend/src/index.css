@@ -3528,3 +3528,42 @@ a, button, input, textarea, select { max-width: 100%; }
   color: #d9fff3;
   background: linear-gradient(145deg, #1b5363, #20375b);
 }
+
+/* Schedule date/time fields must stay inside the filter card on touch screens. */
+.schedule-filters {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.schedule-filters > *,
+.schedule-filters .grid,
+.schedule-filters label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.schedule-filters label { width: 100%; overflow: hidden; }
+
+.schedule-filters input[type='date'],
+.schedule-filters input[type='datetime-local'],
+.schedule-filters input[type='time'] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 639px) {
+  .schedule-filters { padding: .9rem; }
+  .schedule-filters > div:first-child { align-items: flex-start; }
+  .schedule-filters > div:first-child button { flex: 0 0 auto; padding-inline: .55rem; }
+  .schedule-filters .grid { grid-template-columns: minmax(0, 1fr); gap: .7rem; }
+  .schedule-filters input[type='date'],
+  .schedule-filters input[type='datetime-local'],
+  .schedule-filters input[type='time'] { min-height: 3.2rem; font-size: 16px; }
+}
