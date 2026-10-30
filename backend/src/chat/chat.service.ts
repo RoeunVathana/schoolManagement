@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { Role, UserStatus } from '@prisma/client';
+import { MessageReactionType, Role, UserStatus } from '@prisma/client';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -76,7 +76,8 @@ export class ChatService {
 
   async listMessages(userId: string, conversationId: string) {
     await this.assertParticipant(conversationId, userId);
-    return this.prisma.message.findMany({ where: { conversationId }, orderBy: { createdAt: 'asc' }, take: 200, include: { sender: { select: userSelect } } });
+    const messages = await this.prisma.message.findMany({ where: { conversationId }, orderBy: { createdAt: 'asc' }, take: 200, include: { sender: { select: userSelect }, reactions: { select: { userId: true, type: true } } } });
+    return messages.map((message) => this.presentMessage(message, userId));
   }
 
   async sendMessage(userId: string, conversationId: string, body: string) {
@@ -90,7 +91,35 @@ export class ChatService {
     });
     const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
     await this.notifications.createMessageNotification(recipientId, userId, messageBody);
+    return this.presentMessage({ ...message, reactions: [] }, userId);
+  }
+
+  private presentMessage(message: any, viewerId: string) {
+    const reactionCounts = (message.reactions || []).reduce((counts: Record<string, number>, reaction: { type: MessageReactionType }) => {
+      counts[reaction.type] = (counts[reaction.type] || 0) + 1;
+      return counts;
+    }, {});
+    const reactionCount = Object.keys(reactionCounts).reduce((total, type) => total + reactionCounts[type], 0);
+    return { ...message, reactions: reactionCounts, reactionCount, myReaction: (message.reactions || []).find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+  }
+
+  private async assertMessageParticipant(userId: string, messageId: string) {
+    const message = await this.prisma.message.findUnique({ where: { id: messageId }, select: { id: true, conversationId: true } });
+    if (!message) throw new NotFoundException('Message not found');
+    await this.assertParticipant(message.conversationId, userId);
     return message;
+  }
+
+  async reactMessage(userId: string, messageId: string, type: MessageReactionType) {
+    await this.assertMessageParticipant(userId, messageId);
+    const reaction = await this.prisma.messageReaction.upsert({ where: { messageId_userId: { messageId, userId } }, update: { type }, create: { messageId, userId, type } });
+    return { messageId, type: reaction.type };
+  }
+
+  async removeReaction(userId: string, messageId: string) {
+    await this.assertMessageParticipant(userId, messageId);
+    await this.prisma.messageReaction.deleteMany({ where: { messageId, userId } });
+    return { messageId, type: null };
   }
 
   async markRead(userId: string, conversationId: string) {

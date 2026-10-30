@@ -3,16 +3,38 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import UserAvatar from '../../components/UserAvatar';
 import { useCommunityText } from '../../context/communityTranslations';
+import { useLanguage } from '../../context/LanguageContext';
 
 function displayDate(value) {
   if (!value) return '';
   return new Date(value).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
+const reactionOptions = [
+  { type: 'LIKE', emoji: '👍', label: { en: 'Like', km: 'ចូលចិត្ត' } },
+  { type: 'LOVE', emoji: '❤️', label: { en: 'Love', km: 'ស្រឡាញ់' } },
+  { type: 'HAHA', emoji: '😂', label: { en: 'Haha', km: 'ហាហា' } },
+  { type: 'WOW', emoji: '😮', label: { en: 'Wow', km: 'អស្ចារ្យ' } },
+  { type: 'SAD', emoji: '😢', label: { en: 'Sad', km: 'សោកសៅ' } },
+  { type: 'ANGRY', emoji: '😡', label: { en: 'Angry', km: 'ខឹង' } },
+];
+
+const reactionEmoji = Object.fromEntries(reactionOptions.map((reaction) => [reaction.type, reaction.emoji]));
+
+function withReaction(message, nextType) {
+  const counts = { ...(message.reactions || {}) };
+  const previousType = message.myReaction;
+  if (previousType) counts[previousType] = Math.max(0, (counts[previousType] || 0) - 1);
+  if (nextType) counts[nextType] = (counts[nextType] || 0) + 1;
+  Object.keys(counts).forEach((type) => { if (!counts[type]) delete counts[type]; });
+  return { ...message, reactions: counts, reactionCount: Object.values(counts).reduce((total, count) => total + count, 0), myReaction: nextType || null };
+}
+
 export default function Chat() {
   const location = useLocation();
   const navigate = useNavigate();
   const text = useCommunityText();
+  const { language } = useLanguage();
   const requestedUserId = location.state?.userId || '';
   const [conversations, setConversations] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
@@ -23,6 +45,7 @@ export default function Chat() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [showList, setShowList] = useState(true);
+  const [reactionMenuId, setReactionMenuId] = useState(null);
   const messageEndRef = useRef(null);
 
   const loadConversations = useCallback(async () => {
@@ -100,6 +123,20 @@ export default function Chat() {
     }
   };
 
+  const reactToMessage = async (message, type) => {
+    const nextType = message.myReaction === type ? null : type;
+    const previousMessages = messages;
+    setReactionMenuId(null);
+    setMessages((current) => current.map((item) => item.id === message.id ? withReaction(item, nextType) : item));
+    try {
+      if (nextType) await api.patch(`/api/chat/messages/${message.id}/reaction`, { type: nextType });
+      else await api.delete(`/api/chat/messages/${message.id}/reaction`);
+    } catch (requestError) {
+      setMessages(previousMessages);
+      setError(requestError.response?.data?.message || text.reactionFailed || 'Could not update reaction.');
+    }
+  };
+
   return <div className="community-page community-chat-page">
     <section className="community-hero community-hero-compact">
       <div className="community-hero-orb community-hero-orb-one" />
@@ -116,7 +153,7 @@ export default function Chat() {
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
         <div className="community-chat-header">{activePerson ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button><UserAvatar person={activePerson} size="md" /><div className="community-chat-person"><strong>{activePerson.fullName}</strong><span>{text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
-        <div className="community-message-list">{loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}><div className="community-message-bubble"><p>{message.body}</p><small>{displayDate(message.createdAt)}</small></div></div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}<div ref={messageEndRef} /></div>
+        <div className="community-message-list">{loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === activePerson?.id ? 'is-incoming' : 'is-outgoing'}`}><div className="community-message-bubble"><p>{message.body}</p><small>{displayDate(message.createdAt)}</small></div><div className="community-message-actions"><button type="button" className={`community-message-reaction-trigger ${message.myReaction ? 'is-selected' : ''}`} onClick={() => setReactionMenuId((current) => current === message.id ? null : message.id)} aria-label={message.myReaction ? `${reactionOptions.find((reaction) => reaction.type === message.myReaction)?.label[language] || 'Reaction'} selected` : 'Add reaction'}>{message.myReaction ? reactionEmoji[message.myReaction] : '👍'}</button>{reactionMenuId === message.id && <div className="community-message-reaction-menu">{reactionOptions.map((reaction) => <button type="button" key={reaction.type} onClick={() => reactToMessage(message, reaction.type)} title={reaction.label[language] || reaction.label.en} aria-label={reaction.label[language] || reaction.label.en} className={message.myReaction === reaction.type ? 'is-selected' : ''}>{reaction.emoji}</button>)}</div>}{message.reactionCount > 0 && <div className="community-message-reaction-summary" aria-label={`${message.reactionCount} reactions`}>{Object.entries(message.reactions || {}).slice(0, 3).map(([type]) => <span key={type}>{reactionEmoji[type]}</span>)}<small>{message.reactionCount}</small></div>}</div></div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}<div ref={messageEndRef} /></div>
         <form onSubmit={sendMessage} className="community-message-form"><input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending} placeholder={activePerson ? text.writeMessage : text.selectFriend} /><button type="submit" disabled={!canSend} className="community-button community-button-primary">{sending ? text.sending : text.send}</button></form>
       </div>
     </section>

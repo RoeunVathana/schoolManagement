@@ -1997,6 +1997,17 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-message-bubble p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .78rem; line-height: 1.55; }
 .community-message-bubble small { display: block; margin-top: .35rem; color: var(--community-muted); font-size: .56rem; }
 .community-message-row.is-outgoing .community-message-bubble small { color: rgb(255 255 255 / .65); }
+.community-message-actions { position: relative; display: flex; align-items: center; gap: .3rem; min-height: 1.55rem; padding-inline: .15rem; }
+.community-message-reaction-trigger { display: inline-flex; width: 1.65rem; height: 1.65rem; align-items: center; justify-content: center; border: 1px solid var(--community-line); border-radius: 999px; color: var(--community-muted); background: var(--community-card); font-size: .78rem; line-height: 1; cursor: pointer; opacity: .78; transition: transform .2s ease, opacity .2s ease, border-color .2s ease, background-color .2s ease; }
+.community-message-reaction-trigger:hover, .community-message-reaction-trigger.is-selected { border-color: rgb(34 158 217 / .5); background: rgb(34 158 217 / .1); opacity: 1; transform: scale(1.08); }
+.community-message-reaction-menu { position: absolute; bottom: calc(100% + .3rem); left: 0; z-index: 10; display: flex; align-items: center; gap: .12rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .28rem .38rem; background: var(--community-card); box-shadow: 0 10px 24px rgb(16 36 63 / .18); animation: communityReactionPop .18s ease-out; }
+.community-message-row.is-outgoing .community-message-reaction-menu { right: 0; left: auto; }
+.community-message-reaction-menu button { display: inline-flex; width: 2.1rem; height: 2.1rem; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; font-size: 1.35rem; cursor: pointer; transition: transform .18s ease, background-color .18s ease; }
+.community-message-reaction-menu button:hover, .community-message-reaction-menu button.is-selected { background: rgb(34 158 217 / .12); transform: scale(1.2) translateY(-.15rem); }
+.community-message-reaction-summary { display: inline-flex; align-items: center; gap: .12rem; min-height: 1.45rem; border: 1px solid var(--community-line); border-radius: 999px; padding: .12rem .38rem .12rem .25rem; background: var(--community-card); box-shadow: 0 3px 8px rgb(16 36 63 / .06); }
+.community-message-reaction-summary span { font-size: .7rem; line-height: 1; }
+.community-message-reaction-summary small { margin-left: .12rem; color: var(--community-muted); font-size: .58rem; font-weight: 850; }
+@keyframes communityReactionPop { from { opacity: 0; transform: translateY(4px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .community-message-state { display: grid; flex: 1; align-content: center; justify-items: center; gap: .45rem; margin: auto; color: var(--community-muted); font-size: .75rem; text-align: center; }
 .community-message-form { display: flex; gap: .55rem; border-top: 1px solid var(--community-line); padding: .8rem; }
 .community-message-form input { min-width: 0; flex: 1; border: 1px solid var(--community-line); border-radius: .9rem; padding: .75rem .85rem; color: var(--community-ink); background: var(--community-soft); font-size: .78rem; outline: none; }
