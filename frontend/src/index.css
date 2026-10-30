@@ -2517,6 +2517,17 @@ a, button, input, textarea, select { max-width: 100%; }
   bottom: max(1.25rem, env(safe-area-inset-bottom));
 }
 
+/* Keep both floating helpers above the private-chat composer instead of covering its send controls. */
+.app-shell-chat .community-ai-support {
+  bottom: calc(max(9.75rem, env(safe-area-inset-bottom) + 9.75rem)) !important;
+  right: clamp(.75rem, 3vw, 1.5rem) !important;
+}
+
+.app-shell-chat .storefront-floating-support {
+  bottom: calc(max(5.75rem, env(safe-area-inset-bottom) + 5.75rem)) !important;
+  right: clamp(.75rem, 3vw, 1.5rem) !important;
+}
+
 .community-ai-support-public .community-ai-launcher,
 .community-telegram-support > button:last-child {
   min-width: 7.25rem;
@@ -2620,6 +2631,14 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-telegram-support {
     right: .75rem !important;
     bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+
+  .app-shell-chat .community-ai-support {
+    bottom: calc(max(9.5rem, env(safe-area-inset-bottom) + 9.5rem)) !important;
+  }
+
+  .app-shell-chat .storefront-floating-support {
+    bottom: calc(max(5.5rem, env(safe-area-inset-bottom) + 5.5rem)) !important;
   }
 }
 
