@@ -122,3 +122,17 @@ export const postImageUpload = {
     cb(null, true);
   },
 };
+
+export const storyImageUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/stories', { recursive: true }); cb(null, 'uploads/stories'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 150 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const extension = extname(file.originalname).toLowerCase();
+    if (!file.mimetype.startsWith('image/') || !allowed.includes(extension)) return cb(new BadRequestException('Only PNG, JPG, JPEG, WEBP or GIF images can be used in stories. Videos and documents are not allowed.'), false);
+    cb(null, true);
+  },
+};

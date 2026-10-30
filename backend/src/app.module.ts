@@ -28,6 +28,7 @@ import { PostsModule } from './posts/posts.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { ChatModule } from './chat/chat.module';
 import { CommunitySupportModule } from './community-support/community-support.module';
+import { StoriesModule } from './stories/stories.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { CommunitySupportModule } from './community-support/community-support.mo
     ProfilesModule,
     ChatModule,
     CommunitySupportModule,
+    StoriesModule,
   ],
 })
 export class AppModule {}

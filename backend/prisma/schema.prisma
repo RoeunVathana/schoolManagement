@@ -111,6 +111,7 @@ model User {
   passwordResetOtps      PasswordResetOtp[]
   sentNotifications      Notification[]        @relation("NotificationSender")
   posts                  Post[]
+  stories                Story[]
   sentFriendRequests     FriendRequest[]       @relation("FriendRequestSender")
   receivedFriendRequests FriendRequest[]       @relation("FriendRequestReceiver")
   friendshipsA           Friendship[]          @relation("FriendshipUserA")
@@ -164,6 +165,21 @@ model Post {
   @@index([authorId, createdAt])
   @@index([visibility, createdAt])
   @@map("posts")
+}
+
+model Story {
+  id         String         @id @default(cuid())
+  authorId   String
+  content    String?        @db.Text
+  imageUrl   String?
+  visibility PostVisibility @default(FRIENDS_ONLY)
+  createdAt  DateTime       @default(now())
+  expiresAt  DateTime
+  author     User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId, expiresAt])
+  @@index([visibility, expiresAt])
+  @@map("stories")
 }
 
 model FriendRequest {
