@@ -148,7 +148,12 @@ export default function Chat() {
   const activePerson = activeConversation?.otherUser;
   const activeGroup = activeConversation?.isGroup ? activeConversation.group : null;
   const canSend = Boolean(activeConversation) && !sending && !uploadingImage && (draft.trim().length > 0 || Boolean(imageFile));
-  const selectConversation = (conversation) => { setActiveConversation(conversation); setShowList(false); setError(''); };
+  const selectConversation = (conversation) => {
+    setConversations((current) => current.map((item) => item.id === conversation.id ? { ...item, unreadCount: 0 } : item));
+    setActiveConversation({ ...conversation, unreadCount: 0 });
+    setShowList(false);
+    setError('');
+  };
 
   const clearImage = useCallback(() => {
     setImageFile(null);
