@@ -98,48 +98,57 @@ enum CommunityGroupRole {
   MEMBER
 }
 
+enum CommunityGroupInviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+}
+
 model User {
-  id                        String                 @id @default(cuid())
-  fullName                  String
-  email                     String                 @unique
-  firstName                 String?
-  lastName                  String?
-  firebaseUid               String?                @unique
-  password                  String
-  phone                     String?
-  profileImageUrl           String?
-  role                      Role                   @default(STUDENT)
-  status                    UserStatus             @default(ACTIVE)
-  language                  String                 @default("en")
-  canCreate                 Boolean                @default(true)
-  canEdit                   Boolean                @default(true)
-  canDelete                 Boolean                @default(false)
-  createdAt                 DateTime               @default(now())
-  updatedAt                 DateTime               @updatedAt
-  profile                   Profile?
-  student                   Student?
-  teacher                   Teacher?
-  refreshTokens             RefreshToken[]
-  notifications             Notification[]
-  createdAnnouncements      Announcement[]         @relation("AnnouncementCreatedBy")
-  registrationPayments      RegistrationPayment[]
-  passwordResetOtps         PasswordResetOtp[]
-  sentNotifications         Notification[]         @relation("NotificationSender")
-  posts                     Post[]
-  postReactions             PostReaction[]
-  stories                   Story[]
-  sentFriendRequests        FriendRequest[]        @relation("FriendRequestSender")
-  receivedFriendRequests    FriendRequest[]        @relation("FriendRequestReceiver")
-  friendshipsA              Friendship[]           @relation("FriendshipUserA")
-  friendshipsB              Friendship[]           @relation("FriendshipUserB")
-  blocksGiven               UserBlock[]            @relation("UserBlocker")
-  blocksReceived            UserBlock[]            @relation("UserBlocked")
-  ownedCommunityGroups      CommunityGroup[]       @relation("CommunityGroupOwner")
-  communityGroupMemberships CommunityGroupMember[] @relation("CommunityGroupMembers")
-  conversationsA            Conversation[]         @relation("ConversationUserA")
-  conversationsB            Conversation[]         @relation("ConversationUserB")
-  messagesSent              Message[]              @relation("MessageSender")
-  messageReactions          MessageReaction[]      @relation("MessageReactionUser")
+  id                            String                 @id @default(cuid())
+  fullName                      String
+  email                         String                 @unique
+  firstName                     String?
+  lastName                      String?
+  firebaseUid                   String?                @unique
+  password                      String
+  phone                         String?
+  profileImageUrl               String?
+  role                          Role                   @default(STUDENT)
+  status                        UserStatus             @default(ACTIVE)
+  language                      String                 @default("en")
+  canCreate                     Boolean                @default(true)
+  canEdit                       Boolean                @default(true)
+  canDelete                     Boolean                @default(false)
+  createdAt                     DateTime               @default(now())
+  updatedAt                     DateTime               @updatedAt
+  profile                       Profile?
+  student                       Student?
+  teacher                       Teacher?
+  refreshTokens                 RefreshToken[]
+  notifications                 Notification[]
+  createdAnnouncements          Announcement[]         @relation("AnnouncementCreatedBy")
+  registrationPayments          RegistrationPayment[]
+  passwordResetOtps             PasswordResetOtp[]
+  sentNotifications             Notification[]         @relation("NotificationSender")
+  posts                         Post[]
+  postReactions                 PostReaction[]
+  stories                       Story[]
+  sentFriendRequests            FriendRequest[]        @relation("FriendRequestSender")
+  receivedFriendRequests        FriendRequest[]        @relation("FriendRequestReceiver")
+  friendshipsA                  Friendship[]           @relation("FriendshipUserA")
+  friendshipsB                  Friendship[]           @relation("FriendshipUserB")
+  blocksGiven                   UserBlock[]            @relation("UserBlocker")
+  blocksReceived                UserBlock[]            @relation("UserBlocked")
+  ownedCommunityGroups          CommunityGroup[]       @relation("CommunityGroupOwner")
+  communityGroupMemberships     CommunityGroupMember[] @relation("CommunityGroupMembers")
+  sentCommunityGroupInvites     CommunityGroupInvite[] @relation("CommunityGroupInviteSender")
+  receivedCommunityGroupInvites CommunityGroupInvite[] @relation("CommunityGroupInviteReceiver")
+  conversationsA                Conversation[]         @relation("ConversationUserA")
+  conversationsB                Conversation[]         @relation("ConversationUserB")
+  messagesSent                  Message[]              @relation("MessageSender")
+  messageReactions              MessageReaction[]      @relation("MessageReactionUser")
 
   @@map("users")
 }
@@ -258,6 +267,7 @@ model CommunityGroup {
   updatedAt     DateTime                 @updatedAt
   owner         User                     @relation("CommunityGroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   members       CommunityGroupMember[]
+  invites       CommunityGroupInvite[]
 
   @@index([ownerId])
   @@index([visibility, createdAt])
@@ -276,6 +286,24 @@ model CommunityGroupMember {
   @@unique([groupId, userId])
   @@index([userId, createdAt])
   @@map("community_group_members")
+}
+
+model CommunityGroupInvite {
+  id        String                     @id @default(cuid())
+  groupId   String
+  inviterId String
+  inviteeId String
+  status    CommunityGroupInviteStatus @default(PENDING)
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  group     CommunityGroup             @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  inviter   User                       @relation("CommunityGroupInviteSender", fields: [inviterId], references: [id], onDelete: Cascade)
+  invitee   User                       @relation("CommunityGroupInviteReceiver", fields: [inviteeId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, inviteeId, status])
+  @@index([inviteeId, status, createdAt])
+  @@index([inviterId, status, createdAt])
+  @@map("community_group_invites")
 }
 
 model UserBlock {

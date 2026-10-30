@@ -68,7 +68,16 @@ const communityGroupTranslations = {
   },
 };
 
+const communityGroupInviteTranslations = {
+  en: {
+    groupInvitations: 'Group invitations', invitedBy: 'Invited by', acceptInvite: 'Accept', declineInvite: 'Decline', inviteFriends: 'Invite friends', inviteFriend: 'Invite', inviteSent: 'Invitation sent.', inviteAccepted: 'You joined the group.', inviteDeclined: 'Invitation declined.', inviteFailed: 'Could not complete the invitation.', noFriendsToInvite: 'All of your friends are already members or have been invited.',
+  },
+  km: {
+    groupInvitations: 'ការអញ្ជើញចូលក្រុម', invitedBy: 'អញ្ជើញដោយ', acceptInvite: 'យល់ព្រម', declineInvite: 'បដិសេធ', inviteFriends: 'អញ្ជើញមិត្តភក្តិ', inviteFriend: 'អញ្ជើញ', inviteSent: 'បានផ្ញើការអញ្ជើញ។', inviteAccepted: 'អ្នកបានចូលក្រុមហើយ។', inviteDeclined: 'បានបដិសេធការអញ្ជើញ។', inviteFailed: 'មិនអាចដំណើរការការអញ្ជើញបានទេ។', noFriendsToInvite: 'មិត្តភក្តិរបស់អ្នកបានចូលក្រុម ឬត្រូវបានអញ្ជើញរួចហើយ។',
+  },
+};
+
 export function useCommunityText() {
   const { language } = useLanguage();
-  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en), ...(communityFriendSearchTranslations[language] || communityFriendSearchTranslations.en), ...(communityGroupTranslations[language] || communityGroupTranslations.en) };
+  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en), ...(communityFriendSearchTranslations[language] || communityFriendSearchTranslations.en), ...(communityGroupTranslations[language] || communityGroupTranslations.en), ...(communityGroupInviteTranslations[language] || communityGroupInviteTranslations.en) };
 }

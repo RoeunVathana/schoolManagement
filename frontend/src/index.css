@@ -2068,6 +2068,26 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-group-footer { align-items: flex-end; margin-top: 1rem; color: var(--community-muted); font-size: .68rem; font-weight: 850; }
 .community-group-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .35rem; }
 .community-group-actions .community-button { min-height: 2.25rem; padding: .55rem .7rem; font-size: .65rem; }
+.community-group-invitations { display: grid; gap: .9rem; border: 1px solid rgb(34 158 217 / .25); border-radius: 1.35rem; padding: 1rem; background: linear-gradient(135deg, rgb(34 158 217 / .08), rgb(141 228 202 / .08)); }
+.community-group-invitations .community-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.community-group-invitations .community-section-heading h2 { margin: .15rem 0 0; color: var(--community-ink); font-size: 1.15rem; font-weight: 950; }
+.community-group-invite-count { display: inline-flex; min-width: 1.8rem; height: 1.8rem; align-items: center; justify-content: center; border-radius: 999px; color: #fff; background: var(--community-blue); font-size: .7rem; font-weight: 950; }
+.community-group-invite-list { display: grid; gap: .65rem; }
+.community-group-invite-card, .community-group-friend-row { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: .8rem; border: 1px solid var(--community-line); border-radius: 1rem; padding: .8rem; background: var(--community-card); }
+.community-group-invite-person { display: flex; min-width: 0; align-items: center; gap: .65rem; }
+.community-group-invite-person > div { display: grid; min-width: 0; gap: .2rem; }
+.community-group-invite-person strong { overflow: hidden; color: var(--community-ink); font-size: .76rem; text-overflow: ellipsis; white-space: nowrap; }
+.community-group-invite-person span { overflow: hidden; color: var(--community-muted); font-size: .66rem; text-overflow: ellipsis; white-space: nowrap; }
+.community-group-invite-modal-title { margin: -.35rem 0 1rem; color: var(--community-blue); font-size: .82rem; font-weight: 950; }
+.community-group-friend-picker { display: grid; max-height: min(26rem, 60vh); gap: .55rem; overflow-y: auto; padding-right: .15rem; }
+.community-group-friend-row .community-button { flex: 0 0 auto; min-height: 2.35rem; padding: .55rem .7rem; font-size: .66rem; }
+.community-group-invite-card .community-group-actions { flex: 0 0 auto; }
+@media (max-width: 620px) {
+  .community-group-invite-card, .community-group-friend-row { align-items: stretch; flex-direction: column; }
+  .community-group-invite-card .community-group-actions, .community-group-friend-row .community-button { width: 100%; }
+  .community-group-invite-card .community-group-actions { justify-content: stretch; }
+  .community-group-invite-card .community-group-actions .community-button { flex: 1 1 0; }
+}
 .community-form-input { display: block; width: 100%; margin-top: .4rem; border: 1px solid var(--community-line); border-radius: .85rem; padding: .7rem .75rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .78rem; outline: none; }
 .community-form-input:focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }
 .community-form-textarea { resize: vertical; }

@@ -18,6 +18,10 @@ export class NotificationsService {
     return this.prisma.notification.create({ data: { userId, senderId, title: 'New message', message: message.length > 120 ? `${message.slice(0, 117)}...` : message } });
   }
 
+  async createGroupInviteNotification(userId: string, senderId: string, message: string) {
+    return this.prisma.notification.create({ data: { userId, senderId, title: 'Group invitation', message } });
+  }
+
   async syncMonthlyPaymentReminders(userId: string) {
     const student = await this.prisma.student.findUnique({ where: { userId }, select: { id: true } });
     if (!student) return;

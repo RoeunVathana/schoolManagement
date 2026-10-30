@@ -11,6 +11,7 @@ const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/ann
 function notificationPath(notification, role) {
   const title = String(notification?.title || '').toLowerCase();
   if (title.includes('friend request')) return '/friends';
+  if (title.includes('group invitation')) return '/groups';
   if (title.includes('new message')) return '/chat';
   if (title.includes('monthly payment')) return role === 'STUDENT' ? '/student/courses' : '/courses';
   return announcementPath[role] || '/community';
