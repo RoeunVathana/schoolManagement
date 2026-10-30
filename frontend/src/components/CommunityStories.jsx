@@ -24,7 +24,7 @@ export default function CommunityStories() {
   const [activeGroup, setActiveGroup] = useState(null);
 
   const load = useCallback(async () => {
-    if (!['STUDENT', 'CUSTOMER'].includes(user?.role)) {
+    if (!['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role)) {
       setLoading(false);
       return;
     }
@@ -51,7 +51,7 @@ export default function CommunityStories() {
     return [...grouped.values()];
   }, [stories]);
 
-  if (!['STUDENT', 'CUSTOMER'].includes(user?.role)) return null;
+  if (!['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role)) return null;
 
   return <section className="community-stories-card">
     <div className="community-stories-heading">

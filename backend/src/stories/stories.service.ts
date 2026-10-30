@@ -3,7 +3,7 @@ import { MediaType, PostVisibility, Role } from '@prisma/client';
 import { FriendsService } from '../friends/friends.service';
 import { PrismaService } from '../prisma/prisma.service';
 
-const COMMUNITY_ROLES = [Role.STUDENT, Role.CUSTOMER];
+const COMMUNITY_ROLES = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()
 export class StoriesService {
@@ -13,7 +13,7 @@ export class StoriesService {
 
   private async assertCommunityUser(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } });
-    if (!user || user.status !== 'ACTIVE' || !COMMUNITY_ROLES.some((role) => role === user.role)) throw new ForbiddenException('Only active students and customers can use stories');
+    if (!user || user.status !== 'ACTIVE' || !COMMUNITY_ROLES.some((role) => role === user.role)) throw new ForbiddenException('Only active students, customers and teachers can use stories');
     return user;
   }
 

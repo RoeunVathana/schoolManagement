@@ -47,7 +47,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [messages, setMessages] = useState(() => [{ id: 'welcome', role: 'assistant', text: translations.en.welcome }]);
   const closeTimerRef = useRef(null);
-  const canUse = publicMode || ['STUDENT', 'CUSTOMER'].includes(user?.role);
+  const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
 
   useEffect(() => () => {

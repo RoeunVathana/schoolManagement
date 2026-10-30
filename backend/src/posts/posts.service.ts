@@ -30,7 +30,8 @@ export class PostsService {
 
   private async assertPostOwner(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } });
-    if (!user || user.status !== 'ACTIVE' || (user.role !== Role.STUDENT && user.role !== Role.CUSTOMER)) throw new ForbiddenException('Only active students and customers can create posts');
+    const communityRoles: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
+    if (!user || user.status !== 'ACTIVE' || !communityRoles.includes(user.role)) throw new ForbiddenException('Only active students, customers and teachers can create posts');
   }
 
   async create(userId: string, input: { content: string; visibility?: PostVisibility; imageUrl?: string; mediaType?: MediaType; media?: { url: string; mediaType: MediaType }[] }) {

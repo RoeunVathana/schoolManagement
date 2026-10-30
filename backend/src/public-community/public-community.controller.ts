@@ -11,7 +11,7 @@ export class PublicCommunityController {
   @Get()
   async feed(@Query('limit') limit?: string) {
     const take = Math.min(Math.max(Number(limit) || 12, 1), 24);
-    const publicUserWhere = { status: 'ACTIVE' as const, role: { in: [Role.STUDENT, Role.CUSTOMER] } };
+    const publicUserWhere = { status: 'ACTIVE' as const, role: { in: [Role.STUDENT, Role.CUSTOMER, Role.TEACHER] } };
     const authorSelect = {
       id: true,
       fullName: true,

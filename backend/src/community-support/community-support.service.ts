@@ -28,7 +28,7 @@ export class CommunitySupportService {
         headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: this.config.get<string>('OPENAI_MODEL') || 'gpt-4o-mini',
-          instructions: 'You are CampusFlow Community Support. Help Students and Customers use the CampusFlow learning community. Answer in a friendly, concise way. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
+          instructions: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Answer in a friendly, concise way. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
           input: `Answer entirely in ${responseLanguage}. User question: ${cleanQuestion}`,
           max_output_tokens: 220,
         }),

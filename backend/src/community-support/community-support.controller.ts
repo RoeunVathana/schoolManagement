@@ -11,7 +11,7 @@ import { CommunitySupportService } from './community-support.service';
 @ApiTags('community-support')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.STUDENT, Role.CUSTOMER)
+@Roles(Role.STUDENT, Role.CUSTOMER, Role.TEACHER)
 @Controller('api/community-support')
 export class CommunitySupportController {
   constructor(private readonly support: CommunitySupportService) {}

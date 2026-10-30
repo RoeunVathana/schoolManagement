@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { MailService } from '../auth/mail.service';
 
-const COMMUNITY_ROLES = [Role.STUDENT, Role.CUSTOMER];
+const COMMUNITY_ROLES = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()
 export class FriendsService {
@@ -17,7 +17,7 @@ export class FriendsService {
   private async member(id: string) {
     const user = await this.prisma.user.findUnique({ where: { id }, select: { id: true, fullName: true, email: true, role: true, status: true, profileImageUrl: true, profile: true } });
     if (!user) throw new NotFoundException('User not found');
-    if (user.status !== 'ACTIVE' || !COMMUNITY_ROLES.some((role) => role === user.role)) throw new BadRequestException('Only active students and customers can use the friend system');
+    if (user.status !== 'ACTIVE' || !COMMUNITY_ROLES.some((role) => role === user.role)) throw new BadRequestException('Only active students, customers and teachers can use the friend system');
     return user;
   }
 
