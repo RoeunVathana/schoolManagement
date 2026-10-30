@@ -2171,6 +2171,10 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-story-skeleton, .community-skeleton-card, .community-loading-orbit, .community-chat-loading span { animation: none; }
 }
 
+/* Keep community dialogs centered in the visible viewport, including on small screens. */
+.community-modal-backdrop { align-items: center !important; justify-content: center; min-height: 100dvh; box-sizing: border-box; }
+.community-modal-backdrop .community-modal { margin-block: auto; }
+
 /* Friendlier community tone and dependable image fallbacks. */
 .user-avatar { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; overflow: hidden; border-radius: 999px; color: #dff8ee; background: linear-gradient(135deg, #173b57, #2c7a83); font-weight: 950; }
 .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
