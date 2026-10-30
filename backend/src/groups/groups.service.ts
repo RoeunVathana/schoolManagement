@@ -4,6 +4,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
 import { CreateGroupDto } from './dto/create-group.dto';
+import { UpdateGroupDto } from './dto/update-group.dto';
 
 const COMMUNITY_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
@@ -61,7 +62,7 @@ export class GroupsService {
     if (!group) throw new NotFoundException('Community group not found');
     if (group.ownerId === userId) return group;
     const membership = await this.prisma.communityGroupMember.findUnique({ where: { groupId_userId: { groupId, userId } }, select: { role: true } });
-    if (membership?.role !== CommunityGroupRole.ADMIN) throw new ForbiddenException('Only a group leader can invite friends');
+    if (membership?.role !== CommunityGroupRole.ADMIN) throw new ForbiddenException('Only a group leader can manage this group');
     return group;
   }
 
@@ -108,6 +109,22 @@ export class GroupsService {
       return created;
     });
     return this.get(group.id, userId);
+  }
+
+  async update(groupId: string, userId: string, dto: UpdateGroupDto) {
+    await this.ensureCommunityUser(userId);
+    await this.leaderGroup(groupId, userId);
+    const name = dto.name === undefined ? undefined : dto.name.trim();
+    if (name !== undefined && !name) throw new BadRequestException('Group name is required');
+    const updated = await this.prisma.communityGroup.update({
+      where: { id: groupId },
+      data: {
+        name,
+        description: dto.description === undefined ? undefined : dto.description.trim() || null,
+        visibility: dto.visibility,
+      },
+    });
+    return this.get(updated.id, userId);
   }
 
   async updateLogo(groupId: string, userId: string, file: Express.Multer.File) {

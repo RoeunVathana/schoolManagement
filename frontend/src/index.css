@@ -2224,6 +2224,9 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-group-owner > span:last-child { display: grid; min-width: 0; gap: .2rem; }
 .community-group-owner strong { overflow: hidden; color: var(--community-ink); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
 .community-group-owner small { color: var(--community-muted); font-size: .6rem; font-weight: 800; text-transform: uppercase; }
+.community-group-owner > span:nth-child(2) { display: grid; min-width: 0; gap: .2rem; }
+.community-group-owner > .community-group-leader-badge { display: inline-flex; min-width: 0; gap: 0; flex: 0 0 auto; align-items: center; margin-left: auto; border: 1px solid rgb(141 228 202 / .42); border-radius: 999px; padding: .3rem .45rem; color: #147052; background: rgb(141 228 202 / .16); font-size: .55rem; font-weight: 950; white-space: nowrap; }
+.dark .community-group-leader-badge { color: #a5f1dc; background: rgb(141 228 202 / .1); }
 .community-group-footer { align-items: flex-end; margin-top: 1rem; color: var(--community-muted); font-size: .68rem; font-weight: 850; }
 .community-group-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .35rem; }
 .community-group-actions .community-button { min-height: 2.25rem; padding: .55rem .7rem; font-size: .65rem; }

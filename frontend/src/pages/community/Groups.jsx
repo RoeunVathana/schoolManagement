@@ -15,8 +15,11 @@ export default function Groups() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [showCreate, setShowCreate] = useState(false);
+  const [editGroup, setEditGroup] = useState(null);
   const [form, setForm] = useState(initialForm);
+  const [editForm, setEditForm] = useState(initialForm);
   const [saving, setSaving] = useState(false);
+  const [editSaving, setEditSaving] = useState(false);
   const [busyId, setBusyId] = useState('');
   const [invitations, setInvitations] = useState({ incoming: [], outgoing: [] });
   const [inviteGroup, setInviteGroup] = useState(null);
@@ -88,6 +91,33 @@ export default function Groups() {
       setError(requestError.response?.data?.message || text.groupActionFailed);
     } finally {
       setLogoBusyId('');
+    }
+  };
+
+  const openEdit = (group) => {
+    setEditGroup(group);
+    setEditForm({ name: group.name || '', description: group.description || '', visibility: group.visibility || 'PUBLIC' });
+    setError('');
+  };
+
+  const submitEdit = async (event) => {
+    event.preventDefault();
+    if (!editGroup) return;
+    if (!editForm.name.trim()) {
+      setError(text.groupNameRequired);
+      return;
+    }
+    setEditSaving(true);
+    setError('');
+    try {
+      const updated = unwrap(await api.patch(`/api/groups/${editGroup.id}`, { ...editForm, name: editForm.name.trim(), description: editForm.description.trim() }));
+      setGroups((current) => current.map((item) => item.id === updated.id ? updated : item));
+      setEditGroup(null);
+      setNotice(text.groupUpdated || 'Group updated.');
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.groupActionFailed);
+    } finally {
+      setEditSaving(false);
     }
   };
 
@@ -247,10 +277,11 @@ export default function Groups() {
         <div className="community-group-card-top"><div className="community-group-logo-area">{group.coverImageUrl ? <CommunityMedia url={group.coverImageUrl} mediaType="IMAGE" alt={group.name} className="community-group-logo" /> : <span className="community-group-mark">{group.name.slice(0, 1).toUpperCase()}</span>}{group.isLeader && <div className="community-group-logo-actions"><label className="community-group-logo-button">{logoBusyId === group.id ? '...' : group.coverImageUrl ? (text.changeGroupLogo || 'Change logo') : (text.uploadGroupLogo || 'Upload logo')}<input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => uploadLogo(group, event)} disabled={logoBusyId === group.id} /></label>{group.coverImageUrl && <button type="button" className="community-group-logo-remove" onClick={() => removeLogo(group)} disabled={logoBusyId === group.id}>{text.removeGroupLogo || 'Remove'}</button>}</div>}</div><span className={`community-group-visibility is-${group.visibility.toLowerCase()}`}>{group.visibility === 'PUBLIC' ? text.groupPublic : text.groupPrivate}</span></div>
         <h2>{group.name}</h2>
         <p>{group.description || text.groupsDescription}</p>
-        <div className="community-group-owner"><UserAvatar person={group.owner} size="sm" /><span><strong>{group.owner?.fullName}</strong><small>{group.isOwner ? text.owner : group.owner?.role}</small></span></div>
+        <div className="community-group-owner"><UserAvatar person={group.owner} size="sm" /><span><strong>{group.owner?.fullName}</strong><small>{text.groupLeader || 'Group leader'} · {group.owner?.role}</small></span><span className="community-group-leader-badge">★ {text.groupLeader || 'Leader'}</span></div>
         <div className="community-group-footer"><span>{group.memberCount} {text.members}</span><div className="community-group-actions">
           {group.isMember && <Link to="/chat" state={{ groupId: group.id }} className="community-button community-button-primary">{text.openGroupChat || 'Group chat'}</Link>}
           {group.isLeader && <button type="button" className="community-button community-button-soft" disabled={busyId === group.id} onClick={() => openInvite(group)}>{text.inviteFriends}</button>}
+          {group.isLeader && <button type="button" className="community-button community-button-soft" disabled={busyId === group.id} onClick={() => openEdit(group)}>{text.editGroup || 'Edit group'}</button>}
           {group.isOwner ? <button type="button" className="community-button community-button-danger" disabled={busyId === group.id} onClick={() => remove(group)}>{text.deleteGroup}</button> : group.isMember ? <button type="button" className="community-button community-button-soft" disabled={busyId === group.id} onClick={() => leave(group)}>{text.leaveGroup}</button> : <button type="button" className="community-button community-button-primary" disabled={busyId === group.id} onClick={() => join(group)}>{busyId === group.id ? '...' : text.joinGroup}</button>}
         </div></div>
       </article>)}
@@ -263,6 +294,16 @@ export default function Groups() {
         <label className="community-field-label">{text.groupDescription}<textarea className="community-form-input community-form-textarea" value={form.description} onChange={(event) => setForm((current) => ({ ...current, description: event.target.value }))} maxLength={500} rows={4} /></label>
         <fieldset className="community-group-visibility-field"><legend className="community-field-label">{text.groupVisibility}</legend><label><input type="radio" name="group-visibility" checked={form.visibility === 'PUBLIC'} onChange={() => setForm((current) => ({ ...current, visibility: 'PUBLIC' }))} /> <strong>{text.publicGroup}</strong><small>{text.publicGroupHelp}</small></label><label><input type="radio" name="group-visibility" checked={form.visibility === 'PRIVATE'} onChange={() => setForm((current) => ({ ...current, visibility: 'PRIVATE' }))} /> <strong>{text.privateGroup}</strong><small>{text.privateGroupHelp}</small></label></fieldset>
         <div className="community-modal-actions"><button type="button" className="community-button community-button-soft" onClick={() => setShowCreate(false)}>{text.cancel}</button><button type="submit" className="community-button community-button-primary" disabled={saving}>{saving ? text.creating : text.create}</button></div>
+      </form>
+    </section></div>}
+
+    {editGroup && <div className="community-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setEditGroup(null); }}><section className="community-modal" role="dialog" aria-modal="true" aria-labelledby="edit-group-title">
+      <div className="community-modal-heading"><h2 id="edit-group-title">{text.editGroup || 'Edit group'}</h2><button type="button" className="community-modal-close" onClick={() => setEditGroup(null)} aria-label={text.close}>×</button></div>
+      <form className="community-modal-form" onSubmit={submitEdit}>
+        <label className="community-field-label">{text.groupName}<input className="community-form-input" value={editForm.name} onChange={(event) => setEditForm((current) => ({ ...current, name: event.target.value }))} maxLength={80} autoFocus required /></label>
+        <label className="community-field-label">{text.groupDescription}<textarea className="community-form-input community-form-textarea" value={editForm.description} onChange={(event) => setEditForm((current) => ({ ...current, description: event.target.value }))} maxLength={500} rows={4} /></label>
+        <fieldset className="community-group-visibility-field"><legend className="community-field-label">{text.groupVisibility}</legend><label><input type="radio" name="edit-group-visibility" checked={editForm.visibility === 'PUBLIC'} onChange={() => setEditForm((current) => ({ ...current, visibility: 'PUBLIC' }))} /> <strong>{text.publicGroup}</strong><small>{text.publicGroupHelp}</small></label><label><input type="radio" name="edit-group-visibility" checked={editForm.visibility === 'PRIVATE'} onChange={() => setEditForm((current) => ({ ...current, visibility: 'PRIVATE' }))} /> <strong>{text.privateGroup}</strong><small>{text.privateGroupHelp}</small></label></fieldset>
+        <div className="community-modal-actions"><button type="button" className="community-button community-button-soft" onClick={() => setEditGroup(null)}>{text.cancel}</button><button type="submit" className="community-button community-button-primary" disabled={editSaving}>{editSaving ? (text.saving || 'Saving...') : (text.saveChanges || 'Save changes')}</button></div>
       </form>
     </section></div>}
 

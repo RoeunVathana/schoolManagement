@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CreateGroupDto } from './dto/create-group.dto';
+import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupInviteDto } from './dto/group-invite.dto';
 import { GroupsService } from './groups.service';
 import { groupImageUpload } from '../common/upload.options';
@@ -26,6 +27,9 @@ export class GroupsController {
 
   @Post()
   create(@CurrentUser() user: { id: string }, @Body() dto: CreateGroupDto) { return this.groups.create(user.id, dto); }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @CurrentUser() user: { id: string }, @Body() dto: UpdateGroupDto) { return this.groups.update(id, user.id, dto); }
 
   @Post(':id/logo')
   @UseInterceptors(FileInterceptor('logo', groupImageUpload))
