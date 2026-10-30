@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
     const user = context.switchToHttp().getRequest().user;
     if (roles?.length && (!user || !roles.includes(user.role))) return false;
     const permissions = this.reflector.getAllAndOverride<Permission[]>(PERMISSIONS_KEY, [context.getHandler(), context.getClass()]);
-    if (!permissions?.length || user?.role === Role.ADMIN) return true;
+    if (!permissions?.length || user?.role === Role.ADMIN || user?.role === Role.OWNER) return true;
     const permissionMap: Record<Permission, string> = { create: 'canCreate', edit: 'canEdit', delete: 'canDelete' };
     return !!user && permissions.every((permission) => user[permissionMap[permission]] === true);
   }

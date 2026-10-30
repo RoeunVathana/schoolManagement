@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { FirebaseAuthService } from './firebase-auth.service';
 import { MailService } from './mail.service';
 import { PaymentsModule } from '../payments/payments.module';
+import { Phase1AuthController } from './phase1-auth.controller';
 
-@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService, MailService], exports: [AuthService] })
+@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController, Phase1AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService, MailService], exports: [AuthService] })
 export class AuthModule {}

@@ -21,6 +21,3 @@ CREATE UNIQUE INDEX "teacher_attendance_teacherId_attendanceDate_key" ON "teache
 
 -- AddForeignKey
 ALTER TABLE "teacher_attendance" ADD CONSTRAINT "teacher_attendance_teacherId_fkey" FOREIGN KEY ("teacherId") REFERENCES "teachers"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- RenameIndex
-ALTER INDEX "course_payments_courseId_studentId_paymentPlan_billingPeriod_ke" RENAME TO "course_payments_courseId_studentId_paymentPlan_billingPerio_key";

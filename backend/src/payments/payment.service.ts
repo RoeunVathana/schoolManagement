@@ -203,6 +203,7 @@ export class PaymentService {
     const paid = await this.prisma.$transaction(async (tx) => {
       const updated = await tx.registrationPayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.PAID, paidAt: new Date(), transactionHash: transaction.hash, fromAccountId: transaction.fromAccountId, toAccountId: transaction.toAccountId } });
       await tx.user.update({ where: { id: payment.userId }, data: { status: UserStatus.ACTIVE } });
+      await tx.profile.updateMany({ where: { userId: payment.userId }, data: { accountStatus: UserStatus.ACTIVE } });
       return updated;
     });
     const customer = await this.prisma.user.findUnique({ where: { id: payment.userId }, select: { fullName: true, email: true } });

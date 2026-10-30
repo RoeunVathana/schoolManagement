@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -17,20 +17,49 @@ export class AuthService {
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
   private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
 
-  async register(input: { fullName: string; email: string; password: string; phone?: string; role?: Role; specialization?: string; language?: string; profileImageUrl?: string }) {
-    if (input.role === Role.ADMIN) throw new BadRequestException('Public registration is limited to students and teachers');
-    const password = await bcrypt.hash(input.password, 12);
-    const role = input.role === Role.TEACHER ? Role.TEACHER : Role.STUDENT;
+  async register(input: { fullName?: string; username?: string; firstName?: string; lastName?: string; email: string; password: string; phone?: string; accountType?: Role; role?: Role; specialization?: string; language?: string; profileImageUrl?: string }) {
+    const role = input.accountType ?? input.role ?? Role.STUDENT;
+    if (role !== Role.STUDENT && role !== Role.CUSTOMER) {
+      throw new BadRequestException('Public registration only allows STUDENT or CUSTOMER accounts');
+    }
+
+    const password = await bcrypt.hash(input.password, Number(this.config.get('BCRYPT_SALT_ROUNDS', '12')) || 12);
     const paymentRequired = role === Role.STUDENT && this.payments.isRegistrationPaymentRequired();
-    const user = await this.prisma.$transaction(async (tx) => {
-      const created = await tx.user.create({ data: { fullName: input.fullName, email: input.email, phone: input.phone, profileImageUrl: input.profileImageUrl, password, role, status: paymentRequired ? UserStatus.INACTIVE : UserStatus.ACTIVE, language: input.language === 'km' ? 'km' : 'en', canCreate: true, canEdit: true, canDelete: false } });
-      if (role === Role.STUDENT) {
-        await tx.student.create({ data: { userId: created.id, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` } });
-      } else {
-        await tx.teacher.create({ data: { userId: created.id, teacherCode: `TCH-${randomUUID().slice(0, 8).toUpperCase()}`, specialization: input.specialization } });
-      }
-      return created;
-    });
+    const status = paymentRequired ? UserStatus.INACTIVE : UserStatus.ACTIVE;
+    const firstName = input.firstName?.trim() || undefined;
+    const lastName = input.lastName?.trim() || undefined;
+    const fullName = input.fullName?.trim() || [firstName, lastName].filter(Boolean).join(' ');
+    if (!fullName) throw new BadRequestException('First name and last name are required');
+    const username = input.username?.trim().toLowerCase() || `user_${randomUUID().slice(0, 8).toLowerCase()}`;
+
+    let user: any;
+    try {
+      user = await this.prisma.$transaction(async (tx) => {
+        const created = await tx.user.create({ data: {
+          fullName,
+          firstName,
+          lastName,
+          email: input.email.trim().toLowerCase(),
+          phone: input.phone,
+          profileImageUrl: input.profileImageUrl,
+          password,
+          role,
+          status,
+          language: input.language === 'km' ? 'km' : 'en',
+          canCreate: true,
+          canEdit: true,
+          canDelete: false,
+          profile: { create: { username, email: input.email.trim().toLowerCase(), firstName, lastName, phone: input.phone, avatar: input.profileImageUrl, role, accountStatus: status } },
+        } });
+        if (role === Role.STUDENT) {
+          await tx.student.create({ data: { userId: created.id, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` } });
+        }
+        return tx.user.findUniqueOrThrow({ where: { id: created.id }, include: { profile: true, student: true, teacher: true } });
+      });
+    } catch (error) {
+      if ((error as { code?: string })?.code === 'P2002') throw new ConflictException('Email or username is already registered');
+      throw error;
+    }
     if (!paymentRequired) return this.safeUser(user);
     try {
       const payment = await this.payments.createRegistrationPayment(user.id);
@@ -43,7 +72,7 @@ export class AuthService {
 
   async login(email: string, password: string, expectedRole?: Role) {
     const normalizedEmail = email.trim().toLowerCase();
-    const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
+    const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail }, include: { profile: true, student: true, teacher: true } });
     if (!user || user.status !== 'ACTIVE' || (expectedRole && user.role !== expectedRole) || !(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('Invalid credentials for the selected account type');
     return this.issueTokens(user);
   }
@@ -148,8 +177,27 @@ export class AuthService {
   }
 
   async getProfile(userId: string) {
-    const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { student: true, teacher: true } });
+    let user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    if (!user.profile) {
+      const username = `legacy_${user.id}`;
+      await this.prisma.profile.create({ data: { userId: user.id, username, email: user.email, firstName: user.firstName, lastName: user.lastName, phone: user.phone, avatar: user.profileImageUrl, role: user.role, accountStatus: user.status } }).catch((error) => {
+        if ((error as { code?: string })?.code !== 'P2002') throw error;
+      });
+      user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    }
     return this.safeUser(user);
+  }
+
+  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || !(await bcrypt.compare(currentPassword, user.password))) throw new UnauthorizedException('Current password is incorrect');
+    if (currentPassword === newPassword) throw new BadRequestException('New password must be different from the current password');
+    const password = await bcrypt.hash(newPassword, Number(this.config.get('BCRYPT_SALT_ROUNDS', '12')) || 12);
+    await this.prisma.$transaction([
+      this.prisma.user.update({ where: { id: userId }, data: { password } }),
+      this.prisma.refreshToken.deleteMany({ where: { userId } }),
+    ]);
+    return { message: 'Password changed successfully. Please sign in again.' };
   }
 
   async updateProfile(userId: string, input: { fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; language?: string }) {
@@ -191,7 +239,7 @@ export class AuthService {
       const payload = await this.jwt.verifyAsync<{ sub: string }>(token, { secret: this.config.getOrThrow('JWT_REFRESH_SECRET') });
       const stored = await this.prisma.refreshToken.findUnique({ where: { tokenHash: this.hashToken(token) } });
       if (!stored || stored.expiresAt < new Date()) throw new UnauthorizedException('Refresh token expired');
-      const user = await this.prisma.user.findUniqueOrThrow({ where: { id: payload.sub } });
+      const user = await this.prisma.user.findUniqueOrThrow({ where: { id: payload.sub }, include: { profile: true, student: true, teacher: true } });
       await this.prisma.refreshToken.delete({ where: { id: stored.id } });
       return this.issueTokens(user);
     } catch { throw new UnauthorizedException('Invalid refresh token'); }

@@ -8,14 +8,18 @@ datasource db {
 }
 
 enum Role {
+  OWNER
   ADMIN
   TEACHER
   STUDENT
+  CUSTOMER
 }
 
 enum UserStatus {
   ACTIVE
   INACTIVE
+  SUSPENDED
+  BANNED
 }
 
 enum CourseStatus {
@@ -70,6 +74,8 @@ model User {
   id                   String                @id @default(cuid())
   fullName             String
   email                String                @unique
+  firstName            String?
+  lastName             String?
   firebaseUid          String?               @unique
   password             String
   phone                String?
@@ -82,6 +88,7 @@ model User {
   canDelete            Boolean               @default(false)
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
+  profile              Profile?
   student              Student?
   teacher              Teacher?
   refreshTokens        RefreshToken[]
@@ -92,6 +99,33 @@ model User {
   sentNotifications    Notification[]        @relation("NotificationSender")
 
   @@map("users")
+}
+
+model Profile {
+  id            String      @id @default(cuid())
+  userId        String      @unique
+  username      String      @unique
+  email         String      @unique
+  firstName     String?
+  lastName      String?
+  bio           String?     @db.Text
+  avatar        String?
+  coverImage    String?
+  phone         String?
+  location      String?
+  website       String?
+  school        String?
+  course        String?
+  yearLevel     String?
+  company       String?
+  role          Role        @default(STUDENT)
+  accountStatus UserStatus  @default(ACTIVE)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([role, accountStatus])
+  @@map("profiles")
 }
 
 model RegistrationPayment {
