@@ -41,7 +41,16 @@ const communityProfileTranslations = {
   },
 };
 
+const communityShareTranslations = {
+  en: {
+    sharePost: 'Share this post', sharePostDescription: 'Choose an accepted friend to send this post in chat.', sharedPostMessage: 'I shared a post with you:', postShared: 'Post shared in chat.', noFriendsToShare: 'You do not have any accepted friends to share with yet.',
+  },
+  km: {
+    sharePost: 'ចែករំលែកការបង្ហោះនេះ', sharePostDescription: 'ជ្រើសរើសមិត្តភក្តិដែលបានទទួលយល់ព្រម ដើម្បីផ្ញើការបង្ហោះនេះក្នុងសារ។', sharedPostMessage: 'ខ្ញុំបានចែករំលែកការបង្ហោះមួយជាមួយអ្នក៖', postShared: 'បានចែករំលែកការបង្ហោះក្នុងសារ។', noFriendsToShare: 'អ្នកមិនទាន់មានមិត្តភក្តិដែលបានទទួលយល់ព្រម ដើម្បីចែករំលែកទេ។',
+  },
+};
+
 export function useCommunityText() {
   const { language } = useLanguage();
-  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en) };
+  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en) };
 }

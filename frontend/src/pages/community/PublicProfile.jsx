@@ -191,7 +191,7 @@ export default function PublicProfile() {
       </aside>
 
       <main className="community-profile-main">
-        {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title={text.noPosts} description={isSelf ? text.shareFirstUpdate : text.noVisiblePosts} />}</div>}
+        {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <ShareablePostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title={text.noPosts} description={isSelf ? text.shareFirstUpdate : text.noVisiblePosts} />}</div>}
         {tab === 'About' && <About profile={profile} details={profileDetails} isSelf={isSelf} editing={aboutEditing} form={aboutForm} busy={aboutBusy} onEdit={beginAboutEdit} onChange={updateAboutField} onSave={saveAbout} onDelete={deleteAbout} onCancel={() => setAboutEditing(false)} />}
         {tab === 'Friends' && <div className="community-profile-friends-grid">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title={text.noFriends} description={text.acceptedFriendsAppear} />}</div>}
         {tab === 'Photos' && <EmptyState title={text.noPhotos} description={text.photosAppear} />}
@@ -240,6 +240,90 @@ function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
   };
 
   return <article id={`post-${post.id}`} className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}<div className="community-post-engagement"><button type="button" disabled={reactionBusy} onClick={toggleReaction} className={`community-post-reaction${reacted ? ' is-active' : ''}`} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? text.liked : text.like}<b>{reactionCount}</b></button><button type="button" onClick={share} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div></article>;
+}
+
+function ShareablePostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
+  const text = useCommunityText();
+  const visibility = { PUBLIC: text.public, FRIENDS_ONLY: text.friendsOnly, PRIVATE: text.onlyMe };
+  const [reacted, setReacted] = useState(post.viewerReaction === 'LIKE');
+  const [reactionCount, setReactionCount] = useState(post.reactionCount || 0);
+  const [reactionBusy, setReactionBusy] = useState(false);
+  const [shareNotice, setShareNotice] = useState('');
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shareFriends, setShareFriends] = useState([]);
+  const [shareLoading, setShareLoading] = useState(false);
+  const [shareSending, setShareSending] = useState(false);
+
+  useEffect(() => {
+    setReacted(post.viewerReaction === 'LIKE');
+    setReactionCount(post.reactionCount || 0);
+  }, [post.id, post.viewerReaction, post.reactionCount]);
+
+  const toggleReaction = async () => {
+    if (reactionBusy) return;
+    setReactionBusy(true);
+    try {
+      const result = unwrap(await (reacted ? api.delete(`/api/posts/${post.id}/reaction`) : api.post(`/api/posts/${post.id}/reaction`)));
+      setReacted(Boolean(result.reacted));
+      setReactionCount(result.reactionCount || 0);
+    } catch {
+      setShareNotice(text.reactionFailed);
+    } finally {
+      setReactionBusy(false);
+    }
+  };
+
+  const openShare = async () => {
+    setShareNotice('');
+    setShareOpen(true);
+    setShareLoading(true);
+    try {
+      setShareFriends(unwrap(await api.get('/api/friends')) || []);
+    } catch (requestError) {
+      setShareNotice(requestError.response?.data?.message || text.shareFailed);
+    } finally {
+      setShareLoading(false);
+    }
+  };
+
+  const shareToFriend = async (friend) => {
+    if (shareSending) return;
+    setShareSending(true);
+    setShareNotice('');
+    try {
+      const url = `${window.location.origin}/profile/${post.author?.id || ''}#post-${post.id}`;
+      const conversation = unwrap(await api.post(`/api/chat/with/${friend.id}`));
+      await api.post(`/api/chat/conversations/${conversation.id}/messages`, {
+        body: `${text.sharedPostMessage}\n${post.content || ''}\n${url}`,
+      });
+      setShareOpen(false);
+      setShareNotice(text.postShared);
+    } catch (requestError) {
+      setShareNotice(requestError.response?.data?.message || text.shareFailed);
+    } finally {
+      setShareSending(false);
+    }
+  };
+
+  return <>
+    <article id={`post-${post.id}`} className="community-post-card">
+      <div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} - {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div>
+      <p className="community-post-content">{post.content}</p>
+      {post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}
+      <div className="community-post-engagement"><button type="button" disabled={reactionBusy} onClick={toggleReaction} className={`community-post-reaction${reacted ? ' is-active' : ''}`} aria-pressed={reacted}><span aria-hidden="true">{reacted ? '♥' : '♡'}</span>{reacted ? text.liked : text.like}<b>{reactionCount}</b></button><button type="button" onClick={openShare} className="community-post-share"><span aria-hidden="true">↗</span>{text.share}</button>{shareNotice && <small>{shareNotice}</small>}</div>
+    </article>
+    {shareOpen && <SharePostDialog text={text} friends={shareFriends} loading={shareLoading} sending={shareSending} onClose={() => !shareSending && setShareOpen(false)} onShare={shareToFriend} />}
+  </>;
+}
+
+function SharePostDialog({ text, friends, loading, sending, onClose, onShare }) {
+  return <div className="community-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget && !sending) onClose(); }}>
+    <section className="community-modal community-share-modal" role="dialog" aria-modal="true" aria-labelledby="share-post-title">
+      <div className="community-modal-heading"><div><p className="community-eyebrow">{text.share}</p><h2 id="share-post-title">{text.sharePost}</h2></div><button type="button" className="community-modal-close" onClick={onClose} disabled={sending} aria-label={text.close}>{text.close}</button></div>
+      <p className="community-share-description">{text.sharePostDescription}</p>
+      {loading ? <div className="community-share-loading" aria-live="polite"><span /><span /><span /></div> : friends.length ? <div className="community-share-friends">{friends.map((friend) => <button type="button" key={friend.id} className="community-share-friend" onClick={() => onShare(friend)} disabled={sending}><UserAvatar person={friend} size="md" /><span><strong>{friend.fullName}</strong><small>{friend.role}</small></span><span>{sending ? text.sending : text.send} <span aria-hidden="true">→</span></span></button>)}</div> : <div className="community-share-empty"><p>{text.noFriendsToShare}</p></div>}
+    </section>
+  </div>;
 }
 
 function About({ profile, details, isSelf, editing, form, busy, onEdit, onChange, onSave, onDelete, onCancel }) {
