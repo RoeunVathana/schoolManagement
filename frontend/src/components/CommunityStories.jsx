@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import api, { unwrap } from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
 import UserAvatar from './UserAvatar';
@@ -166,7 +167,18 @@ function StoryViewer({ group, viewerId, onClose, onDeleted }) {
 }
 
 function Modal({ title, onClose, children, className = '' }) {
-  return <div className={`community-modal-backdrop ${className ? `${className}-backdrop` : ''}`} role="dialog" aria-modal="true" aria-label={title}>
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event) => { if (event.key === 'Escape') onClose(); };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [onClose]);
+
+  return createPortal(<div className={`community-modal-backdrop ${className ? `${className}-backdrop` : ''}`} role="dialog" aria-modal="true" aria-label={title}>
     <div className="community-modal"><div className="community-modal-heading"><h2>{title}</h2><button type="button" onClick={onClose} aria-label="Close" className="community-modal-close">×</button></div>{children}</div>
-  </div>;
+  </div>, document.body);
 }
