@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import FriendRequestButton from '../../components/FriendRequestButton';
 import ImageCropper from '../../components/ImageCropper';
 import PostComposer from '../../components/PostComposer';
 import UserAvatar from '../../components/UserAvatar';
+import { StoryViewer } from '../../components/CommunityStories';
 import { CommunityMediaGallery } from '../../components/CommunityMedia';
 import ReactionPicker from '../../components/ReactionPicker';
 import { useAuth } from '../../hooks/useAuth';
@@ -21,6 +22,8 @@ export default function PublicProfile() {
   const { user } = useAuth();
   const text = useCommunityText();
   const [profile, setProfile] = useState(null);
+  const [profileStories, setProfileStories] = useState([]);
+  const [activeStoryGroup, setActiveStoryGroup] = useState(null);
   const [friends, setFriends] = useState([]);
   const [tab, setTab] = useState('Posts');
   const [loading, setLoading] = useState(true);
@@ -40,8 +43,13 @@ export default function PublicProfile() {
     setLoading(true);
     setError('');
     try {
-      const result = unwrap(await api.get(`/api/users/${id}/profile`));
+      const [profileResponse, storyResponse] = await Promise.all([
+        api.get(`/api/users/${id}/profile`),
+        api.get('/api/stories').catch(() => null),
+      ]);
+      const result = unwrap(profileResponse);
       setProfile(result);
+      setProfileStories(storyResponse ? unwrap(storyResponse) || [] : []);
       if (tab === 'Friends') setFriends(unwrap(await api.get(`/api/users/${id}/friends`)) || []);
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.noVisiblePosts);
@@ -50,7 +58,7 @@ export default function PublicProfile() {
     }
   };
 
-  useEffect(() => { load(); }, [id]);
+  useEffect(() => { setActiveStoryGroup(null); load(); }, [id]);
   useEffect(() => {
     if (tab === 'Friends' && profile) api.get(`/api/users/${id}/friends`).then((response) => setFriends(unwrap(response) || [])).catch(() => undefined);
   }, [tab, id, profile]);
@@ -59,6 +67,11 @@ export default function PublicProfile() {
   const profileDetails = profile?.user?.profile || {};
   const displayName = profile?.user?.fullName || `${profile?.user?.firstName || ''} ${profile?.user?.lastName || ''}`.trim();
   const role = profile?.user?.role;
+  const profileStoryGroup = useMemo(() => {
+    const stories = profileStories.filter((story) => (story.author?.id || story.authorId) === id);
+    if (!stories.length) return null;
+    return { author: stories[0].author || profile.user, stories };
+  }, [id, profile, profileStories]);
 
   const beginAboutEdit = () => {
     setAboutForm({ bio: profileDetails.bio || '', location: profileDetails.location || '', website: profileDetails.website || '', school: profileDetails.school || '', course: profileDetails.course || '', yearLevel: profileDetails.yearLevel || '' });
@@ -177,7 +190,7 @@ export default function PublicProfile() {
 
       <div className="community-profile-identity">
         <div className="community-profile-heading">
-          <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />
+          {profileStoryGroup ? <button type="button" className="community-profile-story-trigger" onClick={() => setActiveStoryGroup(profileStoryGroup)} aria-label={`View ${displayName}'s story`} title="View story"><span className="community-profile-story-ring"><UserAvatar person={profile.user} size="profile" className="community-profile-avatar" /></span></button> : <UserAvatar person={profile.user} size="profile" className="community-profile-avatar" />}
           <div className="community-profile-name-block"><p className="community-eyebrow">{role || text.communityMember}</p><h1>{displayName}</h1><p className="community-profile-subtitle">{profile.friendCount} {text.friends} <span>·</span> {profileDetails.location || text.community}</p><p className="community-profile-bio">{profileDetails.bio || text.memberBio}</p></div>
         </div>
         <div className="community-profile-actions">{isSelf ? <><Link to={roleHome(role)} className="community-button community-button-primary">{text.dashboard}</Link><FriendRequestButton userId={id} status="SELF" ownProfilePath={`/${role.toLowerCase()}/profile`} /></> : <FriendRequestButton userId={id} status={profile.friendshipStatus} requestId={profile.friendRequestId} ownProfilePath={`/${role.toLowerCase()}/profile`} onChange={handleRelationship} onMessage={() => profile.friendshipStatus === 'FRIENDS' ? navigate('/chat', { state: { userId: id } }) : setNotice(text.acceptBeforeChat)} />}</div>
@@ -199,6 +212,7 @@ export default function PublicProfile() {
         {tab === 'Photos' && <EmptyState title={text.noPhotos} description={text.photosAppear} />}
       </main>
     </div>
+    {activeStoryGroup && <StoryViewer group={activeStoryGroup} viewerId={user?.id} onClose={() => setActiveStoryGroup(null)} onDeleted={() => { setActiveStoryGroup(null); load(); }} />}
   </div>;
 }
 

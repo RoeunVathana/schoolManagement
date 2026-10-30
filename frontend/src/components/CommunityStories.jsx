@@ -140,7 +140,7 @@ function StoryComposer({ onClose, onSaved }) {
   </form></Modal>;
 }
 
-function StoryViewer({ group, viewerId, onClose, onDeleted }) {
+export function StoryViewer({ group, viewerId, onClose, onDeleted }) {
   const text = useCommunityText();
   const [index, setIndex] = useState(group.stories.length - 1);
   const [imageFailed, setImageFailed] = useState(false);
