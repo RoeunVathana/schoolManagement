@@ -1498,3 +1498,78 @@ table td { overflow-wrap: break-word; word-break: normal; }
   .loading-card, .storefront-loading-card { border-radius: 1.35rem; padding: 1.5rem 1.25rem; }
   .storefront-loading-state { min-height: calc(100svh - 4.25rem); padding-inline: .75rem; }
 }
+
+/* Final responsive polish: shared rules keep every workspace readable at phone,
+   tablet and desktop widths without changing page behavior. */
+*, *::before, *::after { box-sizing: border-box; }
+img, svg, video, canvas { max-width: 100%; }
+a, button, input, textarea, select { max-width: 100%; }
+.app-shell-content, .app-main, .dashboard-page, .storefront, .auth-background { min-width: 0; }
+.app-main { padding-inline: clamp(.75rem, 2.4vw, 2.5rem); }
+.page-header-action { align-items: stretch; }
+.page-header-action > * { min-width: 0; }
+.dashboard-page { isolation: isolate; }
+.dashboard-page > section, .dashboard-page > div { min-width: 0; }
+.dashboard-page .grid > *, .dashboard-page .flex > * { min-width: 0; }
+.dashboard-page h1, .dashboard-page h2, .dashboard-page h3, .page-header h1 { overflow-wrap: anywhere; }
+.table-card { min-width: 0; }
+.table-desktop-view { scrollbar-width: thin; scrollbar-color: #b7c8d8 transparent; }
+.table-desktop-view::-webkit-scrollbar { height: .45rem; }
+.table-desktop-view::-webkit-scrollbar-thumb { border-radius: 999px; background: #b7c8d8; }
+.storefront { overflow: clip; }
+.storefront > main > section, .storefront > header, .storefront > footer { min-width: 0; }
+.storefront-course-card, .storefront-reveal, .payment-modal-shell, .auth-form-panel { min-width: 0; }
+.auth-background { min-height: 100svh; }
+.auth-form-panel { overflow-wrap: anywhere; }
+
+@media (max-width: 1023px) {
+  .app-main { padding-top: 1rem; padding-bottom: 5.75rem; }
+  .app-navbar { padding-inline: clamp(.75rem, 2.5vw, 1.25rem); }
+  .page-header-action { width: 100%; }
+  .page-header-action > button, .page-header-action > a { flex: 1 1 10rem; }
+  .dashboard-page .dashboard-chart-shell { min-height: 13rem; }
+  .sidebar-note { margin-bottom: .25rem; }
+}
+
+@media (max-width: 639px) {
+  .app-main { padding-inline: .7rem; }
+  .page-header { margin-bottom: 1.15rem; }
+  .page-header-action { gap: .55rem; }
+  .page-header-action > button, .page-header-action > a { min-height: 2.85rem; }
+  .card, .table-card, .modal-panel { border-radius: 1.15rem; }
+  .dashboard-page > section:first-child { margin-bottom: 1rem; }
+  .dashboard-page > section:first-child .flex { flex-wrap: wrap; }
+  .dashboard-page .dashboard-chart-shell { height: 13.5rem; }
+  .table-mobile-view { padding: .55rem; }
+  .table-mobile-record { padding: .8rem; }
+  .table-mobile-field { grid-template-columns: minmax(0, 1fr); gap: .25rem; padding: .65rem 0; }
+  .table-mobile-label { font-size: .62rem; }
+  .table-mobile-value { font-size: .82rem; }
+  .table-mobile-actions, .table-mobile-actions > div { justify-content: flex-start; }
+  .table-mobile-actions button, .table-mobile-actions a { min-height: 2.45rem; }
+  .input { font-size: 16px; }
+  .auth-background { padding: .7rem; }
+  .auth-background > .grid { min-height: calc(100svh - 1.4rem); border-radius: 1.25rem; }
+  .auth-form-panel { padding: 1.15rem .9rem 1.5rem; }
+  .auth-form-panel h2 { font-size: clamp(1.65rem, 8vw, 2.15rem); }
+  .auth-form-panel .grid-cols-2.sm\:grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .storefront > main > section:first-child > .mx-auto { padding-inline: .9rem; }
+  .storefront > main > section:first-child h1 { font-size: clamp(2.15rem, 12vw, 3.65rem); overflow-wrap: anywhere; }
+  .storefront > main > section:first-child .grid.max-w-xl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .storefront > main > section:first-child .grid.max-w-xl > * { min-width: 0; }
+  .storefront-course-card .p-5 { padding: 1rem; }
+  .payment-modal-shell { gap: .7rem; }
+}
+
+@media (max-width: 380px) {
+  .app-navbar { gap: .3rem; }
+  .app-navbar > div:last-child { gap: .25rem; }
+  .app-main { padding-inline: .55rem; }
+  .page-header-action > button, .page-header-action > a { flex-basis: 100%; }
+  .storefront > main > section:first-child .grid.max-w-xl { grid-template-columns: 1fr; }
+  .storefront > main > section:first-child .grid.max-w-xl > * { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .table-card, .page-header, .storefront-reveal, .sidebar-link { transition: none !important; animation: none !important; }
+}

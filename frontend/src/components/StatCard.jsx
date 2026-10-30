@@ -1,7 +1,7 @@
 import AnimatedNumber from './AnimatedNumber';
 
 export default function StatCard({ label, value, accent = 'bg-mint', note, trend, icon }) {
-  return <article className="group relative overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white p-5 shadow-[0_12px_35px_rgba(16,36,63,.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(16,36,63,.12)] dark:border-slate-700/80 dark:bg-[#121f35]">
+  return <article className="group relative min-w-0 overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white p-4 shadow-[0_12px_35px_rgba(16,36,63,.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(16,36,63,.12)] sm:p-5 dark:border-slate-700/80 dark:bg-[#121f35]">
     <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-slate-100/80 blur-2xl transition group-hover:scale-125 dark:bg-white/5" />
     <div className="relative flex items-start justify-between gap-4">
       <div className="min-w-0">
