@@ -627,7 +627,7 @@ body.mobile-nav-open { overflow: hidden; }
   overflow-x: clip;
 }
 
-.storefront > *:not(.storefront-ambient-background):not(.storefront-floating-support):not(header) {
+.storefront > *:not(.storefront-ambient-background):not(.storefront-floating-support):not(.community-ai-support):not(header) {
   position: relative;
   z-index: 2;
 }
