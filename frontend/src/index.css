@@ -3872,3 +3872,76 @@ a, button, input, textarea, select { max-width: 100%; }
     flex: none;
   }
 }
+
+/* Messenger-style unread conversation treatment. */
+.community-chat-counts {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.community-chat-unread-total {
+  display: inline-flex;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--community-soft);
+  border-radius: 999px;
+  padding: 0 .35rem;
+  color: #fff;
+  background: var(--community-coral);
+  box-shadow: 0 5px 14px rgb(244 123 103 / .28);
+  font-size: .6rem;
+  font-weight: 950;
+  line-height: 1;
+  animation: communityUnreadPulse 2.2s ease-in-out infinite;
+}
+
+.community-conversation-item.is-unread:not(.is-active) {
+  border-color: rgb(244 123 103 / .38);
+  background: linear-gradient(135deg, rgb(244 123 103 / .14), rgb(34 158 217 / .08));
+  box-shadow: inset 3px 0 0 var(--community-coral), 0 8px 18px rgb(16 36 63 / .08);
+}
+
+.community-conversation-item.is-unread:not(.is-active)::before {
+  top: 50%;
+  left: .25rem;
+  width: .48rem;
+  height: .48rem;
+  border: 2px solid var(--community-card);
+  box-shadow: 0 0 0 .18rem rgb(244 123 103 / .18);
+  transform: translateY(-50%);
+  animation: communityUnreadPulse 2.2s ease-in-out infinite;
+}
+
+.community-conversation-item.is-unread:not(.is-active) .user-avatar,
+.community-conversation-item.is-unread:not(.is-active) .community-group-chat-avatar {
+  box-shadow: 0 0 0 2px var(--community-card), 0 0 0 4px rgb(244 123 103 / .72);
+}
+
+.community-conversation-item.is-unread:not(.is-active) .community-conversation-copy strong {
+  color: var(--community-ink);
+  font-weight: 950;
+}
+
+.community-conversation-item.is-unread:not(.is-active) .community-conversation-copy span {
+  color: var(--community-ink);
+  font-weight: 850;
+}
+
+.community-conversation-item.is-unread:not(.is-active) .community-conversation-arrow {
+  opacity: .9;
+}
+
+@keyframes communityUnreadPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .community-chat-unread-total,
+  .community-conversation-item.is-unread:not(.is-active)::before {
+    animation: none;
+  }
+}
