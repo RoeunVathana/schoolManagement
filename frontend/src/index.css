@@ -4045,3 +4045,47 @@ a, button, input, textarea, select { max-width: 100%; }
   .app-notification-list { max-height: min(70dvh, 28rem); }
   .app-notification-item { padding: .85rem .9rem; }
 }
+
+/* Keep chat single-pane whenever the dashboard navigation is in tablet/mobile mode. */
+@media (max-width: 1023px) {
+  .community-chat-shell {
+    display: block;
+    height: calc(100dvh - 6.5rem);
+    min-height: min(34rem, calc(100dvh - 6.5rem));
+    margin-top: .8rem;
+    border-radius: 1.25rem;
+  }
+
+  .community-chat-sidebar,
+  .community-chat-main {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .community-chat-sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: 0;
+  }
+
+  .community-chat-sidebar-mobile-hidden,
+  .community-chat-main-mobile-hidden { display: none !important; }
+
+  .community-chat-main { display: flex; }
+  .community-chat-back { display: inline-flex; align-items: center; gap: .3rem; }
+  .community-chat-back span { font-size: .65rem; }
+  .community-conversation-list { max-height: none; min-height: 0; flex: 1 1 auto; }
+  .community-chat-contacts { max-height: 13rem; }
+  .community-message-list { min-height: 0; padding: .8rem; }
+  .community-message-form { padding: .7rem; }
+}
+
+@media (max-width: 480px) {
+  .community-chat-sidebar-heading { padding: .9rem .75rem; }
+  .community-conversation-list { gap: .25rem; padding: .5rem; }
+  .community-conversation-item { min-height: 4rem; border-radius: .9rem; padding: .7rem .65rem; }
+  .community-conversation-copy strong { font-size: .8rem; }
+  .community-conversation-copy span { font-size: .68rem; }
+  .community-chat-contact { min-height: 3.4rem; }
+}
