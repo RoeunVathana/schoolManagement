@@ -2302,3 +2302,39 @@ a, button, input, textarea, select { max-width: 100%; }
     padding-inline: .9rem;
   }
 }
+
+/* Public AI assistant: a consistent floating entry point for the storefront
+   and Community website, with safe-area spacing on phones. */
+.community-ai-support-public {
+  right: clamp(.75rem, 3vw, 1.5rem);
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+}
+
+.community-ai-support-public .community-ai-panel {
+  border-color: rgb(34 158 217 / .2);
+  box-shadow: 0 24px 70px rgb(16 36 63 / .24), 0 0 0 1px rgb(141 228 202 / .12);
+}
+
+.community-ai-support-public .community-ai-header {
+  background: linear-gradient(135deg, #10243f, #1c5063 65%, #229ed9);
+}
+
+.community-ai-support-public .community-ai-launcher {
+  background: linear-gradient(135deg, #6f58d9, #229ed9);
+  box-shadow: 0 16px 36px rgb(34 158 217 / .28);
+}
+
+@media (max-width: 620px) {
+  .community-ai-support-public {
+    right: .75rem;
+    left: .75rem;
+  }
+
+  .community-ai-support-public .community-ai-panel {
+    width: 100%;
+  }
+
+  .community-ai-support-public .community-ai-launcher {
+    margin-left: auto;
+  }
+}
