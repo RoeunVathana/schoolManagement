@@ -3641,3 +3641,184 @@ a, button, input, textarea, select { max-width: 100%; }
   .schedule-filters input[type='datetime-local'],
   .schedule-filters input[type='time'] { min-height: 3.2rem; font-size: 16px; }
 }
+
+/* Responsive community media: preserve the full frame and keep controls usable. */
+.community-media-gallery {
+  align-items: stretch;
+  background: var(--community-soft);
+}
+
+.community-media-gallery.is-single {
+  max-height: min(65dvh, 34rem);
+}
+
+.community-media-gallery.is-single .community-post-image,
+.community-media-gallery.is-single .public-community-post-image {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: min(65dvh, 34rem);
+  object-fit: contain;
+  object-position: center;
+  background: var(--community-soft);
+}
+
+.community-media-gallery:not(.is-single) {
+  grid-auto-rows: minmax(9rem, 18rem);
+}
+
+.community-media-gallery:not(.is-single) .community-post-image,
+.community-media-gallery:not(.is-single) .public-community-post-image {
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  object-position: center;
+}
+
+.community-media-preview {
+  min-width: 0;
+}
+
+.community-media-preview img,
+.community-media-preview video {
+  width: 100%;
+  height: auto;
+  max-height: min(52dvh, 28rem);
+  object-fit: contain;
+  object-position: center;
+  background: var(--community-soft);
+}
+
+.community-message-image-link {
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--community-line);
+  border-radius: .9rem;
+  background: var(--community-soft);
+}
+
+.community-message-image-link img,
+.community-message-image-link video,
+.community-message-media {
+  width: 100%;
+  max-width: min(26rem, 100%);
+  max-height: min(22rem, 58dvh);
+  object-fit: contain;
+  object-position: center;
+  background: var(--community-soft);
+}
+
+.community-story-modal-backdrop .community-modal {
+  width: min(100%, 47rem);
+  max-height: min(calc(100dvh - 1.5rem), 54rem);
+}
+
+.community-story-viewer {
+  height: min(72dvh, 42rem);
+  min-height: 18rem;
+  max-height: calc(100dvh - 10rem);
+}
+
+.community-story-viewer > img,
+.community-story-viewer > video {
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-position: center;
+}
+
+.community-story-progress,
+.community-story-viewer-caption {
+  pointer-events: none;
+}
+
+.community-story-viewer-caption {
+  padding-bottom: 1rem;
+}
+
+.community-story-nav {
+  z-index: 3;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-color: rgb(255 255 255 / .48);
+  background: rgb(4 12 25 / .52);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 720px) {
+  .community-media-gallery.is-single {
+    max-height: min(58dvh, 28rem);
+  }
+
+  .community-media-gallery.is-single .community-post-image,
+  .community-media-gallery.is-single .public-community-post-image {
+    max-height: min(58dvh, 28rem);
+  }
+
+  .community-media-gallery:not(.is-single) {
+    grid-auto-rows: minmax(7rem, 13rem);
+  }
+
+  .community-message-image-link img,
+  .community-message-image-link video,
+  .community-message-media {
+    max-width: min(22rem, 100%);
+    max-height: min(18rem, 52dvh);
+  }
+
+  .community-story-modal-backdrop .community-modal {
+    max-height: calc(100dvh - 1.1rem);
+  }
+
+  .community-story-viewer {
+    height: min(70dvh, calc(100dvh - 10.5rem));
+    min-height: 16rem;
+    max-height: calc(100dvh - 10.5rem);
+  }
+
+  .community-story-viewer-caption {
+    padding: 3.8rem .8rem .8rem;
+  }
+
+  .community-story-nav {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .community-story-nav-left { left: .45rem; }
+  .community-story-nav-right { right: .45rem; }
+}
+
+@media (max-width: 440px) {
+  .community-media-gallery:not(.is-single) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .community-media-gallery:not(.is-single) .community-post-image,
+  .community-media-gallery:not(.is-single) .public-community-post-image {
+    aspect-ratio: 16 / 10;
+  }
+
+  .community-story-viewer {
+    height: min(66dvh, calc(100dvh - 11.5rem));
+    min-height: 14rem;
+    max-height: calc(100dvh - 11.5rem);
+  }
+
+  .community-story-viewer-caption strong {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+@media (max-height: 560px) and (min-width: 441px) {
+  .community-story-viewer {
+    height: min(58dvh, 24rem);
+    min-height: 14rem;
+    max-height: calc(100dvh - 9rem);
+  }
+}
