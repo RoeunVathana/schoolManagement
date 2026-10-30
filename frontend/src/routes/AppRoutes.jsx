@@ -34,6 +34,7 @@ import Friends from '../pages/community/Friends';
 import Chat from '../pages/community/Chat';
 import CommunityLanding from '../pages/community/CommunityLanding';
 import Groups from '../pages/community/Groups';
+import NotFound from '../pages/NotFound';
 
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
@@ -49,6 +50,7 @@ export default function AppRoutes() {
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
     <Route path="/community" element={<CommunityLanding />} />
+    <Route path="/404" element={<NotFound />} />
     <Route path="/" element={<Storefront />} />
     <Route element={<ProtectedRoute />}>
       <Route element={<RoleRoute role="ADMIN" />}>
@@ -92,5 +94,6 @@ export default function AppRoutes() {
         <Route path="customer/profile" element={<Profile />} />
       </Route>
     </Route>
+    <Route path="*" element={<Navigate to="/404" replace />} />
   </Routes>;
 }

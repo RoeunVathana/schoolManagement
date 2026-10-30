@@ -363,6 +363,33 @@ body.mobile-nav-open { overflow: hidden; }
 .dark .text-emerald-800 { color: #a7f3d0; }
 .dark body { background: #070d18; }
 .dark .app-background { background: radial-gradient(circle at 12% -8%, rgb(45 111 133 / 0.28) 0, rgb(45 111 133 / 0) 30%), radial-gradient(circle at 96% 12%, rgb(244 123 103 / 0.16) 0, rgb(244 123 103 / 0) 28%), linear-gradient(135deg, #070d18 0%, #0b1628 48%, #171525 100%); }
+.not-found-page { position: relative; display: grid; min-height: 100dvh; place-items: center; overflow: hidden; padding: 1.5rem; color: #10243f; background: radial-gradient(circle at 8% 12%, rgb(141 228 202 / .35), transparent 22rem), radial-gradient(circle at 92% 85%, rgb(244 123 103 / .2), transparent 24rem), linear-gradient(135deg, #f8fbff, #eef4ff 52%, #fff6f0); }
+.dark .not-found-page { color: #f7fbff; background: radial-gradient(circle at 8% 12%, rgb(16 67 70 / .42), transparent 22rem), radial-gradient(circle at 92% 85%, rgb(105 55 77 / .3), transparent 24rem), linear-gradient(135deg, #070d18, #0b1628 52%, #171525); }
+.not-found-glow { position: absolute; width: 18rem; height: 18rem; border: 1px solid rgb(34 158 217 / .18); border-radius: 999px; pointer-events: none; }
+.not-found-glow-one { top: -8rem; right: 12%; }
+.not-found-glow-two { bottom: -10rem; left: 8%; border-color: rgb(244 123 103 / .18); }
+.not-found-card { position: relative; z-index: 1; width: min(100%, 34rem); border: 1px solid rgb(255 255 255 / .72); border-radius: 2rem; padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 6vw, 3.5rem); text-align: center; background: rgb(255 255 255 / .76); box-shadow: 0 24px 80px rgb(16 36 63 / .14); backdrop-filter: blur(24px); }
+.dark .not-found-card { border-color: rgb(91 124 153 / .4); background: rgb(16 29 49 / .82); box-shadow: 0 24px 80px rgb(0 0 0 / .35); }
+.not-found-brand { display: inline-flex; align-items: center; gap: .65rem; color: #10243f; font-size: .95rem; font-weight: 950; letter-spacing: -.03em; }
+.dark .not-found-brand { color: #f7fbff; }
+.not-found-brand img { width: 2.75rem; height: 2.75rem; border-radius: .9rem; box-shadow: 0 8px 22px rgb(16 36 63 / .15); }
+.not-found-code { margin: 2rem 0 .25rem; color: #229ed9; font-size: clamp(4.8rem, 18vw, 8rem); font-weight: 950; letter-spacing: -.1em; line-height: .9; }
+.not-found-card h1 { margin: 0; color: inherit; font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 950; letter-spacing: -.06em; }
+.not-found-description { margin: .85rem auto 0; max-width: 25rem; color: #647892; font-size: .92rem; line-height: 1.7; }
+.dark .not-found-description { color: #a9bdd0; }
+.not-found-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1.65rem; }
+.not-found-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; border-radius: .85rem; padding: .7rem 1rem; font-size: .78rem; font-weight: 900; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.not-found-button:hover { transform: translateY(-2px); }
+.not-found-button-primary { color: #fff; background: #10243f; box-shadow: 0 10px 20px rgb(16 36 63 / .2); }
+.not-found-button-primary:hover { background: #1b3b5d; }
+.not-found-button-soft { border: 1px solid #dbe6ef; color: #10243f; background: rgb(255 255 255 / .66); }
+.not-found-button-soft:hover { background: #fff; box-shadow: 0 8px 18px rgb(16 36 63 / .1); }
+.dark .not-found-button-primary { color: #10243f; background: #8de4ca; }
+.dark .not-found-button-primary:hover { background: #a7f0db; }
+.dark .not-found-button-soft { border-color: #36506a; color: #f7fbff; background: rgb(255 255 255 / .06); }
+.dark .not-found-button-soft:hover { background: rgb(255 255 255 / .12); }
+.not-found-back { margin-top: 1.35rem; border: 0; color: #229ed9; background: transparent; font-size: .78rem; font-weight: 850; cursor: pointer; }
+.not-found-back:hover { text-decoration: underline; }
 .dark .bg-white { background-color: #111c30; }
 .dark .bg-white\/90 { background-color: rgb(13 25 43 / 0.94); }
 .dark .bg-slate-50 { background-color: #0d192b; }
