@@ -2735,3 +2735,30 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-message-form-row { grid-template-columns: 2.45rem minmax(0, 1fr) 3.25rem; gap: .35rem; }
   .community-message-form-row .community-button { min-width: 0; padding-inline: .5rem; font-size: .7rem; }
 }
+
+/* Floating AI chat opens and closes with the same gentle motion. Keep the
+   panel mounted briefly on close so the exit animation is visible. */
+.community-ai-panel.is-open {
+  transform-origin: bottom right;
+  animation: communityAiPanelIn .22s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.community-ai-panel.is-closing {
+  pointer-events: none;
+  transform-origin: bottom right;
+  animation: communityAiPanelOut .2s ease-in both;
+}
+
+.community-ai-launcher.is-open {
+  box-shadow: 0 0 0 4px rgb(111 88 217 / .16), 0 16px 36px rgb(111 88 217 / .35);
+}
+
+@keyframes communityAiPanelIn {
+  from { opacity: 0; transform: translateY(.65rem) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes communityAiPanelOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(.45rem) scale(.97); }
+}
