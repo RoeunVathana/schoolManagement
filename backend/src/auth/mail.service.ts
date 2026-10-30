@@ -52,4 +52,40 @@ export class MailService {
       `,
     });
   }
+
+  async sendFriendRequestNotification(email: string, receiverName: string, senderName: string) {
+    return this.sendCommunityEmail(
+      email,
+      `CampusFlow: ${senderName} sent you a friend request`,
+      `${senderName} sent you a friend request on CampusFlow. Open the community to review it.`,
+      `<p><strong>${this.escapeHtml(senderName)}</strong> sent you a friend request on CampusFlow.</p><p>Open the community to review the request and connect.</p>`,
+      receiverName,
+    );
+  }
+
+  async sendFriendRequestAcceptedNotification(email: string, receiverName: string, accepterName: string) {
+    return this.sendCommunityEmail(
+      email,
+      `CampusFlow: ${accepterName} accepted your friend request`,
+      `${accepterName} accepted your friend request on CampusFlow. You can now message each other.`,
+      `<p><strong>${this.escapeHtml(accepterName)}</strong> accepted your friend request on CampusFlow.</p><p>You can now message each other in the community.</p>`,
+      receiverName,
+    );
+  }
+
+  private async sendCommunityEmail(email: string, subject: string, text: string, body: string, receiverName: string) {
+    if (!this.transporter) return false;
+    await this.transporter.sendMail({
+      from: this.from,
+      to: email,
+      subject,
+      text,
+      html: `<div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49"><div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff"><h1 style="margin:0 0 8px">CampusFlow</h1><p style="margin:0;color:#c9f4e7">Learning community notification</p></div><div style="padding:28px 4px"><p>Hello ${this.escapeHtml(receiverName)},</p>${body}<p style="color:#64748b">You can manage your community notifications from your CampusFlow account.</p></div></div>`,
+    });
+    return true;
+  }
+
+  private escapeHtml(value: string) {
+    return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character);
+  }
 }

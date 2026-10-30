@@ -10,6 +10,10 @@ export class NotificationsService {
     return this.prisma.notification.create({ data: { userId, senderId, title: 'Friend request', message } });
   }
 
+  async createFriendRequestAcceptedNotification(userId: string, senderId: string, message: string) {
+    return this.prisma.notification.create({ data: { userId, senderId, title: 'Friend request accepted', message } });
+  }
+
   async createMessageNotification(userId: string, senderId: string, message: string) {
     return this.prisma.notification.create({ data: { userId, senderId, title: 'New message', message: message.length > 120 ? `${message.slice(0, 117)}...` : message } });
   }

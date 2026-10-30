@@ -10,5 +10,5 @@ import { MailService } from './mail.service';
 import { PaymentsModule } from '../payments/payments.module';
 import { Phase1AuthController } from './phase1-auth.controller';
 
-@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController, Phase1AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService, MailService], exports: [AuthService] })
+@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET') }) })], controllers: [AuthController, Phase1AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService, MailService], exports: [AuthService, MailService] })
 export class AuthModule {}

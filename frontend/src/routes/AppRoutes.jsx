@@ -33,6 +33,7 @@ import PublicProfile from '../pages/community/PublicProfile';
 import Friends from '../pages/community/Friends';
 import Chat from '../pages/community/Chat';
 import CommunityLanding from '../pages/community/CommunityLanding';
+import Groups from '../pages/community/Groups';
 
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
@@ -86,6 +87,7 @@ export default function AppRoutes() {
       <Route element={<AppShell />}>
         <Route path="profile/:id" element={<PublicProfile />} />
         <Route path="friends" element={<Friends />} />
+        <Route path="groups" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
         <Route path="customer/profile" element={<Profile />} />
       </Route>

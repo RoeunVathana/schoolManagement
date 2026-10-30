@@ -30,6 +30,7 @@ import { ChatModule } from './chat/chat.module';
 import { CommunitySupportModule } from './community-support/community-support.module';
 import { StoriesModule } from './stories/stories.module';
 import { PublicCommunityModule } from './public-community/public-community.module';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { PublicCommunityModule } from './public-community/public-community.modul
     CommunitySupportModule,
     StoriesModule,
     PublicCommunityModule,
+    GroupsModule,
   ],
 })
 export class AppModule {}

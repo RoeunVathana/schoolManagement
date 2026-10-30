@@ -2,12 +2,13 @@ import { BadRequestException, ConflictException, ForbiddenException, Injectable,
 import { FriendRequestStatus, Role } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
+import { MailService } from '../auth/mail.service';
 
 const COMMUNITY_ROLES = [Role.STUDENT, Role.CUSTOMER];
 
 @Injectable()
 export class FriendsService {
-  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService) {}
+  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService, private readonly mail: MailService) {}
 
   private pair(first: string, second: string) {
     return first < second ? [first, second] as const : [second, first] as const;
@@ -61,11 +62,12 @@ export class FriendsService {
       throw error;
     }
     await this.notifications.createFriendRequestNotification(receiver.id, sender.id, `${sender.fullName} sent you a friend request.`);
+    await this.mail.sendFriendRequestNotification(receiver.email, receiver.fullName, sender.fullName).catch(() => false);
     return request;
   }
 
   async acceptRequest(requestId: string, receiverId: string) {
-    const request = await this.prisma.friendRequest.findUnique({ where: { id: requestId }, include: { sender: { select: { id: true, fullName: true } }, receiver: { select: { id: true, fullName: true } } } });
+    const request = await this.prisma.friendRequest.findUnique({ where: { id: requestId }, include: { sender: { select: { id: true, fullName: true, email: true } }, receiver: { select: { id: true, fullName: true, email: true } } } });
     if (!request || request.receiverId !== receiverId) throw new NotFoundException('Friend request not found');
     if (request.status !== FriendRequestStatus.PENDING) throw new BadRequestException('This friend request is no longer pending');
     const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
@@ -75,7 +77,8 @@ export class FriendsService {
       await tx.friendship.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
       return updated;
     });
-    await this.notifications.createFriendRequestNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`);
+    await this.notifications.createFriendRequestAcceptedNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`);
+    await this.mail.sendFriendRequestAcceptedNotification(request.sender.email, request.sender.fullName, request.receiver.fullName).catch(() => false);
     return accepted;
   }
 

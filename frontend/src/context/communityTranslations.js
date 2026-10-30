@@ -50,7 +50,16 @@ const communityShareTranslations = {
   },
 };
 
+const communityGroupTranslations = {
+  en: {
+    groups: 'Groups', groupsDescription: 'Learn together in focused spaces for courses, skills, and community projects.', createGroup: 'Create group', groupName: 'Group name', groupDescription: 'Description', groupVisibility: 'Who can find this group?', publicGroup: 'Public', privateGroup: 'Private', publicGroupHelp: 'Anyone in the community can find and join it.', privateGroupHelp: 'Only members can view this group.', create: 'Create', creating: 'Creating...', joinGroup: 'Join group', leaveGroup: 'Leave group', joined: 'Joined', members: 'members', noGroups: 'No groups yet', noGroupsDescription: 'Create the first learning group and invite people to grow together.', groupCreated: 'Group created.', groupActionFailed: 'Could not complete that group action.', groupNameRequired: 'Enter a group name.', owner: 'Owner', deleteGroup: 'Delete group', deleteGroupConfirm: 'Delete this group? This cannot be undone.', groupPrivate: 'Private group', groupPublic: 'Public group', close: 'Close', cancel: 'Cancel', loadingGroups: 'Loading groups...', groupsLoadFailed: 'Could not load community groups.', browseGroups: 'Browse groups', yourGroups: 'Your groups', signInToGroups: 'Sign in to join community groups.',
+  },
+  km: {
+    groups: 'ក្រុម', groupsDescription: 'រៀនជាមួយគ្នានៅក្នុងក្រុមសម្រាប់មុខវិជ្ជា ជំនាញ និងគម្រោងសហគមន៍។', createGroup: 'បង្កើតក្រុម', groupName: 'ឈ្មោះក្រុម', groupDescription: 'ការពិពណ៌នា', groupVisibility: 'តើអ្នកណាអាចស្វែងរកក្រុមនេះ?', publicGroup: 'សាធារណៈ', privateGroup: 'ឯកជន', publicGroupHelp: 'សមាជិកសហគមន៍អាចស្វែងរក និងចូលរួមបាន។', privateGroupHelp: 'មានតែសមាជិកប៉ុណ្ណោះដែលអាចមើលក្រុមនេះបាន។', create: 'បង្កើត', creating: 'កំពុងបង្កើត...', joinGroup: 'ចូលរួមក្រុម', leaveGroup: 'ចាកចេញពីក្រុម', joined: 'បានចូលរួម', members: 'សមាជិក', noGroups: 'មិនទាន់មានក្រុមទេ', noGroupsDescription: 'បង្កើតក្រុមសិក្សាដំបូង ហើយអញ្ជើញអ្នកដទៃឲ្យរីកចម្រើនជាមួយគ្នា។', groupCreated: 'បានបង្កើតក្រុម។', groupActionFailed: 'មិនអាចបំពេញសកម្មភាពក្រុមនេះបានទេ។', groupNameRequired: 'សូមបញ្ចូលឈ្មោះក្រុម។', owner: 'ម្ចាស់ក្រុម', deleteGroup: 'លុបក្រុម', deleteGroupConfirm: 'លុបក្រុមនេះឬ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។', groupPrivate: 'ក្រុមឯកជន', groupPublic: 'ក្រុមសាធារណៈ', close: 'បិទ', cancel: 'បោះបង់', loadingGroups: 'កំពុងផ្ទុកក្រុម...', groupsLoadFailed: 'មិនអាចផ្ទុកក្រុមសហគមន៍បានទេ។', browseGroups: 'ស្វែងរកក្រុម', yourGroups: 'ក្រុមរបស់អ្នក', signInToGroups: 'សូមចូលគណនីដើម្បីចូលរួមក្រុមសហគមន៍។',
+  },
+};
+
 export function useCommunityText() {
   const { language } = useLanguage();
-  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en) };
+  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en), ...(communityGroupTranslations[language] || communityGroupTranslations.en) };
 }
