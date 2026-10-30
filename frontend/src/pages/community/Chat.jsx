@@ -65,7 +65,8 @@ export default function Chat() {
   const [messageMenuId, setMessageMenuId] = useState(null);
   const [deletingMessageId, setDeletingMessageId] = useState(null);
   const fileInputRef = useRef(null);
-  const messageEndRef = useRef(null);
+  const messageListRef = useRef(null);
+  const shouldAutoScrollRef = useRef(true);
 
   const loadConversations = useCallback(async () => {
     try {
@@ -137,13 +138,18 @@ export default function Chat() {
   useEffect(() => { if (requestedGroupId) openGroup(requestedGroupId); }, [requestedGroupId, openGroup]);
   useEffect(() => {
     const conversationId = activeConversation?.id;
+    shouldAutoScrollRef.current = true;
     setMessages([]);
     if (!conversationId) return undefined;
     loadMessages(conversationId);
     const timer = window.setInterval(() => loadMessages(conversationId, true), 4000);
     return () => window.clearInterval(timer);
   }, [activeConversation?.id, loadMessages]);
-  useEffect(() => { messageEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages.length]);
+  useEffect(() => {
+    const list = messageListRef.current;
+    if (!list || !shouldAutoScrollRef.current) return;
+    list.scrollTo({ top: list.scrollHeight, behavior: messages.length > 1 ? 'smooth' : 'auto' });
+  }, [messages.length]);
 
   const activePerson = activeConversation?.otherUser;
   const activeGroup = activeConversation?.isGroup ? activeConversation.group : null;
@@ -327,7 +333,10 @@ export default function Chat() {
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
         <div className="community-chat-header">{activeConversation ? <><button type="button" onClick={() => setShowList(true)} className="community-chat-back">← <span>{text.inbox}</span></button>{activeGroup ? <span className="community-group-chat-avatar community-group-chat-avatar-large" aria-hidden="true">#</span> : <UserAvatar person={activePerson} size="md" />}<div className="community-chat-person"><strong>{activeGroup?.name || activePerson?.fullName}</strong><span>{activeGroup ? `${activeGroup.memberCount || 0} ${text.members || 'members'}` : text.acceptedFriend}</span></div></> : <div className="community-chat-placeholder"><span className="community-chat-placeholder-icon">+</span><div><strong>{text.chooseConversation}</strong><span>{text.yourMessages}</span></div></div>}</div>
-        <div className="community-message-list">
+        <div ref={messageListRef} onScroll={(event) => {
+          const list = event.currentTarget;
+          shouldAutoScrollRef.current = list.scrollHeight - list.scrollTop - list.clientHeight < 96;
+        }} className="community-message-list">
           {loadingMessages ? <p className="community-message-state">{text.loadingMessages}</p> : messages.length ? messages.map((message) => <div key={message.id} className={`community-message-row ${message.senderId === user?.id ? 'is-outgoing' : 'is-incoming'}`}>
             <div className={`community-message-bubble ${message.isDeleted ? 'is-deleted' : ''} ${editingMessageId === message.id ? 'is-editing' : ''}`}>
               {activeGroup && message.senderId !== user?.id && !message.isDeleted && <strong className="community-group-message-sender">{message.sender?.fullName}</strong>}
@@ -344,7 +353,6 @@ export default function Chat() {
               {message.senderId === user?.id && !message.isDeleted && <div className="community-message-more"><button type="button" className="community-message-more-trigger" onClick={() => setMessageMenuId((current) => current === message.id ? null : message.id)} aria-label={text.moreActions || 'More actions'}>•••</button>{messageMenuId === message.id && <div className="community-message-more-menu"><button type="button" onClick={() => startEditing(message)} disabled={!message.body}>{text.editMessage || 'Edit'}</button><button type="button" onClick={() => removeMessage(message)} disabled={deletingMessageId === message.id}>{deletingMessageId === message.id ? (text.deleting || 'Deleting...') : (text.deleteMessage || 'Delete')}</button></div>}</div>}
             </div>
           </div>) : <div className="community-message-state"><span className="community-empty-mark">○</span><p>{activePerson ? text.noMessages : text.chooseFromInbox}</p></div>}
-          <div ref={messageEndRef} />
         </div>
         <form onSubmit={sendMessage} className="community-message-form">
           {imagePreview && <div className="community-chat-image-preview"><CommunityMedia url={imagePreview} mediaType={imageFile?.type?.startsWith('video/') ? 'VIDEO' : 'IMAGE'} alt={imageFile?.type?.startsWith('video/') ? (text.chatVideoPreview || 'Selected video') : (text.chatImagePreview || 'Selected image')} className="community-chat-media-preview" /><button type="button" onClick={clearImage} aria-label={text.removeImage || 'Remove media'}>×</button></div>}
