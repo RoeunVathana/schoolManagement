@@ -33,10 +33,10 @@ export const communityTranslations = {
 
 const communityProfileTranslations = {
   en: {
-    posts: 'Posts', post: 'Post', aboutThisProfile: 'About this profile', edit: 'Edit', deleting: 'Deleting...', delete: 'Delete', postImageAlt: 'Post image', memberBio: 'A member of the CampusFlow learning community.',
+    posts: 'Posts', post: 'Post', aboutThisProfile: 'About this profile', edit: 'Edit', deleting: 'Deleting...', delete: 'Delete', postImageAlt: 'Post image', memberBio: 'A member of the CampusFlow learning community.', editAbout: 'Edit About', saveAbout: 'Save About', deleteAbout: 'Delete About', cancelAbout: 'Cancel', aboutUpdated: 'About information updated.', aboutDeleted: 'About information cleared.', aboutSaveFailed: 'Could not save About information.', deleteAboutConfirm: 'Clear your About information? This cannot be undone.', bio: 'Bio', bioPlaceholder: 'Tell people a little about yourself...',
   },
   km: {
-    posts: 'ការបង្ហោះ', post: 'ការបង្ហោះ', aboutThisProfile: 'អំពីប្រវត្តិរូបនេះ', edit: 'កែសម្រួល', deleting: 'កំពុងលុប...', delete: 'លុប', postImageAlt: 'រូបភាពការបង្ហោះ', memberBio: 'សមាជិកម្នាក់នៃសហគមន៍សិក្សា CampusFlow។',
+    posts: 'ការបង្ហោះ', post: 'ការបង្ហោះ', aboutThisProfile: 'អំពីប្រវត្តិរូបនេះ', edit: 'កែសម្រួល', deleting: 'កំពុងលុប...', delete: 'លុប', postImageAlt: 'រូបភាពការបង្ហោះ', memberBio: 'សមាជិកម្នាក់នៃសហគមន៍សិក្សា CampusFlow។', editAbout: 'កែសម្រួលព័ត៌មានអំពីខ្ញុំ', saveAbout: 'រក្សាទុកព័ត៌មាន', deleteAbout: 'លុបព័ត៌មានអំពីខ្ញុំ', cancelAbout: 'បោះបង់', aboutUpdated: 'បានធ្វើបច្ចុប្បន្នភាពព័ត៌មាន។', aboutDeleted: 'បានលុបព័ត៌មានអំពីខ្ញុំ។', aboutSaveFailed: 'មិនអាចរក្សាទុកព័ត៌មានបានទេ។', deleteAboutConfirm: 'តើអ្នកចង់លុបព័ត៌មានអំពីខ្លួនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។', bio: 'ប្រវត្តិសង្ខេប', bioPlaceholder: 'ប្រាប់អ្នកដទៃបន្តិចអំពីខ្លួនអ្នក...',
   },
 };
 

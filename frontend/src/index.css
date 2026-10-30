@@ -1838,6 +1838,13 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-about-grid span { color: var(--community-muted); font-size: .62rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
 .community-about-grid strong { overflow-wrap: anywhere; color: var(--community-ink); font-size: .78rem; }
 .community-about-bio { margin: .8rem 0 0; border-radius: .9rem; padding: .8rem; color: var(--community-ink); background: rgb(141 228 202 / .13); font-size: .78rem; line-height: 1.65; }
+.community-about-editor { display: grid; gap: 1rem; }
+.community-about-editor label { display: grid; gap: .4rem; color: var(--community-ink); font-size: .68rem; font-weight: 900; }
+.community-about-editor input, .community-about-editor textarea { width: 100%; box-sizing: border-box; border: 1px solid var(--community-line); border-radius: .9rem; padding: .75rem .8rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .78rem; outline: none; resize: vertical; transition: border-color .2s ease, box-shadow .2s ease; }
+.community-about-editor input:focus, .community-about-editor textarea:focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }
+.community-about-editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.community-about-editor-actions { display: flex; flex-wrap: wrap; gap: .55rem; border-top: 1px solid var(--community-line); padding-top: .9rem; }
+.community-about-empty { display: grid; justify-items: start; gap: .4rem; border: 1px dashed var(--community-line); border-radius: 1rem; padding: 1rem; color: var(--community-muted); font-size: .76rem; }
 .community-profile-friends-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
 .community-profile-person-card { display: flex; min-width: 0; align-items: center; gap: .65rem; border: 1px solid var(--community-line); border-radius: 1rem; padding: .8rem; color: var(--community-ink); background: var(--community-card); text-decoration: none; transition: transform .2s ease, border-color .2s ease; }
 .community-profile-person-card:hover { border-color: var(--community-blue); transform: translateY(-2px); }
@@ -1929,6 +1936,9 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-content-grid { gap: .8rem; }
   .community-side-column, .community-profile-side { grid-template-columns: 1fr; }
   .community-person-grid, .community-profile-friends-grid, .community-about-grid { grid-template-columns: 1fr; }
+  .community-about-editor-grid { grid-template-columns: 1fr; }
+  .community-about-editor-actions { display: grid; grid-template-columns: 1fr; }
+  .community-about-editor-actions .community-button { width: 100%; }
   .community-section-heading, .community-section-body { padding-left: .9rem; padding-right: .9rem; }
   .community-profile-shell { border-radius: 1.35rem; }
   .community-profile-cover { min-height: 13rem; }

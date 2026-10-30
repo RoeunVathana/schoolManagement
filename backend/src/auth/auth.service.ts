@@ -200,22 +200,29 @@ export class AuthService {
     return { message: 'Password changed successfully. Please sign in again.' };
   }
 
-  async updateProfile(userId: string, input: { fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; language?: string }) {
-    const current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { student: true, teacher: true } });
+  async updateProfile(userId: string, input: { fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; bio?: string; location?: string; website?: string; school?: string; course?: string; yearLevel?: string; language?: string }) {
+    let current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    if (!current.profile) {
+      await this.getProfile(userId);
+      current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    }
     const userData: any = {};
+    const profileData: any = {};
     if (input.fullName !== undefined) userData.fullName = input.fullName;
     if (input.phone !== undefined) userData.phone = input.phone;
     if (input.language !== undefined) userData.language = input.language === 'km' ? 'km' : 'en';
     if (input.password) userData.password = await bcrypt.hash(input.password, 12);
+    for (const key of ['bio', 'location', 'website', 'school', 'course', 'yearLevel']) if (input[key as keyof typeof input] !== undefined) profileData[key] = input[key as keyof typeof input]?.trim() || null;
     const profile = await this.prisma.$transaction(async (tx) => {
       if (Object.keys(userData).length) await tx.user.update({ where: { id: userId }, data: userData });
+      if (Object.keys(profileData).length && current.profile) await tx.profile.update({ where: { userId }, data: profileData });
       if (current.role === Role.STUDENT && current.student) {
         await tx.student.update({ where: { userId }, data: { gender: input.gender, dateOfBirth: input.dateOfBirth ? new Date(input.dateOfBirth) : undefined, address: input.address, guardianName: input.guardianName, guardianPhone: input.guardianPhone } });
       }
       if (current.role === Role.TEACHER && current.teacher) {
         await tx.teacher.update({ where: { userId }, data: { specialization: input.specialization, address: input.address } });
       }
-      return tx.user.findUniqueOrThrow({ where: { id: userId }, include: { student: true, teacher: true } });
+      return tx.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
     });
     return this.safeUser(profile);
   }

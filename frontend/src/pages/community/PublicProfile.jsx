@@ -27,6 +27,9 @@ export default function PublicProfile() {
   const [editingPostId, setEditingPostId] = useState(null);
   const [deletingPostId, setDeletingPostId] = useState(null);
   const [coverBusy, setCoverBusy] = useState(false);
+  const [aboutEditing, setAboutEditing] = useState(false);
+  const [aboutBusy, setAboutBusy] = useState(false);
+  const [aboutForm, setAboutForm] = useState({ bio: '', location: '', website: '', school: '', course: '', yearLevel: '' });
   const coverInputRef = useRef(null);
 
   const load = async () => {
@@ -52,6 +55,48 @@ export default function PublicProfile() {
   const profileDetails = profile?.user?.profile || {};
   const displayName = profile?.user?.fullName || `${profile?.user?.firstName || ''} ${profile?.user?.lastName || ''}`.trim();
   const role = profile?.user?.role;
+
+  const beginAboutEdit = () => {
+    setAboutForm({ bio: profileDetails.bio || '', location: profileDetails.location || '', website: profileDetails.website || '', school: profileDetails.school || '', course: profileDetails.course || '', yearLevel: profileDetails.yearLevel || '' });
+    setAboutEditing(true);
+    setNotice('');
+  };
+
+  const updateAboutField = (field, value) => setAboutForm((current) => ({ ...current, [field]: value }));
+
+  const saveAbout = async (event) => {
+    event.preventDefault();
+    setAboutBusy(true);
+    setNotice('');
+    try {
+      const updated = unwrap(await api.patch('/auth/profile', aboutForm));
+      setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
+      setAboutEditing(false);
+      setNotice(text.aboutUpdated);
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || text.aboutSaveFailed);
+    } finally {
+      setAboutBusy(false);
+    }
+  };
+
+  const deleteAbout = async () => {
+    if (!window.confirm(text.deleteAboutConfirm)) return;
+    setAboutBusy(true);
+    setNotice('');
+    try {
+      const cleared = { bio: '', location: '', website: '', school: '', course: '', yearLevel: '' };
+      const updated = unwrap(await api.patch('/auth/profile', cleared));
+      setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
+      setAboutForm(cleared);
+      setAboutEditing(false);
+      setNotice(text.aboutDeleted);
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || text.aboutSaveFailed);
+    } finally {
+      setAboutBusy(false);
+    }
+  };
 
   const handleRelationship = (nextStatus, nextRequestId, requestError) => {
     if (requestError) { setNotice(requestError.response?.data?.message || text.actionFailed); return; }
@@ -137,7 +182,7 @@ export default function PublicProfile() {
 
       <main className="community-profile-main">
         {tab === 'Posts' && <div className="community-profile-feed">{isSelf && <PostComposer onCreated={addPost} />}{postNotice && !notice && <p className="community-profile-notice">{postNotice}</p>}{profile.posts?.length ? profile.posts.map((post) => editingPostId === post.id ? <PostComposer key={post.id} post={post} onUpdated={updatePost} onCancel={() => setEditingPostId(null)} /> : <PostCard key={post.id} post={post} mediaUrl={mediaUrl} isOwner={isSelf} deleting={deletingPostId === post.id} onEdit={() => { setPostNotice(''); setEditingPostId(post.id); }} onDelete={() => deletePost(post.id)} />) : <EmptyState title={text.noPosts} description={isSelf ? text.shareFirstUpdate : text.noVisiblePosts} />}</div>}
-        {tab === 'About' && <About profile={profile} details={profileDetails} />}
+        {tab === 'About' && <About profile={profile} details={profileDetails} isSelf={isSelf} editing={aboutEditing} form={aboutForm} busy={aboutBusy} onEdit={beginAboutEdit} onChange={updateAboutField} onSave={saveAbout} onDelete={deleteAbout} onCancel={() => setAboutEditing(false)} />}
         {tab === 'Friends' && <div className="community-profile-friends-grid">{friends.length ? friends.map((friend) => <PersonCard key={friend.id} person={friend} />) : <EmptyState title={text.noFriends} description={text.acceptedFriendsAppear} />}</div>}
         {tab === 'Photos' && <EmptyState title={text.noPhotos} description={text.photosAppear} />}
       </main>
@@ -151,10 +196,10 @@ function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
   return <article className="community-post-card"><div className="community-post-header"><div className="community-post-author"><span className="community-post-avatar">{post.author?.fullName?.charAt(0)?.toUpperCase() || '+'}</span><div><p>{post.author?.fullName || text.communityMember}</p><small>{new Date(post.createdAt).toLocaleString()} <span>·</span> {visibility[post.visibility]}</small></div></div>{isOwner ? <div className="community-post-actions"><button type="button" onClick={onEdit} disabled={deleting}>{text.edit}</button><button type="button" onClick={onDelete} disabled={deleting} className="is-danger">{deleting ? text.deleting : text.delete}</button></div> : <span className="community-post-more">...</span>}</div><p className="community-post-content">{post.content}</p>{post.imageUrl && <img src={mediaUrl(post.imageUrl)} alt={text.postImageAlt} className="community-post-image" />}</article>;
 }
 
-function About({ profile, details }) {
+function About({ profile, details, isSelf, editing, form, busy, onEdit, onChange, onSave, onDelete, onCancel }) {
   const text = useCommunityText();
   const fields = [[text.username, details.username], [text.email, profile.user.email], [text.phone, details.phone || profile.user.phone], [text.location, details.location], [text.school, details.school], [text.course, details.course], [text.yearLevel, details.yearLevel], [text.website, details.website]].filter(([, value]) => value);
-  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>{text.about}</h2></div></div><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}</section>;
+  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>{text.about}</h2></div>{isSelf && !editing && <button type="button" onClick={onEdit} className="community-button community-button-ghost community-button-small">{text.editAbout}</button>}</div>{editing ? <form className="community-about-editor" onSubmit={onSave}><label>{text.bio}<textarea value={form.bio} onChange={(event) => onChange('bio', event.target.value)} rows="4" maxLength="1000" placeholder={text.bioPlaceholder} /></label><div className="community-about-editor-grid"><label>{text.location}<input value={form.location} onChange={(event) => onChange('location', event.target.value)} maxLength="120" /></label><label>{text.website}<input value={form.website} onChange={(event) => onChange('website', event.target.value)} maxLength="180" /></label><label>{text.school}<input value={form.school} onChange={(event) => onChange('school', event.target.value)} maxLength="160" /></label><label>{text.course}<input value={form.course} onChange={(event) => onChange('course', event.target.value)} maxLength="160" /></label><label>{text.yearLevel}<input value={form.yearLevel} onChange={(event) => onChange('yearLevel', event.target.value)} maxLength="80" /></label></div><div className="community-about-editor-actions"><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.updating : text.saveAbout}</button><button type="button" disabled={busy} onClick={onCancel} className="community-button community-button-ghost">{text.cancelAbout}</button><button type="button" disabled={busy} onClick={onDelete} className="community-button community-button-danger">{text.deleteAbout}</button></div></form> : <><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}{isSelf && !fields.length && !details.bio && <div className="community-about-empty"><p>{text.memberBio}</p><button type="button" onClick={onEdit} className="community-text-link">{text.editAbout} →</button></div>}</>}</section>;
 }
 
 function PersonCard({ person }) {
