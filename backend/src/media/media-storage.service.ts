@@ -4,9 +4,18 @@ import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getStorage } from 'firebase-admin/storage';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
-import { basename, join } from 'path';
+import { basename, extname, isAbsolute, join, relative, resolve } from 'path';
+import { tmpdir } from 'os';
 
 export type CommunityMediaType = 'IMAGE' | 'VIDEO';
+
+export type ArchiveMediaSource = {
+  path: string;
+  fileName: string;
+  mimeType?: string;
+  deleteSource: () => Promise<void>;
+  cleanup: () => Promise<void>;
+};
 
 @Injectable()
 export class MediaStorageService {
@@ -56,9 +65,77 @@ export class MediaStorageService {
   }
 
   async remove(url?: string | null) {
-    if (!url || /^https?:\/\//i.test(url)) return;
-    const relativePath = url.replace(/^\/?uploads[\\/]/, 'uploads/');
-    await fs.rm(join(process.cwd(), relativePath), { force: true }).catch(() => undefined);
+    if (!url) return;
+    if (!/^https?:\/\//i.test(url)) {
+      const localPath = this.safeLocalPath(url);
+      if (localPath) await fs.rm(localPath, { force: true }).catch(() => undefined);
+      return;
+    }
+    if (this.mode !== 'firebase' && this.mode !== 'google') return;
+    const parsed = this.firebaseObjectFromUrl(url);
+    if (!parsed) return;
+    await getStorage(this.firebaseApp()).bucket(this.bucketName).file(parsed.destination).delete({ ignoreNotFound: true }).catch(() => undefined);
+  }
+
+  async prepareForArchive(url: string): Promise<ArchiveMediaSource | null> {
+    if (!url) return null;
+
+    if (!/^https?:\/\//i.test(url)) {
+      const localPath = this.safeLocalPath(url);
+      if (!localPath) return null;
+      const fileName = basename(localPath);
+      return {
+        path: localPath,
+        fileName,
+        deleteSource: async () => fs.rm(localPath, { force: true }),
+        cleanup: async () => undefined,
+      };
+    }
+
+    if (this.mode !== 'firebase' && this.mode !== 'google') return null;
+    const parsed = this.firebaseObjectFromUrl(url);
+    if (!parsed) return null;
+
+    const tempPath = join(tmpdir(), `campusflow-media-${randomUUID()}${extname(parsed.destination)}`);
+    const bucket = getStorage(this.firebaseApp()).bucket(this.bucketName);
+    const remoteFile = bucket.file(parsed.destination);
+    try {
+      await remoteFile.download({ destination: tempPath });
+      return {
+        path: tempPath,
+        fileName: basename(parsed.destination),
+        deleteSource: async () => { await remoteFile.delete({ ignoreNotFound: true }); },
+        cleanup: async () => fs.rm(tempPath, { force: true }),
+      };
+    } catch {
+      await fs.rm(tempPath, { force: true }).catch(() => undefined);
+      return null;
+    }
+  }
+
+  private safeLocalPath(url: string) {
+    const relativeUrl = url.replace(/^\/?/, '').replace(/\\/g, '/');
+    if (!/^uploads\/(posts|stories|chat|groups)\//i.test(relativeUrl)) return null;
+    const root = resolve(process.cwd(), 'uploads');
+    const filePath = resolve(process.cwd(), relativeUrl);
+    const pathFromRoot = relative(root, filePath);
+    if (!pathFromRoot || pathFromRoot.startsWith('..') || isAbsolute(pathFromRoot)) return null;
+    return filePath;
+  }
+
+  private firebaseObjectFromUrl(url: string) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.hostname !== 'firebasestorage.googleapis.com') return null;
+      const bucketName = parsed.pathname.match(/^\/v0\/b\/([^/]+)\/o\//)?.[1];
+      const encodedDestination = parsed.pathname.match(/^\/v0\/b\/[^/]+\/o\/(.+)$/)?.[1];
+      if (!bucketName || !encodedDestination || decodeURIComponent(bucketName) !== this.bucketName) return null;
+      const destination = decodeURIComponent(encodedDestination);
+      if (!destination.startsWith('community/')) return null;
+      return { destination };
+    } catch {
+      return null;
+    }
   }
 
   private firebaseApp() {

@@ -409,6 +409,24 @@ model MessageReaction {
   @@map("message_reactions")
 }
 
+model MediaArchive {
+  id                 String    @id @default(cuid())
+  originalUrl        String    @unique
+  sourceType         String
+  sourceId           String
+  fileName           String
+  mediaType          MediaType?
+  fileSize           BigInt?
+  telegramMessageIds String    @db.Text
+  reason             String
+  archivedAt         DateTime  @default(now())
+  createdAt          DateTime  @default(now())
+
+  @@index([archivedAt])
+  @@index([sourceType, sourceId])
+  @@map("media_archives")
+}
+
 model RegistrationPayment {
   id              String        @id @default(cuid())
   userId          String

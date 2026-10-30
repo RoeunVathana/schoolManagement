@@ -39,6 +39,55 @@ export class TelegramService {
     return { sent: true };
   }
 
+  async sendDocument(input: { buffer: Buffer; fileName: string; mimeType?: string; caption?: string }) {
+    const current = await this.resolveConfig();
+    if (!current.enabled || !current.botToken || !current.chatId) {
+      return { sent: false, reason: 'Telegram is not configured or is disabled.' };
+    }
+
+    const form = new FormData();
+    form.append('chat_id', current.chatId);
+    if (input.caption) form.append('caption', input.caption.slice(0, 1024));
+    form.append('document', new Blob([new Uint8Array(input.buffer)], { type: input.mimeType || 'application/octet-stream' }), input.fileName);
+
+    const controller = new AbortController();
+    const timeoutMs = Math.max(30_000, Number(this.config.get('TELEGRAM_UPLOAD_TIMEOUT_MS') || 600_000));
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${current.botToken}/sendDocument`, {
+        method: 'POST',
+        body: form,
+        signal: controller.signal,
+      });
+      const result: any = await response.json().catch(() => null);
+      if (!response.ok || !result?.ok) throw new Error(result?.description || `Telegram returned HTTP ${response.status}`);
+      return {
+        sent: true,
+        messageId: result.result?.message_id as number | undefined,
+        fileId: result.result?.document?.file_id as string | undefined,
+      };
+    } catch (error) {
+      this.logger.warn(`Telegram document upload failed: ${error instanceof Error ? error.message : 'unknown error'}`);
+      return { sent: false, reason: error instanceof Error ? error.message : 'Telegram document upload failed.' };
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async sendMediaRetentionReport(input: { reason: string; archived: number; skipped: number; failed: number; bytesFreed: number }) {
+    const bytes = input.bytesFreed >= 1024 ** 3
+      ? `${(input.bytesFreed / 1024 ** 3).toFixed(2)} GB`
+      : `${(input.bytesFreed / 1024 ** 2).toFixed(2)} MB`;
+    return this.sendMessage([
+      '<b>CampusFlow media archive completed</b>',
+      `<b>Reason:</b> ${this.escapeHtml(input.reason)}`,
+      `<b>Archived:</b> ${input.archived}`,
+      `<b>Skipped:</b> ${input.skipped}`,
+      `<b>Failed:</b> ${input.failed}`,
+      `<b>Storage freed:</b> ${this.escapeHtml(bytes)}`,
+    ].join('\n'));
+  }
+
   async sendPaymentReport(input: { type: string; invoiceNumber: string; amount: string | number; currency: string; paymentPlan?: string; billingPeriod?: string | null; paidAt?: Date | string | null; courseName?: string; customerName?: string; customerEmail?: string; transactionHash?: string | null }) {
     const paidAt = input.paidAt ? new Date(input.paidAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : 'Not available';
     const message = [
