@@ -3,6 +3,7 @@ import api, { unwrap } from '../../api/axios';
 import Header from '../../components/Header';
 import Loading from '../../components/Loading';
 import { useLanguage } from '../../context/LanguageContext';
+import PasswordInput from '../../components/PasswordInput';
 
 const emptyForm = { botToken: '', chatId: '', enabled: true };
 
@@ -72,7 +73,7 @@ export default function TelegramSettings() {
         <div className="space-y-5">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
             {t('telegramBotToken')}
-            <input type="password" autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || t('telegramTokenPlaceholder')} />
+            <PasswordInput autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || t('telegramTokenPlaceholder')} />
             <span className="mt-1.5 block text-xs font-normal text-slate-500">{t('telegramTokenHint')}</span>
           </label>
 

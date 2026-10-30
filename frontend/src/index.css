@@ -4385,3 +4385,55 @@ a, button, input, textarea, select { max-width: 100%; }
     min-height: 4rem;
   }
 }
+
+/* Password fields share one clear, touch-friendly visibility control. */
+.password-input-wrapper {
+  position: relative;
+  min-width: 0;
+}
+
+.password-input-wrapper > input {
+  width: 100%;
+  padding-right: 3.35rem;
+}
+
+.password-input-toggle {
+  position: absolute;
+  top: 50%;
+  right: .7rem;
+  display: inline-flex;
+  width: 2.35rem;
+  height: 2.35rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: .8rem;
+  color: #68809a;
+  background: transparent;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.password-input-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.password-input-toggle:hover {
+  border-color: rgb(34 158 217 / .25);
+  color: #229ed9;
+  background: rgb(34 158 217 / .1);
+}
+
+.password-input-toggle:active {
+  transform: translateY(-50%) scale(.94);
+}
+
+.password-input-toggle:focus-visible {
+  outline: 3px solid rgb(34 158 217 / .3);
+  outline-offset: 2px;
+}
+
+.dark .password-input-toggle { color: #9cb4c8; }
+.dark .password-input-toggle:hover { color: #8de4ca; background: rgb(141 228 202 / .1); }

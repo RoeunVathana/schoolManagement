@@ -7,6 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import Loading from '../../components/Loading';
 import ImageCropper from '../../components/ImageCropper';
+import PasswordInput from '../../components/PasswordInput';
 import RegistrationPayment from './RegistrationPayment';
 import { isImageTooLarge } from '../../utils/fileValidation';
 
@@ -398,7 +399,7 @@ export default function Register() {
 
                 <div>
                   <Field label={copy.password} error={errors.password?.message}>
-                    <input {...register('password', { required: copy.requiredPassword, minLength: { value: 10, message: copy.minPassword }, pattern: { value: passwordPattern, message: copy.strongPassword } })} type="password" className="input mt-2" placeholder={copy.passwordPlaceholder} autoComplete="new-password" />
+                    <PasswordInput {...register('password', { required: copy.requiredPassword, minLength: { value: 10, message: copy.minPassword }, pattern: { value: passwordPattern, message: copy.strongPassword } })} className="input mt-2" placeholder={copy.passwordPlaceholder} autoComplete="new-password" />
                   </Field>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <PasswordCheck active={passwordChecks.length} label={copy.characters} />

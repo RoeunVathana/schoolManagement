@@ -7,6 +7,7 @@ import { roleHome } from '../../utils/roles';
 import { useLanguage } from '../../context/LanguageContext';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import Loading from '../../components/Loading';
+import PasswordInput from '../../components/PasswordInput';
 import { firebaseAuth } from '../../config/firebase';
 
 const roleOptions = {
@@ -163,7 +164,7 @@ export default function Login() {
 
             <form onSubmit={handleSubmit(submit)} className="mt-8 space-y-5">
               <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{selectedLabel} {t('emailLabel')}<input {...register('email', { required: t('enterEmail') })} type="email" autoComplete="email" aria-invalid={!!formErrors.email} className={`input mt-2 h-14 ${formErrors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10' : ''}`} placeholder={selected.placeholder} />{formErrors.email && <span className="mt-1 block text-xs font-semibold text-red-600 dark:text-red-300">{formErrors.email.message}</span>}</label>
-              <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{t('passwordLabel')}<input {...register('password', { required: t('enterPassword') })} type="password" autoComplete="current-password" aria-invalid={!!formErrors.password} className={`input mt-2 h-14 ${formErrors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10' : ''}`} placeholder={t('enterPassword')} />{formErrors.password && <span className="mt-1 block text-xs font-semibold text-red-600 dark:text-red-300">{formErrors.password.message}</span>}</label>
+              <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{t('passwordLabel')}<PasswordInput {...register('password', { required: t('enterPassword') })} autoComplete="current-password" aria-invalid={!!formErrors.password} className={`input mt-2 h-14 ${formErrors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500/10' : ''}`} placeholder={t('enterPassword')} />{formErrors.password && <span className="mt-1 block text-xs font-semibold text-red-600 dark:text-red-300">{formErrors.password.message}</span>}</label>
               <button disabled={busy} className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-navy px-4 font-bold text-white shadow-lg shadow-navy/20 transition hover:-translate-y-0.5 hover:bg-[#1b3b5d] disabled:cursor-not-allowed disabled:opacity-60">
                 {busy && <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />}
                 {busy ? t('signingIn') : `${t('signInAs')} ${roleLabels[selectedRole]}`}

@@ -4,6 +4,7 @@ import api, { unwrap } from '../../api/axios';
 import { useLanguage } from '../../context/LanguageContext';
 import ThemeSwitch from '../../components/ThemeSwitch';
 import Loading from '../../components/Loading';
+import PasswordInput from '../../components/PasswordInput';
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/;
 const apiMessage = (error, fallback) => {
@@ -101,10 +102,10 @@ export default function ForgotPassword() {
                 </label>
                 <p className="-mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{t('otpExpiresHint')}</p>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{t('newPassword')}
-                  <input required type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="input mt-2 h-14" autoComplete="new-password" />
+                  <PasswordInput required value={password} onChange={(event) => setPassword(event.target.value)} className="input mt-2 h-14" autoComplete="new-password" />
                 </label>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{t('confirmPassword')}
-                  <input required type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} className="input mt-2 h-14" autoComplete="new-password" />
+                  <PasswordInput required value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} className="input mt-2 h-14" autoComplete="new-password" />
                 </label>
                 <p className="-mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{t('passwordRequirements')}</p>
                 <button disabled={busy} className="flex h-14 w-full items-center justify-center rounded-2xl bg-navy px-4 font-bold text-white shadow-lg shadow-navy/20 transition hover:-translate-y-0.5 hover:bg-[#1b3b5d] disabled:cursor-not-allowed disabled:opacity-60">{t('resetPassword')}</button>
