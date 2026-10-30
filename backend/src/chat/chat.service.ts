@@ -1,15 +1,16 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { MessageReactionType, Role, UserStatus } from '@prisma/client';
+import { MediaType, MessageReactionType, Role, UserStatus } from '@prisma/client';
 import { existsSync, unlinkSync } from 'fs';
 import { basename, extname, join } from 'path';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { MediaStorageService } from '../media/media-storage.service';
 
 const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, profile: { select: { avatar: true, username: true } } } as const;
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService) {}
+  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService, private readonly media: MediaStorageService) {}
 
   private pair(first: string, second: string) {
     return first < second ? [first, second] as const : [second, first] as const;
@@ -99,28 +100,35 @@ export class ChatService {
   async sendImage(userId: string, conversationId: string, file: Express.Multer.File, body = '') {
     const conversation = await this.assertParticipant(conversationId, userId);
     const messageBody = body.trim();
+    const uploadedMedia = await this.media.upload(file, 'chat');
     const message = await this.prisma.$transaction(async (tx) => {
       const created = await tx.message.create({
-        data: { conversationId, senderId: userId, body: messageBody, imageUrl: `/uploads/chat/${file.filename}` },
+        data: { conversationId, senderId: userId, body: messageBody, imageUrl: uploadedMedia.url, mediaType: uploadedMedia.mediaType as MediaType },
         include: { sender: { select: userSelect } },
       });
       await tx.conversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } });
       return created;
     });
     const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
-    await this.notifications.createMessageNotification(recipientId, userId, messageBody || 'Sent you an image.');
+    await this.notifications.createMessageNotification(recipientId, userId, messageBody || (uploadedMedia.mediaType === 'VIDEO' ? 'Sent you a video.' : 'Sent you an image.'));
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
 
   async getImageForDownload(userId: string, messageId: string) {
     const message = await this.assertMessageParticipant(userId, messageId);
-    const imageUrl = (await this.prisma.message.findUnique({ where: { id: message.id }, select: { imageUrl: true } }))?.imageUrl;
-    if (!imageUrl) throw new BadRequestException('This message does not contain an image');
+    const attachment = await this.prisma.message.findUnique({ where: { id: message.id }, select: { imageUrl: true, mediaType: true } });
+    const imageUrl = attachment?.imageUrl;
+    if (!imageUrl) throw new BadRequestException('This message does not contain an attachment');
+    const contentTypes: Record<string, string> = { '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.m4v': 'video/mp4', '.mov': 'video/quicktime', '.mp4': 'video/mp4', '.png': 'image/png', '.webm': 'video/webm', '.webp': 'image/webp' };
+    if (/^https?:\/\//i.test(imageUrl)) {
+      const remotePath = new URL(imageUrl).pathname;
+      const remoteName = basename(decodeURIComponent(remotePath)) || `campusflow-chat-${message.id}${attachment?.mediaType === 'VIDEO' ? '.mp4' : '.jpg'}`;
+      return { remoteUrl: imageUrl, fileName: remoteName, contentType: contentTypes[extname(remoteName).toLowerCase()] || (attachment?.mediaType === 'VIDEO' ? 'video/mp4' : 'application/octet-stream') };
+    }
     const relativePath = imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/');
     const filePath = join(process.cwd(), relativePath);
-    if (!existsSync(filePath)) throw new NotFoundException('Chat image not found');
-    const contentTypes: Record<string, string> = { '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
-    return { filePath, fileName: basename(filePath), contentType: contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream' };
+    if (!existsSync(filePath)) throw new NotFoundException('Chat attachment not found');
+    return { filePath, fileName: basename(filePath), contentType: contentTypes[extname(filePath).toLowerCase()] || (attachment?.mediaType === 'VIDEO' ? 'video/mp4' : 'application/octet-stream') };
   }
 
   private async assertMessageOwner(userId: string, messageId: string) {
@@ -161,7 +169,7 @@ export class ChatService {
       await tx.conversation.update({ where: { id: message.conversationId }, data: { updatedAt: new Date() } });
       return result;
     });
-    if (message.imageUrl) {
+    if (message.imageUrl && !/^https?:\/\//i.test(message.imageUrl)) {
       const filePath = join(process.cwd(), message.imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/'));
       if (existsSync(filePath)) unlinkSync(filePath);
     }

@@ -20,7 +20,7 @@ export class MediaStorageService {
     this.bucketName = String(this.config.get('FIREBASE_STORAGE_BUCKET') || `${this.projectId}.firebasestorage.app`);
   }
 
-  async upload(file: Express.Multer.File, folder: 'posts' | 'stories'): Promise<{ url: string; mediaType: CommunityMediaType }> {
+  async upload(file: Express.Multer.File, folder: 'posts' | 'stories' | 'chat'): Promise<{ url: string; mediaType: CommunityMediaType }> {
     const mediaType: CommunityMediaType = file.mimetype.startsWith('video/') ? 'VIDEO' : 'IMAGE';
     if (this.mode !== 'firebase' && this.mode !== 'google') {
       return { url: `/uploads/${folder}/${basename(file.filename)}`, mediaType };

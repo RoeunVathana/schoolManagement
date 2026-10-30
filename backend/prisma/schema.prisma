@@ -348,6 +348,7 @@ model Message {
   senderId       String
   body           String            @db.Text
   imageUrl       String?
+  mediaType      MediaType?
   editedAt       DateTime?
   deletedAt      DateTime?
   readAt         DateTime?

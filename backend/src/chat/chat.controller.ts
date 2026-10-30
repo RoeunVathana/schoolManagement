@@ -9,7 +9,7 @@ import { SendMessageDto } from './dto/send-message.dto';
 import { EditMessageDto } from './dto/edit-message.dto';
 import { MessageReactionDto } from './dto/message-reaction.dto';
 import { ChatService } from './chat.service';
-import { chatImageUpload } from '../common/upload.options';
+import { chatMediaUpload } from '../common/upload.options';
 
 @ApiTags('chat')
 @ApiBearerAuth()
@@ -24,17 +24,18 @@ export class ChatController {
   @Post('conversations/:id/messages') send(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: SendMessageDto) { return this.chat.sendMessage(user.id, id, dto.body); }
   @Post('conversations/:id/images')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image', chatImageUpload))
+  @UseInterceptors(FileInterceptor('image', chatMediaUpload))
   sendImage(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: { body?: string }, @UploadedFile() file?: Express.Multer.File) {
-    if (!file) throw new BadRequestException('Please select an image to send');
+    if (!file) throw new BadRequestException('Please select an image or video to send');
     return this.chat.sendImage(user.id, id, file, dto.body);
   }
   @Get('messages/:messageId/image')
   async downloadImage(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Res({ passthrough: true }) response: Response) {
-    const image = await this.chat.getImageForDownload(user.id, messageId);
-    response.setHeader('Content-Disposition', `attachment; filename="${image.fileName}"`);
-    response.setHeader('Content-Type', image.contentType);
-    return new StreamableFile(createReadStream(image.filePath));
+    const media = await this.chat.getImageForDownload(user.id, messageId);
+    if (media.remoteUrl) return response.redirect(media.remoteUrl);
+    response.setHeader('Content-Disposition', `attachment; filename="${media.fileName}"`);
+    response.setHeader('Content-Type', media.contentType);
+    return new StreamableFile(createReadStream(media.filePath!));
   }
   @Patch('messages/:messageId') edit(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string, @Body() dto: EditMessageDto) { return this.chat.editMessage(user.id, messageId, dto.body); }
   @Delete('messages/:messageId') delete(@CurrentUser() user: { id: string }, @Param('messageId') messageId: string) { return this.chat.deleteMessage(user.id, messageId); }

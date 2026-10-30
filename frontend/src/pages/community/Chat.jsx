@@ -1,23 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
+import CommunityMedia from '../../components/CommunityMedia';
 import UserAvatar from '../../components/UserAvatar';
 import { useCommunityText } from '../../context/communityTranslations';
 import { useLanguage } from '../../context/LanguageContext';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-const MAX_CHAT_IMAGE_SIZE = 150 * 1024 * 1024;
-
-function mediaUrl(value) {
-  if (!value) return '';
-  return value.startsWith('http') ? value : `${API_ORIGIN}${value}`;
-}
+const MAX_CHAT_MEDIA_SIZE = 250 * 1024 * 1024;
 
 function imageFileName(value, fallbackId) {
   const name = value?.split('/').pop()?.split('?')[0];
   return name || `campusflow-chat-${fallbackId}.jpg`;
 }
-
 function displayDate(value) {
   if (!value) return '';
   return new Date(value).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -140,13 +134,13 @@ export default function Chat() {
   const selectImage = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      setError(text.onlyImages || 'Please choose an image file.');
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+      setError(text.onlyChatMedia || 'Please choose an image or video file.');
       clearImage();
       return;
     }
-    if (file.size > MAX_CHAT_IMAGE_SIZE) {
-      setError(text.imageLimit || 'Images must be 150 MB or smaller.');
+    if (file.size > MAX_CHAT_MEDIA_SIZE) {
+      setError(text.chatMediaLimit || 'Images and videos must be 250 MB or smaller.');
       clearImage();
       return;
     }
@@ -193,7 +187,7 @@ export default function Chat() {
       link.remove();
       URL.revokeObjectURL(downloadUrl);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || text.downloadFailed || 'Could not download this image.');
+      setError(requestError.response?.data?.message || text.downloadFailed || 'Could not download this attachment.');
     } finally {
       setDownloadingImageId(null);
     }
@@ -302,7 +296,7 @@ export default function Chat() {
             <div className={`community-message-bubble ${message.isDeleted ? 'is-deleted' : ''} ${editingMessageId === message.id ? 'is-editing' : ''}`}>
               {message.isDeleted && <p className="community-message-deleted">{text.messageDeleted || 'Message deleted'}</p>}
               {editingMessageId === message.id && !message.isDeleted && <form className="community-message-edit-form" onSubmit={(event) => saveEdit(event, message)}><textarea value={editDraft} onChange={(event) => setEditDraft(event.target.value)} autoFocus rows={3} maxLength={2000} aria-label={text.editMessage || 'Edit message'} /><div><button type="button" onClick={cancelEditing}>{text.cancel || 'Cancel'}</button><button type="submit" disabled={!editDraft.trim() || sending}>{sending ? (text.saving || 'Saving...') : (text.save || 'Save')}</button></div></form>}
-              {message.imageUrl && <div className="community-message-attachment"><a href={mediaUrl(message.imageUrl)} target="_blank" rel="noreferrer" className="community-message-image-link"><img src={mediaUrl(message.imageUrl)} alt={text.chatImageAlt || 'Chat image'} /></a><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : `↓ ${text.downloadImage || 'Download'}`}</button></div></div>}
+              {message.imageUrl && <div className="community-message-attachment"><div className="community-message-image-link"><CommunityMedia url={message.imageUrl} mediaType={message.mediaType} alt={message.mediaType === 'VIDEO' ? (text.chatVideoAlt || 'Chat video') : (text.chatImageAlt || 'Chat image')} className="community-message-media" /></div><div className="community-message-image-actions"><button type="button" onClick={() => downloadImage(message)} disabled={downloadingImageId === message.id}>{downloadingImageId === message.id ? (text.downloading || 'Downloading...') : (text.downloadImage || 'Download')}</button></div></div>}
               {message.body && <p>{message.body}</p>}
               <small>{displayDate(message.createdAt)}{message.isEdited ? ` · ${text.edited || 'Edited'}` : ''}</small>
             </div>
@@ -316,10 +310,10 @@ export default function Chat() {
           <div ref={messageEndRef} />
         </div>
         <form onSubmit={sendMessage} className="community-message-form">
-          {imagePreview && <div className="community-chat-image-preview"><img src={imagePreview} alt={text.chatImagePreview || 'Selected image'} /><button type="button" onClick={clearImage} aria-label={text.removeImage || 'Remove image'}>×</button></div>}
+          {imagePreview && <div className="community-chat-image-preview"><CommunityMedia url={imagePreview} mediaType={imageFile?.type?.startsWith('video/') ? 'VIDEO' : 'IMAGE'} alt={imageFile?.type?.startsWith('video/') ? (text.chatVideoPreview || 'Selected video') : (text.chatImagePreview || 'Selected image')} className="community-chat-media-preview" /><button type="button" onClick={clearImage} aria-label={text.removeImage || 'Remove media'}>×</button></div>}
           <div className="community-message-form-row">
-            <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={selectImage} className="community-chat-file-input" aria-label={text.attachImage || 'Attach image'} disabled={!activeConversation || sending || uploadingImage} />
-            <button type="button" className="community-chat-attach-button" onClick={() => fileInputRef.current?.click()} disabled={!activeConversation || sending || uploadingImage} aria-label={text.attachImage || 'Attach image'}>🖼️</button>
+            <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v" onChange={selectImage} className="community-chat-file-input" aria-label={text.attachMedia || 'Attach image or video'} disabled={!activeConversation || sending || uploadingImage} />
+            <button type="button" className="community-chat-attach-button" onClick={() => fileInputRef.current?.click()} disabled={!activeConversation || sending || uploadingImage} aria-label={text.attachMedia || 'Attach image or video'}>🖼️</button>
             <input value={draft} onChange={(event) => setDraft(event.target.value)} disabled={!activeConversation || sending || uploadingImage} placeholder={activePerson ? text.writeMessage : text.selectFriend} />
             <button type="submit" disabled={!canSend} className="community-button community-button-primary">{uploadingImage ? (text.uploading || 'Uploading...') : sending ? text.sending : text.send}</button>
           </div>

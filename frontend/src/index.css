@@ -2009,7 +2009,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-message-bubble p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .78rem; line-height: 1.55; }
 .community-message-attachment { width: min(22rem, 100%); }
 .community-message-image-link { display: block; overflow: hidden; border-radius: .8rem; background: rgb(16 36 63 / .08); }
-.community-message-image-link img { display: block; width: 100%; max-height: 22rem; object-fit: cover; }
+.community-message-image-link img, .community-message-image-link video, .community-message-media { display: block; width: 100%; max-height: 22rem; object-fit: cover; }
 .community-message-bubble .community-message-image-link + p { margin-top: .55rem; }
 .community-message-image-actions { display: flex; justify-content: flex-end; padding-top: .4rem; }
 .community-message-image-actions button { border: 1px solid var(--community-line); border-radius: 999px; padding: .3rem .55rem; color: var(--community-muted); background: var(--community-card); font-size: .6rem; font-weight: 850; cursor: pointer; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease; }
@@ -2045,7 +2045,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-chat-attach-button:hover:not(:disabled) { border-color: var(--community-blue); background: rgb(34 158 217 / .1); transform: translateY(-1px); }
 .community-chat-attach-button:disabled { cursor: not-allowed; opacity: .5; }
 .community-chat-image-preview { position: relative; width: fit-content; max-width: min(14rem, 100%); overflow: hidden; border: 1px solid var(--community-line); border-radius: .8rem; background: var(--community-soft); }
-.community-chat-image-preview img { display: block; width: 100%; max-width: 14rem; max-height: 8rem; object-fit: cover; }
+.community-chat-image-preview img, .community-chat-image-preview video, .community-chat-media-preview { display: block; width: 100%; max-width: 14rem; max-height: 8rem; object-fit: cover; }
 .community-chat-image-preview button { position: absolute; top: .35rem; right: .35rem; display: inline-flex; width: 1.65rem; height: 1.65rem; align-items: center; justify-content: center; border: 1px solid rgb(255 255 255 / .6); border-radius: 999px; color: #fff; background: rgb(16 36 63 / .78); font-size: 1.05rem; line-height: 1; cursor: pointer; }
 
 .community-groups-page { display: grid; gap: 1rem; }
