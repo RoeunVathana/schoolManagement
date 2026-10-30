@@ -7,7 +7,7 @@ export default function StatCard({ label, value, accent = 'bg-mint', note, trend
       <div className="min-w-0">
         <div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${accent}`} /><p className="truncate text-xs font-extrabold uppercase tracking-[.12em] text-slate-500 dark:text-slate-400">{label}</p></div>
         <p className="mt-4 text-3xl font-extrabold tracking-tight text-ink dark:text-white"><AnimatedNumber value={value ?? '—'} /></p>
-        {note && <p className="mt-2 truncate text-xs font-medium text-slate-400 dark:text-slate-500">{note}</p>}
+        {note && <p className="mt-2 line-clamp-2 text-xs font-medium leading-5 text-slate-400 dark:text-slate-500">{note}</p>}
       </div>
       {icon && <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-500 ring-1 ring-slate-200/80 dark:bg-slate-800/80 dark:text-slate-300 dark:ring-slate-700">{icon}</span>}
     </div>

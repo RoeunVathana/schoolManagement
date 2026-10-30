@@ -1331,6 +1331,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .app-shell-content { min-width: 0; min-height: 100dvh; }
 .app-main { min-height: calc(100dvh - 4.25rem); min-width: 0; }
 .app-main > * { min-width: 0; }
+.dashboard-page { width: 100%; min-width: 0; }
+.dashboard-page > section,
+.dashboard-page > div { min-width: 0; }
+.dashboard-chart-shell .recharts-responsive-container { min-width: 0; }
 .app-navbar { min-height: 4.25rem; border-color: rgb(219 228 238 / .8); box-shadow: 0 8px 28px rgb(16 36 63 / .05); backdrop-filter: blur(18px); }
 .dark .app-navbar { border-color: rgb(48 70 97 / .72); background: rgb(13 25 43 / .92); box-shadow: 0 10px 30px rgb(0 0 0 / .18); }
 .app-navbar > div:last-child { min-width: 0; }
@@ -1352,7 +1356,7 @@ table th, table td { vertical-align: middle; }
 table td { overflow-wrap: break-word; word-break: normal; }
 .table-scroll { max-width: 100%; -webkit-overflow-scrolling: touch; }
 .table-desktop-view table,
-.overflow-x-auto > table { min-width: max-content; }
+.overflow-x-auto > table { width: 100%; min-width: 44rem; }
 .table-desktop-view td { overflow-wrap: break-word; word-break: normal; }
 .table-desktop-view td:last-child { white-space: nowrap; }
 .table-desktop-view td:last-child > div { flex-wrap: nowrap; }
@@ -1433,6 +1437,13 @@ table td { overflow-wrap: break-word; word-break: normal; }
 }
 
 @media (max-width: 639px) {
+  .dashboard-page > section:first-child { border-radius: 1.35rem; padding: 1.25rem 1rem; }
+  .dashboard-page > section:first-child h1 { font-size: clamp(1.8rem, 9vw, 2.45rem); line-height: 1.1; }
+  .dashboard-page > section:first-child > .relative > div:last-child { width: 100%; }
+  .dashboard-page > section:first-child > .relative > div:last-child > a { flex: 1 1 10rem; min-width: 0; text-align: center; }
+  .dashboard-page > div.grid.gap-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .dashboard-page > div.grid.gap-4 > article { border-radius: 1.15rem; padding: 1rem; }
+  .dashboard-page .dashboard-chart-shell { height: 220px; }
   .storefront-mobile-header { gap: .45rem; padding-inline: .75rem; padding-block: .7rem; }
   .storefront-mobile-header > a { gap: .55rem; }
   .storefront-mobile-header > a > span:first-child { height: 2.35rem; width: 2.35rem; border-radius: .8rem; padding: .35rem; }
@@ -1453,6 +1464,10 @@ table td { overflow-wrap: break-word; word-break: normal; }
   .storefront-3d-surface .text-3xl { font-size: 1.65rem; }
   .storefront-course-card { border-radius: 1.25rem; }
   .storefront-course-card .storefront-course-visual { height: 12rem; }
+}
+
+@media (max-width: 380px) {
+  .dashboard-page > div.grid.gap-4 { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

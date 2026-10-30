@@ -25,7 +25,7 @@ export default function Dashboard() {
   const nextClass = schedules[0];
   const studentsPerCourse = courses.length ? Math.round((data.totalStudents || 0) / courses.length) : 0;
 
-  return <>
+  return <div className="dashboard-page">
     <section className="relative mb-6 overflow-hidden rounded-[2rem] bg-[#10243f] px-6 py-7 text-white shadow-[0_24px_60px_rgba(16,36,63,.2)] sm:px-8 sm:py-9">
       <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#7c8cf8]/25 blur-3xl" />
       <div className="absolute -bottom-32 left-1/3 h-64 w-64 rounded-full bg-[#6ed2ae]/15 blur-3xl" />
@@ -47,7 +47,7 @@ export default function Dashboard() {
     </section>
 
     <section className="mt-6 rounded-[1.6rem] border border-slate-200/80 bg-white p-5 shadow-[0_12px_35px_rgba(16,36,63,.06)] dark:border-slate-700/80 dark:bg-[#121f35] sm:p-6"><div className="mb-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-extrabold uppercase tracking-[.14em] text-coral">{t('studentActivity')}</p><h2 className="mt-1 text-xl font-extrabold text-ink dark:text-white">{t('recentSubmissions')}</h2><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('recentSubmissionsHint')}</p></div><Link to="/teacher/submissions" className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-extrabold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">{t('openSubmissions')}</Link></div><Table columns={[{ key: 'student', label: t('student'), render: (row) => row.student?.user?.fullName || '-' }, { key: 'assignment', label: t('assignment'), render: (row) => row.assignment?.title || '-' }, { key: 'submittedAt', label: t('submitted'), render: (row) => row.submittedAt ? new Date(row.submittedAt).toLocaleDateString(language === 'km' ? 'km-KH' : 'en-US') : '-' }, { key: 'status', label: t('status'), render: (row) => <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-extrabold text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">{row.status}</span> }]} rows={submissions} empty={t('noRecentSubmissions')} /></section>
-  </>;
+  </div>;
 }
 
 function EmptyState({ label }) { return <div className="flex min-h-32 items-center justify-center rounded-2xl border border-dashed border-slate-200 text-sm text-slate-400 dark:border-slate-700">{label}</div>; }
