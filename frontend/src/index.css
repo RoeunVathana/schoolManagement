@@ -3220,3 +3220,101 @@ a, button, input, textarea, select { max-width: 100%; }
 
   .support-dock-toggle.is-open { right: 7.35rem !important; }
 }
+
+/* Compact dashboard navbar: make the phone header feel like a designed app
+   bar instead of a squeezed desktop toolbar. */
+@media (max-width: 639px) {
+  .app-navbar {
+    min-height: 4.35rem;
+    gap: .55rem;
+    padding-inline: .65rem;
+    border-bottom-width: 1px;
+  }
+
+  .app-navbar::after {
+    position: absolute;
+    right: 12%;
+    bottom: -1px;
+    left: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(141 228 202 / .7), rgb(34 158 217 / .7), transparent);
+    content: '';
+    pointer-events: none;
+  }
+
+  .app-navbar > div { position: relative; z-index: 1; }
+  .app-navbar > div:first-child { flex: 1 1 auto; gap: .55rem; }
+  .app-navbar > div:first-child > div:last-child {
+    max-width: min(8rem, 32vw);
+    border: 1px solid rgb(141 228 202 / .16);
+    border-radius: 999px;
+    padding: .32rem .55rem;
+    color: #d5e4ef;
+    background: rgb(255 255 255 / .06);
+    font-size: .7rem;
+    font-weight: 850;
+    letter-spacing: .01em;
+  }
+
+  .app-navbar > div:last-child {
+    flex: 0 0 auto;
+    gap: .3rem;
+  }
+
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar [data-dashboard-language] > button {
+    width: 2.6rem;
+    height: 2.6rem;
+    min-width: 2.6rem;
+    border-radius: .9rem;
+  }
+
+  .app-navbar .app-menu-button {
+    border-color: rgb(141 228 202 / .34);
+    color: #c9fff0;
+    background: linear-gradient(145deg, rgb(32 72 93 / .98), rgb(18 46 68 / .98));
+  }
+
+  .dark .app-navbar .app-theme-button,
+  .dark .app-navbar [data-dashboard-language] > button {
+    background: linear-gradient(145deg, rgb(30 52 78 / .98), rgb(18 35 59 / .98));
+  }
+
+  .app-navbar .app-menu-button:active,
+  .app-navbar .app-theme-button:active,
+  .app-navbar .app-logout-button:active,
+  .app-navbar [data-dashboard-language] > button:active {
+    transform: scale(.94);
+  }
+
+  .app-navbar .app-menu-button svg,
+  .app-navbar .app-theme-button svg,
+  .app-navbar .app-logout-button svg { width: 1.15rem; height: 1.15rem; }
+
+  .app-navbar [data-dashboard-language] > button > span:first-child {
+    width: 1.9rem;
+    height: 1.3rem;
+    border-radius: .35rem;
+  }
+
+  .app-navbar [data-dashboard-language] .language-switcher-chevron { display: none; }
+}
+
+@media (max-width: 380px) {
+  .app-navbar { gap: .35rem; padding-inline: .45rem; }
+  .app-navbar > div:first-child { gap: .35rem; }
+  .app-navbar > div:first-child > div:last-child { max-width: 4rem; padding-inline: .45rem; }
+  .app-navbar > div:last-child { gap: .18rem; }
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar [data-dashboard-language] > button {
+    width: 2.4rem;
+    height: 2.4rem;
+    min-width: 2.4rem;
+    border-radius: .78rem;
+  }
+  .app-navbar [data-dashboard-language] > button > span:first-child { width: 1.75rem; height: 1.2rem; }
+}
