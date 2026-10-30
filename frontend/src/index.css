@@ -3196,3 +3196,27 @@ a, button, input, textarea, select { max-width: 100%; }
     min-height: 3rem;
   }
 }
+
+/* Keep the support rail attached to the viewport, never to the scrolling page.
+   The explicit positioning also protects it from utility-class changes and
+   gives the bottom-right controls a stable anchor on mobile browsers. */
+.support-dock-item,
+.support-dock-toggle {
+  position: fixed !important;
+  inset-inline-start: auto !important;
+  inset-block-start: auto !important;
+  margin: 0 !important;
+  will-change: transform;
+}
+
+.support-dock-item { z-index: 80 !important; }
+.support-dock-toggle { z-index: 90 !important; }
+
+@media (max-width: 720px) {
+  .support-dock-item,
+  .support-dock-toggle {
+    right: max(.75rem, calc(env(safe-area-inset-right) + .5rem)) !important;
+  }
+
+  .support-dock-toggle.is-open { right: 7.35rem !important; }
+}
