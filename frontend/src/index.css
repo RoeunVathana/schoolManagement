@@ -2338,3 +2338,37 @@ a, button, input, textarea, select { max-width: 100%; }
     margin-left: auto;
   }
 }
+
+/* Shared language control used by the public website and dashboard styling. */
+.language-switcher { position: relative; display: inline-flex; flex: 0 0 auto; }
+.language-switcher-trigger { display: inline-flex; min-height: 2.55rem; align-items: center; justify-content: center; gap: .45rem; border: 1px solid #dbe6ef; border-radius: .9rem; padding: .45rem .7rem; color: #526780; background: rgb(255 255 255 / .88); box-shadow: 0 5px 14px rgb(16 36 63 / .06); font-size: .7rem; font-weight: 900; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.language-switcher-trigger:hover, .language-switcher-trigger[aria-expanded="true"] { border-color: rgb(34 158 217 / .5); color: #14536a; background: #f1fbff; box-shadow: 0 8px 20px rgb(34 158 217 / .12); transform: translateY(-1px); }
+.dark .language-switcher-trigger { border-color: #2d4660; color: #d9e9f5; background: #16263b; }
+.dark .language-switcher-trigger:hover, .dark .language-switcher-trigger[aria-expanded="true"] { border-color: rgb(74 184 223 / .7); color: #e8fff7; background: #173d4d; }
+.language-switcher-public .language-switcher-trigger { border-color: var(--public-line); color: var(--public-muted); background: var(--public-card); }
+.language-switcher-public .language-switcher-trigger:hover, .language-switcher-public .language-switcher-trigger[aria-expanded="true"] { border-color: rgb(34 158 217 / .5); color: var(--public-ink); background: var(--public-card); }
+.language-switcher-flag, .language-switcher-option-flag { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; overflow: hidden; background: #e8eef3; box-shadow: 0 0 0 1px rgb(16 36 63 / .08); }
+.language-switcher-flag { width: 1.85rem; height: 1.3rem; border-radius: .35rem; }
+.language-switcher-flag img, .language-switcher-option-flag img { width: 100%; height: 100%; object-fit: cover; }
+.language-switcher-current { white-space: nowrap; }
+.language-switcher-chevron { color: #91a3b5; font-size: .9rem; line-height: 1; transition: transform .2s ease, color .2s ease; }
+.language-switcher-chevron.is-open { color: #229ed9; transform: rotate(180deg); }
+.language-switcher-menu { position: absolute; top: calc(100% + .65rem); right: 0; z-index: 100; width: 14rem; overflow: hidden; border: 1px solid #dbe6ef; border-radius: 1.1rem; padding: .5rem; background: rgb(255 255 255 / .96); box-shadow: 0 22px 55px rgb(16 36 63 / .22); backdrop-filter: blur(18px); }
+.dark .language-switcher-menu { border-color: #2d5570; background: rgb(15 30 50 / .97); box-shadow: 0 22px 55px rgb(0 0 0 / .42); }
+.language-switcher-menu-heading { display: flex; align-items: center; justify-content: space-between; padding: .35rem .55rem .5rem; color: #91a3b5; font-size: .58rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
+.language-switcher-menu-heading b { border-radius: 999px; padding: .25rem .45rem; color: #7b8fa2; background: #f1f5f8; font-size: .55rem; }
+.dark .language-switcher-menu-heading b { color: #9bb0c3; background: #203449; }
+.language-switcher-option { display: flex; width: 100%; min-height: 2.8rem; align-items: center; gap: .65rem; border: 0; border-radius: .85rem; padding: .45rem .6rem; color: #526780; background: transparent; font-size: .75rem; font-weight: 850; text-align: left; cursor: pointer; transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+.language-switcher-option:hover { color: #14536a; background: #f1f7fa; transform: translateX(2px); }
+.language-switcher-option.is-selected { color: #fff; background: linear-gradient(135deg, #173f4f, #18354b); box-shadow: 0 8px 18px rgb(16 66 83 / .22); }
+.dark .language-switcher-option { color: #d9e9f5; }
+.dark .language-switcher-option:hover { color: #e8fff7; background: #19324a; }
+.language-switcher-option-flag { width: 2rem; height: 2rem; border-radius: .65rem; }
+.language-switcher-option.is-selected .language-switcher-option-flag { background: rgb(255 255 255 / .1); }
+.language-switcher-check { display: inline-flex; width: 1.35rem; height: 1.35rem; align-items: center; justify-content: center; margin-left: auto; border-radius: 999px; color: #fff; background: #229ed9; font-size: .7rem; }
+
+@media (max-width: 620px) {
+  .language-switcher-trigger { min-width: 2.55rem; padding-inline: .42rem; }
+  .language-switcher-current { display: none; }
+  .language-switcher-menu { right: 0; width: 13rem; }
+}
