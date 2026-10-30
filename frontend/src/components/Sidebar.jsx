@@ -49,6 +49,7 @@ export default function Sidebar({ open, onClose }) {
   const communityText = useCommunityText();
   const workspaceLabel = user?.role === 'ADMIN' ? t('adminTools') : user?.role === 'TEACHER' ? t('teacherWorkspace') : t('studentSpace');
   const profilePath = user?.role === 'STUDENT' || user?.role === 'CUSTOMER' ? '/student/profile' : user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
+  const communityProfilePath = user?.id ? `/profile/${user.id}` : profilePath;
   const initials = user?.fullName?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'U';
 
   return <aside id="dashboard-navigation" className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(20rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform lg:w-72 lg:px-5 lg:py-6 lg:translate-x-0`}>
@@ -63,7 +64,7 @@ export default function Sidebar({ open, onClose }) {
       <button aria-label="Close menu" className="rounded-lg px-2 py-1 text-xl text-slate-300 transition hover:bg-white/10 hover:text-white lg:hidden" onClick={onClose}>&times;</button>
     </div>
 
-    <NavLink to={profilePath} onClick={onClose} className="group sidebar-profile mb-6 flex shrink-0 items-center gap-3 rounded-2xl p-3 transition-all duration-200">
+    <NavLink to={communityProfilePath} onClick={onClose} aria-label="Open my community profile" className="group sidebar-profile mb-6 flex shrink-0 items-center gap-3 rounded-2xl p-3 transition-all duration-200">
       <UserAvatar person={user} size="sidebar" className="ring-1 ring-white/10" />
       <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-white">{user?.fullName || 'User'}</p><p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">{user?.role || 'Account'}</p></div>
       <span className="text-lg text-slate-500 transition group-hover:text-mint">›</span>
