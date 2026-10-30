@@ -11,6 +11,10 @@ export default function Friends() {
   const [data, setData] = useState({ incoming: [], outgoing: [], suggestions: [], friends: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
   const text = useCommunityText();
@@ -33,6 +37,37 @@ export default function Friends() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  const searchFriends = async (event) => {
+    event.preventDefault();
+    const term = searchQuery.trim();
+    if (term.length < 2) {
+      setSearchResults([]);
+      setSearchActive(false);
+      setError(text.searchMinimum);
+      return;
+    }
+    setSearchLoading(true);
+    setError('');
+    try {
+      const response = await api.get('/api/friends/search', { params: { q: term } });
+      setSearchResults(unwrap(response) || []);
+      setSearchActive(true);
+    } catch (searchError) {
+      setSearchResults([]);
+      setSearchActive(true);
+      setError(searchError.response?.data?.message || text.searchFailed);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setSearchResults([]);
+    setSearchActive(false);
+    setError('');
+  };
 
   const person = (value) => value.user || value;
 
@@ -87,6 +122,26 @@ export default function Friends() {
     </section>
 
     {error && <div className="community-alert" role="alert">{error}</div>}
+
+    <section className="community-search-card" aria-labelledby="friend-search-title">
+      <div className="community-search-heading">
+        <div>
+          <p className="community-eyebrow">{text.findFriends}</p>
+          <h2 id="friend-search-title">{text.searchFriends}</h2>
+          <p>{text.searchFriendsDescription}</p>
+        </div>
+      </div>
+      <form className="community-search-form" onSubmit={searchFriends}>
+        <label className="sr-only" htmlFor="friend-search">{text.searchFriendsPlaceholder}</label>
+        <input id="friend-search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={text.searchFriendsPlaceholder} autoComplete="off" />
+        <button type="submit" className="community-button community-button-primary" disabled={searchLoading}>{searchLoading ? text.searching : text.search}</button>
+        {searchActive && <button type="button" className="community-button community-button-soft" onClick={clearSearch}>{text.clearSearch}</button>}
+      </form>
+      {searchActive && <div className="community-search-results-wrap">
+        <p className="community-search-results-title">{text.searchResults} <span>{searchResults.length}</span></p>
+        {searchResults.length ? <div className="community-search-results">{searchResults.map((result) => renderPersonCard(result, result.friendshipStatus || 'NONE', result.friendRequestId))}</div> : <Empty text={text.noSearchResults} />}
+      </div>}
+    </section>
 
     {loading ? <div className="community-loading-grid" aria-label={text.loadingCommunity}>
       {[1, 2, 3].map((item) => <div className="community-skeleton-card" key={item}><span /><span /><span /></div>)}

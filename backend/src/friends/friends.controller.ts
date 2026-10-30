@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -19,5 +19,6 @@ export class FriendsController {
   @Delete(':id') unfriend(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.friends.unfriend(user.id, id); }
   @Get() list(@CurrentUser() user: { id: string }) { return this.friends.listFriends(user.id); }
   @Get('requests') requests(@CurrentUser() user: { id: string }) { return this.friends.listRequests(user.id); }
+  @Get('search') search(@CurrentUser() user: { id: string }, @Query('q') query = '') { return this.friends.search(user.id, query); }
   @Get('suggestions') suggestions(@CurrentUser() user: { id: string }) { return this.friends.suggestions(user.id); }
 }

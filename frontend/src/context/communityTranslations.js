@@ -50,6 +50,15 @@ const communityShareTranslations = {
   },
 };
 
+const communityFriendSearchTranslations = {
+  en: {
+    searchFriends: 'Find people in the community', searchFriendsDescription: 'Search by name or email to connect with a classmate or customer.', searchFriendsPlaceholder: 'Search friends by name or email...', search: 'Search', searching: 'Searching...', clearSearch: 'Clear', noSearchResults: 'No people found. Try another name or email.', searchMinimum: 'Enter at least 2 characters to search.', searchFailed: 'Could not search for friends.', searchResults: 'Search results',
+  },
+  km: {
+    searchFriends: 'ស្វែងរកមនុស្សក្នុងសហគមន៍', searchFriendsDescription: 'ស្វែងរកតាមឈ្មោះ ឬអ៊ីមែល ដើម្បីភ្ជាប់ជាមួយសិស្ស ឬអតិថិជន។', searchFriendsPlaceholder: 'ស្វែងរកមិត្តភក្តិតាមឈ្មោះ ឬអ៊ីមែល...', search: 'ស្វែងរក', searching: 'កំពុងស្វែងរក...', clearSearch: 'សម្អាត', noSearchResults: 'រកមិនឃើញអ្នកប្រើទេ។ សូមសាកល្បងឈ្មោះ ឬអ៊ីមែលផ្សេង។', searchMinimum: 'សូមបញ្ចូលយ៉ាងហោចណាស់ ២ តួអក្សរ ដើម្បីស្វែងរក។', searchFailed: 'មិនអាចស្វែងរកមិត្តភក្តិបានទេ។', searchResults: 'លទ្ធផលស្វែងរក',
+  },
+};
+
 const communityGroupTranslations = {
   en: {
     groups: 'Groups', groupsDescription: 'Learn together in focused spaces for courses, skills, and community projects.', createGroup: 'Create group', groupName: 'Group name', groupDescription: 'Description', groupVisibility: 'Who can find this group?', publicGroup: 'Public', privateGroup: 'Private', publicGroupHelp: 'Anyone in the community can find and join it.', privateGroupHelp: 'Only members can view this group.', create: 'Create', creating: 'Creating...', joinGroup: 'Join group', leaveGroup: 'Leave group', joined: 'Joined', members: 'members', noGroups: 'No groups yet', noGroupsDescription: 'Create the first learning group and invite people to grow together.', groupCreated: 'Group created.', groupActionFailed: 'Could not complete that group action.', groupNameRequired: 'Enter a group name.', owner: 'Owner', deleteGroup: 'Delete group', deleteGroupConfirm: 'Delete this group? This cannot be undone.', groupPrivate: 'Private group', groupPublic: 'Public group', close: 'Close', cancel: 'Cancel', loadingGroups: 'Loading groups...', groupsLoadFailed: 'Could not load community groups.', browseGroups: 'Browse groups', yourGroups: 'Your groups', signInToGroups: 'Sign in to join community groups.',
@@ -61,5 +70,5 @@ const communityGroupTranslations = {
 
 export function useCommunityText() {
   const { language } = useLanguage();
-  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en), ...(communityGroupTranslations[language] || communityGroupTranslations.en) };
+  return { ...communityTranslations.en, ...(communityTranslations[language] || {}), ...(communityProfileTranslations[language] || communityProfileTranslations.en), ...(communityShareTranslations[language] || communityShareTranslations.en), ...(communityFriendSearchTranslations[language] || communityFriendSearchTranslations.en), ...(communityGroupTranslations[language] || communityGroupTranslations.en) };
 }

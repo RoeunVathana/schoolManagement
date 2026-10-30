@@ -129,6 +129,39 @@ export class FriendsService {
     return { incoming: incoming.map((request) => this.publicRequest(request, 'incoming')), outgoing: outgoing.map((request) => this.publicRequest(request, 'outgoing')) };
   }
 
+  async search(userId: string, query: string) {
+    await this.member(userId);
+    const term = query.trim();
+    if (term.length < 2) return [];
+
+    const blocked = await this.prisma.userBlock.findMany({
+      where: { OR: [{ blockerId: userId }, { blockedId: userId }] },
+      select: { blockerId: true, blockedId: true },
+    });
+    const excludedIds = new Set([userId]);
+    blocked.forEach((block) => { excludedIds.add(block.blockerId); excludedIds.add(block.blockedId); });
+
+    const users = await this.prisma.user.findMany({
+      where: {
+        id: { notIn: [...excludedIds] },
+        role: { in: COMMUNITY_ROLES },
+        status: 'ACTIVE',
+        OR: [
+          { fullName: { contains: term, mode: 'insensitive' } },
+          { email: { contains: term, mode: 'insensitive' } },
+        ],
+      },
+      include: { profile: true },
+      orderBy: { fullName: 'asc' },
+      take: 20,
+    });
+
+    return Promise.all(users.map(async (user) => {
+      const relationship = await this.relationship(userId, user.id);
+      return { ...this.publicUser(user), friendshipStatus: relationship.status, friendRequestId: relationship.requestId };
+    }));
+  }
+
   async suggestions(userId: string) {
     const friends = await this.listFriends(userId);
     const excludedIds = new Set([userId, ...friends.map((friend) => friend.id)]);
