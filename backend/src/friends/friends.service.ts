@@ -69,6 +69,11 @@ export class FriendsService {
   async acceptRequest(requestId: string, receiverId: string) {
     const request = await this.prisma.friendRequest.findUnique({ where: { id: requestId }, include: { sender: { select: { id: true, fullName: true, email: true } }, receiver: { select: { id: true, fullName: true, email: true } } } });
     if (!request || request.receiverId !== receiverId) throw new NotFoundException('Friend request not found');
+    if (request.status === FriendRequestStatus.ACCEPTED) {
+      const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
+      await this.prisma.friendship.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
+      return request;
+    }
     if (request.status !== FriendRequestStatus.PENDING) throw new BadRequestException('This friend request is no longer pending');
     const [userAId, userBId] = this.pair(request.senderId, request.receiverId);
     const accepted = await this.prisma.$transaction(async (tx) => {

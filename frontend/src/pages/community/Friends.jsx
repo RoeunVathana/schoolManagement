@@ -86,8 +86,13 @@ export default function Friends() {
         status={status}
         requestId={requestId}
         onChange={(_next, _requestId, requestError) => {
-          if (requestError) setError(requestError.response?.data?.message || text.actionFailed);
-          else load();
+          if (requestError) {
+            const message = requestError.response?.data?.message || text.actionFailed;
+            setError(message.toLowerCase().includes('no longer pending')
+              ? 'This friend request was already handled. The friend list has been refreshed.'
+              : message);
+          }
+          load();
         }}
         onMessage={() => status === 'FRIENDS'
           ? navigate('/chat', { state: { userId: target.id } })
