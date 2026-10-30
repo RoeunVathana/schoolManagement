@@ -17,7 +17,7 @@ function notificationPath(notification, role) {
   return announcementPath[role] || '/community';
 }
 
-export default function Navbar({ onMenu }) {
+export default function Navbar({ onMenu, menuOpen = false }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const { t } = useLanguage();
@@ -59,7 +59,7 @@ export default function Navbar({ onMenu }) {
 
   return <header className="app-navbar sticky top-0 z-30 flex min-h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-3 backdrop-blur dark:border-slate-700 dark:bg-[#0b1628]/90 sm:px-4 lg:px-8">
     <div className="flex min-w-0 items-center gap-2">
-      <button type="button" onClick={onMenu} className="app-menu-button flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:bg-slate-100 lg:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" aria-label="Open navigation"><MenuIcon /></button>
+      <button type="button" onClick={onMenu} className={`app-menu-button ${menuOpen ? 'is-open' : ''} flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:bg-slate-100 lg:hidden dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200`} aria-expanded={menuOpen} aria-controls="dashboard-navigation" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}><>{menuOpen ? <CloseIcon /> : <MenuIcon />}</></button>
       <div className="hidden min-w-0 truncate text-sm font-medium text-slate-500 lg:block">{t('goodToSee')}, {user?.fullName?.split(' ')[0]}</div>
       <div className="min-w-0 truncate text-xs font-semibold text-slate-500 sm:text-sm lg:hidden">{user?.fullName?.split(' ')[0]}</div>
     </div>
@@ -85,6 +85,7 @@ export default function Navbar({ onMenu }) {
 }
 
 function MenuIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-5 w-5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>; }
+function CloseIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" className="h-5 w-5"><path d="m6 6 12 12M18 6 6 18" /></svg>; }
 function BellIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" /></svg>; }
 function SunIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-4 w-4"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>; }
 function MoonIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z" /></svg>; }

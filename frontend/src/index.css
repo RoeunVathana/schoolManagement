@@ -3318,3 +3318,16 @@ a, button, input, textarea, select { max-width: 100%; }
   }
   .app-navbar [data-dashboard-language] > button > span:first-child { width: 1.75rem; height: 1.2rem; }
 }
+
+.app-navbar .app-menu-button.is-open {
+  border-color: rgb(34 158 217 / .7);
+  color: #14536a;
+  background: linear-gradient(145deg, #dffaf1, #d9effb);
+  box-shadow: 0 8px 20px rgb(34 158 217 / .16);
+}
+
+.dark .app-navbar .app-menu-button.is-open {
+  border-color: rgb(141 228 202 / .6);
+  color: #d9fff3;
+  background: linear-gradient(145deg, #1b5363, #20375b);
+}
