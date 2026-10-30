@@ -3846,13 +3846,13 @@ a, button, input, textarea, select { max-width: 100%; }
   min-height: 0;
   flex: 1 1 auto;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: auto;
   scrollbar-width: thin;
 }
 
 .community-message-list {
   min-height: 0;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: auto;
   scrollbar-width: thin;
 }
 
