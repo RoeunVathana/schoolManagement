@@ -264,7 +264,7 @@ export default function Register() {
       {redirecting && <Loading fullScreen label={t('redirecting')} />}
       <div className="auth-background min-h-screen p-4 sm:p-6 lg:p-8">
       <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={(croppedFile) => { setCroppedProfileImage(croppedFile); setCropFile(null); }} />
-      <div className="mx-auto grid min-h-[calc(100vh-2rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-slate-300/40 dark:border-slate-700 dark:bg-slate-800 dark:shadow-none lg:grid-cols-[.78fr_1.22fr]">
+      <div className="auth-layout mx-auto grid min-h-[calc(100vh-2rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-slate-300/40 dark:border-slate-700 dark:bg-slate-800 dark:shadow-none lg:grid-cols-[.78fr_1.22fr]">
         <aside className="auth-hero-panel relative hidden overflow-hidden bg-gradient-to-br from-navy via-[#173957] to-[#246574] p-10 text-white lg:flex lg:flex-col lg:justify-between">
           <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-mint/10 blur-2xl" />
           <div className="relative">

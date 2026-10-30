@@ -107,7 +107,7 @@ export default function Login() {
     <>
       {redirecting && <Loading fullScreen label={t('redirecting')} />}
       <div className="auth-background min-h-screen p-4 sm:p-6 lg:p-8">
-      <div className="mx-auto grid min-h-[calc(100vh-2rem)] max-w-7xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/95 shadow-2xl shadow-slate-300/40 dark:border-slate-700 dark:bg-slate-900 dark:shadow-none lg:grid-cols-[1.12fr_.88fr]">
+      <div className="auth-layout mx-auto grid min-h-[calc(100vh-2rem)] max-w-7xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/95 shadow-2xl shadow-slate-300/40 dark:border-slate-700 dark:bg-slate-900 dark:shadow-none lg:grid-cols-[1.12fr_.88fr]">
         <aside className="auth-hero-panel relative hidden overflow-hidden bg-gradient-to-br from-navy via-[#173957] to-[#246574] p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
           <div className="absolute -right-28 -top-28 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
           <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-coral/10 blur-3xl" />
@@ -154,7 +154,7 @@ export default function Login() {
               <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg ${selected.color}`}><RoleIcon type={selected.icon} /></span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-50 p-1.5 dark:bg-slate-800 sm:grid-cols-4">
+            <div className="auth-role-tabs grid grid-cols-2 gap-2 rounded-2xl bg-slate-50 p-1.5 dark:bg-slate-800 sm:grid-cols-4">
               {Object.entries(roleOptions).map(([key, role]) => <Link key={key} to={role.path} className={`flex items-center justify-center gap-2 rounded-xl px-2 py-3 text-xs font-bold transition ${selectedRole === key ? `${role.color} text-white shadow-md` : 'text-slate-500 hover:bg-white hover:text-navy dark:hover:bg-slate-700 dark:hover:text-white'}`}><RoleIcon type={role.icon} small />{roleLabels[key]}</Link>)}
             </div>
 
