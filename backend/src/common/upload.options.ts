@@ -109,6 +109,20 @@ export const profileImageUpload = {
   },
 };
 
+export const coverImageUpload = {
+  storage: diskStorage({
+    destination: (_req, _file, cb) => { mkdirSync('uploads/covers', { recursive: true }); cb(null, 'uploads/covers'); },
+    filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
+  }),
+  limits: { fileSize: 50 * 1024 * 1024 },
+  fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
+    const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
+    const extension = extname(file.originalname).toLowerCase();
+    if (!file.mimetype.startsWith('image/') || !allowed.includes(extension)) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP cover images are allowed.'), false);
+    cb(null, true);
+  },
+};
+
 export const postImageUpload = {
   storage: diskStorage({
     destination: (_req, _file, cb) => { mkdirSync('uploads/posts', { recursive: true }); cb(null, 'uploads/posts'); },

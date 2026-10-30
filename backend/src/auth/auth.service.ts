@@ -225,6 +225,12 @@ export class AuthService {
     return this.safeUser(profile);
   }
 
+  async updateCoverImage(userId: string, coverImage: string) {
+    await this.getProfile(userId);
+    await this.prisma.profile.update({ where: { userId }, data: { coverImage } });
+    return this.getProfile(userId);
+  }
+
   async issueTokens(user: any) {
     const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = await this.jwt.signAsync(payload, { secret: this.config.getOrThrow('JWT_ACCESS_SECRET'), expiresIn: this.config.get('JWT_ACCESS_EXPIRES_IN', '15m') });

@@ -7,7 +7,7 @@ import { Role } from '@prisma/client';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { profileImageUpload } from '../common/upload.options';
+import { coverImageUpload, profileImageUpload } from '../common/upload.options';
 
 class RegisterDto { @IsString() fullName!: string; @IsEmail() email!: string; @MinLength(10) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string; @IsOptional() phone?: string; @IsOptional() @IsEnum(Role) role?: Role; @IsOptional() specialization?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
 class LoginDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string; @IsString() password!: string; @IsOptional() @IsEnum(Role) role?: Role; }
@@ -35,4 +35,5 @@ export class AuthController {
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Get('profile') profile(@CurrentUser() user: any) { return this.auth.getProfile(user.id); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Patch('profile') updateProfile(@CurrentUser() user: any, @Body() dto: UpdateProfileDto) { return this.auth.updateProfile(user.id, dto); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/image') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) async updateProfileImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a profile image'); return this.auth.updateProfileImage(user.id, `/uploads/profiles/${file.filename}`); }
+  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/cover') @UseInterceptors(FileInterceptor('coverImage', coverImageUpload)) async updateCoverImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a cover image'); return this.auth.updateCoverImage(user.id, `/uploads/covers/${file.filename}`); }
 }
