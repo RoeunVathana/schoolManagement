@@ -1349,8 +1349,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 table { border-collapse: separate; border-spacing: 0; }
 table th, table td { vertical-align: middle; }
-table td { overflow-wrap: anywhere; }
+table td { overflow-wrap: break-word; word-break: normal; }
 .table-scroll { max-width: 100%; -webkit-overflow-scrolling: touch; }
+.table-desktop-view table,
+.overflow-x-auto > table { min-width: max-content; }
+.table-desktop-view td { overflow-wrap: break-word; word-break: normal; }
+.table-desktop-view td:last-child { white-space: nowrap; }
+.table-desktop-view td:last-child > div { flex-wrap: nowrap; }
+.table-desktop-view td:last-child button,
+.table-desktop-view td:last-child a,
+.overflow-x-auto > table td:last-child { white-space: nowrap; }
+.table-desktop-view td:last-child button,
+.table-desktop-view td:last-child a { flex: 0 0 auto; white-space: nowrap; }
 .table-mobile-view { display: none; }
 .table-mobile-field { display: grid; grid-template-columns: minmax(6.25rem, 34%) minmax(0, 1fr); align-items: start; gap: .75rem; border-bottom: 1px solid rgb(219 228 238 / .75); padding: .7rem 0; }
 .table-mobile-field:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -1368,6 +1378,12 @@ table td { overflow-wrap: anywhere; }
 .modal-overlay { overscroll-behavior: contain; }
 .modal-panel { max-width: min(100%, 56rem); }
 .modal-body { scrollbar-gutter: stable; }
+.modal-body > form,
+.modal-body form > *,
+.modal-body form .grid > * { min-width: 0; }
+.modal-body input,
+.modal-body select,
+.modal-body textarea { max-width: 100%; min-width: 0; }
 .dark .modal-panel { border-color: #304963; background: #101c30; }
 
 @media (max-width: 1023px) {
@@ -1376,7 +1392,7 @@ table td { overflow-wrap: anywhere; }
   .page-header-action { justify-content: flex-start; }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .app-navbar { min-height: 4rem; gap: .5rem; padding-inline: .75rem; }
   .app-navbar > div:last-child { gap: .35rem; }
   .app-navbar [data-dashboard-language] > button { min-width: 2.5rem; padding-inline: .55rem; }
@@ -1401,6 +1417,7 @@ table td { overflow-wrap: anywhere; }
   .modal-panel { border-radius: 1.15rem; max-height: calc(100dvh - 1rem); }
   .modal-body { scrollbar-width: thin; }
   .modal-body form.space-y-5, .modal-body form.space-y-4, .modal-body form.space-y-3 { padding-bottom: .25rem; }
+  .modal-body form [class~="sm:grid-cols-2"] { grid-template-columns: minmax(0, 1fr); }
   .pagination-shell { gap: .5rem; }
   .pagination-count { width: 100%; text-align: center; }
   .storefront-floating-support { bottom: .9rem !important; right: .9rem !important; }
