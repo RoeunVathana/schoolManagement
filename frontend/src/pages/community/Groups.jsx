@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
+import CommunityMedia from '../../components/CommunityMedia';
 import UserAvatar from '../../components/UserAvatar';
 import { useCommunityText } from '../../context/communityTranslations';
 
 const initialForm = { name: '', description: '', visibility: 'PUBLIC' };
+const MAX_GROUP_LOGO_SIZE = 50 * 1024 * 1024;
 
 export default function Groups() {
   const text = useCommunityText();
@@ -21,6 +23,7 @@ export default function Groups() {
   const [inviteFriends, setInviteFriends] = useState([]);
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteBusyId, setInviteBusyId] = useState('');
+  const [logoBusyId, setLogoBusyId] = useState('');
 
   const loadGroups = useCallback(async () => {
     setLoading(true);
@@ -45,6 +48,48 @@ export default function Groups() {
   }, []);
 
   useEffect(() => { loadInvitations(); }, [loadInvitations]);
+
+  const uploadLogo = async (group, event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/') || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      setError(text.groupLogoType || 'Please choose a PNG, JPG or WEBP image.');
+      return;
+    }
+    if (file.size > MAX_GROUP_LOGO_SIZE) {
+      setError(text.groupLogoLimit || 'Group logos must be 50 MB or smaller.');
+      return;
+    }
+    setLogoBusyId(group.id);
+    setError('');
+    try {
+      const formData = new FormData();
+      formData.append('logo', file);
+      const updated = unwrap(await api.post('/api/groups/' + group.id + '/logo', formData));
+      setGroups((current) => current.map((item) => item.id === group.id ? updated : item));
+      setNotice(text.groupLogoUpdated || 'Group logo updated.');
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.groupActionFailed);
+    } finally {
+      setLogoBusyId('');
+    }
+  };
+
+  const removeLogo = async (group) => {
+    if (!window.confirm(text.removeGroupLogoConfirm || 'Remove this group logo?')) return;
+    setLogoBusyId(group.id);
+    setError('');
+    try {
+      const updated = unwrap(await api.delete('/api/groups/' + group.id + '/logo'));
+      setGroups((current) => current.map((item) => item.id === group.id ? updated : item));
+      setNotice(text.groupLogoRemoved || 'Group logo removed.');
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || text.groupActionFailed);
+    } finally {
+      setLogoBusyId('');
+    }
+  };
 
   const submit = async (event) => {
     event.preventDefault();
@@ -199,7 +244,7 @@ export default function Groups() {
 
     {loading ? <div className="community-loading-grid"><div className="community-skeleton-card"><span /><span /><span /></div><div className="community-skeleton-card"><span /><span /><span /></div></div> : groups.length ? <section className="community-groups-grid" aria-label={text.groups}>
       {groups.map((group) => <article className="community-group-card" key={group.id}>
-        <div className="community-group-card-top"><span className="community-group-mark">{group.name.slice(0, 1).toUpperCase()}</span><span className={`community-group-visibility is-${group.visibility.toLowerCase()}`}>{group.visibility === 'PUBLIC' ? text.groupPublic : text.groupPrivate}</span></div>
+        <div className="community-group-card-top"><div className="community-group-logo-area">{group.coverImageUrl ? <CommunityMedia url={group.coverImageUrl} mediaType="IMAGE" alt={group.name} className="community-group-logo" /> : <span className="community-group-mark">{group.name.slice(0, 1).toUpperCase()}</span>}{group.isLeader && <div className="community-group-logo-actions"><label className="community-group-logo-button">{logoBusyId === group.id ? '...' : group.coverImageUrl ? (text.changeGroupLogo || 'Change logo') : (text.uploadGroupLogo || 'Upload logo')}<input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => uploadLogo(group, event)} disabled={logoBusyId === group.id} /></label>{group.coverImageUrl && <button type="button" className="community-group-logo-remove" onClick={() => removeLogo(group)} disabled={logoBusyId === group.id}>{text.removeGroupLogo || 'Remove'}</button>}</div>}</div><span className={`community-group-visibility is-${group.visibility.toLowerCase()}`}>{group.visibility === 'PUBLIC' ? text.groupPublic : text.groupPrivate}</span></div>
         <h2>{group.name}</h2>
         <p>{group.description || text.groupsDescription}</p>
         <div className="community-group-owner"><UserAvatar person={group.owner} size="sm" /><span><strong>{group.owner?.fullName}</strong><small>{group.isOwner ? text.owner : group.owner?.role}</small></span></div>

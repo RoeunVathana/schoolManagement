@@ -2,13 +2,14 @@ import { BadRequestException, ConflictException, ForbiddenException, Injectable,
 import { CommunityGroupInviteStatus, CommunityGroupRole, CommunityGroupVisibility, Role, UserStatus } from '@prisma/client';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { MediaStorageService } from '../media/media-storage.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 
 const COMMUNITY_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()
 export class GroupsService {
-  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService) {}
+  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService, private readonly media: MediaStorageService) {}
 
   private async ensureCommunityUser(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, fullName: true, role: true, status: true } });
@@ -107,6 +108,25 @@ export class GroupsService {
       return created;
     });
     return this.get(group.id, userId);
+  }
+
+  async updateLogo(groupId: string, userId: string, file: Express.Multer.File) {
+    const group = await this.prisma.communityGroup.findUnique({ where: { id: groupId }, select: { id: true, ownerId: true, coverImageUrl: true } });
+    if (!group) throw new NotFoundException('Community group not found');
+    await this.leaderGroup(groupId, userId);
+    const uploaded = await this.media.upload(file, 'groups');
+    const updated = await this.prisma.communityGroup.update({ where: { id: group.id }, data: { coverImageUrl: uploaded.url } });
+    await this.media.remove(group.coverImageUrl);
+    return this.get(updated.id, userId);
+  }
+
+  async removeLogo(groupId: string, userId: string) {
+    const group = await this.prisma.communityGroup.findUnique({ where: { id: groupId }, select: { id: true, ownerId: true, coverImageUrl: true } });
+    if (!group) throw new NotFoundException('Community group not found');
+    await this.leaderGroup(groupId, userId);
+    const updated = await this.prisma.communityGroup.update({ where: { id: groupId }, data: { coverImageUrl: null } });
+    await this.media.remove(group.coverImageUrl);
+    return this.get(updated.id, userId);
   }
 
   async join(groupId: string, userId: string) {

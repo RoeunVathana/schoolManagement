@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { GroupInviteDto } from './dto/group-invite.dto';
 import { GroupsService } from './groups.service';
+import { groupImageUpload } from '../common/upload.options';
 
 @ApiTags('community-groups')
 @ApiBearerAuth()
@@ -24,6 +26,16 @@ export class GroupsController {
 
   @Post()
   create(@CurrentUser() user: { id: string }, @Body() dto: CreateGroupDto) { return this.groups.create(user.id, dto); }
+
+  @Post(':id/logo')
+  @UseInterceptors(FileInterceptor('logo', groupImageUpload))
+  logo(@Param('id') id: string, @CurrentUser() user: { id: string }, @UploadedFile() file?: Express.Multer.File) {
+    if (!file) throw new BadRequestException('Please select a PNG, JPG, JPEG or WEBP group logo.');
+    return this.groups.updateLogo(id, user.id, file);
+  }
+
+  @Delete(':id/logo')
+  removeLogo(@Param('id') id: string, @CurrentUser() user: { id: string }) { return this.groups.removeLogo(id, user.id); }
 
   @Post(':id/join')
   join(@Param('id') id: string, @CurrentUser() user: { id: string }) { return this.groups.join(id, user.id); }

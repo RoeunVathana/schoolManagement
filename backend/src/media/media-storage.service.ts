@@ -4,7 +4,7 @@ import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getStorage } from 'firebase-admin/storage';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
-import { basename } from 'path';
+import { basename, join } from 'path';
 
 export type CommunityMediaType = 'IMAGE' | 'VIDEO';
 
@@ -20,7 +20,7 @@ export class MediaStorageService {
     this.bucketName = String(this.config.get('FIREBASE_STORAGE_BUCKET') || `${this.projectId}.firebasestorage.app`);
   }
 
-  async upload(file: Express.Multer.File, folder: 'posts' | 'stories' | 'chat'): Promise<{ url: string; mediaType: CommunityMediaType }> {
+  async upload(file: Express.Multer.File, folder: 'posts' | 'stories' | 'chat' | 'groups'): Promise<{ url: string; mediaType: CommunityMediaType }> {
     const mediaType: CommunityMediaType = file.mimetype.startsWith('video/') ? 'VIDEO' : 'IMAGE';
     if (this.mode !== 'firebase' && this.mode !== 'google') {
       return { url: `/uploads/${folder}/${basename(file.filename)}`, mediaType };
@@ -53,6 +53,12 @@ export class MediaStorageService {
     } finally {
       await fs.rm(file.path, { force: true }).catch(() => undefined);
     }
+  }
+
+  async remove(url?: string | null) {
+    if (!url || /^https?:\/\//i.test(url)) return;
+    const relativePath = url.replace(/^\/?uploads[\\/]/, 'uploads/');
+    await fs.rm(join(process.cwd(), relativePath), { force: true }).catch(() => undefined);
   }
 
   private firebaseApp() {

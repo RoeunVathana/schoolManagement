@@ -2203,6 +2203,13 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-group-card:hover { border-color: rgb(34 158 217 / .48); box-shadow: 0 16px 36px rgb(16 36 63 / .1); transform: translateY(-2px); }
 .community-group-card-top, .community-group-footer, .community-group-owner { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
 .community-group-mark { display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: .95rem; color: #10243f; background: linear-gradient(135deg, var(--community-mint), #d4efff); font-size: 1.25rem; font-weight: 950; }
+.community-group-logo-area { display: flex; min-width: 0; align-items: center; gap: .55rem; }
+.community-group-logo { display: block; width: 2.75rem; height: 2.75rem; overflow: hidden; border-radius: .95rem; object-fit: cover; }
+.community-group-logo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.community-group-logo-button, .community-group-logo-remove { min-height: 1.85rem; border: 1px solid var(--community-line); border-radius: .65rem; padding: .35rem .55rem; color: var(--community-muted); background: var(--community-soft); font-size: .58rem; font-weight: 850; cursor: pointer; }
+.community-group-logo-button:hover, .community-group-logo-remove:hover { border-color: var(--community-blue); color: var(--community-blue); }
+.community-group-logo-button input { display: none; }
+.community-group-logo-button:has(input:disabled), .community-group-logo-remove:disabled { cursor: wait; opacity: .55; }
 .community-group-visibility { border-radius: 999px; padding: .35rem .55rem; font-size: .58rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
 .community-group-visibility.is-public { color: #147052; background: rgb(141 228 202 / .2); }
 .community-group-visibility.is-private { color: #8f4d49; background: rgb(244 123 103 / .14); }
