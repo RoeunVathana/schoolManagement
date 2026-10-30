@@ -128,14 +128,14 @@ export const postMediaUpload = {
     destination: (_req, _file, cb) => { mkdirSync('uploads/posts', { recursive: true }); cb(null, 'uploads/posts'); },
     filename: (_req, file, cb) => cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname).toLowerCase()}`),
   }),
-  limits: { fileSize: 250 * 1024 * 1024 },
+  limits: { fileSize: 100 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
-    const allowedImages = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+    const allowedImages = ['.png', '.jpg', '.jpeg', '.jfif', '.webp', '.gif', '.bmp', '.avif', '.heic', '.heif', '.tif', '.tiff'];
     const allowedVideos = ['.mp4', '.webm', '.mov', '.m4v'];
     const extension = extname(file.originalname).toLowerCase();
     const validImage = file.mimetype.startsWith('image/') && allowedImages.includes(extension);
     const validVideo = file.mimetype.startsWith('video/') && allowedVideos.includes(extension);
-    if (!validImage && !validVideo) return cb(new BadRequestException('Only PNG/JPG/WEBP/GIF images or MP4/WEBM/MOV videos can be posted.'), false);
+    if (!validImage && !validVideo) return cb(new BadRequestException('Please upload a supported image or MP4, WEBM, MOV, or M4V video.'), false);
     cb(null, true);
   },
 };

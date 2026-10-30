@@ -244,8 +244,9 @@ export class AuthService {
 
   async issueTokens(user: any) {
     const payload = { sub: user.id, email: user.email, role: user.role };
-    const accessToken = await this.jwt.signAsync(payload, { secret: this.config.getOrThrow('JWT_ACCESS_SECRET'), expiresIn: this.config.get('JWT_ACCESS_EXPIRES_IN', '15m') });
-    const refreshToken = await this.jwt.signAsync(payload, { secret: this.config.getOrThrow('JWT_REFRESH_SECRET'), expiresIn: this.config.get('JWT_REFRESH_EXPIRES_IN', '7d') });
+    const jwtContext = { issuer: this.config.get('JWT_ISSUER', 'campusflow-api'), audience: this.config.get('JWT_AUDIENCE', 'campusflow-web') };
+    const accessToken = await this.jwt.signAsync(payload, { ...jwtContext, secret: this.config.getOrThrow('JWT_ACCESS_SECRET'), expiresIn: this.config.get('JWT_ACCESS_EXPIRES_IN', '15m') });
+    const refreshToken = await this.jwt.signAsync(payload, { ...jwtContext, secret: this.config.getOrThrow('JWT_REFRESH_SECRET'), expiresIn: this.config.get('JWT_REFRESH_EXPIRES_IN', '7d') });
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     await this.prisma.refreshToken.create({ data: { userId: user.id, tokenHash: this.hashToken(refreshToken), expiresAt } });
     return { accessToken, refreshToken, user: this.safeUser(user) };
@@ -253,10 +254,11 @@ export class AuthService {
 
   async refresh(token: string) {
     try {
-      const payload = await this.jwt.verifyAsync<{ sub: string }>(token, { secret: this.config.getOrThrow('JWT_REFRESH_SECRET') });
+      const payload = await this.jwt.verifyAsync<{ sub: string }>(token, { secret: this.config.getOrThrow('JWT_REFRESH_SECRET'), issuer: this.config.get('JWT_ISSUER', 'campusflow-api'), audience: this.config.get('JWT_AUDIENCE', 'campusflow-web') });
       const stored = await this.prisma.refreshToken.findUnique({ where: { tokenHash: this.hashToken(token) } });
-      if (!stored || stored.expiresAt < new Date()) throw new UnauthorizedException('Refresh token expired');
+      if (!stored || stored.userId !== payload.sub || stored.expiresAt <= new Date()) throw new UnauthorizedException('Refresh token expired');
       const user = await this.prisma.user.findUniqueOrThrow({ where: { id: payload.sub }, include: { profile: true, student: true, teacher: true } });
+      if (user.status !== UserStatus.ACTIVE) throw new UnauthorizedException('This account is not active');
       await this.prisma.refreshToken.delete({ where: { id: stored.id } });
       return this.issueTokens(user);
     } catch { throw new UnauthorizedException('Invalid refresh token'); }

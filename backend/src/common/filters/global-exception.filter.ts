@@ -6,7 +6,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const response = host.switchToHttp().getResponse();
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     const payload = exception instanceof HttpException ? exception.getResponse() : 'Internal server error';
-    const message = typeof payload === 'string' ? payload : (payload as { message?: string | string[] }).message ?? 'Something went wrong';
+    const rawMessage = typeof payload === 'string' ? payload : (payload as { message?: string | string[] }).message ?? 'Something went wrong';
+    const isProduction = String(process.env.NODE_ENV ?? '').toLowerCase() === 'production';
+    const message = isProduction && status >= HttpStatus.INTERNAL_SERVER_ERROR ? 'Internal server error' : rawMessage;
     response.status(status).json({ success: false, message, statusCode: status });
   }
 }

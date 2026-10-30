@@ -3,8 +3,10 @@ import api, { unwrap } from '../api/axios';
 import { useCommunityText } from '../context/communityTranslations';
 import CommunityMedia, { communityMediaUrl } from './CommunityMedia';
 
-const MAX_MEDIA_SIZE = 250 * 1024 * 1024;
-const MEDIA_ACCEPT = 'image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v';
+const MAX_MEDIA_SIZE = 100 * 1024 * 1024;
+// Let the operating-system picker show any image format and the supported video formats.
+// The backend still validates the MIME type, extension, and 100 MB size limit.
+const MEDIA_ACCEPT = 'image/*,video/mp4,video/webm,video/quicktime,video/x-m4v';
 
 export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
   const isEditing = Boolean(post?.id);
@@ -34,7 +36,7 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
     event.target.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) { setMediaFile(null); setError(text.onlyImages); return; }
-    if (file.size > MAX_MEDIA_SIZE) { setMediaFile(null); setError(text.imageLimit); return; }
+    if (file.size > MAX_MEDIA_SIZE) { setMediaFile(null); setError(text.postMediaLimit || text.imageLimit); return; }
     setError('');
     setMediaFile(file);
   };
@@ -64,7 +66,7 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
     <div className="community-composer-input-row"><div className="community-composer-avatar">+</div><textarea value={content} onChange={(event) => setContent(event.target.value)} maxLength={5000} rows={4} className="input community-composer-textarea" placeholder={text.shareCommunity} /></div>
     <div className="community-composer-tools">
       <label className="community-composer-tool"><span className="community-tool-icon">+</span><span>{text.addImage}</span><input type="file" accept={MEDIA_ACCEPT} onChange={selectMedia} className="sr-only" /></label>
-      <span className="community-composer-note">Images or videos · maximum 250 MB</span>
+      <span className="community-composer-note">Images or videos · maximum 100 MB</span>
       {mediaFile && <button type="button" onClick={() => setMediaFile(null)} className="community-remove-media">{text.removeImage}</button>}
     </div>
     {mediaPreview && <div className="community-media-preview"><CommunityMedia url={mediaPreview} mediaType={mediaFile ? (mediaFile.type.startsWith('video/') ? 'VIDEO' : 'IMAGE') : post?.mediaType} alt="Post preview" />{mediaFile && <p>{mediaFile.name} · {(mediaFile.size / (1024 * 1024)).toFixed(1)} MB</p>}</div>}

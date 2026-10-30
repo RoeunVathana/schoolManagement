@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService, private readonly prisma: PrismaService) {
-    super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), secretOrKey: config.getOrThrow('JWT_ACCESS_SECRET') });
+    super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), secretOrKey: config.getOrThrow('JWT_ACCESS_SECRET'), issuer: config.get('JWT_ISSUER', 'campusflow-api'), audience: config.get('JWT_AUDIENCE', 'campusflow-web') });
   }
   async validate(payload: { sub: string }) {
     const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
