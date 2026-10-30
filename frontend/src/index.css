@@ -2972,3 +2972,54 @@ a, button, input, textarea, select { max-width: 100%; }
 
   .support-dock-toggle.is-open { right: 7.35rem; }
 }
+
+/* Mobile support rail: keep AI, QR and Telegram controls aligned with a
+   comfortable edge inset and clear of the chat composer. */
+@media (max-width: 720px) {
+  .app-shell-chat .community-ai-support,
+  .app-shell-chat .storefront-floating-support {
+    right: max(1rem, calc(env(safe-area-inset-right) + .75rem)) !important;
+  }
+
+  .app-shell-chat .community-ai-support {
+    bottom: calc(max(12.5rem, env(safe-area-inset-bottom) + 12.5rem)) !important;
+  }
+
+  .app-shell-chat .storefront-floating-support {
+    bottom: calc(max(7.25rem, env(safe-area-inset-bottom) + 7.25rem)) !important;
+    gap: .45rem;
+  }
+
+  .app-shell-chat .community-ai-support .community-ai-launcher {
+    width: 3.25rem;
+    min-width: 3.25rem;
+    height: 3.25rem;
+    min-height: 3.25rem;
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .app-shell-chat .community-ai-support .community-ai-launcher > span:last-child,
+  .app-shell-chat .storefront-floating-support > button:last-child > span:last-child {
+    display: none;
+  }
+
+  .app-shell-chat .storefront-floating-support > button {
+    flex: 0 0 3.25rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding-inline: 0;
+  }
+
+  .app-shell-chat .community-ai-support.is-keyboard-open {
+    right: .75rem !important;
+    bottom: calc(max(.65rem, env(safe-area-inset-bottom)) + var(--community-keyboard-offset, 0px)) !important;
+  }
+
+  .app-shell-chat .community-ai-support.is-keyboard-open .community-ai-launcher {
+    width: 3rem;
+    min-width: 3rem;
+    height: 3rem;
+    min-height: 3rem;
+  }
+}
