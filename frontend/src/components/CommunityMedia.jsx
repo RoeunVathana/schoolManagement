@@ -16,7 +16,7 @@ export function communityPostMedia(post) {
   return [];
 }
 
-export default function CommunityMedia({ url, mediaType, alt = '', className = '', onError, autoPlayOnView = false }) {
+export default function CommunityMedia({ url, mediaType, alt = '', className = '', onError, onEnded, autoPlayOnView = false, loop = true }) {
   const videoRef = useRef(null);
   const src = communityMediaUrl(url);
   const isVideo = isCommunityVideo(mediaType, url);
@@ -44,7 +44,7 @@ export default function CommunityMedia({ url, mediaType, alt = '', className = '
 
   if (!url) return null;
   if (isVideo) {
-    return <video ref={videoRef} src={src} className={className} controls playsInline muted={autoPlayOnView} loop={autoPlayOnView} preload="metadata" onError={onError} aria-label={alt} />;
+    return <video ref={videoRef} src={src} className={className} controls playsInline muted={autoPlayOnView} loop={autoPlayOnView && loop} preload="metadata" onError={onError} onEnded={onEnded} aria-label={alt} />;
   }
   return <img src={src} alt={alt} className={className} loading="lazy" onError={onError} />;
 }

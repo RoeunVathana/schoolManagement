@@ -1954,6 +1954,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-story-viewer-caption p { margin: 0; color: rgb(255 255 255 / .7); font-size: .64rem; font-weight: 750; }
 .community-story-viewer-caption strong { font-size: .82rem; line-height: 1.45; }
 .community-story-nav { position: absolute; top: 50%; display: flex; width: 2.2rem; height: 2.2rem; align-items: center; justify-content: center; border: 1px solid rgb(255 255 255 / .32); border-radius: 999px; color: #fff; background: rgb(0 0 0 / .35); font-size: 1rem; cursor: pointer; transform: translateY(-50%); }
+.community-story-nav svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; }
 .community-story-nav:disabled { opacity: .25; cursor: not-allowed; }
 .community-story-nav-left { left: .65rem; }
 .community-story-nav-right { right: .65rem; }
