@@ -34,41 +34,51 @@ export class TelegramService {
   }
 
   async sendTestMessage() {
-    const sent = await this.sendMessage('CampusFlow Telegram notification is connected successfully.');
+    const sent = await this.sendMessage('<b>✅ CampusFlow notifications connected</b>\n<i>Your Telegram reports are ready.</i>');
     if (!sent) throw new BadRequestException('Telegram notification could not be delivered. Check the bot token, chat ID and bot permissions.');
     return { sent: true };
   }
 
   async sendPaymentReport(input: { type: string; invoiceNumber: string; amount: string | number; currency: string; paymentPlan?: string; billingPeriod?: string | null; paidAt?: Date | string | null; courseName?: string; customerName?: string; customerEmail?: string; transactionHash?: string | null }) {
-    const paidAt = input.paidAt ? new Date(input.paidAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : '—';
+    const paidAt = input.paidAt ? new Date(input.paidAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : 'Not available';
     const message = [
-      '💰 CampusFlow payment report',
-      'Status: PAID',
-      `Type: ${input.type}`,
-      `Invoice: ${input.invoiceNumber}`,
-      `Amount: ${input.amount} ${input.currency}`,
-      input.paymentPlan ? `Payment plan: ${input.paymentPlan}${input.billingPeriod ? ` (${input.billingPeriod})` : ''}` : null,
-      input.courseName ? `Course: ${input.courseName}` : null,
-      input.customerName ? `Customer: ${input.customerName}` : null,
-      input.customerEmail ? `Email: ${input.customerEmail}` : null,
-      `Paid at: ${paidAt}`,
-      input.transactionHash ? `Transaction: ${input.transactionHash}` : null,
+      '<b>💳 CAMPUSFLOW PAYMENT REPORT</b>',
+      '<i>━━━━━━━━━━━━━━━━━━━━</i>',
+      '',
+      '<b>✅ Status</b>  <code>PAID</code>',
+      `<b>📌 Type</b>  ${this.escapeHtml(input.type)}`,
+      `<b>🧾 Invoice</b>  <code>${this.escapeHtml(input.invoiceNumber)}</code>`,
+      '',
+      '<b>ORDER DETAILS</b>',
+      input.courseName ? `📚 <b>Course</b>  ${this.escapeHtml(input.courseName)}` : null,
+      `💰 <b>Amount</b>  ${this.escapeHtml(input.amount)} ${this.escapeHtml(input.currency)}`,
+      input.paymentPlan ? `🔁 <b>Plan</b>  ${this.escapeHtml(input.paymentPlan)}${input.billingPeriod ? ` <i>(${this.escapeHtml(input.billingPeriod)})</i>` : ''}` : null,
+      '',
+      '<b>CUSTOMER</b>',
+      input.customerName ? `👤 <b>Name</b>  ${this.escapeHtml(input.customerName)}` : null,
+      input.customerEmail ? `✉️ <b>Email</b>  ${this.escapeHtml(input.customerEmail)}` : null,
+      `🕒 <b>Paid at</b>  ${this.escapeHtml(paidAt)}`,
+      input.transactionHash ? `🔐 <b>Transaction</b>\n<code>${this.escapeHtml(input.transactionHash)}</code>` : null,
     ].filter(Boolean).join('\n');
     return this.sendMessage(message);
   }
 
   async sendTeacherAttendanceReport(input: { action: 'CHECK_IN' | 'CHECK_OUT'; teacherName: string; teacherCode?: string; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null; performedBy?: string; performedByRole?: string }) {
-    const formatDateTime = (value?: Date | string | null) => value ? new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : '—';
-    const formatDate = (value?: Date | string | null) => value ? new Date(value).toLocaleDateString('en-US', { dateStyle: 'medium', timeZone: 'Asia/Phnom_Penh' }) : '—';
-    const actionLabel = input.action === 'CHECK_IN' ? 'CHECKED IN' : 'CHECKED OUT';
+    const formatDateTime = (value?: Date | string | null) => value ? new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : 'Not recorded';
+    const formatDate = (value?: Date | string | null) => value ? new Date(value).toLocaleDateString('en-US', { dateStyle: 'medium', timeZone: 'Asia/Phnom_Penh' }) : 'Not available';
+    const checkedIn = input.action === 'CHECK_IN';
+    const actionLabel = checkedIn ? 'CHECKED IN' : 'CHECKED OUT';
+    const statusIcon = checkedIn ? '🟢' : '🔵';
     const message = [
-      'CampusFlow teacher attendance report',
-      `Status: ${actionLabel}`,
-      `Teacher: ${input.teacherName}${input.teacherCode ? ` (${input.teacherCode})` : ''}`,
-      `Attendance date: ${formatDate(input.attendanceDate)}`,
-      `Check in: ${formatDateTime(input.checkInAt)}`,
-      `Check out: ${formatDateTime(input.checkOutAt)}`,
-      input.performedBy ? `Recorded by: ${input.performedBy}${input.performedByRole ? ` (${input.performedByRole})` : ''}` : null,
+      '<b>🧑‍🏫 CAMPUSFLOW TEACHER ATTENDANCE</b>',
+      '<i>━━━━━━━━━━━━━━━━━━━━</i>',
+      '',
+      `<b>${statusIcon} Status</b>  <code>${actionLabel}</code>`,
+      `<b>👤 Teacher</b>  ${this.escapeHtml(input.teacherName)}${input.teacherCode ? `\n<code>${this.escapeHtml(input.teacherCode)}</code>` : ''}`,
+      `<b>📅 Attendance date</b>  ${this.escapeHtml(formatDate(input.attendanceDate))}`,
+      `⏱️ <b>Check in</b>  ${this.escapeHtml(formatDateTime(input.checkInAt))}`,
+      `⏱️ <b>Check out</b>  ${this.escapeHtml(formatDateTime(input.checkOutAt))}`,
+      input.performedBy ? `📝 <b>Recorded by</b>  ${this.escapeHtml(input.performedBy)}${input.performedByRole ? ` <i>(${this.escapeHtml(input.performedByRole)})</i>` : ''}` : null,
     ].filter(Boolean).join('\n');
     return this.sendMessage(message);
   }
@@ -82,7 +92,12 @@ export class TelegramService {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch(`https://api.telegram.org/bot${current.botToken}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: current.chatId, text, disable_web_page_preview: true }), signal: controller.signal });
+      const response = await fetch(`https://api.telegram.org/bot${current.botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: current.chatId, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+        signal: controller.signal,
+      });
       const result: any = await response.json().catch(() => null);
       if (!response.ok || !result?.ok) throw new Error(result?.description || `Telegram returned HTTP ${response.status}`);
       return true;
@@ -94,9 +109,13 @@ export class TelegramService {
     }
   }
 
+  private escapeHtml(value: string | number) {
+    return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character] || character);
+  }
+
   private maskToken(token: string) {
     if (!token) return '';
     if (token.length <= 10) return '••••••••';
-    return `${token.slice(0, 5)}••••••••${token.slice(-4)}`;
+    return `${token.slice(0, 5)}•••••••${token.slice(-4)}`;
   }
 }
