@@ -19,6 +19,7 @@ export class ChatController {
   constructor(private readonly chat: ChatService) {}
 
   @Get('conversations') list(@CurrentUser() user: { id: string }) { return this.chat.listConversations(user.id); }
+  @Get('contacts') contacts(@CurrentUser() user: { id: string }) { return this.chat.listContacts(user.id); }
   @Get('group-conversations') listGroups(@CurrentUser() user: { id: string }) { return this.chat.listGroupConversations(user.id); }
   @Post('with/:userId') open(@CurrentUser() user: { id: string }, @Param('userId') userId: string) { return this.chat.openWith(user.id, userId); }
   @Post('groups/:groupId') openGroup(@CurrentUser() user: { id: string }, @Param('groupId') groupId: string) { return this.chat.openGroup(user.id, groupId); }

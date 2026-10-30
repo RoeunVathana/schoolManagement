@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
 
 const userSelect = { id: true, fullName: true, role: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
+const DIRECT_CHAT_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()
 export class ChatService {
@@ -18,19 +19,34 @@ export class ChatService {
 
   private async assertMember(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } });
-    if (!user || user.status !== UserStatus.ACTIVE || !(user.role === Role.STUDENT || user.role === Role.CUSTOMER)) throw new ForbiddenException('Only active students and customers can use chat');
+    if (!user || user.status !== UserStatus.ACTIVE || !DIRECT_CHAT_ROLES.includes(user.role)) throw new ForbiddenException('Only active teachers, students and customers can use chat');
     return user;
   }
 
-  private async assertFriends(firstId: string, secondId: string) {
+  private async assertDirectChat(firstId: string, secondId: string) {
     if (firstId === secondId) throw new BadRequestException('You cannot start a chat with yourself');
-    await Promise.all([this.assertMember(firstId), this.assertMember(secondId)]);
+    const [firstUser, secondUser] = await Promise.all([this.assertMember(firstId), this.assertMember(secondId)]);
     const [userAId, userBId] = this.pair(firstId, secondId);
     const blocked = await this.prisma.userBlock.findFirst({ where: { OR: [{ blockerId: firstId, blockedId: secondId }, { blockerId: secondId, blockedId: firstId }] }, select: { id: true } });
     if (blocked) throw new ForbiddenException('Blocked users cannot chat');
     const friendship = await this.prisma.friendship.findUnique({ where: { userAId_userBId: { userAId, userBId } }, select: { id: true } });
-    if (!friendship) throw new ForbiddenException('You can chat after the friend request is accepted');
-    return { userAId, userBId };
+    if (friendship) return { userAId, userBId };
+
+    const teacherUserId = firstUser.role === Role.TEACHER ? firstId : secondUser.role === Role.TEACHER ? secondId : null;
+    const studentUserId = firstUser.role === Role.STUDENT ? firstId : secondUser.role === Role.STUDENT ? secondId : null;
+    if (teacherUserId && studentUserId) {
+      const activeEnrollment = await this.prisma.enrollment.findFirst({
+        where: {
+          status: 'ACTIVE',
+          student: { userId: studentUserId },
+          course: { teacher: { userId: teacherUserId } },
+        },
+        select: { id: true },
+      });
+      if (activeEnrollment) return { userAId, userBId };
+    }
+
+    throw new ForbiddenException('Teachers can chat with students enrolled in their courses. Other users must be accepted friends.');
   }
 
   private async getConversation(conversationId: string) {
@@ -57,7 +73,7 @@ export class ChatService {
     await this.assertMember(userId);
     if (!conversation.userAId || !conversation.userBId) throw new ForbiddenException('This conversation is not configured correctly');
     if (conversation.userAId !== userId && conversation.userBId !== userId) throw new ForbiddenException('You cannot access this conversation');
-    await this.assertFriends(conversation.userAId, conversation.userBId);
+    await this.assertDirectChat(conversation.userAId, conversation.userBId);
     return conversation;
   }
 
@@ -85,9 +101,30 @@ export class ChatService {
   }
 
   async openWith(userId: string, friendId: string) {
-    const { userAId, userBId } = await this.assertFriends(userId, friendId);
+    const { userAId, userBId } = await this.assertDirectChat(userId, friendId);
     const conversation = await this.prisma.conversation.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
     return this.present(conversation.id, userId);
+  }
+
+  async listContacts(userId: string) {
+    const user = await this.assertMember(userId);
+    if (user.role !== Role.TEACHER && user.role !== Role.STUDENT) return [];
+
+    const contacts = user.role === Role.TEACHER
+      ? (await this.prisma.enrollment.findMany({
+        where: { status: 'ACTIVE', course: { teacher: { userId } } },
+        select: { student: { select: { user: { select: userSelect } } } },
+      })).map((enrollment) => enrollment.student.user)
+      : (await this.prisma.enrollment.findMany({
+        where: { status: 'ACTIVE', student: { userId } },
+        select: { course: { select: { teacher: { select: { user: { select: userSelect } } } } } },
+      })).map((enrollment) => enrollment.course.teacher.user);
+
+    const uniqueContacts = [...new Map(contacts.map((contact) => [contact.id, contact])).values()];
+    return uniqueContacts.map((contact) => ({
+      ...contact,
+      isOnline: !!contact.lastSeenAt && Date.now() - new Date(contact.lastSeenAt).getTime() <= 90_000,
+    }));
   }
 
   async listConversations(userId: string) {

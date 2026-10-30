@@ -47,6 +47,7 @@ export default function Chat() {
   const requestedUserId = location.state?.userId || '';
   const requestedGroupId = location.state?.groupId || '';
   const [conversations, setConversations] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState('');
@@ -70,9 +71,14 @@ export default function Chat() {
 
   const loadConversations = useCallback(async () => {
     try {
-      const [privateResult, groupResult] = await Promise.all([api.get('/api/chat/conversations'), api.get('/api/chat/group-conversations').catch(() => null)]);
+      const [privateResult, groupResult, contactsResult] = await Promise.all([
+        api.get('/api/chat/conversations'),
+        api.get('/api/chat/group-conversations').catch(() => null),
+        api.get('/api/chat/contacts').catch(() => null),
+      ]);
       const result = [...(unwrap(privateResult) || []), ...(groupResult ? (unwrap(groupResult) || []) : [])].sort((first, second) => new Date(second.updatedAt) - new Date(first.updatedAt));
       setConversations(result);
+      setContacts(contactsResult ? unwrap(contactsResult) || [] : []);
       setActiveConversation((current) => current ? result.find((item) => item.id === current.id) || current : result[0] || null);
       return result;
     } catch (requestError) {
@@ -154,6 +160,8 @@ export default function Chat() {
   const activePerson = activeConversation?.otherUser;
   const activeGroup = activeConversation?.isGroup ? activeConversation.group : null;
   const unreadTotal = conversations.reduce((total, conversation) => total + Number(conversation.unreadCount || 0), 0);
+  const conversationContactIds = new Set(conversations.filter((conversation) => !conversation.isGroup && conversation.otherUser?.id).map((conversation) => conversation.otherUser.id));
+  const availableContacts = contacts.filter((contact) => !conversationContactIds.has(contact.id));
   const canSend = Boolean(activeConversation) && !sending && !uploadingImage && (draft.trim().length > 0 || Boolean(imageFile));
   const selectConversation = (conversation) => {
     setConversations((current) => current.map((item) => item.id === conversation.id ? { ...item, unreadCount: 0 } : item));
@@ -320,7 +328,7 @@ export default function Chat() {
   return <div className="community-page community-chat-page">
     <section className="community-hero community-hero-compact">
       <div className="community-hero-orb community-hero-orb-one" />
-      <div className="community-hero-copy"><p className="community-eyebrow">{text.privateConversations}</p><h1>{text.messages}.</h1><p>{text.messagesDescription}</p></div>
+      <div className="community-hero-copy"><p className="community-eyebrow">{text.privateConversations}</p><h1>{text.messages}.</h1><p>{user?.role === 'TEACHER' ? (text.teacherMessagesDescription || 'Chat with students enrolled in your courses.') : user?.role === 'STUDENT' ? (text.studentMessagesDescription || 'Chat with your teachers and accepted friends.') : text.messagesDescription}</p></div>
       <button type="button" onClick={() => navigate('/friends')} className="community-button community-button-primary">{text.findFriends}</button>
     </section>
     {error && <div className="community-alert" role="alert">{error}</div>}
@@ -329,6 +337,7 @@ export default function Chat() {
       <aside className={`community-chat-sidebar ${activeConversation && !showList ? 'community-chat-sidebar-mobile-hidden' : ''}`}>
         <div className="community-chat-sidebar-heading"><div><p className="community-eyebrow">{text.inbox}</p><h2>{text.yourChats}</h2></div><div className="community-chat-counts"><span className="community-chat-count">{conversations.length}</span>{unreadTotal > 0 && <span className="community-chat-unread-total" aria-label={`${unreadTotal} ${text.unreadMessages || 'unread messages'}`}>{unreadTotal > 99 ? '99+' : unreadTotal}</span>}</div></div>
         {loading ? <div className="community-chat-loading"><span /><span /><span /></div> : conversations.length ? <div className="community-conversation-list">{conversations.map((conversation) => <button type="button" key={conversation.id} onClick={() => selectConversation(conversation)} className={`community-conversation-item ${activeConversation?.id === conversation.id ? 'is-active' : ''} ${conversation.unreadCount > 0 ? 'is-unread' : ''}`} aria-label={`${conversation.isGroup ? conversation.group?.name : conversation.otherUser?.fullName}${conversation.unreadCount > 0 ? `, ${conversation.unreadCount} unread messages` : ''}`} title={conversation.unreadCount > 0 ? `${conversation.unreadCount} unread messages` : undefined}>{conversation.isGroup ? <span className="community-group-chat-avatar" aria-hidden="true">#</span> : <UserAvatar person={conversation.otherUser} size="md" />}<div className="community-conversation-copy"><strong>{conversation.isGroup ? conversation.group?.name : conversation.otherUser?.fullName}</strong><span>{conversation.lastMessage?.body || (conversation.lastMessage?.imageUrl ? '📷 Image' : conversation.isGroup ? `${conversation.group?.memberCount || 0} ${text.members || 'members'}` : text.startConversation)}</span></div>{conversation.unreadCount > 0 && <span className="community-conversation-unread" aria-label={`${conversation.unreadCount} ${text.unreadMessages || 'unread messages'}`}>{conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}</span>}<span className="community-conversation-arrow" aria-hidden="true">→</span></button>)}</div> : <div className="community-chat-empty"><span className="community-empty-mark">○</span><p>{text.noConversations}</p><button type="button" onClick={() => navigate('/friends')} className="community-text-link">{text.findFriends} <span aria-hidden="true">→</span></button></div>}
+        {availableContacts.length > 0 && <section className="community-chat-contacts" aria-label={text.chatContacts || 'Course contacts'}><div className="community-chat-contacts-heading"><div><p className="community-eyebrow">{text.chatContacts || 'Course contacts'}</p><span>{text.chatContactsDescription || 'People connected through your active courses'}</span></div><span>{availableContacts.length}</span></div><div className="community-chat-contact-list">{availableContacts.map((contact) => <button type="button" key={contact.id} className="community-chat-contact" onClick={() => openConversation(contact.id)}><UserAvatar person={contact} size="sm" /><span><strong>{contact.fullName}</strong><small>{contact.role === 'TEACHER' ? (text.teacher || 'Teacher') : (text.student || 'Student')} · {contact.isOnline ? 'Online' : 'Offline'}</small></span><span aria-hidden="true">→</span></button>)}</div></section>}
       </aside>
 
       <div className={`community-chat-main ${!activeConversation || showList ? 'community-chat-main-mobile-hidden' : ''}`}>
