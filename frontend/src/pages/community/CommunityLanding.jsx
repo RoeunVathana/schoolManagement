@@ -35,6 +35,7 @@ export default function CommunityLanding() {
   const [feed, setFeed] = useState({ members: [], posts: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -53,6 +54,7 @@ export default function CommunityLanding() {
   if (loading && !feed.members.length && !feed.posts.length) return <CommunityLoading text={text.loading} />;
 
   const handleLogout = async () => {
+    setMobileMenuOpen(false);
     await logout();
     navigate('/community', { replace: true });
   };
@@ -61,7 +63,11 @@ export default function CommunityLanding() {
     <header className="public-community-nav">
       <Link to="/" className="public-community-brand"><span className="public-community-logo"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{text.marketplace}</small></span></Link>
       <nav className="public-community-nav-links"><Link to="/courses">{text.courses}</Link><Link to="/community" className="is-active">{text.community}</Link><a href="/courses#about">{text.why}</a><a href="/courses#faq">{text.faq}</a></nav>
-      <div className="public-community-nav-actions"><CommunityLanguageSwitch /><ThemeSwitch />{!authLoading && (user ? <><Link to={dashboardPath} className="public-community-nav-button">{text.dashboard}</Link><button type="button" onClick={handleLogout} className="public-community-nav-logout">{text.signOut}</button></> : <><Link to="/login/student" className="public-community-nav-login">{text.login}</Link><Link to="/register" className="public-community-nav-button">{text.register}</Link></>)}</div>
+      <div className="public-community-nav-actions"><CommunityLanguageSwitch /><ThemeSwitch /><button type="button" className={`public-community-nav-menu-button ${mobileMenuOpen ? 'is-open' : ''}`} aria-expanded={mobileMenuOpen} aria-controls="public-community-mobile-menu" onClick={() => setMobileMenuOpen((open) => !open)}><span aria-hidden="true">{mobileMenuOpen ? '×' : '☰'}</span><span>{language === 'en' ? 'Menu' : 'ម៉ឺនុយ'}</span></button>{!authLoading && (user ? <><Link to={dashboardPath} className="public-community-nav-button">{text.dashboard}</Link><button type="button" onClick={handleLogout} className="public-community-nav-logout">{text.signOut}</button></> : <><Link to="/login/student" className="public-community-nav-login">{text.login}</Link><Link to="/register" className="public-community-nav-button">{text.register}</Link></>)}</div>
+      <div id="public-community-mobile-menu" aria-hidden={!mobileMenuOpen} className={`public-community-mobile-menu ${mobileMenuOpen ? 'is-open' : 'is-closed'}`}>
+        <nav className="public-community-mobile-menu-links"><Link to="/courses" onClick={() => setMobileMenuOpen(false)}>{text.courses}</Link><Link to="/community" className="is-active" onClick={() => setMobileMenuOpen(false)}>{text.community}</Link><a href="/courses#about" onClick={() => setMobileMenuOpen(false)}>{text.why}</a><a href="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{text.faq}</a></nav>
+        {!authLoading && <div className="public-community-mobile-menu-actions">{user ? <><Link to={dashboardPath} className="public-community-nav-button" onClick={() => setMobileMenuOpen(false)}>{text.dashboard}</Link><button type="button" onClick={handleLogout} className="public-community-nav-logout">{text.signOut}</button></> : <><Link to="/login/student" className="public-community-nav-login" onClick={() => setMobileMenuOpen(false)}>{text.login}</Link><Link to="/register" className="public-community-nav-button" onClick={() => setMobileMenuOpen(false)}>{text.register}</Link></>}</div>}
+      </div>
     </header>
 
     <main>

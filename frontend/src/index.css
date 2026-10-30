@@ -2382,6 +2382,8 @@ a, button, input, textarea, select { max-width: 100%; }
   .public-community-nav { min-height: 4.2rem; padding-inline: .8rem; }
   .public-community-brand small { display: none; }
   .public-community-nav-actions { gap: .35rem; }
+  .public-community-nav-menu-button { width: 2.45rem; min-width: 2.45rem; padding-inline: 0; }
+  .public-community-nav-menu-button > span:last-child { display: none; }
   .community-language-switch button { min-height: 2.2rem; padding-inline: .42rem; }
   .public-community-nav-actions .theme-switch-label { display: none; }
   .public-community-nav-actions .inline-flex { width: 2.45rem; height: 2.45rem; justify-content: center; padding-inline: 0; }
@@ -2404,6 +2406,132 @@ a, button, input, textarea, select { max-width: 100%; }
   .public-community-post-footer { align-items: flex-start; flex-direction: column; }
   .public-community-footer { align-items: flex-start; flex-direction: column; }
   .public-community-footer p { text-align: left; }
+}
+
+/* Compact public navigation drawer: keep the header calm on phones and reveal
+   the remaining links/actions with a small, accessible animation. */
+.public-community-nav-menu-button {
+  display: none;
+  min-height: 2.7rem;
+  align-items: center;
+  justify-content: center;
+  gap: .38rem;
+  border: 1px solid var(--public-line);
+  border-radius: .9rem;
+  padding: .55rem .75rem;
+  color: var(--public-ink);
+  background: var(--public-card);
+  box-shadow: 0 7px 18px rgb(16 36 63 / .08);
+  font-size: .68rem;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform .24s ease, border-color .24s ease, color .24s ease, box-shadow .24s ease, background-color .24s ease;
+}
+.public-community-nav-menu-button > span:first-child {
+  display: inline-block;
+  min-width: 1rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.public-community-nav-menu-button.is-open {
+  transform: translateY(-1px);
+  border-color: rgb(34 158 217 / .55);
+  color: var(--public-cyan);
+  box-shadow: 0 12px 24px rgb(34 158 217 / .18);
+}
+.public-community-nav-menu-button.is-open > span:first-child { transform: rotate(90deg) scale(1.08); }
+.public-community-nav-menu-button:focus-visible { outline: 3px solid rgb(141 228 202 / .7); outline-offset: 3px; }
+.public-community-mobile-menu {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  z-index: 1;
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  padding: 0 .8rem;
+  opacity: 0;
+  transform: translateY(-.65rem);
+  visibility: hidden;
+  pointer-events: none;
+  transition: max-height .34s ease, opacity .22s ease, transform .34s cubic-bezier(.2,.8,.2,1), visibility .34s ease, padding .34s ease;
+}
+.public-community-mobile-menu.is-open {
+  max-height: 28rem;
+  border-top-color: var(--public-line);
+  padding-block: .7rem .85rem;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+.public-community-mobile-menu > nav,
+.public-community-mobile-menu > div {
+  width: min(100%, 42rem);
+  margin-inline: auto;
+}
+.public-community-mobile-menu-links,
+.public-community-mobile-menu-actions {
+  display: grid;
+  gap: .35rem;
+}
+.public-community-mobile-menu-links a,
+.public-community-mobile-menu-actions a,
+.public-community-mobile-menu-actions button {
+  display: flex;
+  min-height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--public-line);
+  border-radius: .85rem;
+  padding: .65rem .85rem;
+  color: var(--public-ink);
+  background: var(--public-card);
+  font-size: .72rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.public-community-mobile-menu-links a:hover,
+.public-community-mobile-menu-actions a:hover,
+.public-community-mobile-menu-actions button:hover {
+  transform: translateY(-1px);
+  border-color: rgb(34 158 217 / .5);
+  color: var(--public-cyan);
+  box-shadow: 0 8px 18px rgb(34 158 217 / .12);
+}
+.public-community-mobile-menu-links a.is-active { border-color: rgb(244 123 103 / .42); color: var(--public-coral); background: rgb(244 123 103 / .08); }
+.public-community-mobile-menu-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: .7rem; border-top: 1px solid var(--public-line); padding-top: .7rem; }
+.public-community-mobile-menu-actions .public-community-nav-button,
+.public-community-mobile-menu-actions .public-community-nav-login,
+.public-community-mobile-menu-actions .public-community-nav-logout { min-width: 0; min-height: 2.8rem; padding: .65rem .7rem; }
+.public-community-mobile-menu.is-open .public-community-mobile-menu-links > *,
+.public-community-mobile-menu.is-open .public-community-mobile-menu-actions > * { animation: publicCommunityMobileItemIn .26s cubic-bezier(.2,.8,.2,1) both; }
+.public-community-mobile-menu.is-open .public-community-mobile-menu-links > *:nth-child(2) { animation-delay: 35ms; }
+.public-community-mobile-menu.is-open .public-community-mobile-menu-links > *:nth-child(3) { animation-delay: 70ms; }
+.public-community-mobile-menu.is-open .public-community-mobile-menu-links > *:nth-child(4) { animation-delay: 105ms; }
+@keyframes publicCommunityMobileItemIn {
+  from { opacity: 0; transform: translateY(-.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 980px) {
+  .public-community-nav-menu-button { display: inline-flex; }
+  .public-community-nav-actions > .public-community-nav-button,
+  .public-community-nav-actions > .public-community-nav-login,
+  .public-community-nav-actions > .public-community-nav-logout { display: none; }
+  .public-community-mobile-menu { display: grid; background: rgb(255 255 255 / .96); box-shadow: 0 18px 34px rgb(16 36 63 / .16); }
+  .dark .public-community-mobile-menu { background: rgb(8 18 32 / .98); box-shadow: 0 20px 40px rgb(0 0 0 / .4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-community-nav-menu-button,
+  .public-community-nav-menu-button > span:first-child,
+  .public-community-mobile-menu,
+  .public-community-mobile-menu a,
+  .public-community-mobile-menu button { animation: none; transition: none; transform: none; }
 }
 
 /* Final dashboard mobile pass: prevent grid min-content overflow and keep the
