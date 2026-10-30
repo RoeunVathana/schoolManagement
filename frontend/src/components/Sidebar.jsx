@@ -9,7 +9,8 @@ const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${pat
 const links = {
   ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['teacherAttendanceManagement', '/admin/teacher-attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
   TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['myCourses', '/teacher/courses', 'courses'], ['courseMaterials', '/teacher/materials', 'materials'], ['certificates', '/teacher/certificates', 'certificates'], ['schedule', '/teacher/schedule', 'schedule'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
-  STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
+  STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['friends', '/friends', 'friends'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
+  CUSTOMER: [['friends', '/friends', 'friends']],
 };
 
 const iconPaths = {
@@ -31,6 +32,7 @@ const iconPaths = {
   grades: ['M4 19V5', 'M4 19h16', 'm7 15 3-4 3 2 4-6'],
   exams: ['M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z'],
   telegram: ['M21 4 3 11l7 2 2 7 3-6 6-10Z', 'm10 13 5-4'],
+  friends: ['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8', 'M19 8v6', 'M22 11h-6'],
 };
 
 function NavIcon({ name }) {
@@ -41,7 +43,7 @@ export default function Sidebar({ open, onClose }) {
   const { user } = useAuth();
   const { t } = useLanguage();
   const workspaceLabel = user?.role === 'ADMIN' ? t('adminTools') : user?.role === 'TEACHER' ? t('teacherWorkspace') : t('studentSpace');
-  const profilePath = user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
+  const profilePath = user?.role === 'STUDENT' || user?.role === 'CUSTOMER' ? `/profile/${user.id}` : user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
   const initials = user?.fullName?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'U';
 
   return <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} sidebar-shell fixed inset-y-0 left-0 z-40 flex h-screen w-[min(20rem,88vw)] transform flex-col overflow-hidden px-4 py-5 text-white shadow-2xl transition-transform lg:w-72 lg:px-5 lg:py-6 lg:translate-x-0`}>
@@ -64,7 +66,7 @@ export default function Sidebar({ open, onClose }) {
 
     <div className="mb-3 shrink-0 px-3 text-[10px] font-bold uppercase tracking-[.22em] text-slate-500">{workspaceLabel}</div>
     <nav className="sidebar-scrollbar min-h-0 flex-1 space-y-1 overflow-y-auto pr-1">
-      {links[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{t(label)}</span></NavLink>)}
+      {links[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={label === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? profilePath : path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{t(label)}</span></NavLink>)}
     </nav>
 
     <div className="sidebar-note mt-5 shrink-0 rounded-2xl p-4 text-xs leading-5 text-slate-300"><span className="mb-2 block h-1 w-8 rounded-full bg-coral" />{t('sidebarNote')}</div>

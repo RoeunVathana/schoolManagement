@@ -6,6 +6,10 @@ import { PrismaService } from '../prisma/prisma.service';
 export class NotificationsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async createFriendRequestNotification(userId: string, senderId: string, message: string) {
+    return this.prisma.notification.create({ data: { userId, senderId, title: 'Friend request', message } });
+  }
+
   async syncMonthlyPaymentReminders(userId: string) {
     const student = await this.prisma.student.findUnique({ where: { userId }, select: { id: true } });
     if (!student) return;

@@ -70,6 +70,19 @@ enum CoursePaymentPlan {
   MONTHLY
 }
 
+enum PostVisibility {
+  PUBLIC
+  FRIENDS_ONLY
+  PRIVATE
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+
 model User {
   id                   String                @id @default(cuid())
   fullName             String
@@ -97,6 +110,13 @@ model User {
   registrationPayments RegistrationPayment[]
   passwordResetOtps    PasswordResetOtp[]
   sentNotifications    Notification[]        @relation("NotificationSender")
+  posts                Post[]
+  sentFriendRequests   FriendRequest[]       @relation("FriendRequestSender")
+  receivedFriendRequests FriendRequest[]     @relation("FriendRequestReceiver")
+  friendshipsA         Friendship[]          @relation("FriendshipUserA")
+  friendshipsB         Friendship[]          @relation("FriendshipUserB")
+  blocksGiven          UserBlock[]            @relation("UserBlocker")
+  blocksReceived       UserBlock[]            @relation("UserBlocked")
 
   @@map("users")
 }
@@ -126,6 +146,65 @@ model Profile {
 
   @@index([role, accountStatus])
   @@map("profiles")
+}
+
+model Post {
+  id         String         @id @default(cuid())
+  authorId   String
+  content    String         @db.Text
+  imageUrl   String?
+  visibility PostVisibility @default(FRIENDS_ONLY)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  author     User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId, createdAt])
+  @@index([visibility, createdAt])
+  @@map("posts")
+}
+
+model FriendRequest {
+  id         String              @id @default(cuid())
+  senderId   String
+  receiverId String
+  requestKey String?
+  status     FriendRequestStatus @default(PENDING)
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+  sender     User                @relation("FriendRequestSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User                @relation("FriendRequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId, status, createdAt])
+  @@index([receiverId, status, createdAt])
+  @@unique([requestKey, status])
+  @@map("friend_requests")
+}
+
+model Friendship {
+  id        String   @id @default(cuid())
+  userAId   String
+  userBId   String
+  createdAt DateTime @default(now())
+  userA     User     @relation("FriendshipUserA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User     @relation("FriendshipUserB", fields: [userBId], references: [id], onDelete: Cascade)
+
+  @@unique([userAId, userBId])
+  @@index([userAId, createdAt])
+  @@index([userBId, createdAt])
+  @@map("friendships")
+}
+
+model UserBlock {
+  id        String   @id @default(cuid())
+  blockerId String
+  blockedId String
+  createdAt DateTime @default(now())
+  blocker   User     @relation("UserBlocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked   User     @relation("UserBlocked", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+  @@map("user_blocks")
 }
 
 model RegistrationPayment {

@@ -17,14 +17,14 @@ const copyByLanguage = {
   en: {
     join: 'Join your campus',
     create: 'Create your account',
-    subtitle: 'Set up your student or teacher profile to access your learning workspace.',
+    subtitle: 'Set up your student or customer profile to join the learning community.',
     start: 'Start your journey',
     sideTitle: 'One simple start for your whole campus.',
     sideDescription: 'Create your learning account, complete your profile, and join your school workspace in minutes.',
     steps: [['01', 'Account details', 'Tell us who you are.'], ['02', 'Profile setup', 'Add the details your campus needs.'], ['03', 'Ready to learn', 'Sign in and get started.']],
-    secure: 'Secure access for students and teachers.',
+    secure: 'Secure access for students and customers.',
     chooseType: 'Choose your account type',
-    chooseDescription: 'You can only register as a student or teacher.',
+    chooseDescription: 'You can register as a student or customer.',
     basic: 'Basic information',
     basicDescription: 'Use an email address you can access.',
     profileSecurity: 'Profile and security',
@@ -38,6 +38,8 @@ const copyByLanguage = {
     studentDescription: 'Learn, submit work and view results.',
     teacher: 'Teacher',
     teacherDescription: 'Teach classes and manage learning records.',
+    customer: 'Customer',
+    customerDescription: 'Connect with the community and discover learning opportunities.',
     specialization: 'Specialization',
     teacherOnly: 'Teacher only',
     specializationPlaceholder: 'e.g. Mathematics',
@@ -338,11 +340,11 @@ export default function Register() {
                   onClick={() => setValue('role', 'STUDENT', { shouldDirty: true })}
                 />
                 <RoleCard
-                  active={selectedRole === 'TEACHER'}
-                  title={copy.teacher}
-                  description={copy.teacherDescription}
-                  icon="teacher"
-                  onClick={() => setValue('role', 'TEACHER', { shouldDirty: true })}
+                  active={selectedRole === 'CUSTOMER'}
+                  title={copy.customer || 'Customer'}
+                  description={copy.customerDescription || 'Connect with the community and discover learning opportunities.'}
+                  icon="student"
+                  onClick={() => setValue('role', 'CUSTOMER', { shouldDirty: true })}
                 />
               </div>
             </section>
@@ -368,11 +370,6 @@ export default function Register() {
                     <option value="km">Khmer</option>
                   </select>
                 </Field>
-                {selectedRole === 'TEACHER' && (
-                  <Field label={copy.specialization} hint={copy.teacherOnly}>
-                    <input {...register('specialization')} className="input mt-2" placeholder={copy.specializationPlaceholder} />
-                  </Field>
-                )}
               </div>
             </section>
 

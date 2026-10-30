@@ -13,9 +13,10 @@ const roleOptions = {
   ADMIN: { color: 'bg-coral', path: '/login/admin', placeholder: 'mouychheak3227@gmail.com', icon: 'shield' },
   TEACHER: { color: 'bg-[#7c8cf8]', path: '/login/teacher', placeholder: 'teacher@example.com', icon: 'teacher' },
   STUDENT: { color: 'bg-emerald-500', path: '/login/student', placeholder: 'student@example.com', icon: 'student' },
+  CUSTOMER: { color: 'bg-sky-500', path: '/login/customer', placeholder: 'customer@example.com', icon: 'student' },
 };
 
-const roleFromPath = { '/login/admin': 'ADMIN', '/login/teacher': 'TEACHER', '/login/student': 'STUDENT' };
+const roleFromPath = { '/login/admin': 'ADMIN', '/login/teacher': 'TEACHER', '/login/student': 'STUDENT', '/login/customer': 'CUSTOMER' };
 const transitionDelay = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 const apiMessage = (error, fallback) => {
   const message = error?.response?.data?.message;
@@ -32,8 +33,8 @@ export default function Login() {
   const location = useLocation();
   const selectedRole = roleFromPath[location.pathname] || 'STUDENT';
   const selected = roleOptions[selectedRole];
-  const roleLabels = { ADMIN: t('admin'), TEACHER: t('teacher'), STUDENT: t('student') };
-  const roleDescriptions = { ADMIN: t('adminLoginDescription'), TEACHER: t('teacherLoginDescription'), STUDENT: t('studentLoginDescription') };
+  const roleLabels = { ADMIN: t('admin'), TEACHER: t('teacher'), STUDENT: t('student'), CUSTOMER: 'Customer' };
+  const roleDescriptions = { ADMIN: t('adminLoginDescription'), TEACHER: t('teacherLoginDescription'), STUDENT: t('studentLoginDescription'), CUSTOMER: 'Connect with your learning community and manage your profile.' };
   const selectedLabel = selectedRole === 'ADMIN' ? t('administrator') : roleLabels[selectedRole];
   const [notice, setNotice] = useState(location.state?.message || '');
   const [error, setError] = useState('');
@@ -126,7 +127,7 @@ export default function Login() {
             </div>
             <h1 className="max-w-2xl text-5xl font-extrabold leading-[1.08] tracking-tight xl:text-6xl">{t('learningHuman')}</h1>
             <p className="mt-7 max-w-lg text-base leading-8 text-white/70">{t('loginHeroDescription')}</p>
-            <div className="mt-10 grid max-w-lg grid-cols-3 gap-3">
+            <div className="mt-10 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-4">
               {[[t('students'), '01'], [t('teachers'), '02'], [t('courses'), '03']].map(([label, number]) => <div key={number} className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur"><p className="text-2xl font-extrabold text-mint">{number}</p><p className="mt-2 text-xs font-semibold text-white/65">{label}</p></div>)}
             </div>
           </div>
@@ -153,7 +154,7 @@ export default function Login() {
               <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg ${selected.color}`}><RoleIcon type={selected.icon} /></span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 rounded-2xl bg-slate-50 p-1.5 dark:bg-slate-800">
+            <div className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-50 p-1.5 dark:bg-slate-800 sm:grid-cols-4">
               {Object.entries(roleOptions).map(([key, role]) => <Link key={key} to={role.path} className={`flex items-center justify-center gap-2 rounded-xl px-2 py-3 text-xs font-bold transition ${selectedRole === key ? `${role.color} text-white shadow-md` : 'text-slate-500 hover:bg-white hover:text-navy dark:hover:bg-slate-700 dark:hover:text-white'}`}><RoleIcon type={role.icon} small />{roleLabels[key]}</Link>)}
             </div>
 

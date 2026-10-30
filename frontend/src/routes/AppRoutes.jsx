@@ -28,6 +28,9 @@ import Profile from '../pages/profile/Profile';
 import Storefront from '../pages/storefront/Storefront';
 import { useAuth } from '../hooks/useAuth';
 import { roleHome } from '../utils/roles';
+import AppShell from '../layouts/AppShell';
+import PublicProfile from '../pages/community/PublicProfile';
+import Friends from '../pages/community/Friends';
 
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
@@ -37,6 +40,7 @@ export default function AppRoutes() {
     <Route path="/login/admin" element={<Login />} />
     <Route path="/login/teacher" element={<Login />} />
     <Route path="/login/student" element={<Login />} />
+    <Route path="/login/customer" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/courses" element={<Storefront />} />
@@ -75,6 +79,11 @@ export default function AppRoutes() {
             <Route path="student/:section" element={<StudentSimple />} />
           </Route>
         </Route>
+      </Route>
+      <Route element={<AppShell />}>
+        <Route path="profile/:id" element={<PublicProfile />} />
+        <Route path="friends" element={<Friends />} />
+        <Route path="customer/profile" element={<Profile />} />
       </Route>
     </Route>
   </Routes>;
