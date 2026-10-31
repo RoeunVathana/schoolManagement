@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { join } from 'path';
+import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
@@ -48,6 +49,13 @@ async function bootstrap() {
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     }),
   );
+  app.use((request: Request, response: Response, next: NextFunction) => {
+    if (/^\/(?:auth|api\/auth)(?:\/|$)/.test(request.path)) {
+      response.setHeader('Cache-Control', 'no-store');
+      response.setHeader('Pragma', 'no-cache');
+    }
+    next();
+  });
 
   app.enableCors({
     origin: (origin, callback) => callback(null, !origin || allowedOrigins.includes(origin)),

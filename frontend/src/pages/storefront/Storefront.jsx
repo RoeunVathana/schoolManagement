@@ -463,19 +463,31 @@ export default function Storefront() {
     : "CampusFlow LMS | Practical Online Courses in Cambodia";
   const courseSchema = course ? {
     "@context": "https://schema.org",
-    "@type": "Course",
-    name: course.courseName,
-    description: seoDescription,
-    url: `${SITE_URL}/courses/${course.id}`,
-    provider: { "@type": "Organization", name: "CampusFlow LMS", sameAs: SITE_URL },
-    inLanguage: ["en", "km"],
-    offers: {
-      "@type": "Offer",
-      price: String(course.salePrice ?? course.price ?? 0),
-      priceCurrency: course.currency || "USD",
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/courses/${course.id}`,
-    },
+    "@graph": [
+      {
+        "@type": "Course",
+        name: course.courseName,
+        description: seoDescription,
+        url: `${SITE_URL}/courses/${course.id}`,
+        provider: { "@type": "Organization", name: "CampusFlow LMS", sameAs: SITE_URL },
+        inLanguage: ["en", "km"],
+        offers: {
+          "@type": "Offer",
+          price: Number(course.salePrice ?? course.price ?? 0),
+          priceCurrency: course.currency || "USD",
+          availability: "https://schema.org/InStock",
+          url: `${SITE_URL}/courses/${course.id}`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "CampusFlow LMS", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Courses", item: `${SITE_URL}/courses` },
+          { "@type": "ListItem", position: 3, name: course.courseName, item: `${SITE_URL}/courses/${course.id}` },
+        ],
+      },
+    ],
   } : null;
   const listSchema = {
     "@context": "https://schema.org",

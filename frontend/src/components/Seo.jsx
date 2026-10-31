@@ -63,6 +63,8 @@ export default function Seo({
     upsertMeta("og:type", type, "property");
     upsertMeta("og:url", canonical, "property");
     upsertMeta("og:site_name", SITE_NAME, "property");
+    upsertMeta("og:locale", language === "km" ? "km_KH" : "en_US", "property");
+    upsertMeta("og:locale:alternate", language === "km" ? "en_US" : "km_KH", "property");
     upsertMeta("og:image", imageUrl, "property");
     upsertMeta("twitter:card", "summary_large_image");
     upsertMeta("twitter:title", title);
