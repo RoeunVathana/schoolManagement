@@ -2027,6 +2027,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-profile-cover-label small { color: rgb(255 255 255 / .7); font-size: .67rem; font-weight: 750; }
 .community-cover-button { position: absolute; z-index: 1; right: 1.2rem; bottom: 1.1rem; border: 1px solid rgb(141 228 202 / .7); border-radius: .85rem; padding: .7rem .9rem; color: #fff; background: linear-gradient(135deg, #173b5a, #229ed9); font-size: .7rem; font-weight: 950; cursor: pointer; box-shadow: 0 10px 24px rgb(0 0 0 / .25); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .community-cover-button:hover { border-color: #fff; box-shadow: 0 14px 28px rgb(34 158 217 / .3); transform: translateY(-2px); }
+.community-cover-button.is-uploading, .community-profile-avatar-edit.is-uploading { cursor: wait; opacity: .65; }
 .community-profile-identity { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; min-height: 9.4rem; padding: 0 1.35rem 1.2rem; background: linear-gradient(180deg, var(--community-card), var(--community-soft)); }
 .community-profile-heading { display: flex; min-width: 0; align-items: flex-end; gap: 1rem; }
 .community-profile-avatar-wrap { position: relative; display: block; flex: 0 0 auto; margin-top: -3.9rem; }
