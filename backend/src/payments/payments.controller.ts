@@ -22,15 +22,15 @@ export class PaymentsController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
-  @ApiOperation({ summary: 'Get the current student course payment' })
+  @Roles(Role.STUDENT, Role.CUSTOMER)
+  @ApiOperation({ summary: 'Get the current learner course payment' })
   @Get('course/:token')
   getCoursePayment(@Param('token') token: string, @CurrentUser() user: any) { return this.payments.getCoursePayment(token, user.id); }
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
-  @ApiOperation({ summary: 'Verify a course payment with Bakong' })
+  @Roles(Role.STUDENT, Role.CUSTOMER)
+  @ApiOperation({ summary: 'Verify a learner course payment with Bakong' })
   @Post('course/:token/check')
   checkCoursePayment(@Param('token') token: string, @CurrentUser() user: any) { return this.payments.checkCoursePayment(token, user.id); }
 }

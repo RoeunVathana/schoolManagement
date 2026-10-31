@@ -70,7 +70,7 @@ export default function CommunityStories() {
     </div>}
 
     {composerOpen && <StoryComposer onClose={() => setComposerOpen(false)} onSaved={(story) => { setStories((current) => [...current, story]); setComposerOpen(false); }} />}
-    {activeGroup && <StoryViewer group={activeGroup} viewerId={user.id} onClose={() => setActiveGroup(null)} onDeleted={() => { setActiveGroup(null); load(); }} />}
+    {activeGroup && <StoryViewer group={activeGroup} groups={groups} viewerId={user.id} onClose={() => setActiveGroup(null)} onDeleted={() => { setActiveGroup(null); load(); }} />}
   </section>;
 }
 
@@ -140,14 +140,60 @@ function StoryComposer({ onClose, onSaved }) {
   </form></Modal>;
 }
 
-export function StoryViewer({ group, viewerId, onClose, onDeleted }) {
+export function StoryViewer({ group: initialGroup, groups = [], viewerId, onClose, onDeleted }) {
   const text = useCommunityText();
-  const [index, setIndex] = useState(group.stories.length - 1);
+  const storyGroups = groups.length ? groups : [initialGroup];
+  const initialGroupIndex = Math.max(0, storyGroups.findIndex((item) => (item.author?.id || item.stories[0]?.authorId) === (initialGroup.author?.id || initialGroup.stories[0]?.authorId)));
+  const [groupIndex, setGroupIndex] = useState(initialGroupIndex);
+  const [index, setStoryIndex] = useState(0);
   const [imageFailed, setImageFailed] = useState(false);
+  const activeGroup = storyGroups[groupIndex] || initialGroup;
+  const group = activeGroup;
   const story = group.stories[index];
   const own = story.authorId === viewerId;
 
   useEffect(() => { setImageFailed(false); }, [story.id]);
+
+  const nextStory = useCallback(() => {
+    if (index < group.stories.length - 1) {
+      setStoryIndex((current) => current + 1);
+      return;
+    }
+    if (groupIndex < storyGroups.length - 1) {
+      setGroupIndex((current) => current + 1);
+      setStoryIndex(0);
+      return;
+    }
+    onClose();
+  }, [group.stories.length, groupIndex, index, onClose, storyGroups.length]);
+
+  // Keep the existing media callback compatible while allowing the last
+  // story to advance to the next person's story instead of stopping.
+  const setIndex = (updater) => {
+    const nextIndex = typeof updater === 'function' ? updater(index) : updater;
+    if (index === group.stories.length - 1 && nextIndex === index) {
+      nextStory();
+      return;
+    }
+    setStoryIndex(nextIndex);
+  };
+
+  const previousStory = () => {
+    if (index > 0) {
+      setStoryIndex((current) => current - 1);
+      return;
+    }
+    if (groupIndex > 0) {
+      const previousGroup = storyGroups[groupIndex - 1];
+      setGroupIndex((current) => current - 1);
+      setStoryIndex(previousGroup.stories.length - 1);
+    }
+  };
+
+  useEffect(() => {
+    const timer = window.setTimeout(nextStory, 60_000);
+    return () => window.clearTimeout(timer);
+  }, [nextStory, story.id]);
 
   const remove = async () => {
     if (!window.confirm('Delete this story?')) return;
@@ -156,7 +202,7 @@ export function StoryViewer({ group, viewerId, onClose, onDeleted }) {
 
   return <Modal title={group.author?.id === viewerId ? text.yourStory : `${group.author?.fullName || text.communityMember}'s story`} onClose={onClose} className="community-story-modal">
     <div className="community-story-viewer">
-      <div className="community-story-progress">{group.stories.map((item, storyIndex) => <span className={storyIndex <= index ? 'is-active' : ''} key={item.id} />)}</div>
+      <div className="community-story-progress">{group.stories.map((item, storyIndex) => <span className={storyIndex < index ? 'is-complete' : storyIndex === index ? 'is-current' : ''} key={item.id} />)}</div>
       {story.imageUrl && !imageFailed ? <CommunityMedia url={story.imageUrl} mediaType={story.mediaType} alt={text.postImageAlt || 'Story'} autoPlayOnView loop={false} onEnded={() => setIndex((current) => Math.min(group.stories.length - 1, current + 1))} onError={() => setImageFailed(true)} /> : story.content ? <div className="community-story-viewer-text">{story.content}</div> : <div className="community-story-viewer-fallback"><span>✦</span><strong>{text.storyImageUnavailable || 'Story image unavailable'}</strong></div>}
       <div className="community-story-viewer-caption"><p>{story.visibility === 'PRIVATE' ? 'Only me' : story.visibility === 'FRIENDS_ONLY' ? 'Friends only' : 'Public'} · {new Date(story.createdAt).toLocaleString()}</p>{story.content && story.imageUrl && <strong>{story.content}</strong>}</div>
       <button type="button" onClick={() => setIndex((current) => Math.max(0, current - 1))} disabled={index === 0} className="community-story-nav community-story-nav-left" aria-label={text.previousStory || 'Previous story'} title={text.previousStory || 'Previous story'}>‹</button><button type="button" onClick={() => setIndex((current) => Math.min(group.stories.length - 1, current + 1))} disabled={index === group.stories.length - 1} className="community-story-nav community-story-nav-right" aria-label={text.nextStory || 'Next story'} title={text.nextStory || 'Next story'}>›</button>

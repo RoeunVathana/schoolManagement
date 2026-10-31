@@ -146,6 +146,7 @@ export class PaymentService {
     if (!currency) throw new BadRequestException('Course currency must be USD or KHR.');
     const merchantName = (this.config.get<string>('MERCHANT_NAME') || this.config.get<string>('BAKONG_MERCHANT_NAME') || 'CampusFlow').slice(0, 25);
     const merchantCity = (this.config.get<string>('MERCHANT_CITY') || this.config.get<string>('BAKONG_MERCHANT_CITY') || 'Phnom Penh').slice(0, 15);
+    const alternateMerchantCity = (this.config.get<string>('BAKONG_MERCHANT_CITY_KM') || 'ភ្នំពេញ').trim().slice(0, 15);
     const storeLabel = (this.config.get<string>('STORE_LABEL') || 'CampusFlow').slice(0, 25);
     const mobileNumber = this.config.get<string>('MERCHANT_PHONE') || undefined;
     const alternateName = this.config.get<string>('BAKONG_MERCHANT_NAME_KM', merchantName).slice(0, 25);
@@ -163,7 +164,9 @@ export class PaymentService {
       expirationTimestamp: input.expiresAt.getTime(),
       languagePreference: 'km',
       merchantNameAlternateLanguage: alternateName,
-      merchantCityAlternateLanguage: 'ភ្នំពេញ',
+      // Keep the optional alternate city within the KHQR two-digit subtag
+      // limit and allow production to override it with a valid Khmer value.
+      merchantCityAlternateLanguage: alternateMerchantCity,
     });
     const generated = new BakongKHQR().generateIndividual(info);
     if (generated?.status?.code !== 0 || !generated?.data?.qr || !generated?.data?.md5) throw new BadRequestException(generated?.status?.message || 'Unable to generate KHQR payment code.');

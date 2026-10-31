@@ -47,10 +47,14 @@ async function bootstrap() {
       contentSecurityPolicy: false,
       crossOriginResourcePolicy: { policy: 'cross-origin' },
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+      frameguard: { action: 'deny' },
     }),
   );
   app.use((request: Request, response: Response, next: NextFunction) => {
-    if (/^\/(?:auth|api\/auth)(?:\/|$)/.test(request.path)) {
+    response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    response.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+    response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    if (/^\/(?:auth|api\/auth|payments|storefront\/courses\/[^/]+\/checkout)(?:\/|$)/.test(request.path)) {
       response.setHeader('Cache-Control', 'no-store');
       response.setHeader('Pragma', 'no-cache');
     }

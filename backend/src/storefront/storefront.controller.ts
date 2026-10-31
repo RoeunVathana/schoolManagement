@@ -85,7 +85,7 @@ export class StorefrontController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
+  @Roles(Role.STUDENT, Role.CUSTOMER)
   @Get('courses/:id/access')
   async getCourseAccess(@Param('id') id: string, @CurrentUser() user: any) {
     const student = await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } });
@@ -122,7 +122,7 @@ export class StorefrontController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
+  @Roles(Role.STUDENT, Role.CUSTOMER)
   @Post('courses/:courseId/checkout')
   checkout(@Param('courseId') courseId: string, @CurrentUser() user: any, @Query('refresh') refresh?: string, @Query('plan') plan?: string) {
     return this.payments.createCoursePayment(courseId, user.id, refresh === '1' || refresh === 'true', plan);

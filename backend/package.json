@@ -12,6 +12,11 @@
     "prisma:seed": "prisma db seed",
     "lint": "eslint \"{src,prisma}/**/*.ts\""
   },
+  "overrides": {
+    "bakong-khqr": {
+      "axios": "^1.21.0"
+    }
+  },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
@@ -24,7 +29,7 @@
     "@nestjs/platform-express": "^10.4.15",
     "@nestjs/swagger": "^8.1.0",
     "@prisma/client": "^5.22.0",
-    "bakong-khqr": "1.0.7",
+    "bakong-khqr": "1.0.20",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

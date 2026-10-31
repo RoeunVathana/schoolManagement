@@ -1994,8 +1994,10 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-story-viewer-fallback span { display: inline-flex; width: 4rem; height: 4rem; align-items: center; justify-content: center; border: 1px solid rgb(141 228 202 / .55); border-radius: 1.3rem; color: #10243f; background: var(--community-mint); font-size: 1.6rem; box-shadow: 0 10px 28px rgb(141 228 202 / .22); }
 .community-story-viewer-fallback strong { max-width: 28rem; font-size: 1.1rem; line-height: 1.5; }
 .community-story-progress { position: absolute; z-index: 2; top: .7rem; left: .75rem; right: .75rem; display: flex; gap: .25rem; }
-.community-story-progress span { height: .2rem; flex: 1; border-radius: 999px; background: rgb(255 255 255 / .35); }
-.community-story-progress span.is-active { background: #fff; }
+.community-story-progress span { position: relative; height: .2rem; flex: 1; overflow: hidden; border-radius: 999px; background: rgb(255 255 255 / .35); }
+.community-story-progress span.is-complete { background: #fff; }
+.community-story-progress span.is-current::after { position: absolute; inset: 0; border-radius: inherit; background: #fff; content: ''; transform-origin: left center; animation: communityStoryProgress 60s linear forwards; }
+@keyframes communityStoryProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .community-story-viewer-caption { position: absolute; right: 0; bottom: 0; left: 0; display: grid; gap: .35rem; padding: 3rem 1rem .9rem; color: #fff; background: linear-gradient(to top, rgb(0 0 0 / .76), transparent); }
 .community-story-viewer-caption p { margin: 0; color: rgb(255 255 255 / .7); font-size: .64rem; font-weight: 750; }
 .community-story-viewer-caption strong { font-size: .82rem; line-height: 1.45; }
@@ -4418,6 +4420,94 @@ a, button, input, textarea, select { max-width: 100%; }
 
   .app-shell-chat .community-chat-header {
     min-height: 4rem;
+  }
+}
+
+/* Keep the private chat inside the visible iOS visual viewport. The keyboard
+   changes visualViewport height without changing the page layout viewport,
+   so the chat needs an explicit compact state instead of overflowing below
+   the composer. */
+.app-shell-chat,
+.app-shell-chat .app-shell-content,
+.app-shell-chat .app-main,
+.app-shell-chat .community-page,
+.app-shell-chat .community-chat-shell,
+.app-shell-chat .community-chat-main,
+.app-shell-chat .community-message-form,
+.app-shell-chat .community-message-form-row {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.app-shell-chat .community-message-attachment,
+.app-shell-chat .community-message-image-link {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.app-shell-chat .community-message-form-row .community-button {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+  .app-shell-chat .community-message-list {
+    scroll-padding-bottom: .75rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .app-main {
+    padding-top: .5rem;
+    padding-bottom: 0;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-page {
+    padding-bottom: 0;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-chat-shell {
+    height: calc(var(--app-viewport-height, 100dvh) - 5.6rem);
+    max-height: calc(var(--app-viewport-height, 100dvh) - 5.6rem);
+    min-height: 0;
+    margin-top: .35rem;
+    border-radius: 1rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-chat-header {
+    min-height: 4rem;
+    padding: .55rem .65rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-list {
+    min-height: 0;
+    gap: .5rem;
+    padding: .55rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-form {
+    padding: .45rem .5rem max(.45rem, env(safe-area-inset-bottom));
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-form-row {
+    gap: .35rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-form-row input:not(.community-chat-file-input) {
+    min-width: 0;
+    height: 2.45rem;
+    padding-inline: .7rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-form-row .community-chat-attach-button,
+  .app-shell-chat.is-keyboard-open .community-message-form-row .community-button {
+    min-height: 2.45rem;
+    height: 2.45rem;
+  }
+
+  .app-shell-chat.is-keyboard-open .community-message-image-link img,
+  .app-shell-chat.is-keyboard-open .community-message-image-link video,
+  .app-shell-chat.is-keyboard-open .community-message-media {
+    max-height: min(10rem, 32dvh);
   }
 }
 
