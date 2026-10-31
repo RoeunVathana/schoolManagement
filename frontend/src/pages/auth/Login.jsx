@@ -113,6 +113,9 @@ export default function Login() {
     setNotice('');
     setError('');
     const provider = new GoogleAuthProvider();
+    // Always show Google's account chooser after logout instead of silently
+    // signing back into the last Google account in this browser.
+    provider.setCustomParameters({ prompt: 'select_account' });
     try {
       // Complete the Firebase result in the same tab so the app can exchange
       // the ID token with the API and navigate immediately after Google login.

@@ -1,7 +1,9 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import { signOut } from 'firebase/auth';
 import api, { unwrap } from '../api/axios';
 import { clearSession, getStoredUser, saveSession, saveTokens } from '../utils/storage';
 import { useLanguage } from './LanguageContext';
+import { firebaseAuth } from '../config/firebase';
 
 export const AuthContext = createContext(null);
 
@@ -77,6 +79,9 @@ export function AuthProvider({ children }) {
   const logout = useCallback(async () => {
     try { await api.patch('/auth/presence', { online: false }); } catch {}
     try { await api.post('/auth/logout', { refreshToken: localStorage.getItem('sms_refresh_token') }); } catch {}
+    // Clear Firebase's Google session too, otherwise the next Google login
+    // can silently reuse the previous account.
+    try { await signOut(firebaseAuth); } catch {}
     clearSession();
     setUser(null);
   }, []);
