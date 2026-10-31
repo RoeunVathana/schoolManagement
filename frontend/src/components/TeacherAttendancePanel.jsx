@@ -320,7 +320,7 @@ export default function TeacherAttendancePanel({ admin = false }) {
     <Modal open={Boolean(meetingTarget)} title={meetingTarget?.mode === 'checkin' ? text.startMeet : meetingTarget?.mode === 'edit' ? text.updateMeetLink : text.addMeetLink} onClose={() => setMeetingTarget(null)}>
       <form onSubmit={submitCheckIn} className="space-y-4">
         <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">{text.pasteMeet} {meetingTarget?.mode === 'checkin' ? text.checkinMeetNote : text.updateMeetNote}</p>
-        <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">{text.meetLink}<input required type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" pattern="https://meet\.google\.com/.+" /></label>
+        <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">{text.meetLink}<input required type="url" inputMode="url" autoComplete="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" /></label>
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30 dark:text-red-300">{error}</p>}
         <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? text.saving : meetingTarget?.mode === 'checkin' ? text.checkinSendMeet : meetingTarget?.mode === 'edit' ? text.updateMeetLink : text.addMeet}</button>
       </form>
