@@ -180,6 +180,10 @@ export default function Friends() {
           {data.incoming.length ? <div className="community-person-grid">{data.incoming.map((request) => renderPersonCard(request, 'REQUEST_RECEIVED', request.id))}</div> : <Empty text={text.noPendingRequests} />}
         </CommunitySection>
 
+        <CommunitySection title={text.outgoingRequests} count={data.outgoing.length} accent="blue">
+          {data.outgoing.length ? <div className="community-person-grid">{data.outgoing.map((request) => renderPersonCard(request, 'REQUEST_SENT', request.id))}</div> : <Empty text={text.noOutgoingRequests} />}
+        </CommunitySection>
+
         <CommunitySection title={text.peopleYouMayKnow} count={data.suggestions.length} accent="blue">
           {data.suggestions.length ? <div className="community-person-grid">{data.suggestions.map((suggestion) => renderPersonCard(suggestion, 'NONE'))}</div> : <Empty text={text.noSuggestions} />}
         </CommunitySection>
