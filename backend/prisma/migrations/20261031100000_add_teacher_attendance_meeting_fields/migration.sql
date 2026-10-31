@@ -1,0 +1,5 @@
+ALTER TABLE "teacher_attendance"
+  ADD COLUMN IF NOT EXISTS "meetingUrl" TEXT,
+  ADD COLUMN IF NOT EXISTS "meetingActive" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS "meetingStartedAt" TIMESTAMP(3),
+  ADD COLUMN IF NOT EXISTS "meetingEndedAt" TIMESTAMP(3);
