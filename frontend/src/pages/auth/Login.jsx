@@ -121,7 +121,10 @@ export default function Login() {
       navigate(location.state?.from || roleHome(user.role), { replace: true });
     } catch (e) {
       const code = e.code || '';
-      if (code === 'auth/popup-blocked') {
+      // Some browsers report a blocked/isolated popup as auth/internal-error
+      // instead of auth/popup-blocked. Redirect sign-in is more reliable on a
+      // custom domain and lets Firebase complete the OAuth flow in the main tab.
+      if (code === 'auth/popup-blocked' || code === 'auth/internal-error') {
         try {
           await signInWithRedirect(firebaseAuth, new GoogleAuthProvider());
           return;
