@@ -17,6 +17,12 @@ function notificationPath(notification, role) {
   return announcementPath[role] || '/community';
 }
 
+function telegramInviteLink(notification) {
+  if (!String(notification?.title || '').toLowerCase().includes('telegram group')) return '';
+  const match = String(notification?.message || '').match(/https:\/\/(?:t\.me|telegram\.me)\/[^\s<]+/i);
+  return match?.[0] || '';
+}
+
 export default function Navbar({ onMenu, menuOpen = false }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
@@ -109,7 +115,9 @@ export default function Navbar({ onMenu, menuOpen = false }) {
       setUnreadCount((current) => Math.max(0, current - 1));
     }
     setShowNotifications(false);
-    navigate(notificationPath(notification, user?.role));
+    const inviteLink = telegramInviteLink(notification);
+    if (inviteLink) window.open(inviteLink, '_blank', 'noopener,noreferrer');
+    else navigate(notificationPath(notification, user?.role));
   };
 
   const markAllRead = async () => {

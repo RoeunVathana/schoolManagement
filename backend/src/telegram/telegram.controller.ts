@@ -26,4 +26,8 @@ export class TelegramController {
   @Post('test')
   @Permissions('edit')
   test() { return this.telegram.sendTestMessage(); }
+
+  @Post('group-invite')
+  @Permissions('create')
+  sendGroupInvite(@Body() body: { inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }, @CurrentUser() user: { id: string }) { return this.telegram.sendGroupInvite(user.id, body); }
 }
