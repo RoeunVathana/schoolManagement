@@ -10,6 +10,7 @@ const PasswordInput = forwardRef(function PasswordInput({ className = '', showLa
       className="password-input-toggle"
       onClick={() => setVisible((current) => !current)}
       aria-label={visible ? hideLabel : showLabel}
+      aria-pressed={visible}
       title={visible ? hideLabel : showLabel}
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">

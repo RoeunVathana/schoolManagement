@@ -4537,6 +4537,9 @@ a, button, input, textarea, select { max-width: 100%; }
   color: #68809a;
   background: transparent;
   cursor: pointer;
+  z-index: 2;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transform: translateY(-50%);
   transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
 }
