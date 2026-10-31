@@ -6,7 +6,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import PasswordInput from '../../components/PasswordInput';
 
 const emptyForm = { botToken: '', chatId: '', enabled: true };
-const emptyInvite = { inviteLink: '', audience: 'ALL', message: 'Please join our official Telegram group for class updates.' };
+const emptyInvite = { courseId: '', inviteLink: '', audience: 'ALL', message: '' };
 
 export default function TelegramSettings() {
   const { t } = useLanguage();
@@ -15,6 +15,7 @@ export default function TelegramSettings() {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [busy, setBusy] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [courses, setCourses] = useState([]);
   const [invite, setInvite] = useState(emptyInvite);
   const [inviteMessage, setInviteMessage] = useState({ type: '', text: '' });
   const [sendingInvite, setSendingInvite] = useState(false);
@@ -27,6 +28,9 @@ export default function TelegramSettings() {
         setForm((current) => ({ ...current, chatId: data.chatId || '', enabled: data.enabled !== false }));
       })
       .catch((error) => setMessage({ type: 'error', text: error.response?.data?.message || t('telegramLoadFailed') }));
+    api.get('/courses', { params: { page: 1, limit: 100, status: 'ACTIVE' } })
+      .then((response) => setCourses(unwrap(response).data || []))
+      .catch(() => setCourses([]));
   }, [t]);
 
   const save = async (event) => {
@@ -62,7 +66,7 @@ export default function TelegramSettings() {
     event.preventDefault(); setSendingInvite(true); setInviteMessage({ type: '', text: '' });
     try {
       const result = unwrap(await api.post('/telegram-settings/group-invite', invite));
-      setInviteMessage({ type: 'success', text: `Invite sent to ${result.sent} active account(s).` });
+      setInviteMessage({ type: 'success', text: `Invite sent to ${result.sent} account(s) for ${result.course?.courseName || 'the selected course'}.` });
     } catch (error) { setInviteMessage({ type: 'error', text: error.response?.data?.message || 'The Telegram invite could not be sent.' }); } finally { setSendingInvite(false); }
   };
 
@@ -110,8 +114,8 @@ export default function TelegramSettings() {
       </form>
 
       <form onSubmit={sendInvite} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 sm:p-7">
-        <div className="mb-6"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">Telegram group access</p><h2 className="mt-2 text-xl font-bold text-ink dark:text-white">Send group invite to teachers and students</h2><p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">Recipients receive an in-app notification with a sound alert. They can open the link directly from the notification.</p></div>
-        <div className="space-y-4"><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Telegram invite link<input required type="url" pattern="https://(t\\.me|telegram\\.me)/.+" value={invite.inviteLink} onChange={(event) => setInvite({ ...invite, inviteLink: event.target.value })} className="input mt-2" placeholder="https://t.me/+your-group-invite" /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Send to<select value={invite.audience} onChange={(event) => setInvite({ ...invite, audience: event.target.value })} className="input mt-2"><option value="ALL">Teachers and students</option><option value="TEACHERS">Teachers only</option><option value="STUDENTS">Students only</option></select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Message<textarea rows="3" maxLength="500" value={invite.message} onChange={(event) => setInvite({ ...invite, message: event.target.value })} className="input mt-2" /></label></div>
+        <div className="mb-6"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">Telegram group access</p><h2 className="mt-2 text-xl font-bold text-ink dark:text-white">Send a course-specific group invite</h2><p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">Each course keeps its own Telegram link. Notifications go only to that course teacher and enrolled students.</p></div>
+        <div className="space-y-4"><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Course<select required value={invite.courseId} onChange={(event) => { const selected = courses.find((course) => course.id === event.target.value); setInvite((current) => ({ ...current, courseId: event.target.value, inviteLink: selected?.telegramGroupLink || '' })); }} className="input mt-2"><option value="">Select a course</option>{courses.map((course) => <option key={course.id} value={course.id}>{course.courseCode} · {course.courseName}</option>)}</select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Telegram invite link<input required type="url" pattern="https://(t\\.me|telegram\\.me)/.+" value={invite.inviteLink} onChange={(event) => setInvite({ ...invite, inviteLink: event.target.value })} className="input mt-2" placeholder="https://t.me/+course-group-invite" /></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Send to<select value={invite.audience} onChange={(event) => setInvite({ ...invite, audience: event.target.value })} className="input mt-2"><option value="ALL">Course teacher and enrolled students</option><option value="TEACHERS">Course teacher only</option><option value="STUDENTS">Enrolled students only</option></select></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Message<textarea rows="3" maxLength="500" value={invite.message} onChange={(event) => setInvite({ ...invite, message: event.target.value })} className="input mt-2" placeholder="Please join your course Telegram group for class updates." /></label></div>
         {inviteMessage.text && <p className={`mt-5 rounded-2xl px-4 py-3 text-sm font-semibold ${inviteMessage.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'}`}>{inviteMessage.text}</p>}
         <button disabled={sendingInvite} className="mt-6 rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg shadow-navy/15 transition hover:-translate-y-0.5 hover:bg-[#1b3b5d] disabled:opacity-60">{sendingInvite ? 'Sending...' : 'Send group invite'}</button>
       </form>

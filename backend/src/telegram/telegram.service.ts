@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role, UserStatus } from '@prisma/client';
+import { UserStatus } from '@prisma/client';
 
 type TelegramConfig = { botToken: string; chatId: string; enabled: boolean };
 type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT' | 'UPDATE' | 'DELETE'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
@@ -57,18 +57,37 @@ export class TelegramService {
     return { sent: true };
   }
 
-  async sendGroupInvite(actorId: string, input: { inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }) {
-    const rawLink = String(input.inviteLink || '').trim();
+  async sendGroupInvite(actorId: string, input: { courseId?: string; inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }) {
+    const courseId = String(input.courseId || '').trim();
+    if (!courseId) throw new BadRequestException('Please select a course for this Telegram group invite.');
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+      select: {
+        id: true,
+        courseName: true,
+        telegramGroupLink: true,
+        teacher: { select: { userId: true } },
+        enrollments: { where: { status: 'ACTIVE' }, select: { student: { select: { userId: true } } } },
+      },
+    });
+    if (!course) throw new BadRequestException('The selected course was not found.');
+
+    const rawLink = String(input.inviteLink || course.telegramGroupLink || '').trim();
     let inviteLink: URL;
     try { inviteLink = new URL(rawLink); } catch { throw new BadRequestException('Please enter a valid Telegram invite link.'); }
     if (inviteLink.protocol !== 'https:' || !['t.me', 'www.t.me', 'telegram.me', 'www.telegram.me'].includes(inviteLink.hostname)) throw new BadRequestException('Invite link must be an https://t.me/... or https://telegram.me/... link.');
+    const normalizedLink = inviteLink.toString();
+    if (normalizedLink !== course.telegramGroupLink) await this.prisma.course.update({ where: { id: course.id }, data: { telegramGroupLink: normalizedLink } });
+
     const audience = input.audience || 'ALL';
-    const roles = audience === 'TEACHERS' ? [Role.TEACHER] : audience === 'STUDENTS' ? [Role.STUDENT, Role.CUSTOMER] : [Role.TEACHER, Role.STUDENT, Role.CUSTOMER];
-    const recipients = await this.prisma.user.findMany({ where: { id: { not: actorId }, status: UserStatus.ACTIVE, role: { in: roles } }, select: { id: true } });
-    if (!recipients.length) return { sent: 0, audience, inviteLink: inviteLink.toString() };
-    const message = `${String(input.message || 'Please join our official Telegram group for class updates.').trim().slice(0, 500)}\n\nJoin Telegram group: ${inviteLink.toString()}`;
+    const teacherIds = audience === 'STUDENTS' ? [] : [course.teacher.userId];
+    const studentIds = audience === 'TEACHERS' ? [] : course.enrollments.map((enrollment) => enrollment.student.userId);
+    const recipientIds = [...new Set([...teacherIds, ...studentIds].filter((id) => id !== actorId))];
+    const recipients = await this.prisma.user.findMany({ where: { id: { in: recipientIds }, status: UserStatus.ACTIVE }, select: { id: true } });
+    if (!recipients.length) return { sent: 0, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink };
+    const message = `${String(input.message || `Please join the Telegram group for ${course.courseName}.`).trim().slice(0, 500)}\n\nCourse: ${course.courseName}\nJoin Telegram group: ${normalizedLink}`;
     const result = await this.prisma.notification.createMany({ data: recipients.map((recipient) => ({ userId: recipient.id, senderId: actorId, title: 'Telegram group invitation', message })) });
-    return { sent: result.count, audience, inviteLink: inviteLink.toString() };
+    return { sent: result.count, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink };
   }
 
   async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {

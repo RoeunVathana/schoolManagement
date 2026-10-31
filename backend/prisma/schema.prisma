@@ -516,6 +516,7 @@ model Course {
   academicYearId        String?
   semesterId            String?
   imageUrl              String?
+  telegramGroupLink     String?             @db.Text
   price                 Decimal             @default(1.00) @db.Decimal(12, 2)
   currency              String              @default("USD")
   discountPercent       Float               @default(0)
