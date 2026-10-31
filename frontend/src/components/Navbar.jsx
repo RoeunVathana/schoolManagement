@@ -49,6 +49,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(() => localStorage.getItem('campusflow_notification_sound') !== 'off');
+  const [audioReady, setAudioReady] = useState(false);
   const seenNotificationIds = useRef(new Set());
   const notificationFeedReady = useRef(false);
   const audioContextRef = useRef(null);
@@ -64,6 +65,8 @@ export default function Navbar({ onMenu, menuOpen = false }) {
 
   const playNotificationSound = useCallback((force = false) => {
     if ((!soundEnabled && !force) || !audioUnlocked.current) return;
+    if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) navigator.vibrate([80, 40, 80]);
     const context = getAudioContext();
     if (!context) return;
     const play = () => {
@@ -80,6 +83,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
     const context = getAudioContext();
     if (!context) return;
     audioUnlocked.current = true;
+    setAudioReady(true);
     // Start a silent oscillator during the user gesture. This unlocks audio
     // on iOS Safari and mobile Chrome before a later polling request arrives.
     const silentGain = context.createGain();
@@ -93,15 +97,15 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   }, [getAudioContext]);
 
   useEffect(() => {
-    window.addEventListener('pointerdown', unlockAudio, { passive: true });
-    window.addEventListener('touchstart', unlockAudio, { passive: true });
-    window.addEventListener('click', unlockAudio, { passive: true });
-    window.addEventListener('keydown', unlockAudio, { passive: true });
+    window.addEventListener('pointerdown', unlockAudio, { passive: true, capture: true });
+    window.addEventListener('touchstart', unlockAudio, { passive: true, capture: true });
+    window.addEventListener('click', unlockAudio, { passive: true, capture: true });
+    window.addEventListener('keydown', unlockAudio, { passive: true, capture: true });
     return () => {
-      window.removeEventListener('pointerdown', unlockAudio);
-      window.removeEventListener('touchstart', unlockAudio);
-      window.removeEventListener('click', unlockAudio);
-      window.removeEventListener('keydown', unlockAudio);
+      window.removeEventListener('pointerdown', unlockAudio, true);
+      window.removeEventListener('touchstart', unlockAudio, true);
+      window.removeEventListener('click', unlockAudio, true);
+      window.removeEventListener('keydown', unlockAudio, true);
       audioContextRef.current?.close().catch(() => undefined);
       audioContextRef.current = null;
     };
@@ -168,7 +172,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
           {unreadCount > 0 && <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-coral px-1 text-[10px] font-bold text-white">{unreadCount > 99 ? '99+' : unreadCount}</span>}
         </button>
         {showNotifications && <div id="app-notification-panel" className="app-notification-panel" role="dialog" aria-label={t('notifications')}>
-          <div className="app-notification-header"><div><p className="app-notification-kicker">CAMPUSFLOW</p><p className="app-notification-title">{t('notifications')}</p></div><div className="flex items-center gap-2"><button type="button" onClick={() => { const next = !soundEnabled; unlockAudio(); setSoundEnabled(next); localStorage.setItem('campusflow_notification_sound', next ? 'on' : 'off'); if (next) window.setTimeout(() => playNotificationSound(true), 0); }} className="app-notification-mark-read" title={soundEnabled ? t('soundOff') : t('soundOn')}>{soundEnabled ? t('soundOn') : t('soundOff')}</button><button type="button" onClick={markAllRead} className="app-notification-mark-read">{t('markAllRead')}</button></div></div>
+          <div className="app-notification-header"><div><p className="app-notification-kicker">CAMPUSFLOW</p><p className="app-notification-title">{t('notifications')}</p></div><div className="flex items-center gap-2"><button type="button" onPointerDown={unlockAudio} onClick={() => { const next = !soundEnabled; unlockAudio(); setSoundEnabled(next); localStorage.setItem('campusflow_notification_sound', next ? 'on' : 'off'); if (next) window.setTimeout(() => playNotificationSound(true), 0); }} className="app-notification-mark-read" title={soundEnabled ? (audioReady ? t('soundOff') : `${t('soundOn')} · tap once to enable`) : t('soundOn')}>{soundEnabled ? t('soundOn') : t('soundOff')}</button><button type="button" onClick={markAllRead} className="app-notification-mark-read">{t('markAllRead')}</button></div></div>
           <div className="app-notification-list">{notifications.length ? notifications.map((notification) => <button type="button" key={notification.id} onClick={() => markRead(notification)} className={`app-notification-item ${notification.isRead ? 'is-read' : 'is-unread'}`}><span className={`app-notification-dot ${notification.isRead ? 'is-read' : ''}`} /><span className="app-notification-copy"><span className="app-notification-item-title">{notification.title}</span>{notification.sender && <span className="app-notification-sender">{t('author')}: {notification.sender.fullName} · {notification.sender.role}</span>}<span className="app-notification-message">{notification.message}</span><time dateTime={notification.createdAt}>{new Date(notification.createdAt).toLocaleString()}</time></span><span className="app-notification-arrow" aria-hidden="true">→</span></button>) : <p className="app-notification-empty">{t('noNotifications')}</p>}</div>
         </div>}
       </div>
