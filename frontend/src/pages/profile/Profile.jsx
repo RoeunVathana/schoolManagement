@@ -52,9 +52,9 @@ export default function Profile() {
     }
   };
 
-  const uploadImage = async () => {
-    if (!profileImage) return;
-    if (isImageTooLarge(profileImage)) {
+  const uploadImage = async (selectedFile = profileImage) => {
+    if (!selectedFile) return;
+    if (isImageTooLarge(selectedFile)) {
       setError(t('imageTooLarge'));
       return;
     }
@@ -63,7 +63,7 @@ export default function Profile() {
     setError('');
     try {
       const formData = new FormData();
-      formData.append('profileImage', profileImage);
+      formData.append('profileImage', selectedFile);
       // Let the browser set the multipart boundary automatically.
       const updated = unwrap(await api.post('/auth/profile/image', formData));
       applyProfile(updated);
@@ -76,6 +76,13 @@ export default function Profile() {
       setImageBusy(false);
     }
   };
+
+  // Upload immediately after the user confirms the crop so the native file
+  // input resetting to "No file chosen" cannot block the profile update.
+  useEffect(() => {
+    if (!profileImage || imageBusy) return;
+    void uploadImage(profileImage);
+  }, [profileImage]);
 
   if (!profile) return <Loading label="Loading profile..." />;
   const isStudent = ['STUDENT', 'CUSTOMER'].includes(profile.role);
