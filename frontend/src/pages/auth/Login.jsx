@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GoogleAuthProvider, getRedirectResult, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, getRedirectResult, signInWithRedirect, signOut } from 'firebase/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
@@ -113,25 +113,10 @@ export default function Login() {
     setNotice('');
     setError('');
     try {
-      const result = await signInWithPopup(firebaseAuth, new GoogleAuthProvider());
-      const idToken = await result.user.getIdToken(true);
-      const user = await loginWithGoogle({ idToken, role: selectedRole });
-      setRedirecting(true);
-      await transitionDelay(650);
-      navigate(location.state?.from || roleHome(user.role), { replace: true });
+      // Use the main-tab redirect flow so Google always returns through
+      // Firebase's authorized /__/auth/handler on the custom domain.
+      await signInWithRedirect(firebaseAuth, new GoogleAuthProvider());
     } catch (e) {
-      const code = e.code || '';
-      // Some browsers report a blocked/isolated popup as auth/internal-error
-      // instead of auth/popup-blocked. Redirect sign-in is more reliable on a
-      // custom domain and lets Firebase complete the OAuth flow in the main tab.
-      if (code === 'auth/popup-blocked' || code === 'auth/internal-error') {
-        try {
-          await signInWithRedirect(firebaseAuth, new GoogleAuthProvider());
-          return;
-        } catch (redirectError) {
-          e = redirectError;
-        }
-      }
       await signOut(firebaseAuth).catch(() => undefined);
       setError(googleErrorMessage(e, t));
     } finally {
