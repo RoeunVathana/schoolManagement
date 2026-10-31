@@ -19,7 +19,7 @@ function notificationPath(notification, role) {
 
 function telegramInviteLink(notification) {
   if (!String(notification?.title || '').toLowerCase().includes('telegram group')) return '';
-  const match = String(notification?.message || '').match(/https:\/\/(?:t\.me|telegram\.me)\/[^\s<]+/i);
+  const match = String(notification?.message || '').match(/https:\/\/(?:(?:www\.)?t\.me|(?:www\.)?telegram\.me)\/[^\s<]+/i);
   return match?.[0] || '';
 }
 
