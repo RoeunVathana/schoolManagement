@@ -32,6 +32,7 @@ import { StoriesModule } from './stories/stories.module';
 import { PublicCommunityModule } from './public-community/public-community.module';
 import { GroupsModule } from './groups/groups.module';
 import { MediaModule } from './media/media.module';
+import { CommunityAdminModule } from './community-admin/community-admin.module';
 import { HealthController } from './health/health.controller';
 
 @Module({
@@ -68,6 +69,7 @@ import { HealthController } from './health/health.controller';
     PublicCommunityModule,
     GroupsModule,
     MediaModule,
+    CommunityAdminModule,
   ],
   controllers: [HealthController],
 })

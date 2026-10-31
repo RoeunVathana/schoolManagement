@@ -17,6 +17,7 @@ import AdminSimple from '../pages/admin/Simple';
 import AdminTelegramSettings from '../pages/admin/TelegramSettings';
 import AdminCertificates from '../pages/admin/Certificates';
 import AdminTeacherAttendance from '../pages/admin/TeacherAttendance';
+import AdminCommunity from '../pages/admin/Community';
 import TeacherDashboard from '../pages/teacher/Dashboard';
 import TeacherAttendance from '../pages/teacher/Attendance';
 import TeacherSimple from '../pages/teacher/Simple';
@@ -64,6 +65,7 @@ export default function AppRoutes() {
           <Route path="admin/telegram-settings" element={<AdminTelegramSettings />} />
           <Route path="admin/certificates" element={<AdminCertificates />} />
           <Route path="admin/teacher-attendance" element={<AdminTeacherAttendance />} />
+          <Route path="admin/community" element={<AdminCommunity />} />
           <Route path="admin/:section" element={<AdminSimple />} />
         </Route>
       </Route>
