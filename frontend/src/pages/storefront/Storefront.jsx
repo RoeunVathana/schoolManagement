@@ -7,6 +7,7 @@ import BrandLogo from "../../components/BrandLogo";
 import Modal from "../../components/Modal";
 import SupportDock from "../../components/SupportDock";
 import ThemeSwitch from "../../components/ThemeSwitch";
+import Seo, { SITE_URL } from "../../components/Seo";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../context/LanguageContext";
 import { roleHome } from "../../utils/roles";
@@ -456,9 +457,43 @@ export default function Storefront() {
   ) : null;
   const paymentPlanModal = paymentPlanCourse ? <PaymentPlanChooser course={paymentPlanCourse} isPurchased={purchasedCourseIds.includes(paymentPlanCourse.id)} t={t} onChoose={(plan) => startCoursePayment(paymentPlanCourse, plan)} onClose={() => setPaymentPlanCourse(null)} /> : null;
 
+  const seoDescription = course?.description || copy.heroBody;
+  const seoTitle = course?.courseName
+    ? `${course.courseName} | CampusFlow LMS`
+    : "CampusFlow LMS | Practical Online Courses in Cambodia";
+  const courseSchema = course ? {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.courseName,
+    description: seoDescription,
+    url: `${SITE_URL}/courses/${course.id}`,
+    provider: { "@type": "Organization", name: "CampusFlow LMS", sameAs: SITE_URL },
+    inLanguage: ["en", "km"],
+    offers: {
+      "@type": "Offer",
+      price: String(course.salePrice ?? course.price ?? 0),
+      priceCurrency: course.currency || "USD",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/courses/${course.id}`,
+    },
+  } : null;
+  const listSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "CampusFlow LMS",
+    url: SITE_URL,
+    description: copy.heroBody,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/courses?search={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   if (id) {
     return (
       <div ref={storefrontRef} className="storefront min-h-screen bg-[#f6fafc] text-[#10243f] transition-colors dark:bg-[#0b1220] dark:text-slate-100">
+        <Seo title={seoTitle} description={seoDescription} path={`/courses/${id}`} language={language} jsonLd={courseSchema} />
         <StorefrontAmbientBackground />
         <StorefrontNav
           copy={copy}
@@ -496,6 +531,7 @@ export default function Storefront() {
 
   return (
     <div ref={storefrontRef} className="storefront min-h-screen bg-[#f6fafc] text-[#10243f] transition-colors dark:bg-[#0b1220] dark:text-slate-100">
+      <Seo title="CampusFlow LMS | Practical Online Courses in Cambodia" description={copy.heroBody} path="/" language={language} jsonLd={listSchema} />
       <StorefrontAmbientBackground />
       <StorefrontNav
         copy={copy}

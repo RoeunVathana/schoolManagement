@@ -12,6 +12,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCommunityText } from '../../context/communityTranslations';
 import { roleHome } from '../../utils/roles';
+import Seo, { SITE_URL } from '../../components/Seo';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
@@ -61,7 +62,7 @@ export default function CommunityLanding() {
     navigate('/community', { replace: true });
   };
 
-  return <div className="public-community-page">
+  return <><Seo title="CampusFlow Community | Learn Together" description={text.heroDescription} path="/community" language={language} jsonLd={{ "@context": "https://schema.org", "@type": "WebPage", name: "CampusFlow Community", description: text.heroDescription, url: `${SITE_URL}/community`, isPartOf: { "@type": "WebSite", name: "CampusFlow LMS", url: SITE_URL } }} /><div className="public-community-page">
     <header className="public-community-nav">
       <Link to="/" className="public-community-brand"><span className="public-community-logo"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{text.marketplace}</small></span></Link>
       <nav className="public-community-nav-links"><Link to="/courses">{text.courses}</Link><Link to="/community" className="is-active">{text.community}</Link><a href="/courses#about">{text.why}</a><a href="/courses#faq">{text.faq}</a></nav>
@@ -84,7 +85,7 @@ export default function CommunityLanding() {
 
     <footer className="public-community-footer"><Link to="/" className="public-community-brand"><span className="public-community-logo"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{text.marketplace}</small></span></Link><p>{text.footer}</p><span>© {new Date().getFullYear()} CampusFlow</span></footer>
     <SupportDock alwaysShow publicMode />
-  </div>;
+  </div></>;
 }
 
 function PublicPostLegacy({ post, text }) {
