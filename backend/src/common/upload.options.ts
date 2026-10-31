@@ -109,7 +109,8 @@ export const profileImageUpload = {
   limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req: unknown, file: Express.Multer.File, cb: (error: Error | null, acceptFile: boolean) => void) => {
     const allowed = ['.png', '.jpg', '.jpeg', '.webp'];
-    if (!allowed.includes(extname(file.originalname).toLowerCase())) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP profile images are allowed'), false);
+    const extension = extname(file.originalname).toLowerCase();
+    if (!file.mimetype.startsWith('image/') || !allowed.includes(extension)) return cb(new BadRequestException('Only PNG, JPG, JPEG and WEBP profile images are allowed'), false);
     cb(null, true);
   },
 };

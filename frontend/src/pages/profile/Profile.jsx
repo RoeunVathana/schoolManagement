@@ -64,7 +64,8 @@ export default function Profile() {
     try {
       const formData = new FormData();
       formData.append('profileImage', profileImage);
-      const updated = unwrap(await api.post('/auth/profile/image', formData, { headers: { 'Content-Type': 'multipart/form-data' } }));
+      // Let the browser set the multipart boundary automatically.
+      const updated = unwrap(await api.post('/auth/profile/image', formData));
       applyProfile(updated);
       updateUser(updated);
       setProfileImage(null);

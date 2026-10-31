@@ -177,7 +177,8 @@ export default function PublicProfile() {
     try {
       const form = new FormData();
       form.append('profileImage', croppedFile);
-      const updated = unwrap(await api.post('/auth/profile/image', form, { headers: { 'Content-Type': 'multipart/form-data' } }));
+      // Let the browser set the multipart boundary automatically.
+      const updated = unwrap(await api.post('/auth/profile/image', form));
       updateUser(updated);
       setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
       setNotice('Profile photo updated.');
