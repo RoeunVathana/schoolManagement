@@ -264,7 +264,10 @@ model FriendRequest {
   sender     User                @relation("FriendRequestSender", fields: [senderId], references: [id], onDelete: Cascade)
   receiver   User                @relation("FriendRequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
-  @@unique([requestKey, status])
+  // Request history may contain multiple rejected/cancelled/accepted cycles
+  // for the same pair. Duplicate pending requests are guarded in the service
+  // and by the database migration's partial unique index.
+  @@index([requestKey, status])
   @@index([senderId, status, createdAt])
   @@index([receiverId, status, createdAt])
   @@map("friend_requests")
