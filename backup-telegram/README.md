@@ -18,9 +18,12 @@ Set these variables in Railway. Do not commit them or paste them into chat:
 DATABASE_URL=${{Postgres.DATABASE_URL}}
 TELEGRAM_BOT_TOKEN=<BotFather token>
 TELEGRAM_CHAT_ID=<private chat or private channel id>
+TELEGRAM_ALERT_CHAT_ID=<admin private chat id, optional>
 BACKUP_ENCRYPTION_KEY=<base64-encoded 32-byte key>
 BACKUP_CHUNK_MB=45
 ```
+
+`TELEGRAM_CHAT_ID` receives the encrypted backup files. `TELEGRAM_ALERT_CHAT_ID` receives the admin status message. If the alert id is omitted, the backup chat receives both. A successful alert says `BACKUP AVAILABLE` only after Telegram accepts every file part. A failure alert says `BACKUP NOT AVAILABLE` and includes the reason without exposing database credentials.
 
 Generate a key locally with Node.js:
 

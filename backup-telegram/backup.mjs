@@ -8,6 +8,7 @@ import { createGzip } from 'node:zlib';
 
 const TELEGRAM_API = `https://api.telegram.org/bot${required('TELEGRAM_BOT_TOKEN')}`;
 const chatId = required('TELEGRAM_CHAT_ID');
+const alertChatId = String(process.env.TELEGRAM_ALERT_CHAT_ID || chatId).trim();
 const databaseUrl = required('DATABASE_URL');
 const encryptionKey = readEncryptionKey();
 const chunkBytes = Math.min(49, Math.max(1, Number(process.env.BACKUP_CHUNK_MB || 45))) * 1024 * 1024;
@@ -27,14 +28,14 @@ function readEncryptionKey() {
   return key;
 }
 
-async function telegram(method, body, file) {
+async function telegram(method, body, file, targetChatId = chatId) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10 * 60 * 1000);
   try {
     let response;
     if (file) {
       const form = new FormData();
-      form.append('chat_id', chatId);
+      form.append('chat_id', targetChatId);
       form.append('caption', body.caption || '');
       form.append('document', new Blob([await fs.readFile(file.path)], { type: 'application/octet-stream' }), file.name);
       response = await fetch(`${TELEGRAM_API}/${method}`, { method: 'POST', body: form, signal: controller.signal });
@@ -42,7 +43,7 @@ async function telegram(method, body, file) {
       response = await fetch(`${TELEGRAM_API}/${method}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, ...body }),
+        body: JSON.stringify({ chat_id: targetChatId, ...body }),
         signal: controller.signal,
       });
     }
@@ -56,7 +57,7 @@ async function telegram(method, body, file) {
 
 async function notify(text) {
   try {
-    await telegram('sendMessage', { text, disable_web_page_preview: true });
+    await telegram('sendMessage', { text, disable_web_page_preview: true }, undefined, alertChatId);
   } catch (error) {
     console.error(`Telegram notification failed: ${error instanceof Error ? error.message : 'unknown error'}`);
   }
@@ -109,7 +110,14 @@ async function sendBackup(fileSize) {
   } finally {
     await handle.close();
   }
-  await notify(`✅ CampusFlow database backup uploaded\nSize: ${(fileSize / 1024 / 1024).toFixed(2)} MB\nParts: ${total}\nEncrypted: AES-256-GCM`);
+  await notify([
+    '✅ BACKUP AVAILABLE',
+    'CampusFlow database backup uploaded successfully.',
+    `Size: ${(fileSize / 1024 / 1024).toFixed(2)} MB`,
+    `Parts verified by Telegram: ${total}/${total}`,
+    'Encryption: AES-256-GCM',
+    'Admin access: open the private backup chat and keep the encryption key available.',
+  ].join('\n'));
 }
 
 async function bufferToTempFile(buffer, name) {
@@ -126,7 +134,13 @@ async function run() {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'unknown error';
     console.error(`Backup failed: ${message}`);
-    await notify(`❌ CampusFlow database backup failed\nTime: ${new Date().toISOString()}\nReason: ${message.slice(0, 500)}`);
+    await notify([
+      '❌ BACKUP NOT AVAILABLE',
+      'CampusFlow database backup was not uploaded.',
+      `Time: ${new Date().toISOString()}`,
+      `Reason: ${message.slice(0, 500)}`,
+      'Admin action: check Railway cron logs and Telegram permissions before retrying.',
+    ].join('\n'));
     process.exitCode = 1;
   } finally {
     await fs.rm(outputPath, { force: true });
