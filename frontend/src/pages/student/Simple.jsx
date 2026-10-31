@@ -14,6 +14,8 @@ import ScheduleFilters, {
 } from "../../components/ScheduleFilters";
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const MAX_SUBMISSION_FILES = 10;
+const MAX_SUBMISSION_TOTAL_BYTES = 250 * 1024 * 1024;
 const mediaUrl = (path) =>
   path?.startsWith("http") ? path : `${API_ORIGIN}${path || ""}`;
 const isImage = (path) => /\.(png|jpe?g|webp)$/i.test(path || "");
@@ -52,7 +54,7 @@ export default function Simple() {
   const [editing, setEditing] = useState(null);
   const [answerText, setAnswerText] = useState("");
   const [assignmentId, setAssignmentId] = useState("");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [examSubmitOpen, setExamSubmitOpen] = useState(false);
   const [examToSubmit, setExamToSubmit] = useState(null);
   const [examAnswerText, setExamAnswerText] = useState("");
@@ -88,16 +90,23 @@ export default function Simple() {
   };
 
   const handleHomeworkFileChange = (event) => {
-    const nextFile = event.target.files?.[0] || null;
-    const fileError = validateHomeworkFile(nextFile);
-    if (fileError) {
+    const selectedFiles = Array.from(event.target.files || []);
+    if (selectedFiles.length > MAX_SUBMISSION_FILES) {
       event.target.value = "";
-      setFile(null);
-      setError(fileError);
+      setFiles([]);
+      setError(`You can submit up to ${MAX_SUBMISSION_FILES} files at once.`);
+      return;
+    }
+    const fileError = selectedFiles.map(validateHomeworkFile).find(Boolean);
+    const totalBytes = selectedFiles.reduce((total, candidate) => total + candidate.size, 0);
+    if (fileError || totalBytes > MAX_SUBMISSION_TOTAL_BYTES) {
+      event.target.value = "";
+      setFiles([]);
+      setError(fileError || "All submission files together must be 250 MB or smaller.");
       return;
     }
     setError("");
-    setFile(nextFile);
+    setFiles(selectedFiles);
   };
 
   const load = async (targetPage = page) => {
@@ -194,7 +203,7 @@ export default function Simple() {
     setEditing(null);
     setAnswerText("");
     setAssignmentId("");
-    setFile(null);
+    setFiles([]);
   };
   const isHomeworkOverdue = (row) =>
     Boolean(row?.dueDate && new Date(row.dueDate).getTime() <= now);
@@ -207,7 +216,7 @@ export default function Simple() {
     setEditing(submission?.id ? submission : null);
     setAnswerText(submission?.answerText || "");
     setAssignmentId(row.id || submission?.assignmentId || "");
-    setFile(null);
+    setFiles([]);
     setOpen(true);
   };
   const submit = async (event) => {
@@ -217,16 +226,17 @@ export default function Simple() {
       setError(t("overdue"));
       return;
     }
-    if (!answerText.trim() && !file && !editing?.fileUrl) {
+    const hasExistingFiles = Boolean(editing?.fileUrl || editing?.attachments?.length);
+    if (!answerText.trim() && !files.length && !hasExistingFiles) {
       setError("Write an answer or attach a file before submitting.");
       return;
     }
     setBusy(true);
     setError("");
     try {
-      if (file) {
+      if (files.length) {
         const formData = new FormData();
-        formData.append("file", file);
+        files.forEach((selectedFile) => formData.append("files", selectedFile));
         formData.append("answerText", answerText.trim());
         const uploadUrl = editing
           ? `/submissions/${editing.id}/file`
@@ -312,30 +322,42 @@ export default function Simple() {
       setError(e.response?.data?.message || "Could not delete submission.");
     }
   };
-  const attachmentCell = (row) =>
-    row.fileUrl ? (
-      <a
-        href={mediaUrl(row.fileUrl)}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
-      >
-        {isImage(row.fileUrl) ? (
-          <img
-            src={mediaUrl(row.fileUrl)}
-            alt={t("submissionFile")}
-            className="h-8 w-8 rounded object-cover"
-          />
-        ) : (
-          <span className="flex h-8 w-8 items-center justify-center rounded bg-red-100 text-[10px] font-bold text-red-700">
-            FILE
-          </span>
-        )}
-        <span>{t("openFile")}</span>
-      </a>
+  const submissionAttachments = (row) => {
+    if (Array.isArray(row?.attachments) && row.attachments.length) return row.attachments;
+    return row?.fileUrl ? [{ id: "legacy-file", fileUrl: row.fileUrl }] : [];
+  };
+  const attachmentCell = (row) => {
+    const attachments = submissionAttachments(row);
+    return attachments.length ? (
+      <div className="flex max-w-[18rem] flex-wrap gap-2">
+        {attachments.map((attachment, index) => (
+          <a
+            key={attachment.id || attachment.fileUrl || index}
+            href={mediaUrl(attachment.fileUrl)}
+            target="_blank"
+            rel="noreferrer"
+            title={attachment.originalName || t("openFile")}
+            className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
+          >
+            {isImage(attachment.fileUrl) ? (
+              <img
+                src={mediaUrl(attachment.fileUrl)}
+                alt={attachment.originalName || t("submissionFile")}
+                className="h-8 w-8 rounded object-cover"
+              />
+            ) : (
+              <span className="flex h-8 w-8 items-center justify-center rounded bg-red-100 text-[10px] font-bold text-red-700">
+                FILE
+              </span>
+            )}
+            <span>{attachments.length > 1 ? `${t("openFile")} ${index + 1}` : t("openFile")}</span>
+          </a>
+        ))}
+      </div>
     ) : (
       <span className="text-xs text-slate-400">{t("noFile")}</span>
     );
+  };
   const assignmentAttachmentCell = (row) =>
     row.attachmentUrl ? (
       <a
@@ -896,7 +918,7 @@ export default function Simple() {
                 setEditing(null);
                 setAnswerText("");
                 setAssignmentId("");
-                setFile(null);
+                setFiles([]);
                 setOpen(true);
               }}
               className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white"
@@ -1052,15 +1074,11 @@ export default function Simple() {
               )}
             </>
           )}
-          {editing?.fileUrl && (
-            <a
-              href={mediaUrl(editing.fileUrl)}
-              target="_blank"
-              rel="noreferrer"
-              className="block rounded-lg bg-slate-100 p-3 text-sm font-semibold text-slate-700"
-            >
-              {t("openCurrentSubmissionFile")}
-            </a>
+          {submissionAttachments(editing).length > 0 && (
+            <div className="rounded-lg bg-slate-100 p-3 dark:bg-slate-800">
+              <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-100">{t("openCurrentSubmissionFile")}</p>
+              {attachmentCell(editing)}
+            </div>
           )}
           <textarea
             rows="7"
@@ -1075,21 +1093,28 @@ export default function Simple() {
                 <p className="text-sm font-extrabold text-slate-700 dark:text-slate-100">{t("attachFile")}</p>
                 <p className="mt-1 text-xs font-normal leading-5 text-slate-400">{t("fileSizeHint")}</p>
               </div>
-              {file && <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{t("selected")}</span>}
+              {files.length > 0 && <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{files.length} {files.length === 1 ? "file" : "files"} {t("selected")}</span>}
             </div>
             <label className="mt-3 flex cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-sky-400 hover:bg-sky-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-sky-500 dark:hover:bg-slate-700">
-              <span>{file ? "Change file" : "Choose file"}</span>
+              <span>{files.length ? "Change files" : "Choose files"}</span>
               <input
                 type="file"
                 accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*"
+                multiple
                 className="sr-only"
                 onChange={handleHomeworkFileChange}
               />
             </label>
-            {file && (
-              <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-2.5 text-xs dark:bg-slate-800">
-                <span className="min-w-0 truncate font-semibold text-slate-600 dark:text-slate-200">{file.name}</span>
-                <button type="button" className="shrink-0 font-bold text-red-500 hover:text-red-700" onClick={() => setFile(null)}>Remove</button>
+            {files.length > 0 && (
+              <div className="mt-3 rounded-xl bg-white px-3 py-2.5 text-xs dark:bg-slate-800">
+                <div className="flex flex-wrap gap-2">
+                  {files.map((selectedFile) => (
+                    <span key={`${selectedFile.name}-${selectedFile.lastModified}`} className="max-w-full truncate rounded-lg bg-slate-100 px-2 py-1 font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-200">
+                      {selectedFile.name}
+                    </span>
+                  ))}
+                </div>
+                <button type="button" className="mt-2 font-bold text-red-500 hover:text-red-700" onClick={() => setFiles([])}>Remove all</button>
               </div>
             )}
           </div>
