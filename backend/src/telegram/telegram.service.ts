@@ -89,10 +89,23 @@ export class TelegramService {
     const studentIds = audience === 'TEACHERS' ? [] : course.enrollments.map((enrollment) => enrollment.student.userId);
     const recipientIds = [...new Set([...teacherIds, ...studentIds].filter((id) => id !== actorId))];
     const recipients = await this.prisma.user.findMany({ where: { id: { in: recipientIds }, status: UserStatus.ACTIVE }, select: { id: true } });
-    if (!recipients.length) return { sent: 0, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink };
     const message = `${String(input.message || `Please join the Telegram group for ${course.courseName}.`).trim().slice(0, 500)}\n\nCourse: ${course.courseName}\nJoin Telegram group: ${normalizedLink}`;
+    let announcementId: string | undefined;
+    if (audience === 'ALL') {
+      const announcement = await this.prisma.announcement.create({
+        data: {
+          courseId: course.id,
+          createdBy: actorId,
+          title: `Telegram group invitation - ${course.courseName}`,
+          content: message,
+        },
+        select: { id: true },
+      });
+      announcementId = announcement.id;
+    }
+    if (!recipients.length) return { sent: 0, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink, announcementId };
     const result = await this.prisma.notification.createMany({ data: recipients.map((recipient) => ({ userId: recipient.id, senderId: actorId, title: 'Telegram group invitation', message })) });
-    return { sent: result.count, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink };
+    return { sent: result.count, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink, announcementId };
   }
 
   async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {
