@@ -91,7 +91,7 @@ export default function ForgotPassword() {
             {step === 'request' ? (
               <form onSubmit={sendOtp} className="mt-8 space-y-5">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">{t('adminEmail')}
-                  <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="input mt-2 h-14" placeholder="admin@school.com" autoComplete="email" />
+                  <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="input mt-2 h-14" placeholder="you@example.com" autoComplete="email" />
                 </label>
                 <button disabled={busy} className="flex h-14 w-full items-center justify-center rounded-2xl bg-navy px-4 font-bold text-white shadow-lg shadow-navy/20 transition hover:-translate-y-0.5 hover:bg-[#1b3b5d] disabled:cursor-not-allowed disabled:opacity-60">{t('sendOtp')}</button>
               </form>
