@@ -10,7 +10,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
-    "lint": "eslint \"{src,prisma}/**/*.ts\""
+    "lint": "npm run typecheck",
+    "typecheck": "tsc --noEmit"
   },
   "overrides": {
     "bakong-khqr": {
