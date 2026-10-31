@@ -40,4 +40,7 @@ COPY railway-start.sh /app/railway-start.sh
 
 EXPOSE 80 3001
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget -q -O - http://127.0.0.1:3001/health >/dev/null || exit 1
+
 CMD ["sh", "/app/railway-start.sh"]
