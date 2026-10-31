@@ -21,4 +21,4 @@ EXPOSE 3001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD wget -q -O - http://127.0.0.1:3001/health >/dev/null || exit 1
 
-CMD ["sh", "-c", "if [ \"${DATABASE_MIGRATION_MODE:-migrate}\" = \"migrate\" ]; then npx prisma migrate deploy; else npx prisma db push --skip-generate; fi && npm run start:prod"]
+CMD ["sh", "-c", "if [ \"${DATABASE_MIGRATION_MODE:-migrate}\" = \"baseline\" ]; then for migration_dir in prisma/migrations/*; do migration_name=\"$(basename \"$migration_dir\")\"; npx prisma migrate resolve --applied \"$migration_name\"; done; elif [ \"${DATABASE_MIGRATION_MODE:-migrate}\" = \"migrate\" ]; then npx prisma migrate deploy; else npx prisma db push --skip-generate; fi && npm run start:prod"]
