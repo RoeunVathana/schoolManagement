@@ -16,19 +16,47 @@ export function validateEnvironment(config: Record<string, unknown>) {
     throw new Error('AUTH_RATE_LIMIT must be an integer of at least 5');
   }
 
+  const bcryptSaltRounds = Number(config.BCRYPT_SALT_ROUNDS ?? 12);
+  if (!Number.isInteger(bcryptSaltRounds) || bcryptSaltRounds < 10 || bcryptSaltRounds > 15) {
+    throw new Error('BCRYPT_SALT_ROUNDS must be an integer between 10 and 15');
+  }
+
   const nodeEnv = String(config.NODE_ENV ?? 'development').toLowerCase();
   if (nodeEnv === 'production') {
-    for (const key of ['JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET']) {
-      const secret = String(config[key] ?? '');
+    const accessSecret = String(config.JWT_ACCESS_SECRET ?? '');
+    const refreshSecret = String(config.JWT_REFRESH_SECRET ?? '');
+    for (const [key, secret] of [['JWT_ACCESS_SECRET', accessSecret], ['JWT_REFRESH_SECRET', refreshSecret]] as const) {
       if (secret.length < 32 || secret.toLowerCase().includes('student_management')) {
         throw new Error(`${key} must be a strong random secret of at least 32 characters in production`);
       }
     }
 
-    if (!String(config.FRONTEND_URL ?? config.CORS_ORIGINS ?? '').trim()) {
+    if (accessSecret === refreshSecret) {
+      throw new Error('JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be different in production');
+    }
+
+    const origins = String(config.CORS_ORIGINS || config.FRONTEND_URL || '')
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean);
+    if (!origins.length) {
       throw new Error('FRONTEND_URL or CORS_ORIGINS is required in production');
+    }
+
+    for (const origin of origins) {
+      if (origin === '*' || !/^https:\/\/[^/]+$/i.test(origin)) {
+        throw new Error('Production CORS origins must be exact HTTPS origins without wildcards or paths');
+      }
     }
   }
 
-  return { ...config, PORT: port, RATE_LIMIT_PER_MINUTE: rateLimitPerMinute, AUTH_RATE_LIMIT: authRateLimit, JWT_ISSUER: String(config.JWT_ISSUER ?? 'campusflow-api'), JWT_AUDIENCE: String(config.JWT_AUDIENCE ?? 'campusflow-web') };
+  return {
+    ...config,
+    PORT: port,
+    RATE_LIMIT_PER_MINUTE: rateLimitPerMinute,
+    AUTH_RATE_LIMIT: authRateLimit,
+    BCRYPT_SALT_ROUNDS: bcryptSaltRounds,
+    JWT_ISSUER: String(config.JWT_ISSUER ?? 'campusflow-api'),
+    JWT_AUDIENCE: String(config.JWT_AUDIENCE ?? 'campusflow-web'),
+  };
 }

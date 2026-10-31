@@ -12,6 +12,7 @@ Set these Railway backend variables before deploying:
 - `ENABLE_SWAGGER=false`
 - `RATE_LIMIT_PER_MINUTE=240`
 - `AUTH_RATE_LIMIT=30`
+- `DATABASE_MIGRATION_MODE=migrate` after the existing database has a Prisma migration history
 
 Generate secrets locally with:
 
@@ -24,7 +25,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 ## Protections enabled
 
 - Helmet security headers on the API
-- Strict allow-listed CORS with credentials disabled for unknown origins
+- Strict allow-listed CORS with browser credentials disabled
 - General request throttling and stricter authentication throttling
 - Whitelisted and forbidden unknown request fields
 - JSON and URL-encoded request bodies capped at 1 MB
@@ -45,4 +46,5 @@ Keep Railway, PostgreSQL, Firebase Storage, and the domain provider protected wi
 - Use separate Railway, Firebase, Google, domain, and email accounts with 2FA.
 - Keep `MEDIA_STORAGE` on Firebase/Google Cloud for production and restrict the storage bucket to the application’s intended access pattern.
 - Do not run `prisma db seed` in production. If seeding a non-production environment, set all `SEED_*_PASSWORD` variables first.
+- Prefer `DATABASE_MIGRATION_MODE=migrate` in production. The compatibility fallback uses `prisma db push` without `--accept-data-loss` and will fail rather than silently dropping data.
 - Review Railway logs and database access regularly; never expose `.env`, private keys, or service-account JSON files.

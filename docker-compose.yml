@@ -2,26 +2,27 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: schoolManagement
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Nha12134
-    ports: ["5432:5432"]
+      POSTGRES_DB: ${POSTGRES_DB:-schoolManagement}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports: ["127.0.0.1:5432:5432"]
     volumes: [student_management_data:/var/lib/postgresql/data]
   backend:
     build: ./backend
     environment:
-      DATABASE_URL: postgresql://postgres:Nha12134@postgres:5432/schoolManagement?schema=public
+      NODE_ENV: development
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-schoolManagement}?schema=public
       PORT: 3000
-      JWT_ACCESS_SECRET: student_management_access_secret
-      JWT_REFRESH_SECRET: student_management_refresh_secret
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET in .env}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET in .env}
       JWT_ACCESS_EXPIRES_IN: 15m
       JWT_REFRESH_EXPIRES_IN: 7d
-      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
     depends_on: [postgres]
-    ports: ["3000:3000"]
+    ports: ["127.0.0.1:3000:3000"]
   frontend:
     build: ./frontend
     depends_on: [backend]
-    ports: ["5173:80"]
+    ports: ["127.0.0.1:5173:80"]
 volumes:
   student_management_data:

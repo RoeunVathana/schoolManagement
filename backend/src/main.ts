@@ -34,7 +34,7 @@ async function bootstrap() {
   app.set('trust proxy', 1);
   app.getHttpAdapter().getInstance().disable('x-powered-by');
   app.useBodyParser('json', { limit: '1mb' });
-  app.useBodyParser('urlencoded', { extended: true, limit: '1mb' });
+  app.useBodyParser('urlencoded', { extended: false, limit: '1mb', parameterLimit: 100 });
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -45,7 +45,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => callback(null, !origin || allowedOrigins.includes(origin)),
-    credentials: true,
+    credentials: false,
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     maxAge: 86400,

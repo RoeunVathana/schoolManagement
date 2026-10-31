@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apk add --no-cache openssl
 
 COPY backend/package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY backend/prisma ./prisma
 RUN npx prisma generate
@@ -13,6 +13,9 @@ RUN npx prisma generate
 COPY backend ./
 RUN npm run build
 
+RUN mkdir -p uploads && chown -R node:node /app
+USER node
+
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx prisma db push --skip-generate && npm run start:prod"]
+CMD ["sh", "-c", "if [ \"${DATABASE_MIGRATION_MODE:-push}\" = \"migrate\" ]; then npx prisma migrate deploy; else npx prisma db push --skip-generate; fi && npm run start:prod"]

@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { IsBoolean, IsEmail, IsEnum, IsIn, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsIn, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Role } from '@prisma/client';
 import { AuthService } from './auth.service';
@@ -9,12 +9,12 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { coverImageUpload, profileImageUpload } from '../common/upload.options';
 
-class RegisterDto { @IsString() fullName!: string; @IsEmail() email!: string; @MinLength(10) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string; @IsOptional() phone?: string; @IsOptional() @IsEnum(Role) role?: Role; @IsOptional() specialization?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
-class LoginDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string; @IsString() password!: string; @IsOptional() @IsEnum(Role) role?: Role; }
-class GoogleLoginDto { @IsString() idToken!: string; @IsEnum(Role) role!: Role; }
-class RefreshDto { @IsString() refreshToken!: string; }
+class RegisterDto { @IsString() @MaxLength(120) fullName!: string; @IsEmail() @MaxLength(254) email!: string; @MinLength(10) @MaxLength(256) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string; @IsOptional() @IsString() @MaxLength(40) phone?: string; @IsOptional() @IsEnum(Role) role?: Role; @IsOptional() @IsString() @MaxLength(120) specialization?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
+class LoginDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() @MaxLength(254) email!: string; @IsString() @MaxLength(256) password!: string; @IsOptional() @IsEnum(Role) role?: Role; }
+class GoogleLoginDto { @IsString() @MaxLength(8192) idToken!: string; @IsEnum(Role) role!: Role; }
+class RefreshDto { @IsString() @MinLength(20) @MaxLength(4096) refreshToken!: string; }
 class PresenceDto { @IsOptional() @IsBoolean() online?: boolean; }
-class UpdateProfileDto { @IsOptional() @IsString() fullName?: string; @IsOptional() @IsString() phone?: string; @IsOptional() @MinLength(8) password?: string; @IsOptional() @IsString() gender?: string; @IsOptional() @IsString() dateOfBirth?: string; @IsOptional() @IsString() address?: string; @IsOptional() @IsString() guardianName?: string; @IsOptional() @IsString() guardianPhone?: string; @IsOptional() @IsString() specialization?: string; @IsOptional() @IsString() bio?: string; @IsOptional() @IsString() location?: string; @IsOptional() @IsString() website?: string; @IsOptional() @IsString() school?: string; @IsOptional() @IsString() course?: string; @IsOptional() @IsString() yearLevel?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
+class UpdateProfileDto { @IsOptional() @IsString() @MaxLength(120) fullName?: string; @IsOptional() @IsString() @MaxLength(40) phone?: string; @IsOptional() @MinLength(10) @MaxLength(256) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password?: string; @IsOptional() @IsString() @MaxLength(30) gender?: string; @IsOptional() @IsString() @MaxLength(30) dateOfBirth?: string; @IsOptional() @IsString() @MaxLength(500) address?: string; @IsOptional() @IsString() @MaxLength(120) guardianName?: string; @IsOptional() @IsString() @MaxLength(40) guardianPhone?: string; @IsOptional() @IsString() @MaxLength(120) specialization?: string; @IsOptional() @IsString() @MaxLength(2000) bio?: string; @IsOptional() @IsString() @MaxLength(120) location?: string; @IsOptional() @IsString() @MaxLength(500) website?: string; @IsOptional() @IsString() @MaxLength(200) school?: string; @IsOptional() @IsString() @MaxLength(200) course?: string; @IsOptional() @IsString() @MaxLength(40) yearLevel?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
 class AdminForgotPasswordDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string; }
 class AdminResetPasswordDto {
   @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string;
