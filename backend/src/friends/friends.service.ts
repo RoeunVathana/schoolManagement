@@ -61,8 +61,14 @@ export class FriendsService {
       if ((error as { code?: string })?.code === 'P2002') throw new ConflictException('A pending friend request already exists');
       throw error;
     }
-    await this.notifications.createFriendRequestNotification(receiver.id, sender.id, `${sender.fullName} sent you a friend request.`);
-    await this.mail.sendFriendRequestNotification(receiver.email, receiver.fullName, sender.fullName).catch(() => false);
+    // Do not make the friend action wait for SMTP or notification I/O.
+    // The request is already stored safely; delivery can finish in the background.
+    void Promise.allSettled([
+      this.notifications.createFriendRequestNotification(receiver.id, sender.id, `${sender.fullName} sent you a friend request.`),
+      this.mail.sendFriendRequestNotification(receiver.email, receiver.fullName, sender.fullName),
+    ]).then((results) => {
+      if (results.some((result) => result.status === 'rejected')) console.error('Friend request side effect failed', results);
+    });
     return request;
   }
 
@@ -88,13 +94,14 @@ export class FriendsService {
       await tx.friendship.upsert({ where: { userAId_userBId: { userAId, userBId } }, update: {}, create: { userAId, userBId } });
       return updated;
     });
-    try {
-      await this.notifications.createFriendRequestAcceptedNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`);
-    } catch (error) {
-      // A notification failure must not roll back or hide a successful friendship.
-      console.error('Could not create friend request accepted notification', error);
-    }
-    await this.mail.sendFriendRequestAcceptedNotification(request.sender.email, request.sender.fullName, request.receiver.fullName).catch(() => false);
+    // Return as soon as the friendship transaction is complete. Notification
+    // and email delivery must not make the accept button feel slow.
+    void Promise.allSettled([
+      this.notifications.createFriendRequestAcceptedNotification(request.senderId, receiverId, `${request.receiver.fullName} accepted your friend request.`),
+      this.mail.sendFriendRequestAcceptedNotification(request.sender.email, request.sender.fullName, request.receiver.fullName),
+    ]).then((results) => {
+      if (results.some((result) => result.status === 'rejected')) console.error('Friend acceptance side effect failed', results);
+    });
     return accepted;
   }
 

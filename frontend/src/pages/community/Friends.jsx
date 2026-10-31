@@ -22,8 +22,8 @@ export default function Friends() {
   const { user } = useAuth();
   const text = useCommunityText();
 
-  const load = useCallback(async ({ preserveError = false } = {}) => {
-    setLoading(true);
+  const load = useCallback(async ({ preserveError = false, silent = false } = {}) => {
+    if (!silent) setLoading(true);
     if (!preserveError) setError('');
     try {
       const [requests, suggestions, friends] = await Promise.all([
@@ -79,11 +79,11 @@ export default function Friends() {
     try {
       const results = await Promise.allSettled(data.incoming.map((request) => api.patch(`/api/friends/request/${request.id}/accept`)));
       const failed = results.filter((result) => result.status === 'rejected').length;
-      await load({ preserveError: failed > 0 });
+      await load({ preserveError: failed > 0, silent: true });
       if (failed) setError(`${failed} ${failed === 1 ? text.requestFailed : text.requestsFailed}`);
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.actionFailed);
-      await load({ preserveError: true });
+      await load({ preserveError: true, silent: true });
     } finally {
       setProcessingAll(false);
     }
@@ -113,10 +113,10 @@ export default function Friends() {
             setError(message.toLowerCase().includes('no longer pending')
               ? 'This friend request was already handled. The friend list has been refreshed.'
               : message);
-            await load({ preserveError: true });
+            await load({ preserveError: true, silent: true });
             return;
           }
-          await load();
+          await load({ silent: true });
         }}
         onMessage={() => status === 'FRIENDS'
           ? navigate('/chat', { state: { userId: target.id } })
