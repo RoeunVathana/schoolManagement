@@ -7,9 +7,108 @@ const todayKey = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Phnom_
 const formatStamp = (value, language) => value ? new Date(value).toLocaleString(language === 'km' ? 'km-KH' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
 const initials = (name = '') => name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
 const dateTimeInput = (value) => value ? new Date(value).toISOString().slice(0, 16) : '';
+const panelText = {
+  en: {
+    saveMeetError: 'Could not save the Google Meet link.',
+    deleteMeetConfirm: 'Delete this Google Meet link?',
+    deleteMeetError: 'Could not delete the Google Meet link.',
+    telegramSaved: 'Telegram group settings saved.',
+    telegramSaveError: 'Could not save Telegram settings.',
+    telegramTestSent: 'Telegram test message sent.',
+    telegramTestError: 'Telegram test failed.',
+    inviteSent: (count) => 'Telegram link sent to ' + count + ' enrolled student(s).',
+    inviteError: 'Could not send the course Telegram link.',
+    checkoutOrder: 'Check-out time must be after check-in time.',
+    startMeet: 'Start Google Meet class',
+    updateMeetLink: 'Update Google Meet link',
+    addMeetLink: 'Add Google Meet link',
+    pasteMeet: 'Paste a valid Google Meet link.',
+     checkinMeetNote: "It will be sent to the teacher's Telegram group when check-in is saved.",
+    updateMeetNote: 'Changes will be sent to the teacher Telegram group.',
+    meetLink: 'Google Meet link',
+    checkinSendMeet: 'Check in and send Meet link',
+    addMeet: 'Add Meet link',
+    openActiveMeet: 'Open active Google Meet',
+    meetingEnded: 'Meeting ended - open link',
+    updateMeet: 'Update Meet',
+    deleteMeet: 'Delete Meet',
+    addGoogleMeet: 'Add Google Meet',
+    telegramClassGroup: 'Telegram class group',
+    sendMeetAlerts: 'Send Google Meet alerts to your group',
+    telegramBotHint: 'Use a bot added as an administrator in your Telegram group.',
+    configured: 'Configured',
+    notConfigured: 'Not configured',
+    botToken: 'Bot token',
+    botTokenPlaceholder: 'Paste token from BotFather',
+    chatId: 'Telegram group Chat ID',
+    enableAlerts: 'Enable check-in and check-out Telegram alerts',
+    saving: 'Saving...',
+    saveTelegram: 'Save Telegram settings',
+    sendTest: 'Send test',
+    studentAccess: 'Telegram student access',
+    sendCourseLink: 'Send a link for one course',
+    studentLinkNote: 'Students receive the course-specific group link in their CampusFlow notifications.',
+    course: 'Course',
+    selectCourse: 'Select your course',
+    inviteLink: 'Telegram invite link',
+    message: 'Message',
+    messagePlaceholder: 'Please join your course Telegram group.',
+    sending: 'Sending...',
+    sendStudents: 'Send Telegram link to students',
+  },
+  km: {
+    saveMeetError: '\u1798\u17b7\u1793\u17a2\u17b6\u1785\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780\u178f\u17c6\u178e\u1797\u17d2\u1787\u17b6 Google Meet \u1794\u17b6\u1793\u1791\u17c1\u17d4',
+    deleteMeetConfirm: '\u179b\u17bb\u1794\u178f\u17c6\u178e\u1797\u17d2\u1787\u17b6 Google Meet \u1793\u17c1\u17c7\u17ac?',
+    deleteMeetError: '\u1798\u17b7\u1793\u17a2\u17b6\u1785\u179b\u17bb\u1794\u178f\u17c6\u178e\u1797\u17d2\u1787\u17b6 Google Meet \u1794\u17b6\u1793\u1791\u17c1\u17d4',
+    telegramSaved: '\u1794\u17b6\u1793\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780\u1780\u17b6\u179a\u1780\u17c6\u178e\u178f\u17cb\u1780\u17d2\u179a\u17bb\u1798 Telegram \u17a0\u17be\u1799\u17d4',
+    telegramSaveError: '\u1798\u17b7\u1793\u17a2\u17b6\u1785\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780\u1780\u17b6\u179a\u1780\u17c6\u178e\u178f\u17cb Telegram \u1794\u17b6\u1793\u1791\u17c1\u17d4',
+    telegramTestSent: '\u1794\u17b6\u1793\u1795\u17d2\u1789\u17be\u179f\u17b6\u179a\u179f\u17b6\u1780\u179b\u17d2\u1794\u1784 Telegram \u17a0\u17be\u1799\u17d4',
+    telegramTestError: '\u1780\u17b6\u179a\u179f\u17b6\u1780\u179b\u17d2\u1794\u1784 Telegram \u1794\u179a\u1785\u17b6\u17c6\u1794\u17b6\u1793\u1791\u17c1\u17d4',
+    inviteSent: (count) => '\u1794\u17b6\u1793\u1795\u17d2\u1789\u17be\u178f\u17c6\u178e Telegram \u1791\u17c5\u179f\u17b7\u179f\u17d2\u179f\u178a\u17c2\u179b\u1794\u17b6\u1793\u1785\u17bb\u17c7\u1788\u17d2\u1798\u17c4\u17c7 ' + count + ' \u1793\u17b6\u1780\u17cb\u17a0\u17be\u1799\u17d4',
+    inviteError: '\u1798\u17b7\u1793\u17a2\u17b6\u1785\u1795\u17d2\u1789\u17be\u178f\u17c6\u178e Telegram \u179a\u1794\u179f\u17cb\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6\u1794\u17b6\u1793\u1791\u17c1\u17d4',
+    checkoutOrder: '\u1796\u17c1\u179b\u1785\u17c1\u1789\u178f\u17d2\u179a\u17bc\u179c\u1794\u17d2\u179a\u17be\u1794\u1793\u17d2\u1791\u17b6\u1794\u17cb\u1796\u17b8\u1796\u17c1\u179b\u1785\u17bc\u179b\u17d4',
+    startMeet: '\u1785\u17b6\u1794\u17cb\u1795\u17d2\u178f\u17be\u1798\u1790\u17d2\u1793\u17b6\u1780\u17cb Google Meet',
+    updateMeetLink: '\u1780\u17c2\u1794\u17d2\u179a\u17c2\u178f\u17c6\u178e Google Meet',
+    addMeetLink: '\u1794\u1783\u17d2\u1793\u17c2\u1798\u178f\u17c6\u178e Google Meet',
+    pasteMeet: '\u179f\u17bc\u1798\u1794\u17b7\u1791\u178f\u17c6\u178e Google Meet \u178a\u17cf\u178f\u17d2\u179a\u17b9\u1798\u178f\u17d2\u179a\u17bc\u179c\u17d4',
+    checkinMeetNote: '\u179c\u17b6\u1793\u17b9\u1784\u1795\u17d2\u1789\u17be\u1791\u17c5\u1780\u17d2\u179a\u17bb\u1798 Telegram \u179a\u1794\u179f\u17cb\u1782\u17d2\u179a\u17bc \u1793\u17c5\u1796\u17c1\u179b\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780\u1780\u17b6\u179a\u1785\u17bc\u179b\u17d4',
+    updateMeetNote: '\u1780\u17b6\u179a\u1780\u17c2\u1794\u17d2\u179a\u17c2\u1793\u17b9\u1784\u1795\u17d2\u1789\u17be\u1791\u17c5\u1780\u17d2\u179a\u17bb\u1798 Telegram \u179a\u1794\u17bb\u179f\u1782\u17d2\u179a\u17bc\u17d4',
+    meetLink: '\u178f\u17c6\u178e Google Meet',
+    checkinSendMeet: '\u1785\u17bc\u179b \u1793\u17b7\u1784\u1795\u17d2\u1789\u17be\u178f\u17c6\u178e Meet',
+    addMeet: '\u1794\u1783\u17d2\u1793\u17c2\u1798\u178f\u17c6\u178e Meet',
+    openActiveMeet: '\u1794\u17be\u1780 Google Meet \u178a\u17c2\u179b\u1780\u17c6\u1796\u17bb\u1784\u178a\u17c6\u178e\u17be\u179a\u1780\u17b6\u179a',
+    meetingEnded: '\u1790\u17d2\u1793\u17b6\u1780\u17cb\u1794\u17b6\u1793\u1794\u1789\u17d2\u1785\u1794\u17cb - \u1794\u17be\u1780\u178f\u17c6\u178e',
+    updateMeet: '\u1780\u17c2\u1794\u17d2\u179a\u17c2 Meet',
+    deleteMeet: '\u179b\u17bb\u1794 Meet',
+    addGoogleMeet: '\u1794\u1783\u17d2\u1793\u17c2\u1798 Google Meet',
+    telegramClassGroup: '\u1780\u17d2\u179a\u17bb\u1798 Telegram \u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb\u1790\u17d2\u1793\u17b6\u1780\u17cb',
+    sendMeetAlerts: '\u1795\u17d2\u1789\u17be\u1780\u17b6\u179a\u1787\u17bc\u1793\u178a\u17c6\u178e\u17b9\u1784 Google Meet \u1791\u17c5\u1780\u17d2\u179a\u17bb\u1798\u179a\u1794\u179f\u17cb\u17a2\u17d2\u1793\u1780',
+    telegramBotHint: '\u1794\u17d2\u179a\u17be Bot \u178a\u17c2\u179b\u1782\u17c1\u1794\u17b6\u1793\u1794\u1789\u17d2\u1785\u17bc\u179b\u1787\u17b6\u17a2\u17d2\u1793\u1780\u1782\u17d2\u179a\u1794\u17cb\u1782\u17d2\u179a\u17b8\u1782\u17d2\u179a\u17bb\u1798 Telegram \u179a\u1794\u179f\u17cb\u17a2\u17d2\u1793\u1780\u17d4',
+    configured: '\u1794\u17b6\u1793\u1780\u17c6\u178e\u178f\u17cb',
+    notConfigured: '\u1798\u17b7\u1793\u1791\u17b6\u1793\u17cb\u1780\u17c6\u178e\u178f\u17cb',
+    botToken: '\u179b\u17c1\u1781 token Bot',
+    botTokenPlaceholder: '\u1794\u1789\u17d2\u1785\u17bc\u179b token \u1796\u17b8 BotFather',
+    chatId: '\u179b\u17c1\u1781 Chat ID \u1780\u17d2\u179a\u17bb\u1798 Telegram',
+    enableAlerts: '\u1794\u17be\u1780\u1780\u17b6\u179a\u1787\u17bc\u1793\u178a\u17c6\u178e\u17b9\u1784 Telegram \u1796\u17c1\u179b\u1785\u17bc\u179b \u1793\u17b7\u1784\u1785\u17c1\u1789',
+    saving: '\u1780\u17c6\u1796\u17bb\u1784\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780...',
+    saveTelegram: '\u179a\u1780\u17d2\u179f\u17b6\u1791\u17bb\u1780\u1780\u17b6\u179a\u1780\u17c6\u178e\u178f\u17cb Telegram',
+    sendTest: '\u1795\u17d2\u1789\u17be\u179f\u17b6\u178a\u17c2\u179b\u179f\u17b6\u1780\u179b\u17d2\u1794\u1784',
+    studentAccess: '\u1780\u17b6\u179a\u1785\u17bc\u179b\u179a\u1794\u179f\u17cb\u179f\u17b7\u179f\u17d2\u179f\u17c1\u179f\u17b6\u179f\u17d2\u179f',
+    sendCourseLink: '\u1795\u17d2\u1799\u17be\u178f\u17c6\u178e\u179f\u1798\u17d2\u179a\u17b6\u1794\u17cb\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6\u1798\u17bd\u1799',
+    studentLinkNote: '\u179f\u17b7\u179f\u17d2\u179f\u1793\u17b9\u1784\u1791\u1791\u17bd\u179b\u178f\u17c6\u178e\u1780\u17d2\u179a\u17bb\u1798\u1787\u17b6\u1794\u17cb\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6 \u1780\u17d2\u1793\u17bb\u1784\u1780\u17b6\u179a\u1787\u17bc\u1793\u178a\u17c6\u178e\u17b9\u1784 CampusFlow',
+    course: '\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6',
+    selectCourse: '\u1787\u17d2\u179a\u17be\u179f\u179a\u17be\u179f\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6\u179a\u1794\u179f\u17cb\u17a2\u17d2\u1793\u1780',
+    inviteLink: '\u178f\u17c6\u178e\u178a\u17c2\u179b\u17a2\u1789\u17d2\u1787\u17be Telegram',
+    message: '\u179f\u17b6\u179a',
+    messagePlaceholder: '\u179f\u17bc\u1798\u1785\u17bc\u179b\u1780\u17d2\u179a\u17bb\u1798 Telegram \u179a\u1794\u179f\u17cb\u1798\u17bb\u1781\u179c\u17b7\u1787\u17d2\u1787\u17b6\u179a\u1794\u179f\u17cb\u17a2\u17d2\u1793\u1780\u17d4',
+    sending: '\u1780\u17c6\u1796\u17bb\u1784\u1795\u17d2\u1789\u17be...',
+    sendStudents: '\u1795\u17d2\u1789\u17be\u178f\u17c6\u178e Telegram \u1791\u17c5\u179f\u17b7\u179f\u17d2\u179f',
+  },
+};
 
 export default function TeacherAttendancePanel({ admin = false }) {
   const { language, t } = useLanguage();
+  const text = panelText[language] || panelText.en;
   const [date, setDate] = useState(todayKey);
   const [rows, setRows] = useState([]);
   const [record, setRecord] = useState(null);
@@ -90,37 +189,37 @@ export default function TeacherAttendancePanel({ admin = false }) {
       const payload = admin ? { date, meetingUrl } : { meetingUrl, date };
       await api[isEdit ? 'patch' : 'post'](endpoint, payload);
       setMeetingTarget(null); await load();
-    } catch (e) { setError(e.response?.data?.message || 'Could not save the Google Meet link.'); } finally { setBusy(''); }
+    } catch (e) { setError(e.response?.data?.message || text.saveMeetError); } finally { setBusy(''); }
   };
   const removeMeeting = async (teacherId = null) => {
-    if (!window.confirm('Delete this Google Meet link?')) return;
+    if (!window.confirm(text.deleteMeetConfirm)) return;
     setBusy(`meeting-delete:${teacherId || 'me'}`); setError('');
     try {
       const endpoint = admin ? `/attendance/teachers/${teacherId}/meeting` : '/attendance/teacher/meeting';
       await api.delete(endpoint, { data: admin ? { date } : { date } });
       await load();
-    } catch (e) { setError(e.response?.data?.message || 'Could not delete the Google Meet link.'); } finally { setBusy(''); }
+    } catch (e) { setError(e.response?.data?.message || text.deleteMeetError); } finally { setBusy(''); }
   };
 
   const saveTelegram = async (event) => {
     event.preventDefault(); setTelegramBusy(true); setTelegramMessage({ type: '', text: '' });
     try {
       const response = await api.patch('/attendance/teacher/telegram', { botToken: telegramForm.botToken || undefined, chatId: telegramForm.chatId, enabled: telegramForm.enabled });
-      const data = unwrap(response); setTelegramSettings(data); setTelegramForm((current) => ({ ...current, botToken: '' })); setTelegramMessage({ type: 'success', text: 'Telegram group settings saved.' });
-    } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || 'Could not save Telegram settings.' }); } finally { setTelegramBusy(false); }
+      const data = unwrap(response); setTelegramSettings(data); setTelegramForm((current) => ({ ...current, botToken: '' })); setTelegramMessage({ type: 'success', text: text.telegramSaved });
+    } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || text.telegramSaveError }); } finally { setTelegramBusy(false); }
   };
   const testTelegram = async () => {
     setTelegramBusy(true); setTelegramMessage({ type: '', text: '' });
-    try { await api.post('/attendance/teacher/telegram/test'); setTelegramMessage({ type: 'success', text: 'Telegram test message sent.' }); } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || 'Telegram test failed.' }); } finally { setTelegramBusy(false); }
+    try { await api.post('/attendance/teacher/telegram/test'); setTelegramMessage({ type: 'success', text: text.telegramTestSent }); } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || text.telegramTestError }); } finally { setTelegramBusy(false); }
   };
 
   const sendGroupInvite = async (event) => {
     event.preventDefault(); setGroupInviteBusy(true); setGroupInviteMessage({ type: '', text: '' });
     try {
       const result = unwrap(await api.post('/telegram-settings/group-invite', groupInvite));
-      setGroupInviteMessage({ type: 'success', text: `Telegram link sent to ${result.sent} enrolled student(s).` });
+      setGroupInviteMessage({ type: 'success', text: text.inviteSent(result.sent) });
     } catch (e) {
-      setGroupInviteMessage({ type: 'error', text: e.response?.data?.message || 'Could not send the course Telegram link.' });
+      setGroupInviteMessage({ type: 'error', text: e.response?.data?.message || text.inviteError });
     } finally { setGroupInviteBusy(false); }
   };
 
@@ -142,7 +241,7 @@ export default function TeacherAttendancePanel({ admin = false }) {
     event.preventDefault();
     if (!editingRow) return;
     if (editForm.checkInAt && editForm.checkOutAt && new Date(editForm.checkOutAt) < new Date(editForm.checkInAt)) {
-      setError(language === 'km' ? 'ពេលចេញត្រូវតែបន្ទាប់ពីពេលចូល។' : 'Check-out time must be after check-in time.');
+      setError(text.checkoutOrder);
       return;
     }
     setBusy(`edit:${editingRow.id}`);
@@ -204,8 +303,8 @@ export default function TeacherAttendancePanel({ admin = false }) {
       </div>
       {error && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"><span className="font-black">!</span><p>{error}</p></div>}
       {admin ? <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onAddMeeting={() => openMeetingEditor(row.id)} onEditMeeting={() => openMeetingEditor(row.id, row.attendance?.meetingUrl)} onDeleteMeeting={() => removeMeeting(row.id)} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
-      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} onAddMeeting={() => openMeetingEditor()} onEditMeeting={() => openMeetingEditor(null, record?.meetingUrl)} onDeleteMeeting={() => removeMeeting()} language={language} t={t} />{telegramSettings && <><TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />{courses.length > 0 && <TeacherCourseInviteCard courses={courses} invite={groupInvite} setInvite={setGroupInvite} onSend={sendGroupInvite} busy={groupInviteBusy} message={groupInviteMessage} />}</>}</>}
+        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onAddMeeting={() => openMeetingEditor(row.id)} onEditMeeting={() => openMeetingEditor(row.id, row.attendance?.meetingUrl)} onDeleteMeeting={() => removeMeeting(row.id)} onEdit={openEdit} language={language} t={t} text={text} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
+      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} onAddMeeting={() => openMeetingEditor()} onEditMeeting={() => openMeetingEditor(null, record?.meetingUrl)} onDeleteMeeting={() => removeMeeting()} language={language} t={t} text={text} />{telegramSettings && <><TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} text={text} />{courses.length > 0 && <TeacherCourseInviteCard courses={courses} invite={groupInvite} setInvite={setGroupInvite} onSend={sendGroupInvite} busy={groupInviteBusy} message={groupInviteMessage} text={text} />}</>}</>}
     </div>
     {admin && <Modal open={Boolean(editingRow)} title={editingRow ? `${t('editAttendance')} · ${editingRow.user?.fullName || ''}` : t('editAttendance')} onClose={closeEdit}>
       <form onSubmit={saveEdit} className="grid gap-4 sm:grid-cols-2">
@@ -218,18 +317,18 @@ export default function TeacherAttendancePanel({ admin = false }) {
         <button disabled={busy === `edit:${editingRow?.id}`} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60 sm:col-span-2">{busy === `edit:${editingRow?.id}` ? t('saving') : t('saveChanges')}</button>
       </form>
     </Modal>}
-    <Modal open={Boolean(meetingTarget)} title={meetingTarget?.mode === 'checkin' ? 'Start Google Meet class' : meetingTarget?.mode === 'edit' ? 'Update Google Meet link' : 'Add Google Meet link'} onClose={() => setMeetingTarget(null)}>
+    <Modal open={Boolean(meetingTarget)} title={meetingTarget?.mode === 'checkin' ? text.startMeet : meetingTarget?.mode === 'edit' ? text.updateMeetLink : text.addMeetLink} onClose={() => setMeetingTarget(null)}>
       <form onSubmit={submitCheckIn} className="space-y-4">
-        <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">Paste a valid Google Meet link. {meetingTarget?.mode === 'checkin' ? "It will be sent to the teacher's Telegram group when check-in is saved." : 'Changes will be sent to the teacher Telegram group.'}</p>
-        <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">Google Meet link<input required type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" pattern="https://meet\\.google\\.com/.+" /></label>
+        <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">{text.pasteMeet} {meetingTarget?.mode === 'checkin' ? text.checkinMeetNote : text.updateMeetNote}</p>
+        <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">{text.meetLink}<input required type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" pattern="https://meet\\.google\\.com/.+" /></label>
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30 dark:text-red-300">{error}</p>}
-        <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : meetingTarget?.mode === 'checkin' ? 'Check in and send Meet link' : meetingTarget?.mode === 'edit' ? 'Update Meet link' : 'Add Meet link'}</button>
+        <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? text.saving : meetingTarget?.mode === 'checkin' ? text.checkinSendMeet : meetingTarget?.mode === 'edit' ? text.updateMeetLink : text.addMeet}</button>
       </form>
     </Modal>
   </section>;
 }
 
-function TeacherRow({ row, busy, date, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, onEdit, language, t }) {
+function TeacherRow({ row, busy, date, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, onEdit, language, t, text }) {
   const attendance = row.attendance;
   const checkedIn = Boolean(attendance?.checkInAt);
   const checkedOut = Boolean(attendance?.checkOutAt);
@@ -254,7 +353,7 @@ function TeacherRow({ row, busy, date, onAction, onCheckIn, onAddMeeting, onEdit
     </div>
     <button type="button" disabled={Boolean(busy)} onClick={() => onEdit(row)} className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-black text-slate-600 transition hover:-translate-y-0.5 hover:border-[#229ed9] hover:bg-[#e8f5fb] hover:text-[#17624e] disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-[#8de4ca] dark:hover:bg-[#173f42] dark:hover:text-[#a5f1dc]"><span aria-hidden="true">✎</span>{t('edit')}</button>
     <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-400 dark:border-slate-800">{t('attendanceDate')}: <span className="text-slate-500 dark:text-slate-300">{date}</span></p>
-    {attendance?.meetingUrl ? <><a href={attendance.meetingUrl} target="_blank" rel="noreferrer" className="mt-2 block truncate text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{attendance.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a><div className="mt-2 flex gap-2"><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">Update Meet</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-[11px] font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">Delete Meet</button></div></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="mt-2 rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ Add Google Meet</button>}
+    {attendance?.meetingUrl ? <><a href={attendance.meetingUrl} target="_blank" rel="noreferrer" className="mt-2 block truncate text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{attendance.meetingActive ? '🟢 ' + text.openActiveMeet : text.meetingEnded}</a><div className="mt-2 flex gap-2"><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">{text.updateMeet}</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-[11px] font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">{text.deleteMeet}</button></div></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="mt-2 rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ {text.addGoogleMeet}</button>}
   </article>;
 }
 
@@ -262,7 +361,7 @@ function TimeCard({ label, value, active }) {
   return <div className={`rounded-2xl border p-3 ${active ? 'border-emerald-100 bg-emerald-50/70 dark:border-emerald-900/50 dark:bg-emerald-950/20' : 'border-slate-100 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-800/70'}`}><p className="text-[11px] font-bold text-slate-400">{label}</p><p className={`mt-1 truncate text-xs font-black ${active ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-600 dark:text-slate-300'}`}>{value}</p></div>;
 }
 
-function SelfAttendance({ record, busy, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, language, t }) {
+function SelfAttendance({ record, busy, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, language, t, text }) {
   const checkedIn = Boolean(record?.checkInAt);
   const checkedOut = Boolean(record?.checkOutAt);
   return <div className="mt-6 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
@@ -270,30 +369,30 @@ function SelfAttendance({ record, busy, onAction, onCheckIn, onAddMeeting, onEdi
       <div>
         <span className={`inline-flex rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide ${checkedOut ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : checkedIn ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'}`}>{checkedOut ? t('attendanceComplete') : checkedIn ? t('attendanceInProgress') : t('readyToCheckIn')}</span>
         <div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:flex sm:gap-8"><span className="text-slate-500 dark:text-slate-400">{t('checkIn')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkInAt, language)}</strong></span><span className="text-slate-500 dark:text-slate-400">{t('checkOut')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkOutAt, language)}</strong></span></div>
-        {record?.meetingUrl && <a href={record.meetingUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{record.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}
+        {record?.meetingUrl && <a href={record.meetingUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{record.meetingActive ? '🟢 ' + text.openActiveMeet : text.meetingEnded}</a>}
       </div>
       <div className="grid grid-cols-2 gap-2 lg:min-w-[16rem]"><button type="button" disabled={Boolean(busy) || checkedIn} onClick={onCheckIn} className="rounded-xl bg-[#2185a8] px-4 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === 'me:check-in' ? t('saving') : t('checkIn')}</button><button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(null, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === 'me:check-out' ? t('saving') : t('checkOut')}</button></div>
     </div>
-    <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">{record?.meetingUrl ? <><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">Update Meet link</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">Delete Meet link</button></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ Add Google Meet link</button>}</div>
+     <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">{record?.meetingUrl ? <><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">{text.updateMeetLink}</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">{text.deleteMeet}</button></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ {text.addGoogleMeet}</button>}</div>
   </div>;
 }
 
-function TeacherTelegramCard({ settings, form, setForm, onSave, onTest, busy, message }) {
+function TeacherTelegramCard({ settings, form, setForm, onSave, onTest, busy, message, text }) {
   return <div className="mt-4 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
-    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">Telegram class group</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">Send Google Meet alerts to your group</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">Use a bot added as an administrator in your Telegram group.</p></div><span className={`rounded-full px-3 py-1.5 text-xs font-bold ${settings.configured ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{settings.configured ? 'Configured' : 'Not configured'}</span></div>
-    <form onSubmit={onSave} className="mt-4 grid gap-3 md:grid-cols-2"><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Bot token<input type="password" autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || 'Paste token from BotFather'} /></label><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Telegram group Chat ID<input value={form.chatId} onChange={(event) => setForm({ ...form, chatId: event.target.value })} className="input mt-2" placeholder="-1001234567890" /></label><label className="flex items-center gap-3 text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2"><input type="checkbox" checked={form.enabled} onChange={(event) => setForm({ ...form, enabled: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" /> Enable check-in and check-out Telegram alerts</label>{message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>{message.text}</p>}<div className="flex flex-wrap gap-2 md:col-span-2"><button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60">{busy ? 'Saving...' : 'Save Telegram settings'}</button><button type="button" disabled={busy || !settings.configured} onClick={onTest} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-600 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300">Send test</button></div></form>
+    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">{text.telegramClassGroup}</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">{text.sendMeetAlerts}</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{text.telegramBotHint}</p></div><span className={`rounded-full px-3 py-1.5 text-xs font-bold ${settings.configured ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{settings.configured ? text.configured : text.notConfigured}</span></div>
+    <form onSubmit={onSave} className="mt-4 grid gap-3 md:grid-cols-2"><label className="text-sm font-bold text-slate-600 dark:text-slate-300">{text.botToken}<input type="password" autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || text.botTokenPlaceholder} /></label><label className="text-sm font-bold text-slate-600 dark:text-slate-300">{text.chatId}<input value={form.chatId} onChange={(event) => setForm({ ...form, chatId: event.target.value })} className="input mt-2" placeholder="-1001234567890" /></label><label className="flex items-center gap-3 text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2"><input type="checkbox" checked={form.enabled} onChange={(event) => setForm({ ...form, enabled: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" /> {text.enableAlerts}</label>{message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'}`}>{message.text}</p>}<div className="flex flex-wrap gap-2 md:col-span-2"><button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60">{busy ? text.saving : text.saveTelegram}</button><button type="button" disabled={busy || !settings.configured} onClick={onTest} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-600 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300">{text.sendTest}</button></div></form>
   </div>;
 }
 
-function TeacherCourseInviteCard({ courses, invite, setInvite, onSend, busy, message }) {
+function TeacherCourseInviteCard({ courses, invite, setInvite, onSend, busy, message, text }) {
   return <div className="mt-4 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
-    <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">Telegram student access</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">Send a link for one course</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">Students receive the course-specific group link in their CampusFlow notifications.</p></div>
+    <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">{text.studentAccess}</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">{text.sendCourseLink}</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{text.studentLinkNote}</p></div>
     <form onSubmit={onSend} className="mt-4 grid gap-3 md:grid-cols-2">
-      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Course<select required value={invite.courseId} onChange={(event) => { const course = courses.find((item) => item.id === event.target.value); setInvite((current) => ({ ...current, courseId: event.target.value, inviteLink: course?.telegramGroupLink || '' })); }} className="input mt-2"><option value="">Select your course</option>{courses.map((course) => <option key={course.id} value={course.id}>{course.courseCode} · {course.courseName}</option>)}</select></label>
-      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Telegram invite link<input required type="url" pattern="https://(t\\.me|telegram\\.me)/.+" value={invite.inviteLink} onChange={(event) => setInvite({ ...invite, inviteLink: event.target.value })} className="input mt-2" placeholder="https://t.me/+course-group-invite" /></label>
-      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Message<textarea rows="2" maxLength="500" value={invite.message} onChange={(event) => setInvite({ ...invite, message: event.target.value })} className="input mt-2" placeholder="Please join your course Telegram group." /></label>
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">{text.course}<select required value={invite.courseId} onChange={(event) => { const course = courses.find((item) => item.id === event.target.value); setInvite((current) => ({ ...current, courseId: event.target.value, inviteLink: course?.telegramGroupLink || '' })); }} className="input mt-2"><option value="">{text.selectCourse}</option>{courses.map((course) => <option key={course.id} value={course.id}>{course.courseCode} - {course.courseName}</option>)}</select></label>
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">{text.inviteLink}<input required type="url" pattern="https://(t\\.me|telegram\\.me)/.+" value={invite.inviteLink} onChange={(event) => setInvite({ ...invite, inviteLink: event.target.value })} className="input mt-2" placeholder="https://t.me/+course-group-invite" /></label>
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">{text.message}<textarea rows="2" maxLength="500" value={invite.message} onChange={(event) => setInvite({ ...invite, message: event.target.value })} className="input mt-2" placeholder={text.messagePlaceholder} /></label>
       {message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>{message.text}</p>}
-      <button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60 md:col-span-2">{busy ? 'Sending...' : 'Send Telegram link to students'}</button>
+      <button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60 md:col-span-2">{busy ? text.sending : text.sendStudents}</button>
     </form>
   </div>;
 }
