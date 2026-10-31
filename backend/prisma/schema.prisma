@@ -485,9 +485,23 @@ model Teacher {
   assignments       Assignment[]
   grades            Grade[]
   teacherAttendance TeacherAttendance[]
+  telegramSetting   TeacherTelegramSetting?
 
   @@index([teacherCode])
   @@map("teachers")
+}
+
+model TeacherTelegramSetting {
+  id        String   @id @default(cuid())
+  teacherId String   @unique
+  botToken  String   @db.Text
+  chatId    String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@map("teacher_telegram_settings")
 }
 
 model Course {
@@ -661,6 +675,10 @@ model TeacherAttendance {
   checkOutAt     DateTime?
   status         AttendanceStatus @default(PRESENT)
   note           String?
+  meetingUrl     String?
+  meetingActive  Boolean  @default(false)
+  meetingStartedAt DateTime?
+  meetingEndedAt   DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   teacher        Teacher          @relation(fields: [teacherId], references: [id], onDelete: Cascade)

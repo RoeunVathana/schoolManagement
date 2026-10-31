@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 
 type TelegramConfig = { botToken: string; chatId: string; enabled: boolean };
+type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
 
 @Injectable()
 export class TelegramService {
@@ -31,6 +32,44 @@ export class TelegramService {
     if (!botToken || !chatId) throw new BadRequestException('Please provide both the Telegram bot token and chat ID.');
     await this.prisma.telegramSetting.upsert({ where: { id: 'telegram' }, update: { botToken, chatId, enabled: input.enabled !== false }, create: { id: 'telegram', botToken, chatId, enabled: input.enabled !== false } });
     return this.publicSettings();
+  }
+
+  async teacherSettings(teacherId: string) {
+    const setting = await this.prisma.teacherTelegramSetting.findUnique({ where: { teacherId } });
+    return { configured: Boolean(setting?.botToken && setting?.chatId), enabled: setting?.enabled ?? true, botToken: setting ? this.maskToken(setting.botToken) : '', chatId: setting?.chatId || '' };
+  }
+
+  async saveTeacherSettings(teacherId: string, input: { botToken?: string; chatId?: string; enabled?: boolean }) {
+    const current = await this.prisma.teacherTelegramSetting.findUnique({ where: { teacherId } });
+    const botToken = String(input.botToken || '').trim() || current?.botToken || '';
+    const chatId = String(input.chatId || '').trim() || current?.chatId || '';
+    if (!botToken || !chatId) throw new BadRequestException('Please provide the Telegram bot token and group chat ID.');
+    await this.prisma.teacherTelegramSetting.upsert({ where: { teacherId }, update: { botToken, chatId, enabled: input.enabled !== false }, create: { teacherId, botToken, chatId, enabled: input.enabled !== false } });
+    return this.teacherSettings(teacherId);
+  }
+
+  async testTeacherSettings(teacherId: string) {
+    const setting = await this.prisma.teacherTelegramSetting.findUnique({ where: { teacherId } });
+    if (!setting?.enabled || !setting.botToken || !setting.chatId) throw new BadRequestException('Please save the teacher Telegram settings first.');
+    const sent = await this.sendMessageWithConfig(setting.botToken, setting.chatId, '<b>CampusFlow teacher Telegram connected</b>\n<i>Google Meet check-in alerts are ready.</i>');
+    if (!sent) throw new BadRequestException('Telegram test failed. Check the bot token, group chat ID and bot permissions.');
+    return { sent: true };
+  }
+
+  async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {
+    const formatDateTime = (value?: Date | string | null) => value ? new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : 'Not recorded';
+    const started = input.action === 'CHECK_IN';
+    const message = [
+      `<b>CampusFlow class ${started ? 'started' : 'ended'}</b>`,
+      `<b>Teacher:</b> ${this.escapeHtml(input.teacherName)}`,
+      input.courseName ? `<b>Course:</b> ${this.escapeHtml(input.courseName)}` : null,
+      `<b>Date:</b> ${this.escapeHtml(String(input.attendanceDate).slice(0, 10))}`,
+      `<b>Check-in:</b> ${this.escapeHtml(formatDateTime(input.checkInAt))}`,
+      `<b>Check-out:</b> ${this.escapeHtml(formatDateTime(input.checkOutAt))}`,
+      started && input.meetingUrl ? `<b>Google Meet:</b> ${this.escapeHtml(input.meetingUrl)}` : null,
+      started ? '<i>Students can join using the Meet link above.</i>' : '<i>This class meeting is now inactive in CampusFlow.</i>',
+    ].filter(Boolean).join('\n');
+    return this.sendMessageWithConfig(input.botToken, input.chatId, message);
   }
 
   async sendTestMessage() {
@@ -138,13 +177,17 @@ export class TelegramService {
       this.logger.warn('Telegram notification skipped because it is not configured or disabled.');
       return false;
     }
+    return this.sendMessageWithConfig(current.botToken, current.chatId, text);
+  }
+
+  private async sendMessageWithConfig(botToken: string, chatId: string, text: string) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch(`https://api.telegram.org/bot${current.botToken}/sendMessage`, {
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: current.chatId, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML', disable_web_page_preview: true }),
         signal: controller.signal,
       });
       const result: any = await response.json().catch(() => null);

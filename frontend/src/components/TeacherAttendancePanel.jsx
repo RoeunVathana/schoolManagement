@@ -18,6 +18,12 @@ export default function TeacherAttendancePanel({ admin = false }) {
   const [search, setSearch] = useState('');
   const [editingRow, setEditingRow] = useState(null);
   const [editForm, setEditForm] = useState({ attendanceDate: date, status: 'PRESENT', checkInAt: '', checkOutAt: '', note: '' });
+  const [meetingTarget, setMeetingTarget] = useState(null);
+  const [meetingUrl, setMeetingUrl] = useState('');
+  const [telegramSettings, setTelegramSettings] = useState(null);
+  const [telegramForm, setTelegramForm] = useState({ botToken: '', chatId: '', enabled: true });
+  const [telegramBusy, setTelegramBusy] = useState(false);
+  const [telegramMessage, setTelegramMessage] = useState({ type: '', text: '' });
 
   const load = async () => {
     setError('');
@@ -36,19 +42,50 @@ export default function TeacherAttendancePanel({ admin = false }) {
 
   useEffect(() => { load(); }, [admin, date]);
 
-  const action = async (teacherId, type) => {
+  useEffect(() => {
+    if (admin) return undefined;
+    api.get('/attendance/teacher/telegram').then((response) => {
+      const data = unwrap(response);
+      setTelegramSettings(data);
+      setTelegramForm((current) => ({ ...current, chatId: data.chatId || '', enabled: data.enabled !== false }));
+    }).catch(() => setTelegramSettings({ configured: false, enabled: true, botToken: '', chatId: '' }));
+    return undefined;
+  }, [admin]);
+
+  const action = async (teacherId, type, payload = {}) => {
     const key = `${teacherId || 'me'}:${type}`;
     setBusy(key);
     setError('');
     try {
       const endpoint = admin ? `/attendance/teachers/${teacherId}/${type}` : `/attendance/teacher/${type}`;
-      await api.post(endpoint, admin ? { date } : {});
+      await api.post(endpoint, admin ? { date, ...payload } : payload);
       await load();
+      return true;
     } catch (e) {
       setError(e.response?.data?.message || t('teacherAttendanceActionError'));
+      return false;
     } finally {
       setBusy('');
     }
+  };
+
+  const openCheckIn = (teacherId = null) => { setMeetingTarget({ teacherId }); setMeetingUrl(''); setError(''); };
+  const submitCheckIn = async (event) => {
+    event.preventDefault();
+    if (!meetingTarget) return;
+    if (await action(meetingTarget.teacherId, 'check-in', { meetingUrl })) setMeetingTarget(null);
+  };
+
+  const saveTelegram = async (event) => {
+    event.preventDefault(); setTelegramBusy(true); setTelegramMessage({ type: '', text: '' });
+    try {
+      const response = await api.patch('/attendance/teacher/telegram', { botToken: telegramForm.botToken || undefined, chatId: telegramForm.chatId, enabled: telegramForm.enabled });
+      const data = unwrap(response); setTelegramSettings(data); setTelegramForm((current) => ({ ...current, botToken: '' })); setTelegramMessage({ type: 'success', text: 'Telegram group settings saved.' });
+    } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || 'Could not save Telegram settings.' }); } finally { setTelegramBusy(false); }
+  };
+  const testTelegram = async () => {
+    setTelegramBusy(true); setTelegramMessage({ type: '', text: '' });
+    try { await api.post('/attendance/teacher/telegram/test'); setTelegramMessage({ type: 'success', text: 'Telegram test message sent.' }); } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || 'Telegram test failed.' }); } finally { setTelegramBusy(false); }
   };
 
   const openEdit = (row) => {
@@ -131,8 +168,8 @@ export default function TeacherAttendancePanel({ admin = false }) {
       </div>
       {error && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"><span className="font-black">!</span><p>{error}</p></div>}
       {admin ? <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
-      </div> : <SelfAttendance record={record} busy={busy} onAction={action} language={language} t={t} />}
+        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
+      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} language={language} t={t} />{telegramSettings && <TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />}</>}
     </div>
     {admin && <Modal open={Boolean(editingRow)} title={editingRow ? `${t('editAttendance')} · ${editingRow.user?.fullName || ''}` : t('editAttendance')} onClose={closeEdit}>
       <form onSubmit={saveEdit} className="grid gap-4 sm:grid-cols-2">
@@ -145,10 +182,18 @@ export default function TeacherAttendancePanel({ admin = false }) {
         <button disabled={busy === `edit:${editingRow?.id}`} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60 sm:col-span-2">{busy === `edit:${editingRow?.id}` ? t('saving') : t('saveChanges')}</button>
       </form>
     </Modal>}
+    <Modal open={Boolean(meetingTarget)} title="Start Google Meet class" onClose={() => setMeetingTarget(null)}>
+      <form onSubmit={submitCheckIn} className="space-y-4">
+        <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">Paste the Google Meet link. It will be sent to the teacher's Telegram group when check-in is saved.</p>
+        <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">Google Meet link<input required type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" pattern="https://meet\\.google\\.com/.+" /></label>
+        {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30 dark:text-red-300">{error}</p>}
+        <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : 'Check in and send Meet link'}</button>
+      </form>
+    </Modal>
   </section>;
 }
 
-function TeacherRow({ row, busy, date, onAction, onEdit, language, t }) {
+function TeacherRow({ row, busy, date, onAction, onCheckIn, onEdit, language, t }) {
   const attendance = row.attendance;
   const checkedIn = Boolean(attendance?.checkInAt);
   const checkedOut = Boolean(attendance?.checkOutAt);
@@ -168,11 +213,12 @@ function TeacherRow({ row, busy, date, onAction, onEdit, language, t }) {
       <TimeCard label={t('checkOut')} value={formatStamp(attendance?.checkOutAt, language)} active={checkedOut} />
     </div>
     <div className="mt-4 grid grid-cols-2 gap-2">
-      <button type="button" disabled={Boolean(busy) || checkedIn} onClick={() => onAction(row.id, 'check-in')} className="rounded-xl bg-[#2185a8] px-3 py-3 text-xs font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] hover:shadow-md disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === `${row.id}:check-in` ? t('saving') : t('checkIn')}</button>
+      <button type="button" disabled={Boolean(busy) || checkedIn} onClick={onCheckIn} className="rounded-xl bg-[#2185a8] px-3 py-3 text-xs font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] hover:shadow-md disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === `${row.id}:check-in` ? t('saving') : t('checkIn')}</button>
       <button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(row.id, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-xs font-black text-slate-700 transition hover:-translate-y-0.5 hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === `${row.id}:check-out` ? t('saving') : t('checkOut')}</button>
     </div>
     <button type="button" disabled={Boolean(busy)} onClick={() => onEdit(row)} className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-black text-slate-600 transition hover:-translate-y-0.5 hover:border-[#229ed9] hover:bg-[#e8f5fb] hover:text-[#17624e] disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-[#8de4ca] dark:hover:bg-[#173f42] dark:hover:text-[#a5f1dc]"><span aria-hidden="true">✎</span>{t('edit')}</button>
     <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-400 dark:border-slate-800">{t('attendanceDate')}: <span className="text-slate-500 dark:text-slate-300">{date}</span></p>
+    {attendance?.meetingUrl && <a href={attendance.meetingUrl} target="_blank" rel="noreferrer" className="mt-2 block truncate text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{attendance.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}
   </article>;
 }
 
@@ -180,8 +226,15 @@ function TimeCard({ label, value, active }) {
   return <div className={`rounded-2xl border p-3 ${active ? 'border-emerald-100 bg-emerald-50/70 dark:border-emerald-900/50 dark:bg-emerald-950/20' : 'border-slate-100 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-800/70'}`}><p className="text-[11px] font-bold text-slate-400">{label}</p><p className={`mt-1 truncate text-xs font-black ${active ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-600 dark:text-slate-300'}`}>{value}</p></div>;
 }
 
-function SelfAttendance({ record, busy, onAction, language, t }) {
+function SelfAttendance({ record, busy, onAction, onCheckIn, language, t }) {
   const checkedIn = Boolean(record?.checkInAt);
   const checkedOut = Boolean(record?.checkOutAt);
-  return <div className="mt-6 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div><span className={`inline-flex rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide ${checkedOut ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : checkedIn ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'}`}>{checkedOut ? t('attendanceComplete') : checkedIn ? t('attendanceInProgress') : t('readyToCheckIn')}</span><div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:flex sm:gap-8"><span className="text-slate-500 dark:text-slate-400">{t('checkIn')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkInAt, language)}</strong></span><span className="text-slate-500 dark:text-slate-400">{t('checkOut')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkOutAt, language)}</strong></span></div></div><div className="grid grid-cols-2 gap-2 lg:min-w-[16rem]"><button type="button" disabled={Boolean(busy) || checkedIn} onClick={() => onAction(null, 'check-in')} className="rounded-xl bg-[#2185a8] px-4 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === 'me:check-in' ? t('saving') : t('checkIn')}</button><button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(null, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === 'me:check-out' ? t('saving') : t('checkOut')}</button></div></div></div>;
+  return <div className="mt-6 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div><span className={`inline-flex rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide ${checkedOut ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : checkedIn ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'}`}>{checkedOut ? t('attendanceComplete') : checkedIn ? t('attendanceInProgress') : t('readyToCheckIn')}</span><div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:flex sm:gap-8"><span className="text-slate-500 dark:text-slate-400">{t('checkIn')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkInAt, language)}</strong></span><span className="text-slate-500 dark:text-slate-400">{t('checkOut')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkOutAt, language)}</strong></span></div>{record?.meetingUrl && <a href={record.meetingUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{record.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}</div><div className="grid grid-cols-2 gap-2 lg:min-w-[16rem]"><button type="button" disabled={Boolean(busy) || checkedIn} onClick={onCheckIn} className="rounded-xl bg-[#2185a8] px-4 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === 'me:check-in' ? t('saving') : t('checkIn')}</button><button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(null, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === 'me:check-out' ? t('saving') : t('checkOut')}</button></div></div></div>;
+}
+
+function TeacherTelegramCard({ settings, form, setForm, onSave, onTest, busy, message }) {
+  return <div className="mt-4 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
+    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">Telegram class group</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">Send Google Meet alerts to your group</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">Use a bot added as an administrator in your Telegram group.</p></div><span className={`rounded-full px-3 py-1.5 text-xs font-bold ${settings.configured ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{settings.configured ? 'Configured' : 'Not configured'}</span></div>
+    <form onSubmit={onSave} className="mt-4 grid gap-3 md:grid-cols-2"><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Bot token<input type="password" autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || 'Paste token from BotFather'} /></label><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Telegram group Chat ID<input value={form.chatId} onChange={(event) => setForm({ ...form, chatId: event.target.value })} className="input mt-2" placeholder="-1001234567890" /></label><label className="flex items-center gap-3 text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2"><input type="checkbox" checked={form.enabled} onChange={(event) => setForm({ ...form, enabled: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" /> Enable check-in and check-out Telegram alerts</label>{message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>{message.text}</p>}<div className="flex flex-wrap gap-2 md:col-span-2"><button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60">{busy ? 'Saving...' : 'Save Telegram settings'}</button><button type="button" disabled={busy || !settings.configured} onClick={onTest} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-600 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300">Send test</button></div></form>
+  </div>;
 }
