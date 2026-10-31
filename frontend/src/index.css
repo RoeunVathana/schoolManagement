@@ -4563,3 +4563,55 @@ a, button, input, textarea, select { max-width: 100%; }
 
 .dark .password-input-toggle { color: #9cb4c8; }
 .dark .password-input-toggle:hover { color: #8de4ca; background: rgb(141 228 202 / .1); }
+
+/* Tablet/iPad layout: keep the desktop information density without letting
+   profile controls and page headers compete for the same narrow row. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .app-main { padding-inline: clamp(1rem, 3vw, 2rem); }
+  .page-header { align-items: center; gap: 1.25rem; }
+  .page-header-action { width: auto; justify-content: flex-end; }
+  .page-header-action > button,
+  .page-header-action > a { flex: 0 0 auto; }
+  .card { border-radius: 1.3rem; padding: 1.25rem; }
+  .dashboard-page > section:first-child { padding: 1.5rem; }
+  .dashboard-page > section:first-child h1 { font-size: clamp(2rem, 5vw, 3rem); }
+}
+
+@media (min-width: 721px) and (max-width: 1100px) {
+  .community-page { padding-inline: clamp(.8rem, 2.4vw, 1.5rem); }
+  .community-hero { min-height: clamp(13rem, 25vw, 16rem); gap: 1.15rem; padding: 1.5rem; }
+  .community-hero h1 { font-size: clamp(2.35rem, 6vw, 4rem); }
+  .community-hero-actions { max-width: 18rem; }
+  .community-hero-actions .community-button { min-width: 8rem; }
+  .community-stat-grid { gap: .75rem; }
+  .community-stat { min-height: 6.25rem; }
+  .community-story-row { gap: .75rem; }
+  .community-section-heading,
+  .community-section-body { padding-inline: 1.15rem; }
+  .community-cover-button { display: inline-flex; min-height: 2.85rem; align-items: center; justify-content: center; text-align: center; }
+  .community-profile-cover { min-height: clamp(14rem, 28vw, 18rem); }
+  .community-profile-identity { gap: 1rem; padding-inline: 1.1rem; }
+  .community-profile-avatar { width: 7.6rem; height: 7.6rem; }
+  .community-profile-name-block h1 { font-size: clamp(1.55rem, 3.5vw, 2.2rem); }
+  .community-profile-actions { max-width: 15rem; }
+  .community-profile-actions .community-button,
+  .community-profile-actions .inline-flex { width: 100%; }
+  .community-profile-tabs { padding-inline: .75rem; }
+}
+
+@media (min-width: 721px) and (max-width: 840px) {
+  .community-profile-layout { grid-template-columns: 1fr; }
+  .community-profile-side { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+}
+
+@media (min-width: 841px) and (max-width: 1100px) {
+  .community-profile-layout { grid-template-columns: minmax(13.5rem, 18rem) minmax(0, 1fr); gap: .85rem; }
+  .community-profile-side { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 621px) and (max-width: 980px) {
+  .public-community-hero { padding-inline: clamp(1.5rem, 5vw, 3.5rem); }
+  .public-community-hero h1 { font-size: clamp(3rem, 8vw, 5.2rem); }
+  .public-community-hero-art { min-height: 23rem; }
+  .public-community-section { padding-inline: clamp(1.5rem, 5vw, 3.5rem); }
+}
