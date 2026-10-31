@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { join } from 'path';
+import { uploadsRoot } from './common/upload-paths';
 import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
@@ -114,7 +114,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(new GlobalResponseInterceptor());
-  app.useStaticAssets(join(process.cwd(), 'uploads'), {
+  app.useStaticAssets(uploadsRoot(), {
     prefix: '/uploads/',
     index: false,
     dotfiles: 'deny',

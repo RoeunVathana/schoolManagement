@@ -1,7 +1,8 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { MediaType, MessageReactionType, Role, UserStatus } from '@prisma/client';
-import { existsSync, unlinkSync } from 'fs';
-import { basename, extname, join } from 'path';
+import { existsSync } from 'fs';
+import { basename, extname } from 'path';
+import { localUploadPath } from '../common/upload-paths';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
@@ -230,9 +231,8 @@ export class ChatService {
       const remoteName = basename(decodeURIComponent(remotePath)) || `campusflow-chat-${message.id}${attachment?.mediaType === 'VIDEO' ? '.mp4' : '.jpg'}`;
       return { remoteUrl: imageUrl, fileName: remoteName, contentType: contentTypes[extname(remoteName).toLowerCase()] || (attachment?.mediaType === 'VIDEO' ? 'video/mp4' : 'application/octet-stream') };
     }
-    const relativePath = imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/');
-    const filePath = join(process.cwd(), relativePath);
-    if (!existsSync(filePath)) throw new NotFoundException('Chat attachment not found');
+    const filePath = localUploadPath(imageUrl);
+    if (!filePath || !existsSync(filePath)) throw new NotFoundException('Chat attachment not found');
     return { filePath, fileName: basename(filePath), contentType: contentTypes[extname(filePath).toLowerCase()] || (attachment?.mediaType === 'VIDEO' ? 'video/mp4' : 'application/octet-stream') };
   }
 
@@ -274,10 +274,7 @@ export class ChatService {
       await tx.conversation.update({ where: { id: message.conversationId }, data: { updatedAt: new Date() } });
       return result;
     });
-    if (message.imageUrl && !/^https?:\/\//i.test(message.imageUrl)) {
-      const filePath = join(process.cwd(), message.imageUrl.replace(/^\/?uploads[\\/]/, 'uploads/'));
-      if (existsSync(filePath)) unlinkSync(filePath);
-    }
+    await this.media.remove(message.imageUrl);
     return this.presentMessage({ ...deleted, reactions: [] }, userId);
   }
 

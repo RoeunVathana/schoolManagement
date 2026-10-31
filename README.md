@@ -149,7 +149,17 @@ Administrators can manage schedules, attendance, announcements and enrollments d
 
 Community posts and stories accept PNG, JPG, JPEG, WEBP and GIF images plus MP4, WEBM, MOV and M4V videos up to 250 MB. The backend validates the MIME type and extension, records `mediaType` as `IMAGE` or `VIDEO`, and the frontend renders video with native controls.
 
-For local development, media remains in `backend/uploads/`. To store community media in Firebase Storage (Google Cloud Storage), configure the backend environment on Railway:
+For local development, media remains in `backend/uploads/`. All upload types (including profiles, assignments, chat, course materials and certificates) share one root: `UPLOAD_DIR`, then Railway's automatic `RAILWAY_VOLUME_MOUNT_PATH`, then `uploads/` under the backend working directory. Public URLs remain `/uploads/<folder>/<filename>`.
+
+For local storage on Railway, attach a volume to the **backend/API** service at `/app/backend/uploads` and set `MEDIA_STORAGE=local`. Leave `UPLOAD_DIR` unset to use the actual mount path automatically, or set it to a directory inside that volume. Do not manually set `RAILWAY_VOLUME_MOUNT_PATH` without attaching a real volume. The root Dockerfile runs under `/app/backend`; older versions therefore wrote to `/app/backend/uploads`, while `Dockerfile.backend` uses `/app/uploads`. The shared root now supports either mount path.
+
+Before attaching a volume or redeploying an existing service, export the current container's upload files to a separate backup and verify it. Restore those files into the volume, retaining the folder names and filenames. Attaching an empty volume does **not** recover files from the previous container. Inspect the running service's working directory to choose the correct source; do not guess. Keep the backup until old and new image URLs both work after a subsequent restart. See [Railway volume setup](https://docs.railway.com/volumes) for mounting and permissions; an image using `USER node` also needs a writable mount.
+
+`GET /media-retention/status` (admin only) reports the selected storage mode, directory, whether it is inside the Railway mount, and whether cloud credentials are configured. These are configuration diagnostics, not a successful upload test. `GET /health` checks the database and reports `revision` from `RAILWAY_GIT_COMMIT_SHA`; it does not certify payment, sign-in or media storage.
+
+Scheduled Telegram backups preserve original media and database links by default. Keep `MEDIA_RETENTION_DELETE_AFTER_BACKUP=false`; setting it to `true` explicitly enables removal after archival. A Telegram backup or database backup alone is not a live image host. Previously deleted images require recovery from an existing backup.
+
+Alternatively, to store media in Firebase Storage (Google Cloud Storage), configure the backend environment on Railway:
 
 ```env
 MEDIA_STORAGE="firebase"
@@ -176,5 +186,7 @@ docker compose up --build
 The Compose PostgreSQL service is available on port `5432`, the API on `3000`, and the frontend on `5173`. For the requested pgAdmin workflow, connect pgAdmin to `localhost:5432` with database `schoolManagement`, user `postgres`, and the password configured in your local PostgreSQL service.
 
 ## API notes
+
+Run `npm run test:storage` in `backend/` to check upload persistence across a local HTTP-server restart, path safety, cloud upload failures, preservation during Telegram backup, and database failure handling. These tests use temporary files and mocked cloud/Telegram calls; they do not modify production or send messages.
 
 All API responses use `{ success, message, data }`; errors use `{ success: false, message, statusCode }`. Access tokens are short-lived JWTs and refresh tokens are stored hashed in PostgreSQL. Protected endpoints use JWT authentication and role-based access control. Student homework submissions support PDF, DOC/DOCX, TXT, Excel, PowerPoint, ZIP and image files in `backend/uploads/homework/`; PDFs and documents can be up to 100 MB, while images can be up to 50 MB.

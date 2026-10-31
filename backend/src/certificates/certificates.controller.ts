@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get,
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { EnrollmentStatus, Role } from '@prisma/client';
-import { existsSync, unlinkSync } from 'fs';
-import { basename, join } from 'path';
+import { existsSync } from 'fs';
+import { localUploadPath } from '../common/upload-paths';
 import { Response } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -45,10 +45,7 @@ export class CertificatesController {
   }
 
   private async removeFile(fileUrl?: string | null) {
-    if (!fileUrl) return;
-    if (/^https?:\/\//i.test(fileUrl)) { await this.media.remove(fileUrl); return; }
-    const path = fileUrl.replace(/^\/uploads\//, 'uploads/');
-    if (existsSync(path)) unlinkSync(path);
+    await this.media.remove(fileUrl);
   }
 
   private async assertEnrollment(courseId: string, studentId: string) {
@@ -69,9 +66,8 @@ export class CertificatesController {
   async download(@Param('id') id: string, @CurrentUser() user: any, @Res() response: Response) {
     const certificate = await this.assertCertificateAccess(id, user);
     if (/^https?:\/\//i.test(certificate.fileUrl || '')) return response.redirect(certificate.fileUrl);
-    const fileName = basename(certificate.fileUrl || '');
-    const filePath = join(process.cwd(), 'uploads', 'certificates', fileName);
-    if (!fileName || !existsSync(filePath)) throw new NotFoundException('Certificate file was not found.');
+    const filePath = localUploadPath(certificate.fileUrl || '');
+    if (!filePath || !existsSync(filePath)) throw new NotFoundException('Certificate file was not found.');
     return response.download(filePath, certificate.originalName || 'certificate', (error) => {
       if (error && !response.headersSent) response.status(404).json({ success: false, message: 'Certificate file was not found.', statusCode: 404 });
     });
@@ -107,13 +103,13 @@ export class CertificatesController {
     await this.assertEnrollment(body.courseId, body.studentId);
     const existing = await this.prisma.courseCertificate.findUnique({ where: { courseId_studentId: { courseId: body.courseId, studentId: body.studentId } } });
     const uploaded = await this.media.upload(file, 'certificates');
-    if (existing) await this.removeFile(existing.fileUrl);
     const certificate = await this.prisma.courseCertificate.upsert({
       where: { courseId_studentId: { courseId: body.courseId, studentId: body.studentId } },
       update: { title: body.title.trim(), description: body.description?.trim() || null, fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size, issuedAt: new Date() },
       create: { courseId: body.courseId, studentId: body.studentId, title: body.title.trim(), description: body.description?.trim() || null, fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size },
       include: { course: { select: { id: true, courseCode: true, courseName: true } }, student: { include: { user: { select: { fullName: true, email: true } } } } },
     });
+    if (existing) await this.removeFile(existing.fileUrl);
     const student = await this.prisma.student.findUnique({ where: { id: body.studentId }, select: { userId: true } });
     if (student) await this.prisma.notification.create({ data: { userId: student.userId, senderId: user.id, title: 'Certificate available', message: `Your certificate for ${course.courseName} is ready to view and download.` } });
     return certificate;
@@ -146,7 +142,8 @@ export class CertificatesController {
   @Permissions('delete')
   async remove(@Param('id') id: string, @CurrentUser() user: any) {
     const certificate = await this.assertCertificateAccess(id, user);
+    const deleted = await this.prisma.courseCertificate.delete({ where: { id }, select: { id: true } });
     await this.removeFile(certificate.fileUrl);
-    return this.prisma.courseCertificate.delete({ where: { id }, select: { id: true } });
+    return deleted;
   }
 }

@@ -97,7 +97,8 @@ export class CourseMaterialsController {
   @Permissions('delete')
   async remove(@Param('id') id: string, @CurrentUser() user: any) {
     const material = await this.assertMaterialAccess(id, user);
+    const deleted = await this.prisma.courseMaterial.delete({ where: { id }, select: { id: true } });
     await this.media.remove(material.fileUrl);
-    return this.prisma.courseMaterial.delete({ where: { id }, select: { id: true } });
+    return deleted;
   }
 }

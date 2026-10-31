@@ -1,7 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { promises as fs } from 'fs';
-import { basename, join, resolve } from 'path';
+import { basename, join } from 'path';
+import { uploadsRoot } from '../common/upload-paths';
 import { PrismaService } from '../prisma/prisma.service';
 import { TelegramService } from '../telegram/telegram.service';
 import { MediaStorageService } from './media-storage.service';
@@ -64,7 +65,9 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
     const limitGb = this.number('MEDIA_STORAGE_LIMIT_GB', 0, 0, 10_000);
     return {
       enabled: telegramConfig.enabled && Boolean(telegramConfig.botToken && telegramConfig.chatId),
-      mediaStorage: String(this.config.get('MEDIA_STORAGE') || 'local').toLowerCase(),
+      mediaStorage: this.storage.configuration().mode,
+      storageConfiguration: this.storage.configuration(),
+      deleteAfterBackup: this.deleteAfterBackup(),
       retentionMonths: this.number('MEDIA_RETENTION_MONTHS', 6, 1, 120),
       storage: {
         bytes: stats.bytes,
@@ -106,13 +109,18 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
 
   private async archiveCandidates(input: { cutoff: Date; reason: string; targetBytes: number; currentBytes: number }): Promise<ArchiveSummary> {
     const summary: ArchiveSummary = { reason: input.reason, archived: 0, skipped: 0, failed: 0, bytesFreed: 0 };
+    const deleteAfterBackup = this.deleteAfterBackup();
     const candidates = await this.collectCandidates(input.cutoff);
     for (const candidate of candidates) {
       if (input.targetBytes > 0 && input.currentBytes - summary.bytesFreed <= input.targetBytes) break;
       const existing = await this.prisma.mediaArchive.findUnique({ where: { originalUrl: candidate.url } });
+      if (existing && !deleteAfterBackup) {
+        summary.skipped += 1;
+        continue;
+      }
       const source = await this.storage.prepareForArchive(candidate.url);
       if (!source) {
-        if (existing) {
+        if (existing && deleteAfterBackup) {
           await this.clearReferences(candidate.references);
           summary.archived += 1;
         } else {
@@ -125,7 +133,7 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
       try {
         const fileStat = await fs.stat(source.path).catch(() => null);
         if (!fileStat) {
-          if (existing) {
+          if (existing && deleteAfterBackup) {
             await this.clearReferences(candidate.references);
             summary.archived += 1;
           } else {
@@ -155,10 +163,12 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
           });
         }
 
-        await source.deleteSource();
-        await this.clearReferences(candidate.references);
+        if (deleteAfterBackup) {
+          await source.deleteSource();
+          await this.clearReferences(candidate.references);
+          summary.bytesFreed += fileSize;
+        }
         summary.archived += 1;
-        summary.bytesFreed += fileSize;
       } catch (error) {
         summary.failed += 1;
         this.logger.error(`Media archive failed for ${basename(source.path)}: ${error instanceof Error ? error.message : 'unknown error'}`);
@@ -239,7 +249,7 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async storageStats() {
-    const root = resolve(process.cwd(), 'uploads');
+    const root = uploadsRoot();
     let bytes = 0;
     let files = 0;
     const visit = async (directory: string): Promise<void> => {
@@ -262,6 +272,10 @@ export class MediaRetentionService implements OnModuleInit, OnModuleDestroy {
     if (!lock[0]?.locked) return;
     try { await work(); }
     finally { await this.prisma.$queryRaw`SELECT pg_advisory_unlock(hashtext('campusflow_media_retention'))`; }
+  }
+
+  private deleteAfterBackup() {
+    return String(this.config.get('MEDIA_RETENTION_DELETE_AFTER_BACKUP') || '').trim().toLowerCase() === 'true';
   }
 
   private number(key: string, fallback: number, min: number, max: number) {

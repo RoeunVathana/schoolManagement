@@ -9,7 +9,12 @@ export class HealthController {
   async check() {
     try {
       await this.prisma.$queryRaw`SELECT 1`;
-      return { status: 'ok', service: 'campusflow-api', timestamp: new Date().toISOString() };
+      return {
+        status: 'ok',
+        service: 'campusflow-api',
+        revision: process.env.RAILWAY_GIT_COMMIT_SHA || null,
+        timestamp: new Date().toISOString(),
+      };
     } catch {
       throw new ServiceUnavailableException('Service unavailable');
     }

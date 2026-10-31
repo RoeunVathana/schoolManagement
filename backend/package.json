@@ -11,7 +11,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
     "lint": "npm run typecheck",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:storage": "node --require ts-node/register --test test/media-storage.test.cjs"
   },
   "overrides": {
     "bakong-khqr": {

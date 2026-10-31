@@ -4,25 +4,13 @@ import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getStorage } from 'firebase-admin/storage';
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
-import { basename, extname, isAbsolute, join, relative, resolve } from 'path';
+import { basename, extname, join } from 'path';
 import { tmpdir } from 'os';
+import { localUploadPath, MediaFolder, uploadsOnVolume, uploadsRoot } from '../common/upload-paths';
 
 export type CommunityMediaType = 'IMAGE' | 'VIDEO';
 
-export type MediaFolder =
-  | 'posts'
-  | 'stories'
-  | 'chat'
-  | 'groups'
-  | 'profiles'
-  | 'covers'
-  | 'courses'
-  | 'assignments'
-  | 'homework'
-  | 'exams'
-  | 'exam-submissions'
-  | 'course-materials'
-  | 'certificates';
+export type { MediaFolder } from '../common/upload-paths';
 
 export type ArchiveMediaSource = {
   path: string;
@@ -41,10 +29,19 @@ export class MediaStorageService {
   constructor(private readonly config: ConfigService) {
     const configuredMode = String(this.config.get('MEDIA_STORAGE') || '').trim().toLowerCase();
     const nodeEnv = String(this.config.get('NODE_ENV') || 'development').toLowerCase();
-    const hasRailwayVolume = Boolean(String(this.config.get('RAILWAY_VOLUME_MOUNT_PATH') || '').trim());
+    const hasRailwayVolume = uploadsOnVolume();
     this.mode = configuredMode || (nodeEnv === 'production' && !hasRailwayVolume ? 'firebase' : 'local');
     this.projectId = String(this.config.get('FIREBASE_PROJECT_ID') || 'shoolmanagement-65b53');
     this.bucketName = String(this.config.get('FIREBASE_STORAGE_BUCKET') || `${this.projectId}.firebasestorage.app`);
+  }
+
+  configuration() {
+    return {
+      mode: this.mode,
+      localDirectory: uploadsRoot(),
+      localVolumeAttached: uploadsOnVolume(),
+      cloudCredentialsConfigured: Boolean(this.config.get('FIREBASE_CLIENT_EMAIL') && this.config.get('FIREBASE_PRIVATE_KEY')),
+    };
   }
 
   async upload(file: Express.Multer.File, folder: MediaFolder): Promise<{ url: string; mediaType: CommunityMediaType }> {
@@ -71,21 +68,21 @@ export class MediaStorageService {
           metadata: { firebaseStorageDownloadTokens: token },
         },
       });
+      // Remove the staging file only after the cloud upload succeeds.
+      await fs.rm(file.path, { force: true }).catch(() => undefined);
       return {
         url: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(destination)}?alt=media&token=${token}`,
         mediaType,
       };
-    } catch (error) {
-      throw new ServiceUnavailableException(`Could not upload media to cloud storage: ${error instanceof Error ? error.message : 'unknown error'}`);
-    } finally {
-      await fs.rm(file.path, { force: true }).catch(() => undefined);
+    } catch {
+      throw new ServiceUnavailableException('Could not upload media to cloud storage. Please ask an administrator to check the storage bucket and service-account permissions.');
     }
   }
 
   async remove(url?: string | null) {
     if (!url) return;
     if (!/^https?:\/\//i.test(url)) {
-      const localPath = this.safeLocalPath(url);
+      const localPath = localUploadPath(url);
       if (localPath) await fs.rm(localPath, { force: true }).catch(() => undefined);
       return;
     }
@@ -99,7 +96,7 @@ export class MediaStorageService {
     if (!url) return null;
 
     if (!/^https?:\/\//i.test(url)) {
-      const localPath = this.safeLocalPath(url);
+      const localPath = localUploadPath(url);
       if (!localPath) return null;
       const fileName = basename(localPath);
       return {
@@ -131,16 +128,6 @@ export class MediaStorageService {
     }
   }
 
-  private safeLocalPath(url: string) {
-    const relativeUrl = url.replace(/^\/?/, '').replace(/\\/g, '/');
-    if (!/^uploads\/(posts|stories|chat|groups|profiles|covers|courses|assignments|homework|exams|exam-submissions|course-materials|certificates)\//i.test(relativeUrl)) return null;
-    const root = resolve(process.cwd(), 'uploads');
-    const filePath = resolve(process.cwd(), relativeUrl);
-    const pathFromRoot = relative(root, filePath);
-    if (!pathFromRoot || pathFromRoot.startsWith('..') || isAbsolute(pathFromRoot)) return null;
-    return filePath;
-  }
-
   private firebaseObjectFromUrl(url: string) {
     try {
       const parsed = new URL(url);
@@ -157,13 +144,15 @@ export class MediaStorageService {
   }
 
   private firebaseApp() {
-    const existing = getApps()[0];
+    // Auth may initialize a default app without Storage credentials.
+    const appName = `campusflow-media-${this.projectId}`;
+    const existing = getApps().find((app) => app.name === appName);
     if (existing) return existing;
 
     const clientEmail = String(this.config.get('FIREBASE_CLIENT_EMAIL') || '').trim();
     const privateKey = String(this.config.get('FIREBASE_PRIVATE_KEY') || '').replace(/\\n/g, '\n').trim();
     if (clientEmail && privateKey) {
-      return initializeApp({ credential: cert({ projectId: this.projectId, clientEmail, privateKey }), storageBucket: this.bucketName });
+      return initializeApp({ credential: cert({ projectId: this.projectId, clientEmail, privateKey }), storageBucket: this.bucketName }, appName);
     }
 
     throw new ServiceUnavailableException('Firebase Admin credentials are missing. Set FIREBASE_CLIENT_EMAIL and FIREBASE_PRIVATE_KEY for persistent cloud media uploads.');
