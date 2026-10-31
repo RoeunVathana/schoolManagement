@@ -15,7 +15,12 @@
   "overrides": {
     "bakong-khqr": {
       "axios": "^1.21.0"
-    }
+    },
+    "body-parser": "^1.20.9",
+    "file-type": "^21.3.2",
+    "glob": "^10.5.0",
+    "multer": "^2.5.0",
+    "qs": "^6.17.1"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
