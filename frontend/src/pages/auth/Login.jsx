@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GoogleAuthProvider, getRedirectResult, signInWithRedirect, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, getRedirectResult, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
@@ -112,11 +112,28 @@ export default function Login() {
     setGoogleBusy(true);
     setNotice('');
     setError('');
+    const provider = new GoogleAuthProvider();
     try {
-      // Use the main-tab redirect flow so Google always returns through
-      // Firebase's authorized /__/auth/handler on the custom domain.
-      await signInWithRedirect(firebaseAuth, new GoogleAuthProvider());
+      // Complete the Firebase result in the same tab so the app can exchange
+      // the ID token with the API and navigate immediately after Google login.
+      const result = await signInWithPopup(firebaseAuth, provider);
+      const idToken = await result.user.getIdToken(true);
+      const user = await loginWithGoogle({ idToken, role: selectedRole });
+      setRedirecting(true);
+      await transitionDelay(650);
+      navigate(location.state?.from || roleHome(user.role), { replace: true });
     } catch (e) {
+      // Some browsers block popups. Keep the redirect flow as a fallback.
+      if (e?.code === 'auth/popup-blocked') {
+        try {
+          await signInWithRedirect(firebaseAuth, provider);
+          return;
+        } catch (redirectError) {
+          await signOut(firebaseAuth).catch(() => undefined);
+          setError(googleErrorMessage(redirectError, t));
+          return;
+        }
+      }
       await signOut(firebaseAuth).catch(() => undefined);
       setError(googleErrorMessage(e, t));
     } finally {
