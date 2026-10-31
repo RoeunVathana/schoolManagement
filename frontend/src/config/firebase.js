@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase/app';
 // website domain is the app origin, but it is not a Firebase Auth handler
 // domain unless it has separately been configured as a custom auth domain in
 // Firebase/Google OAuth. Using the default domain avoids redirect_uri_mismatch.
-const hostedAuthDomain = import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'shoolmanagement-65b53.firebaseapp.com';
+const hostedAuthDomain = 'shoolmanagement-65b53.firebaseapp.com';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyAaMd8CgNdjdGaADBxhAWQGUrcjXBQ95Rw',
