@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, getRedirectResult, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
@@ -26,6 +26,18 @@ const apiMessage = (error, fallback) => {
   return typeof error?.message === 'string' && error.message.trim() ? error.message : fallback;
 };
 
+const googleErrorMessage = (error, t) => {
+  const code = error?.code || '';
+  const invalidApiKey = code === 'auth/invalid-api-key' || code.startsWith('auth/api-key-not-valid');
+  if (code === 'auth/popup-closed-by-user') return t('googleSignInCancelled');
+  if (code === 'auth/operation-not-allowed') return t('googleProviderDisabled');
+  if (code === 'auth/unauthorized-domain') return t('googleDomainNotAuthorized');
+  if (code === 'auth/popup-blocked') return t('googlePopupBlocked');
+  if (invalidApiKey) return t('firebaseApiKeyInvalid');
+  if (code === 'auth/network-request-failed') return 'Firebase could not connect to Google. Check your internet connection and Firebase configuration.';
+  return apiMessage(error, t('googleSignInFailed'));
+};
+
 export default function Login() {
   const { register, handleSubmit, reset, formState: { errors: formErrors } } = useForm();
   const { login, loginWithGoogle, logout } = useAuth();
@@ -48,6 +60,32 @@ export default function Login() {
     setNotice(location.state?.message || '');
     setError('');
   }, [location.pathname, location.state, reset]);
+
+  useEffect(() => {
+    let mounted = true;
+    const finishRedirectSignIn = async () => {
+      try {
+        const result = await getRedirectResult(firebaseAuth);
+        if (!result || !mounted) return;
+        setGoogleBusy(true);
+        const idToken = await result.user.getIdToken(true);
+        const user = await loginWithGoogle({ idToken, role: selectedRole });
+        if (!mounted) return;
+        setRedirecting(true);
+        await transitionDelay(650);
+        navigate(location.state?.from || roleHome(user.role), { replace: true });
+      } catch (e) {
+        if (mounted) {
+          await signOut(firebaseAuth).catch(() => undefined);
+          setError(googleErrorMessage(e, t));
+        }
+      } finally {
+        if (mounted) setGoogleBusy(false);
+      }
+    };
+    void finishRedirectSignIn();
+    return () => { mounted = false; };
+  }, [location.pathname, location.state, loginWithGoogle, navigate, selectedRole, t]);
 
   const submit = async (data) => {
     setBusy(true);
@@ -82,23 +120,17 @@ export default function Login() {
       await transitionDelay(650);
       navigate(location.state?.from || roleHome(user.role), { replace: true });
     } catch (e) {
-      await signOut(firebaseAuth).catch(() => undefined);
       const code = e.code || '';
-      const invalidApiKey = code === 'auth/invalid-api-key' || code.startsWith('auth/api-key-not-valid');
-      const firebaseMessage = code === 'auth/popup-closed-by-user'
-        ? t('googleSignInCancelled')
-        : code === 'auth/operation-not-allowed'
-          ? t('googleProviderDisabled')
-          : code === 'auth/unauthorized-domain'
-            ? t('googleDomainNotAuthorized')
-            : code === 'auth/popup-blocked'
-              ? t('googlePopupBlocked')
-                : invalidApiKey
-                  ? t('firebaseApiKeyInvalid')
-                  : code === 'auth/network-request-failed'
-                    ? 'Firebase could not connect to Google. Check your internet connection and Firebase configuration.'
-              : apiMessage(e, t('googleSignInFailed'));
-      setError(firebaseMessage);
+      if (code === 'auth/popup-blocked') {
+        try {
+          await signInWithRedirect(firebaseAuth, new GoogleAuthProvider());
+          return;
+        } catch (redirectError) {
+          e = redirectError;
+        }
+      }
+      await signOut(firebaseAuth).catch(() => undefined);
+      setError(googleErrorMessage(e, t));
     } finally {
       setGoogleBusy(false);
     }

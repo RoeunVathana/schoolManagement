@@ -10,14 +10,19 @@ import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { GlobalResponseInterceptor } from './common/interceptors/global-response.interceptor';
 
-function getAllowedOrigins(config: ConfigService): string[] {
-  const configuredOrigins =
-    config.get<string>('CORS_ORIGINS') || config.get<string>('FRONTEND_URL') || 'http://localhost:5173';
-
-  return configuredOrigins
-    .split(',')
-    .map((origin) => origin.trim())
+function getAllowedOrigins(config: ConfigService, nodeEnv: string): string[] {
+  const configuredOrigins = [
+    config.get<string>('CORS_ORIGINS'),
+    config.get<string>('FRONTEND_URL'),
+    config.get<string>('PUBLIC_APP_URL'),
+    nodeEnv === 'production' ? 'https://campusflowlms.xyz' : 'http://localhost:5173',
+  ]
+    .filter((value): value is string => typeof value === 'string')
+    .flatMap((value) => value.split(','))
+    .map((origin) => origin.trim().replace(/\/$/, ''))
     .filter(Boolean);
+
+  return [...new Set(configuredOrigins)];
 }
 
 function getPositiveLimit(config: ConfigService, key: string, fallback: number): number {
@@ -29,7 +34,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.get(ConfigService);
   const nodeEnv = String(config.get<string>('NODE_ENV', 'development')).toLowerCase();
-  const allowedOrigins = getAllowedOrigins(config);
+  const allowedOrigins = getAllowedOrigins(config, nodeEnv);
 
   app.set('trust proxy', 1);
   app.getHttpAdapter().getInstance().disable('x-powered-by');
