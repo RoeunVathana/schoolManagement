@@ -69,11 +69,32 @@ export default function TeacherAttendancePanel({ admin = false }) {
     }
   };
 
-  const openCheckIn = (teacherId = null) => { setMeetingTarget({ teacherId }); setMeetingUrl(''); setError(''); };
+  const openCheckIn = (teacherId = null) => { setMeetingTarget({ teacherId, mode: 'checkin' }); setMeetingUrl(''); setError(''); };
+  const openMeetingEditor = (teacherId = null, currentUrl = '') => { setMeetingTarget({ teacherId, mode: currentUrl ? 'edit' : 'create' }); setMeetingUrl(currentUrl || ''); setError(''); };
   const submitCheckIn = async (event) => {
     event.preventDefault();
     if (!meetingTarget) return;
-    if (await action(meetingTarget.teacherId, 'check-in', { meetingUrl })) setMeetingTarget(null);
+    if (meetingTarget.mode === 'checkin') {
+      if (await action(meetingTarget.teacherId, 'check-in', { meetingUrl })) setMeetingTarget(null);
+      return;
+    }
+    setBusy(`meeting:${meetingTarget.teacherId || 'me'}`); setError('');
+    try {
+      const isEdit = meetingTarget.mode === 'edit';
+      const endpoint = admin ? `/attendance/teachers/${meetingTarget.teacherId}/meeting` : '/attendance/teacher/meeting';
+      const payload = admin ? { date, meetingUrl } : { meetingUrl, date };
+      await api[isEdit ? 'patch' : 'post'](endpoint, payload);
+      setMeetingTarget(null); await load();
+    } catch (e) { setError(e.response?.data?.message || 'Could not save the Google Meet link.'); } finally { setBusy(''); }
+  };
+  const removeMeeting = async (teacherId = null) => {
+    if (!window.confirm('Delete this Google Meet link?')) return;
+    setBusy(`meeting-delete:${teacherId || 'me'}`); setError('');
+    try {
+      const endpoint = admin ? `/attendance/teachers/${teacherId}/meeting` : '/attendance/teacher/meeting';
+      await api.delete(endpoint, { data: admin ? { date } : { date } });
+      await load();
+    } catch (e) { setError(e.response?.data?.message || 'Could not delete the Google Meet link.'); } finally { setBusy(''); }
   };
 
   const saveTelegram = async (event) => {
@@ -168,8 +189,8 @@ export default function TeacherAttendancePanel({ admin = false }) {
       </div>
       {error && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"><span className="font-black">!</span><p>{error}</p></div>}
       {admin ? <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
-      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} language={language} t={t} />{telegramSettings && <TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />}</>}
+        {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onAddMeeting={() => openMeetingEditor(row.id)} onEditMeeting={() => openMeetingEditor(row.id, row.attendance?.meetingUrl)} onDeleteMeeting={() => removeMeeting(row.id)} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
+      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} onAddMeeting={() => openMeetingEditor()} onEditMeeting={() => openMeetingEditor(null, record?.meetingUrl)} onDeleteMeeting={() => removeMeeting()} language={language} t={t} />{telegramSettings && <TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />}</>}
     </div>
     {admin && <Modal open={Boolean(editingRow)} title={editingRow ? `${t('editAttendance')} · ${editingRow.user?.fullName || ''}` : t('editAttendance')} onClose={closeEdit}>
       <form onSubmit={saveEdit} className="grid gap-4 sm:grid-cols-2">
@@ -182,18 +203,18 @@ export default function TeacherAttendancePanel({ admin = false }) {
         <button disabled={busy === `edit:${editingRow?.id}`} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60 sm:col-span-2">{busy === `edit:${editingRow?.id}` ? t('saving') : t('saveChanges')}</button>
       </form>
     </Modal>}
-    <Modal open={Boolean(meetingTarget)} title="Start Google Meet class" onClose={() => setMeetingTarget(null)}>
+    <Modal open={Boolean(meetingTarget)} title={meetingTarget?.mode === 'checkin' ? 'Start Google Meet class' : meetingTarget?.mode === 'edit' ? 'Update Google Meet link' : 'Add Google Meet link'} onClose={() => setMeetingTarget(null)}>
       <form onSubmit={submitCheckIn} className="space-y-4">
-        <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">Paste the Google Meet link. It will be sent to the teacher's Telegram group when check-in is saved.</p>
+        <p className="rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-800 dark:bg-sky-950/30 dark:text-sky-200">Paste a valid Google Meet link. {meetingTarget?.mode === 'checkin' ? "It will be sent to the teacher's Telegram group when check-in is saved." : 'Changes will be sent to the teacher Telegram group.'}</p>
         <label className="block text-sm font-bold text-slate-600 dark:text-slate-300">Google Meet link<input required type="url" value={meetingUrl} onChange={(event) => setMeetingUrl(event.target.value)} className="input mt-2" placeholder="https://meet.google.com/abc-defg-hij" pattern="https://meet\\.google\\.com/.+" /></label>
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30 dark:text-red-300">{error}</p>}
-        <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : 'Check in and send Meet link'}</button>
+        <button disabled={Boolean(busy)} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : meetingTarget?.mode === 'checkin' ? 'Check in and send Meet link' : meetingTarget?.mode === 'edit' ? 'Update Meet link' : 'Add Meet link'}</button>
       </form>
     </Modal>
   </section>;
 }
 
-function TeacherRow({ row, busy, date, onAction, onCheckIn, onEdit, language, t }) {
+function TeacherRow({ row, busy, date, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, onEdit, language, t }) {
   const attendance = row.attendance;
   const checkedIn = Boolean(attendance?.checkInAt);
   const checkedOut = Boolean(attendance?.checkOutAt);
@@ -218,7 +239,7 @@ function TeacherRow({ row, busy, date, onAction, onCheckIn, onEdit, language, t 
     </div>
     <button type="button" disabled={Boolean(busy)} onClick={() => onEdit(row)} className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-black text-slate-600 transition hover:-translate-y-0.5 hover:border-[#229ed9] hover:bg-[#e8f5fb] hover:text-[#17624e] disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-[#8de4ca] dark:hover:bg-[#173f42] dark:hover:text-[#a5f1dc]"><span aria-hidden="true">✎</span>{t('edit')}</button>
     <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] font-semibold text-slate-400 dark:border-slate-800">{t('attendanceDate')}: <span className="text-slate-500 dark:text-slate-300">{date}</span></p>
-    {attendance?.meetingUrl && <a href={attendance.meetingUrl} target="_blank" rel="noreferrer" className="mt-2 block truncate text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{attendance.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}
+    {attendance?.meetingUrl ? <><a href={attendance.meetingUrl} target="_blank" rel="noreferrer" className="mt-2 block truncate text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{attendance.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a><div className="mt-2 flex gap-2"><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">Update Meet</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-[11px] font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">Delete Meet</button></div></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="mt-2 rounded-lg bg-sky-50 px-3 py-2 text-[11px] font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ Add Google Meet</button>}
   </article>;
 }
 
@@ -226,10 +247,20 @@ function TimeCard({ label, value, active }) {
   return <div className={`rounded-2xl border p-3 ${active ? 'border-emerald-100 bg-emerald-50/70 dark:border-emerald-900/50 dark:bg-emerald-950/20' : 'border-slate-100 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-800/70'}`}><p className="text-[11px] font-bold text-slate-400">{label}</p><p className={`mt-1 truncate text-xs font-black ${active ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-600 dark:text-slate-300'}`}>{value}</p></div>;
 }
 
-function SelfAttendance({ record, busy, onAction, onCheckIn, language, t }) {
+function SelfAttendance({ record, busy, onAction, onCheckIn, onAddMeeting, onEditMeeting, onDeleteMeeting, language, t }) {
   const checkedIn = Boolean(record?.checkInAt);
   const checkedOut = Boolean(record?.checkOutAt);
-  return <div className="mt-6 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><div><span className={`inline-flex rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide ${checkedOut ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : checkedIn ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'}`}>{checkedOut ? t('attendanceComplete') : checkedIn ? t('attendanceInProgress') : t('readyToCheckIn')}</span><div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:flex sm:gap-8"><span className="text-slate-500 dark:text-slate-400">{t('checkIn')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkInAt, language)}</strong></span><span className="text-slate-500 dark:text-slate-400">{t('checkOut')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkOutAt, language)}</strong></span></div>{record?.meetingUrl && <a href={record.meetingUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{record.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}</div><div className="grid grid-cols-2 gap-2 lg:min-w-[16rem]"><button type="button" disabled={Boolean(busy) || checkedIn} onClick={onCheckIn} className="rounded-xl bg-[#2185a8] px-4 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === 'me:check-in' ? t('saving') : t('checkIn')}</button><button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(null, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === 'me:check-out' ? t('saving') : t('checkOut')}</button></div></div></div>;
+  return <div className="mt-6 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
+    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <span className={`inline-flex rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wide ${checkedOut ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : checkedIn ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'}`}>{checkedOut ? t('attendanceComplete') : checkedIn ? t('attendanceInProgress') : t('readyToCheckIn')}</span>
+        <div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:flex sm:gap-8"><span className="text-slate-500 dark:text-slate-400">{t('checkIn')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkInAt, language)}</strong></span><span className="text-slate-500 dark:text-slate-400">{t('checkOut')}: <strong className="ml-1 text-ink dark:text-white">{formatStamp(record?.checkOutAt, language)}</strong></span></div>
+        {record?.meetingUrl && <a href={record.meetingUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-xs font-bold text-sky-700 hover:underline dark:text-sky-300">{record.meetingActive ? '🟢 Open active Google Meet' : 'Meeting ended — open link'}</a>}
+      </div>
+      <div className="grid grid-cols-2 gap-2 lg:min-w-[16rem]"><button type="button" disabled={Boolean(busy) || checkedIn} onClick={onCheckIn} className="rounded-xl bg-[#2185a8] px-4 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#176d8b] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-500">{busy === 'me:check-in' ? t('saving') : t('checkIn')}</button><button type="button" disabled={Boolean(busy) || !checkedIn || checkedOut} onClick={() => onAction(null, 'check-out')} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:border-[#8de4ca] hover:bg-[#effcf7] disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-300 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30 dark:disabled:border-slate-800 dark:disabled:bg-slate-900 dark:disabled:text-slate-600">{busy === 'me:check-out' ? t('saving') : t('checkOut')}</button></div>
+    </div>
+    <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">{record?.meetingUrl ? <><button type="button" disabled={Boolean(busy)} onClick={onEditMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">Update Meet link</button><button type="button" disabled={Boolean(busy)} onClick={onDeleteMeeting} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-50">Delete Meet link</button></> : <button type="button" disabled={Boolean(busy)} onClick={onAddMeeting} className="rounded-lg bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 hover:bg-sky-100 disabled:opacity-50 dark:bg-sky-950/30 dark:text-sky-300">+ Add Google Meet link</button>}</div>
+  </div>;
 }
 
 function TeacherTelegramCard({ settings, form, setForm, onSave, onTest, busy, message }) {

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 
 type TelegramConfig = { botToken: string; chatId: string; enabled: boolean };
-type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
+type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT' | 'UPDATE' | 'DELETE'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
 
 @Injectable()
 export class TelegramService {
@@ -59,15 +59,17 @@ export class TelegramService {
   async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {
     const formatDateTime = (value?: Date | string | null) => value ? new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Phnom_Penh' }) : 'Not recorded';
     const started = input.action === 'CHECK_IN';
+    const updated = input.action === 'UPDATE';
+    const deleted = input.action === 'DELETE';
     const message = [
-      `<b>CampusFlow class ${started ? 'started' : 'ended'}</b>`,
+      `<b>CampusFlow ${started ? 'class started' : deleted ? 'Google Meet deleted' : updated ? 'Google Meet updated' : 'class ended'}</b>`,
       `<b>Teacher:</b> ${this.escapeHtml(input.teacherName)}`,
       input.courseName ? `<b>Course:</b> ${this.escapeHtml(input.courseName)}` : null,
       `<b>Date:</b> ${this.escapeHtml(String(input.attendanceDate).slice(0, 10))}`,
       `<b>Check-in:</b> ${this.escapeHtml(formatDateTime(input.checkInAt))}`,
       `<b>Check-out:</b> ${this.escapeHtml(formatDateTime(input.checkOutAt))}`,
-      started && input.meetingUrl ? `<b>Google Meet:</b> ${this.escapeHtml(input.meetingUrl)}` : null,
-      started ? '<i>Students can join using the Meet link above.</i>' : '<i>This class meeting is now inactive in CampusFlow.</i>',
+      !deleted && input.meetingUrl ? `<b>Google Meet:</b> ${this.escapeHtml(input.meetingUrl)}` : null,
+      started ? '<i>Students can join using the Meet link above.</i>' : updated ? '<i>The updated link is ready for the class.</i>' : deleted ? '<i>The Google Meet link was removed from CampusFlow.</i>' : '<i>This class meeting is now inactive in CampusFlow.</i>',
     ].filter(Boolean).join('\n');
     return this.sendMessageWithConfig(input.botToken, input.chatId, message);
   }

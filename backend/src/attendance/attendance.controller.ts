@@ -53,7 +53,7 @@ import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get,
     }).catch(() => undefined);
   }
 
-  private queueMeetingAlert(attendance: any, action: 'CHECK_IN' | 'CHECK_OUT') {
+  private queueMeetingAlert(attendance: any, action: 'CHECK_IN' | 'CHECK_OUT' | 'UPDATE' | 'DELETE') {
     void this.prisma.teacherTelegramSetting.findUnique({ where: { teacherId: attendance.teacherId } }).then((setting) => {
       if (!setting?.enabled || !setting.botToken || !setting.chatId) return null;
       return this.telegram.sendTeacherMeetingAlert({
@@ -69,15 +69,42 @@ import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get,
     }).catch(() => undefined);
   }
 
+  private async saveMeeting(teacherId: string, dateValue: string | undefined, meetingUrl: string | undefined) {
+    const attendanceDate = this.attendanceDay(dateValue);
+    const normalizedUrl = this.googleMeetingUrl(meetingUrl);
+    const existing = await this.prisma.teacherAttendance.findUnique({ where: { teacherId_attendanceDate: { teacherId, attendanceDate } } });
+    const attendance = existing
+      ? await this.prisma.teacherAttendance.update({ where: { id: existing.id }, data: { meetingUrl: normalizedUrl }, include: this.teacherInclude })
+      : await this.prisma.teacherAttendance.create({ data: { teacherId, attendanceDate, status: 'PRESENT', meetingUrl: normalizedUrl }, include: this.teacherInclude });
+    this.queueMeetingAlert(attendance, 'UPDATE');
+    return attendance;
+  }
+
+  private async deleteMeeting(teacherId: string, dateValue?: string) {
+    const attendanceDate = this.attendanceDay(dateValue);
+    const existing = await this.prisma.teacherAttendance.findUnique({ where: { teacherId_attendanceDate: { teacherId, attendanceDate } } });
+    if (!existing?.meetingUrl) throw new BadRequestException('No Google Meet link exists for this date.');
+    const now = new Date();
+    const attendance = await this.prisma.teacherAttendance.update({ where: { id: existing.id }, data: { meetingUrl: null, meetingActive: false, meetingEndedAt: existing.meetingActive ? now : existing.meetingEndedAt }, include: this.teacherInclude });
+    this.queueMeetingAlert(attendance, 'DELETE');
+    return attendance;
+  }
+
   @Get('teacher/me') @Roles(Role.TEACHER) async teacherMe(@CurrentUser() user: any, @Query('date') date?: string) { const teacher = await this.teacherForUser(user.id); return this.prisma.teacherAttendance.findUnique({ where: { teacherId_attendanceDate: { teacherId: teacher.id, attendanceDate: this.attendanceDay(date) } }, include: this.teacherInclude }); }
   @Get('teacher/telegram') @Roles(Role.TEACHER) async teacherTelegram(@CurrentUser() user: any) { const teacher = await this.teacherForUser(user.id); return this.telegram.teacherSettings(teacher.id); }
   @Patch('teacher/telegram') @Roles(Role.TEACHER) async saveTeacherTelegram(@CurrentUser() user: any, @Body() body: { botToken?: string; chatId?: string; enabled?: boolean }) { const teacher = await this.teacherForUser(user.id); return this.telegram.saveTeacherSettings(teacher.id, body); }
   @Post('teacher/telegram/test') @Roles(Role.TEACHER) async testTeacherTelegram(@CurrentUser() user: any) { const teacher = await this.teacherForUser(user.id); return this.telegram.testTeacherSettings(teacher.id); }
+  @Post('teacher/meeting') @Roles(Role.TEACHER) async teacherCreateMeeting(@CurrentUser() user: any, @Body() body: { meetingUrl?: string; date?: string }) { const teacher = await this.teacherForUser(user.id); return this.saveMeeting(teacher.id, body.date, body.meetingUrl); }
+  @Patch('teacher/meeting') @Roles(Role.TEACHER) async teacherUpdateMeeting(@CurrentUser() user: any, @Body() body: { meetingUrl?: string; date?: string }) { const teacher = await this.teacherForUser(user.id); return this.saveMeeting(teacher.id, body.date, body.meetingUrl); }
+  @Delete('teacher/meeting') @Roles(Role.TEACHER) async teacherDeleteMeeting(@CurrentUser() user: any, @Body() body: { date?: string }) { const teacher = await this.teacherForUser(user.id); return this.deleteMeeting(teacher.id, body.date); }
   @Post('teacher/check-in') @Roles(Role.TEACHER) async teacherCheckIn(@CurrentUser() user: any, @Body() body: { meetingUrl?: string }) { const teacher = await this.teacherForUser(user.id); return this.teacherAction(teacher.id, 'checkIn', undefined, user, body); }
   @Post('teacher/check-out') @Roles(Role.TEACHER) async teacherCheckOut(@CurrentUser() user: any) { const teacher = await this.teacherForUser(user.id); return this.teacherAction(teacher.id, 'checkOut', undefined, user); }
   @Get('teachers') @Roles(Role.ADMIN) async teacherList(@Query('date') date?: string) { const attendanceDate = this.attendanceDay(date); const teachers = await this.prisma.teacher.findMany({ include: { user: { select: { id: true, fullName: true, email: true } }, teacherAttendance: { where: { attendanceDate }, take: 1 } }, orderBy: { createdAt: 'asc' } }); return teachers.map(({ teacherAttendance, ...teacher }) => ({ ...teacher, attendance: teacherAttendance[0] || null })); }
   @Post('teachers/:teacherId/check-in') @Roles(Role.ADMIN) teacherAdminCheckIn(@Param('teacherId') teacherId: string, @Body() body: any, @CurrentUser() user: any) { return this.teacherAction(teacherId, 'checkIn', body?.date, user, body); }
   @Post('teachers/:teacherId/check-out') @Roles(Role.ADMIN) teacherAdminCheckOut(@Param('teacherId') teacherId: string, @Body() body: any, @CurrentUser() user: any) { return this.teacherAction(teacherId, 'checkOut', body?.date, user); }
+  @Post('teachers/:teacherId/meeting') @Roles(Role.ADMIN) teacherAdminCreateMeeting(@Param('teacherId') teacherId: string, @Body() body: any) { return this.saveMeeting(teacherId, body?.date, body?.meetingUrl); }
+  @Patch('teachers/:teacherId/meeting') @Roles(Role.ADMIN) teacherAdminUpdateMeeting(@Param('teacherId') teacherId: string, @Body() body: any) { return this.saveMeeting(teacherId, body?.date, body?.meetingUrl); }
+  @Delete('teachers/:teacherId/meeting') @Roles(Role.ADMIN) teacherAdminDeleteMeeting(@Param('teacherId') teacherId: string, @Body() body: any) { return this.deleteMeeting(teacherId, body?.date); }
   @Patch('teachers/:teacherId') @Roles(Role.ADMIN) @Permissions('edit') async updateTeacherAttendance(@Param('teacherId') teacherId: string, @Body() b: any) { await this.prisma.teacher.findUniqueOrThrow({ where: { id: teacherId } }); const attendanceDate = this.attendanceDay(b.attendanceDate || b.date); const checkInAt = this.teacherTimestamp(b.checkInAt, 'check-in time'); const checkOutAt = this.teacherTimestamp(b.checkOutAt, 'check-out time'); if (checkInAt && checkOutAt && checkOutAt < checkInAt) throw new BadRequestException('Check-out time must be after check-in time.'); const allowedStatuses = ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED']; const status = b.status || 'PRESENT'; if (!allowedStatuses.includes(status)) throw new BadRequestException('Invalid attendance status.'); return this.prisma.teacherAttendance.upsert({ where: { teacherId_attendanceDate: { teacherId, attendanceDate } }, update: { checkInAt, checkOutAt, status: status as any, note: b.note ?? null }, create: { teacherId, attendanceDate, checkInAt, checkOutAt, status: status as any, note: b.note ?? null }, include: this.teacherInclude }); }
   @Post() @Roles(Role.ADMIN, Role.TEACHER) @Permissions('create') async create(@Body() b: any, @CurrentUser() user: any) { await this.assertCourseAccess(b.courseId, user); return this.prisma.attendance.upsert({ where: { courseId_studentId_attendanceDate: { courseId: b.courseId, studentId: b.studentId, attendanceDate: new Date(b.attendanceDate) } }, update: { status: b.status, note: b.note }, create: { courseId: b.courseId, studentId: b.studentId, attendanceDate: new Date(b.attendanceDate), status: b.status, note: b.note } }); }
   @Post('bulk') @Roles(Role.ADMIN, Role.TEACHER) @Permissions('create') async bulk(@Body() b: { courseId: string; attendanceDate: string; records: Array<{ studentId: string; status: string; note?: string }> }, @CurrentUser() user: any) { await this.assertCourseAccess(b.courseId, user); const date = new Date(b.attendanceDate); const result = await this.prisma.$transaction(b.records.map((r) => this.prisma.attendance.upsert({ where: { courseId_studentId_attendanceDate: { courseId: b.courseId, studentId: r.studentId, attendanceDate: date } }, update: { status: r.status as any, note: r.note }, create: { courseId: b.courseId, studentId: r.studentId, attendanceDate: date, status: r.status as any, note: r.note } }))); return { count: result.length }; }
