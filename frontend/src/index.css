@@ -4615,3 +4615,143 @@ a, button, input, textarea, select { max-width: 100%; }
   .public-community-hero-art { min-height: 23rem; }
   .public-community-section { padding-inline: clamp(1.5rem, 5vw, 3.5rem); }
 }
+
+/* CampusFlow soft 3D system: depth and motion are deliberately subtle so
+   long forms, tables and Khmer text remain calm and easy to scan. */
+@keyframes campusPageEnter {
+  from { opacity: 0; transform: translate3d(0, 12px, -18px) scale(.992); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes campusAmbientDrift {
+  0%, 100% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: .52; }
+  50% { transform: translate3d(2%, 1.5%, 0) scale(1.06); opacity: .72; }
+}
+
+@keyframes campusGlowPulse {
+  0%, 100% { box-shadow: 0 14px 34px rgb(16 36 63 / .08), 0 0 0 rgb(34 158 217 / 0); }
+  50% { box-shadow: 0 20px 44px rgb(16 36 63 / .12), 0 0 28px rgb(34 158 217 / .08); }
+}
+
+.app-shell {
+  isolation: isolate;
+  position: relative;
+  overflow-x: clip;
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  inset: -12rem;
+  pointer-events: none;
+  background: radial-gradient(circle at 18% 18%, rgb(141 228 202 / .2), transparent 28%), radial-gradient(circle at 82% 72%, rgb(124 140 248 / .12), transparent 30%);
+  filter: blur(22px);
+  animation: campusAmbientDrift 18s ease-in-out infinite;
+}
+
+.app-shell-content,
+.app-main { position: relative; }
+.app-main { perspective: 1500px; transform-style: preserve-3d; }
+.app-main > * { animation: campusPageEnter .52s cubic-bezier(.2, .75, .25, 1) both; }
+.app-main > *:nth-child(2) { animation-delay: 45ms; }
+.app-main > *:nth-child(3) { animation-delay: 90ms; }
+.app-main > *:nth-child(4) { animation-delay: 135ms; }
+
+.card,
+.table-card,
+.loading-card,
+.modal-panel,
+.not-found-card,
+.auth-form-panel,
+.auth-hero-panel,
+.community-card,
+.community-section,
+.community-chat-sidebar,
+.community-chat-panel {
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform .28s cubic-bezier(.2, .75, .25, 1), box-shadow .28s ease, border-color .28s ease;
+}
+
+.card:hover,
+.table-card:hover,
+.community-card:hover,
+.community-section:hover {
+  transform: translate3d(0, -3px, 8px);
+  box-shadow: 0 22px 46px rgb(16 36 63 / .1);
+}
+
+.page-header { transform-style: preserve-3d; }
+.page-header h1 { text-shadow: 0 2px 0 rgb(255 255 255 / .6), 0 10px 24px rgb(16 36 63 / .08); }
+.dark .page-header h1 { text-shadow: 0 8px 24px rgb(0 0 0 / .24); }
+
+.app-main button:not(:disabled),
+.app-main a[class*="rounded"] {
+  transition: transform .2s cubic-bezier(.2, .75, .25, 1), box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.app-main button:not(:disabled):hover,
+.app-main a[class*="rounded"]:hover {
+  transform: translateY(-1px);
+}
+
+.app-main button:not(:disabled):active,
+.app-main a[class*="rounded"]:active {
+  transform: translateY(1px) scale(.985);
+}
+
+.input,
+.modal-panel,
+.payment-qr-frame,
+.community-button {
+  transform-style: preserve-3d;
+}
+
+.input:focus-visible {
+  box-shadow: 0 8px 20px rgb(16 36 63 / .08), 0 0 0 4px rgb(16 36 63 / .1);
+}
+
+.sidebar-shell,
+.app-navbar { transform-style: preserve-3d; }
+.sidebar-logo,
+.sidebar-profile,
+.app-menu-button,
+.app-theme-button,
+.app-logout-button { transform-style: preserve-3d; }
+
+.dark .app-shell::before { background: radial-gradient(circle at 18% 18%, rgb(45 164 171 / .16), transparent 28%), radial-gradient(circle at 82% 72%, rgb(124 140 248 / .1), transparent 30%); }
+.dark .card:hover,
+.dark .table-card:hover,
+.dark .community-card:hover,
+.dark .community-section:hover { box-shadow: 0 24px 48px rgb(0 0 0 / .28); }
+
+@media (max-width: 639px) {
+  .app-shell::before { position: absolute; inset: -10rem; }
+  .app-main { perspective: none; }
+  .app-main > * { animation-duration: .38s; }
+  .card:hover,
+  .table-card:hover,
+  .community-card:hover,
+  .community-section:hover { transform: translateY(-1px); }
+  .page-header h1 { text-shadow: 0 5px 16px rgb(16 36 63 / .07); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .app-shell::before,
+  .app-main > *,
+  .card,
+  .table-card,
+  .loading-card,
+  .modal-panel,
+  .not-found-card,
+  .auth-form-panel,
+  .auth-hero-panel { animation: none !important; transition-duration: 0.01ms !important; }
+  .app-main button:not(:disabled):hover,
+  .app-main a[class*="rounded"]:hover,
+  .card:hover,
+  .table-card:hover,
+  .community-card:hover,
+  .community-section:hover { transform: none; }
+}
