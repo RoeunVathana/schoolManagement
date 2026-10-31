@@ -4,6 +4,7 @@ import Modal from './Modal';
 import { useLanguage } from '../context/LanguageContext';
 
 const sensitiveKeys = new Set(['password', 'refreshToken', 'accessToken', 'botToken', 'apiKey', 'secret']);
+const technicalKeys = new Set(['id', 'userId', 'studentId', 'teacherId', 'courseId', 'assignmentId', 'conversationId', 'groupId', 'submissionId', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt']);
 
 const labelFor = (key) => String(key || '')
   .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -12,25 +13,25 @@ const labelFor = (key) => String(key || '')
 
 const isObject = (value) => value !== null && typeof value === 'object';
 
-function DetailValue({ value, depth = 0 }) {
+function DetailValue({ value, depth = 0, language = 'en' }) {
   if (value === null || value === undefined || value === '') return <span className="text-slate-400">-</span>;
   if (Array.isArray(value)) {
     if (!value.length) return <span className="text-slate-400">-</span>;
-    return <div className="max-h-64 space-y-2 overflow-y-auto pr-1">{value.map((item, index) => <div key={`${index}-${typeof item === 'object' ? item?.id || 'item' : String(item)}`} className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-slate-700 dark:bg-slate-900/60"><p className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">#{index + 1}</p>{isObject(item) ? <DetailGrid value={item} depth={depth + 1} /> : <DetailValue value={item} depth={depth + 1} />}</div>)}</div>;
+    return <div className="max-h-64 space-y-2 overflow-y-auto pr-1">{value.map((item, index) => <div key={`${index}-${typeof item === 'object' ? item?.id || 'item' : String(item)}`} className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-slate-700 dark:bg-slate-900/60"><p className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">#{index + 1}</p>{isObject(item) ? <DetailGrid value={item} depth={depth + 1} language={language} /> : <DetailValue value={item} depth={depth + 1} language={language} />}</div>)}</div>;
   }
-  if (isObject(value)) return <DetailGrid value={value} depth={depth} />;
-  if (typeof value === 'boolean') return <span>{value ? 'Yes' : 'No'}</span>;
+  if (isObject(value)) return <DetailGrid value={value} depth={depth} language={language} />;
+  if (typeof value === 'boolean') return <span>{value ? (language === 'km' ? 'បាទ/ចាស' : 'Yes') : (language === 'km' ? 'ទេ' : 'No')}</span>;
   return <span className="break-words">{String(value)}</span>;
 }
 
-function DetailGrid({ value, depth = 0 }) {
-  const entries = Object.entries(value || {}).filter(([key]) => !sensitiveKeys.has(key));
+function DetailGrid({ value, depth = 0, language = 'en' }) {
+  const entries = Object.entries(value || {}).filter(([key]) => !sensitiveKeys.has(key) && !technicalKeys.has(key));
   if (!entries.length) return <span className="text-slate-400">-</span>;
-  return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-xl border border-slate-200/80 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{labelFor(key)}</dt><dd className="mt-1 text-sm font-semibold text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} /></dd></div>)}</dl>;
+  return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-[.14em] text-slate-400">{labelFor(key)}</dt><dd className="mt-1.5 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} language={language} /></dd></div>)}</dl>;
 }
 
 export default function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1);
   const safeRows = Array.isArray(rows) ? rows : [];
@@ -86,7 +87,7 @@ export default function Table({ columns = [], rows = [], empty = 'No records fou
     </div>
     <Pagination value={totalPages > 1 ? { page: currentPage, limit: pageSize, total: safeRows.length, totalPages } : null} onChange={setPage} />
     <Modal open={!!selectedRow} title={t('viewDetails')} onClose={() => setSelectedRow(null)}>
-      {selectedRow && <div className="space-y-4"><div className="rounded-2xl bg-gradient-to-r from-[#eefaf6] to-[#eef7ff] p-4 dark:from-emerald-950/30 dark:to-indigo-950/30"><p className="text-xs font-extrabold uppercase tracking-[.16em] text-coral">{t('viewDetails')}</p><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{selectedRow.id ? `ID: ${selectedRow.id}` : t('recordSchedule')}</p></div><DetailGrid value={selectedRow} /></div>}
+      {selectedRow && <div className="space-y-5"><div className="relative overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-[#10243f] via-[#164d68] to-[#2e8f79] p-5 text-white shadow-lg"><div className="absolute -right-10 -top-12 h-36 w-36 rounded-full bg-white/10 blur-2xl" /><div className="relative"><p className="text-[10px] font-extrabold uppercase tracking-[.2em] text-[#a5f1dc]">{language === 'km' ? 'ព័ត៌មានកំណត់ត្រា' : 'Record details'}</p><h3 className="mt-2 break-words text-xl font-extrabold">{selectedRow.fullName || selectedRow.title || selectedRow.courseName || selectedRow.name || t('viewDetails')}</h3><div className="mt-3 flex flex-wrap gap-2 text-[11px] font-bold"><span className="rounded-full bg-white/15 px-3 py-1.5">{Object.keys(selectedRow).filter((key) => !sensitiveKeys.has(key) && !technicalKeys.has(key)).length} {language === 'km' ? 'ព័ត៌មាន' : 'visible fields'}</span>{selectedRow.role && <span className="rounded-full bg-[#a5f1dc] px-3 py-1.5 text-[#10243f]">{selectedRow.role}</span>}{selectedRow.status && <span className="rounded-full bg-white/15 px-3 py-1.5">{selectedRow.status}</span>}</div></div></div><div><div className="mb-3 flex items-center justify-between gap-3"><p className="text-xs font-extrabold uppercase tracking-[.16em] text-coral">{language === 'km' ? 'ព័ត៌មានសំខាន់' : 'Key information'}</p><span className="text-[11px] font-semibold text-slate-400">{language === 'km' ? 'បង្ហាញព័ត៌មានដែលមានប្រយោជន៍' : 'Useful information only'}</span></div><DetailGrid value={selectedRow} language={language} /></div></div>}
     </Modal>
   </>;
 }
