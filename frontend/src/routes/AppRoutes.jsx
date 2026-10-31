@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../components/ProtectedRoute';
 import RoleRoute from '../components/RoleRoute';
@@ -5,42 +6,43 @@ import StudentPurchaseRoute from '../components/StudentPurchaseRoute';
 import AdminLayout from '../layouts/AdminLayout';
 import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
-import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
-import ForgotPassword from '../pages/auth/ForgotPassword';
-import AdminDashboard from '../pages/admin/Dashboard';
-import Students from '../pages/admin/Students';
-import Teachers from '../pages/admin/Teachers';
-import Courses from '../pages/admin/Courses';
-import Users from '../pages/admin/Users';
-import AdminSimple from '../pages/admin/Simple';
-import AdminTelegramSettings from '../pages/admin/TelegramSettings';
-import AdminCertificates from '../pages/admin/Certificates';
-import AdminTeacherAttendance from '../pages/admin/TeacherAttendance';
-import AdminCommunity from '../pages/admin/Community';
-import TeacherDashboard from '../pages/teacher/Dashboard';
-import TeacherAttendance from '../pages/teacher/Attendance';
-import TeacherSimple from '../pages/teacher/Simple';
-import TeacherCertificates from '../pages/teacher/Certificates';
-import StudentDashboard from '../pages/student/Dashboard';
-import StudentSimple from '../pages/student/Simple';
-import StudentCertificates from '../pages/student/Certificates';
-import Profile from '../pages/profile/Profile';
-import Storefront from '../pages/storefront/Storefront';
 import { useAuth } from '../hooks/useAuth';
 import { roleHome } from '../utils/roles';
 import AppShell from '../layouts/AppShell';
-import PublicProfile from '../pages/community/PublicProfile';
-import Friends from '../pages/community/Friends';
-import Chat from '../pages/community/Chat';
-import CommunityLanding from '../pages/community/CommunityLanding';
-import Groups from '../pages/community/Groups';
-import NotFound from '../pages/NotFound';
+
+const Login = lazy(() => import('../pages/auth/Login'));
+const Register = lazy(() => import('../pages/auth/Register'));
+const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
+const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
+const Students = lazy(() => import('../pages/admin/Students'));
+const Teachers = lazy(() => import('../pages/admin/Teachers'));
+const Courses = lazy(() => import('../pages/admin/Courses'));
+const Users = lazy(() => import('../pages/admin/Users'));
+const AdminSimple = lazy(() => import('../pages/admin/Simple'));
+const AdminTelegramSettings = lazy(() => import('../pages/admin/TelegramSettings'));
+const AdminCertificates = lazy(() => import('../pages/admin/Certificates'));
+const AdminTeacherAttendance = lazy(() => import('../pages/admin/TeacherAttendance'));
+const AdminCommunity = lazy(() => import('../pages/admin/Community'));
+const TeacherDashboard = lazy(() => import('../pages/teacher/Dashboard'));
+const TeacherAttendance = lazy(() => import('../pages/teacher/Attendance'));
+const TeacherSimple = lazy(() => import('../pages/teacher/Simple'));
+const TeacherCertificates = lazy(() => import('../pages/teacher/Certificates'));
+const StudentDashboard = lazy(() => import('../pages/student/Dashboard'));
+const StudentSimple = lazy(() => import('../pages/student/Simple'));
+const StudentCertificates = lazy(() => import('../pages/student/Certificates'));
+const Profile = lazy(() => import('../pages/profile/Profile'));
+const Storefront = lazy(() => import('../pages/storefront/Storefront'));
+const PublicProfile = lazy(() => import('../pages/community/PublicProfile'));
+const Friends = lazy(() => import('../pages/community/Friends'));
+const Chat = lazy(() => import('../pages/community/Chat'));
+const CommunityLanding = lazy(() => import('../pages/community/CommunityLanding'));
+const Groups = lazy(() => import('../pages/community/Groups'));
+const NotFound = lazy(() => import('../pages/NotFound'));
 
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
 export default function AppRoutes() {
-  return <Routes>
+  return <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#f4f8fb] px-6 text-sm font-semibold text-slate-500">Loading CampusFlow...</div>}><Routes>
     <Route path="/login" element={<Login />} />
     <Route path="/login/admin" element={<Login />} />
     <Route path="/login/teacher" element={<Login />} />
@@ -104,5 +106,5 @@ export default function AppRoutes() {
       </Route>
     </Route>
     <Route path="*" element={<Navigate to="/404" replace />} />
-  </Routes>;
+  </Routes></Suspense>;
 }
