@@ -23,6 +23,23 @@ function telegramInviteLink(notification) {
   return match?.[0] || '';
 }
 
+function playNotificationTone(context) {
+  const now = context.currentTime;
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+  gain.connect(context.destination);
+  [740, 988].forEach((frequency, index) => {
+    const oscillator = context.createOscillator();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    oscillator.connect(gain);
+    oscillator.start(now + index * 0.1);
+    oscillator.stop(now + 0.42);
+  });
+}
+
 export default function Navbar({ onMenu, menuOpen = false }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
@@ -45,41 +62,50 @@ export default function Navbar({ onMenu, menuOpen = false }) {
     return audioContextRef.current;
   }, []);
 
-  const playNotificationSound = useCallback(() => {
-    if (!soundEnabled || !audioUnlocked.current) return;
+  const playNotificationSound = useCallback((force = false) => {
+    if ((!soundEnabled && !force) || !audioUnlocked.current) return;
     const context = getAudioContext();
     if (!context) return;
-    const now = context.currentTime;
-    const gain = context.createGain();
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
-    gain.connect(context.destination);
-    [740, 988].forEach((frequency, index) => {
-      const oscillator = context.createOscillator();
-      oscillator.type = 'sine';
-      oscillator.frequency.value = frequency;
-      oscillator.connect(gain);
-      oscillator.start(now + index * 0.1);
-      oscillator.stop(now + 0.42);
-    });
+    const play = () => {
+      if (context.state === 'running') playNotificationTone(context);
+    };
+    if (context.state === 'suspended') {
+      context.resume().then(play).catch(() => undefined);
+      return;
+    }
+    play();
   }, [getAudioContext, soundEnabled]);
 
+  const unlockAudio = useCallback(() => {
+    const context = getAudioContext();
+    if (!context) return;
+    audioUnlocked.current = true;
+    // Start a silent oscillator during the user gesture. This unlocks audio
+    // on iOS Safari and mobile Chrome before a later polling request arrives.
+    const silentGain = context.createGain();
+    silentGain.gain.value = 0;
+    silentGain.connect(context.destination);
+    const silentOscillator = context.createOscillator();
+    silentOscillator.connect(silentGain);
+    silentOscillator.start();
+    silentOscillator.stop(context.currentTime + 0.01);
+    if (context.state === 'suspended') context.resume().catch(() => undefined);
+  }, [getAudioContext]);
+
   useEffect(() => {
-    const unlockAudio = () => {
-      audioUnlocked.current = true;
-      const context = getAudioContext();
-      if (context?.state === 'suspended') context.resume().catch(() => undefined);
-    };
     window.addEventListener('pointerdown', unlockAudio, { passive: true });
+    window.addEventListener('touchstart', unlockAudio, { passive: true });
+    window.addEventListener('click', unlockAudio, { passive: true });
     window.addEventListener('keydown', unlockAudio, { passive: true });
     return () => {
       window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('click', unlockAudio);
       window.removeEventListener('keydown', unlockAudio);
       audioContextRef.current?.close().catch(() => undefined);
       audioContextRef.current = null;
     };
-  }, [getAudioContext]);
+  }, [unlockAudio]);
 
   useEffect(() => {
     seenNotificationIds.current = new Set();
@@ -142,7 +168,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
           {unreadCount > 0 && <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-coral px-1 text-[10px] font-bold text-white">{unreadCount > 99 ? '99+' : unreadCount}</span>}
         </button>
         {showNotifications && <div id="app-notification-panel" className="app-notification-panel" role="dialog" aria-label={t('notifications')}>
-          <div className="app-notification-header"><div><p className="app-notification-kicker">CAMPUSFLOW</p><p className="app-notification-title">{t('notifications')}</p></div><div className="flex items-center gap-2"><button type="button" onClick={() => { const next = !soundEnabled; setSoundEnabled(next); localStorage.setItem('campusflow_notification_sound', next ? 'on' : 'off'); }} className="app-notification-mark-read" title={soundEnabled ? t('soundOff') : t('soundOn')}>{soundEnabled ? t('soundOn') : t('soundOff')}</button><button type="button" onClick={markAllRead} className="app-notification-mark-read">{t('markAllRead')}</button></div></div>
+          <div className="app-notification-header"><div><p className="app-notification-kicker">CAMPUSFLOW</p><p className="app-notification-title">{t('notifications')}</p></div><div className="flex items-center gap-2"><button type="button" onClick={() => { const next = !soundEnabled; unlockAudio(); setSoundEnabled(next); localStorage.setItem('campusflow_notification_sound', next ? 'on' : 'off'); if (next) window.setTimeout(() => playNotificationSound(true), 0); }} className="app-notification-mark-read" title={soundEnabled ? t('soundOff') : t('soundOn')}>{soundEnabled ? t('soundOn') : t('soundOff')}</button><button type="button" onClick={markAllRead} className="app-notification-mark-read">{t('markAllRead')}</button></div></div>
           <div className="app-notification-list">{notifications.length ? notifications.map((notification) => <button type="button" key={notification.id} onClick={() => markRead(notification)} className={`app-notification-item ${notification.isRead ? 'is-read' : 'is-unread'}`}><span className={`app-notification-dot ${notification.isRead ? 'is-read' : ''}`} /><span className="app-notification-copy"><span className="app-notification-item-title">{notification.title}</span>{notification.sender && <span className="app-notification-sender">{t('author')}: {notification.sender.fullName} · {notification.sender.role}</span>}<span className="app-notification-message">{notification.message}</span><time dateTime={notification.createdAt}>{new Date(notification.createdAt).toLocaleString()}</time></span><span className="app-notification-arrow" aria-hidden="true">→</span></button>) : <p className="app-notification-empty">{t('noNotifications')}</p>}</div>
         </div>}
       </div>
