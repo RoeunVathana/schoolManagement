@@ -198,7 +198,11 @@ export default function Login() {
               </>}
             </form>
 
-            {selectedRole === 'ADMIN' ? <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-center text-xs leading-6 text-slate-500 dark:border-slate-700 dark:bg-slate-800"><p>{t('adminManagedAccount')}</p><Link to="/forgot-password" className="mt-2 inline-block font-bold text-navy hover:underline dark:text-mint">{t('forgotPasswordLink')}</Link></div> : <p className="mt-7 text-center text-sm text-slate-500">{t('needAccount').replace('{role}', roleLabels[selectedRole].toLowerCase())} <Link to="/register" className="font-bold text-navy hover:underline dark:text-mint">{t('registerHere')}</Link></p>}
+            <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-center text-xs leading-6 text-slate-500 dark:border-slate-700 dark:bg-slate-800">
+              <p>{selectedRole === 'ADMIN' ? t('adminManagedAccount') : t('forgotPasswordHint')}</p>
+              <Link to="/forgot-password" className="mt-2 inline-block font-bold text-navy hover:underline dark:text-mint">{t('forgotPasswordLink')}</Link>
+              {selectedRole !== 'ADMIN' && <p className="mt-5 text-sm">{t('needAccount').replace('{role}', roleLabels[selectedRole].toLowerCase())} <Link to="/register" className="font-bold text-navy hover:underline dark:text-mint">{t('registerHere')}</Link></p>}
+            </div>
           </div>
         </main>
       </div>

@@ -31,7 +31,7 @@ export default function ForgotPassword() {
     setError('');
     setNotice('');
     try {
-      const result = unwrap(await api.post('/auth/admin/forgot-password', { email: email.trim().toLowerCase() }));
+      const result = unwrap(await api.post('/auth/forgot-password', { email: email.trim().toLowerCase() }));
       setStep('reset');
       setNotice(result.message || t('otpSent'));
     } catch (requestError) {
@@ -55,8 +55,8 @@ export default function ForgotPassword() {
     }
     setBusy(true);
     try {
-      await api.post('/auth/admin/reset-password', { email: email.trim().toLowerCase(), otp: otp.trim(), password });
-      navigate('/login/admin', { replace: true, state: { message: t('passwordResetSuccess') } });
+      await api.post('/auth/reset-password', { email: email.trim().toLowerCase(), otp: otp.trim(), password });
+      navigate('/login', { replace: true, state: { message: t('passwordResetSuccess') } });
     } catch (resetError) {
       setError(apiMessage(resetError, t('couldNotResetPassword')));
     } finally {
@@ -72,7 +72,7 @@ export default function ForgotPassword() {
           <div className="h-2 bg-gradient-to-r from-coral via-[#f6a77f] to-mint" />
           <div className="p-6 sm:p-10">
             <div className="flex items-start justify-between gap-4">
-              <Link to="/login/admin" className="text-2xl font-extrabold tracking-tight text-navy dark:text-white">Campus<span className="text-coral">Flow</span></Link>
+              <Link to="/login" className="text-2xl font-extrabold tracking-tight text-navy dark:text-white">Campus<span className="text-coral">Flow</span></Link>
               <div className="flex items-center gap-2">
                 <ThemeSwitch />
                 <button type="button" onClick={() => setLanguage(language === 'en' ? 'km' : 'en')} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:border-navy dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">{language === 'en' ? 'ខ្មែរ' : 'English'}</button>
@@ -113,7 +113,7 @@ export default function ForgotPassword() {
               </form>
             )}
 
-            <Link to="/login/admin" className="mt-7 block text-center text-sm font-bold text-slate-500 hover:text-navy hover:underline dark:text-slate-400 dark:hover:text-mint">{t('backToLogin')}</Link>
+            <Link to="/login" className="mt-7 block text-center text-sm font-bold text-slate-500 hover:text-navy hover:underline dark:text-slate-400 dark:hover:text-mint">{t('backToLogin')}</Link>
           </div>
         </section>
       </main>

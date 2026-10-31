@@ -85,13 +85,13 @@ export class AuthService {
     return this.issueTokens(user);
   }
 
-  async requestAdminPasswordReset(email: string) {
+  async requestPasswordReset(email: string) {
     const normalizedEmail = email.trim().toLowerCase();
     const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
-    const genericMessage = 'If the administrator email exists, a verification code has been sent.';
+    const genericMessage = 'If the account exists, a verification code has been sent.';
 
     // Keep this response generic for unknown addresses so the endpoint cannot enumerate users.
-    if (!user || user.role !== Role.ADMIN || user.status !== UserStatus.ACTIVE) return { message: genericMessage };
+    if (!user || user.status !== UserStatus.ACTIVE) return { message: genericMessage };
 
     const expiresInMinutes = Math.max(5, Number(this.config.get<string>('PASSWORD_RESET_OTP_EXPIRES_MINUTES', '10')) || 10);
     const latest = await this.prisma.passwordResetOtp.findFirst({ where: { userId: user.id, usedAt: null }, orderBy: { createdAt: 'desc' } });
@@ -104,7 +104,7 @@ export class AuthService {
     });
 
     try {
-      await this.mail.sendAdminPasswordOtp(user.email, otp, expiresInMinutes);
+      await this.mail.sendPasswordOtp(user.email, otp, expiresInMinutes, user.fullName);
     } catch (error) {
       await this.prisma.passwordResetOtp.delete({ where: { id: reset.id } }).catch(() => undefined);
       throw error;
@@ -113,10 +113,15 @@ export class AuthService {
     return { message: genericMessage, expiresInMinutes };
   }
 
-  async resetAdminPassword(email: string, otp: string, newPassword: string) {
+  // Compatibility alias for older clients using the old admin URL.
+  async requestAdminPasswordReset(email: string) {
+    return this.requestPasswordReset(email);
+  }
+
+  async resetPassword(email: string, otp: string, newPassword: string) {
     const normalizedEmail = email.trim().toLowerCase();
     const user = await this.prisma.user.findUnique({ where: { email: normalizedEmail } });
-    if (!user || user.role !== Role.ADMIN || user.status !== UserStatus.ACTIVE) throw new BadRequestException('Invalid or expired verification code.');
+    if (!user || user.status !== UserStatus.ACTIVE) throw new BadRequestException('Invalid or expired verification code.');
 
     const reset = await this.prisma.passwordResetOtp.findFirst({ where: { userId: user.id, usedAt: null, expiresAt: { gt: new Date() } }, orderBy: { createdAt: 'desc' } });
     if (!reset || reset.attempts >= 5) throw new BadRequestException('Invalid or expired verification code.');
@@ -132,7 +137,12 @@ export class AuthService {
       this.prisma.passwordResetOtp.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
       this.prisma.refreshToken.deleteMany({ where: { userId: user.id } }),
     ]);
-    return { message: 'Password reset successfully. You can now sign in as administrator.' };
+    return { message: 'Password reset successfully. You can now sign in.' };
+  }
+
+  // Compatibility alias for older clients using the old admin URL.
+  async resetAdminPassword(email: string, otp: string, newPassword: string) {
+    return this.resetPassword(email, otp, newPassword);
   }
 
   async loginWithGoogle(idToken: string, expectedRole: Role) {

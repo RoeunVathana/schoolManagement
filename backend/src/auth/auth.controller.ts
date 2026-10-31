@@ -29,6 +29,8 @@ export class AuthController {
   @Post('register') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) register(@Body() dto: RegisterDto, @UploadedFile() file?: Express.Multer.File) { return this.auth.register({ ...dto, profileImageUrl: file ? `/uploads/profiles/${file.filename}` : undefined }); }
   @Post('login') login(@Body() dto: LoginDto) { return this.auth.login(dto.email, dto.password, dto.role); }
   @Post('google') google(@Body() dto: GoogleLoginDto) { return this.auth.loginWithGoogle(dto.idToken, dto.role); }
+  @Post('forgot-password') forgotPassword(@Body() dto: AdminForgotPasswordDto) { return this.auth.requestPasswordReset(dto.email); }
+  @Post('reset-password') resetPassword(@Body() dto: AdminResetPasswordDto) { return this.auth.resetPassword(dto.email, dto.otp, dto.password); }
   @Post('admin/forgot-password') forgotAdminPassword(@Body() dto: AdminForgotPasswordDto) { return this.auth.requestAdminPasswordReset(dto.email); }
   @Post('admin/reset-password') resetAdminPassword(@Body() dto: AdminResetPasswordDto) { return this.auth.resetAdminPassword(dto.email, dto.otp, dto.password); }
   @Post('refresh') refresh(@Body() dto: RefreshDto) { return this.auth.refresh(dto.refreshToken); }

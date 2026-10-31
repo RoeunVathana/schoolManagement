@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
 import { getCoursePricing } from '../common/course-pricing';
 import { TelegramService } from '../telegram/telegram.service';
+import { MailService } from '../auth/mail.service';
 
 // The official NBC JavaScript KHQR SDK is CommonJS and does not ship TypeScript declarations.
 const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
@@ -13,7 +14,7 @@ const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
 export class PaymentService {
   private readonly logger = new Logger(PaymentService.name);
 
-  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService, private readonly telegram: TelegramService) {}
+  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService, private readonly telegram: TelegramService, private readonly mail: MailService) {}
 
   isRegistrationPaymentRequired() {
     return this.config.get<string>('REGISTRATION_PAYMENT_REQUIRED', 'false') === 'true';
@@ -238,6 +239,9 @@ export class PaymentService {
     });
     const customer = await this.prisma.student.findUnique({ where: { id: paid.studentId }, include: { user: { select: { fullName: true, email: true } } } });
     await this.telegram.sendPaymentReport({ type: 'Course purchase', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt, courseName: paid.course?.courseName, customerName: customer?.user.fullName, customerEmail: customer?.user.email, transactionHash: paid.transactionHash });
+    if (customer?.user.email) {
+      await this.mail.sendCoursePaymentConfirmation(customer.user.email, customer.user.fullName, { invoiceNumber: paid.invoiceNumber, courseName: paid.course?.courseName, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt }).catch((error) => this.logger.warn(`Course payment email could not be sent for ${paid.invoiceNumber}: ${error?.message || error}`));
+    }
     return this.toPublicCoursePayment(paid, { message: 'Payment confirmed. The course is now unlocked.', enrolled: true });
   }
 

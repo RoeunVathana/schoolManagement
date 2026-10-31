@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
+import { MailModule } from '../mail/mail.module';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { FriendsController } from './friends.controller';
 import { FriendsService } from './friends.service';
 
-@Module({ imports: [AuthModule, NotificationsModule], controllers: [FriendsController], providers: [FriendsService], exports: [FriendsService] })
+@Module({ imports: [AuthModule, MailModule, NotificationsModule], controllers: [FriendsController], providers: [FriendsService], exports: [FriendsService] })
 export class FriendsModule {}
