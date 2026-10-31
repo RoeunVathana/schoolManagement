@@ -19,10 +19,10 @@ PostgreSQL is the database server. pgAdmin is only the GUI used to inspect and m
 5. Use this connection in `backend/.env`:
 
 ```env
-DATABASE_URL="postgresql://postgres:Nha1213@localhost:5432/schoolManagement?schema=public"
+DATABASE_URL="postgresql://postgres:<local-password>@localhost:5432/schoolManagement?schema=public"
 ```
 
-Host: `localhost` · Port: `5432` · Username: `postgres` · Password: `Nha1213` (the password currently accepted by the local PostgreSQL service)
+Host: `localhost` · Port: `5432` · Username: `postgres` · Password: the value configured in your local environment
 
 ## Local development
 
@@ -135,11 +135,11 @@ The seed creates an administrator, three teachers, ten students, five courses, e
 
 | Role | Email | Password |
 | --- | --- | --- |
-| Admin | `mouychheak3227@gmail.com` | `016555637` |
-| Teacher | `teacher@school.com` | `Teacher@2026#Strong` |
-| Student | `student@school.com` | `Student@2026#Strong` |
+| Admin | configured through seed environment variables | never document passwords |
+| Teacher | configured through seed environment variables | never document passwords |
+| Student | configured through seed environment variables | never document passwords |
 
-Additional seeded teacher/student accounts use `teacher2@school.com`, `teacher3@school.com`, `student2@school.com` through `student10@school.com` with the same strong role passwords. The administrator account is not available through public registration; students and teachers must use their separate role-specific login pages.
+Additional seeded teacher/student accounts use `teacher2@school.com`, `teacher3@school.com`, `student2@school.com` through `student10@school.com`. Their passwords come only from the seed environment variables. The administrator account is not available through public registration; students and teachers must use their separate role-specific login pages.
 
 Students and teachers can also create their own accounts from the **Register as a student or teacher** link on the login page. The API creates the matching student or teacher profile automatically. Administrators can open **Users & permissions** and toggle create, edit and delete access for each non-admin account. The dashboard includes persistent light/dark theme and English/Khmer language preferences. The selected language is stored in `users.language` through `PATCH /auth/profile`, restored after login, and applied to the shared navigation, dashboard headers and loading states.
 

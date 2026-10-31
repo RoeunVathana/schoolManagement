@@ -35,6 +35,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 - New dashboard-created accounts require a strong password; known default passwords were removed
 - Nginx security headers and a 260 MB upload ceiling for the frontend container
 - Production JWTs are bound to a configured issuer and audience, and refresh tokens are checked against their owner and active account
+- Profile password changes require the current password and revoke existing refresh sessions
 - Frontend production builds send a Content-Security-Policy and cross-domain policy headers
 - Database seed passwords must be supplied through `SEED_ADMIN_PASSWORD`, `SEED_TEACHER_PASSWORD`, and `SEED_STUDENT_PASSWORD`; no demo passwords are embedded in the seed script
 

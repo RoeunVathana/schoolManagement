@@ -232,8 +232,12 @@ export class AuthService {
     return { message: 'Password changed successfully. Please sign in again.' };
   }
 
-  async updateProfile(userId: string, input: { fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; bio?: string; location?: string; website?: string; school?: string; course?: string; yearLevel?: string; language?: string }) {
+  async updateProfile(userId: string, input: { currentPassword?: string; fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; bio?: string; location?: string; website?: string; school?: string; course?: string; yearLevel?: string; language?: string }) {
     let current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
+    const changingPassword = Boolean(input.password);
+    if (changingPassword && (!input.currentPassword || !(await bcrypt.compare(input.currentPassword, current.password)))) {
+      throw new UnauthorizedException('Current password is incorrect');
+    }
     if (!current.profile) {
       await this.getProfile(userId);
       current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
@@ -256,6 +260,7 @@ export class AuthService {
       }
       return tx.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
     });
+    if (changingPassword) await this.prisma.refreshToken.deleteMany({ where: { userId } });
     return this.safeUser(profile);
   }
 

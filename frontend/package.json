@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.7"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
