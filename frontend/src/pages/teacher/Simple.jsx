@@ -108,6 +108,7 @@ export default function Simple() {
   const [scheduleFilters, setScheduleFilters] = useState({ from: "", to: "" });
   const [page, setPage] = useState(1);
   const [now, setNow] = useState(() => Date.now());
+  const isAdmin = user?.role === "ADMIN";
   const endpoint =
     {
       courses: "/courses",
@@ -890,9 +891,9 @@ export default function Simple() {
   return (
     <>
       <Header
-        eyebrow="teacherWorkspace"
+        eyebrow={isAdmin ? "adminTools" : "teacherWorkspace"}
         title={titles[section] || "announcements"}
-        description={descriptionKey}
+        description={isAdmin ? "adminWorkspaceDesc" : descriptionKey}
         action={
           (editable.includes(section) || section === "submissions") &&
           user?.canCreate &&

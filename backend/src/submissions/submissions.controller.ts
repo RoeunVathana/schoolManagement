@@ -166,7 +166,7 @@ import { isLearnerRole } from '../common/learner-roles';
     }
   }
 
-  @Post(':id/file') @Roles(Role.STUDENT) @Permissions('edit') @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: SubmissionsController.MAX_SUBMISSION_FILES }, { name: 'file', maxCount: 1 }], homeworkUpload)) async updateFile(@Param('id') id: string, @Body() b: any, @UploadedFiles() uploaded: { files?: Express.Multer.File[]; file?: Express.Multer.File[] }, @CurrentUser() user: any) {
+  @Post(':id/file') @Roles(Role.ADMIN, Role.STUDENT) @Permissions('edit') @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: SubmissionsController.MAX_SUBMISSION_FILES }, { name: 'file', maxCount: 1 }], homeworkUpload)) async updateFile(@Param('id') id: string, @Body() b: any, @UploadedFiles() uploaded: { files?: Express.Multer.File[]; file?: Express.Multer.File[] }, @CurrentUser() user: any) {
     const files = this.uploadedSubmissionFiles(uploaded);
     this.validateFiles(files);
     try {

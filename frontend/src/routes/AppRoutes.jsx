@@ -66,6 +66,10 @@ export default function AppRoutes() {
           <Route path="admin/certificates" element={<AdminCertificates />} />
           <Route path="admin/teacher-attendance" element={<AdminTeacherAttendance />} />
           <Route path="admin/community" element={<AdminCommunity />} />
+          <Route path="admin/materials" element={<TeacherSimple />} />
+          <Route path="admin/assignments" element={<TeacherSimple />} />
+          <Route path="admin/submissions" element={<TeacherSimple />} />
+          <Route path="admin/exams" element={<TeacherSimple />} />
           <Route path="admin/:section" element={<AdminSimple />} />
         </Route>
       </Route>
