@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'shoolmanagement-65b53',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'shoolmanagement-65b53.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '287064726816',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:287064726816:web:22435632fd0ff98b24b45',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:287064726816:web:224356362fd0ff98b24b45',
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-SMLHNTWVH0',
 };
 
