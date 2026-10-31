@@ -28,6 +28,7 @@ export class TelegramController {
   test() { return this.telegram.sendTestMessage(); }
 
   @Post('group-invite')
+  @Roles(Role.ADMIN, Role.TEACHER)
   @Permissions('create')
-  sendGroupInvite(@Body() body: { courseId?: string; inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }, @CurrentUser() user: { id: string }) { return this.telegram.sendGroupInvite(user.id, body); }
+  sendGroupInvite(@Body() body: { courseId?: string; inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }, @CurrentUser() user: { id: string; role: Role }) { return this.telegram.sendGroupInvite(user.id, user.role, body); }
 }

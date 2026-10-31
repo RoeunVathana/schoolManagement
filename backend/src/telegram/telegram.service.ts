@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserStatus } from '@prisma/client';
+import { Role, UserStatus } from '@prisma/client';
 
 type TelegramConfig = { botToken: string; chatId: string; enabled: boolean };
 type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT' | 'UPDATE' | 'DELETE'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
@@ -57,7 +57,7 @@ export class TelegramService {
     return { sent: true };
   }
 
-  async sendGroupInvite(actorId: string, input: { courseId?: string; inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }) {
+  async sendGroupInvite(actorId: string, actorRole: Role, input: { courseId?: string; inviteLink?: string; audience?: 'ALL' | 'TEACHERS' | 'STUDENTS'; message?: string }) {
     const courseId = String(input.courseId || '').trim();
     if (!courseId) throw new BadRequestException('Please select a course for this Telegram group invite.');
     const course = await this.prisma.course.findUnique({
@@ -65,12 +65,17 @@ export class TelegramService {
       select: {
         id: true,
         courseName: true,
+        teacherId: true,
         telegramGroupLink: true,
         teacher: { select: { userId: true } },
         enrollments: { where: { status: 'ACTIVE' }, select: { student: { select: { userId: true } } } },
       },
     });
     if (!course) throw new BadRequestException('The selected course was not found.');
+    if (actorRole === Role.TEACHER) {
+      const teacher = await this.prisma.teacher.findUnique({ where: { userId: actorId }, select: { id: true } });
+      if (!teacher || teacher.id !== course.teacherId) throw new BadRequestException('Teachers can only send invites for their own courses.');
+    }
 
     const rawLink = String(input.inviteLink || course.telegramGroupLink || '').trim();
     let inviteLink: URL;

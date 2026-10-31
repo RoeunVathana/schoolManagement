@@ -109,15 +109,17 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   }, [loadNotifications]);
 
   const markRead = async (notification) => {
+    const inviteLink = telegramInviteLink(notification);
+    // Open while the click gesture is still active. Waiting for the read API
+    // call first can make mobile browsers block the Telegram tab as a popup.
+    if (inviteLink) window.open(inviteLink, '_blank', 'noopener,noreferrer');
     if (!notification.isRead) {
       await api.patch(`/notifications/${notification.id}/read`).catch(() => undefined);
       setNotifications((current) => current.map((item) => item.id === notification.id ? { ...item, isRead: true } : item));
       setUnreadCount((current) => Math.max(0, current - 1));
     }
     setShowNotifications(false);
-    const inviteLink = telegramInviteLink(notification);
-    if (inviteLink) window.open(inviteLink, '_blank', 'noopener,noreferrer');
-    else navigate(notificationPath(notification, user?.role));
+    if (!inviteLink) navigate(notificationPath(notification, user?.role));
   };
 
   const markAllRead = async () => {

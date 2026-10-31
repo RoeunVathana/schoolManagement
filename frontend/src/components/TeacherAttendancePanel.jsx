@@ -24,6 +24,10 @@ export default function TeacherAttendancePanel({ admin = false }) {
   const [telegramForm, setTelegramForm] = useState({ botToken: '', chatId: '', enabled: true });
   const [telegramBusy, setTelegramBusy] = useState(false);
   const [telegramMessage, setTelegramMessage] = useState({ type: '', text: '' });
+  const [courses, setCourses] = useState([]);
+  const [groupInvite, setGroupInvite] = useState({ courseId: '', inviteLink: '', audience: 'STUDENTS', message: '' });
+  const [groupInviteBusy, setGroupInviteBusy] = useState(false);
+  const [groupInviteMessage, setGroupInviteMessage] = useState({ type: '', text: '' });
 
   const load = async () => {
     setError('');
@@ -49,6 +53,7 @@ export default function TeacherAttendancePanel({ admin = false }) {
       setTelegramSettings(data);
       setTelegramForm((current) => ({ ...current, chatId: data.chatId || '', enabled: data.enabled !== false }));
     }).catch(() => setTelegramSettings({ configured: false, enabled: true, botToken: '', chatId: '' }));
+    api.get('/courses', { params: { limit: 100 } }).then((response) => setCourses(unwrap(response).data || [])).catch(() => setCourses([]));
     return undefined;
   }, [admin]);
 
@@ -107,6 +112,16 @@ export default function TeacherAttendancePanel({ admin = false }) {
   const testTelegram = async () => {
     setTelegramBusy(true); setTelegramMessage({ type: '', text: '' });
     try { await api.post('/attendance/teacher/telegram/test'); setTelegramMessage({ type: 'success', text: 'Telegram test message sent.' }); } catch (e) { setTelegramMessage({ type: 'error', text: e.response?.data?.message || 'Telegram test failed.' }); } finally { setTelegramBusy(false); }
+  };
+
+  const sendGroupInvite = async (event) => {
+    event.preventDefault(); setGroupInviteBusy(true); setGroupInviteMessage({ type: '', text: '' });
+    try {
+      const result = unwrap(await api.post('/telegram-settings/group-invite', groupInvite));
+      setGroupInviteMessage({ type: 'success', text: `Telegram link sent to ${result.sent} enrolled student(s).` });
+    } catch (e) {
+      setGroupInviteMessage({ type: 'error', text: e.response?.data?.message || 'Could not send the course Telegram link.' });
+    } finally { setGroupInviteBusy(false); }
   };
 
   const openEdit = (row) => {
@@ -190,7 +205,7 @@ export default function TeacherAttendancePanel({ admin = false }) {
       {error && <div className="mt-5 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"><span className="font-black">!</span><p>{error}</p></div>}
       {admin ? <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredRows.length ? filteredRows.map((row) => <TeacherRow key={row.id} row={row} busy={busy} date={date} onAction={action} onCheckIn={() => openCheckIn(row.id)} onAddMeeting={() => openMeetingEditor(row.id)} onEditMeeting={() => openMeetingEditor(row.id, row.attendance?.meetingUrl)} onDeleteMeeting={() => removeMeeting(row.id)} onEdit={openEdit} language={language} t={t} />) : <p className="rounded-2xl border border-dashed border-slate-300 bg-white/40 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900/20 dark:text-slate-400 md:col-span-2 xl:col-span-3">{search.trim() ? t('noTeachersMatchSearch') : t('noTeachersForAttendance')}</p>}
-      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} onAddMeeting={() => openMeetingEditor()} onEditMeeting={() => openMeetingEditor(null, record?.meetingUrl)} onDeleteMeeting={() => removeMeeting()} language={language} t={t} />{telegramSettings && <TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />}</>}
+      </div> : <><SelfAttendance record={record} busy={busy} onAction={action} onCheckIn={() => openCheckIn()} onAddMeeting={() => openMeetingEditor()} onEditMeeting={() => openMeetingEditor(null, record?.meetingUrl)} onDeleteMeeting={() => removeMeeting()} language={language} t={t} />{telegramSettings && <><TeacherTelegramCard settings={telegramSettings} form={telegramForm} setForm={setTelegramForm} onSave={saveTelegram} onTest={testTelegram} busy={telegramBusy} message={telegramMessage} />{courses.length > 0 && <TeacherCourseInviteCard courses={courses} invite={groupInvite} setInvite={setGroupInvite} onSend={sendGroupInvite} busy={groupInviteBusy} message={groupInviteMessage} />}</>}</>}
     </div>
     {admin && <Modal open={Boolean(editingRow)} title={editingRow ? `${t('editAttendance')} · ${editingRow.user?.fullName || ''}` : t('editAttendance')} onClose={closeEdit}>
       <form onSubmit={saveEdit} className="grid gap-4 sm:grid-cols-2">
@@ -267,5 +282,18 @@ function TeacherTelegramCard({ settings, form, setForm, onSave, onTest, busy, me
   return <div className="mt-4 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start"><div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">Telegram class group</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">Send Google Meet alerts to your group</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">Use a bot added as an administrator in your Telegram group.</p></div><span className={`rounded-full px-3 py-1.5 text-xs font-bold ${settings.configured ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>{settings.configured ? 'Configured' : 'Not configured'}</span></div>
     <form onSubmit={onSave} className="mt-4 grid gap-3 md:grid-cols-2"><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Bot token<input type="password" autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || 'Paste token from BotFather'} /></label><label className="text-sm font-bold text-slate-600 dark:text-slate-300">Telegram group Chat ID<input value={form.chatId} onChange={(event) => setForm({ ...form, chatId: event.target.value })} className="input mt-2" placeholder="-1001234567890" /></label><label className="flex items-center gap-3 text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2"><input type="checkbox" checked={form.enabled} onChange={(event) => setForm({ ...form, enabled: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" /> Enable check-in and check-out Telegram alerts</label>{message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>{message.text}</p>}<div className="flex flex-wrap gap-2 md:col-span-2"><button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60">{busy ? 'Saving...' : 'Save Telegram settings'}</button><button type="button" disabled={busy || !settings.configured} onClick={onTest} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-600 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300">Send test</button></div></form>
+  </div>;
+}
+
+function TeacherCourseInviteCard({ courses, invite, setInvite, onSend, busy, message }) {
+  return <div className="mt-4 rounded-[1.35rem] border border-slate-200/80 bg-white/75 p-4 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/50 sm:p-5">
+    <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-coral">Telegram student access</p><h3 className="mt-1 text-lg font-black text-ink dark:text-white">Send a link for one course</h3><p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">Students receive the course-specific group link in their CampusFlow notifications.</p></div>
+    <form onSubmit={onSend} className="mt-4 grid gap-3 md:grid-cols-2">
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Course<select required value={invite.courseId} onChange={(event) => { const course = courses.find((item) => item.id === event.target.value); setInvite((current) => ({ ...current, courseId: event.target.value, inviteLink: course?.telegramGroupLink || '' })); }} className="input mt-2"><option value="">Select your course</option>{courses.map((course) => <option key={course.id} value={course.id}>{course.courseCode} · {course.courseName}</option>)}</select></label>
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Telegram invite link<input required type="url" pattern="https://(t\\.me|telegram\\.me)/.+" value={invite.inviteLink} onChange={(event) => setInvite({ ...invite, inviteLink: event.target.value })} className="input mt-2" placeholder="https://t.me/+course-group-invite" /></label>
+      <label className="text-sm font-bold text-slate-600 dark:text-slate-300 md:col-span-2">Message<textarea rows="2" maxLength="500" value={invite.message} onChange={(event) => setInvite({ ...invite, message: event.target.value })} className="input mt-2" placeholder="Please join your course Telegram group." /></label>
+      {message.text && <p className={`rounded-xl p-3 text-sm font-semibold md:col-span-2 ${message.type === 'error' ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300' : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>{message.text}</p>}
+      <button disabled={busy} className="rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60 md:col-span-2">{busy ? 'Sending...' : 'Send Telegram link to students'}</button>
+    </form>
   </div>;
 }
