@@ -8,7 +8,7 @@ export default function PaymentQrFrame({ qrImage, alt, scanLabel = 'Scan with an
       </div>
       <span className="rounded-md bg-[#174c92] px-2 py-1 text-[10px] font-extrabold tracking-[.12em] text-white">KHQR</span>
     </div>
-    <div className="payment-qr-image-wrap"><img src={qrImage} alt={alt} className="mx-auto block h-56 w-56 max-w-full sm:h-60 sm:w-60" /></div>
+    <div className="payment-qr-image-wrap"><img src={qrImage} alt={alt} className="mx-auto block h-56 w-56 max-w-full sm:h-60 sm:w-60" style={{ imageRendering: 'pixelated' }} /></div>
     <div className="flex items-center justify-center gap-2 pt-3 text-xs font-semibold text-slate-500 dark:text-slate-300"><span className="h-2 w-2 animate-pulse rounded-full bg-[#21a366]" />{scanLabel}</div>
   </div>;
 }

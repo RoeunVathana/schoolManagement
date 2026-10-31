@@ -34,6 +34,14 @@ export class PaymentService {
 
   async getRegistrationPayment(publicToken: string) {
     const payment = await this.expireRegistrationIfNeeded(publicToken);
+    // Registration payments created before the KHQR length fix may contain a
+    // malformed QR. Refresh only those pending records so a completed payment
+    // is never invalidated by a routine page refresh.
+    if (payment.status === PaymentStatus.PENDING && !this.isValidKhqr(payment.qrString)) {
+      const generated = this.generateKhqr({ amount: Number(payment.amount), currencyName: payment.currency, invoiceNumber: payment.invoiceNumber, expiresAt: payment.expiresAt, purpose: 'Student registration', terminalLabel: 'Registration' });
+      const refreshed = await this.prisma.registrationPayment.update({ where: { id: payment.id }, data: { qrString: generated.qr, md5Hash: generated.md5 } });
+      return this.toPublicPayment(refreshed);
+    }
     return this.toPublicPayment(payment);
   }
 
