@@ -1,11 +1,59 @@
 import { useEffect, useMemo, useState } from 'react';
 import Pagination from './Pagination';
+import Modal from './Modal';
+import { useLanguage } from '../context/LanguageContext';
 
-export default function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10 }) {
+const sensitiveKeys = new Set(['password', 'refreshToken', 'accessToken', 'botToken', 'apiKey', 'secret']);
+
+const labelFor = (key) => String(key || '')
+  .replace(/([a-z])([A-Z])/g, '$1 $2')
+  .replace(/[_-]+/g, ' ')
+  .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+const isObject = (value) => value !== null && typeof value === 'object';
+
+function DetailValue({ value, depth = 0 }) {
+  if (value === null || value === undefined || value === '') return <span className="text-slate-400">-</span>;
+  if (Array.isArray(value)) {
+    if (!value.length) return <span className="text-slate-400">-</span>;
+    return <div className="max-h-64 space-y-2 overflow-y-auto pr-1">{value.map((item, index) => <div key={`${index}-${typeof item === 'object' ? item?.id || 'item' : String(item)}`} className="rounded-xl border border-slate-200 bg-slate-50/80 p-3 dark:border-slate-700 dark:bg-slate-900/60"><p className="mb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">#{index + 1}</p>{isObject(item) ? <DetailGrid value={item} depth={depth + 1} /> : <DetailValue value={item} depth={depth + 1} />}</div>)}</div>;
+  }
+  if (isObject(value)) return <DetailGrid value={value} depth={depth} />;
+  if (typeof value === 'boolean') return <span>{value ? 'Yes' : 'No'}</span>;
+  return <span className="break-words">{String(value)}</span>;
+}
+
+function DetailGrid({ value, depth = 0 }) {
+  const entries = Object.entries(value || {}).filter(([key]) => !sensitiveKeys.has(key));
+  if (!entries.length) return <span className="text-slate-400">-</span>;
+  return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-xl border border-slate-200/80 bg-white p-3 dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">{labelFor(key)}</dt><dd className="mt-1 text-sm font-semibold text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} /></dd></div>)}</dl>;
+}
+
+export default function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true }) {
+  const { t } = useLanguage();
+  const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1);
   const safeRows = Array.isArray(rows) ? rows : [];
   const totalPages = Math.ceil(safeRows.length / pageSize);
   const currentPage = Math.min(page, Math.max(totalPages, 1));
+  const tableColumns = useMemo(() => {
+    if (!showDetails) return columns;
+    return [...columns, {
+      key: '__details',
+      label: t('viewDetails'),
+      className: 'whitespace-nowrap',
+      render: (row) => (
+        <button
+          type="button"
+          onClick={() => setSelectedRow(row)}
+          className="inline-flex items-center rounded-lg bg-[#e8f7f2] px-3 py-2 text-xs font-extrabold text-emerald-800 transition hover:-translate-y-0.5 hover:bg-[#c9f1e3] focus:outline-none focus:ring-4 focus:ring-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-200 dark:hover:bg-emerald-900/70"
+          aria-label={`${t('viewDetails')}: ${row?.id || ''}`}
+        >
+          {t('viewDetails')}
+        </button>
+      ),
+    }];
+  }, [columns, showDetails, t]);
 
   useEffect(() => {
     setPage(1);
@@ -20,16 +68,16 @@ export default function Table({ columns = [], rows = [], empty = 'No records fou
     <div className="table-card overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#111c30]">
       <div className="table-desktop-view table-scroll overflow-x-auto">
         <table className="w-full min-w-[44rem] text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/40 dark:text-slate-400"><tr>{columns.map((column) => <th key={column.key} className={`whitespace-nowrap px-5 py-4 font-extrabold ${column.headerClassName || ''}`}>{column.label}</th>)}</tr></thead>
+          <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/40 dark:text-slate-400"><tr>{tableColumns.map((column) => <th key={column.key} className={`whitespace-nowrap px-5 py-4 font-extrabold ${column.headerClassName || ''}`}>{column.label}</th>)}</tr></thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-            {visibleRows.length ? visibleRows.map((row, index) => <tr key={row.id || index} className="transition hover:bg-slate-50 dark:hover:bg-slate-800/60">{columns.map((column) => <td key={column.key} className={`max-w-[22rem] px-5 py-4 text-slate-700 dark:text-slate-200 ${column.className || ''}`}>{column.render ? column.render(row) : row[column.key] ?? '-'}</td>)}</tr>) : <tr><td colSpan={columns.length || 1} className="px-5 py-12 text-center text-slate-400">{empty}</td></tr>}
+            {visibleRows.length ? visibleRows.map((row, index) => <tr key={row.id || index} className="transition hover:bg-slate-50 dark:hover:bg-slate-800/60">{tableColumns.map((column) => <td key={column.key} className={`max-w-[22rem] px-5 py-4 text-slate-700 dark:text-slate-200 ${column.className || ''}`}>{column.render ? column.render(row) : row[column.key] ?? '-'}</td>)}</tr>) : <tr><td colSpan={tableColumns.length || 1} className="px-5 py-12 text-center text-slate-400">{empty}</td></tr>}
           </tbody>
         </table>
       </div>
 
       <div className="table-mobile-view p-3">
         {visibleRows.length ? visibleRows.map((row, index) => <article key={row.id || index} className="table-mobile-record rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-700 dark:bg-slate-900/45">
-          {columns.map((column) => <div key={column.key} className="table-mobile-field">
+          {tableColumns.map((column) => <div key={column.key} className="table-mobile-field">
             <span className="table-mobile-label">{column.label}</span>
             <div className={`table-mobile-value ${column.key === 'actions' ? 'table-mobile-actions' : ''}`}>{column.render ? column.render(row) : row[column.key] ?? '-'}</div>
           </div>)}
@@ -37,5 +85,8 @@ export default function Table({ columns = [], rows = [], empty = 'No records fou
       </div>
     </div>
     <Pagination value={totalPages > 1 ? { page: currentPage, limit: pageSize, total: safeRows.length, totalPages } : null} onChange={setPage} />
+    <Modal open={!!selectedRow} title={t('viewDetails')} onClose={() => setSelectedRow(null)}>
+      {selectedRow && <div className="space-y-4"><div className="rounded-2xl bg-gradient-to-r from-[#eefaf6] to-[#eef7ff] p-4 dark:from-emerald-950/30 dark:to-indigo-950/30"><p className="text-xs font-extrabold uppercase tracking-[.16em] text-coral">{t('viewDetails')}</p><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{selectedRow.id ? `ID: ${selectedRow.id}` : t('recordSchedule')}</p></div><DetailGrid value={selectedRow} /></div>}
+    </Modal>
   </>;
 }
