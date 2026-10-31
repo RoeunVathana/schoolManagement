@@ -149,7 +149,10 @@ export class AuthService {
     if (!email || decoded.email_verified === false) throw new UnauthorizedException('Your Google account must have a verified email address');
 
     let user = await this.prisma.user.findFirst({ where: { OR: [{ firebaseUid: decoded.uid }, { email }] }, include: { student: true, teacher: true } });
-    if (user && user.role !== expectedRole) throw new UnauthorizedException('This Google account belongs to a different account type');
+    // A verified Google identity is the account key. If the user starts from
+    // a different role tab, keep the role already stored on the account and
+    // let the frontend route to that role's dashboard.
+    if (user?.role === Role.ADMIN) throw new UnauthorizedException('Google sign-in is not available for administrator accounts');
     if (user && user.status !== UserStatus.ACTIVE) throw new UnauthorizedException('This account is not active');
 
     if (!user) {
