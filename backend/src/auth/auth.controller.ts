@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { coverImageUpload, profileImageUpload } from '../common/upload.options';
+import { MediaStorageService } from '../media/media-storage.service';
 
 class RegisterDto { @IsString() @MaxLength(120) fullName!: string; @IsEmail() @MaxLength(254) email!: string; @MinLength(10) @MaxLength(256) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string; @IsOptional() @IsString() @MaxLength(40) phone?: string; @IsOptional() @IsEnum(Role) role?: Role; @IsOptional() @IsString() @MaxLength(120) specialization?: string; @IsOptional() @IsIn(['en', 'km']) language?: string; }
 class LoginDto { @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() @MaxLength(254) email!: string; @IsString() @MaxLength(256) password!: string; @IsOptional() @IsEnum(Role) role?: Role; }
@@ -25,8 +26,8 @@ class AdminResetPasswordDto {
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
-  @Post('register') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) register(@Body() dto: RegisterDto, @UploadedFile() file?: Express.Multer.File) { return this.auth.register({ ...dto, profileImageUrl: file ? `/uploads/profiles/${file.filename}` : undefined }); }
+  constructor(private readonly auth: AuthService, private readonly media: MediaStorageService) {}
+  @Post('register') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) async register(@Body() dto: RegisterDto, @UploadedFile() file?: Express.Multer.File) { const uploaded = file ? await this.media.upload(file, 'profiles') : undefined; return this.auth.register({ ...dto, profileImageUrl: uploaded?.url }); }
   @Post('login') login(@Body() dto: LoginDto) { return this.auth.login(dto.email, dto.password, dto.role); }
   @Post('google') google(@Body() dto: GoogleLoginDto) { return this.auth.loginWithGoogle(dto.idToken, dto.role); }
   @Post('forgot-password') forgotPassword(@Body() dto: AdminForgotPasswordDto) { return this.auth.requestPasswordReset(dto.email); }
@@ -38,6 +39,6 @@ export class AuthController {
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Get('profile') profile(@CurrentUser() user: any) { return this.auth.getProfile(user.id); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Patch('presence') presence(@CurrentUser() user: any, @Body() dto: PresenceDto) { return this.auth.updatePresence(user.id, dto.online !== false); }
   @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Patch('profile') updateProfile(@CurrentUser() user: any, @Body() dto: UpdateProfileDto) { return this.auth.updateProfile(user.id, dto); }
-  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/image') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) async updateProfileImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a profile image'); return this.auth.updateProfileImage(user.id, `/uploads/profiles/${file.filename}`); }
-  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/cover') @UseInterceptors(FileInterceptor('coverImage', coverImageUpload)) async updateCoverImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a cover image'); return this.auth.updateCoverImage(user.id, `/uploads/covers/${file.filename}`); }
+  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/image') @UseInterceptors(FileInterceptor('profileImage', profileImageUpload)) async updateProfileImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a profile image'); const previous = await this.auth.getProfile(user.id); const uploaded = await this.media.upload(file, 'profiles'); const updated = await this.auth.updateProfileImage(user.id, uploaded.url); await this.media.remove(previous.profileImageUrl); return updated; }
+  @ApiBearerAuth() @UseGuards(JwtAuthGuard) @Post('profile/cover') @UseInterceptors(FileInterceptor('coverImage', coverImageUpload)) async updateCoverImage(@CurrentUser() user: any, @UploadedFile() file?: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a cover image'); const previous = await this.auth.getProfile(user.id); const uploaded = await this.media.upload(file, 'covers'); const updated = await this.auth.updateCoverImage(user.id, uploaded.url); await this.media.remove(previous.profile?.coverImage); return updated; }
 }

@@ -12,10 +12,11 @@ import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { homeworkUpload } from '../common/upload.options';
 import { isLearnerRole } from '../common/learner-roles';
+import { MediaStorageService } from '../media/media-storage.service';
 
 @ApiTags('submissions') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('submissions') export class SubmissionsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
 
   private static readonly MAX_SUBMISSION_FILES = 10;
   private static readonly MAX_SUBMISSION_TOTAL_BYTES = 250 * 1024 * 1024;
@@ -48,14 +49,13 @@ import { isLearnerRole } from '../common/learner-roles';
     });
   }
 
-  private cleanupStoredFile(fileUrl?: string | null) {
-    if (!fileUrl || fileUrl.startsWith('http')) return;
-    const relativePath = fileUrl.replace(/^\/+/, '');
-    if (existsSync(relativePath)) unlinkSync(relativePath);
+  private async cleanupStoredFile(fileUrl?: string | null) {
+    if (!fileUrl) return;
+    await this.media.remove(fileUrl);
   }
 
-  private cleanupStoredFiles(urls: Array<string | null | undefined>) {
-    [...new Set(urls.filter((url): url is string => Boolean(url)))].forEach((url) => this.cleanupStoredFile(url));
+  private async cleanupStoredFiles(urls: Array<string | null | undefined>) {
+    await Promise.all([...new Set(urls.filter((url): url is string => Boolean(url)))].map((url) => this.cleanupStoredFile(url)));
   }
 
   private uploadedSubmissionFiles(uploaded?: { files?: Express.Multer.File[]; file?: Express.Multer.File[] }) {
@@ -82,12 +82,15 @@ import { isLearnerRole } from '../common/learner-roles';
     });
   }
 
-  private submissionAttachmentData(files: Express.Multer.File[]) {
-    return files.map((file) => ({
-      fileUrl: `/uploads/homework/${file.filename}`,
-      originalName: file.originalname,
-      mimeType: file.mimetype,
-      fileSize: file.size,
+  private async submissionAttachmentData(files: Express.Multer.File[]) {
+    return Promise.all(files.map(async (file) => {
+      const uploaded = await this.media.upload(file, 'homework');
+      return {
+        fileUrl: uploaded.url,
+        originalName: file.originalname,
+        mimeType: file.mimetype,
+        fileSize: file.size,
+      };
     }));
   }
 
@@ -150,7 +153,7 @@ import { isLearnerRole } from '../common/learner-roles';
       const studentId = await this.assertEnrollment(assignment.courseId, await this.resolveStudentId(user, b.studentId));
       await this.assertStudentSubmissionCanBeReplaced(assignmentId, studentId, user);
       const existing = await this.prisma.submission.findUnique({ where: { assignmentId_studentId: { assignmentId, studentId } }, include: { attachments: true } });
-      const attachmentData = this.submissionAttachmentData(files);
+      const attachmentData = await this.submissionAttachmentData(files);
       const submittedAt = new Date();
       const result = await this.prisma.submission.upsert({
         where: { assignmentId_studentId: { assignmentId, studentId } },
@@ -158,7 +161,7 @@ import { isLearnerRole } from '../common/learner-roles';
         create: { assignmentId, studentId, answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
         include: { attachments: { orderBy: { createdAt: 'asc' } } },
       });
-      this.cleanupStoredFiles(existing ? this.storedSubmissionUrls(existing) : []);
+      await this.cleanupStoredFiles(existing ? this.storedSubmissionUrls(existing) : []);
       return result;
     } catch (error) {
       this.cleanupUploadedFiles(files);
@@ -174,10 +177,10 @@ import { isLearnerRole } from '../common/learner-roles';
       this.assertStudentCanEdit(submission, user);
       const assignment = await this.prisma.assignment.findUniqueOrThrow({ where: { id: submission.assignmentId } });
       this.assertBeforeDeadline(assignment, user, files);
-      const attachmentData = this.submissionAttachmentData(files);
+      const attachmentData = await this.submissionAttachmentData(files);
       const submittedAt = new Date();
       const result = await this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { deleteMany: {}, create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED }, include: { attachments: { orderBy: { createdAt: 'asc' } } } });
-      this.cleanupStoredFiles(this.storedSubmissionUrls(submission));
+      await this.cleanupStoredFiles(this.storedSubmissionUrls(submission));
       return result;
     } catch (error) {
       this.cleanupUploadedFiles(files);
@@ -234,7 +237,7 @@ import { isLearnerRole } from '../common/learner-roles';
   @Delete(':id') @Roles(Role.ADMIN, Role.STUDENT) @Permissions('delete') async remove(@Param('id') id: string, @CurrentUser() user: any) {
     const submission = await this.assertStudentOwner(id, user);
     const result = await this.prisma.submission.delete({ where: { id }, select: { id: true } });
-    this.cleanupStoredFiles(this.storedSubmissionUrls(submission));
+    await this.cleanupStoredFiles(this.storedSubmissionUrls(submission));
     return result;
   }
 }

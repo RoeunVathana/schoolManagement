@@ -14,6 +14,7 @@ import { isLearnerRole } from '../common/learner-roles';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { certificateUpload } from '../common/upload.options';
+import { MediaStorageService } from '../media/media-storage.service';
 
 @ApiTags('certificates')
 @ApiBearerAuth()
@@ -21,7 +22,7 @@ import { certificateUpload } from '../common/upload.options';
 @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('certificates')
 export class CertificatesController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
 
   private async studentId(user: any) {
     return (await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } })).id;
@@ -43,8 +44,9 @@ export class CertificatesController {
     return certificate;
   }
 
-  private removeFile(fileUrl?: string | null) {
+  private async removeFile(fileUrl?: string | null) {
     if (!fileUrl) return;
+    if (/^https?:\/\//i.test(fileUrl)) { await this.media.remove(fileUrl); return; }
     const path = fileUrl.replace(/^\/uploads\//, 'uploads/');
     if (existsSync(path)) unlinkSync(path);
   }
@@ -66,6 +68,7 @@ export class CertificatesController {
   @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
   async download(@Param('id') id: string, @CurrentUser() user: any, @Res() response: Response) {
     const certificate = await this.assertCertificateAccess(id, user);
+    if (/^https?:\/\//i.test(certificate.fileUrl || '')) return response.redirect(certificate.fileUrl);
     const fileName = basename(certificate.fileUrl || '');
     const filePath = join(process.cwd(), 'uploads', 'certificates', fileName);
     if (!fileName || !existsSync(filePath)) throw new NotFoundException('Certificate file was not found.');
@@ -103,11 +106,12 @@ export class CertificatesController {
     const course = await this.assertCourseAccess(body.courseId, user);
     await this.assertEnrollment(body.courseId, body.studentId);
     const existing = await this.prisma.courseCertificate.findUnique({ where: { courseId_studentId: { courseId: body.courseId, studentId: body.studentId } } });
-    if (existing) this.removeFile(existing.fileUrl);
+    const uploaded = await this.media.upload(file, 'certificates');
+    if (existing) await this.removeFile(existing.fileUrl);
     const certificate = await this.prisma.courseCertificate.upsert({
       where: { courseId_studentId: { courseId: body.courseId, studentId: body.studentId } },
-      update: { title: body.title.trim(), description: body.description?.trim() || null, fileUrl: `/uploads/certificates/${file.filename}`, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size, issuedAt: new Date() },
-      create: { courseId: body.courseId, studentId: body.studentId, title: body.title.trim(), description: body.description?.trim() || null, fileUrl: `/uploads/certificates/${file.filename}`, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size },
+      update: { title: body.title.trim(), description: body.description?.trim() || null, fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size, issuedAt: new Date() },
+      create: { courseId: body.courseId, studentId: body.studentId, title: body.title.trim(), description: body.description?.trim() || null, fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size },
       include: { course: { select: { id: true, courseCode: true, courseName: true } }, student: { include: { user: { select: { fullName: true, email: true } } } } },
     });
     const student = await this.prisma.student.findUnique({ where: { id: body.studentId }, select: { userId: true } });
@@ -131,8 +135,10 @@ export class CertificatesController {
   async replaceFile(@Param('id') id: string, @UploadedFile() file: Express.Multer.File | undefined, @CurrentUser() user: any) {
     const certificate = await this.assertCertificateAccess(id, user);
     if (!file) throw new BadRequestException('Please upload a replacement certificate.');
-    this.removeFile(certificate.fileUrl);
-    return this.prisma.courseCertificate.update({ where: { id }, data: { fileUrl: `/uploads/certificates/${file.filename}`, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size, issuedAt: new Date() }, include: { course: { select: { id: true, courseCode: true, courseName: true } }, student: { include: { user: { select: { fullName: true, email: true } } } } } });
+    const uploaded = await this.media.upload(file, 'certificates');
+    const updated = await this.prisma.courseCertificate.update({ where: { id }, data: { fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size, issuedAt: new Date() }, include: { course: { select: { id: true, courseCode: true, courseName: true } }, student: { include: { user: { select: { fullName: true, email: true } } } } } });
+    await this.removeFile(certificate.fileUrl);
+    return updated;
   }
 
   @Delete(':id')
@@ -140,7 +146,7 @@ export class CertificatesController {
   @Permissions('delete')
   async remove(@Param('id') id: string, @CurrentUser() user: any) {
     const certificate = await this.assertCertificateAccess(id, user);
-    this.removeFile(certificate.fileUrl);
+    await this.removeFile(certificate.fileUrl);
     return this.prisma.courseCertificate.delete({ where: { id }, select: { id: true } });
   }
 }

@@ -10,6 +10,7 @@ import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { examSubmissionUpload } from '../common/upload.options';
 import { isLearnerRole } from '../common/learner-roles';
+import { MediaStorageService } from '../media/media-storage.service';
 
 @ApiTags('exam-results')
 @ApiBearerAuth()
@@ -17,7 +18,7 @@ import { isLearnerRole } from '../common/learner-roles';
 @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('exam-results')
 export class ExamResultsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
 
   private async assertExamAccess(examId: string, user: any) {
     const exam = await this.prisma.exam.findUniqueOrThrow({ where: { id: examId }, include: { course: true } });
@@ -92,7 +93,10 @@ export class ExamResultsController {
     if (result.score !== null && result.score !== undefined) throw new BadRequestException('This exam has already been graded and cannot be resubmitted');
     const { exam } = await this.assertStudentExamAccess(result.examId, user);
     if (exam.submissionDeadline && new Date() > exam.submissionDeadline) throw new BadRequestException('The exam submission deadline has passed');
-    return this.prisma.examResult.update({ where: { id }, data: { fileUrl: `/uploads/exam-submissions/${file.filename}`, submittedAt: new Date() }, include: { exam: { include: { course: true } } } });
+    const uploaded = await this.media.upload(file, 'exam-submissions');
+    const updated = await this.prisma.examResult.update({ where: { id }, data: { fileUrl: uploaded.url, submittedAt: new Date() }, include: { exam: { include: { course: true } } } });
+    await this.media.remove(result.fileUrl);
+    return updated;
   }
 
   @Post('bulk')

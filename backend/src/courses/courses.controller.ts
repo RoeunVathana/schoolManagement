@@ -11,11 +11,12 @@ import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { courseImageUpload } from '../common/upload.options';
+import { MediaStorageService } from '../media/media-storage.service';
 
 @ApiTags('courses') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
 
   private generatedCourseCode() { return `CRS-${randomUUID().slice(0, 8).toUpperCase()}`; }
 
@@ -104,7 +105,7 @@ export class CoursesController {
   @Roles(Role.ADMIN)
   @Permissions('edit')
   @UseInterceptors(FileInterceptor('image', courseImageUpload))
-  image(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) { return this.prisma.course.update({ where: { id }, data: { imageUrl: `/uploads/courses/${file.filename}` } }); }
+  async image(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a course image.'); const course = await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { imageUrl: true } }); const uploaded = await this.media.upload(file, 'courses'); const updated = await this.prisma.course.update({ where: { id }, data: { imageUrl: uploaded.url } }); await this.media.remove(course.imageUrl); return updated; }
 
   @Patch(':id')
   @Roles(Role.ADMIN)

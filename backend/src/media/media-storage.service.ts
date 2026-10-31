@@ -9,6 +9,21 @@ import { tmpdir } from 'os';
 
 export type CommunityMediaType = 'IMAGE' | 'VIDEO';
 
+export type MediaFolder =
+  | 'posts'
+  | 'stories'
+  | 'chat'
+  | 'groups'
+  | 'profiles'
+  | 'covers'
+  | 'courses'
+  | 'assignments'
+  | 'homework'
+  | 'exams'
+  | 'exam-submissions'
+  | 'course-materials'
+  | 'certificates';
+
 export type ArchiveMediaSource = {
   path: string;
   fileName: string;
@@ -24,12 +39,15 @@ export class MediaStorageService {
   private readonly bucketName: string;
 
   constructor(private readonly config: ConfigService) {
-    this.mode = String(this.config.get('MEDIA_STORAGE') || 'local').toLowerCase();
-    this.projectId = String(this.config.get('FIREBASE_PROJECT_ID') || '');
+    const configuredMode = String(this.config.get('MEDIA_STORAGE') || '').trim().toLowerCase();
+    const nodeEnv = String(this.config.get('NODE_ENV') || 'development').toLowerCase();
+    const hasRailwayVolume = Boolean(String(this.config.get('RAILWAY_VOLUME_MOUNT_PATH') || '').trim());
+    this.mode = configuredMode || (nodeEnv === 'production' && !hasRailwayVolume ? 'firebase' : 'local');
+    this.projectId = String(this.config.get('FIREBASE_PROJECT_ID') || 'shoolmanagement-65b53');
     this.bucketName = String(this.config.get('FIREBASE_STORAGE_BUCKET') || `${this.projectId}.firebasestorage.app`);
   }
 
-  async upload(file: Express.Multer.File, folder: 'posts' | 'stories' | 'chat' | 'groups'): Promise<{ url: string; mediaType: CommunityMediaType }> {
+  async upload(file: Express.Multer.File, folder: MediaFolder): Promise<{ url: string; mediaType: CommunityMediaType }> {
     const mediaType: CommunityMediaType = file.mimetype.startsWith('video/') ? 'VIDEO' : 'IMAGE';
     if (this.mode !== 'firebase' && this.mode !== 'google') {
       return { url: `/uploads/${folder}/${basename(file.filename)}`, mediaType };
@@ -42,7 +60,7 @@ export class MediaStorageService {
     const app = this.firebaseApp();
     const bucket = getStorage(app).bucket(this.bucketName);
     const token = randomUUID();
-    const destination = `community/${folder}/${basename(file.filename)}`;
+    const destination = `campusflow/${folder}/${basename(file.filename)}`;
 
     try {
       await bucket.upload(file.path, {
@@ -115,7 +133,7 @@ export class MediaStorageService {
 
   private safeLocalPath(url: string) {
     const relativeUrl = url.replace(/^\/?/, '').replace(/\\/g, '/');
-    if (!/^uploads\/(posts|stories|chat|groups)\//i.test(relativeUrl)) return null;
+    if (!/^uploads\/(posts|stories|chat|groups|profiles|covers|courses|assignments|homework|exams|exam-submissions|course-materials|certificates)\//i.test(relativeUrl)) return null;
     const root = resolve(process.cwd(), 'uploads');
     const filePath = resolve(process.cwd(), relativeUrl);
     const pathFromRoot = relative(root, filePath);
@@ -131,7 +149,7 @@ export class MediaStorageService {
       const encodedDestination = parsed.pathname.match(/^\/v0\/b\/[^/]+\/o\/(.+)$/)?.[1];
       if (!bucketName || !encodedDestination || decodeURIComponent(bucketName) !== this.bucketName) return null;
       const destination = decodeURIComponent(encodedDestination);
-      if (!destination.startsWith('community/')) return null;
+      if (!destination.startsWith('campusflow/') && !destination.startsWith('community/')) return null;
       return { destination };
     } catch {
       return null;
@@ -148,10 +166,6 @@ export class MediaStorageService {
       return initializeApp({ credential: cert({ projectId: this.projectId, clientEmail, privateKey }), storageBucket: this.bucketName });
     }
 
-    try {
-      return initializeApp({ projectId: this.projectId, storageBucket: this.bucketName });
-    } catch {
-      throw new ServiceUnavailableException('Firebase Admin credentials are missing. Set FIREBASE_CLIENT_EMAIL and FIREBASE_PRIVATE_KEY for cloud media uploads.');
-    }
+    throw new ServiceUnavailableException('Firebase Admin credentials are missing. Set FIREBASE_CLIENT_EMAIL and FIREBASE_PRIVATE_KEY for persistent cloud media uploads.');
   }
 }

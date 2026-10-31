@@ -2,7 +2,6 @@ import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get,
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
-import { existsSync, unlinkSync } from 'fs';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -11,6 +10,7 @@ import { Permissions } from '../common/decorators/permissions.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { courseMaterialUpload } from '../common/upload.options';
+import { MediaStorageService } from '../media/media-storage.service';
 
 @ApiTags('course-materials')
 @ApiBearerAuth()
@@ -18,7 +18,7 @@ import { courseMaterialUpload } from '../common/upload.options';
 @Roles(Role.ADMIN, Role.TEACHER)
 @Controller('course-materials')
 export class CourseMaterialsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
 
   private async assertCourseAccess(courseId: string, user: any) {
     const course = await this.prisma.course.findUniqueOrThrow({ where: { id: courseId } });
@@ -58,12 +58,13 @@ export class CourseMaterialsController {
     if (!body.title?.trim()) throw new BadRequestException('Please enter a material title.');
     if (!file) throw new BadRequestException('Please select a slide, PDF, book or lesson file.');
     await this.assertCourseAccess(body.courseId, user);
+    const uploaded = await this.media.upload(file, 'course-materials');
     return this.prisma.courseMaterial.create({
       data: {
         courseId: body.courseId,
         title: body.title.trim(),
         description: body.description?.trim() || null,
-        fileUrl: `/uploads/course-materials/${file.filename}`,
+        fileUrl: uploaded.url,
         originalName: file.originalname,
         mimeType: file.mimetype,
         fileSize: file.size,
@@ -86,15 +87,17 @@ export class CourseMaterialsController {
   async replaceFile(@Param('id') id: string, @UploadedFile() file: Express.Multer.File | undefined, @CurrentUser() user: any) {
     const material = await this.assertMaterialAccess(id, user);
     if (!file) throw new BadRequestException('Please select a replacement file.');
-    if (material.fileUrl && existsSync(material.fileUrl.replace(/^\/uploads\//, 'uploads/'))) unlinkSync(material.fileUrl.replace(/^\/uploads\//, 'uploads/'));
-    return this.prisma.courseMaterial.update({ where: { id }, data: { fileUrl: `/uploads/course-materials/${file.filename}`, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size }, include: { course: { select: { id: true, courseName: true, courseCode: true } } } });
+    const uploaded = await this.media.upload(file, 'course-materials');
+    const updated = await this.prisma.courseMaterial.update({ where: { id }, data: { fileUrl: uploaded.url, originalName: file.originalname, mimeType: file.mimetype, fileSize: file.size }, include: { course: { select: { id: true, courseName: true, courseCode: true } } } });
+    await this.media.remove(material.fileUrl);
+    return updated;
   }
 
   @Delete(':id')
   @Permissions('delete')
   async remove(@Param('id') id: string, @CurrentUser() user: any) {
     const material = await this.assertMaterialAccess(id, user);
-    if (material.fileUrl && existsSync(material.fileUrl.replace(/^\/uploads\//, 'uploads/'))) unlinkSync(material.fileUrl.replace(/^\/uploads\//, 'uploads/'));
+    await this.media.remove(material.fileUrl);
     return this.prisma.courseMaterial.delete({ where: { id }, select: { id: true } });
   }
 }
