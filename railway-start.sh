@@ -8,12 +8,10 @@ fi
 
 if [ "${DATABASE_MIGRATION_MODE:-migrate}" = "baseline" ]; then
   # The existing production database was created with `prisma db push`.
-  # Record the checked-in migrations without executing them, then switch the
-  # Railway variable back to `migrate` for all future deployments.
-  for migration_dir in prisma/migrations/*; do
-    migration_name="$(basename "$migration_dir")"
-    npx prisma migrate resolve --applied "$migration_name"
-  done
+  # Keep this compatibility mode, but still reconcile newly added tables and
+  # columns. Marking every migration as applied without changing the schema
+  # leaves new features (such as submission attachments) broken at runtime.
+  npx prisma db push --skip-generate
 elif [ "${DATABASE_MIGRATION_MODE:-migrate}" = "migrate" ]; then
   npx prisma migrate deploy
 else
