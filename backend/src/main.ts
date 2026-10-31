@@ -15,6 +15,7 @@ function getAllowedOrigins(config: ConfigService, nodeEnv: string): string[] {
     config.get<string>('CORS_ORIGINS'),
     config.get<string>('FRONTEND_URL'),
     config.get<string>('PUBLIC_APP_URL'),
+    'https://campusflowlms.xyz',
     nodeEnv === 'production' ? 'https://campusflowlms.xyz' : 'http://localhost:5173',
   ]
     .filter((value): value is string => typeof value === 'string')
