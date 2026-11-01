@@ -83,8 +83,9 @@ const statusClass = (status) =>
     RETURNED: "bg-slate-100 text-slate-700",
   })[status] || "bg-slate-100 text-slate-700";
 
-export default function Simple({ adminMode = false }) {
-  const { section } = useParams();
+export default function Simple({ adminMode = false, sectionOverride = '' }) {
+  const { section: routeSection } = useParams();
+  const section = sectionOverride || routeSection;
   const { user } = useAuth();
   const { language, t } = useLanguage();
   const { ask } = useConfirmDialog();
