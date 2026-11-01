@@ -76,7 +76,11 @@ export default function Courses() {
   const [busy, setBusy] = useState(false);
   const imageInputRef = useRef(null);
 
-  const load = useCallback((targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10 } }).then((response) => setResult(unwrap(response))), [page]);
+  const load = useCallback((targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10, _ts: Date.now() }, headers: { 'Cache-Control': 'no-cache' } }).then((response) => {
+    const next = unwrap(response);
+    setResult(next);
+    return next;
+  }), [page]);
 
   useEffect(() => {
     load(page);
@@ -156,11 +160,13 @@ export default function Courses() {
       const image = payload.image;
       delete payload.image;
       const requestPayload = image ? courseFormData(payload, image) : payload;
-      unwrap(editing ? await api.patch(`/courses/${editing.id}`, requestPayload) : await api.post('/courses', requestPayload));
+      const saved = unwrap(editing ? await api.patch(`/courses/${editing.id}`, requestPayload) : await api.post('/courses', requestPayload));
+      if (image && !saved?.imageUrl) throw new Error(t('courseImageNotSaved'));
+      const refreshed = await load();
+      if (image && !refreshed?.data?.some((course) => course.id === saved.id && course.imageUrl)) throw new Error(t('courseImageNotInTable'));
       close();
-      await load();
     } catch (e) {
-      setError(e.response?.data?.message || t('couldNotSaveCourse'));
+      setError(e.response?.data?.message || e.message || t('couldNotSaveCourse'));
     } finally {
       setBusy(false);
     }
