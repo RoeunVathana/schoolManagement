@@ -51,8 +51,12 @@ export default function ServerStatusGuard({ children }) {
     };
 
     const handleServerBusy = () => {
-      setBusy(true);
-      scheduleCheck();
+      // A single page request can return 502/503/504 while the API health
+      // endpoint is still available. Confirm the service itself is down
+      // before covering the whole application with the busy screen.
+      checkServer().finally(() => {
+        if (!stopped) scheduleCheck();
+      });
     };
 
     window.addEventListener('campusflow:server-busy', handleServerBusy);
