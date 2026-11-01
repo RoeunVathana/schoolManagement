@@ -35,19 +35,16 @@ export class ChatService {
     const teacherUserId = firstUser.role === Role.TEACHER ? firstId : secondUser.role === Role.TEACHER ? secondId : null;
     const studentUserId = isLearnerRole(firstUser.role) ? firstId : isLearnerRole(secondUser.role) ? secondId : null;
     if (teacherUserId && studentUserId) {
-      const paidEnrollment = await this.prisma.enrollment.findFirst({
+      const courseRelationship = await this.prisma.enrollment.findFirst({
         where: {
           status: 'ACTIVE',
           student: { userId: studentUserId },
-          course: {
-            teacher: { userId: teacherUserId },
-            coursePayments: { some: { status: 'PAID', student: { userId: studentUserId } } },
-          },
+          course: { teacher: { userId: teacherUserId } },
         },
         select: { id: true },
       });
-      if (paidEnrollment) return { userAId, userBId };
-      throw new ForbiddenException('Teachers can chat with students only after they have paid for one of the teacher\'s courses.');
+      if (courseRelationship) return { userAId, userBId };
+      throw new ForbiddenException('Teachers and students can chat only when they share an active course.');
     }
 
     if (friendship) return { userAId, userBId };
@@ -118,18 +115,10 @@ export class ChatService {
     const contacts = user.role === Role.TEACHER
       ? (await this.prisma.enrollment.findMany({
         where: { status: 'ACTIVE', course: { teacher: { userId } } },
-        select: {
-          studentId: true,
-          student: { select: { user: { select: userSelect } } },
-          course: { select: { coursePayments: { where: { status: 'PAID' }, select: { studentId: true } } } },
-        },
-      })).filter((enrollment) => enrollment.course.coursePayments.some((payment) => payment.studentId === enrollment.studentId)).map((enrollment) => enrollment.student.user)
+        select: { student: { select: { user: { select: userSelect } } } },
+      })).map((enrollment) => enrollment.student.user)
       : (await this.prisma.enrollment.findMany({
-        where: {
-          status: 'ACTIVE',
-          student: { userId },
-          course: { coursePayments: { some: { status: 'PAID', student: { userId } } } },
-        },
+        where: { status: 'ACTIVE', student: { userId } },
         select: { course: { select: { teacher: { select: { user: { select: userSelect } } } } } },
       })).map((enrollment) => enrollment.course.teacher.user);
 
@@ -145,9 +134,17 @@ export class ChatService {
     const conversations = await this.prisma.conversation.findMany({
       where: { groupId: null, OR: [{ userAId: userId }, { userBId: userId }] },
       orderBy: { updatedAt: 'desc' },
-      select: { id: true },
+      select: { id: true, userAId: true, userBId: true },
     });
-    return Promise.all(conversations.map((conversation) => this.present(conversation.id, userId)));
+    const visible = await Promise.all(conversations.map(async (conversation) => {
+      try {
+        await this.assertDirectChat(conversation.userAId!, conversation.userBId!);
+        return this.present(conversation.id, userId);
+      } catch {
+        return null;
+      }
+    }));
+    return visible.filter((conversation): conversation is NonNullable<typeof conversation> => Boolean(conversation));
   }
 
   async openGroup(userId: string, groupId: string) {

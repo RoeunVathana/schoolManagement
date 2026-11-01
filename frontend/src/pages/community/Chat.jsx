@@ -138,10 +138,10 @@ export default function Chat() {
       setShowList(false);
       return conversation;
     } catch (requestError) {
-      setError(requestError.response?.data?.message || text.onlyAcceptedChat);
+      setError(requestError.response?.data?.message || text.courseChatOnly || text.onlyAcceptedChat);
       return null;
     }
-  }, [text.onlyAcceptedChat]);
+  }, [text.courseChatOnly, text.onlyAcceptedChat]);
 
   const openGroup = useCallback(async (groupId) => {
     setError('');
