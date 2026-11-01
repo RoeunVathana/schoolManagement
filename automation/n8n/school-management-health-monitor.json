@@ -1,0 +1,75 @@
+{
+  "name": "SchoolManagement - Railway Health Monitor",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [ { "field": "minutes", "minutesInterval": 5 } ] } },
+      "id": "0d8a2b0e-5d63-4f2e-9db8-1d6cdbb83e1a",
+      "name": "Every 5 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [ -620, 0 ]
+    },
+    {
+      "parameters": {
+        "url": "https://schoolmanagement-production-d78b.up.railway.app/health",
+        "options": { "response": { "response": { "responseFormat": "json", "neverError": true } }, "timeout": 20000 }
+      },
+      "id": "5d4e3c3a-9139-4b2c-95ec-0a1f5df9e2de",
+      "name": "Check API health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [ -380, 0 ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const root=$json||{};const d=root.data||{};const p=[];if(root.success!==true||d.status!=='ok')p.push('API health is not OK');if(d.cache!=='ready')p.push('Redis cache: '+(d.cache||'unknown'));if(d.media?.mode!=='local')p.push('Media mode: '+(d.media?.mode||'unknown'));if(d.media?.localVolumeAttached!==true)p.push('Persistent media volume is not attached');if(d.media?.localDirectory!=='/app/backend/uploads')p.push('Media directory: '+(d.media?.localDirectory||'unknown'));const s=p.length?'unhealthy':'healthy';const st=$getWorkflowStaticData('global');const prev=st.lastState||'unknown';st.lastState=s;const notify=s!==prev&&(s==='unhealthy'||prev==='unhealthy');const message=s==='healthy'?'SchoolManagement recovered | Revision: '+(d.revision||'unknown')+' | Cache: '+(d.cache||'unknown')+' | Media volume: attached':'SchoolManagement health alert | Problems: '+p.join('; ')+' | Revision: '+(d.revision||'unknown');return[{json:{state:s,healthy:s==='healthy',notify,message,revision:d.revision||null,problems:p}}];"
+      },
+      "id": "a0bf8eb4-75df-49bf-a1e7-7f66c11e57c8",
+      "name": "Evaluate health",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [ -120, 0 ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2 },
+          "conditions": [ { "id": "9ce0d42a-6e13-4d32-8bda-8f0eac4cbfb5", "leftValue": "={{ $json.notify }}", "rightValue": "", "operator": { "type": "boolean", "operation": "true", "singleValue": true } } ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6ef0d90d-5ab8-44df-b0db-84b57d34ddf3",
+      "name": "Status changed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [ 120, 0 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.telegram.org/bot' + $env.N8N_TELEGRAM_BOT_TOKEN + '/sendMessage' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $env.N8N_ALERT_CHAT_ID, text: $json.message, disable_web_page_preview: true }) }}",
+        "options": { "timeout": 20000 }
+      },
+      "id": "9fe2bd30-dbf2-4a2f-9683-7a4d210fc523",
+      "name": "Send Telegram alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [ 380, -80 ]
+    }
+  ],
+  "connections": {
+    "Every 5 minutes": { "main": [ [ { "node": "Check API health", "type": "main", "index": 0 } ] ] },
+    "Check API health": { "main": [ [ { "node": "Evaluate health", "type": "main", "index": 0 } ] ] },
+    "Evaluate health": { "main": [ [ { "node": "Status changed?", "type": "main", "index": 0 } ] ] },
+    "Status changed?": { "main": [ [ { "node": "Send Telegram alert", "type": "main", "index": 0 } ], [] ] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "9a4c9f38-46d4-4c7f-8f06-14ed6c0b420d",
+  "meta": { "templateCredsSetupCompleted": true },
+  "tags": []
+}
