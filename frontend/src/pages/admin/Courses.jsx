@@ -78,7 +78,9 @@ export default function Courses() {
 
   const load = useCallback((targetPage = page) => {
     setError('');
-    return api.get('/courses', { params: { page: targetPage, limit: 10, _ts: Date.now() }, headers: { 'Cache-Control': 'no-cache' } }).then((response) => {
+    // The timestamp prevents stale responses without adding a non-simple
+    // cross-origin header that would make the browser preflight this request.
+    return api.get('/courses', { params: { page: targetPage, limit: 10, _ts: Date.now() } }).then((response) => {
       const next = unwrap(response);
       setResult(next);
       return next;
