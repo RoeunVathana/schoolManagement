@@ -112,7 +112,7 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete, 
 
   if (!file) return null;
   return createPortal(
-    <div className="cropper-overlay fixed inset-0 z-[200] grid min-h-dvh place-items-center overflow-y-auto bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" role="dialog" aria-modal="true" aria-labelledby="crop-image-title">
+    <div className="cropper-overlay fixed inset-0 z-[220] grid min-h-dvh place-items-center overflow-y-auto bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" role="dialog" aria-modal="true" aria-labelledby="crop-image-title">
       <div className="cropper-panel flex max-h-[calc(100dvh-1.5rem)] w-full max-w-2xl flex-col overflow-hidden rounded-[1.75rem] border border-white/20 bg-white shadow-2xl shadow-black/40 dark:border-slate-700 dark:bg-slate-900 sm:max-h-[calc(100dvh-3rem)]">
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-4 dark:border-slate-700">
           <div>
