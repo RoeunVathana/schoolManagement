@@ -661,6 +661,23 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const columns = useMemo(() =>
     section === "courses"
       ? [
+          {
+            key: "image",
+            label: t("image"),
+            render: (row) => row.imageUrl ? (
+              <a href={mediaUrl(row.imageUrl)} target="_blank" rel="noreferrer" title={row.courseName}>
+                <SafeImage
+                  src={mediaUrl(row.imageUrl)}
+                  alt={row.courseName}
+                  className="h-12 w-16 rounded-lg object-cover"
+                />
+              </a>
+            ) : (
+              <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">
+                {t("noImage")}
+              </div>
+            ),
+          },
           { key: "courseCode", label: t("code") },
           { key: "courseName", label: t("course") },
           {
@@ -712,9 +729,20 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                   href={mediaUrl(row.fileUrl)}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex max-w-48 items-center gap-2 rounded-lg bg-mint px-2.5 py-2 text-xs font-semibold text-emerald-800"
+                  className="inline-flex max-w-56 items-center gap-2 rounded-lg bg-mint px-2.5 py-2 text-xs font-semibold text-emerald-800"
                   title={row.originalName}
                 >
+                  {isImage({ fileUrl: row.fileUrl, mimeType: row.mimeType }) ? (
+                    <SafeImage
+                      src={mediaUrl(row.fileUrl)}
+                      alt={row.originalName || t("materialTitle")}
+                      className="h-8 w-8 shrink-0 rounded object-cover"
+                    />
+                  ) : (
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-white/80 text-[10px] font-bold text-emerald-700">
+                      FILE
+                    </span>
+                  )}
                   <span className="truncate">{row.originalName}</span>
                 </a>
               ),
