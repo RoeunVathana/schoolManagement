@@ -52,7 +52,7 @@ function DiscountPreview({ form, t }) {
 }
 
 export default function Courses() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const { ask } = useConfirmDialog();
   const [result, setResult] = useState(null);
   const [teachers, setTeachers] = useState([]);
@@ -62,6 +62,7 @@ export default function Courses() {
   const [form, setForm] = useState(emptyForm);
   const [cropFile, setCropFile] = useState(null);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
 
   const load = useCallback((targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10 } }).then((response) => setResult(unwrap(response))), [page]);
@@ -71,8 +72,8 @@ export default function Courses() {
     api.get('/teachers', { params: { page: 1, limit: 100 } }).then((response) => setTeachers(unwrap(response).data || []));
   }, [page]);
 
-  const close = () => { setOpen(false); setEditing(null); setForm({ ...emptyForm }); setError(''); };
-  const openCreate = () => { setEditing(null); setForm({ ...emptyForm, courseCode: previewCode('CRS') }); setError(''); setOpen(true); };
+  const close = () => { setOpen(false); setEditing(null); setForm({ ...emptyForm }); setError(''); setNotice(''); };
+  const openCreate = () => { setEditing(null); setForm({ ...emptyForm, courseCode: previewCode('CRS') }); setError(''); setNotice(''); setOpen(true); };
   const openEdit = useCallback((course) => {
     setEditing(course);
     setForm({
@@ -93,6 +94,7 @@ export default function Courses() {
       image: null,
     });
     setError('');
+    setNotice('');
     setOpen(true);
   }, []);
   const updateField = useCallback((key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value })), []);
@@ -108,15 +110,18 @@ export default function Courses() {
     }
     setBusy(true);
     setError('');
+    setNotice('');
     try {
       const image = new FormData();
       image.append('image', croppedFile);
       await api.post(`/courses/${editing.id}/image`, image, { headers: { 'Content-Type': 'multipart/form-data' } });
       setForm((current) => ({ ...current, image: null }));
       setCropFile(null);
+      setNotice(language === 'km' ? 'រូបភាពមុខវិជ្ជាត្រូវបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។' : t('courseImageUpdated'));
       await load();
     } catch (e) {
       setError(e.response?.data?.message || t('couldNotSaveCourse'));
+      setNotice('');
     } finally {
       setBusy(false);
     }
@@ -125,6 +130,7 @@ export default function Courses() {
     event.preventDefault();
     setBusy(true);
     setError('');
+    setNotice('');
     try {
       const payload = { ...form };
       delete payload.image;
@@ -200,6 +206,7 @@ export default function Courses() {
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>
         <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input type="file" accept="image/png,image/jpeg,image/webp" className="input mt-2 p-2" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; setForm((current) => ({ ...current, image: null })); if (!file) return; if (isImageTooLarge(file)) { setError(t('imageTooLarge')); return; } setError(''); setCropFile(file); }} />{form.image && <span className="mt-2 block text-xs font-semibold text-emerald-700">{t('useCroppedImage')}: {form.image.name}</span>}</Field></div>
+        {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
         <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>
       </form>

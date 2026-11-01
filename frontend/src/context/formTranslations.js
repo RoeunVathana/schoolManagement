@@ -154,6 +154,7 @@ export const formTranslations = {
     savingChanges: 'Saving changes...',
     profileUpdated: 'Profile updated successfully.',
     profileImageUpdated: 'Profile image updated successfully.',
+    courseImageUpdated: 'Course image updated successfully.',
     unableToLoadProfile: 'Unable to load profile.',
     unableToUpdateProfile: 'Unable to update profile.',
     unableToUploadImage: 'Unable to upload profile image.',
