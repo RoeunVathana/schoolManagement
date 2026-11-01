@@ -23,6 +23,9 @@ const isImage = (fileOrPath) => {
   const mimeType = typeof fileOrPath === "string" ? "" : fileOrPath?.mimeType || "";
   return /^image\//i.test(mimeType) || /\.(png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value);
 };
+const isSupportedExamImage = (file) =>
+  Boolean(file) &&
+  (/^image\/(png|jpeg|webp)$/i.test(file.type || "") || /\.(png|jpe?g|webp)$/i.test(file.name || ""));
 const formatDate = (value, language = document.documentElement.lang || "en") =>
   value
     ? new Date(value).toLocaleDateString(language === "km" ? "km-KH" : "en-US")
@@ -225,6 +228,14 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
     const file = event.target.files?.[0] || null;
     event.target.value = "";
     if (!file) return;
+    if (!isSupportedExamImage(file)) {
+      setError(
+        language === "km"
+          ? "សូមជ្រើសរើសរូបភាព PNG, JPG ឬ WEBP ត្រឹមត្រូវ។"
+          : "Please choose a valid PNG, JPG, or WEBP image.",
+      );
+      return;
+    }
     if (isImageTooLarge(file)) {
       setError(t("imageTooLarge"));
       return;
@@ -1005,6 +1016,14 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           setForm((current) => ({ ...current, file: croppedFile }));
           setCropFile(null);
         }}
+        onError={() => {
+          setError(
+            language === "km"
+              ? "មិនអាចអានរូបភាពនេះបានទេ។ សូមជ្រើសរើសឯកសារ PNG, JPG ឬ WEBP ផ្សេងទៀត។"
+              : "This image could not be read. Please choose another PNG, JPG, or WEBP file.",
+          );
+          setCropFile(null);
+        }}
       />
       <Header
         eyebrow={isAdmin ? "adminTools" : "teacherWorkspace"}
@@ -1338,6 +1357,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           </form>
         ) : (
           <form onSubmit={save} className="space-y-3">
+            {error && (
+              <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600">
+                {error}
+              </p>
+            )}
             {section !== "announcements" && (
               <select
                 required
@@ -1518,7 +1542,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                       accept={
                         section === "assignments"
                           ? ".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp"
-                          : "image/png,image/jpeg,image/webp"
+                          : "image/*,.png,.jpg,.jpeg,.webp"
                       }
                       className="input mt-1 p-2"
                       onChange={section === "exams" ? selectExamImage : (event) =>

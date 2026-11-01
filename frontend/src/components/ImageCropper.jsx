@@ -10,7 +10,7 @@ const defaults = {
   processing: 'Preparing image...',
 };
 
-export default function ImageCropper({ file, labels = {}, onCancel, onComplete, aspectRatio = 1, outputWidth = 800, outputHeight = 800, areaClassName = 'max-w-[360px]' }) {
+export default function ImageCropper({ file, labels = {}, onCancel, onComplete, onError, aspectRatio = 1, outputWidth = 800, outputHeight = 800, areaClassName = 'max-w-[360px]' }) {
   const text = { ...defaults, ...labels };
   const cropAspectRatio = Number.isFinite(Number(aspectRatio)) && Number(aspectRatio) > 0 ? Number(aspectRatio) : 1;
   const areaRef = useRef(null);
@@ -73,6 +73,12 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete, 
 
   const finishDrag = () => setDragging(false);
 
+  const handleImageError = () => {
+    setSource('');
+    setImageSize(null);
+    onError?.();
+  };
+
   const crop = () => {
     const area = areaRef.current;
     const image = imageRef.current;
@@ -124,7 +130,7 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete, 
             onPointerUp={finishDrag}
             onPointerCancel={finishDrag}
           >
-            {source && <img ref={imageRef} src={source} alt="" onLoad={(event) => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} className="pointer-events-none absolute max-w-none" style={metrics ? { width: metrics.width, height: metrics.height, left: offset.x, top: offset.y } : { inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />}
+            {source && <img ref={imageRef} src={source} alt="" onLoad={(event) => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} onError={handleImageError} className="pointer-events-none absolute max-w-none" style={metrics ? { width: metrics.width, height: metrics.height, left: offset.x, top: offset.y } : { inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />}
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/70" />
             <div className="pointer-events-none absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(to right, transparent 33.1%, rgba(255,255,255,.6) 33.3%, transparent 33.5%, transparent 66.1%, rgba(255,255,255,.6) 66.3%, transparent 66.5%), linear-gradient(to bottom, transparent 33.1%, rgba(255,255,255,.6) 33.3%, transparent 33.5%, transparent 66.1%, rgba(255,255,255,.6) 66.3%, transparent 66.5%)' }} />
           </div>
