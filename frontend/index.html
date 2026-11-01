@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#10243f" />
     <meta name="description" content="CampusFlow LMS helps students in Cambodia learn practical skills through guided online courses, local teachers, KHQR payment, and a supportive learning community." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="CampusFlow LMS" />
     <meta property="og:title" content="CampusFlow LMS | Practical Online Courses in Cambodia" />
     <meta property="og:description" content="Learn practical skills with guided courses, local teachers, and a supportive learning community." />
     <meta property="og:type" content="website" />
@@ -19,13 +20,60 @@
     <meta name="twitter:description" content="Learn practical skills with guided courses, local teachers, and a supportive learning community." />
     <meta name="twitter:image" content="https://campusflowlms.xyz/campusflow-logo.jpg" />
     <link rel="canonical" href="https://campusflowlms.xyz/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://i.pinimg.com" crossorigin />
     <link rel="icon" type="image/jpeg" href="/campusflow-logo.jpg" />
     <link rel="apple-touch-icon" href="/campusflow-logo.jpg" />
     <title>CampusFlow LMS | Practical Online Courses in Cambodia</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://campusflowlms.xyz/#organization",
+            "name": "CampusFlow LMS",
+            "url": "https://campusflowlms.xyz/",
+            "logo": "https://campusflowlms.xyz/campusflow-logo.jpg",
+            "description": "Practical online courses, local teachers, KHQR payment, and a supportive learning community in Cambodia.",
+            "areaServed": "Cambodia"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://campusflowlms.xyz/#website",
+            "name": "CampusFlow LMS",
+            "url": "https://campusflowlms.xyz/",
+            "description": "CampusFlow LMS helps students in Cambodia learn practical skills through guided online courses.",
+            "publisher": { "@id": "https://campusflowlms.xyz/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://campusflowlms.xyz/courses?search={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main aria-label="CampusFlow LMS">
+        <h1>CampusFlow LMS - Practical Online Courses in Cambodia</h1>
+        <p>Learn practical skills with guided online courses, local teachers, KHQR payment, and a supportive learning community.</p>
+        <nav aria-label="Public website links">
+          <a href="/courses">Browse courses</a>
+          <a href="/community">Join the learning community</a>
+          <a href="/register">Create a student account</a>
+        </nav>
+        <section>
+          <h2>Learn by doing with CampusFlow</h2>
+          <p>Compare course plans, teachers, schedules, assignments, and payment information before you start learning.</p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
