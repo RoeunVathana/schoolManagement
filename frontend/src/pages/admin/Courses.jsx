@@ -16,6 +16,14 @@ const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', image: null };
 const previewCode = (prefix) => `${prefix}-${(globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 8).toUpperCase()}`;
+const courseFormData = (values, file) => {
+  const data = new FormData();
+  Object.entries(values).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) data.append(key, typeof value === 'boolean' ? String(value) : String(value));
+  });
+  data.append('image', file);
+  return data;
+};
 
 const activeDiscount = (course) => {
   const percent = Number(course.discountPercent || 0);
@@ -145,13 +153,10 @@ export default function Courses() {
     setNotice('');
     try {
       const payload = { ...form };
+      const image = payload.image;
       delete payload.image;
-      const saved = unwrap(editing ? await api.patch(`/courses/${editing.id}`, payload) : await api.post('/courses', payload));
-      if (form.image) {
-        const image = new FormData();
-        image.append('image', form.image);
-        await api.post(`/courses/${saved.id}/image`, image, { headers: { 'Content-Type': 'multipart/form-data' } });
-      }
+      const requestPayload = image ? courseFormData(payload, image) : payload;
+      unwrap(editing ? await api.patch(`/courses/${editing.id}`, requestPayload) : await api.post('/courses', requestPayload));
       close();
       await load();
     } catch (e) {

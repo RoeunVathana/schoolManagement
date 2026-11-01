@@ -98,8 +98,17 @@ export class CoursesController {
   @Post()
   @Roles(Role.ADMIN)
   @Permissions('create')
-  async create(@Body() b: any) {
-    const course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+  @UseInterceptors(FileInterceptor('image', courseImageUpload))
+  async create(@Body() b: any, @UploadedFile() file?: Express.Multer.File) {
+    let uploaded: { url: string } | undefined;
+    let course;
+    try {
+      uploaded = file ? await this.media.upload(file, 'courses') : undefined;
+      course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: uploaded?.url || b.imageUrl, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+    } catch (error) {
+      if (uploaded?.url) await this.media.remove(uploaded.url);
+      throw error;
+    }
     await this.cache.invalidatePrefix('cache:storefront:');
     return course;
   }
@@ -113,27 +122,39 @@ export class CoursesController {
   @Patch(':id')
   @Roles(Role.ADMIN)
   @Permissions('edit')
-  async update(@Param('id') id: string, @Body() b: any) {
-    const data: any = {
-      courseName: b.courseName,
-      description: b.description,
-      teacherId: b.teacherId,
-      startDate: b.startDate ? new Date(b.startDate) : undefined,
-      endDate: b.endDate ? new Date(b.endDate) : undefined,
-      status: b.status,
-      academicYearId: b.academicYearId,
-      semesterId: b.semesterId,
-      price: b.price === undefined || b.price === '' ? undefined : Number(b.price),
-      currency: b.currency ? String(b.currency).toUpperCase() : undefined,
-      ...this.discountData(b, true),
-      ...this.paymentData(b, true),
-    };
+  @UseInterceptors(FileInterceptor('image', courseImageUpload))
+  async update(@Param('id') id: string, @Body() b: any, @UploadedFile() file?: Express.Multer.File) {
+    const previous = file ? await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { imageUrl: true } }) : undefined;
+    let uploaded: { url: string } | undefined;
+    let course;
+    try {
+      uploaded = file ? await this.media.upload(file, 'courses') : undefined;
+      const data: any = {
+        courseName: b.courseName,
+        description: b.description,
+        teacherId: b.teacherId,
+        startDate: b.startDate ? new Date(b.startDate) : undefined,
+        endDate: b.endDate ? new Date(b.endDate) : undefined,
+        status: b.status,
+        academicYearId: b.academicYearId,
+        semesterId: b.semesterId,
+        price: b.price === undefined || b.price === '' ? undefined : Number(b.price),
+        currency: b.currency ? String(b.currency).toUpperCase() : undefined,
+        ...this.discountData(b, true),
+        ...this.paymentData(b, true),
+      };
 
-    // Image changes use POST /courses/:id/image. Never let a partial metadata
-    // update clear the current image because an old client sent an empty value.
-    if (typeof b.imageUrl === 'string' && b.imageUrl.trim()) data.imageUrl = b.imageUrl.trim();
+      // An image sent with the edit form is saved atomically with the course
+      // metadata. Never let a partial metadata update clear the current image.
+      if (uploaded?.url) data.imageUrl = uploaded.url;
+      else if (typeof b.imageUrl === 'string' && b.imageUrl.trim()) data.imageUrl = b.imageUrl.trim();
 
-    const course = await this.prisma.course.update({ where: { id }, data });
+      course = await this.prisma.course.update({ where: { id }, data });
+    } catch (error) {
+      if (uploaded?.url) await this.media.remove(uploaded.url);
+      throw error;
+    }
+    if (uploaded?.url) await this.media.remove(previous?.imageUrl);
     await this.cache.invalidatePrefix('cache:storefront:');
     return course;
   }
