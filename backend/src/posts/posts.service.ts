@@ -69,14 +69,19 @@ export class PostsService {
       data.content = content;
     }
     if (input.visibility !== undefined) data.visibility = input.visibility;
-    if (input.imageUrl !== undefined) data.imageUrl = input.imageUrl;
-    if (input.mediaType !== undefined) data.mediaType = input.mediaType;
-    if (input.media !== undefined) {
-      data.imageUrl = input.media[0]?.url || null;
-      data.mediaType = input.media[0]?.mediaType || null;
+    const uploadedMedia = input.media?.filter((item) => Boolean(item?.url?.trim())) || [];
+    if (uploadedMedia.length) {
+      data.imageUrl = uploadedMedia[0].url;
+      data.mediaType = uploadedMedia[0].mediaType;
+    } else if (typeof input.imageUrl === 'string' && input.imageUrl.trim()) {
+      data.imageUrl = input.imageUrl.trim();
+      if (input.mediaType !== undefined) data.mediaType = input.mediaType;
     }
-    const updatedPost = input.media !== undefined
-      ? await this.prisma.post.update({ where: { id: postId }, data: { ...data, media: { deleteMany: {}, create: input.media.map((item, sortOrder) => ({ url: item.url, mediaType: item.mediaType, sortOrder })) } }, include: this.postInclude(userId) })
+
+    // An edit without a newly uploaded file must be metadata-only. In
+    // particular, an empty multipart media field must not wipe old media.
+    const updatedPost = uploadedMedia.length
+      ? await this.prisma.post.update({ where: { id: postId }, data: { ...data, media: { deleteMany: {}, create: uploadedMedia.map((item, sortOrder) => ({ url: item.url, mediaType: item.mediaType, sortOrder })) } }, include: this.postInclude(userId) })
       : await this.prisma.post.update({ where: { id: postId }, data, include: this.postInclude(userId) });
     return this.presentPost(updatedPost, userId);
   }

@@ -114,7 +114,26 @@ export class CoursesController {
   @Roles(Role.ADMIN)
   @Permissions('edit')
   async update(@Param('id') id: string, @Body() b: any) {
-    const course = await this.prisma.course.update({ where: { id }, data: { courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: b.startDate ? new Date(b.startDate) : undefined, endDate: b.endDate ? new Date(b.endDate) : undefined, status: b.status, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? undefined : Number(b.price), currency: b.currency ? String(b.currency).toUpperCase() : undefined, ...this.discountData(b, true), ...this.paymentData(b, true) } });
+    const data: any = {
+      courseName: b.courseName,
+      description: b.description,
+      teacherId: b.teacherId,
+      startDate: b.startDate ? new Date(b.startDate) : undefined,
+      endDate: b.endDate ? new Date(b.endDate) : undefined,
+      status: b.status,
+      academicYearId: b.academicYearId,
+      semesterId: b.semesterId,
+      price: b.price === undefined || b.price === '' ? undefined : Number(b.price),
+      currency: b.currency ? String(b.currency).toUpperCase() : undefined,
+      ...this.discountData(b, true),
+      ...this.paymentData(b, true),
+    };
+
+    // Image changes use POST /courses/:id/image. Never let a partial metadata
+    // update clear the current image because an old client sent an empty value.
+    if (typeof b.imageUrl === 'string' && b.imageUrl.trim()) data.imageUrl = b.imageUrl.trim();
+
+    const course = await this.prisma.course.update({ where: { id }, data });
     await this.cache.invalidatePrefix('cache:storefront:');
     return course;
   }

@@ -30,7 +30,12 @@ export class MediaStorageService {
     const configuredMode = String(this.config.get('MEDIA_STORAGE') || '').trim().toLowerCase();
     const nodeEnv = String(this.config.get('NODE_ENV') || 'development').toLowerCase();
     const hasRailwayVolume = uploadsOnVolume();
-    this.mode = configuredMode || (nodeEnv === 'production' && !hasRailwayVolume ? 'firebase' : 'local');
+    const requestedMode = configuredMode || (nodeEnv === 'production' && !hasRailwayVolume ? 'firebase' : 'local');
+    // A local uploads directory in production is safe only when it is inside
+    // an attached Railway volume. If somebody configures local storage without
+    // that volume, use the persistent cloud path instead of silently losing
+    // files on the next deployment.
+    this.mode = nodeEnv === 'production' && requestedMode === 'local' && !hasRailwayVolume ? 'firebase' : requestedMode;
     this.projectId = String(this.config.get('FIREBASE_PROJECT_ID') || 'shoolmanagement-65b53');
     this.bucketName = String(this.config.get('FIREBASE_STORAGE_BUCKET') || `${this.projectId}.firebasestorage.app`);
   }

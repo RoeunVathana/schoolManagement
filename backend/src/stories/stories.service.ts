@@ -49,9 +49,16 @@ export class StoriesService {
     if (!story) throw new NotFoundException('Story not found');
     if (story.authorId !== userId) throw new ForbiddenException('You can only edit your own stories');
     const content = input.content === undefined ? story.content : (input.content.trim() || null);
-    const imageUrl = input.imageUrl === undefined ? story.imageUrl : input.imageUrl;
+    // Only a real replacement upload may change the image. Empty values from
+    // multipart/legacy clients are treated as "not provided" so edits to the
+    // story text or visibility keep the existing image/video.
+    const replacementImageUrl = typeof input.imageUrl === 'string' && input.imageUrl.trim() ? input.imageUrl.trim() : undefined;
+    const imageUrl = replacementImageUrl === undefined ? story.imageUrl : replacementImageUrl;
     if (!content && !imageUrl) throw new BadRequestException('A story must contain text or an image');
-    return this.prisma.story.update({ where: { id: storyId }, data: { content, imageUrl, mediaType: input.mediaType, visibility: input.visibility }, include: { author: { select: this.authorSelect } } });
+    const data: { content: string | null; imageUrl: string | null; mediaType?: MediaType; visibility?: PostVisibility } = { content, imageUrl };
+    if (replacementImageUrl !== undefined && input.mediaType !== undefined) data.mediaType = input.mediaType;
+    if (input.visibility !== undefined) data.visibility = input.visibility;
+    return this.prisma.story.update({ where: { id: storyId }, data, include: { author: { select: this.authorSelect } } });
   }
 
   async remove(storyId: string, userId: string) {
