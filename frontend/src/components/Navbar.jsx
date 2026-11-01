@@ -134,7 +134,13 @@ export default function Navbar({ onMenu, menuOpen = false }) {
 
   useEffect(() => {
     loadNotifications();
-    const timer = window.setInterval(loadNotifications, 5000);
+    const refreshNotifications = () => {
+      if (document.hidden) return;
+      const activeElement = document.activeElement;
+      if (activeElement?.matches?.('input, textarea, select, [contenteditable="true"]')) return;
+      loadNotifications();
+    };
+    const timer = window.setInterval(refreshNotifications, 30000);
     return () => window.clearInterval(timer);
   }, [loadNotifications]);
 

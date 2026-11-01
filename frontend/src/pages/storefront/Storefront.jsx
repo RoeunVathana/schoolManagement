@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import api, { unwrap } from "../../api/axios";
 import CoursePayment from "../../components/CoursePayment";
@@ -215,6 +215,7 @@ export default function Storefront() {
   const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState(null);
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [buyBusy, setBuyBusy] = useState("");
@@ -289,7 +290,7 @@ export default function Storefront() {
           if (active) setCourse(nextCourse);
         } else {
           const response = await api.get("/storefront/courses", {
-            params: search.trim() ? { search: search.trim() } : undefined,
+            params: deferredSearch.trim() ? { search: deferredSearch.trim() } : undefined,
           });
           if (active) setCourses(unwrap(response) || []);
         }
@@ -309,7 +310,7 @@ export default function Storefront() {
       active = false;
       window.clearTimeout(timer);
     };
-  }, [id, search, user?.id, user?.role]);
+  }, [id, deferredSearch, user?.id, user?.role]);
 
   const startCoursePayment = async (selectedCourse, plan = "FULL") => {
     if (!user) {

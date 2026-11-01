@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import api, { unwrap } from '../../api/axios';
 import Header from '../../components/Header';
 import Table from '../../components/Table';
@@ -64,7 +64,7 @@ export default function Courses() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  const load = (targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10 } }).then((response) => setResult(unwrap(response)));
+  const load = useCallback((targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10 } }).then((response) => setResult(unwrap(response))), [page]);
 
   useEffect(() => {
     load(page);
@@ -73,7 +73,7 @@ export default function Courses() {
 
   const close = () => { setOpen(false); setEditing(null); setForm({ ...emptyForm }); setError(''); };
   const openCreate = () => { setEditing(null); setForm({ ...emptyForm, courseCode: previewCode('CRS') }); setError(''); setOpen(true); };
-  const openEdit = (course) => {
+  const openEdit = useCallback((course) => {
     setEditing(course);
     setForm({
       courseCode: course.courseCode,
@@ -94,8 +94,8 @@ export default function Courses() {
     });
     setError('');
     setOpen(true);
-  };
-  const updateField = (key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value }));
+  }, []);
+  const updateField = useCallback((key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value })), []);
   const save = async (event) => {
     event.preventDefault();
     setBusy(true);
@@ -117,27 +117,28 @@ export default function Courses() {
       setBusy(false);
     }
   };
-  const remove = async (course) => {
+  const remove = useCallback(async (course) => {
     if (!(await ask(`${t('deleteCourseConfirm')} ${course.courseName}`))) return;
     try { await api.delete(`/courses/${course.id}`); await load(); } catch (e) { setError(e.response?.data?.message || t('couldNotSaveCourse')); }
-  };
+  }, [ask, load, t]);
   const rows = result?.data || [];
+  const courseTableColumns = useMemo(() => [
+    { key: 'image', label: t('image'), render: (row) => row.imageUrl ? <img src={mediaUrl(row.imageUrl)} alt={row.courseName} className="h-12 w-16 rounded-lg object-cover" /> : <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{t('noImage')}</div> },
+    { key: 'courseCode', label: t('code') },
+    { key: 'courseName', label: t('courseName') },
+    { key: 'price', label: t('coursePrice'), render: (row) => <PriceCell row={row} /> },
+    { key: 'teacher', label: t('teacher'), render: (row) => row.teacher?.user?.fullName || t('unassigned') },
+    { key: 'startDate', label: t('starts'), render: (row) => new Date(row.startDate).toLocaleDateString() },
+    { key: 'status', label: t('status'), render: (row) => <span className="badge bg-mint text-emerald-800">{row.status === 'ACTIVE' ? t('active') : row.status === 'COMPLETED' ? t('completed') : t('cancelled')}</span> },
+    { key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2"><button onClick={() => openEdit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-200">{t('edit')}</button><button onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">{t('delete')}</button></div> },
+  ], [openEdit, remove, t]);
 
   return <>
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
     <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={(croppedFile) => { if (isImageTooLarge(croppedFile)) { setError(t('imageTooLarge')); return; } setForm((current) => ({ ...current, image: croppedFile })); setCropFile(null); }} />
     {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}
     {result ? <>
-      <Table columns={[
-        { key: 'image', label: t('image'), render: (row) => row.imageUrl ? <img src={mediaUrl(row.imageUrl)} alt={row.courseName} className="h-12 w-16 rounded-lg object-cover" /> : <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{t('noImage')}</div> },
-        { key: 'courseCode', label: t('code') },
-        { key: 'courseName', label: t('courseName') },
-        { key: 'price', label: t('coursePrice'), render: (row) => <PriceCell row={row} /> },
-        { key: 'teacher', label: t('teacher'), render: (row) => row.teacher?.user?.fullName || t('unassigned') },
-        { key: 'startDate', label: t('starts'), render: (row) => new Date(row.startDate).toLocaleDateString() },
-        { key: 'status', label: t('status'), render: (row) => <span className="badge bg-mint text-emerald-800">{row.status === 'ACTIVE' ? t('active') : row.status === 'COMPLETED' ? t('completed') : t('cancelled')}</span> },
-        { key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2"><button onClick={() => openEdit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-200">{t('edit')}</button><button onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">{t('delete')}</button></div> },
-      ]} rows={rows} empty={t('noCourses')} />
+      <Table columns={courseTableColumns} rows={rows} empty={t('noCourses')} />
       <Pagination value={result.pagination} onChange={setPage} />
     </> : <Loading />}
 

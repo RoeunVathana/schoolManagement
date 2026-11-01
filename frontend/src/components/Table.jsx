@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import Pagination from './Pagination';
 import Modal from './Modal';
 import { useLanguage } from '../context/LanguageContext';
@@ -30,7 +30,7 @@ function DetailGrid({ value, depth = 0, language = 'en' }) {
   return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-[.14em] text-slate-400">{labelFor(key)}</dt><dd className="mt-1.5 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} language={language} /></dd></div>)}</dl>;
 }
 
-export default function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true }) {
+function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true }) {
   const { language, t } = useLanguage();
   const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1);
@@ -91,3 +91,5 @@ export default function Table({ columns = [], rows = [], empty = 'No records fou
     </Modal>
   </>;
 }
+
+export default memo(Table);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import api, { unwrap } from "../../api/axios";
 import { useAuth } from "../../hooks/useAuth";
@@ -121,14 +121,14 @@ export default function Simple() {
       announcements: "/announcements",
     }[section] || "/announcements";
 
-  const load = (targetPage = page) =>
+  const load = useCallback((targetPage = 1) =>
     api
       .get(endpoint, { params: { page: targetPage, limit: 10 } })
       .then((response) => setData(unwrap(response)))
       .catch((e) => {
         setError(e.response?.data?.message || t("noRecords"));
         setData([]);
-      });
+      }), [endpoint, t]);
 
   useEffect(() => {
     setPage(1);
@@ -202,7 +202,7 @@ export default function Simple() {
     setForm({ ...blank });
     setError("");
   };
-  const openRoster = async (course) => {
+  const openRoster = useCallback(async (course) => {
     setRosterCourse(course);
     const cached = courseRosters[course.id];
     if (cached) return;
@@ -220,16 +220,16 @@ export default function Simple() {
     } finally {
       setRosterBusy(false);
     }
-  };
-  const closeResults = () => {
+  }, [courseRosters, t]);
+  const closeResults = useCallback(() => {
     setResultExam(null);
     setExamStudents([]);
     setExamResults([]);
     setResultForm({ studentId: "", score: "", feedback: "" });
     setError("");
-  };
+  }, []);
 
-  const openResults = async (exam) => {
+  const openResults = useCallback(async (exam) => {
     setResultBusy(true);
     setError("");
     setResultExam(exam);
@@ -258,7 +258,7 @@ export default function Simple() {
     } finally {
       setResultBusy(false);
     }
-  };
+  }, [t]);
 
   const selectResultStudent = (studentId) => {
     const result = examResults.find((item) => item.studentId === studentId);
@@ -303,7 +303,7 @@ export default function Simple() {
     }
   };
 
-  const edit = (row) => {
+  const edit = useCallback((row) => {
     setEditing(row);
     if (section === "submissions") {
       setForm({
@@ -330,7 +330,7 @@ export default function Simple() {
     }
     setError("");
     setOpen(true);
-  };
+  }, [section]);
 
   const save = async (event) => {
     event.preventDefault();
@@ -461,7 +461,7 @@ export default function Simple() {
     }
   };
 
-  const remove = async (row) => {
+  const remove = useCallback(async (row) => {
     if (!user?.canDelete || !(await ask(t("deleteRecordConfirm")))) return;
     try {
       await api.delete(`${endpoint}/${row.id}`);
@@ -469,9 +469,9 @@ export default function Simple() {
     } catch (e) {
       setError(e.response?.data?.message || t("couldNotSaveRecord"));
     }
-  };
+  }, [ask, endpoint, load, t, user?.canDelete]);
 
-  const attachmentCell = (row) =>
+  const attachmentCell = useCallback((row) =>
     row.attachmentUrl ? (
       <a
         href={mediaUrl(row.attachmentUrl)}
@@ -494,9 +494,9 @@ export default function Simple() {
       </a>
     ) : (
       <span className="text-xs text-slate-400">{t("noFile")}</span>
-    );
+    ), [t]);
 
-  const submissionFileCell = (row) =>
+  const submissionFileCell = useCallback((row) =>
     row.fileUrl ? (
       <a
         href={mediaUrl(row.fileUrl)}
@@ -519,9 +519,9 @@ export default function Simple() {
       </a>
     ) : (
       <span className="text-xs text-slate-400">{t("noFile")}</span>
-    );
+    ), [t]);
 
-  const actionColumn =
+  const actionColumn = useMemo(() =>
     editable.includes(section) || section === "submissions"
       ? [
           {
@@ -565,9 +565,9 @@ export default function Simple() {
               ),
           },
         ]
-      : [];
+      : [], [edit, remove, section, t, user?.canCreate, user?.canEdit, user?.canDelete]);
 
-  const columns =
+  const columns = useMemo(() =>
     section === "courses"
       ? [
           { key: "courseCode", label: t("code") },
@@ -845,7 +845,7 @@ export default function Simple() {
                         label: t("status"),
                         render: () => t("noRecords"),
                       },
-                    ];
+                     ], [actionColumn, attachmentCell, language, now, openResults, openRoster, section, submissionFileCell, t, user?.canCreate, user?.canEdit]);
 
   const openCreate = () => {
     if (section === "submissions") {

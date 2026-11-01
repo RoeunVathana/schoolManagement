@@ -69,12 +69,13 @@
 }
 @layer components {
   .input {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-ink outline-none transition duration-200 placeholder:text-slate-400 focus:border-navy focus:ring-4 focus:ring-navy/10 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-slate-400 focus:border-navy focus:ring-4 focus:ring-navy/10 disabled:cursor-not-allowed disabled:opacity-60;
     min-height: 3rem;
+    transition: border-color .14s ease, box-shadow .14s ease, background-color .14s ease;
   }
 
   .input:hover:not(:disabled) { border-color: #b9c8d9; }
-  .input:focus-visible { transform: translateY(-1px); }
+  .input:focus-visible { box-shadow: 0 0 0 4px rgb(16 36 63 / .1); }
   .input[aria-invalid='true'] { border-color: #f87171; box-shadow: 0 0 0 4px rgb(248 113 113 / .1); }
   textarea.input { min-height: 7rem; resize: vertical; line-height: 1.65; }
   select.input { cursor: pointer; }
@@ -4704,7 +4705,6 @@ a, button, input, textarea, select { max-width: 100%; }
   transform: translateY(1px) scale(.985);
 }
 
-.input,
 .modal-panel,
 .payment-qr-frame,
 .community-button {
