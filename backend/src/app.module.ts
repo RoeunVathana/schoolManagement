@@ -34,6 +34,7 @@ import { GroupsModule } from './groups/groups.module';
 import { MediaModule } from './media/media.module';
 import { CommunityAdminModule } from './community-admin/community-admin.module';
 import { HealthController } from './health/health.controller';
+import { RootController } from './health/root.controller';
 
 @Module({
   imports: [
@@ -71,6 +72,6 @@ import { HealthController } from './health/health.controller';
     MediaModule,
     CommunityAdminModule,
   ],
-  controllers: [HealthController],
+  controllers: [RootController, HealthController],
 })
 export class AppModule {}
