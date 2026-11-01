@@ -53,6 +53,7 @@ MAIL_USER="your-email@gmail.com"
 MAIL_PASSWORD="your-gmail-app-password"
 MAIL_FROM="CampusFlow <your-email@gmail.com>"
 PASSWORD_RESET_OTP_EXPIRES_MINUTES="10"
+PASSWORD_RESET_OTP_SECRET="generate-a-different-random-secret-of-at-least-32-characters"
 ```
 
 For Gmail, use a Google App Password with two-step verification enabled; do not use the normal Gmail password. Restart the backend after changing these values. The OTP is never returned by the API and is never stored in plaintext.

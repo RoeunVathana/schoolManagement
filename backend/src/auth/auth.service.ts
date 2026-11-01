@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { createHash, randomBytes, randomInt, randomUUID } from 'crypto';
+import { createHash, createHmac, randomBytes, randomInt, randomUUID, timingSafeEqual } from 'crypto';
 import { Role, UserStatus } from '@prisma/client';
 import { PaymentService } from '../payments/payment.service';
 import { FirebaseAuthService } from './firebase-auth.service';
@@ -22,7 +22,15 @@ export class AuthService {
     return this.prisma.student.create({ data: { userId, studentCode: `STU-${randomUUID().slice(0, 8).toUpperCase()}` }, select: { id: true } });
   }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
-  private hashOtp(otp: string, userId: string) { return createHash('sha256').update(`${userId}:${otp}:${this.config.get('JWT_ACCESS_SECRET', 'campusflow')}`).digest('hex'); }
+  private hashOtp(otp: string, userId: string) {
+    const secret = this.config.get<string>('PASSWORD_RESET_OTP_SECRET')?.trim() || this.config.getOrThrow<string>('JWT_ACCESS_SECRET');
+    return createHmac('sha256', secret).update(`${userId}:${otp}`).digest('hex');
+  }
+  private matchesHash(expected: string, actual: string) {
+    const expectedBuffer = Buffer.from(expected, 'hex');
+    const actualBuffer = Buffer.from(actual, 'hex');
+    return expectedBuffer.length === actualBuffer.length && timingSafeEqual(expectedBuffer, actualBuffer);
+  }
 
   async register(input: { fullName?: string; username?: string; firstName?: string; lastName?: string; email: string; password: string; phone?: string; accountType?: Role; role?: Role; specialization?: string; language?: string; profileImageUrl?: string }) {
     const role = input.accountType ?? input.role ?? Role.STUDENT;
@@ -125,7 +133,7 @@ export class AuthService {
 
     const reset = await this.prisma.passwordResetOtp.findFirst({ where: { userId: user.id, usedAt: null, expiresAt: { gt: new Date() } }, orderBy: { createdAt: 'desc' } });
     if (!reset || reset.attempts >= 5) throw new BadRequestException('Invalid or expired verification code.');
-    if (this.hashOtp(otp, user.id) !== reset.codeHash) {
+    if (!this.matchesHash(reset.codeHash, this.hashOtp(otp, user.id))) {
       const attempts = reset.attempts + 1;
       await this.prisma.passwordResetOtp.update({ where: { id: reset.id }, data: { attempts, usedAt: attempts >= 5 ? new Date() : undefined } });
       throw new BadRequestException(attempts >= 5 ? 'Too many invalid attempts. Request a new code.' : 'Invalid or expired verification code.');

@@ -18,7 +18,16 @@ export class MailService {
 
     this.from = this.config.get<string>('MAIL_FROM')?.trim() || user || 'CampusFlow <no-reply@localhost>';
     this.transporter = host && user && password
-      ? nodemailer.createTransport({ host, port, secure, auth: { user, pass: password } })
+      ? nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        requireTLS: !secure,
+        tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
+        disableFileAccess: true,
+        disableUrlAccess: true,
+        auth: { user, pass: password },
+      })
       : null;
   }
 
