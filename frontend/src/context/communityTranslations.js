@@ -2,6 +2,7 @@ import { useLanguage } from './LanguageContext';
 
 export const communityTranslations = {
   en: {
+    editComment: 'Edit', saveComment: 'Save', cancelComment: 'Cancel', editedComment: 'edited', commentUpdateFailed: 'Could not update comment.',
     community: 'CampusFlow community', profile: 'Profile', friends: 'Friends', messages: 'Messages',
     openMessages: 'Open messages', browseCourses: 'Browse courses',
     friendsTitle: 'Welcome to your circle.', friendsDescription: 'find people who make learning feel easier, more useful, and more fun.',
