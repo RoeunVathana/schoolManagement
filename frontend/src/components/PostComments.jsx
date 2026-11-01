@@ -19,6 +19,7 @@ export default function PostComments({ post }) {
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [likeBusy, setLikeBusy] = useState({});
   const [draft, setDraft] = useState('');
   const [notice, setNotice] = useState('');
 
@@ -29,6 +30,7 @@ export default function PostComments({ post }) {
     setLoaded(false);
     setDraft('');
     setNotice('');
+    setLikeBusy({});
   }, [post.id]);
 
   const loadComments = async () => {
@@ -85,6 +87,27 @@ export default function PostComments({ post }) {
     }
   };
 
+  const toggleLike = async (comment) => {
+    if (!user) {
+      setNotice(text.signInToComment);
+      return;
+    }
+    if (likeBusy[comment.id]) return;
+    const nextLiked = !comment.viewerLiked;
+    setLikeBusy((current) => ({ ...current, [comment.id]: true }));
+    setNotice('');
+    try {
+      const result = unwrap(nextLiked
+        ? await api.post(`/api/posts/${post.id}/comments/${comment.id}/like`)
+        : await api.delete(`/api/posts/${post.id}/comments/${comment.id}/like`)) || {};
+      setComments((current) => current.map((item) => item.id === comment.id ? { ...item, likeCount: result.likeCount ?? item.likeCount ?? 0, viewerLiked: result.liked ?? nextLiked } : item));
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || text.commentLikeFailed);
+    } finally {
+      setLikeBusy((current) => ({ ...current, [comment.id]: false }));
+    }
+  };
+
   return <section className="community-post-comments" aria-label={text.comments}>
     <button type="button" className="community-post-comments-toggle" onClick={toggleComments} aria-expanded={open}>
       <span aria-hidden="true">💬</span>{open ? text.hideComments : text.viewComments}{commentCount > 0 ? ` · ${commentCount}` : ''}
@@ -93,7 +116,7 @@ export default function PostComments({ post }) {
       {loading ? <p className="community-post-comments-state">{text.loadingComments}</p> : comments.length ? <div className="community-post-comments-list">
         {comments.map((comment) => <article key={comment.id} className="community-post-comment">
           <UserAvatar person={comment.author} size="sm" />
-          <div className="community-post-comment-body"><div className="community-post-comment-bubble"><strong>{comment.author?.fullName || text.communityMember}</strong><p>{comment.content}</p></div><div className="community-post-comment-meta"><time dateTime={comment.createdAt}>{formatCommentDate(comment.createdAt)}</time>{user?.id === comment.authorId && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}</div></div>
+          <div className="community-post-comment-body"><div className="community-post-comment-bubble"><strong>{comment.author?.fullName || text.communityMember}</strong><p>{comment.content}</p></div><div className="community-post-comment-meta"><time dateTime={comment.createdAt}>{formatCommentDate(comment.createdAt)}</time><button type="button" className={`community-post-comment-like ${comment.viewerLiked ? 'is-liked' : ''}`} onClick={() => toggleLike(comment)} disabled={likeBusy[comment.id]} aria-pressed={Boolean(comment.viewerLiked)}>{comment.viewerLiked ? text.unlikeComment : text.likeComment}{comment.likeCount > 0 ? ` · ${comment.likeCount}` : ''}</button>{user?.id === comment.authorId && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}</div></div>
         </article>)}
       </div> : <p className="community-post-comments-state">{text.noComments}</p>}
       {notice && <p className="community-post-comments-notice" role="alert">{notice}</p>}

@@ -2170,6 +2170,9 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-comment-bubble p { margin: .2rem 0 0; white-space: pre-wrap; font-size: .72rem; line-height: 1.5; }
 .community-post-comment-meta { display: flex; align-items: center; gap: .55rem; margin: .2rem .35rem 0; color: var(--community-muted); font-size: .58rem; font-weight: 750; }
 .community-post-comment-meta button { border: 0; padding: 0; color: var(--community-blue); background: transparent; font: inherit; cursor: pointer; }
+.community-post-comment-meta button.community-post-comment-like { color: var(--community-muted); }
+.community-post-comment-meta button.community-post-comment-like.is-liked { color: var(--community-coral); }
+.community-post-comment-meta button:disabled { cursor: wait; opacity: .55; }
 .community-post-comment-form { display: flex; align-items: center; gap: .45rem; }
 .community-post-comment-form input { min-width: 0; flex: 1; border: 1px solid var(--community-line); border-radius: 999px; padding: .62rem .8rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .72rem; outline: none; }
 .community-post-comment-form input:focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }

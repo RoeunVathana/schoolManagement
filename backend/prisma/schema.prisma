@@ -146,6 +146,7 @@ model User {
   posts                         Post[]
   postReactions                 PostReaction[]
   postComments                  PostComment[]        @relation("PostCommentAuthor")
+  postCommentReactions          PostCommentReaction[]
   stories                       Story[]
   sentFriendRequests            FriendRequest[]        @relation("FriendRequestSender")
   receivedFriendRequests        FriendRequest[]        @relation("FriendRequestReceiver")
@@ -249,10 +250,24 @@ model PostComment {
   updatedAt DateTime @updatedAt
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   author    User     @relation("PostCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  reactions PostCommentReaction[]
 
   @@index([postId, createdAt])
   @@index([authorId, createdAt])
   @@map("post_comments")
+}
+
+model PostCommentReaction {
+  id        String      @id @default(cuid())
+  commentId String
+  userId    String
+  createdAt DateTime    @default(now())
+  comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@index([userId, createdAt])
+  @@map("post_comment_reactions")
 }
 
 model Story {
