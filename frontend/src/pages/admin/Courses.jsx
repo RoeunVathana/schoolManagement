@@ -74,6 +74,8 @@ export default function Courses() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
+  const [saveStage, setSaveStage] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const imageInputRef = useRef(null);
 
   const load = useCallback((targetPage = page) => {
@@ -99,7 +101,7 @@ export default function Courses() {
   const resetImageInput = () => {
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
-  const close = () => { resetImageInput(); setOpen(false); setEditing(null); setForm({ ...emptyForm }); setError(''); setNotice(''); };
+  const close = (force = false) => { if (busy && !force) return; resetImageInput(); setOpen(false); setEditing(null); setForm({ ...emptyForm }); setError(''); setNotice(''); setSaveStage(null); setUploadProgress(0); };
   const openCreate = () => { resetImageInput(); setEditing(null); setForm({ ...emptyForm, courseCode: previewCode('CRS') }); setError(''); setNotice(''); setOpen(true); };
   const openEdit = useCallback((course) => {
     resetImageInput();
@@ -162,11 +164,14 @@ export default function Courses() {
   };
   const save = async (event) => {
     event.preventDefault();
+    if (busy) return;
     if (cropFile) {
       setError(t('completeCropBeforeSave'));
       return;
     }
     setBusy(true);
+    setSaveStage({ key: 'preparing', percent: 5 });
+    setUploadProgress(0);
     setError('');
     setNotice('');
     try {
@@ -174,15 +179,35 @@ export default function Courses() {
       const image = payload.image;
       delete payload.image;
       const requestPayload = image ? courseFormData(payload, image) : payload;
-      const saved = unwrap(editing ? await api.patch(`/courses/${editing.id}`, requestPayload) : await api.post('/courses', requestPayload));
+      const requestConfig = image ? {
+        onUploadProgress: (event) => {
+          const total = event.total || image.size || 1;
+          const percent = Math.min(99, Math.max(1, Math.round((event.loaded / total) * 100)));
+          setUploadProgress(percent);
+          setSaveStage({ key: 'uploading', percent: Math.max(8, Math.round(percent * 0.78)) });
+        },
+      } : undefined;
+      if (image) setSaveStage({ key: 'uploading', percent: 8 });
+      else setSaveStage({ key: 'saving', percent: 55 });
+      const response = editing
+        ? await api.patch(`/courses/${editing.id}`, requestPayload, requestConfig)
+        : await api.post('/courses', requestPayload, requestConfig);
+      const saved = unwrap(response);
       if (image && !saved?.imageUrl) throw new Error(t('courseImageNotSaved'));
+      setSaveStage({ key: 'saving', percent: 82 });
+      setUploadProgress(image ? 100 : 0);
+      setSaveStage({ key: 'refreshing', percent: 90 });
       const refreshed = await load();
+      if (!refreshed?.data?.some((course) => course.id === saved.id)) throw new Error(t('couldNotLoadCourses'));
       if (image && !refreshed?.data?.some((course) => course.id === saved.id && course.imageUrl)) throw new Error(t('courseImageNotInTable'));
-      close();
+      setSaveStage({ key: 'complete', percent: 100 });
+      close(true);
     } catch (e) {
       setError(e.response?.data?.message || e.message || t('couldNotSaveCourse'));
     } finally {
       setBusy(false);
+      setSaveStage(null);
+      setUploadProgress(0);
     }
   };
   const remove = useCallback(async (course) => {
@@ -245,7 +270,12 @@ export default function Courses() {
         <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input ref={imageInputRef} type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onClick={(event) => { event.currentTarget.value = ''; }} onChange={chooseCourseImage} /><FileImagePreview file={form.image} label={t('useCroppedImage')} /></Field></div>
         {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
-        <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>
+        {busy && saveStage && <div className="sticky bottom-0 rounded-2xl border border-sky-200 bg-white/95 p-4 shadow-lg backdrop-blur dark:border-sky-900 dark:bg-slate-900/95" role="status" aria-live="polite" aria-busy="true">
+          <div className="flex items-center justify-between gap-3 text-sm font-bold text-slate-700 dark:text-slate-200"><span>{saveStage.key === 'uploading' ? `${t('uploading')} ${uploadProgress}%` : saveStage.key === 'refreshing' ? t('loading') : saveStage.key === 'complete' ? t('courseSaved') : saveStage.key === 'preparing' ? t('preparingImage') : t('savingCourse')}</span><span>{saveStage.percent}%</span></div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"><div className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300" style={{ width: `${saveStage.percent}%` }} /></div>
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{saveStage.key === 'uploading' ? t('uploadingCourseImage') : saveStage.key === 'refreshing' ? t('refreshingCourseList') : t('savingCourseData')}</p>
+        </div>}
+        <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:cursor-wait disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>
       </form>
     </Modal>
   </>;
