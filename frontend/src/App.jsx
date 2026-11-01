@@ -5,6 +5,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { ConfirmProvider } from './context/ConfirmContext';
 import AppRoutes from './routes/AppRoutes';
 import Seo from './components/Seo';
+import ServerStatusGuard from './components/ServerStatusGuard';
 
 function RouteSeo() {
   const { pathname } = useLocation();
@@ -27,5 +28,5 @@ function RouteSeo() {
 }
 
 export default function App() {
-  return <BrowserRouter><RouteSeo /><ThemeProvider><LanguageProvider><AuthProvider><ConfirmProvider><AppRoutes /></ConfirmProvider></AuthProvider></LanguageProvider></ThemeProvider></BrowserRouter>;
+  return <BrowserRouter><RouteSeo /><ThemeProvider><LanguageProvider><AuthProvider><ConfirmProvider><ServerStatusGuard><AppRoutes /></ServerStatusGuard></ConfirmProvider></AuthProvider></LanguageProvider></ThemeProvider></BrowserRouter>;
 }
