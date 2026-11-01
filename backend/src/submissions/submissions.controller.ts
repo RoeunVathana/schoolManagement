@@ -109,13 +109,10 @@ import { MediaStorageService } from '../media/media-storage.service';
     return studentId;
   }
 
-  private async assertStudentSubmissionCanBeReplaced(assignmentId: string, studentId: string, user: any) {
-    if (!isLearnerRole(user.role)) return;
-    const existing = await this.prisma.submission.findUnique({
-      where: { assignmentId_studentId: { assignmentId, studentId } },
-      include: { grade: true },
-    });
-    if (existing?.grade) throw new BadRequestException('A graded submission cannot be edited');
+  private clearGradeForStudentUpdate(submission: { grade?: unknown } | null | undefined, user: any) {
+    // A student may revise homework after grading. The old grade must be
+    // removed so the teacher does not see a stale score for the new answer.
+    return isLearnerRole(user.role) && submission?.grade ? { grade: { delete: true } } : {};
   }
 
   private assertBeforeDeadline(assignment: any, user: any, files: Express.Multer.File[] = []) {
@@ -125,21 +122,15 @@ import { MediaStorageService } from '../media/media-storage.service';
     }
   }
 
-  private assertStudentCanEdit(submission: any, user: any) {
-    if (isLearnerRole(user.role) && submission.grade) {
-      throw new BadRequestException('A graded submission cannot be edited');
-    }
-  }
-
   @Post() @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('create') async create(@Body() b: any, @CurrentUser() user: any) {
     const assignment = await this.assertTeacherAssignment(b.assignmentId, user);
     this.assertBeforeDeadline(assignment, user);
     const studentId = await this.assertEnrollment(assignment.courseId, await this.resolveStudentId(user, b.studentId));
-    await this.assertStudentSubmissionCanBeReplaced(assignment.id, studentId, user);
+    const existing = await this.prisma.submission.findUnique({ where: { assignmentId_studentId: { assignmentId: assignment.id, studentId } }, include: { grade: true } });
     const submittedAt = new Date();
     return this.prisma.submission.upsert({
       where: { assignmentId_studentId: { assignmentId: assignment.id, studentId } },
-      update: { answerText: b.answerText, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
+      update: { answerText: b.answerText, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED, ...this.clearGradeForStudentUpdate(existing, user) },
       create: { assignmentId: assignment.id, studentId, answerText: b.answerText, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
     });
   }
@@ -151,13 +142,12 @@ import { MediaStorageService } from '../media/media-storage.service';
       const assignment = await this.assertTeacherAssignment(assignmentId, user);
       this.assertBeforeDeadline(assignment, user, files);
       const studentId = await this.assertEnrollment(assignment.courseId, await this.resolveStudentId(user, b.studentId));
-      await this.assertStudentSubmissionCanBeReplaced(assignmentId, studentId, user);
-      const existing = await this.prisma.submission.findUnique({ where: { assignmentId_studentId: { assignmentId, studentId } }, include: { attachments: true } });
+      const existing = await this.prisma.submission.findUnique({ where: { assignmentId_studentId: { assignmentId, studentId } }, include: { grade: true, attachments: true } });
       const attachmentData = await this.submissionAttachmentData(files);
       const submittedAt = new Date();
       const result = await this.prisma.submission.upsert({
         where: { assignmentId_studentId: { assignmentId, studentId } },
-        update: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { deleteMany: {}, create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
+        update: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { deleteMany: {}, create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED, ...this.clearGradeForStudentUpdate(existing, user) },
         create: { assignmentId, studentId, answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED },
         include: { attachments: { orderBy: { createdAt: 'asc' } } },
       });
@@ -174,12 +164,11 @@ import { MediaStorageService } from '../media/media-storage.service';
     this.validateFiles(files);
     try {
       const submission = await this.assertStudentOwner(id, user);
-      this.assertStudentCanEdit(submission, user);
       const assignment = await this.prisma.assignment.findUniqueOrThrow({ where: { id: submission.assignmentId } });
       this.assertBeforeDeadline(assignment, user, files);
       const attachmentData = await this.submissionAttachmentData(files);
       const submittedAt = new Date();
-      const result = await this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { deleteMany: {}, create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED }, include: { attachments: { orderBy: { createdAt: 'asc' } } } });
+      const result = await this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText !== undefined ? String(b.answerText).trim() : undefined, fileUrl: attachmentData[0].fileUrl, attachments: { deleteMany: {}, create: attachmentData }, submittedAt, status: submittedAt > assignment.dueDate ? SubmissionStatus.LATE : SubmissionStatus.SUBMITTED, ...this.clearGradeForStudentUpdate(submission, user) }, include: { attachments: { orderBy: { createdAt: 'asc' } } } });
       await this.cleanupStoredFiles(this.storedSubmissionUrls(submission));
       return result;
     } catch (error) {
@@ -227,9 +216,8 @@ import { MediaStorageService } from '../media/media-storage.service';
   @Patch(':id') @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT) @Permissions('edit') async update(@Param('id') id: string, @Body() b: any, @CurrentUser() user: any) {
     const submission = await this.assertStudentOwner(id, user);
     if (isLearnerRole(user.role)) {
-      this.assertStudentCanEdit(submission, user);
       this.assertBeforeDeadline(submission.assignment, user);
-      return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText, submittedAt: new Date(), status: SubmissionStatus.SUBMITTED } });
+      return this.prisma.submission.update({ where: { id }, data: { answerText: b.answerText, submittedAt: new Date(), status: SubmissionStatus.SUBMITTED, ...this.clearGradeForStudentUpdate(submission, user) } });
     }
     return this.prisma.submission.update({ where: { id }, data: { status: b.status } });
   }
