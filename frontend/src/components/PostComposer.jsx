@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import api, { unwrap } from '../api/axios';
-import { useLanguage } from '../context/LanguageContext';
 import { useCommunityText } from '../context/communityTranslations';
 import CommunityMedia from './CommunityMedia';
 import UserAvatar from './UserAvatar';
@@ -25,33 +24,20 @@ function friendName(friend) {
 
 export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
   const isEditing = Boolean(post?.id);
-  const { language } = useLanguage();
   const text = useCommunityText();
-  const isKhmer = language === 'km';
-  const copy = isKhmer ? {
-    photo: 'រូបភាព',
-    video: 'វីដេអូ',
-    findFriend: 'ស្វែងរកមិត្តភក្តិ',
-    tagFriends: 'ស្វែងរកមិត្តភក្តិដើម្បីដាក់ស្លាក',
-    acceptedOnly: 'អាចដាក់ស្លាកបានតែមិត្តភក្តិដែលបានទទួលយល់ព្រមប៉ុណ្ណោះ។',
-    loadingFriends: 'កំពុងផ្ទុកមិត្តភក្តិ...',
-    noFriendsFound: 'រកមិនឃើញមិត្តភក្តិទេ។',
-    noAcceptedFriends: 'មិនទាន់មានមិត្តភក្តិដែលបានទទួលយល់ព្រមទេ។',
-    taggedFriends: 'មិត្តភក្តិដែលបានដាក់ស្លាក៖',
-    tagLimit: 'ការបង្ហោះ និងស្លាកមិត្តភក្តិ ត្រូវមានអក្សរ ៥០០០ ឬតិចជាងនេះ។',
-    mediaNote: `រូបភាព ឬវីដេអូអតិបរមា ${MAX_MEDIA_COUNT} · ទំហំអតិបរមា ១០០ MB ក្នុងមួយឯកសារ`,
-  } : {
-    photo: 'Photo',
-    video: 'Video',
-    findFriend: 'Find friend',
-    tagFriends: 'Find friends to tag',
-    acceptedOnly: 'Only accepted friends can be tagged.',
-    loadingFriends: 'Loading friends...',
-    noFriendsFound: 'No friends found.',
-    noAcceptedFriends: 'No accepted friends yet.',
-    taggedFriends: 'Tagged friends:',
-    tagLimit: 'Your post and friend tags must be 5000 characters or fewer.',
-    mediaNote: `Up to ${MAX_MEDIA_COUNT} images or videos · maximum 100 MB each`,
+  const translate = (value, replacements = {}) => Object.entries(replacements).reduce((result, [key, replacement]) => result.replace(`{${key}}`, replacement), value || '');
+  const copy = {
+    photo: text.postPhoto,
+    video: text.postVideo,
+    findFriend: text.findFriend,
+    tagFriends: text.tagFriends,
+    acceptedOnly: text.acceptedFriendsOnly,
+    loadingFriends: text.loadingFriends,
+    noFriendsFound: text.noFriendsFound,
+    noAcceptedFriends: text.noAcceptedFriends,
+    taggedFriends: text.taggedFriends,
+    tagLimit: text.tagLimit,
+    mediaNote: translate(text.mediaNote, { count: MAX_MEDIA_COUNT }),
   };
   const [content, setContent] = useState(post?.content || '');
   const [visibility, setVisibility] = useState(post?.visibility || 'FRIENDS_ONLY');
@@ -103,7 +89,7 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
     }
     const nextFiles = [...mediaFiles, ...files].filter((file, index, all) => index === all.findIndex((candidate) => candidate.name === file.name && candidate.size === file.size && candidate.lastModified === file.lastModified));
     if (nextFiles.length > MAX_MEDIA_COUNT) {
-      setError(`You can attach up to ${MAX_MEDIA_COUNT} images or videos per post.`);
+      setError(translate(text.mediaCountLimit, { count: MAX_MEDIA_COUNT }));
       return;
     }
     setError('');
@@ -165,12 +151,12 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
     </div>
     {!isEditing && friendPickerOpen && <div className="community-tag-picker">
       <div className="community-tag-picker-heading"><strong>{copy.tagFriends}</strong><span>{copy.acceptedOnly}</span></div>
-      <input value={friendSearch} onChange={(event) => setFriendSearch(event.target.value)} className="community-tag-search" placeholder={text.searchFriendsPlaceholder || 'Search friends by name or email...'} autoFocus />
+      <input value={friendSearch} onChange={(event) => setFriendSearch(event.target.value)} className="community-tag-search" placeholder={text.searchFriendsPlaceholder} autoFocus />
       {taggedFriends.length > 0 && <div className="community-tag-chips">{taggedFriends.map((friend) => <button type="button" key={friend.id} className="community-tag-chip" onClick={() => removeFriendTag(friend.id)}><span>@{friendName(friend)}</span><span aria-hidden="true">×</span></button>)}</div>}
       {friendsLoading ? <p className="community-tag-empty">{copy.loadingFriends}</p> : filteredFriends.length ? <div className="community-tag-results">{filteredFriends.map((friend) => <button type="button" key={friend.id} className="community-tag-option" onClick={() => addFriendTag(friend)}><UserAvatar person={friend} size="sm" /><span><strong>{friendName(friend)}</strong><small>{friend.email || friend.user?.email || friend.role || ''}</small></span><span className="community-tag-add">+</span></button>)}</div> : <p className="community-tag-empty">{friends.length ? copy.noFriendsFound : copy.noAcceptedFriends}</p>}
     </div>}
     {previewItems.length > 0 && <div className={`community-media-preview-grid ${previewItems.length === 1 ? 'is-single' : ''}`}>
-      {previewItems.map((item, index) => <div className="community-media-preview" key={item.id || item.url || `${item.name}-${index}`}><CommunityMedia url={item.url} mediaType={item.mediaType} alt={`Post media ${index + 1}`} /><p>{item.name || `Media ${index + 1}`}{item.file ? ` · ${(item.file.size / (1024 * 1024)).toFixed(1)} MB` : ''}</p>{mediaFiles.length > 0 && <button type="button" onClick={() => setMediaFiles((current) => current.filter((_file, fileIndex) => fileIndex !== index))} className="community-media-preview-remove" aria-label={text.removeImage}>×</button>}</div>)}
+      {previewItems.map((item, index) => <div className="community-media-preview" key={item.id || item.url || `${item.name}-${index}`}><CommunityMedia url={item.url} mediaType={item.mediaType} alt={translate(text.postMediaAlt, { number: index + 1 })} /><p>{item.name || translate(text.mediaItem, { number: index + 1 })}{item.file ? ` · ${(item.file.size / (1024 * 1024)).toFixed(1)} MB` : ''}</p>{mediaFiles.length > 0 && <button type="button" onClick={() => setMediaFiles((current) => current.filter((_file, fileIndex) => fileIndex !== index))} className="community-media-preview-remove" aria-label={text.removeImage}>×</button>}</div>)}
     </div>}
     <div className="community-composer-footer"><label className="community-visibility-field"><span>{text.whoSeePost}</span><select value={visibility} onChange={(event) => setVisibility(event.target.value)}><option value="PUBLIC">{text.public}</option><option value="FRIENDS_ONLY">{text.friendsOnly}</option><option value="PRIVATE">{text.onlyMe}</option></select><small>{visibility === 'PUBLIC' ? text.publicHelp : visibility === 'FRIENDS_ONLY' ? text.friendsHelp : text.privateHelp}</small></label><button type="submit" disabled={busy || !content.trim()} className="community-button community-button-primary">{busy ? (isEditing ? text.saving : text.publish) : (isEditing ? text.saveChanges : text.publishPost)}</button></div>
     {error && <p className="community-alert community-alert-inline">{error}</p>}
