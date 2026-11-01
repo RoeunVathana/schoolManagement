@@ -99,33 +99,14 @@ export default function Courses() {
     setOpen(true);
   }, []);
   const updateField = useCallback((key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value })), []);
-  const completeCrop = async (croppedFile) => {
+  const completeCrop = (croppedFile) => {
     if (isImageTooLarge(croppedFile)) {
       setError(t('imageTooLarge'));
       return;
     }
-    if (!editing) {
-      setForm((current) => ({ ...current, image: croppedFile }));
-      setCropFile(null);
-      return;
-    }
-    setBusy(true);
     setError('');
-    setNotice('');
-    try {
-      const image = new FormData();
-      image.append('image', croppedFile);
-      await api.post(`/courses/${editing.id}/image`, image, { headers: { 'Content-Type': 'multipart/form-data' } });
-      setForm((current) => ({ ...current, image: null }));
-      setCropFile(null);
-      setNotice(language === 'km' ? 'រូបភាពមុខវិជ្ជាត្រូវបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។' : t('courseImageUpdated'));
-      await load();
-    } catch (e) {
-      setError(e.response?.data?.message || t('couldNotSaveCourse'));
-      setNotice('');
-    } finally {
-      setBusy(false);
-    }
+    setForm((current) => ({ ...current, image: croppedFile }));
+    setCropFile(null);
   };
   const save = async (event) => {
     event.preventDefault();
