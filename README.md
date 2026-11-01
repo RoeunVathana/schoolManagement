@@ -54,9 +54,12 @@ MAIL_PASSWORD="your-gmail-app-password"
 MAIL_FROM="CampusFlow <your-email@gmail.com>"
 PASSWORD_RESET_OTP_EXPIRES_MINUTES="10"
 PASSWORD_RESET_OTP_SECRET="generate-a-different-random-secret-of-at-least-32-characters"
+REDIS_URL="redis://:password@redis-host:6379"
 ```
 
 For Gmail, use a Google App Password with two-step verification enabled; do not use the normal Gmail password. Restart the backend after changing these values. The OTP is never returned by the API and is never stored in plaintext.
+
+Redis caching is optional. Set `REDIS_URL` in production to enable short-lived caching for the public course catalog and public community feed. If Redis is unavailable, the API automatically falls back to PostgreSQL.
 
 The database migration creates the `password_reset_otps` table automatically:
 

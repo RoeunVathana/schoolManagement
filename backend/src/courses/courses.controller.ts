@@ -12,11 +12,12 @@ import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { pagination, paginationResult } from '../common/pagination';
 import { courseImageUpload } from '../common/upload.options';
 import { MediaStorageService } from '../media/media-storage.service';
+import { CacheService } from '../cache/cache.service';
 
 @ApiTags('courses') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService, private readonly cache: CacheService) {}
 
   private generatedCourseCode() { return `CRS-${randomUUID().slice(0, 8).toUpperCase()}`; }
 
@@ -97,24 +98,28 @@ export class CoursesController {
   @Post()
   @Roles(Role.ADMIN)
   @Permissions('create')
-  create(@Body() b: any) {
-    return this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+  async create(@Body() b: any) {
+    const course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+    await this.cache.invalidatePrefix('cache:storefront:');
+    return course;
   }
 
   @Post(':id/image')
   @Roles(Role.ADMIN)
   @Permissions('edit')
   @UseInterceptors(FileInterceptor('image', courseImageUpload))
-  async image(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a course image.'); const course = await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { imageUrl: true } }); const uploaded = await this.media.upload(file, 'courses'); const updated = await this.prisma.course.update({ where: { id }, data: { imageUrl: uploaded.url } }); await this.media.remove(course.imageUrl); return updated; }
+  async image(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) { if (!file) throw new BadRequestException('Please select a course image.'); const course = await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { imageUrl: true } }); const uploaded = await this.media.upload(file, 'courses'); const updated = await this.prisma.course.update({ where: { id }, data: { imageUrl: uploaded.url } }); await this.media.remove(course.imageUrl); await this.cache.invalidatePrefix('cache:storefront:'); return updated; }
 
   @Patch(':id')
   @Roles(Role.ADMIN)
   @Permissions('edit')
-  update(@Param('id') id: string, @Body() b: any) {
-    return this.prisma.course.update({ where: { id }, data: { courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: b.startDate ? new Date(b.startDate) : undefined, endDate: b.endDate ? new Date(b.endDate) : undefined, status: b.status, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? undefined : Number(b.price), currency: b.currency ? String(b.currency).toUpperCase() : undefined, ...this.discountData(b, true), ...this.paymentData(b, true) } });
+  async update(@Param('id') id: string, @Body() b: any) {
+    const course = await this.prisma.course.update({ where: { id }, data: { courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: b.startDate ? new Date(b.startDate) : undefined, endDate: b.endDate ? new Date(b.endDate) : undefined, status: b.status, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: b.imageUrl, price: b.price === undefined || b.price === '' ? undefined : Number(b.price), currency: b.currency ? String(b.currency).toUpperCase() : undefined, ...this.discountData(b, true), ...this.paymentData(b, true) } });
+    await this.cache.invalidatePrefix('cache:storefront:');
+    return course;
   }
 
   @Delete(':id')
   @Roles(Role.ADMIN)
-  remove(@Param('id') id: string) { return this.prisma.course.delete({ where: { id }, select: { id: true } }); }
+  async remove(@Param('id') id: string) { const deleted = await this.prisma.course.delete({ where: { id }, select: { id: true } }); await this.cache.invalidatePrefix('cache:storefront:'); return deleted; }
 }

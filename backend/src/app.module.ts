@@ -35,10 +35,12 @@ import { MediaModule } from './media/media.module';
 import { CommunityAdminModule } from './community-admin/community-admin.module';
 import { HealthController } from './health/health.controller';
 import { RootController } from './health/root.controller';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
+    CacheModule,
     PrismaModule,
     TelegramModule,
     PaymentsModule,

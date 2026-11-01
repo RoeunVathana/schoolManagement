@@ -7,6 +7,7 @@ Set these Railway backend variables before deploying:
 - `NODE_ENV=production`
 - `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`: two different random values, each at least 32 characters
 - `PASSWORD_RESET_OTP_SECRET`: a separate random value of at least 32 characters for password-reset OTP hashing
+- `REDIS_URL`: a private Redis connection URL; keep it in Railway variables and never commit it
 - `JWT_ISSUER` and `JWT_AUDIENCE`: keep stable per deployment, for example `campusflow-api` and `campusflow-web`
 - `FRONTEND_URL`: the exact HTTPS website origin, for example `https://campusflowlms.xyz`
 - `CORS_ORIGINS`: comma-separated exact HTTPS origins when more than one frontend is used
@@ -38,6 +39,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 - Production JWTs are bound to a configured issuer and audience, and refresh tokens are checked against their owner and active account
 - Profile password changes require the current password and revoke existing refresh sessions
 - Password-reset OTPs are HMAC-hashed with a dedicated secret, compared in constant time, limited to five attempts, single-use, and sent only over TLS
+- Redis caches only public catalog/community responses with short TTLs; authenticated and sensitive responses remain uncached
 - Frontend production builds send a Content-Security-Policy and cross-domain policy headers
 - Database seed passwords must be supplied through `SEED_ADMIN_PASSWORD`, `SEED_TEACHER_PASSWORD`, and `SEED_STUDENT_PASSWORD`; no demo passwords are embedded in the seed script
 

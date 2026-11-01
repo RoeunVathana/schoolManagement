@@ -9,13 +9,14 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostReactionDto } from './dto/post-reaction.dto';
 import { PostsService } from './posts.service';
+import { CacheService } from '../cache/cache.service';
 
 @ApiTags('posts')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('api/posts')
 export class PostsController {
-  constructor(private readonly posts: PostsService, private readonly media: MediaStorageService) {}
+  constructor(private readonly posts: PostsService, private readonly media: MediaStorageService, private readonly cache: CacheService) {}
 
   @Post()
   @ApiConsumes('multipart/form-data')
@@ -24,7 +25,9 @@ export class PostsController {
     const mediaFiles = [...(files?.images || []), ...(files?.image || [])];
     if (mediaFiles.length > 10) throw new BadRequestException('You can attach up to 10 images or videos per post.');
     const media = await Promise.all(mediaFiles.map((file) => this.media.upload(file, 'posts')));
-    return this.posts.create(user.id, { ...dto, media });
+    const post = await this.posts.create(user.id, { ...dto, media });
+    await this.cache.invalidatePrefix('cache:community:');
+    return post;
   }
 
   @Patch(':id')
@@ -34,9 +37,11 @@ export class PostsController {
     const mediaFiles = [...(files?.images || []), ...(files?.image || [])];
     if (mediaFiles.length > 10) throw new BadRequestException('You can attach up to 10 images or videos per post.');
     const media = mediaFiles.length ? await Promise.all(mediaFiles.map((file) => this.media.upload(file, 'posts'))) : undefined;
-    return this.posts.update(id, user.id, { ...dto, media });
+    const post = await this.posts.update(id, user.id, { ...dto, media });
+    await this.cache.invalidatePrefix('cache:community:');
+    return post;
   }
-  @Post(':id/reaction') react(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto?: PostReactionDto) { return this.posts.addReaction(id, user.id, dto?.type); }
-  @Delete(':id/reaction') unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.removeReaction(id, user.id); }
-  @Delete(':id') remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { return this.posts.remove(id, user.id); }
+  @Post(':id/reaction') async react(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto?: PostReactionDto) { const result = await this.posts.addReaction(id, user.id, dto?.type); await this.cache.invalidatePrefix('cache:community:'); return result; }
+  @Delete(':id/reaction') async unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { const result = await this.posts.removeReaction(id, user.id); await this.cache.invalidatePrefix('cache:community:'); return result; }
+  @Delete(':id') async remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { const result = await this.posts.remove(id, user.id); await this.cache.invalidatePrefix('cache:community:'); return result; }
 }

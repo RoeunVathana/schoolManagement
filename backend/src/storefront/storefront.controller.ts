@@ -8,10 +8,11 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { CacheService } from '../cache/cache.service';
 
 @Controller('storefront')
 export class StorefrontController {
-  constructor(private readonly prisma: PrismaService, private readonly payments: PaymentService) {}
+  constructor(private readonly prisma: PrismaService, private readonly payments: PaymentService, private readonly cache: CacheService) {}
 
   private withPricing(course: any) {
     const pricing = getCoursePricing(course);
@@ -21,66 +22,70 @@ export class StorefrontController {
   @Get('courses')
   async listCourses(@Query('search') search?: string) {
     const term = search?.trim();
-    const courses = await this.prisma.course.findMany({
-      where: {
-        status: 'ACTIVE',
-        ...(term
-          ? {
-              OR: [
-                { courseName: { contains: term, mode: 'insensitive' } },
-                { courseCode: { contains: term, mode: 'insensitive' } },
-                { description: { contains: term, mode: 'insensitive' } },
-              ],
-            }
-          : {}),
-      },
-      select: {
-        id: true,
-        courseCode: true,
-        courseName: true,
-        description: true,
-        startDate: true,
-        endDate: true,
-        imageUrl: true,
-        price: true,
-        currency: true,
-        discountPercent: true,
-        discountStart: true,
-        discountEnd: true,
-        monthlyPaymentEnabled: true,
-        monthlyPrice: true,
-        teacher: { select: { specialization: true, user: { select: { fullName: true, profileImageUrl: true } } } },
-        _count: { select: { enrollments: true, assignments: true, exams: true, materials: true } },
-      },
-      orderBy: { createdAt: 'desc' },
+    return this.cache.remember(`cache:storefront:courses:${term?.toLowerCase() || 'all'}`, 30, async () => {
+      const courses = await this.prisma.course.findMany({
+        where: {
+          status: 'ACTIVE',
+          ...(term
+            ? {
+                OR: [
+                  { courseName: { contains: term, mode: 'insensitive' } },
+                  { courseCode: { contains: term, mode: 'insensitive' } },
+                  { description: { contains: term, mode: 'insensitive' } },
+                ],
+              }
+            : {}),
+        },
+        select: {
+          id: true,
+          courseCode: true,
+          courseName: true,
+          description: true,
+          startDate: true,
+          endDate: true,
+          imageUrl: true,
+          price: true,
+          currency: true,
+          discountPercent: true,
+          discountStart: true,
+          discountEnd: true,
+          monthlyPaymentEnabled: true,
+          monthlyPrice: true,
+          teacher: { select: { specialization: true, user: { select: { fullName: true, profileImageUrl: true } } } },
+          _count: { select: { enrollments: true, assignments: true, exams: true, materials: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+      return courses.map((course) => this.withPricing(course));
     });
-    return courses.map((course) => this.withPricing(course));
   }
 
   @Get('courses/:id')
   async getCourse(@Param('id') id: string) {
-    const course = await this.prisma.course.findFirstOrThrow({
-      where: { id, status: 'ACTIVE' },
-      select: {
-        id: true,
-        courseCode: true,
-        courseName: true,
-        description: true,
-        startDate: true,
-        endDate: true,
-        imageUrl: true,
-        price: true,
-        currency: true,
-        discountPercent: true,
-        discountStart: true,
-        discountEnd: true,
-        monthlyPaymentEnabled: true,
-        monthlyPrice: true,
-        teacher: { select: { specialization: true, user: { select: { fullName: true, email: true, profileImageUrl: true } } } },
-        _count: { select: { enrollments: true } },
-      },
+    return this.cache.remember(`cache:storefront:course:${id}`, 60, async () => {
+      const course = await this.prisma.course.findFirstOrThrow({
+        where: { id, status: 'ACTIVE' },
+        select: {
+          id: true,
+          courseCode: true,
+          courseName: true,
+          description: true,
+          startDate: true,
+          endDate: true,
+          imageUrl: true,
+          price: true,
+          currency: true,
+          discountPercent: true,
+          discountStart: true,
+          discountEnd: true,
+          monthlyPaymentEnabled: true,
+          monthlyPrice: true,
+          teacher: { select: { specialization: true, user: { select: { fullName: true, email: true, profileImageUrl: true } } } },
+          _count: { select: { enrollments: true } },
+        },
+      });
+      return this.withPricing(course);
     });
-    return this.withPricing(course);
   }
 
   @ApiBearerAuth()
