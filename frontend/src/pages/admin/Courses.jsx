@@ -124,6 +124,7 @@ export default function Courses() {
     }
     setError('');
     setForm((current) => ({ ...current, image: croppedFile }));
+    setOpen(true);
     setCropFile(null);
   };
   const cancelCrop = () => {
@@ -152,6 +153,10 @@ export default function Courses() {
   };
   const save = async (event) => {
     event.preventDefault();
+    if (cropFile) {
+      setError(t('completeCropBeforeSave'));
+      return;
+    }
     setBusy(true);
     setError('');
     setNotice('');
