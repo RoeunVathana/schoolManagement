@@ -9,6 +9,7 @@ import StudentLayout from '../layouts/StudentLayout';
 import { useAuth } from '../hooks/useAuth';
 import { roleHome } from '../utils/roles';
 import AppShell from '../layouts/AppShell';
+import Loading from '../components/Loading';
 
 const Login = lazy(() => import('../pages/auth/Login'));
 const Register = lazy(() => import('../pages/auth/Register'));
@@ -42,7 +43,7 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 function Home() { const { user } = useAuth(); return <Navigate to={roleHome(user?.role)} replace />; }
 
 export default function AppRoutes() {
-  return <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#f4f8fb] px-6 text-sm font-semibold text-slate-500">Loading CampusFlow...</div>}><Routes>
+  return <Suspense fallback={<Loading fullScreen label="Loading CampusFlow..." />}><Routes>
     <Route path="/login" element={<Login />} />
     <Route path="/login/admin" element={<Login />} />
     <Route path="/login/teacher" element={<Login />} />
