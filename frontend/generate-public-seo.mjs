@@ -130,6 +130,44 @@ function courseListingPage(template, courses) {
     .replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${fallback}</div>`);
 }
 
+function communityPage(template) {
+  const title = 'CampusFlow Community | Learn Together';
+  const description = 'Join the CampusFlow learning community to discover practical skills, meet learners in Cambodia, and share progress.';
+  const url = `${siteUrl}/community`;
+  const schema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        name: title,
+        description,
+        url,
+        isPartOf: { '@type': 'WebSite', name: 'CampusFlow LMS', url: siteUrl },
+        about: { '@type': 'EducationalOrganization', name: 'CampusFlow LMS', url: siteUrl },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'CampusFlow LMS', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Community', item: url },
+        ],
+      },
+    ],
+  }).replace(/</g, '\\u003c');
+  const fallback = `<main aria-label="CampusFlow community"><p>CampusFlow LMS learning community</p><h1>Learn together. Go further.</h1><p>${escapeHtml(description)}</p><nav aria-label="Community links"><a href="/courses">Explore practical courses</a><a href="/register">Create a student account</a><a href="/login/student">Sign in to join</a></nav><section><h2>Learn, connect, and grow</h2><p>CampusFlow brings students, teachers, and learners together with practical courses, guided support, assignments, and exams.</p></section></main>`;
+  return template
+    .replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`)
+    .replace(/<meta name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(description)}" />`)
+    .replace(/<meta property="og:title"[^>]*>/i, `<meta property="og:title" content="${escapeHtml(title)}" />`)
+    .replace(/<meta property="og:description"[^>]*>/i, `<meta property="og:description" content="${escapeHtml(description)}" />`)
+    .replace(/<meta property="og:url"[^>]*>/i, `<meta property="og:url" content="${url}" />`)
+    .replace(/<meta name="twitter:title"[^>]*>/i, `<meta name="twitter:title" content="${escapeHtml(title)}" />`)
+    .replace(/<meta name="twitter:description"[^>]*>/i, `<meta name="twitter:description" content="${escapeHtml(description)}" />`)
+    .replace(/<link rel="canonical"[^>]*>/i, `<link rel="canonical" href="${url}" />`)
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">${schema}</script>`)
+    .replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${fallback}</div>`);
+}
+
 const courses = await loadCourses();
 const staticEntries = [
   sitemapEntry('/', 'weekly', '1.0'),
@@ -145,6 +183,9 @@ const template = await readFile(new URL('index.html', distDir), 'utf8');
 const courseDirectory = new URL('courses/', distDir);
 await mkdir(courseDirectory, { recursive: true });
 await writeFile(new URL('index.html', courseDirectory), courseListingPage(template, courses), 'utf8');
+const communityDirectory = new URL('community/', distDir);
+await mkdir(communityDirectory, { recursive: true });
+await writeFile(new URL('index.html', communityDirectory), communityPage(template), 'utf8');
 
 if (courses.length) {
   await Promise.all(courses.map(async (course) => {
