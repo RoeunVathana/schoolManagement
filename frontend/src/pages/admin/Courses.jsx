@@ -76,16 +76,23 @@ export default function Courses() {
   const [busy, setBusy] = useState(false);
   const imageInputRef = useRef(null);
 
-  const load = useCallback((targetPage = page) => api.get('/courses', { params: { page: targetPage, limit: 10, _ts: Date.now() }, headers: { 'Cache-Control': 'no-cache' } }).then((response) => {
-    const next = unwrap(response);
-    setResult(next);
-    return next;
-  }), [page]);
+  const load = useCallback((targetPage = page) => {
+    setError('');
+    return api.get('/courses', { params: { page: targetPage, limit: 10, _ts: Date.now() }, headers: { 'Cache-Control': 'no-cache' } }).then((response) => {
+      const next = unwrap(response);
+      setResult(next);
+      return next;
+    }).catch((requestError) => {
+      setResult({ data: [], pagination: null });
+      setError(requestError.response?.data?.message || t('couldNotLoadCourses'));
+      return null;
+    });
+  }, [page, t]);
 
   useEffect(() => {
     load(page);
-    api.get('/teachers', { params: { page: 1, limit: 100 } }).then((response) => setTeachers(unwrap(response).data || []));
-  }, [page]);
+    api.get('/teachers', { params: { page: 1, limit: 100 } }).then((response) => setTeachers(unwrap(response).data || [])).catch((requestError) => setError(requestError.response?.data?.message || t('couldNotLoadTeachers')));
+  }, [page, t]);
 
   const resetImageInput = () => {
     if (imageInputRef.current) imageInputRef.current.value = '';
