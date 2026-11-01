@@ -16,7 +16,11 @@ import Pagination from "../../components/Pagination";
 const API_ORIGIN = import.meta.env.VITE_API_URL || "http://localhost:3001";
 const mediaUrl = (path) =>
   path?.startsWith("http") ? path : `${API_ORIGIN}${path || ""}`;
-const isImage = (path) => /\.(png|jpe?g|webp)$/i.test(path || "");
+const isImage = (fileOrPath) => {
+  const value = typeof fileOrPath === "string" ? fileOrPath : fileOrPath?.fileUrl || "";
+  const mimeType = typeof fileOrPath === "string" ? "" : fileOrPath?.mimeType || "";
+  return /^image\//i.test(mimeType) || /\.(png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value);
+};
 const formatDate = (value, language = document.documentElement.lang || "en") =>
   value
     ? new Date(value).toLocaleDateString(language === "km" ? "km-KH" : "en-US")
@@ -496,30 +500,42 @@ export default function Simple() {
       <span className="text-xs text-slate-400">{t("noFile")}</span>
     ), [t]);
 
-  const submissionFileCell = useCallback((row) =>
-    row.fileUrl ? (
-      <a
-        href={mediaUrl(row.fileUrl)}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
-      >
-        {isImage(row.fileUrl) ? (
-          <img
-            src={mediaUrl(row.fileUrl)}
-            alt={t("submissionFile")}
-            className="h-8 w-8 rounded object-cover"
-          />
-        ) : (
-          <span className="flex h-8 w-8 items-center justify-center rounded bg-red-100 text-[10px] font-bold text-red-700">
-            FILE
-          </span>
-        )}
-        <span>{t("openFile")}</span>
-      </a>
+  const submissionFileCell = useCallback((row) => {
+    const attachments = Array.isArray(row?.attachments) && row.attachments.length
+      ? row.attachments
+      : row?.fileUrl
+        ? [{ fileUrl: row.fileUrl }]
+        : [];
+    return attachments.length ? (
+      <div className="flex max-w-[18rem] flex-wrap gap-2">
+        {attachments.map((attachment, index) => (
+          <a
+            key={attachment.id || attachment.fileUrl || index}
+            href={mediaUrl(attachment.fileUrl)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
+            title={attachment.originalName || t("openFile")}
+          >
+            {isImage(attachment) ? (
+              <img
+                src={mediaUrl(attachment.fileUrl)}
+                alt={attachment.originalName || t("submissionFile")}
+                className="h-8 w-8 rounded object-cover"
+              />
+            ) : (
+              <span className="flex h-8 w-8 items-center justify-center rounded bg-red-100 text-[10px] font-bold text-red-700">
+                FILE
+              </span>
+            )}
+            <span>{attachments.length > 1 ? `${t("openFile")} ${index + 1}` : t("openFile")}</span>
+          </a>
+        ))}
+      </div>
     ) : (
       <span className="text-xs text-slate-400">{t("noFile")}</span>
-    ), [t]);
+    );
+  }, [t]);
 
   const actionColumn = useMemo(() =>
     editable.includes(section) || section === "submissions"
@@ -1059,6 +1075,12 @@ export default function Simple() {
                     <span>{t("attachment")}</span>
                     <span>{t("openFile")} ↗</span>
                   </a>
+                )}
+                {editing.attachments?.length > 0 && (
+                  <div className="rounded-xl bg-mint p-4">
+                    <p className="mb-2 text-sm font-semibold text-emerald-800">{t("attachment")}</p>
+                    {submissionFileCell(editing)}
+                  </div>
                 )}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">

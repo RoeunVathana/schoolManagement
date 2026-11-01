@@ -18,7 +18,11 @@ const MAX_SUBMISSION_FILES = 10;
 const MAX_SUBMISSION_TOTAL_BYTES = 250 * 1024 * 1024;
 const mediaUrl = (path) =>
   path?.startsWith("http") ? path : `${API_ORIGIN}${path || ""}`;
-const isImage = (path) => /\.(png|jpe?g|webp)$/i.test(path || "");
+const isImage = (fileOrPath) => {
+  const value = typeof fileOrPath === "string" ? fileOrPath : fileOrPath?.fileUrl || "";
+  const mimeType = typeof fileOrPath === "string" ? "" : fileOrPath?.mimeType || "";
+  return /^image\//i.test(mimeType) || /\.(png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(value);
+};
 const formatDate = (value, language = "en") =>
   value
     ? new Date(value).toLocaleDateString(language === "km" ? "km-KH" : "en-US")
@@ -339,7 +343,7 @@ export default function Simple() {
             title={attachment.originalName || t("openFile")}
             className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
           >
-            {isImage(attachment.fileUrl) ? (
+            {isImage(attachment) ? (
               <img
                 src={mediaUrl(attachment.fileUrl)}
                 alt={attachment.originalName || t("submissionFile")}
