@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api, { unwrap } from "../../api/axios";
 import { useAuth } from "../../hooks/useAuth";
 import Header from "../../components/Header";
@@ -83,7 +83,7 @@ const statusClass = (status) =>
     RETURNED: "bg-slate-100 text-slate-700",
   })[status] || "bg-slate-100 text-slate-700";
 
-export default function Simple() {
+export default function Simple({ adminMode = false }) {
   const { section } = useParams();
   const { user } = useAuth();
   const { language, t } = useLanguage();
@@ -115,7 +115,9 @@ export default function Simple() {
   const [scheduleFilters, setScheduleFilters] = useState({ from: "", to: "" });
   const [page, setPage] = useState(1);
   const [now, setNow] = useState(() => Date.now());
-  const isAdmin = user?.role === "ADMIN";
+  // Keep the learning table shared with teachers, but make admin mode
+  // explicit so admin routes are not subject to teacher assignment rules.
+  const isAdmin = adminMode || user?.role === "ADMIN";
   const canCreate = isAdmin || user?.canCreate === true;
   const canEdit = isAdmin || user?.canEdit === true;
   const canDelete = isAdmin || user?.canDelete === true;
@@ -573,6 +575,14 @@ export default function Simple() {
             render: (row) =>
               section === "submissions" ? (
                 <div className="flex gap-2">
+                  {section !== "announcements" && (
+                    <button
+                      onClick={() => openDetails(row)}
+                      className="rounded-lg bg-mint px-3 py-2 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100"
+                    >
+                      {t("viewDetails")}
+                    </button>
+                  )}
                   <button
                     disabled={!canEdit}
                     onClick={() => edit(row)}
@@ -590,6 +600,14 @@ export default function Simple() {
                 </div>
               ) : (
                 <div className="flex gap-2">
+                  {section !== "announcements" && (
+                    <button
+                      onClick={() => openDetails(row)}
+                      className="rounded-lg bg-mint px-3 py-2 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100"
+                    >
+                      {t("viewDetails")}
+                    </button>
+                  )}
                   <button
                     disabled={!canEdit}
                     onClick={() => edit(row)}
@@ -608,7 +626,7 @@ export default function Simple() {
               ),
           },
         ]
-      : [], [canCreate, canDelete, canEdit, edit, remove, section, t]);
+      : [], [canCreate, canDelete, canEdit, edit, openDetails, remove, section, t]);
 
   const columns = useMemo(() =>
     section === "courses"
@@ -891,6 +909,10 @@ export default function Simple() {
                      ], [actionColumn, attachmentCell, canCreate, canEdit, language, now, openResults, openRoster, section, submissionFileCell, t]);
 
   const openCreate = () => {
+    if (isAdmin && !courses.length) {
+      setError(t("noCourseAssigned"));
+      return;
+    }
     if (section === "submissions") {
       const firstAssignment = assignments[0];
       const firstStudent = firstAssignment
@@ -946,10 +968,25 @@ export default function Simple() {
         eyebrow={isAdmin ? "adminTools" : "teacherWorkspace"}
         title={titles[section] || "announcements"}
         description={isAdmin ? "adminWorkspaceDesc" : descriptionKey}
-        action={
-          (editable.includes(section) || section === "submissions") &&
-          canCreate &&
-          hasAssignedCourse ? (
+        action={isAdmin ? (
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/admin/courses"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-lg"
+            >
+              {t("courses")}
+            </Link>
+            {(editable.includes(section) || section === "submissions") && canCreate && (isAdmin || hasAssignedCourse) && (
+              <button
+                onClick={openCreate}
+                className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                + {t("add")} {sectionName}
+              </button>
+            )}
+          </div>
+        ) : (
+          (editable.includes(section) || section === "submissions") && canCreate && hasAssignedCourse ? (
             <button
               onClick={openCreate}
               className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white"
@@ -957,7 +994,7 @@ export default function Simple() {
               + {t("add")} {sectionName}
             </button>
           ) : null
-        }
+        )}
       />
       {error && (
         <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">
@@ -975,7 +1012,7 @@ export default function Simple() {
           <Table
             columns={columns}
             rows={visibleRows}
-            onViewDetails={['materials', 'assignments', 'exams', 'submissions'].includes(section) ? openDetails : undefined}
+            showDetails={!isAdmin}
             empty={
               editable.includes(section) && !hasAssignedCourse
                 ? t("noCourseAssignedShort")

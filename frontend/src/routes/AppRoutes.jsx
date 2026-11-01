@@ -20,6 +20,7 @@ const Teachers = lazy(() => import('../pages/admin/Teachers'));
 const Courses = lazy(() => import('../pages/admin/Courses'));
 const Users = lazy(() => import('../pages/admin/Users'));
 const AdminSimple = lazy(() => import('../pages/admin/Simple'));
+const AdminLearningManagement = lazy(() => import('../pages/admin/LearningManagement'));
 const AdminTelegramSettings = lazy(() => import('../pages/admin/TelegramSettings'));
 const AdminCertificates = lazy(() => import('../pages/admin/Certificates'));
 const AdminTeacherAttendance = lazy(() => import('../pages/admin/TeacherAttendance'));
@@ -69,10 +70,10 @@ export default function AppRoutes() {
           <Route path="admin/certificates" element={<AdminCertificates />} />
           <Route path="admin/teacher-attendance" element={<AdminTeacherAttendance />} />
           <Route path="admin/community" element={<AdminCommunity />} />
-          <Route path="admin/materials" element={<TeacherSimple />} />
-          <Route path="admin/assignments" element={<TeacherSimple />} />
-          <Route path="admin/submissions" element={<TeacherSimple />} />
-          <Route path="admin/exams" element={<TeacherSimple />} />
+          <Route path="admin/materials" element={<AdminLearningManagement />} />
+          <Route path="admin/assignments" element={<AdminLearningManagement />} />
+          <Route path="admin/submissions" element={<AdminLearningManagement />} />
+          <Route path="admin/exams" element={<AdminLearningManagement />} />
           <Route path="admin/:section" element={<AdminSimple />} />
         </Route>
       </Route>
