@@ -6,8 +6,10 @@ import Header from "../../components/Header";
 import Table from "../../components/Table";
 import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
+import ImageCropper from "../../components/ImageCropper";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
+import { isImageTooLarge } from "../../utils/fileValidation";
 import ScheduleFilters, {
   filterScheduleRows,
 } from "../../components/ScheduleFilters";
@@ -99,6 +101,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ ...blank });
+  const [cropFile, setCropFile] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [resultExam, setResultExam] = useState(null);
@@ -214,7 +217,20 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
     setOpen(false);
     setEditing(null);
     setForm({ ...blank });
+    setCropFile(null);
     setError("");
+  };
+
+  const selectExamImage = (event) => {
+    const file = event.target.files?.[0] || null;
+    event.target.value = "";
+    if (!file) return;
+    if (isImageTooLarge(file)) {
+      setError(t("imageTooLarge"));
+      return;
+    }
+    setError("");
+    setCropFile(file);
   };
   const openRoster = useCallback(async (course) => {
     setRosterCourse(course);
@@ -965,6 +981,26 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
 
   return (
     <>
+      <ImageCropper
+        file={cropFile}
+        labels={{
+          title: t("cropImage"),
+          description: t("cropImageDescription"),
+          zoom: t("zoom"),
+          cancel: t("cancel"),
+          useImage: t("useCroppedImage"),
+          processing: t("preparingImage"),
+        }}
+        onCancel={() => setCropFile(null)}
+        onComplete={(croppedFile) => {
+          if (isImageTooLarge(croppedFile)) {
+            setError(t("imageTooLarge"));
+            return;
+          }
+          setForm((current) => ({ ...current, file: croppedFile }));
+          setCropFile(null);
+        }}
+      />
       <Header
         eyebrow={isAdmin ? "adminTools" : "teacherWorkspace"}
         title={titles[section] || "announcements"}
@@ -1480,12 +1516,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                           : "image/png,image/jpeg,image/webp"
                       }
                       className="input mt-1 p-2"
-                      onChange={(event) =>
+                      onChange={section === "exams" ? selectExamImage : (event) =>
                         setForm({
                           ...form,
                           file: event.target.files?.[0] || null,
-                        })
-                      }
+                        })}
                     />
                   </label>
                 )}
