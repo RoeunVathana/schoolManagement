@@ -3,10 +3,14 @@ import { useLanguage } from '../context/LanguageContext';
 export default function Loading({ label, fullScreen = false }) {
   const { t } = useLanguage();
   const message = label || t('loading');
-  const content = <div className="loading-content" role="status" aria-live="polite" aria-label={message}>
+  const content = <div className="loading-content" role="status" aria-live="polite" aria-busy="true" aria-label={message}>
+    <div className="loading-kicker"><span className="loading-kicker-dot" /> CAMPUSFLOW <span className="loading-kicker-divider">/</span> WORKSPACE</div>
     <div className="loading-spinner-shell" aria-hidden="true">
       <span className="loading-spinner-pulse" />
+      <span className="loading-spinner-orbit" />
       <span className="loading-spinner-ring" />
+      <span className="loading-spinner-tick loading-spinner-tick-one" />
+      <span className="loading-spinner-tick loading-spinner-tick-two" />
       <span className="loading-spinner-core" />
     </div>
     <div className="loading-copy">
@@ -14,7 +18,7 @@ export default function Loading({ label, fullScreen = false }) {
       <p className="loading-subtitle">Preparing your workspace</p>
       <div className="loading-progress" aria-hidden="true"><span /></div>
     </div>
-    <div className="loading-dots" aria-hidden="true"><span /><span /><span /></div>
+    <div className="loading-status"><span className="loading-status-line" /> <span>Syncing securely</span><span className="loading-dots" aria-hidden="true"><span /><span /><span /></span></div>
   </div>;
 
   if (fullScreen) return <div className="loading-screen fixed inset-0 z-[200] flex min-h-screen items-center justify-center bg-slate-950/45 p-6 backdrop-blur-md"><div className="loading-panel">{content}</div></div>;
