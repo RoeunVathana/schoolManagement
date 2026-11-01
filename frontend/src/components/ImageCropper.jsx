@@ -79,7 +79,9 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete, 
     onError?.();
   };
 
-  const crop = () => {
+  const crop = (event) => {
+    event?.preventDefault();
+    event?.stopPropagation();
     const area = areaRef.current;
     const image = imageRef.current;
     if (!area || !image || !image.naturalWidth || !image.naturalHeight) return;
@@ -141,7 +143,7 @@ export default function ImageCropper({ file, labels = {}, onCancel, onComplete, 
           </label>
 
           <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-            <button type="button" onClick={onCancel} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">{text.cancel}</button>
+            <button type="button" onClick={(event) => { event.preventDefault(); event.stopPropagation(); onCancel(); }} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">{text.cancel}</button>
             <button type="button" onClick={crop} disabled={!imageSize || processing} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">{processing ? text.processing : text.useImage}</button>
           </div>
         </div>
