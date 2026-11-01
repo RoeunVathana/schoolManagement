@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CommunityGroupVisibility, Prisma } from '@prisma/client';
+import { CommunityGroupRole, CommunityGroupVisibility, Prisma } from '@prisma/client';
+import { CacheService } from '../cache/cache.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 const personSelect = { id: true, fullName: true, email: true, role: true, profileImageUrl: true } as const;
 
 @Injectable()
 export class CommunityAdminService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly cache: CacheService) {}
 
   listGroups() {
     return this.prisma.communityGroup.findMany({
@@ -17,6 +18,14 @@ export class CommunityAdminService {
         members: {
           orderBy: { createdAt: 'asc' },
           include: { user: { select: personSelect } },
+        },
+        invites: {
+          orderBy: { updatedAt: 'desc' },
+          take: 50,
+          include: {
+            inviter: { select: personSelect },
+            invitee: { select: personSelect },
+          },
         },
         _count: { select: { members: true, invites: true } },
       },
@@ -56,6 +65,28 @@ export class CommunityAdminService {
     return { id: membership.id, removed: true };
   }
 
+  async updateGroupMemberRole(groupId: string, userId: string, role?: CommunityGroupRole) {
+    if (!role || (role !== CommunityGroupRole.ADMIN && role !== CommunityGroupRole.MEMBER)) {
+      throw new BadRequestException('Member role must be ADMIN or MEMBER.');
+    }
+    const membership = await this.prisma.communityGroupMember.findUnique({
+      where: { groupId_userId: { groupId, userId } },
+      include: { group: { select: { ownerId: true } } },
+    });
+    if (!membership) throw new NotFoundException('Group member not found.');
+    if (membership.group.ownerId === userId || membership.role === CommunityGroupRole.OWNER) {
+      throw new BadRequestException('The group owner role cannot be changed.');
+    }
+    return this.prisma.communityGroupMember.update({ where: { id: membership.id }, data: { role }, include: { user: { select: personSelect } } });
+  }
+
+  async removeGroupInvite(groupId: string, inviteId: string) {
+    const invite = await this.prisma.communityGroupInvite.findUnique({ where: { id: inviteId }, select: { id: true, groupId: true } });
+    if (!invite || invite.groupId !== groupId) throw new NotFoundException('Group invitation not found.');
+    await this.prisma.communityGroupInvite.delete({ where: { id: inviteId } });
+    return { id: inviteId, removed: true };
+  }
+
   listFriendships() {
     return this.prisma.friendship.findMany({
       take: 300,
@@ -82,6 +113,60 @@ export class CommunityAdminService {
     const current = await this.prisma.friendRequest.findUnique({ where: { id }, select: { id: true } });
     if (!current) throw new NotFoundException('Friend request not found.');
     return this.prisma.friendRequest.delete({ where: { id }, select: { id: true } });
+  }
+
+  listPosts() {
+    return this.prisma.post.findMany({
+      take: 300,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        author: { select: personSelect },
+        media: { orderBy: { sortOrder: 'asc' } },
+        _count: { select: { reactions: true } },
+      },
+    });
+  }
+
+  async removePost(id: string) {
+    const post = await this.prisma.post.findUnique({ where: { id }, select: { id: true } });
+    if (!post) throw new NotFoundException('Post not found.');
+    await this.prisma.post.delete({ where: { id } });
+    await this.cache.invalidatePrefix('cache:community:');
+    return { id, removed: true };
+  }
+
+  listStories() {
+    return this.prisma.story.findMany({
+      take: 300,
+      orderBy: { createdAt: 'desc' },
+      include: { author: { select: personSelect } },
+    });
+  }
+
+  async removeStory(id: string) {
+    const story = await this.prisma.story.findUnique({ where: { id }, select: { id: true } });
+    if (!story) throw new NotFoundException('Story not found.');
+    await this.prisma.story.delete({ where: { id } });
+    await this.cache.invalidatePrefix('cache:community:');
+    return { id, removed: true };
+  }
+
+  listBlocks() {
+    return this.prisma.userBlock.findMany({
+      take: 300,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        blocker: { select: personSelect },
+        blocked: { select: personSelect },
+      },
+    });
+  }
+
+  async removeBlock(id: string) {
+    const block = await this.prisma.userBlock.findUnique({ where: { id }, select: { id: true } });
+    if (!block) throw new NotFoundException('Block record not found.');
+    await this.prisma.userBlock.delete({ where: { id } });
+    return { id, removed: true };
   }
 
   listConversations() {
@@ -121,5 +206,12 @@ export class CommunityAdminService {
       data: { body: '[Message removed by administrator]', imageUrl: null, mediaType: null, deletedAt: new Date(), editedAt: null },
       select: { id: true, deletedAt: true },
     });
+  }
+
+  async removeConversation(id: string) {
+    const conversation = await this.prisma.conversation.findUnique({ where: { id }, select: { id: true } });
+    if (!conversation) throw new NotFoundException('Conversation not found.');
+    await this.prisma.conversation.delete({ where: { id } });
+    return { id, removed: true };
   }
 }
