@@ -12,9 +12,15 @@ api.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   // Let the browser add the multipart boundary for FormData uploads.
-  if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
-    delete config.headers['Content-Type'];
-    delete config.headers['content-type'];
+  if (typeof FormData !== 'undefined' && config.data instanceof FormData && config.headers) {
+    // AxiosHeaders keeps normalized names internally. Use its delete API when
+    // available so a JSON default never prevents Multer from seeing the file.
+    if (typeof config.headers.delete === 'function') {
+      config.headers.delete('Content-Type');
+    } else {
+      delete config.headers['Content-Type'];
+      delete config.headers['content-type'];
+    }
   }
   return config;
 });
