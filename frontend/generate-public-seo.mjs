@@ -93,6 +93,43 @@ function coursePage(template, course) {
     .replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${fallback}</div>`);
 }
 
+function courseListingPage(template, courses) {
+  const items = courses.map((course) => {
+    const url = `/courses/${encodeURIComponent(course.id)}`;
+    const description = course.description || `Learn ${course.courseName} with CampusFlow LMS in Cambodia.`;
+    return `<li><a href="${url}"><strong>${escapeHtml(course.courseName)}</strong></a><p>${escapeHtml(description)}</p></li>`;
+  }).join('');
+  const schema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Practical Online Courses in Cambodia',
+    description: 'Browse practical online courses with local teachers, assignments, exams, and KHQR payment.',
+    url: `${siteUrl}/courses`,
+    isPartOf: { '@type': 'WebSite', name: 'CampusFlow LMS', url: siteUrl },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: courses.map((course, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: course.courseName,
+        url: `${siteUrl}/courses/${encodeURIComponent(course.id)}`,
+      })),
+    },
+  }).replace(/</g, '\\u003c');
+  const fallback = `<main aria-label="CampusFlow courses"><p>CampusFlow LMS</p><h1>Practical Online Courses in Cambodia</h1><p>Browse guided courses with local teachers, assignments, exams, teacher support, and KHQR payment.</p><section><h2>Available courses</h2><ul>${items || '<li><p>New courses are being prepared. Check back soon.</p></li>'}</ul></section><nav aria-label="Course links"><a href="/community">Join the learning community</a><a href="/register">Create a student account</a></nav></main>`;
+  return template
+    .replace(/<title>[^<]*<\/title>/i, '<title>Browse Courses | CampusFlow LMS</title>')
+    .replace(/<meta name="description"[^>]*>/i, '<meta name="description" content="Browse practical online courses in Cambodia with local teachers, assignments, exams, and KHQR payment." />')
+    .replace(/<meta property="og:title"[^>]*>/i, '<meta property="og:title" content="Browse Courses | CampusFlow LMS" />')
+    .replace(/<meta property="og:description"[^>]*>/i, '<meta property="og:description" content="Browse practical online courses in Cambodia with local teachers and guided learning support." />')
+    .replace(/<meta property="og:url"[^>]*>/i, `<meta property="og:url" content="${siteUrl}/courses" />`)
+    .replace(/<meta name="twitter:title"[^>]*>/i, '<meta name="twitter:title" content="Browse Courses | CampusFlow LMS" />')
+    .replace(/<meta name="twitter:description"[^>]*>/i, '<meta name="twitter:description" content="Browse practical online courses in Cambodia with local teachers and guided learning support." />')
+    .replace(/<link rel="canonical"[^>]*>/i, `<link rel="canonical" href="${siteUrl}/courses" />`)
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">${schema}</script>`)
+    .replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${fallback}</div>`);
+}
+
 const courses = await loadCourses();
 const staticEntries = [
   sitemapEntry('/', 'weekly', '1.0'),
@@ -104,8 +141,12 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 
 await writeFile(new URL('sitemap.xml', distDir), sitemap, 'utf8');
 
+const template = await readFile(new URL('index.html', distDir), 'utf8');
+const courseDirectory = new URL('courses/', distDir);
+await mkdir(courseDirectory, { recursive: true });
+await writeFile(new URL('index.html', courseDirectory), courseListingPage(template, courses), 'utf8');
+
 if (courses.length) {
-  const template = await readFile(new URL('index.html', distDir), 'utf8');
   await Promise.all(courses.map(async (course) => {
     const directory = new URL(`courses/${encodeURIComponent(course.id)}/`, distDir);
     await mkdir(directory, { recursive: true });
