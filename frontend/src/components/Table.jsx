@@ -30,7 +30,7 @@ function DetailGrid({ value, depth = 0, language = 'en' }) {
   return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-[.14em] text-slate-400">{labelFor(key)}</dt><dd className="mt-1.5 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} language={language} /></dd></div>)}</dl>;
 }
 
-function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true }) {
+function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true, onViewDetails }) {
   const { language, t } = useLanguage();
   const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1);
@@ -39,22 +39,23 @@ function Table({ columns = [], rows = [], empty = 'No records found.', pageSize 
   const currentPage = Math.min(page, Math.max(totalPages, 1));
   const tableColumns = useMemo(() => {
     if (!showDetails) return columns;
-    return [...columns, {
+    const detailsColumn = {
       key: '__details',
       label: t('viewDetails'),
       className: 'whitespace-nowrap',
       render: (row) => (
         <button
           type="button"
-          onClick={() => setSelectedRow(row)}
+          onClick={() => onViewDetails ? onViewDetails(row) : setSelectedRow(row)}
           className="inline-flex items-center rounded-lg bg-[#e8f7f2] px-3 py-2 text-xs font-extrabold text-emerald-800 transition hover:-translate-y-0.5 hover:bg-[#c9f1e3] focus:outline-none focus:ring-4 focus:ring-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-200 dark:hover:bg-emerald-900/70"
           aria-label={`${t('viewDetails')}: ${row?.id || ''}`}
         >
           {t('viewDetails')}
         </button>
       ),
-    }];
-  }, [columns, showDetails, t]);
+    };
+    return [detailsColumn, ...columns];
+  }, [columns, onViewDetails, showDetails, t]);
 
   useEffect(() => {
     setPage(1);

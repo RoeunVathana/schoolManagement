@@ -109,6 +109,9 @@ export default function Simple() {
     feedback: "",
   });
   const [resultBusy, setResultBusy] = useState(false);
+  const [detailRecord, setDetailRecord] = useState(null);
+  const [detailBusy, setDetailBusy] = useState(false);
+  const [detailError, setDetailError] = useState('');
   const [scheduleFilters, setScheduleFilters] = useState({ from: "", to: "" });
   const [page, setPage] = useState(1);
   const [now, setNow] = useState(() => Date.now());
@@ -231,6 +234,26 @@ export default function Simple() {
     setExamResults([]);
     setResultForm({ studentId: "", score: "", feedback: "" });
     setError("");
+  }, []);
+
+  const openDetails = useCallback(async (row) => {
+    if (!['materials', 'assignments', 'exams', 'submissions'].includes(section)) return;
+    setDetailRecord(row);
+    setDetailBusy(true);
+    setDetailError('');
+    try {
+      const response = await api.get(`${endpoint}/${row.id}`);
+      setDetailRecord(unwrap(response));
+    } catch (e) {
+      setDetailError(e.response?.data?.message || t('noRecords'));
+    } finally {
+      setDetailBusy(false);
+    }
+  }, [endpoint, section, t]);
+
+  const closeDetails = useCallback(() => {
+    setDetailRecord(null);
+    setDetailError('');
   }, []);
 
   const openResults = useCallback(async (exam) => {
@@ -948,6 +971,7 @@ export default function Simple() {
           <Table
             columns={columns}
             rows={visibleRows}
+            onViewDetails={['materials', 'assignments', 'exams', 'submissions'].includes(section) ? openDetails : undefined}
             empty={
               editable.includes(section) && !hasAssignedCourse
                 ? t("noCourseAssignedShort")
@@ -1005,6 +1029,15 @@ export default function Simple() {
             )}
           </div>
         )}
+      </Modal>
+      <Modal
+        open={!!detailRecord}
+        title={`${t('viewDetails')}: ${detailRecord?.title || detailRecord?.assignment?.title || t(sectionName)}`}
+        onClose={closeDetails}
+      >
+        {detailBusy && <Loading />}
+        {detailRecord && <LearningRecordDetails record={detailRecord} section={section} language={language} t={t} />}
+        {detailError && <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm text-red-600">{detailError}</p>}
       </Modal>
       <Modal
         open={open}
@@ -1561,4 +1594,94 @@ export default function Simple() {
       </Modal>
     </>
   );
+}
+
+function DetailItem({ label, value, children }) {
+  return (
+    <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/70">
+      <p className="text-[10px] font-extrabold uppercase tracking-[.14em] text-slate-400">{label}</p>
+      <div className="mt-1.5 break-words text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200">{children || value || '-'}</div>
+    </div>
+  );
+}
+
+function DetailFile({ url, name, mimeType, t }) {
+  if (!url) return null;
+  const image = isImage({ fileUrl: url, mimeType });
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3 dark:border-emerald-900/50 dark:bg-emerald-950/30">
+      {image && <img src={mediaUrl(url)} alt={name || t('openFile')} className="h-14 w-14 rounded-xl object-cover" />}
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-bold text-emerald-900 dark:text-emerald-200">{name || t('attachment')}</p>
+        <a href={mediaUrl(url)} target="_blank" rel="noreferrer" className="mt-1 inline-flex text-xs font-extrabold text-emerald-700 underline dark:text-emerald-300">{t('openFile')} ↗</a>
+      </div>
+    </div>
+  );
+}
+
+function LearningRecordDetails({ record, section, language, t }) {
+  if (!record) return null;
+  const course = record.course || record.assignment?.course;
+  const date = (value) => formatDate(value, language);
+  const dateTime = (value) => formatDateTime(value, language);
+  const submissionFiles = Array.isArray(record.attachments) && record.attachments.length
+    ? record.attachments
+    : record.fileUrl
+      ? [{ fileUrl: record.fileUrl, originalName: t('submissionFile') }]
+      : [];
+
+  if (section === 'materials') {
+    return <div className="space-y-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <DetailItem label={t('course')} value={course?.courseName} />
+        <DetailItem label={t('fileType')} value={record.mimeType} />
+        <DetailItem label={t('fileSize')} value={formatFileSize(record.fileSize)} />
+        <DetailItem label={t('published')} value={date(record.createdAt)} />
+      </div>
+      <DetailItem label={t('description')} value={record.description} />
+      <DetailFile url={record.fileUrl} name={record.originalName} mimeType={record.mimeType} t={t} />
+    </div>;
+  }
+
+  if (section === 'assignments') {
+    return <div className="space-y-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <DetailItem label={t('course')} value={course?.courseName} />
+        <DetailItem label={t('teacher')} value={record.teacher?.user?.fullName} />
+        <DetailItem label={t('dueDate')} value={dateTime(record.dueDate)} />
+        <DetailItem label={t('maxScore')} value={record.maxScore} />
+      </div>
+      <DetailItem label={t('description')} value={record.description} />
+      <DetailFile url={record.attachmentUrl} name={t('assignmentAttachment')} mimeType="" t={t} />
+      {record.submissions?.length > 0 && <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="mb-3 text-sm font-extrabold text-ink dark:text-white">{t('submissions')}</p><div className="space-y-2">{record.submissions.map((submission) => <div key={submission.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-900/60"><span className="font-semibold">{submission.student?.user?.fullName || '-'}</span><span className="badge bg-slate-200 text-slate-700">{submission.status}</span></div>)}</div></div>}
+    </div>;
+  }
+
+  if (section === 'exams') {
+    return <div className="space-y-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <DetailItem label={t('course')} value={course?.courseName} />
+        <DetailItem label={t('examDate')} value={date(record.examDate)} />
+        <DetailItem label={t('submissionDeadline')} value={dateTime(record.submissionDeadline)} />
+        <DetailItem label={t('maxScore')} value={record.maxScore} />
+      </div>
+      <DetailItem label={t('description')} value={record.description} />
+      <DetailFile url={record.imageUrl} name={t('attachment')} mimeType="image/*" t={t} />
+      {record.results?.length > 0 && <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700"><p className="mb-3 text-sm font-extrabold text-ink dark:text-white">{t('examResults')}</p><div className="space-y-3">{record.results.map((result) => <div key={result.id} className="rounded-xl bg-slate-50 p-3 dark:bg-slate-900/60"><div className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold">{result.student?.user?.fullName || '-'}</span><span className="badge bg-mint text-emerald-800">{result.score ?? t('notGradedYet')} / {record.maxScore}</span></div>{result.answerText && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-600 dark:text-slate-300">{result.answerText}</p>}{result.fileUrl && <div className="mt-2"><DetailFile url={result.fileUrl} name={t('submissionFile')} mimeType="" t={t} /></div>}</div>)}</div></div>}
+    </div>;
+  }
+
+  return <div className="space-y-4">
+    <div className="grid gap-3 sm:grid-cols-2">
+      <DetailItem label={t('student')} value={record.student?.user?.fullName} />
+      <DetailItem label={t('email')} value={record.student?.user?.email} />
+      <DetailItem label={t('assignment')} value={record.assignment?.title} />
+      <DetailItem label={t('course')} value={course?.courseName} />
+      <DetailItem label={t('submitted')} value={dateTime(record.submittedAt)} />
+      <DetailItem label={t('status')} value={record.status} />
+    </div>
+    <DetailItem label={t('answer')} value={record.answerText} />
+    {record.grade && <div className="grid gap-3 sm:grid-cols-2"><DetailItem label={t('score')} value={`${record.grade.score} / ${record.assignment?.maxScore || '-'}`} /><DetailItem label={t('feedback')} value={record.grade.feedback} /></div>}
+    {submissionFiles.length > 0 && <div className="space-y-2"><p className="text-sm font-extrabold text-ink dark:text-white">{t('attachment')}</p>{submissionFiles.map((file, index) => <DetailFile key={file.id || file.fileUrl || index} url={file.fileUrl} name={file.originalName || `${t('submissionFile')} ${index + 1}`} mimeType={file.mimeType} t={t} />)}</div>}
+  </div>;
 }

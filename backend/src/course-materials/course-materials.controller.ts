@@ -50,6 +50,15 @@ export class CourseMaterialsController {
     return paginationResult(data, total, page, limit);
   }
 
+  @Get(':id')
+  async get(@Param('id') id: string, @CurrentUser() user: any) {
+    const material = await this.assertMaterialAccess(id, user);
+    return this.prisma.courseMaterial.findUniqueOrThrow({
+      where: { id: material.id },
+      include: { course: { select: { id: true, courseName: true, courseCode: true } } },
+    });
+  }
+
   @Post('upload')
   @Permissions('create')
   @UseInterceptors(FileInterceptor('file', courseMaterialUpload))

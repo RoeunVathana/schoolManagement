@@ -204,6 +204,12 @@ import { MediaStorageService } from '../media/media-storage.service';
     return paginationResult(data, total, page, limit);
   }
 
+  @Get(':id') @Roles(Role.ADMIN, Role.TEACHER) async get(@Param('id') id: string, @CurrentUser() user: any) {
+    const submission = await this.prisma.submission.findUniqueOrThrow({ where: { id }, include: { student: { include: { user: { select: { fullName: true, email: true } } } }, assignment: { include: { course: true, teacher: { include: { user: { select: { fullName: true } } } } } }, grade: true, attachments: { orderBy: { createdAt: 'asc' } } } });
+    await this.assertTeacherAssignment(submission.assignmentId, user);
+    return submission;
+  }
+
   @Get() @Roles(Role.ADMIN, Role.TEACHER) async list(@Query() q: any, @CurrentUser() user: any) {
     const { page, limit, skip } = pagination(q.page, q.limit);
     const where: any = q.status ? { status: q.status } : {};
