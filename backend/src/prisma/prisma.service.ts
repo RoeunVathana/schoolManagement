@@ -5,7 +5,7 @@ function databaseUrlWithPoolConfig() {
   const databaseUrl = String(process.env.DATABASE_URL || '').trim();
   if (!databaseUrl) return databaseUrl;
 
-  const connectionLimit = Number(process.env.DATABASE_POOL_SIZE || 10);
+  const connectionLimit = Number(process.env.DATABASE_POOL_SIZE || (process.env.NODE_ENV === 'production' ? 100 : 5));
   const poolTimeout = Number(process.env.DATABASE_POOL_TIMEOUT || 20);
 
   try {
