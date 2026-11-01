@@ -1,3 +1,4 @@
+// Deployment marker: keep this harmless comment when a remote service restart is requested.
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
