@@ -4,6 +4,7 @@ import api, { unwrap } from "../../api/axios";
 import CoursePayment from "../../components/CoursePayment";
 import AnimatedNumber from "../../components/AnimatedNumber";
 import BrandLogo from "../../components/BrandLogo";
+import SafeImage from "../../components/SafeImage";
 import Modal from "../../components/Modal";
 import SupportDock from "../../components/SupportDock";
 import ThemeSwitch from "../../components/ThemeSwitch";
@@ -1112,7 +1113,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
 function CourseVisual({ course, large = false }) {
   return (
     <div className={`storefront-course-visual group/visual relative overflow-hidden bg-gradient-to-br from-[#dff8ee] via-[#e8f2ff] to-[#fff0e9] dark:from-[#142c3c] dark:via-[#18243a] dark:to-[#2b1e2f] ${large ? "rounded-[1.75rem] border border-white/15 p-3 shadow-2xl" : "h-56 border-b border-slate-100 dark:border-slate-700"}`}>
-      {course.imageUrl ? <img src={mediaUrl(course.imageUrl)} alt={course.courseName} className={`h-full w-full object-cover transition duration-700 group-hover/visual:scale-105 ${large ? "max-h-[28rem] rounded-[1.35rem]" : ""}`} /> : <div className="flex h-full min-h-56 flex-col justify-between p-6 text-[#10243f] dark:text-white">
+      {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className={`h-full w-full object-cover transition duration-700 group-hover/visual:scale-105 ${large ? "max-h-[28rem] rounded-[1.35rem]" : ""}`} /> : <div className="flex h-full min-h-56 flex-col justify-between p-6 text-[#10243f] dark:text-white">
         <span className="text-xs font-black uppercase tracking-[.2em] text-[#f06f5b]">{course.courseCode}</span>
         <div><p className="max-w-xs text-3xl font-black leading-tight">{course.courseName}</p><div className="mt-5 h-2 w-24 rounded-full bg-[#8de4ca]" /></div>
       </div>}

@@ -7,6 +7,7 @@ import Table from "../../components/Table";
 import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import ImageCropper from "../../components/ImageCropper";
+import SafeImage from "../../components/SafeImage";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
 import { isImageTooLarge } from "../../utils/fileValidation";
@@ -809,7 +810,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <img
+                        <SafeImage
                           src={mediaUrl(row.imageUrl)}
                           alt={row.title}
                           className="h-10 w-10 rounded object-cover"
@@ -1716,7 +1717,7 @@ function DetailFile({ url, name, mimeType, t }) {
   const image = isImage({ fileUrl: url, mimeType });
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3 dark:border-emerald-900/50 dark:bg-emerald-950/30">
-      {image && <img src={mediaUrl(url)} alt={name || t('openFile')} className="h-14 w-14 rounded-xl object-cover" />}
+      {image && <SafeImage src={mediaUrl(url)} alt={name || t('openFile')} className="h-14 w-14 rounded-xl object-cover" />}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-bold text-emerald-900 dark:text-emerald-200">{name || t('attachment')}</p>
         <a href={mediaUrl(url)} target="_blank" rel="noreferrer" className="mt-1 inline-flex text-xs font-extrabold text-emerald-700 underline dark:text-emerald-300">{t('openFile')} ↗</a>

@@ -5,6 +5,7 @@ import Table from '../../components/Table';
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import ImageCropper from '../../components/ImageCropper';
+import SafeImage from '../../components/SafeImage';
 import Pagination from '../../components/Pagination';
 import { useLanguage } from '../../context/LanguageContext';
 import { useConfirmDialog } from '../../context/ConfirmContext';
@@ -154,7 +155,7 @@ export default function Courses() {
   }, [ask, load, t]);
   const rows = result?.data || [];
   const courseTableColumns = useMemo(() => [
-    { key: 'image', label: t('image'), render: (row) => row.imageUrl ? <img src={mediaUrl(row.imageUrl)} alt={row.courseName} className="h-12 w-16 rounded-lg object-cover" /> : <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{t('noImage')}</div> },
+    { key: 'image', label: t('image'), render: (row) => row.imageUrl ? <SafeImage src={mediaUrl(row.imageUrl)} alt={row.courseName} className="h-12 w-16 rounded-lg object-cover" /> : <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{t('noImage')}</div> },
     { key: 'courseCode', label: t('code') },
     { key: 'courseName', label: t('courseName') },
     { key: 'price', label: t('coursePrice'), render: (row) => <PriceCell row={row} /> },
@@ -166,7 +167,7 @@ export default function Courses() {
 
   return <>
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
-    <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={completeCrop} />
+    <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={completeCrop} onError={() => { setError(language === 'km' ? 'មិនអាចអានរូបភាពនេះបានទេ។ សូមជ្រើសរើសរូបភាពផ្សេងទៀត។' : 'This image could not be read. Please choose another image.'); setCropFile(null); }} />
     {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}
     {result ? <>
       <Table columns={courseTableColumns} rows={rows} empty={t('noCourses')} />
@@ -205,7 +206,7 @@ export default function Courses() {
           </div>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>
-        <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input type="file" accept="image/png,image/jpeg,image/webp" className="input mt-2 p-2" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; setForm((current) => ({ ...current, image: null })); if (!file) return; if (isImageTooLarge(file)) { setError(t('imageTooLarge')); return; } setError(''); setCropFile(file); }} />{form.image && <span className="mt-2 block text-xs font-semibold text-emerald-700">{t('useCroppedImage')}: {form.image.name}</span>}</Field></div>
+        <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; setForm((current) => ({ ...current, image: null })); if (!file) return; if (!file.type.startsWith('image/')) { setError(language === 'km' ? 'សូមជ្រើសរើសឯកសាររូបភាពត្រឹមត្រូវ។' : 'Please choose a valid image file.'); return; } if (isImageTooLarge(file)) { setError(t('imageTooLarge')); return; } setError(''); setCropFile(file); }} />{form.image && <span className="mt-2 block text-xs font-semibold text-emerald-700">{t('useCroppedImage')}: {form.image.name}</span>}</Field></div>
         {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
         <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>

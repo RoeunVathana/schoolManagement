@@ -7,6 +7,7 @@ import Table from "../../components/Table";
 import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import Pagination from "../../components/Pagination";
+import SafeImage from "../../components/SafeImage";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
 import ScheduleFilters, {
@@ -823,7 +824,7 @@ export default function Simple() {
             >
               <div className="h-40 bg-gradient-to-br from-[#dff8ee] via-[#eef4ff] to-[#fff0ea]">
                 {course.imageUrl ? (
-                  <img
+                  <SafeImage
                     src={mediaUrl(course.imageUrl)}
                     alt={course.courseName}
                     className="h-full w-full object-cover"
@@ -973,7 +974,7 @@ export default function Simple() {
           <div className="space-y-4">
             <div className="relative h-48 overflow-hidden rounded-2xl bg-slate-950 shadow-inner ring-1 ring-slate-200/70 sm:h-56">
               {selectedCourse.imageUrl ? (
-                <img
+                <SafeImage
                   src={mediaUrl(selectedCourse.imageUrl)}
                   alt={selectedCourse.courseName}
                   className="h-full w-full object-cover transition duration-500 hover:scale-105"
@@ -1163,7 +1164,7 @@ export default function Simple() {
                 rel="noreferrer"
                 className="block overflow-hidden rounded-2xl bg-slate-950"
               >
-                <img
+                <SafeImage
                   src={mediaUrl(examToSubmit.exam.imageUrl)}
                   alt={examToSubmit.exam.title}
                   className="h-40 w-full object-contain"
