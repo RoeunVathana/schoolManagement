@@ -1,10 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import api, { unwrap } from '../../api/axios';
+import request, { unwrap } from '../../api/axios';
 import Header from '../../components/Header';
 import Loading from '../../components/Loading';
 import { useConfirmDialog } from '../../context/ConfirmContext';
 
 const emptyData = { groups: [], friendships: [], requests: [], conversations: [] };
+const ADMIN_COMMUNITY_API = '/api/admin/community';
+const api = {
+  get: (path, ...args) => request.get(path.startsWith('/admin/community') ? `/api${path}` : path, ...args),
+  patch: (path, ...args) => request.patch(path.startsWith('/admin/community') ? `/api${path}` : path, ...args),
+  delete: (path, ...args) => request.delete(path.startsWith('/admin/community') ? `/api${path}` : path, ...args),
+};
 
 const personName = (person) => person?.fullName || person?.email || 'Unknown account';
 
@@ -30,10 +36,10 @@ export default function Community() {
     setError('');
     try {
       const [groups, friendships, requests, conversations] = await Promise.all([
-        api.get('/admin/community/groups'),
-        api.get('/admin/community/friendships'),
-        api.get('/admin/community/requests'),
-        api.get('/admin/community/conversations'),
+        api.get(`${ADMIN_COMMUNITY_API}/groups`),
+        api.get(`${ADMIN_COMMUNITY_API}/friendships`),
+        api.get(`${ADMIN_COMMUNITY_API}/requests`),
+        api.get(`${ADMIN_COMMUNITY_API}/conversations`),
       ]);
       setData({ groups: unwrap(groups) || [], friendships: unwrap(friendships) || [], requests: unwrap(requests) || [], conversations: unwrap(conversations) || [] });
     } catch (e) {
@@ -53,13 +59,13 @@ export default function Community() {
 
   const openConversation = async (conversation) => {
     setSelectedConversation(conversation); setMessages([]); setBusy(`conversation:${conversation.id}`); setError('');
-    try { setMessages(unwrap(await api.get(`/admin/community/conversations/${conversation.id}/messages`)) || []); } catch (e) { setError(e.response?.data?.message || 'Could not load messages.'); } finally { setBusy(''); }
+    try { setMessages(unwrap(await api.get(`${ADMIN_COMMUNITY_API}/conversations/${conversation.id}/messages`)) || []); } catch (e) { setError(e.response?.data?.message || 'Could not load messages.'); } finally { setBusy(''); }
   };
 
   const saveGroup = async (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    await action(`group:${editingGroup.id}`, () => api.patch(`/admin/community/groups/${editingGroup.id}`, { name: form.get('name'), description: form.get('description'), visibility: form.get('visibility') }), 'Group updated.');
+    await action(`group:${editingGroup.id}`, () => api.patch(`${ADMIN_COMMUNITY_API}/groups/${editingGroup.id}`, { name: form.get('name'), description: form.get('description'), visibility: form.get('visibility') }), 'Group updated.');
     setEditingGroup(null);
   };
 

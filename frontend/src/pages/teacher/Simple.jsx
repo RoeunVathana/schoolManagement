@@ -529,13 +529,22 @@ export default function Simple() {
             label: t("actions"),
             render: (row) =>
               section === "submissions" ? (
-                <button
-                  disabled={!user?.canEdit}
-                  onClick={() => edit(row)}
-                  className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 disabled:opacity-40"
-                >
-                  {t("review")}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    disabled={!user?.canEdit}
+                    onClick={() => edit(row)}
+                    className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 disabled:opacity-40"
+                  >
+                    {t("review")}
+                  </button>
+                  <button
+                    disabled={!user?.canDelete}
+                    onClick={() => remove(row)}
+                    className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 disabled:opacity-40"
+                  >
+                    {t("delete")}
+                  </button>
+                </div>
               ) : (
                 <div className="flex gap-2">
                   <button
