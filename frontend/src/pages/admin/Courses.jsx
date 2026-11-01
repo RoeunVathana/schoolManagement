@@ -6,6 +6,7 @@ import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import ImageCropper from '../../components/ImageCropper';
 import SafeImage from '../../components/SafeImage';
+import FileImagePreview from '../../components/FileImagePreview';
 import Pagination from '../../components/Pagination';
 import { useLanguage } from '../../context/LanguageContext';
 import { useConfirmDialog } from '../../context/ConfirmContext';
@@ -187,7 +188,7 @@ export default function Courses() {
           </div>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>
-        <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; setForm((current) => ({ ...current, image: null })); if (!file) return; if (!file.type.startsWith('image/')) { setError(language === 'km' ? 'សូមជ្រើសរើសឯកសាររូបភាពត្រឹមត្រូវ។' : 'Please choose a valid image file.'); return; } if (isImageTooLarge(file)) { setError(t('imageTooLarge')); return; } setError(''); setCropFile(file); }} />{form.image && <span className="mt-2 block text-xs font-semibold text-emerald-700">{t('useCroppedImage')}: {form.image.name}</span>}</Field></div>
+        <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; setForm((current) => ({ ...current, image: null })); if (!file) return; if (!file.type.startsWith('image/')) { setError(language === 'km' ? 'សូមជ្រើសរើសឯកសាររូបភាពត្រឹមត្រូវ។' : 'Please choose a valid image file.'); return; } if (isImageTooLarge(file)) { setError(t('imageTooLarge')); return; } setError(''); setCropFile(file); }} /><FileImagePreview file={form.image} label={t('useCroppedImage')} /></Field></div>
         {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
         <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>

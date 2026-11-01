@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import ImageCropper from "../../components/ImageCropper";
 import SafeImage from "../../components/SafeImage";
+import FileImagePreview from "../../components/FileImagePreview";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
 import { isImageTooLarge } from "../../utils/fileValidation";
@@ -1552,6 +1553,9 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                           file: event.target.files?.[0] || null,
                         })}
                     />
+                    {section === "exams" && form.file && (
+                      <FileImagePreview file={form.file} label={t("selected")} />
+                    )}
                   </label>
                 )}
               </>
