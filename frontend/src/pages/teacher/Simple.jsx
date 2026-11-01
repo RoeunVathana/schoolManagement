@@ -740,6 +740,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                 render: (row) => row.course?.courseName,
               },
               {
+                key: "teacher",
+                label: t("teacher"),
+                render: (row) => row.teacher?.user?.fullName || "-",
+              },
+              {
                 key: "dueDate",
                 label: t("dueDate"),
                 render: (row) => (
