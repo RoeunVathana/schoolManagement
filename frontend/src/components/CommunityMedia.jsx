@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const DEFAULT_MEDIA_IMAGE = '/campusflow-logo.jpg';
 
 export function communityMediaUrl(path) {
   return /^(https?:|blob:|data:)/i.test(path || '') ? path : `${API_ORIGIN}${path || ''}`;
@@ -31,8 +32,13 @@ export function communityPostMedia(post) {
 
 export default function CommunityMedia({ url, mediaType, alt = '', className = '', onError, onEnded, autoPlayOnView = false, loop = true }) {
   const videoRef = useRef(null);
+  const [imageFailed, setImageFailed] = useState(false);
   const src = communityMediaUrl(url);
   const isVideo = isCommunityVideo(mediaType, url);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [src]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -59,7 +65,7 @@ export default function CommunityMedia({ url, mediaType, alt = '', className = '
   if (isVideo) {
     return <video ref={videoRef} src={src} className={className} controls playsInline muted={autoPlayOnView} loop={autoPlayOnView && loop} preload="metadata" onError={onError} onEnded={onEnded} aria-label={alt} />;
   }
-  return <img src={src} alt={alt} className={className} loading="lazy" onError={onError} />;
+  return <img src={imageFailed ? DEFAULT_MEDIA_IMAGE : src} alt={alt} className={className} loading="lazy" onError={(event) => { if (!imageFailed) setImageFailed(true); onError?.(event); }} />;
 }
 
 export function CommunityMediaGallery({ post, itemClassName = '', autoPlayOnView = false, alt = 'Post media' }) {
