@@ -109,6 +109,8 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const [cropFile, setCropFile] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [uploadStage, setUploadStage] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [resultExam, setResultExam] = useState(null);
   const [examStudents, setExamStudents] = useState([]);
   const [examResults, setExamResults] = useState([]);
@@ -218,12 +220,31 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const isOverdue = (value) =>
     Boolean(value && new Date(value).getTime() <= now);
   const hasAssignedCourse = courses.length > 0;
-  const close = () => {
+  const close = (force = false) => {
+    if (busy && !force) return;
     setOpen(false);
     setEditing(null);
     setForm({ ...blank });
     setCropFile(null);
     setError("");
+    setUploadStage(null);
+    setUploadProgress(0);
+  };
+
+  const selectUploadFile = (event) => {
+    const file = event.target.files?.[0] || null;
+    event.target.value = "";
+    if (!file) {
+      setForm((current) => ({ ...current, file: null }));
+      return;
+    }
+    if (isImage(file) && isImageTooLarge(file)) {
+      setError(t("imageTooLarge"));
+      setForm((current) => ({ ...current, file: null }));
+      return;
+    }
+    setError("");
+    setForm((current) => ({ ...current, file }));
   };
 
   const selectExamImage = (event) => {
@@ -397,6 +418,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
 
   const save = async (event) => {
     event.preventDefault();
+    if (busy) return;
     const assignmentDueDate =
       section === "assignments" ? new Date(form.dueDate) : null;
     if (
@@ -408,6 +430,24 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
     }
     setBusy(true);
     setError("");
+    setUploadProgress(0);
+    setUploadStage({ key: "saving", percent: 10 });
+
+    const uploadMultipart = (url, body) =>
+      api.post(url, body, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (event) => {
+          const total = Number(event.total || 0);
+          const percent = total
+            ? Math.min(100, Math.round((event.loaded / total) * 100))
+            : 0;
+          setUploadProgress(percent);
+          setUploadStage({
+            key: "uploading",
+            percent: Math.max(15, Math.min(82, 15 + Math.round(percent * 0.67))),
+          });
+        },
+      });
     try {
       if (section === "submissions") {
         if (editing) {
@@ -436,9 +476,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
             const upload = new FormData();
             upload.append("file", form.file);
             upload.append("studentId", form.studentId);
-            await api.post(`/submissions/${form.assignmentId}/upload`, upload, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
+            await uploadMultipart(`/submissions/${form.assignmentId}/upload`, upload);
           }
         }
       } else if (section === "materials") {
@@ -450,9 +488,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           if (form.file) {
             const upload = new FormData();
             upload.append("file", form.file);
-            await api.post(`/course-materials/${editing.id}/file`, upload, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
+            await uploadMultipart(`/course-materials/${editing.id}/file`, upload);
           }
         } else {
           if (!form.file) throw new Error(t("materialFileRequired"));
@@ -461,9 +497,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           upload.append("title", form.title);
           upload.append("description", form.description);
           upload.append("file", form.file);
-          await api.post("/course-materials/upload", upload, {
-            headers: { "Content-Type": "multipart/form-data" },
-          });
+          await uploadMultipart("/course-materials/upload", upload);
         }
       } else {
         const payload =
@@ -504,21 +538,20 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           const upload = new FormData();
           if (section === "assignments") {
             upload.append("file", form.file);
-            await api.post(`/assignments/${saved.id}/attachment`, upload, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
+            await uploadMultipart(`/assignments/${saved.id}/attachment`, upload);
           } else {
             upload.append("image", form.file);
-            await api.post(`/exams/${saved.id}/image`, upload, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
+            await uploadMultipart(`/exams/${saved.id}/image`, upload);
           }
         }
       }
-      close();
+      setUploadStage({ key: "refreshing", percent: 90 });
       await load(page);
+      close(true);
     } catch (e) {
       setError(e.response?.data?.message || t("couldNotSaveRecord"));
+      setUploadStage(null);
+      setUploadProgress(0);
     } finally {
       setBusy(false);
     }
@@ -1359,13 +1392,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     type="file"
                     accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*"
                     className="input mt-2 p-2"
-                    onChange={(event) =>
-                      setForm({
-                        ...form,
-                        file: event.target.files?.[0] || null,
-                      })
-                    }
+                    onChange={selectUploadFile}
                   />
+                  {form.file && isImage(form.file) && (
+                    <FileImagePreview file={form.file} label={t("selected")} />
+                  )}
                 </label>
               </>
             )}
@@ -1373,6 +1404,31 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
               <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600">
                 {error}
               </p>
+            )}
+            {busy && uploadStage && (
+              <div
+                className="rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900 dark:bg-sky-950/30"
+                role="status"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <div className="flex items-center justify-between gap-3 text-xs font-bold text-slate-700 dark:text-slate-200">
+                  <span>
+                    {uploadStage.key === "uploading"
+                      ? `${t("uploadingFile")} ${uploadProgress}%`
+                      : uploadStage.key === "refreshing"
+                        ? t("loading")
+                        : t("saving")}
+                  </span>
+                  <span>{uploadStage.percent}%</span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-slate-700">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300"
+                    style={{ width: `${uploadStage.percent}%` }}
+                  />
+                </div>
+              </div>
             )}
             <button
               disabled={busy || (editing ? !canEdit : !canCreate)}
@@ -1467,10 +1523,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     type="file"
                     accept=".pdf,.epub,.mobi,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.zip,application/pdf,image/*"
                     className="input mt-1 p-2"
-                    onChange={(event) =>
-                      setForm({ ...form, file: event.target.files?.[0] || null })
-                    }
+                    onChange={selectUploadFile}
                   />
+                  {form.file && isImage(form.file) && (
+                    <FileImagePreview file={form.file} label={t("selected")} />
+                  )}
                 </label>
               </>
             ) : section === "announcements" ? (
@@ -1575,18 +1632,39 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                           : "image/*,.png,.jpg,.jpeg,.webp"
                       }
                       className="input mt-1 p-2"
-                      onChange={section === "exams" ? selectExamImage : (event) =>
-                        setForm({
-                          ...form,
-                          file: event.target.files?.[0] || null,
-                        })}
+                      onChange={section === "exams" ? selectExamImage : selectUploadFile}
                     />
-                    {section === "exams" && form.file && (
+                    {(section === "assignments" || section === "exams") && form.file && isImage(form.file) && (
                       <FileImagePreview file={form.file} label={t("selected")} />
                     )}
                   </label>
                 )}
               </>
+            )}
+            {busy && uploadStage && (
+              <div
+                className="rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900 dark:bg-sky-950/30"
+                role="status"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <div className="flex items-center justify-between gap-3 text-xs font-bold text-slate-700 dark:text-slate-200">
+                  <span>
+                    {uploadStage.key === "uploading"
+                      ? `${t("uploadingFile")} ${uploadProgress}%`
+                      : uploadStage.key === "refreshing"
+                        ? t("loading")
+                        : t("saving")}
+                  </span>
+                  <span>{uploadStage.percent}%</span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-slate-700">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300"
+                    style={{ width: `${uploadStage.percent}%` }}
+                  />
+                </div>
+              </div>
             )}
             <button
               disabled={busy}
