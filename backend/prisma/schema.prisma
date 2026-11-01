@@ -162,6 +162,7 @@ model User {
   messageReactions              MessageReaction[]      @relation("MessageReactionUser")
 
   @@index([role, lastSeenAt])
+  @@index([status, role, createdAt])
   @@map("users")
 }
 
@@ -543,6 +544,7 @@ model Course {
 
   @@index([courseName])
   @@index([status])
+  @@index([status, createdAt])
   @@map("courses")
 }
 

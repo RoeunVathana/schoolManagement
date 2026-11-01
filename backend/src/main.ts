@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 import { uploadsRoot } from './common/upload-paths';
 import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -43,6 +44,7 @@ async function bootstrap() {
   app.getHttpAdapter().getInstance().disable('x-powered-by');
   app.useBodyParser('json', { limit: '1mb' });
   app.useBodyParser('urlencoded', { extended: false, limit: '1mb', parameterLimit: 100 });
+  app.use(compression({ threshold: 1024, level: 6 }));
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -58,6 +60,8 @@ async function bootstrap() {
     if (/^\/(?:auth|api\/auth|payments|storefront\/courses\/[^/]+\/checkout)(?:\/|$)/.test(request.path)) {
       response.setHeader('Cache-Control', 'no-store');
       response.setHeader('Pragma', 'no-cache');
+    } else if (request.method === 'GET' && (/^\/storefront\/courses(?:\/[^/]+)?$/.test(request.path) || request.path === '/api/community')) {
+      response.setHeader('Cache-Control', 'public, max-age=15, stale-while-revalidate=30');
     }
     next();
   });
@@ -134,6 +138,9 @@ async function bootstrap() {
 
   app.enableShutdownHooks();
   await app.listen(config.get<number>('PORT', 3001), '0.0.0.0');
+  const server = app.getHttpServer();
+  server.keepAliveTimeout = 65_000;
+  server.headersTimeout = 66_000;
 }
 
 void bootstrap();

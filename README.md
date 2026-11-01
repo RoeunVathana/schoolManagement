@@ -61,6 +61,8 @@ For Gmail, use a Google App Password with two-step verification enabled; do not 
 
 Redis caching is optional. Set `REDIS_URL` in production to enable short-lived caching for the public course catalog and public community feed. If Redis is unavailable, the API automatically falls back to PostgreSQL.
 
+The API also enables response compression for payloads over 1 KB, keeps HTTP connections reusable, and adds short browser/CDN caching for public catalog and community responses.
+
 The database migration creates the `password_reset_otps` table automatically:
 
 ```powershell

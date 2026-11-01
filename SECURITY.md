@@ -40,6 +40,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 - Profile password changes require the current password and revoke existing refresh sessions
 - Password-reset OTPs are HMAC-hashed with a dedicated secret, compared in constant time, limited to five attempts, single-use, and sent only over TLS
 - Redis caches only public catalog/community responses with short TTLs; authenticated and sensitive responses remain uncached
+- Public HTTP caching is limited to catalog/community GET responses; auth, payment, and checkout responses remain `no-store`
 - Frontend production builds send a Content-Security-Policy and cross-domain policy headers
 - Database seed passwords must be supplied through `SEED_ADMIN_PASSWORD`, `SEED_TEACHER_PASSWORD`, and `SEED_STUDENT_PASSWORD`; no demo passwords are embedded in the seed script
 
