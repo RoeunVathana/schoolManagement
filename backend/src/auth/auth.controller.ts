@@ -20,7 +20,7 @@ class AdminForgotPasswordDto { @Transform(({ value }) => typeof value === 'strin
 class AdminResetPasswordDto {
   @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value) @IsEmail() email!: string;
   @IsString() @Matches(/^\d{6}$/, { message: 'OTP must be a 6-digit code.' }) otp!: string;
-  @IsString() @MinLength(10) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string;
+  @IsString() @MinLength(10) @MaxLength(256) @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, { message: 'Password must contain uppercase, lowercase, number and special character.' }) password!: string;
 }
 
 @ApiTags('auth')

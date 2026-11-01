@@ -36,6 +36,7 @@ export function validateEnvironment(config: Record<string, unknown>) {
   if (nodeEnv === 'production') {
     const accessSecret = String(config.JWT_ACCESS_SECRET ?? '');
     const refreshSecret = String(config.JWT_REFRESH_SECRET ?? '');
+    const otpSecret = String(config.PASSWORD_RESET_OTP_SECRET ?? '');
     for (const [key, secret] of [['JWT_ACCESS_SECRET', accessSecret], ['JWT_REFRESH_SECRET', refreshSecret]] as const) {
       if (secret.length < 32 || secret.toLowerCase().includes('student_management')) {
         throw new Error(`${key} must be a strong random secret of at least 32 characters in production`);
@@ -44,6 +45,10 @@ export function validateEnvironment(config: Record<string, unknown>) {
 
     if (accessSecret === refreshSecret) {
       throw new Error('JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be different in production');
+    }
+
+    if (otpSecret.length < 32 || otpSecret === accessSecret || otpSecret === refreshSecret) {
+      throw new Error('PASSWORD_RESET_OTP_SECRET must be a separate strong random secret of at least 32 characters in production');
     }
 
     const origins = String(config.CORS_ORIGINS || config.FRONTEND_URL || '')

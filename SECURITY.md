@@ -6,7 +6,7 @@ Set these Railway backend variables before deploying:
 
 - `NODE_ENV=production`
 - `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`: two different random values, each at least 32 characters
-- `PASSWORD_RESET_OTP_SECRET`: a separate random value of at least 32 characters for password-reset OTP hashing
+- `PASSWORD_RESET_OTP_SECRET`: a separate random value of at least 32 characters for password-reset OTP hashing (required in production)
 - `REDIS_URL`: a private Redis connection URL; keep it in Railway variables and never commit it
 - `JWT_ISSUER` and `JWT_AUDIENCE`: keep stable per deployment, for example `campusflow-api` and `campusflow-web`
 - `FRONTEND_URL`: the exact HTTPS website origin, for example `https://campusflowlms.xyz`
@@ -27,6 +27,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 ## Protections enabled
 
 - Helmet security headers on the API
+- Content Security Policy, HSTS in production, safe static-media headers, and a production-only trusted proxy
 - Strict allow-listed CORS with browser credentials disabled
 - General request throttling and stricter authentication throttling
 - Whitelisted and forbidden unknown request fields
@@ -37,6 +38,7 @@ Never commit `.env` files, passwords, card details, Firebase private keys, or JW
 - New dashboard-created accounts require a strong password; known default passwords were removed
 - Nginx security headers and a 260 MB upload ceiling for the frontend container
 - Production JWTs are bound to a configured issuer and audience, and refresh tokens are checked against their owner and active account
+- Authenticated request context never includes password hashes; administrator user updates use an explicit allow-list and enforce the strong-password policy
 - Profile password changes require the current password and revoke existing refresh sessions
 - Password-reset OTPs are HMAC-hashed with a dedicated secret, compared in constant time, limited to five attempts, single-use, and sent only over TLS
 - Redis caches only public catalog/community responses with short TTLs; authenticated and sensitive responses remain uncached

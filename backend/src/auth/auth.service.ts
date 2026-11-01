@@ -14,6 +14,10 @@ import { isLearnerRole } from '../common/learner-roles';
 export class AuthService {
   constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService, private readonly config: ConfigService, private readonly payments: PaymentService, private readonly firebase: FirebaseAuthService, private readonly mail: MailService) {}
 
+  private passwordHashRounds() {
+    return Number(this.config.get('BCRYPT_SALT_ROUNDS', '12')) || 12;
+  }
+
   private isOnline(lastSeenAt?: Date | string | null) { return !!lastSeenAt && Date.now() - new Date(lastSeenAt).getTime() <= 90_000; }
   private safeUser(user: any) { const { password, ...safe } = user; const withPresence = { ...safe, isOnline: this.isOnline(safe.lastSeenAt) }; return withPresence.role === Role.ADMIN ? { ...withPresence, canCreate: true, canEdit: true, canDelete: true } : withPresence; }
   private async ensureStudentRecord(userId: string) {
@@ -38,7 +42,7 @@ export class AuthService {
       throw new BadRequestException('Public registration only allows STUDENT or CUSTOMER accounts');
     }
 
-    const password = await bcrypt.hash(input.password, Number(this.config.get('BCRYPT_SALT_ROUNDS', '12')) || 12);
+    const password = await bcrypt.hash(input.password, this.passwordHashRounds());
     const paymentRequired = role === Role.STUDENT && this.payments.isRegistrationPaymentRequired();
     const status = paymentRequired ? UserStatus.INACTIVE : UserStatus.ACTIVE;
     const firstName = input.firstName?.trim() || undefined;
@@ -139,7 +143,7 @@ export class AuthService {
       throw new BadRequestException(attempts >= 5 ? 'Too many invalid attempts. Request a new code.' : 'Invalid or expired verification code.');
     }
 
-    const password = await bcrypt.hash(newPassword, 12);
+    const password = await bcrypt.hash(newPassword, this.passwordHashRounds());
     await this.prisma.$transaction([
       this.prisma.user.update({ where: { id: user.id }, data: { password } }),
       this.prisma.passwordResetOtp.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
@@ -174,7 +178,7 @@ export class AuthService {
     if (user && user.status !== UserStatus.ACTIVE) throw new UnauthorizedException('This account is not active');
 
     if (!user) {
-      const password = await bcrypt.hash(randomBytes(32).toString('hex'), 12);
+      const password = await bcrypt.hash(randomBytes(32).toString('hex'), this.passwordHashRounds());
       user = await this.prisma.$transaction(async (tx) => {
         const created = await tx.user.create({
           data: {
@@ -232,7 +236,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || !(await bcrypt.compare(currentPassword, user.password))) throw new UnauthorizedException('Current password is incorrect');
     if (currentPassword === newPassword) throw new BadRequestException('New password must be different from the current password');
-    const password = await bcrypt.hash(newPassword, Number(this.config.get('BCRYPT_SALT_ROUNDS', '12')) || 12);
+    const password = await bcrypt.hash(newPassword, this.passwordHashRounds());
     await this.prisma.$transaction([
       this.prisma.user.update({ where: { id: userId }, data: { password } }),
       this.prisma.refreshToken.deleteMany({ where: { userId } }),
@@ -255,7 +259,7 @@ export class AuthService {
     if (input.fullName !== undefined) userData.fullName = input.fullName;
     if (input.phone !== undefined) userData.phone = input.phone;
     if (input.language !== undefined) userData.language = input.language === 'km' ? 'km' : 'en';
-    if (input.password) userData.password = await bcrypt.hash(input.password, 12);
+    if (input.password) userData.password = await bcrypt.hash(input.password, this.passwordHashRounds());
     for (const key of ['bio', 'location', 'website', 'school', 'course', 'yearLevel']) if (input[key as keyof typeof input] !== undefined) profileData[key] = input[key as keyof typeof input]?.trim() || null;
     const profile = await this.prisma.$transaction(async (tx) => {
       if (Object.keys(userData).length) await tx.user.update({ where: { id: userId }, data: userData });

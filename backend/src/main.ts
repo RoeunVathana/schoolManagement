@@ -40,14 +40,27 @@ async function bootstrap() {
   const nodeEnv = String(config.get<string>('NODE_ENV', 'development')).toLowerCase();
   const allowedOrigins = getAllowedOrigins(config, nodeEnv);
 
-  app.set('trust proxy', 1);
+  // Railway terminates TLS in front of the app. Trust its first proxy in
+  // production, but do not trust client-supplied forwarded headers locally.
+  app.set('trust proxy', nodeEnv === 'production' ? 1 : false);
   app.getHttpAdapter().getInstance().disable('x-powered-by');
   app.useBodyParser('json', { limit: '1mb' });
   app.useBodyParser('urlencoded', { extended: false, limit: '1mb', parameterLimit: 100 });
   app.use(compression({ threshold: 1024, level: 6 }));
   app.use(
     helmet({
-      contentSecurityPolicy: false,
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'none'"],
+          baseUri: ["'none'"],
+          formAction: ["'none'"],
+          frameAncestors: ["'none'"],
+          objectSrc: ["'none'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+          mediaSrc: ["'self'", 'https:'],
+        },
+      },
+      strictTransportSecurity: nodeEnv === 'production' ? undefined : false,
       crossOriginResourcePolicy: { policy: 'cross-origin' },
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
       frameguard: { action: 'deny' },
@@ -122,6 +135,11 @@ async function bootstrap() {
     prefix: '/uploads/',
     index: false,
     dotfiles: 'deny',
+    setHeaders: (response) => {
+      response.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'; object-src 'none'");
+      response.setHeader('X-Content-Type-Options', 'nosniff');
+      response.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
   });
 
   const enableSwagger =
@@ -139,6 +157,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
   await app.listen(config.get<number>('PORT', 3001), '0.0.0.0');
   const server = app.getHttpServer();
+  server.requestTimeout = 120_000;
   server.keepAliveTimeout = 65_000;
   server.headersTimeout = 66_000;
 }
