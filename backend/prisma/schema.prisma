@@ -261,6 +261,7 @@ model PostCommentReaction {
   id        String      @id @default(cuid())
   commentId String
   userId    String
+  type      PostReactionType @default(LIKE)
   createdAt DateTime    @default(now())
   comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)

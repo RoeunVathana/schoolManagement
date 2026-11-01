@@ -15,7 +15,7 @@ export class PostsService {
       author: { select: this.authorSelect },
       media: { orderBy: { sortOrder: 'asc' as const }, select: { id: true, url: true, mediaType: true, sortOrder: true } },
       reactions: { select: { userId: true, type: true } },
-      comments: { orderBy: { createdAt: 'desc' as const }, take: 3, select: { id: true, postId: true, authorId: true, content: true, createdAt: true, updatedAt: true, author: { select: this.commentAuthorSelect }, reactions: { where: { userId: viewerId }, select: { userId: true } }, _count: { select: { reactions: true } } } },
+      comments: { orderBy: { createdAt: 'desc' as const }, take: 3, select: { id: true, postId: true, authorId: true, content: true, createdAt: true, updatedAt: true, author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } },
       _count: { select: { reactions: true, comments: true } },
     } as const;
   }
@@ -27,10 +27,10 @@ export class PostsService {
       counts[reaction.type] = (counts[reaction.type] || 0) + 1;
       return counts;
     }, {});
-    return { ...safePost, media: postMedia, comments: comments || [], commentCount: _count?.comments || 0, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+    return { ...safePost, media: postMedia, comments: (comments || []).map((comment: any) => this.presentComment(comment, viewerId)), commentCount: _count?.comments || 0, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
   }
 
-  private presentComment(comment: any) {
+  private presentComment(comment: any, viewerId?: string) {
     return {
       id: comment.id,
       postId: comment.postId,
@@ -40,7 +40,10 @@ export class PostsService {
       updatedAt: comment.updatedAt,
       author: comment.author,
       likeCount: comment._count?.reactions ?? comment.likeCount ?? 0,
-      viewerLiked: Boolean(comment.reactions?.length || comment.viewerLiked),
+      reactionCount: comment._count?.reactions ?? comment.reactionCount ?? comment.likeCount ?? 0,
+      reactionCounts: (comment.reactions || []).reduce((counts: Record<string, number>, reaction: { type: PostReactionType }) => { counts[reaction.type] = (counts[reaction.type] || 0) + 1; return counts; }, {}),
+      viewerReaction: comment.reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || comment.viewerReaction || null,
+      viewerLiked: Boolean(comment.reactions?.some((reaction: { userId: string; type: PostReactionType }) => reaction.userId === viewerId && reaction.type === PostReactionType.LIKE) || comment.viewerLiked),
     };
   }
 
@@ -135,10 +138,10 @@ export class PostsService {
     if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot view comments on this post');
     const take = Math.min(Math.max(Number(limit) || 30, 1), 50);
     const [comments, total] = await this.prisma.$transaction([
-      this.prisma.postComment.findMany({ where: { postId }, orderBy: { createdAt: 'desc' }, take, include: { author: { select: this.commentAuthorSelect }, reactions: { where: { userId }, select: { userId: true } }, _count: { select: { reactions: true } } } }),
+      this.prisma.postComment.findMany({ where: { postId }, orderBy: { createdAt: 'desc' }, take, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } }),
       this.prisma.postComment.count({ where: { postId } }),
     ]);
-    return { items: comments.map((comment) => this.presentComment(comment)), total, hasMore: total > comments.length };
+    return { items: comments.map((comment) => this.presentComment(comment, userId)), total, hasMore: total > comments.length };
   }
 
   async createComment(postId: string, userId: string, contentInput: string) {
@@ -150,10 +153,10 @@ export class PostsService {
     if (!content) throw new BadRequestException('Comment cannot be empty');
     if (content.length > 2000) throw new BadRequestException('Comment must be 2000 characters or fewer');
     const [comment, commentCount] = await this.prisma.$transaction([
-      this.prisma.postComment.create({ data: { postId, authorId: userId, content }, include: { author: { select: this.commentAuthorSelect }, reactions: { where: { userId }, select: { userId: true } }, _count: { select: { reactions: true } } } }),
+      this.prisma.postComment.create({ data: { postId, authorId: userId, content }, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } }),
       this.prisma.postComment.count({ where: { postId } }),
     ]);
-    return { comment: this.presentComment(comment), commentCount };
+    return { comment: this.presentComment(comment, userId), commentCount };
   }
 
   async updateComment(postId: string, commentId: string, userId: string, contentInput: string) {
@@ -163,16 +166,16 @@ export class PostsService {
     const content = String(contentInput || '').trim();
     if (!content) throw new BadRequestException('Comment cannot be empty');
     if (content.length > 2000) throw new BadRequestException('Comment must be 2000 characters or fewer');
-    const updated = await this.prisma.postComment.update({ where: { id: commentId }, data: { content }, include: { author: { select: this.commentAuthorSelect }, reactions: { where: { userId }, select: { userId: true } }, _count: { select: { reactions: true } } } });
-    return this.presentComment(updated);
+    const updated = await this.prisma.postComment.update({ where: { id: commentId }, data: { content }, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } });
+    return this.presentComment(updated, userId);
   }
 
-  async addCommentLike(postId: string, commentId: string, userId: string) {
+  async addCommentLike(postId: string, commentId: string, userId: string, type: PostReactionType = PostReactionType.LIKE) {
     await this.assertCommenter(userId);
     const comment = await this.prisma.postComment.findUnique({ where: { id: commentId }, select: { postId: true, post: { select: { authorId: true, visibility: true } } } });
     if (!comment || comment.postId !== postId) throw new NotFoundException('Comment not found');
     if (!(await this.canView(comment.post, userId))) throw new ForbiddenException('You cannot like this comment');
-    await this.prisma.postCommentReaction.upsert({ where: { commentId_userId: { commentId, userId } }, create: { commentId, userId }, update: {} });
+    await this.prisma.postCommentReaction.upsert({ where: { commentId_userId: { commentId, userId } }, create: { commentId, userId, type }, update: { type } });
     return this.commentReactionResult(commentId, userId);
   }
 
@@ -210,10 +213,11 @@ export class PostsService {
   }
 
   private async commentReactionResult(commentId: string, userId: string) {
-    const [likeCount, like] = await this.prisma.$transaction([
-      this.prisma.postCommentReaction.count({ where: { commentId } }),
-      this.prisma.postCommentReaction.findUnique({ where: { commentId_userId: { commentId, userId } }, select: { id: true } }),
+    const [reactions, reaction] = await this.prisma.$transaction([
+      this.prisma.postCommentReaction.findMany({ where: { commentId }, select: { type: true } }),
+      this.prisma.postCommentReaction.findUnique({ where: { commentId_userId: { commentId, userId } }, select: { type: true } }),
     ]);
-    return { commentId, liked: Boolean(like), likeCount };
+    const reactionCounts = reactions.reduce((counts: Record<string, number>, item: { type: PostReactionType }) => { counts[item.type] = (counts[item.type] || 0) + 1; return counts; }, {});
+    return { commentId, liked: reaction?.type === PostReactionType.LIKE, likeCount: reactions.length, reacted: Boolean(reaction), reactionCount: reactions.length, reactionCounts, viewerReaction: reaction?.type || null };
   }
 }
