@@ -96,6 +96,31 @@ export default function Courses() {
     setOpen(true);
   }, []);
   const updateField = useCallback((key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value })), []);
+  const completeCrop = async (croppedFile) => {
+    if (isImageTooLarge(croppedFile)) {
+      setError(t('imageTooLarge'));
+      return;
+    }
+    if (!editing) {
+      setForm((current) => ({ ...current, image: croppedFile }));
+      setCropFile(null);
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const image = new FormData();
+      image.append('image', croppedFile);
+      await api.post(`/courses/${editing.id}/image`, image, { headers: { 'Content-Type': 'multipart/form-data' } });
+      setForm((current) => ({ ...current, image: null }));
+      setCropFile(null);
+      await load();
+    } catch (e) {
+      setError(e.response?.data?.message || t('couldNotSaveCourse'));
+    } finally {
+      setBusy(false);
+    }
+  };
   const save = async (event) => {
     event.preventDefault();
     setBusy(true);
@@ -135,7 +160,7 @@ export default function Courses() {
 
   return <>
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
-    <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={(croppedFile) => { if (isImageTooLarge(croppedFile)) { setError(t('imageTooLarge')); return; } setForm((current) => ({ ...current, image: croppedFile })); setCropFile(null); }} />
+    <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={() => setCropFile(null)} onComplete={completeCrop} />
     {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}
     {result ? <>
       <Table columns={courseTableColumns} rows={rows} empty={t('noCourses')} />
