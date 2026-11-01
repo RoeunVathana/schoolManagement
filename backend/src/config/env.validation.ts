@@ -3,8 +3,20 @@ export function validateEnvironment(config: Record<string, unknown>) {
   const missing = required.filter((key) => typeof config[key] !== 'string' || String(config[key]).trim().length === 0);
   if (missing.length) throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
 
+  const nodeEnv = String(config.NODE_ENV ?? 'development').toLowerCase();
+
   const port = Number(config.PORT ?? 3001);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT must be a valid TCP port');
+
+  const databasePoolSize = Number(config.DATABASE_POOL_SIZE ?? (nodeEnv === 'production' ? 10 : 5));
+  if (!Number.isInteger(databasePoolSize) || databasePoolSize < 1 || databasePoolSize > 100) {
+    throw new Error('DATABASE_POOL_SIZE must be an integer between 1 and 100');
+  }
+
+  const databasePoolTimeout = Number(config.DATABASE_POOL_TIMEOUT ?? 20);
+  if (!Number.isInteger(databasePoolTimeout) || databasePoolTimeout < 1 || databasePoolTimeout > 300) {
+    throw new Error('DATABASE_POOL_TIMEOUT must be an integer between 1 and 300 seconds');
+  }
 
   const rateLimitPerMinute = Number(config.RATE_LIMIT_PER_MINUTE ?? 240);
   if (!Number.isInteger(rateLimitPerMinute) || rateLimitPerMinute < 10) {
@@ -21,7 +33,6 @@ export function validateEnvironment(config: Record<string, unknown>) {
     throw new Error('BCRYPT_SALT_ROUNDS must be an integer between 10 and 15');
   }
 
-  const nodeEnv = String(config.NODE_ENV ?? 'development').toLowerCase();
   if (nodeEnv === 'production') {
     const accessSecret = String(config.JWT_ACCESS_SECRET ?? '');
     const refreshSecret = String(config.JWT_REFRESH_SECRET ?? '');
@@ -53,6 +64,8 @@ export function validateEnvironment(config: Record<string, unknown>) {
   return {
     ...config,
     PORT: port,
+    DATABASE_POOL_SIZE: databasePoolSize,
+    DATABASE_POOL_TIMEOUT: databasePoolTimeout,
     RATE_LIMIT_PER_MINUTE: rateLimitPerMinute,
     AUTH_RATE_LIMIT: authRateLimit,
     BCRYPT_SALT_ROUNDS: bcryptSaltRounds,
