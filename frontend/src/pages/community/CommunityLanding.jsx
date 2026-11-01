@@ -8,6 +8,7 @@ import ThemeSwitch from '../../components/ThemeSwitch';
 import UserAvatar from '../../components/UserAvatar';
 import { CommunityMediaGallery } from '../../components/CommunityMedia';
 import ReactionPicker from '../../components/ReactionPicker';
+import PostComments from '../../components/PostComments';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../context/LanguageContext';
 import { useCommunityText } from '../../context/communityTranslations';
@@ -106,7 +107,7 @@ function PublicPostLegacy({ post, text }) {
   return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={author} size="public" /><div><strong>{author.fullName || 'CampusFlow member'}</strong><span>{author.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p><CommunityMediaGallery post={post} itemClassName="public-community-post-image" alt="Community update" /><div className="public-community-post-footer"><span>{text.shared}{post.reactionCount ? ` · ♥ ${post.reactionCount}` : ''}</span><button type="button" onClick={share} className="public-community-post-share">↗ {communityText.share}</button>{shareNotice && <small>{shareNotice}</small>}<Link to="/login/student">{text.signInConnect} →</Link></div></article>;
 }
 
-function PublicPost({ post, text }) {
+function PublicPostContent({ post, text }) {
   const communityText = useCommunityText();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -139,6 +140,10 @@ function PublicPost({ post, text }) {
   };
 
   return <article id={`post-${post.id}`} className="public-community-post"><div className="public-community-post-header"><div className="public-community-post-author"><UserAvatar person={post.author || {}} size="public" /><div><strong>{post.author?.fullName || 'CampusFlow member'}</strong><span>{post.author?.role || 'Community member'} · {new Date(post.createdAt).toLocaleDateString()}</span></div></div><span className="public-community-post-badge">{text.public}</span></div><p className="public-community-post-content">{post.content}</p><CommunityMediaGallery post={post} itemClassName="public-community-post-image" alt={communityText.postImageAlt} autoPlayOnView /><div className="public-community-post-footer"><ReactionPicker selected={reactionType} count={reactionCount} counts={reactionCounts} open={reactionMenuOpen} onToggle={() => setReactionMenuOpen((current) => !current)} onSelect={toggleReaction} disabled={reactionBusy} label={communityText.like} /><button type="button" onClick={() => setNotice(communityText.signInConnect)} className="public-community-post-share">↗ {communityText.share}</button>{notice && <small>{notice}</small>}<span>{text.shared}</span></div></article>;
+}
+
+function PublicPost({ post, text }) {
+  return <article className="public-community-post public-community-post-with-comments"><PublicPostContent post={post} text={text} /><PostComments post={post} /></article>;
 }
 
 function CommunityLoading({ text }) {

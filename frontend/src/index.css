@@ -2158,6 +2158,36 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-reaction.is-active span { color: #f47b67; }
 .community-post-reaction b { min-width: 1.1rem; color: inherit; font-size: .63rem; text-align: center; }
 .community-post-engagement small { color: var(--community-muted); font-size: .63rem; font-weight: 750; }
+.community-post-comments { margin-top: .8rem; border-top: 1px solid var(--community-line); padding-top: .65rem; }
+.community-post-comments-toggle { display: inline-flex; align-items: center; gap: .35rem; border: 0; padding: .15rem 0; color: var(--community-muted); background: transparent; font-size: .68rem; font-weight: 900; cursor: pointer; }
+.community-post-comments-toggle:hover { color: var(--community-blue); }
+.community-post-comments-panel { display: grid; gap: .65rem; margin-top: .65rem; }
+.community-post-comments-list { display: grid; gap: .55rem; }
+.community-post-comment { display: flex; align-items: flex-start; gap: .5rem; }
+.community-post-comment-body { min-width: 0; flex: 1; }
+.community-post-comment-bubble { width: fit-content; max-width: min(100%, 38rem); border-radius: 1rem; padding: .55rem .7rem; color: var(--community-ink); background: var(--community-soft); }
+.community-post-comment-bubble strong { display: block; font-size: .68rem; font-weight: 950; }
+.community-post-comment-bubble p { margin: .2rem 0 0; white-space: pre-wrap; font-size: .72rem; line-height: 1.5; }
+.community-post-comment-meta { display: flex; align-items: center; gap: .55rem; margin: .2rem .35rem 0; color: var(--community-muted); font-size: .58rem; font-weight: 750; }
+.community-post-comment-meta button { border: 0; padding: 0; color: var(--community-blue); background: transparent; font: inherit; cursor: pointer; }
+.community-post-comment-form { display: flex; align-items: center; gap: .45rem; }
+.community-post-comment-form input { min-width: 0; flex: 1; border: 1px solid var(--community-line); border-radius: 999px; padding: .62rem .8rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .72rem; outline: none; }
+.community-post-comment-form input:focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }
+.community-post-comment-form button { flex: 0 0 auto; border: 0; border-radius: 999px; padding: .62rem .75rem; color: #fff; background: var(--community-blue); font-size: .65rem; font-weight: 900; cursor: pointer; }
+.community-post-comment-form button:disabled { cursor: wait; opacity: .55; }
+.community-post-comments-state, .community-post-comments-notice, .community-post-comments-login { margin: 0; color: var(--community-muted); font-size: .68rem; line-height: 1.5; }
+.community-post-comments-notice { color: #c84638; }
+.community-post-comments-login a { color: var(--community-blue); font-weight: 900; text-decoration: none; }
+.public-community-post .community-post-comments { border-top-color: var(--public-line); }
+.public-community-post .community-post-comments-toggle { color: var(--public-muted); }
+.public-community-post .community-post-comments-toggle:hover { color: var(--public-cyan); }
+.public-community-post .community-post-comment-bubble { color: var(--public-ink); background: var(--public-page); }
+.public-community-post .community-post-comment-meta, .public-community-post .community-post-comments-state, .public-community-post .community-post-comments-notice, .public-community-post .community-post-comments-login { color: var(--public-muted); }
+.public-community-post .community-post-comment-meta button, .public-community-post .community-post-comments-login a { color: var(--public-cyan); }
+.public-community-post .community-post-comment-form input { border-color: var(--public-line); color: var(--public-ink); background: var(--public-page); }
+.public-community-post .community-post-comment-form button { color: var(--public-ink); background: var(--public-mint); }
+.public-community-post-with-comments > .public-community-post { border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+.public-community-post-with-comments > .community-post-comments { margin-top: .9rem; }
 .community-share-modal { width: min(100%, 31rem); }
 .community-share-description { margin: -.35rem 0 1rem; color: var(--community-muted); font-size: .76rem; line-height: 1.6; }
 .community-share-friends { display: grid; gap: .45rem; max-height: min(48vh, 22rem); overflow-y: auto; }

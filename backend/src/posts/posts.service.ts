@@ -8,24 +8,44 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService, private readonly friends: FriendsService) {}
 
   private readonly authorSelect = { id: true, fullName: true, email: true, role: true, profileImageUrl: true, profile: { select: { username: true, firstName: true, lastName: true, avatar: true } } } as const;
+  private readonly commentAuthorSelect = { id: true, fullName: true, role: true, profileImageUrl: true, profile: { select: { username: true, firstName: true, lastName: true, avatar: true } } } as const;
 
   private postInclude(viewerId: string) {
     return {
       author: { select: this.authorSelect },
       media: { orderBy: { sortOrder: 'asc' as const }, select: { id: true, url: true, mediaType: true, sortOrder: true } },
       reactions: { select: { userId: true, type: true } },
-      _count: { select: { reactions: true } },
+      comments: { orderBy: { createdAt: 'desc' as const }, take: 3, select: { id: true, content: true, createdAt: true, updatedAt: true, author: { select: this.commentAuthorSelect } } },
+      _count: { select: { reactions: true, comments: true } },
     } as const;
   }
 
   private presentPost(post: any, viewerId?: string) {
-    const { reactions, _count, media, ...safePost } = post;
+    const { reactions, _count, media, comments, ...safePost } = post;
     const postMedia = media?.length ? media : safePost.imageUrl ? [{ id: `${safePost.id}-legacy`, url: safePost.imageUrl, mediaType: safePost.mediaType || MediaType.IMAGE, sortOrder: 0 }] : [];
     const reactionCounts = (reactions || []).reduce((counts: Record<string, number>, reaction: { type: PostReactionType }) => {
       counts[reaction.type] = (counts[reaction.type] || 0) + 1;
       return counts;
     }, {});
-    return { ...safePost, media: postMedia, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+    return { ...safePost, media: postMedia, comments: comments || [], commentCount: _count?.comments || 0, reactionCount: _count?.reactions || 0, reactionCounts, viewerReaction: reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || null };
+  }
+
+  private presentComment(comment: any) {
+    return {
+      id: comment.id,
+      postId: comment.postId,
+      authorId: comment.authorId,
+      content: comment.content,
+      createdAt: comment.createdAt,
+      updatedAt: comment.updatedAt,
+      author: comment.author,
+    };
+  }
+
+  private async assertCommenter(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true, role: true, status: true } });
+    const communityRoles: Role[] = [Role.ADMIN, Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
+    if (!user || user.status !== 'ACTIVE' || !communityRoles.includes(user.role)) throw new ForbiddenException('Only active community members can comment on posts');
   }
 
   private async assertPostOwner(userId: string) {
@@ -105,6 +125,56 @@ export class PostsService {
   async removeReaction(postId: string, userId: string) {
     await this.prisma.postReaction.deleteMany({ where: { postId, userId } });
     return this.reactionResult(postId, userId);
+  }
+
+  async listComments(postId: string, userId: string, limit = 30) {
+    const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true, visibility: true } });
+    if (!post) throw new NotFoundException('Post not found');
+    if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot view comments on this post');
+    const take = Math.min(Math.max(Number(limit) || 30, 1), 50);
+    const [comments, total] = await this.prisma.$transaction([
+      this.prisma.postComment.findMany({ where: { postId }, orderBy: { createdAt: 'desc' }, take, include: { author: { select: this.commentAuthorSelect } } }),
+      this.prisma.postComment.count({ where: { postId } }),
+    ]);
+    return { items: comments.map((comment) => this.presentComment(comment)), total, hasMore: total > comments.length };
+  }
+
+  async createComment(postId: string, userId: string, contentInput: string) {
+    await this.assertCommenter(userId);
+    const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true, visibility: true } });
+    if (!post) throw new NotFoundException('Post not found');
+    if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot comment on this post');
+    const content = String(contentInput || '').trim();
+    if (!content) throw new BadRequestException('Comment cannot be empty');
+    if (content.length > 2000) throw new BadRequestException('Comment must be 2000 characters or fewer');
+    const [comment, commentCount] = await this.prisma.$transaction([
+      this.prisma.postComment.create({ data: { postId, authorId: userId, content }, include: { author: { select: this.commentAuthorSelect } } }),
+      this.prisma.postComment.count({ where: { postId } }),
+    ]);
+    return { comment: this.presentComment(comment), commentCount };
+  }
+
+  async updateComment(postId: string, commentId: string, userId: string, contentInput: string) {
+    const comment = await this.prisma.postComment.findUnique({ where: { id: commentId }, select: { id: true, postId: true, authorId: true } });
+    if (!comment || comment.postId !== postId) throw new NotFoundException('Comment not found');
+    if (comment.authorId !== userId) throw new ForbiddenException('You can only edit your own comments');
+    const content = String(contentInput || '').trim();
+    if (!content) throw new BadRequestException('Comment cannot be empty');
+    if (content.length > 2000) throw new BadRequestException('Comment must be 2000 characters or fewer');
+    const updated = await this.prisma.postComment.update({ where: { id: commentId }, data: { content }, include: { author: { select: this.commentAuthorSelect } } });
+    return this.presentComment(updated);
+  }
+
+  async removeComment(postId: string, commentId: string, userId: string) {
+    const [comment, user] = await Promise.all([
+      this.prisma.postComment.findUnique({ where: { id: commentId }, select: { id: true, postId: true, authorId: true } }),
+      this.prisma.user.findUnique({ where: { id: userId }, select: { role: true } }),
+    ]);
+    if (!comment || comment.postId !== postId) throw new NotFoundException('Comment not found');
+    if (comment.authorId !== userId && user?.role !== Role.ADMIN) throw new ForbiddenException('You can only delete your own comments');
+    await this.prisma.postComment.delete({ where: { id: commentId } });
+    const commentCount = await this.prisma.postComment.count({ where: { postId } });
+    return { id: commentId, commentCount, removed: true };
   }
 
   private async reactionResult(postId: string, userId: string) {

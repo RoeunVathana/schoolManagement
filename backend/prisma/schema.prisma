@@ -145,6 +145,7 @@ model User {
   sentNotifications             Notification[]         @relation("NotificationSender")
   posts                         Post[]
   postReactions                 PostReaction[]
+  postComments                  PostComment[]        @relation("PostCommentAuthor")
   stories                       Story[]
   sentFriendRequests            FriendRequest[]        @relation("FriendRequestSender")
   receivedFriendRequests        FriendRequest[]        @relation("FriendRequestReceiver")
@@ -205,6 +206,7 @@ model Post {
   author     User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
   media      PostMedia[]
   reactions  PostReaction[]
+  comments   PostComment[]
 
   @@index([authorId, createdAt])
   @@index([visibility, createdAt])
@@ -236,6 +238,21 @@ model PostReaction {
   @@unique([postId, userId])
   @@index([userId, createdAt])
   @@map("post_reactions")
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User     @relation("PostCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([authorId, createdAt])
+  @@map("post_comments")
 }
 
 model Story {

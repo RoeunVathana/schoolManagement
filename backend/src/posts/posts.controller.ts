@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
@@ -8,6 +8,7 @@ import { MediaStorageService } from '../media/media-storage.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostReactionDto } from './dto/post-reaction.dto';
+import { CreatePostCommentDto } from './dto/create-post-comment.dto';
 import { PostsService } from './posts.service';
 import { CacheService } from '../cache/cache.service';
 
@@ -43,5 +44,9 @@ export class PostsController {
   }
   @Post(':id/reaction') async react(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto?: PostReactionDto) { const result = await this.posts.addReaction(id, user.id, dto?.type); await this.cache.invalidatePrefix('cache:community:'); return result; }
   @Delete(':id/reaction') async unreact(@CurrentUser() user: { id: string }, @Param('id') id: string) { const result = await this.posts.removeReaction(id, user.id); await this.cache.invalidatePrefix('cache:community:'); return result; }
+  @Get(':id/comments') comments(@CurrentUser() user: { id: string }, @Param('id') id: string, @Query('limit') limit?: string) { return this.posts.listComments(id, user.id, Number(limit) || 30); }
+  @Post(':id/comments') async comment(@CurrentUser() user: { id: string }, @Param('id') id: string, @Body() dto: CreatePostCommentDto) { const result = await this.posts.createComment(id, user.id, dto.content); await this.cache.invalidatePrefix('cache:community:'); return result; }
+  @Patch(':id/comments/:commentId') updateComment(@CurrentUser() user: { id: string }, @Param('id') id: string, @Param('commentId') commentId: string, @Body() dto: CreatePostCommentDto) { return this.posts.updateComment(id, commentId, user.id, dto.content); }
+  @Delete(':id/comments/:commentId') async removeComment(@CurrentUser() user: { id: string }, @Param('id') id: string, @Param('commentId') commentId: string) { const result = await this.posts.removeComment(id, commentId, user.id); await this.cache.invalidatePrefix('cache:community:'); return result; }
   @Delete(':id') async remove(@CurrentUser() user: { id: string }, @Param('id') id: string) { const result = await this.posts.remove(id, user.id); await this.cache.invalidatePrefix('cache:community:'); return result; }
 }
