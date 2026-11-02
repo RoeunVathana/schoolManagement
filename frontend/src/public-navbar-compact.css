@@ -335,3 +335,34 @@
     left: 18rem !important;
   }
 }
+
+/* Distribute the public navbar into three clear zones: brand, navigation,
+   and actions. This keeps the controls at the far right on wide screens. */
+@media (min-width: 1101px) {
+  .site-public-navbar > .about-nav-inner,
+  .site-public-navbar > .storefront-public-nav-inner,
+  .site-public-navbar > .storefront-mobile-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+  }
+
+  .site-public-navbar > .about-nav-inner > .about-nav-links,
+  .site-public-navbar > .about-nav-inner > .about-nav-actions,
+  .site-public-navbar > .storefront-public-nav-inner > nav,
+  .site-public-navbar > .storefront-public-nav-inner > div.hidden.items-center,
+  .site-public-navbar > .storefront-mobile-header > nav,
+  .site-public-navbar > .storefront-mobile-header > div.hidden.items-center,
+  .site-public-navbar > .public-community-nav-links,
+  .site-public-navbar > .public-community-nav-actions {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .site-public-navbar.public-community-nav {
+    justify-content: space-between !important;
+  }
+}
