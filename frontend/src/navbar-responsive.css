@@ -9,6 +9,15 @@ body,
   overflow-x: hidden;
 }
 
+/* The page shell already reserves the fixed navbar height.  Do not add a
+   second top padding on main, otherwise every public hero starts with a
+   blank navbar-sized strip and no longer fills the first viewport. */
+.about-page > main,
+.contact-page > main,
+.public-community-page > main {
+  padding-top: 0 !important;
+}
+
 @media (max-width: 1023px) {
   :root {
     --public-navbar-height: 4.75rem;
