@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import Header from '../../components/Header';
-import Table from '../../components/Table';
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import ImageCropper from '../../components/ImageCropper';
@@ -40,11 +40,6 @@ function Field({ label, hint, children, className = '' }) {
   return <label className={`block text-sm font-semibold text-slate-700 dark:text-slate-200 ${className}`}><span>{label}</span>{children}{hint && <span className="mt-1 block text-xs font-normal text-slate-400">{hint}</span>}</label>;
 }
 
-function PriceCell({ row }) {
-  if (!activeDiscount(row)) return <span>{Number(row.price || 0).toFixed(2)} {row.currency || 'USD'}</span>;
-  return <div className="space-y-1"><div className="text-xs text-slate-400 line-through">{Number(row.price || 0).toFixed(2)} {row.currency || 'USD'}</div><div className="font-bold text-coral">{discountedPrice(row)} {row.currency || 'USD'}</div><span className="badge bg-[#fff0eb] text-coral">-{Number(row.discountPercent).toFixed(2)}%</span></div>;
-}
-
 function DiscountPreview({ form, t }) {
   const price = Number(form.price || 0);
   const percent = Math.min(Math.max(Number(form.discountPercent || 0), 0), 99.99);
@@ -60,6 +55,47 @@ function DiscountPreview({ form, t }) {
     <div className="min-w-0"><div className="flex items-center gap-2"><span className="text-[10px] font-black uppercase tracking-[.18em] text-slate-400">{t('discountPreview')}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide ${stateClass}`}>{state}</span></div><div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"><span className="text-2xl font-black text-ink dark:text-white">{salePrice.toFixed(2)} {form.currency}</span>{percent > 0 && <span className="text-sm font-semibold text-slate-400 line-through">{price.toFixed(2)} {form.currency}</span>}</div></div>
     <div className="shrink-0 rounded-xl bg-[#e9faf5] px-3 py-2 text-right dark:bg-emerald-950/50"><span className="block text-[10px] font-bold uppercase tracking-wide text-emerald-700/70 dark:text-emerald-300/70">{t('saveAmount')}</span><span className="text-sm font-black text-emerald-700 dark:text-emerald-300">{saved.toFixed(2)} {form.currency}</span></div>
   </div>;
+}
+
+function CourseCard({ course, language, t, openEdit, remove }) {
+  const isActive = course.status === 'ACTIVE';
+  const hasDiscount = activeDiscount(course);
+  const price = hasDiscount ? discountedPrice(course) : Number(course.price || 0).toFixed(2);
+  const statusLabel = course.status === 'ACTIVE' ? t('active') : course.status === 'COMPLETED' ? t('completed') : t('cancelled');
+  const startDate = course.startDate ? new Date(course.startDate).toLocaleDateString(language === 'km' ? 'km-KH' : 'en-US') : '-';
+
+  return <article className="group overflow-hidden rounded-[1.45rem] border border-slate-200/80 bg-white shadow-[0_12px_32px_rgba(16,36,63,.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(16,36,63,.14)] dark:border-slate-700 dark:bg-[#111c30]">
+    <div className="relative aspect-[1.9/1] overflow-hidden bg-gradient-to-br from-[#dce6ef] via-[#b8c8d4] to-[#8298aa]">
+      {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className="h-full w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" /> : <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,.75),transparent_32%),linear-gradient(135deg,#dbe7ef,#7890a5)]"><span className="rounded-full bg-white/75 px-4 py-2 text-xs font-extrabold uppercase tracking-[.16em] text-slate-600">{t('noImage')}</span></div>}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#10243f]/75 via-[#10243f]/5 to-transparent" />
+      <div className="absolute left-4 right-4 top-4 flex items-start justify-between gap-2">
+        <span className={`rounded-full px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.14em] shadow-sm ${isActive ? 'bg-[#e4f8ef] text-emerald-800' : 'bg-white/85 text-slate-600'}`}>{statusLabel}</span>
+        {course.paymentEnabled === false && <span className="rounded-full bg-slate-950/55 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.12em] text-white backdrop-blur-sm">{language === 'km' ? 'បិទការទូទាត់' : 'Payments closed'}</span>}
+      </div>
+      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+        <span className="rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.15em] text-coral shadow-sm">{course.courseCode}</span>
+        <span className="rounded-full bg-[#10243f]/75 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-sm">{course.teacher?.user?.fullName || t('unassigned')}</span>
+      </div>
+    </div>
+    <div className="flex min-h-[19rem] flex-col p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-3">
+        <h2 className="min-w-0 text-xl font-extrabold leading-tight text-ink dark:text-white">{course.courseName}</h2>
+        {hasDiscount && <span className="shrink-0 rounded-full bg-[#fff0eb] px-2.5 py-1 text-[10px] font-extrabold text-coral">-{Number(course.discountPercent).toFixed(0)}%</span>}
+      </div>
+      <p className="mt-3 min-h-[4.5rem] overflow-hidden text-sm leading-6 text-slate-500 dark:text-slate-300" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>{course.description || t('courseInformation')}</p>
+      <div className="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-slate-50/90 p-3.5 dark:bg-slate-900/70">
+        <div><span className="block text-[10px] font-extrabold uppercase tracking-[.12em] text-slate-400">{t('coursePrice')}</span><span className="mt-1 block text-base font-black text-ink dark:text-white">{price} {course.currency || 'USD'}</span>{hasDiscount && <span className="text-[11px] font-semibold text-slate-400 line-through">{Number(course.price || 0).toFixed(2)} {course.currency || 'USD'}</span>}</div>
+        <div className="text-right"><span className="block text-[10px] font-extrabold uppercase tracking-[.12em] text-slate-400">{t('starts')}</span><span className="mt-1 block text-sm font-bold text-slate-700 dark:text-slate-200">{startDate}</span></div>
+      </div>
+      <div className="mt-auto grid gap-2 pt-5 sm:grid-cols-[1fr_auto]">
+        <button type="button" onClick={() => openEdit(course)} className="inline-flex items-center justify-center rounded-xl bg-[#64748b] px-4 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#52657d]">{t('editCourse')}</button>
+        <div className="grid grid-cols-2 gap-2 sm:flex">
+          <Link to={`/courses/${course.id}`} className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-3 py-3 text-xs font-extrabold text-slate-600 transition hover:border-[#8de4ca] hover:bg-[#effcf7] dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30" title={t('viewDetails')}>{t('viewDetails')}</Link>
+          <button type="button" onClick={() => remove(course)} className="inline-flex items-center justify-center rounded-xl border border-rose-200 px-3 py-3 text-xs font-extrabold text-rose-600 transition hover:bg-rose-50 dark:border-rose-900/70 dark:text-rose-300 dark:hover:bg-rose-950/30">{t('delete')}</button>
+        </div>
+      </div>
+    </div>
+  </article>;
 }
 
 export default function Courses() {
@@ -222,17 +258,6 @@ export default function Courses() {
     } catch (e) { setError(e.response?.data?.message || t('couldNotSaveCourse')); }
   }, [ask, load, t]);
   const rows = result?.data || [];
-  const courseTableColumns = useMemo(() => [
-    { key: 'image', label: t('image'), render: (row) => row.imageUrl ? <SafeImage src={mediaUrl(row.imageUrl)} alt={row.courseName} className="h-12 w-16 rounded-lg object-cover" /> : <div className="flex h-12 w-16 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">{t('noImage')}</div> },
-    { key: 'courseCode', label: t('code') },
-    { key: 'courseName', label: t('courseName') },
-    { key: 'price', label: t('coursePrice'), render: (row) => <PriceCell row={row} /> },
-    { key: 'teacher', label: t('teacher'), render: (row) => row.teacher?.user?.fullName || t('unassigned') },
-    { key: 'startDate', label: t('starts'), render: (row) => new Date(row.startDate).toLocaleDateString() },
-    { key: 'paymentEnabled', label: language === 'km' ? 'ការទូទាត់' : 'Payment', render: (row) => <span className={`badge ${row.paymentEnabled === false ? 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300' : 'bg-mint text-emerald-800'}`}>{row.paymentEnabled === false ? (language === 'km' ? 'បិទ' : 'Closed') : (language === 'km' ? 'បើក' : 'Open')}</span> },
-    { key: 'status', label: t('status'), render: (row) => <span className="badge bg-mint text-emerald-800">{row.status === 'ACTIVE' ? t('active') : row.status === 'COMPLETED' ? t('completed') : t('cancelled')}</span> },
-    { key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2"><button onClick={() => openEdit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-200">{t('edit')}</button><button onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">{t('delete')}</button></div> },
-  ], [language, openEdit, remove, t]);
 
   return <>
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
@@ -240,7 +265,11 @@ export default function Courses() {
     {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}
     {notice && <div className="mb-4 rounded-xl bg-emerald-50 p-4 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200" role="status" aria-live="polite">{notice}</div>}
     {result ? <>
-      <Table columns={courseTableColumns} rows={rows} empty={t('noCourses')} />
+      <div className="mb-5 flex flex-col gap-4 rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-700 dark:bg-[#111c30]/80 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-coral">{t('adminWorkspace')}</p><h2 className="mt-1 text-2xl font-extrabold text-ink dark:text-white">{result.pagination?.total ?? rows.length} {t('courses')}</h2><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{language === 'km' ? 'គ្រប់គ្រងវគ្គសិក្សា រូបភាព តម្លៃ និងការទូទាត់ពីកន្លែងតែមួយ។' : 'Manage course cards, images, pricing and payment access from one place.'}</p></div>
+        <div className="flex flex-wrap gap-2 text-xs font-bold"><span className="rounded-full bg-[#e4f8ef] px-3 py-2 text-emerald-800">{rows.filter((course) => course.status === 'ACTIVE').length} {t('active')}</span><span className="rounded-full bg-slate-100 px-3 py-2 text-slate-600 dark:bg-slate-800 dark:text-slate-300">{rows.filter((course) => course.paymentEnabled === false).length} {language === 'km' ? 'បិទការទូទាត់' : 'payments closed'}</span></div>
+      </div>
+      {rows.length ? <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{rows.map((course) => <CourseCard key={course.id} course={course} language={language} t={t} openEdit={openEdit} remove={remove} />)}</div> : <div className="rounded-[1.35rem] border border-dashed border-slate-300 bg-white px-5 py-16 text-center text-sm font-semibold text-slate-400 dark:border-slate-700 dark:bg-[#111c30]">{t('noCourses')}</div>}
       <Pagination value={result.pagination} onChange={setPage} />
     </> : <Loading />}
 
