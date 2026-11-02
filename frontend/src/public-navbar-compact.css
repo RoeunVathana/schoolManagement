@@ -498,6 +498,23 @@
   }
 }
 
+/* Keep public navigation labels compact on desktop/tablet widths. */
+@media (min-width: 1101px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    gap: clamp(.55rem, 1.05vw, 1.05rem) !important;
+  }
+}
+
+@media (min-width: 1101px) and (max-width: 1260px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    gap: .55rem !important;
+  }
+}
+
 /* iPad and tablet navbar: keep the same compact control layout while giving
    the brand a little more breathing room than the phone breakpoint. */
 @media (min-width: 768px) and (max-width: 1100px) {
