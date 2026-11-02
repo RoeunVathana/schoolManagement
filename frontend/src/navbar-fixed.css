@@ -1,0 +1,68 @@
+/* Keep every application and public-site navbar anchored to the viewport.
+   The page roots receive the matching top offset so the first content block
+   remains readable instead of sliding underneath the fixed header. */
+:root {
+  --public-navbar-height: 4.8rem;
+  --dashboard-navbar-height: 4.25rem;
+}
+
+.site-public-navbar,
+.storefront > header {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  z-index: 80 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.about-page,
+.contact-page,
+.public-community-page {
+  padding-top: var(--public-navbar-height) !important;
+}
+
+/* The storefront hero already reserves space for its fixed header. */
+.storefront {
+  padding-top: 0 !important;
+}
+
+.app-shell-content {
+  position: relative;
+  padding-top: var(--dashboard-navbar-height);
+}
+
+.app-shell-content > .app-navbar {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  left: 18rem !important;
+  z-index: 100 !important;
+  width: auto !important;
+  min-height: var(--dashboard-navbar-height);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --public-navbar-height: 4.35rem;
+    --dashboard-navbar-height: 4rem;
+  }
+
+  .app-shell-content > .app-navbar {
+    left: 0 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --public-navbar-height: 4rem;
+    --dashboard-navbar-height: 3.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-public-navbar,
+  .storefront > header,
+  .app-shell-content > .app-navbar {
+    scroll-behavior: auto;
+  }
+}
