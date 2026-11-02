@@ -8,6 +8,7 @@ import ThemeSwitch from '../../components/ThemeSwitch';
 import Loading from '../../components/Loading';
 import ImageCropper from '../../components/ImageCropper';
 import PasswordInput from '../../components/PasswordInput';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 import RegistrationPayment from './RegistrationPayment';
 import { isImageTooLarge } from '../../utils/fileValidation';
 
@@ -156,6 +157,7 @@ export default function Register() {
   const [cropFile, setCropFile] = useState(null);
   const [croppedProfileImage, setCroppedProfileImage] = useState(null);
   const [redirecting, setRedirecting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const selectedRole = watch('role', 'STUDENT');
   const password = watch('password', '');
@@ -195,6 +197,7 @@ export default function Register() {
 
   const submit = async (data) => {
     setBusy(true);
+    setUploadProgress(croppedProfileImage ? 1 : 70);
     setError('');
 
     try {
@@ -209,7 +212,12 @@ export default function Register() {
 
       const result = unwrap(await api.post('/auth/register', payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const total = progressEvent.total || croppedProfileImage?.size || 1;
+          setUploadProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+        },
       }));
+      setUploadProgress(100);
 
       if (result.paymentRequired && result.payment) {
         setPayment(result.payment);
@@ -224,6 +232,7 @@ export default function Register() {
       setError(Array.isArray(message) ? message.join(', ') : message);
     } finally {
       setBusy(false);
+      setUploadProgress(0);
     }
   };
 
@@ -322,6 +331,7 @@ export default function Register() {
           {error && <div className="mt-6 flex items-start gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm leading-6 text-red-700"><span className="mt-0.5">!</span><span>{error}</span></div>}
 
           <form onSubmit={handleSubmit(submit)} className="mt-8 space-y-6">
+            {busy && croppedProfileImage && <UploadProgressPanel progress={uploadProgress} label={`${copy.upload} ${uploadProgress}%`} detail={copy.upload} stage={copy.creatingButton} />}
             <input type="hidden" {...register('role')} />
 
             <section>

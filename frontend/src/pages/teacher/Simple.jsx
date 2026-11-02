@@ -9,6 +9,7 @@ import Modal from "../../components/Modal";
 import ImageCropper from "../../components/ImageCropper";
 import SafeImage from "../../components/SafeImage";
 import FileImagePreview from "../../components/FileImagePreview";
+import UploadProgressPanel from "../../components/UploadProgressPanel";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
 import { isImageTooLarge } from "../../utils/fileValidation";
@@ -1405,31 +1406,12 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                 {error}
               </p>
             )}
-            {busy && uploadStage && (
-              <div
-                className="rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900 dark:bg-sky-950/30"
-                role="status"
-                aria-live="polite"
-                aria-busy="true"
-              >
-                <div className="flex items-center justify-between gap-3 text-xs font-bold text-slate-700 dark:text-slate-200">
-                  <span>
-                    {uploadStage.key === "uploading"
-                      ? `${t("uploadingFile")} ${uploadProgress}%`
-                      : uploadStage.key === "refreshing"
-                        ? t("loading")
-                        : t("saving")}
-                  </span>
-                  <span>{uploadStage.percent}%</span>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-slate-700">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300"
-                    style={{ width: `${uploadStage.percent}%` }}
-                  />
-                </div>
-              </div>
-            )}
+            {busy && uploadStage && <UploadProgressPanel
+              progress={uploadStage.percent}
+              label={uploadStage.key === "uploading" ? `${t("uploadingFile")} ${uploadProgress}%` : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+              detail={uploadStage.key === "uploading" ? t("uploadingFile") : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+              stage={uploadStage.key === "uploading" ? t("uploadingFile") : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+            />}
             <button
               disabled={busy || (editing ? !canEdit : !canCreate)}
               className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white disabled:opacity-60"
@@ -1641,31 +1623,12 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                 )}
               </>
             )}
-            {busy && uploadStage && (
-              <div
-                className="rounded-xl border border-sky-200 bg-sky-50 p-3 dark:border-sky-900 dark:bg-sky-950/30"
-                role="status"
-                aria-live="polite"
-                aria-busy="true"
-              >
-                <div className="flex items-center justify-between gap-3 text-xs font-bold text-slate-700 dark:text-slate-200">
-                  <span>
-                    {uploadStage.key === "uploading"
-                      ? `${t("uploadingFile")} ${uploadProgress}%`
-                      : uploadStage.key === "refreshing"
-                        ? t("loading")
-                        : t("saving")}
-                  </span>
-                  <span>{uploadStage.percent}%</span>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-slate-700">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300"
-                    style={{ width: `${uploadStage.percent}%` }}
-                  />
-                </div>
-              </div>
-            )}
+            {busy && uploadStage && <UploadProgressPanel
+              progress={uploadStage.percent}
+              label={uploadStage.key === "uploading" ? `${t("uploadingFile")} ${uploadProgress}%` : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+              detail={uploadStage.key === "uploading" ? t("uploadingFile") : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+              stage={uploadStage.key === "uploading" ? t("uploadingFile") : uploadStage.key === "refreshing" ? t("loading") : t("saving")}
+            />}
             <button
               disabled={busy}
               className="w-full rounded-xl bg-navy py-3 font-semibold text-white disabled:opacity-60"

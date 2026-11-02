@@ -9,6 +9,7 @@ import { StoryViewer } from '../../components/CommunityStories';
 import { CommunityMediaGallery } from '../../components/CommunityMedia';
 import ReactionPicker from '../../components/ReactionPicker';
 import PostComments from '../../components/PostComments';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 import { useCommunityText } from '../../context/communityTranslations';
@@ -35,8 +36,10 @@ export default function PublicProfile() {
   const [editingPostId, setEditingPostId] = useState(null);
   const [deletingPostId, setDeletingPostId] = useState(null);
   const [profileBusy, setProfileBusy] = useState(false);
+  const [profileProgress, setProfileProgress] = useState(0);
   const [profileCropFile, setProfileCropFile] = useState(null);
   const [coverBusy, setCoverBusy] = useState(false);
+  const [coverProgress, setCoverProgress] = useState(0);
   const [coverCropFile, setCoverCropFile] = useState(null);
   const [aboutEditing, setAboutEditing] = useState(false);
   const [aboutBusy, setAboutBusy] = useState(false);
@@ -174,12 +177,19 @@ export default function PublicProfile() {
     if (!croppedFile) return;
     setProfileCropFile(null);
     setProfileBusy(true);
+    setProfileProgress(1);
     setNotice('');
     try {
       const form = new FormData();
       form.append('profileImage', croppedFile);
       // Let the browser set the multipart boundary automatically.
-      const updated = unwrap(await api.post('/auth/profile/image', form));
+      const updated = unwrap(await api.post('/auth/profile/image', form, {
+        onUploadProgress: (event) => {
+          const total = event.total || croppedFile.size || 1;
+          setProfileProgress(Math.min(95, Math.max(1, Math.round((event.loaded / total) * 100))));
+        },
+      }));
+      setProfileProgress(100);
       updateUser(updated);
       setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
       setNotice('Profile photo updated.');
@@ -187,6 +197,7 @@ export default function PublicProfile() {
       setNotice(requestError.response?.data?.message || 'Could not upload the profile photo.');
     } finally {
       setProfileBusy(false);
+      setProfileProgress(0);
     }
   };
 
@@ -194,17 +205,25 @@ export default function PublicProfile() {
     if (!croppedFile) return;
     setCoverCropFile(null);
     setCoverBusy(true);
+    setCoverProgress(1);
     setNotice('');
     try {
       const form = new FormData();
       form.append('coverImage', croppedFile);
-      await api.post('/auth/profile/cover', form);
+      await api.post('/auth/profile/cover', form, {
+        onUploadProgress: (event) => {
+          const total = event.total || croppedFile.size || 1;
+          setCoverProgress(Math.min(95, Math.max(1, Math.round((event.loaded / total) * 100))));
+        },
+      });
+      setCoverProgress(100);
       await load();
       setNotice(text.coverUpdated);
     } catch (requestError) {
       setNotice(requestError.response?.data?.message || text.coverUploadFailed);
     } finally {
       setCoverBusy(false);
+      setCoverProgress(0);
     }
   };
 
@@ -217,6 +236,7 @@ export default function PublicProfile() {
   return <div className="community-page community-profile-page">
     {profileCropFile && <ImageCropper file={profileCropFile} aspectRatio={1} outputWidth={800} outputHeight={800} areaClassName="max-w-[520px]" labels={{ title: 'Crop profile photo', description: 'Adjust your profile photo before uploading.', zoom: text.zoom, cancel: text.cancel, useImage: text.useCroppedImage, processing: text.preparingImage }} onCancel={() => setProfileCropFile(null)} onComplete={uploadProfileImage} />}
     {coverCropFile && <ImageCropper file={coverCropFile} aspectRatio={3.2} outputWidth={1600} outputHeight={500} areaClassName="max-w-[560px]" labels={{ title: text.cropCoverTitle, description: text.cropCoverDescription, zoom: text.zoom, cancel: text.cancel, useImage: text.useCroppedImage, processing: text.preparingImage }} onCancel={() => setCoverCropFile(null)} onComplete={uploadCover} />}
+    {(profileBusy || coverBusy) && <UploadProgressPanel progress={coverBusy ? coverProgress : profileProgress} label={`${text.uploading || 'Loading...'} ${coverBusy ? coverProgress : profileProgress}%`} detail={coverBusy ? (text.editCover || 'Saving cover image...') : (text.profile || 'Saving profile image...')} stage={text.uploading || 'Uploading...'} className="mx-auto mb-4 max-w-5xl" />}
     <section className="community-profile-shell">
       <div className="community-profile-cover" style={profileDetails.coverImage ? { backgroundImage: `url(${mediaUrl(profileDetails.coverImage)})` } : undefined}>
         <div className="community-profile-cover-shade" />

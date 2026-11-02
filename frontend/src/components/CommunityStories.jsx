@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth';
 import UserAvatar from './UserAvatar';
 import { useCommunityText } from '../context/communityTranslations';
 import CommunityMedia from './CommunityMedia';
+import UploadProgressPanel from './UploadProgressPanel';
 
 const MAX_MEDIA_SIZE = 250 * 1024 * 1024;
 const visibilityOptions = [
@@ -93,6 +94,7 @@ function StoryComposer({ onClose, onSaved }) {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState('');
   const [busy, setBusy] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -116,17 +118,27 @@ function StoryComposer({ onClose, onSaved }) {
     event.preventDefault();
     if (!content.trim() && !imageFile) { setError(text.addStoryText); return; }
     setBusy(true);
+    setUploadProgress(imageFile ? 1 : 70);
     setError('');
     try {
       const form = new FormData();
       if (content.trim()) form.append('content', content.trim());
       form.append('visibility', visibility);
       if (imageFile) form.append('image', imageFile);
-      onSaved(unwrap(await api.post('/api/stories', form)));
+      const requestConfig = imageFile ? {
+        onUploadProgress: (progressEvent) => {
+          const total = progressEvent.total || imageFile.size || 1;
+          setUploadProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+        },
+      } : undefined;
+      const savedStory = unwrap(await api.post('/api/stories', form, requestConfig));
+      setUploadProgress(100);
+      onSaved(savedStory);
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.couldNotPublishStory);
     } finally {
       setBusy(false);
+      setUploadProgress(0);
     }
   };
 
@@ -135,6 +147,7 @@ function StoryComposer({ onClose, onSaved }) {
     <label className="community-field-label">{text.whoSeeStory}<select value={visibility} onChange={(event) => setVisibility(event.target.value)} className="input mt-2">{visibilityOptions.map((option) => <option key={option.value} value={option.value}>{text[option.value === 'PUBLIC' ? 'public' : option.value === 'FRIENDS_ONLY' ? 'friendsOnly' : 'onlyMe']}</option>)}</select></label>
     <label className="community-upload-field"><span>Add image or video <small>PNG, JPG, WEBP, GIF, MP4, WEBM or MOV · max 250 MB</small></span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v" onChange={selectImage} className="sr-only" /></label>
     {preview && <div className="community-media-preview"><CommunityMedia url={preview} mediaType={imageFile?.type.startsWith('video/') ? 'VIDEO' : 'IMAGE'} alt="Story preview" /><p>{imageFile.name} · {(imageFile.size / (1024 * 1024)).toFixed(1)} MB</p></div>}
+    {busy && <UploadProgressPanel progress={uploadProgress} label={`${text.uploading || 'Loading...'} ${uploadProgress}%`} detail={imageFile ? (text.uploading || 'Uploading media...') : (text.publishing || 'Saving story...')} stage={text.publishing || 'Publishing...'} />}
     {error && <p className="community-alert community-alert-inline">{error}</p>}
     <div className="community-modal-actions"><button type="button" onClick={onClose} className="community-button community-button-ghost">{text.cancel}</button><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.publishing : text.shareStory}</button></div>
   </form></Modal>;

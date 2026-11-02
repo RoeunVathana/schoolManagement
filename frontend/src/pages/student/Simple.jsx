@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import Pagination from "../../components/Pagination";
 import SafeImage from "../../components/SafeImage";
+import UploadProgressPanel from "../../components/UploadProgressPanel";
 import { useLanguage } from "../../context/LanguageContext";
 import { useConfirmDialog } from "../../context/ConfirmContext";
 import ScheduleFilters, {
@@ -65,6 +66,8 @@ export default function Simple() {
   const [examAnswerText, setExamAnswerText] = useState("");
   const [examFile, setExamFile] = useState(null);
   const [examSubmitBusy, setExamSubmitBusy] = useState(false);
+  const [submissionProgress, setSubmissionProgress] = useState(0);
+  const [examProgress, setExamProgress] = useState(0);
   const [now, setNow] = useState(() => Date.now());
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -237,6 +240,7 @@ export default function Simple() {
       return;
     }
     setBusy(true);
+    setSubmissionProgress(files.length ? 1 : 70);
     setError("");
     try {
       if (files.length) {
@@ -246,18 +250,25 @@ export default function Simple() {
         const uploadUrl = editing
           ? `/submissions/${editing.id}/file`
           : `/submissions/${assignmentId}/upload`;
-        await api.post(uploadUrl, formData);
+        await api.post(uploadUrl, formData, {
+          onUploadProgress: (progressEvent) => {
+            const total = progressEvent.total || files.reduce((sum, file) => sum + file.size, 0) || 1;
+            setSubmissionProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+          },
+        });
       } else if (editing) {
         await api.patch(`/submissions/${editing.id}`, { answerText: answerText.trim() });
       } else {
         await api.post("/submissions", { assignmentId, answerText: answerText.trim() });
       }
       close();
+      setSubmissionProgress(100);
       await load();
     } catch (e) {
       setError(e.response?.data?.message || "Could not save homework.");
     } finally {
       setBusy(false);
+      setSubmissionProgress(0);
     }
   };
   const closeExamSubmit = () => {
@@ -286,6 +297,7 @@ export default function Simple() {
       return;
     }
     setExamSubmitBusy(true);
+    setExamProgress(examFile ? 1 : 70);
     setError("");
     try {
       const editingExamSubmission = Boolean(
@@ -306,14 +318,20 @@ export default function Simple() {
         formData.append("file", examFile);
         await api.post(`/exam-results/${saved.id}/file`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const total = progressEvent.total || examFile.size || 1;
+            setExamProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+          },
         });
       }
       closeExamSubmit();
+      setExamProgress(100);
       await load();
     } catch (e) {
       setError(e.response?.data?.message || "Could not submit exam.");
     } finally {
       setExamSubmitBusy(false);
+      setExamProgress(0);
     }
   };
   const remove = async (row) => {
@@ -1122,6 +1140,7 @@ export default function Simple() {
               </div>
             )}
           </div>
+          {busy && files.length > 0 && <UploadProgressPanel progress={submissionProgress} label={`${t("uploadingFile")} ${submissionProgress}%`} detail={t("attachFile")} stage={t("uploadingFile")} />}
           <button
             disabled={busy || homeworkSubmissionOverdue}
             className="w-full rounded-xl bg-navy py-3 font-semibold text-white disabled:opacity-60"
@@ -1207,6 +1226,7 @@ export default function Simple() {
               />
             </label>
             {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600">{error}</p>}
+            {examSubmitBusy && examFile && <UploadProgressPanel progress={examProgress} label={`${t("uploadingFile")} ${examProgress}%`} detail={t("attachFile")} stage={t("uploadingFile")} />}
             <button
             disabled={examSubmitBusy || (examToSubmit?.submittedAt ? !user?.canEdit : !user?.canCreate) || isExamOverdue(examToSubmit)}
               className="w-full rounded-xl bg-navy py-3 font-semibold text-white disabled:opacity-60"

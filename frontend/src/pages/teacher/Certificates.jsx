@@ -7,6 +7,7 @@ import Pagination from '../../components/Pagination';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../context/LanguageContext';
 import { useConfirmDialog } from '../../context/ConfirmContext';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
@@ -33,6 +34,7 @@ export default function Certificates({ admin = false }) {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [busy, setBusy] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
 
@@ -100,6 +102,7 @@ export default function Certificates({ admin = false }) {
       return;
     }
     setBusy(true);
+    setUploadProgress(form.file ? 1 : 70);
     setError('');
     try {
       if (editing) {
@@ -107,7 +110,13 @@ export default function Certificates({ admin = false }) {
         if (form.file) {
           const fileData = new FormData();
           fileData.append('file', form.file);
-          await api.post(`/certificates/${editing.id}/file`, fileData, { headers: { 'Content-Type': 'multipart/form-data' } });
+          await api.post(`/certificates/${editing.id}/file`, fileData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: (progressEvent) => {
+              const total = progressEvent.total || form.file.size || 1;
+              setUploadProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+            },
+          });
         }
       } else {
         const fileData = new FormData();
@@ -116,14 +125,22 @@ export default function Certificates({ admin = false }) {
         fileData.append('title', form.title);
         fileData.append('description', form.description);
         fileData.append('file', form.file);
-        await api.post('/certificates/upload', fileData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        await api.post('/certificates/upload', fileData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          onUploadProgress: (progressEvent) => {
+            const total = progressEvent.total || form.file.size || 1;
+            setUploadProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+          },
+        });
       }
+      setUploadProgress(100);
       close();
       await load(page);
     } catch (e) {
       setError(e.response?.data?.message || t('couldNotSaveRecord'));
     } finally {
       setBusy(false);
+      setUploadProgress(0);
     }
   };
 
@@ -166,6 +183,7 @@ export default function Certificates({ admin = false }) {
         <textarea rows="4" value={form.description} className="input" placeholder={t('certificateDescription')} onChange={(event) => setForm({ ...form, description: event.target.value })} />
         {editing?.fileUrl && <a href={mediaUrl(editing.fileUrl)} target="_blank" rel="noreferrer" className="block rounded-xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-200">{t('viewCurrent')} · {editing.originalName}</a>}
         <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{editing ? t('replaceCertificate') : t('certificateFile')}<span className="mt-1 block text-xs font-normal text-slate-400">{t('certificateFileHint')}</span><input type="file" required={!editing} accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/*" className="input mt-2 p-2" onChange={(event) => setForm({ ...form, file: event.target.files?.[0] || null })} /></label>
+        {busy && form.file && <UploadProgressPanel progress={uploadProgress} label={`${t('uploadingFile')} ${uploadProgress}%`} detail={t('certificateFile')} stage={t('uploadingFile')} />}
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-600">{error}</p>}
         <button disabled={busy || (editing ? !hasPermission(user, 'canEdit') : !hasPermission(user, 'canCreate'))} className="w-full rounded-xl bg-navy py-3.5 font-semibold text-white disabled:opacity-60">{busy ? t('uploadingFile') : editing ? t('saveChanges') : t('sendCertificate')}</button>
       </form>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import CommunityMedia from '../../components/CommunityMedia';
 import UserAvatar from '../../components/UserAvatar';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 import { useCommunityText } from '../../context/communityTranslations';
 
 const initialForm = { name: '', description: '', visibility: 'PUBLIC' };
@@ -27,6 +28,7 @@ export default function Groups() {
   const [inviteLoading, setInviteLoading] = useState(false);
   const [inviteBusyId, setInviteBusyId] = useState('');
   const [logoBusyId, setLogoBusyId] = useState('');
+  const [logoProgress, setLogoProgress] = useState(0);
 
   const loadGroups = useCallback(async () => {
     setLoading(true);
@@ -65,17 +67,25 @@ export default function Groups() {
       return;
     }
     setLogoBusyId(group.id);
+    setLogoProgress(1);
     setError('');
     try {
       const formData = new FormData();
       formData.append('logo', file);
-      const updated = unwrap(await api.post('/api/groups/' + group.id + '/logo', formData));
+      const updated = unwrap(await api.post('/api/groups/' + group.id + '/logo', formData, {
+        onUploadProgress: (progressEvent) => {
+          const total = progressEvent.total || file.size || 1;
+          setLogoProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+        },
+      }));
+      setLogoProgress(100);
       setGroups((current) => current.map((item) => item.id === group.id ? updated : item));
       setNotice(text.groupLogoUpdated || 'Group logo updated.');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.groupActionFailed);
     } finally {
       setLogoBusyId('');
+      setLogoProgress(0);
     }
   };
 
@@ -266,6 +276,7 @@ export default function Groups() {
 
     {notice && <div className="community-notice" role="status">{notice}</div>}
     {error && <div className="community-alert" role="alert">{error}</div>}
+    {logoBusyId && <UploadProgressPanel progress={logoProgress} label={`${text.uploading || 'Loading...'} ${logoProgress}%`} detail={text.uploadGroupLogo || 'Uploading group image...'} stage={text.uploading || 'Uploading...'} className="mb-5" />}
 
     {invitations.incoming.length > 0 && <section className="community-group-invitations" aria-labelledby="group-invitations-title">
       <div className="community-section-heading"><div><p className="community-eyebrow">{text.community}</p><h2 id="group-invitations-title">{text.groupInvitations}</h2></div><span className="community-group-invite-count">{invitations.incoming.length}</span></div>

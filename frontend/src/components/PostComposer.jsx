@@ -3,6 +3,7 @@ import api, { unwrap } from '../api/axios';
 import { useCommunityText } from '../context/communityTranslations';
 import CommunityMedia from './CommunityMedia';
 import UserAvatar from './UserAvatar';
+import UploadProgressPanel from './UploadProgressPanel';
 
 const MAX_MEDIA_SIZE = 100 * 1024 * 1024;
 const MAX_MEDIA_COUNT = 10;
@@ -49,6 +50,7 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
   const [friendPickerOpen, setFriendPickerOpen] = useState(false);
   const [friendsLoading, setFriendsLoading] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -121,19 +123,28 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
       return;
     }
     setBusy(true);
+    setUploadProgress(mediaFiles.length ? 1 : 70);
     setError('');
     try {
       const payload = new FormData();
       payload.append('content', finalContent);
       payload.append('visibility', visibility);
       mediaFiles.forEach((file) => payload.append('images', file));
-      const savedPost = unwrap(isEditing ? await api.patch(`/api/posts/${post.id}`, payload) : await api.post('/api/posts', payload));
+      const requestConfig = mediaFiles.length ? {
+        onUploadProgress: (progressEvent) => {
+          const total = progressEvent.total || mediaFiles.reduce((sum, file) => sum + file.size, 0) || 1;
+          setUploadProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+        },
+      } : undefined;
+      const savedPost = unwrap(isEditing ? await api.patch(`/api/posts/${post.id}`, payload, requestConfig) : await api.post('/api/posts', payload, requestConfig));
+      setUploadProgress(100);
       if (isEditing) onUpdated?.(savedPost);
       else { setContent(''); setVisibility('FRIENDS_ONLY'); setMediaFiles([]); setTaggedFriends([]); onCreated?.(savedPost); }
     } catch (requestError) {
       setError(requestError.response?.data?.message || (isEditing ? text.couldNotSavePost : text.couldNotPublishPost));
     } finally {
       setBusy(false);
+      setUploadProgress(0);
     }
   };
 
@@ -158,6 +169,7 @@ export default function PostComposer({ post, onCreated, onUpdated, onCancel }) {
     {previewItems.length > 0 && <div className={`community-media-preview-grid ${previewItems.length === 1 ? 'is-single' : ''}`}>
       {previewItems.map((item, index) => <div className="community-media-preview" key={item.id || item.url || `${item.name}-${index}`}><CommunityMedia url={item.url} mediaType={item.mediaType} alt={translate(text.postMediaAlt, { number: index + 1 })} /><p>{item.name || translate(text.mediaItem, { number: index + 1 })}{item.file ? ` · ${(item.file.size / (1024 * 1024)).toFixed(1)} MB` : ''}</p>{mediaFiles.length > 0 && <button type="button" onClick={() => setMediaFiles((current) => current.filter((_file, fileIndex) => fileIndex !== index))} className="community-media-preview-remove" aria-label={text.removeImage}>×</button>}</div>)}
     </div>}
+    {busy && <UploadProgressPanel progress={uploadProgress} label={`${text.uploading || 'Loading...'} ${uploadProgress}%`} detail={mediaFiles.length ? (text.uploading || 'Uploading media...') : (text.saving || 'Saving post...')} stage={isEditing ? text.saveChanges : text.publishPost} className="mb-3" />}
     <div className="community-composer-footer"><label className="community-visibility-field"><span>{text.whoSeePost}</span><select value={visibility} onChange={(event) => setVisibility(event.target.value)}><option value="PUBLIC">{text.public}</option><option value="FRIENDS_ONLY">{text.friendsOnly}</option><option value="PRIVATE">{text.onlyMe}</option></select><small>{visibility === 'PUBLIC' ? text.publicHelp : visibility === 'FRIENDS_ONLY' ? text.friendsHelp : text.privateHelp}</small></label><button type="submit" disabled={busy || !content.trim()} className="community-button community-button-primary">{busy ? (isEditing ? text.saving : text.publish) : (isEditing ? text.saveChanges : text.publishPost)}</button></div>
     {error && <p className="community-alert community-alert-inline">{error}</p>}
   </form>;

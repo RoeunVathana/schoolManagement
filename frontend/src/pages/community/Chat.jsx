@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import api, { unwrap } from '../../api/axios';
 import CommunityMedia, { isCommunityVideo } from '../../components/CommunityMedia';
 import UserAvatar from '../../components/UserAvatar';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 import { AuthContext } from '../../context/AuthContext';
 import { useCommunityText } from '../../context/communityTranslations';
 import { useLanguage } from '../../context/LanguageContext';
@@ -72,6 +73,7 @@ export default function Chat() {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageProgress, setImageProgress] = useState(0);
   const [downloadingImageId, setDownloadingImageId] = useState(null);
   const [editingMessageId, setEditingMessageId] = useState(null);
   const [editDraft, setEditDraft] = useState('');
@@ -251,13 +253,20 @@ export default function Chat() {
   const sendImage = async () => {
     if (!activeConversation || !imageFile || uploadingImage || sending) return;
     setUploadingImage(true);
+    setImageProgress(1);
     setError('');
     try {
       const formData = new FormData();
       formData.append('image', imageFile);
       if (draft.trim()) formData.append('body', draft.trim());
       const basePath = activeConversation.isGroup ? 'group-conversations' : 'conversations';
-      const message = unwrap(await api.post(`/api/chat/${basePath}/${activeConversation.id}/images`, formData));
+      const message = unwrap(await api.post(`/api/chat/${basePath}/${activeConversation.id}/images`, formData, {
+        onUploadProgress: (progressEvent) => {
+          const total = progressEvent.total || imageFile.size || 1;
+          setImageProgress(Math.min(95, Math.max(1, Math.round((progressEvent.loaded / total) * 100))));
+        },
+      }));
+      setImageProgress(100);
       setMessages((current) => [...current, message]);
       setDraft('');
       clearImage();
@@ -266,6 +275,7 @@ export default function Chat() {
       setError(requestError.response?.data?.message || text.messageNotSent);
     } finally {
       setUploadingImage(false);
+      setImageProgress(0);
     }
   };
 
@@ -413,6 +423,7 @@ export default function Chat() {
         </div>
         <form onSubmit={sendMessage} className="community-message-form">
           {imagePreview && <div className="community-chat-image-preview"><CommunityMedia url={imagePreview} mediaType={imageFile?.type?.startsWith('video/') ? 'VIDEO' : 'IMAGE'} alt={imageFile?.type?.startsWith('video/') ? (text.chatVideoPreview || 'Selected video') : (text.chatImagePreview || 'Selected image')} className="community-chat-media-preview" /><button type="button" onClick={clearImage} aria-label={text.removeImage || 'Remove media'}>×</button></div>}
+          {uploadingImage && <UploadProgressPanel progress={imageProgress} label={`${text.uploading || 'Loading...'} ${imageProgress}%`} detail={text.attachMedia || 'Uploading media...'} stage={text.uploading || 'Uploading...'} className="mb-3" />}
           <div className="community-message-form-row">
             <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v" onChange={selectImage} className="community-chat-file-input" aria-label={text.attachMedia || 'Attach image or video'} disabled={!activeConversation || sending || uploadingImage} />
             <button type="button" className="community-chat-attach-button" onClick={() => fileInputRef.current?.click()} disabled={!activeConversation || sending || uploadingImage} aria-label={text.attachMedia || 'Attach image or video'}>🖼️</button>

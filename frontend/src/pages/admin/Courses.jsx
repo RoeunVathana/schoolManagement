@@ -7,6 +7,7 @@ import Modal from '../../components/Modal';
 import ImageCropper from '../../components/ImageCropper';
 import SafeImage from '../../components/SafeImage';
 import FileImagePreview from '../../components/FileImagePreview';
+import UploadProgressPanel from '../../components/UploadProgressPanel';
 import Pagination from '../../components/Pagination';
 import { useLanguage } from '../../context/LanguageContext';
 import { useConfirmDialog } from '../../context/ConfirmContext';
@@ -270,11 +271,13 @@ export default function Courses() {
         <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input ref={imageInputRef} type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onClick={(event) => { event.currentTarget.value = ''; }} onChange={chooseCourseImage} /><FileImagePreview file={form.image} label={t('useCroppedImage')} /></Field></div>
         {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
-        {busy && saveStage && <div className="sticky bottom-0 rounded-2xl border border-sky-200 bg-white/95 p-4 shadow-lg backdrop-blur dark:border-sky-900 dark:bg-slate-900/95" role="status" aria-live="polite" aria-busy="true">
-          <div className="flex items-center justify-between gap-3 text-sm font-bold text-slate-700 dark:text-slate-200"><span>{saveStage.key === 'uploading' ? `${t('uploading')} ${uploadProgress}%` : saveStage.key === 'refreshing' ? t('loading') : saveStage.key === 'complete' ? t('courseSaved') : saveStage.key === 'preparing' ? t('preparingImage') : t('savingCourse')}</span><span>{saveStage.percent}%</span></div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"><div className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 transition-[width] duration-300" style={{ width: `${saveStage.percent}%` }} /></div>
-          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{saveStage.key === 'uploading' ? t('uploadingCourseImage') : saveStage.key === 'refreshing' ? t('refreshingCourseList') : t('savingCourseData')}</p>
-        </div>}
+        {busy && saveStage && <UploadProgressPanel
+          progress={saveStage.percent}
+          label={saveStage.key === 'uploading' ? `${t('uploading')} ${uploadProgress}%` : saveStage.key === 'refreshing' ? t('loading') : saveStage.key === 'complete' ? t('courseSaved') : saveStage.key === 'preparing' ? t('preparingImage') : t('savingCourse')}
+          detail={saveStage.key === 'uploading' ? t('uploadingCourseImage') : saveStage.key === 'refreshing' ? t('refreshingCourseList') : t('savingCourseData')}
+          stage={saveStage.key === 'refreshing' ? t('refreshingCourseList') : saveStage.key === 'uploading' ? t('uploadingCourseImage') : t('savingCourse')}
+          className="sticky bottom-0"
+        />}
         <button disabled={busy} className="sticky bottom-0 w-full rounded-xl bg-navy py-3.5 font-semibold text-white shadow-lg transition hover:bg-[#1b3b5d] disabled:cursor-wait disabled:opacity-60">{busy ? t('savingCourse') : editing ? t('saveCourseChanges') : t('createCourse')}</button>
       </form>
     </Modal>
