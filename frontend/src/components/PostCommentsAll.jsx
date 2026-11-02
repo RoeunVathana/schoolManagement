@@ -213,6 +213,17 @@ export default function PostCommentsAll({ post }) {
     }
   };
 
+  const toggleReply = (comment) => {
+    if (replyingId === comment.id) {
+      setReplyingId(null);
+      setReplyDraft('');
+      return;
+    }
+    setReplyingId(comment.id);
+    setReplyDraft('');
+    setNotice('');
+  };
+
   const renderComment = (comment, depth = 0) => {
     const isOwner = user?.id === comment.authorId;
     const canDelete = isOwner || user?.role === 'ADMIN';
@@ -234,7 +245,7 @@ export default function PostCommentsAll({ post }) {
           <div className="community-post-comment-actions">
             <ReactionPicker selected={comment.viewerReaction} count={comment.reactionCount ?? comment.likeCount ?? 0} counts={comment.reactionCounts || {}} open={reactionMenuId === comment.id} onToggle={() => setReactionMenuId((current) => current === comment.id ? null : comment.id)} onSelect={(nextType) => toggleReaction(comment, nextType)} disabled={Boolean(reactionBusy[comment.id])} label={text.likeComment} />
             <button type="button" className="community-post-comment-share" onClick={() => shareComment(comment)}><span aria-hidden="true">↗</span>{text.share}</button>
-            {user && <button type="button" onClick={() => { setReplyingId(comment.id); setReplyDraft(''); setNotice(''); }}>{replyLabel}{replyCount ? ` · ${replyCount}` : ''}</button>}
+            {user && <button type="button" className="community-post-comment-reply-button" onClick={() => toggleReply(comment)} aria-expanded={replyingId === comment.id} aria-controls={`reply-form-${comment.id}`}><span aria-hidden="true">↩</span>{replyLabel}{replyCount ? ` · ${replyCount}` : ''}</button>}
             {isOwner && <button type="button" onClick={() => startEdit(comment)}>{editLabel}</button>}
             {canDelete && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}
           </div>

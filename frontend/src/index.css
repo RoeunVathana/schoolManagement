@@ -2201,6 +2201,10 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-comment-share span { font-size: .8rem; }
 .community-post-comment-meta button { border: 0; padding: 0; color: var(--community-blue); background: transparent; font: inherit; cursor: pointer; }
 .community-post-comment-actions > button:not(.community-post-comment-share) { border: 0; padding: .25rem .35rem; color: var(--community-blue); background: transparent; font: inherit; font-size: .63rem; cursor: pointer; }
+.community-post-comment-actions .community-post-comment-reply-button { display: inline-flex; align-items: center; gap: .22rem; border-radius: 999px; padding-inline: .5rem; font-weight: 950; }
+.community-post-comment-actions .community-post-comment-reply-button:hover,
+.community-post-comment-actions .community-post-comment-reply-button[aria-expanded='true'] { background: rgb(34 158 217 / .1); color: var(--community-blue); }
+.community-post-comment-reply-button span { font-size: .82rem; line-height: 1; }
 .community-post-comment-actions > button:not(.community-post-comment-share):hover { border-radius: 999px; background: rgb(34 158 217 / .1); }
 .community-post-comment-actions > button:disabled { cursor: wait; opacity: .55; }
 .community-post-comment-replies { display: grid; gap: .55rem; margin: .6rem 0 0 1.35rem; padding-left: .75rem; border-left: 2px solid var(--community-line); }
