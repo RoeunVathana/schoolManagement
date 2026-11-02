@@ -5,6 +5,12 @@ import { Role, UserStatus } from '@prisma/client';
 
 type TelegramConfig = { botToken: string; chatId: string; enabled: boolean };
 type TeacherMeetingAlert = { botToken: string; chatId: string; action: 'CHECK_IN' | 'CHECK_OUT' | 'UPDATE' | 'DELETE'; teacherName: string; courseName?: string; meetingUrl?: string | null; attendanceDate: Date | string; checkInAt?: Date | string | null; checkOutAt?: Date | string | null };
+type TelegramUser = { id: number; is_bot?: boolean; first_name?: string; last_name?: string; username?: string };
+type TelegramChat = { id: number | string; type?: string; title?: string };
+type TelegramWebhookUpdate = {
+  message?: { chat?: TelegramChat; new_chat_members?: TelegramUser[] };
+  chat_member?: { chat?: TelegramChat; old_chat_member?: { status?: string }; new_chat_member?: { status?: string; user?: TelegramUser } };
+};
 
 @Injectable()
 export class TelegramService {
@@ -23,7 +29,35 @@ export class TelegramService {
 
   async publicSettings() {
     const current = await this.resolveConfig();
-    return { configured: Boolean(current.botToken && current.chatId), enabled: current.enabled, botToken: this.maskToken(current.botToken), chatId: current.chatId };
+    return {
+      configured: Boolean(current.botToken && current.chatId),
+      enabled: current.enabled,
+      botToken: this.maskToken(current.botToken),
+      chatId: current.chatId,
+      welcomeBotConfigured: Boolean(this.config.get<string>('TELEGRAM_WEBHOOK_URL') && this.config.get<string>('TELEGRAM_WEBHOOK_SECRET')),
+    };
+  }
+
+  async configureWelcomeWebhook(urlOverride?: string) {
+    const current = await this.resolveConfig();
+    const webhookUrl = String(urlOverride || this.config.get<string>('TELEGRAM_WEBHOOK_URL', '') || '').trim();
+    const secret = String(this.config.get<string>('TELEGRAM_WEBHOOK_SECRET', '') || '').trim();
+    if (!current.botToken) throw new BadRequestException('Please save the Telegram bot token first.');
+    if (!webhookUrl) throw new BadRequestException('Set TELEGRAM_WEBHOOK_URL to the public backend webhook URL first.');
+    if (!secret) throw new BadRequestException('Set TELEGRAM_WEBHOOK_SECRET before enabling the welcome bot.');
+    let parsed: URL;
+    try { parsed = new URL(webhookUrl); } catch { throw new BadRequestException('TELEGRAM_WEBHOOK_URL must be a valid URL.'); }
+    if (parsed.protocol !== 'https:') throw new BadRequestException('TELEGRAM_WEBHOOK_URL must use HTTPS.');
+    if (!/^[A-Za-z0-9_-]{1,256}$/.test(secret)) throw new BadRequestException('TELEGRAM_WEBHOOK_SECRET may only contain letters, numbers, underscores, and hyphens.');
+
+    const response = await fetch(`https://api.telegram.org/bot${current.botToken}/setWebhook`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: parsed.toString(), secret_token: secret, allowed_updates: ['message', 'chat_member'] }),
+    });
+    const result: any = await response.json().catch(() => null);
+    if (!response.ok || !result?.ok) throw new BadRequestException(result?.description || 'Telegram could not configure the welcome bot webhook.');
+    return { configured: true, url: parsed.toString(), welcomeBotConfigured: true };
   }
 
   async saveSettings(input: { botToken?: string; chatId?: string; enabled?: boolean }) {
@@ -106,6 +140,46 @@ export class TelegramService {
     if (!recipients.length) return { sent: 0, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink, announcementId };
     const result = await this.prisma.notification.createMany({ data: recipients.map((recipient) => ({ userId: recipient.id, senderId: actorId, title: 'Telegram group invitation', message })) });
     return { sent: result.count, audience, course: { id: course.id, courseName: course.courseName }, inviteLink: normalizedLink, announcementId };
+  }
+
+  async handleWebhook(update: TelegramWebhookUpdate) {
+    const events: Array<{ chat: TelegramChat; user: TelegramUser }> = [];
+    const message = update?.message;
+    if (message?.chat && Array.isArray(message.new_chat_members)) {
+      for (const user of message.new_chat_members) events.push({ chat: message.chat, user });
+    }
+
+    const memberUpdate = update?.chat_member;
+    const oldStatus = memberUpdate?.old_chat_member?.status;
+    const newStatus = memberUpdate?.new_chat_member?.status;
+    const joined = ['left', 'kicked'].includes(String(oldStatus)) && ['member', 'administrator', 'restricted'].includes(String(newStatus));
+    if (joined && memberUpdate?.chat && memberUpdate.new_chat_member?.user) {
+      events.push({ chat: memberUpdate.chat, user: memberUpdate.new_chat_member.user });
+    }
+
+    const uniqueEvents = [...new Map(events.filter((event) => !event.user.is_bot).map((event) => [`${event.chat.id}:${event.user.id}`, event])).values()];
+    const welcomed = await Promise.all(uniqueEvents.map(({ chat, user }) => this.welcomeNewMember(chat, user)));
+    return { received: true, welcomed: welcomed.filter(Boolean).length };
+  }
+
+  private async welcomeNewMember(chat: TelegramChat, user: TelegramUser) {
+    const current = await this.resolveConfig();
+    if (!current.enabled || !current.botToken) return false;
+    const chatId = String(chat.id);
+    const course = await this.prisma.course.findFirst({ where: { telegramChatId: chatId }, select: { courseName: true } });
+    if (!course && current.chatId && String(current.chatId).trim() !== chatId) return false;
+    const displayName = [user.first_name, user.last_name].filter(Boolean).join(' ').trim() || user.username || 'student';
+    const safeName = this.escapeHtml(displayName);
+    const name = `<a href="tg://user?id=${user.id}">${safeName}</a>`;
+    const courseLine = course ? `You joined <b>${this.escapeHtml(course.courseName)}</b>.` : 'You joined a CampusFlow course group.';
+    const message = [
+      '<b>🎉 Welcome to CampusFlow!</b>',
+      `Hello ${name} 👋`,
+      courseLine,
+      'We are happy to have you here. Please check the pinned messages for lessons, announcements, and class updates.',
+      '<i>សូមស្វាគមន៍មកកាន់ក្រុមសិក្សា CampusFlow!</i>',
+    ].join('\n');
+    return this.sendMessageWithConfig(current.botToken, chatId, message);
   }
 
   async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {

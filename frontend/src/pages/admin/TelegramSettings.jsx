@@ -55,6 +55,7 @@ export default function TelegramSettings() {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [busy, setBusy] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [webhookBusy, setWebhookBusy] = useState(false);
   const [courses, setCourses] = useState([]);
   const [invite, setInvite] = useState(emptyInvite);
   const [inviteMessage, setInviteMessage] = useState({ type: '', text: '' });
@@ -102,6 +103,21 @@ export default function TelegramSettings() {
     }
   };
 
+  const configureWelcomeBot = async () => {
+    setWebhookBusy(true);
+    setMessage({ type: '', text: '' });
+    try {
+      const response = await api.post('/telegram-settings/webhook');
+      const data = unwrap(response);
+      setSettings((current) => ({ ...current, welcomeBotConfigured: data.welcomeBotConfigured !== false }));
+      setMessage({ type: 'success', text: language === 'km' ? 'Bot ស្វាគមន៍ត្រូវបានភ្ជាប់រួចរាល់។' : 'Welcome bot webhook configured successfully.' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error.response?.data?.message || (language === 'km' ? 'មិនអាចភ្ជាប់ bot ស្វាគមន៍បានទេ។' : 'Could not configure the welcome bot.') });
+    } finally {
+      setWebhookBusy(false);
+    }
+  };
+
   const sendInvite = async (event) => {
     event.preventDefault();
     setSendingInvite(true);
@@ -132,7 +148,7 @@ export default function TelegramSettings() {
         <div className="mb-6 flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">Telegram</p><h2 className="mt-2 text-xl font-bold text-ink dark:text-white">{t('telegramPaymentReports')}</h2></div><span className={'rounded-full px-3 py-1.5 text-xs font-bold ' + statusClass}>{settings.configured ? t('telegramConfigured') : t('telegramNotConfigured')}</span></div>
         <div className="space-y-5"><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('telegramBotToken')}<PasswordInput autoComplete="new-password" value={form.botToken} onChange={(event) => setForm({ ...form, botToken: event.target.value })} className="input mt-2" placeholder={settings.botToken || t('telegramTokenPlaceholder')} /><span className="mt-1.5 block text-xs font-normal text-slate-500">{t('telegramTokenHint')}</span></label><label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('telegramChatId')}<input value={form.chatId} onChange={(event) => setForm({ ...form, chatId: event.target.value })} className="input mt-2" placeholder="5934277627" /><span className="mt-1.5 block text-xs font-normal text-slate-500">{t('telegramChatIdHint')}</span></label><label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200"><input type="checkbox" checked={form.enabled} onChange={(event) => setForm({ ...form, enabled: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" />{t('telegramEnabled')}</label></div>
         {message.text && <p className={'mt-5 rounded-2xl px-4 py-3 text-sm font-semibold ' + noticeClass(message)}>{message.text}</p>}
-        <div className="mt-6 flex flex-wrap gap-3"><button disabled={busy} className="rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : t('saveTelegramSettings')}</button><button type="button" disabled={testing || !settings.configured} onClick={test} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200">{testing ? t('loading') : t('testTelegram')}</button></div>
+        <div className="mt-6 flex flex-wrap gap-3"><button disabled={busy} className="rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : t('saveTelegramSettings')}</button><button type="button" disabled={testing || !settings.configured} onClick={test} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200">{testing ? t('loading') : t('testTelegram')}</button><button type="button" disabled={webhookBusy || !settings.configured} onClick={configureWelcomeBot} className="rounded-xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-700 disabled:opacity-50 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300">{webhookBusy ? (language === 'km' ? 'កំពុងភ្ជាប់...' : 'Connecting...') : (language === 'km' ? 'បើក bot ស្វាគមន៍' : 'Enable welcome bot')}</button></div>
       </form>
 
       <form onSubmit={sendInvite} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 sm:p-7">

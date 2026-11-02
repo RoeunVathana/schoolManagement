@@ -27,6 +27,10 @@ export class TelegramController {
   @Permissions('edit')
   test() { return this.telegram.sendTestMessage(); }
 
+  @Post('webhook')
+  @Permissions('edit')
+  configureWebhook(@Body() body: { url?: string }) { return this.telegram.configureWelcomeWebhook(body.url); }
+
   @Post('group-invite')
   @Roles(Role.ADMIN, Role.TEACHER)
   @Permissions('create')

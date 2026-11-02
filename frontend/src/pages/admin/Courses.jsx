@@ -15,7 +15,7 @@ import { isImageTooLarge } from '../../utils/fileValidation';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', paymentEnabled: true, price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', image: null };
+const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', paymentEnabled: true, price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', telegramChatId: '', image: null };
 const previewCode = (prefix) => `${prefix}-${(globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 8).toUpperCase()}`;
 const courseFormData = (values, file) => {
   const data = new FormData();
@@ -176,6 +176,7 @@ export default function Courses() {
       discountPercent: String(course.discountPercent ?? '0'),
       discountStart: course.discountStart ? new Date(course.discountStart).toISOString().slice(0, 16) : '',
       discountEnd: course.discountEnd ? new Date(course.discountEnd).toISOString().slice(0, 16) : '',
+      telegramChatId: course.telegramChatId || '',
       image: null,
     });
     setError('');
@@ -320,6 +321,7 @@ export default function Courses() {
               <DiscountPreview form={form} t={t} />
             </div>
             <Field label={t('description')} className="sm:col-span-2"><textarea rows="3" value={form.description} className="input mt-2" placeholder={t('courseDescriptionPlaceholder')} onChange={updateField('description')} /></Field>
+            <Field label={language === 'km' ? 'Telegram Chat ID សម្រាប់ស្វាគមន៍សិស្ស' : 'Telegram chat ID for welcome bot'} hint={language === 'km' ? 'បញ្ចូល chat ID របស់ group នេះ ដូចជា -1001234567890។' : 'Enter the group chat ID, for example -1001234567890.'} className="sm:col-span-2"><input value={form.telegramChatId} className="input mt-2" placeholder="-1001234567890" onChange={updateField('telegramChatId')} /></Field>
           </div>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>

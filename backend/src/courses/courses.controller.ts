@@ -105,7 +105,7 @@ export class CoursesController {
     let course;
     try {
       uploaded = file ? await this.media.upload(file, 'courses') : undefined;
-      course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: uploaded?.url || b.imageUrl, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+      course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: uploaded?.url || b.imageUrl, telegramChatId: typeof b.telegramChatId === 'string' && b.telegramChatId.trim() ? b.telegramChatId.trim() : null, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
     } catch (error) {
       if (uploaded?.url) await this.media.remove(uploaded.url);
       throw error;
@@ -139,6 +139,7 @@ export class CoursesController {
         status: b.status,
         academicYearId: b.academicYearId,
         semesterId: b.semesterId,
+        telegramChatId: b.telegramChatId === undefined ? undefined : (String(b.telegramChatId).trim() || null),
         price: b.price === undefined || b.price === '' ? undefined : Number(b.price),
         currency: b.currency ? String(b.currency).toUpperCase() : undefined,
         ...this.discountData(b, true),
