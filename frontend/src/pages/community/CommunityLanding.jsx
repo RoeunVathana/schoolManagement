@@ -55,7 +55,7 @@ export default function CommunityLanding() {
   const displayName = user?.fullName?.split(' ')[0] || '';
   const joinState = !user ? { message: language === 'km' ? 'សូមចូលគណនីដើម្បីចូលរួមសហគមន៍។' : 'Sign in to join the CampusFlow community.', from: '/friends' } : undefined;
 
-  if (loading && !feed.members.length && !feed.posts.length) return <CommunityLoading text={text.loading} />;
+  if (loading && !feed.members.length && !feed.posts.length) return <CommunityLoading />;
 
   const handleLogout = async () => {
     setMobileMenuOpen(false);
@@ -146,6 +146,6 @@ function PublicPost({ post, text }) {
   return <article className="public-community-post public-community-post-with-comments"><PublicPostContent post={post} text={text} /><PostComments post={post} /></article>;
 }
 
-function CommunityLoading({ text }) {
-  return <main className="public-community-loading-screen" aria-live="polite" aria-busy="true"><div className="public-community-loader-card"><div className="public-community-loader-orbit"><span className="public-community-loader-logo"><BrandLogo /></span></div><p className="public-community-kicker">CAMPUSFLOW COMMUNITY</p><h1>{text}</h1><div className="public-community-loader-progress"><span /></div><div className="public-community-loader-dots" aria-hidden="true"><span /><span /><span /></div></div></main>;
+function CommunityLoading() {
+  return <main className="public-community-loading-screen" aria-live="polite" aria-busy="true" aria-label="Loading"><div className="public-community-loader-card"><div className="public-community-loader-orbit"><span className="public-community-loader-logo"><BrandLogo alt="" /></span></div><div className="public-community-loader-progress"><span /></div><div className="public-community-loader-dots" aria-hidden="true"><span /><span /><span /></div></div></main>;
 }
