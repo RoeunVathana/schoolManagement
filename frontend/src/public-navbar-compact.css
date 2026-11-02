@@ -1237,3 +1237,44 @@ html:not(.dark) .site-public-navbar #storefront-mobile-menu nav a:hover {
     min-height: 2.25rem !important;
   }
 }
+
+/* Phone controls: keep the language flag visible, remove the extra chevron,
+   and center every icon inside its touch target. */
+@media (max-width: 767px) {
+  .site-public-navbar .language-switcher-chevron,
+  .app-navbar [data-dashboard-language] .language-switcher-chevron {
+    display: none !important;
+  }
+
+  .site-public-navbar .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar [data-language-menu] > button,
+  .app-navbar [data-dashboard-language] > button,
+  .site-public-navbar .theme-switch,
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button,
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+
+  .site-public-navbar .language-switcher-flag,
+  .site-public-navbar .theme-switch-icon,
+  .site-public-navbar .about-mobile-toggle > span,
+  .site-public-navbar .public-community-nav-menu-button > span:first-child,
+  .site-public-navbar .storefront-mobile-menu-button > span:first-child,
+  .app-navbar .app-menu-button svg,
+  .app-navbar .app-theme-button > span:first-child,
+  .app-navbar .app-logout-button .logout-icon {
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
