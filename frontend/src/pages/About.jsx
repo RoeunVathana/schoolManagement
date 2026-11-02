@@ -9,7 +9,7 @@ import { roleHome } from "../utils/roles";
 
 const content = {
   en: {
-    navCourses: "Courses",
+    navCourses: "Courses", navContact: "Contact",
     navCommunity: "Community",
     navAbout: "About us",
     navFaq: "FAQ",
@@ -54,7 +54,7 @@ const content = {
     footerBody: "Practical online learning for Cambodia.",
   },
   km: {
-    navCourses: "វគ្គសិក្សា",
+    navCourses: "វគ្គសិក្សា", navContact: "ទាក់ទង",
     navCommunity: "សហគមន៍",
     navAbout: "អំពីយើង",
     navFaq: "សំណួរ",
@@ -126,6 +126,7 @@ export default function About() {
             <Link to="/courses#courses">{copy.navCourses}</Link>
             <Link to="/community">{copy.navCommunity}</Link>
             <Link to="/about" className="is-active">{copy.navAbout}</Link>
+            <Link to="/contact">{copy.navContact}</Link>
             <Link to="/courses#faq">{copy.navFaq}</Link>
           </nav>
           <div className="about-nav-actions">
@@ -135,7 +136,7 @@ export default function About() {
           </div>
           <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen}>☰</button>
         </div>
-        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions"><button type="button" onClick={() => { setLanguage(language === "en" ? "km" : "en"); setMobileMenuOpen(false); }}>{language === "en" ? "ខ្មែរ" : "English"}</button><Link to={hasSession ? dashboardPath : "/login/student"} onClick={() => setMobileMenuOpen(false)}>{hasSession ? copy.dashboard : copy.login}</Link></div></div>}
+        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions"><button type="button" onClick={() => { setLanguage(language === "en" ? "km" : "en"); setMobileMenuOpen(false); }}>{language === "en" ? "ខ្មែរ" : "English"}</button><Link to={hasSession ? dashboardPath : "/login/student"} onClick={() => setMobileMenuOpen(false)}>{hasSession ? copy.dashboard : copy.login}</Link></div></div>}
       </header>
 
       <main>
@@ -170,7 +171,7 @@ export default function About() {
         <section className="about-cta"><div className="about-container about-cta-inner"><div><p className="about-eyebrow about-eyebrow-light">{copy.ctaKicker}</p><h2>{copy.ctaTitle}</h2><p>{copy.ctaBody}</p></div><Link to="/courses#courses" className="about-button about-button-primary">{copy.ctaButton} <span>→</span></Link></div></section>
       </main>
 
-      <footer className="about-footer"><div className="about-container about-footer-inner"><div><p className="about-footer-brand">Campus<span>Flow</span></p><p>{copy.footerBody}</p></div><div className="about-footer-links"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">Telegram support →</a></div></footer>
+      <footer className="about-footer"><div className="about-container about-footer-inner"><div><p className="about-footer-brand">Campus<span>Flow</span></p><p>{copy.footerBody}</p></div><div className="about-footer-links"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact">{copy.navContact}</Link></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">Telegram support →</a></div></footer>
     </div>
   );
 }
