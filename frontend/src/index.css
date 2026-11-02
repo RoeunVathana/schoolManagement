@@ -7104,3 +7104,69 @@ table td {
     justify-content: center;
   }
 }
+
+/* Shared website surface: every public and workspace page uses the same
+   light/dark foundation while keeping its own cards, hero sections, and
+   content accents. */
+:root {
+  --site-page-background: #f6f8fb;
+  --site-page-foreground: #10243f;
+  --site-page-card: #ffffff;
+  --site-page-muted: #edf4f9;
+}
+
+.dark {
+  --site-page-background: #0b1220;
+  --site-page-foreground: #f4f9ff;
+  --site-page-card: #111f33;
+  --site-page-muted: #132238;
+}
+
+html,
+body,
+#root {
+  background: var(--site-page-background);
+  color: var(--site-page-foreground);
+}
+
+body {
+  transition: background-color .25s ease, color .25s ease;
+}
+
+.storefront,
+.about-page,
+.contact-page,
+.public-community-page,
+.auth-background,
+.not-found-page,
+.app-background {
+  background: var(--site-page-background) !important;
+  color: var(--site-page-foreground);
+}
+
+.dark .storefront,
+.dark .about-page,
+.dark .contact-page,
+.dark .public-community-page,
+.dark .auth-background,
+.dark .not-found-page,
+.dark .app-background {
+  background: var(--site-page-background) !important;
+  color: var(--site-page-foreground);
+}
+
+.storefront > main,
+.about-page > main,
+.contact-page > main,
+.public-community-page > main,
+.app-main {
+  background: transparent;
+}
+
+.dark .storefront > main,
+.dark .about-page > main,
+.dark .contact-page > main,
+.dark .public-community-page > main,
+.dark .app-main {
+  background: transparent;
+}

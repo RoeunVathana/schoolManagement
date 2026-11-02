@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#10243f" />
+    <script>
+      (() => {
+        try {
+          if (localStorage.getItem('sms_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch {}
+      })();
+    </script>
     <meta name="description" content="CampusFlow LMS helps students in Cambodia learn practical skills through guided online courses, local teachers, KHQR payment, and a supportive learning community." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content="CampusFlow LMS" />
