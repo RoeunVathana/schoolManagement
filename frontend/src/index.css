@@ -9346,3 +9346,21 @@ html:lang(km) .storefront-home-copy > p {
     min-width: 0;
   }
 }
+
+/* Keep the Community hero full-screen without the extra vertical top gap. */
+.public-community-page .public-community-hero {
+  min-height: calc(100svh - 4.35rem);
+  margin-top: 0;
+  align-items: start;
+  padding-top: clamp(4.75rem, 8vh, 6.25rem);
+  padding-bottom: clamp(2.5rem, 6vh, 5rem);
+}
+
+@media (max-width: 767px) {
+  .public-community-page .public-community-hero {
+    min-height: calc(100svh - 4.2rem);
+    align-items: start;
+    padding-top: 4.75rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}
