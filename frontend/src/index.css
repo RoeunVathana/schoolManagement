@@ -9346,3 +9346,29 @@ html:lang(km) .storefront-home-copy > p {
     min-width: 0;
   }
 }
+
+/* Compact public navbar spacing to keep the first-page header balanced. */
+.site-public-navbar .about-nav-inner,
+.site-public-navbar .storefront-mobile-header,
+.site-public-navbar.public-community-nav {
+  width: 100%;
+  max-width: none;
+  padding-inline: clamp(.75rem, 2.2vw, 2.4rem) !important;
+}
+
+.site-public-navbar .about-nav-inner,
+.site-public-navbar .storefront-mobile-header {
+  gap: .85rem;
+}
+
+.site-public-navbar .about-nav-links,
+.site-public-navbar .public-community-nav-links,
+.site-public-navbar .storefront-mobile-header > nav {
+  gap: clamp(.65rem, 1.6vw, 1.35rem) !important;
+}
+
+.site-public-navbar .about-nav-actions,
+.site-public-navbar .public-community-nav-actions,
+.site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
+  gap: .4rem;
+}
