@@ -9082,3 +9082,23 @@ html:lang(km) .storefront-home-copy > p {
   max-width: 100%;
   overflow: visible;
 }
+
+/* Keep public-page footers at the bottom without covering page content. */
+.storefront,
+.about-page,
+.public-community-page {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+}
+
+.storefront > main,
+.about-page > main,
+.public-community-page > main {
+  flex: 1 0 auto;
+}
+
+.storefront > footer,
+.about-page > footer,
+.public-community-page > footer {
+  flex: 0 0 auto;
