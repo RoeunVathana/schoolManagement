@@ -1790,7 +1790,10 @@ a, button, input, textarea, select { max-width: 100%; }
 .table-desktop-view { scrollbar-width: thin; scrollbar-color: #b7c8d8 transparent; }
 .table-desktop-view::-webkit-scrollbar { height: .45rem; }
 .table-desktop-view::-webkit-scrollbar-thumb { border-radius: 999px; background: #b7c8d8; }
-.storefront { overflow: clip; }
+/* Keep the fixed public navbar outside an ancestor clipping context.  The
+   document/body already clips horizontal overflow, so the storefront itself
+   must remain visible vertically while the page scrolls underneath the bar. */
+.storefront { overflow: visible; }
 .storefront > main > section, .storefront > header, .storefront > footer { min-width: 0; }
 .storefront-course-card, .storefront-reveal, .payment-modal-shell, .auth-form-panel { min-width: 0; }
 .auth-background { min-height: 100svh; }
