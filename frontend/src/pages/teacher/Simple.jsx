@@ -657,6 +657,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           {
             key: "actions",
             label: t("actions"),
+            className: "submission-actions-column",
             render: (row) =>
               section === "submissions" ? (
                 <div className="flex gap-2">
