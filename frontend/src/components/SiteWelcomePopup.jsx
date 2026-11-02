@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 const content = {
@@ -42,8 +42,10 @@ function WorkspaceIcon() {
 
 export default function SiteWelcomePopup() {
   const { language } = useLanguage();
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(true);
   const copy = content[language] || content.en;
+  const isDashboardRoute = /^\/(admin|teacher|student|customer)(?:\/|$)/.test(pathname);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -54,7 +56,7 @@ export default function SiteWelcomePopup() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  if (!open) return null;
+  if (!open || isDashboardRoute) return null;
 
   return createPortal(
     <div
