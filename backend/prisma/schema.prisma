@@ -604,8 +604,8 @@ model Enrollment {
   student        Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([courseId, studentId])
-  @@index([studentId])
-  @@index([courseId])
+  @@index([studentId, status])
+  @@index([courseId, status])
   @@map("enrollments")
 }
 
@@ -716,6 +716,7 @@ model Attendance {
 
   @@unique([courseId, studentId, attendanceDate])
   @@index([studentId, attendanceDate])
+  @@index([courseId, attendanceDate])
   @@map("attendance")
 }
 
@@ -773,7 +774,8 @@ model Submission {
   attachments  SubmissionAttachment[]
 
   @@unique([assignmentId, studentId])
-  @@index([studentId])
+  @@index([studentId, submittedAt])
+  @@index([assignmentId, submittedAt])
   @@index([status])
   @@map("submissions")
 }
@@ -864,6 +866,7 @@ model Notification {
   sender    User?    @relation("NotificationSender", fields: [senderId], references: [id], onDelete: SetNull)
 
   @@index([userId, isRead])
+  @@index([userId, createdAt])
   @@index([senderId])
   @@map("notifications")
 }

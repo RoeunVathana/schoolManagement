@@ -8,7 +8,11 @@ export function validateEnvironment(config: Record<string, unknown>) {
   const port = Number(config.PORT ?? 3001);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT must be a valid TCP port');
 
-  const databasePoolSize = Number(config.DATABASE_POOL_SIZE ?? (nodeEnv === 'production' ? 100 : 5));
+  // Keep the default conservative for a single hosted API process. A pool of
+  // 100 connections can exhaust small managed Postgres plans before the app
+  // itself becomes CPU-bound. Scale this explicitly when the database plan
+  // and number of API replicas justify it.
+  const databasePoolSize = Number(config.DATABASE_POOL_SIZE ?? (nodeEnv === 'production' ? 10 : 5));
   if (!Number.isInteger(databasePoolSize) || databasePoolSize < 1 || databasePoolSize > 100) {
     throw new Error('DATABASE_POOL_SIZE must be an integer between 1 and 100');
   }
