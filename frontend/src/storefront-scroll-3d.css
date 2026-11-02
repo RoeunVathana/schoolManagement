@@ -10,15 +10,15 @@
 }
 
 .storefront-reveal[data-scroll-reveal] {
-  transform: translate3d(0, 2.25rem, -34px) rotateX(2.4deg) scale(.975);
+  transform: translate3d(0, 1.35rem, -12px) rotateX(1deg) scale(.99);
   transform-origin: 50% 0;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   transition:
-    opacity .78s cubic-bezier(.2,.75,.25,1),
-    transform .78s cubic-bezier(.2,.75,.25,1),
-    box-shadow .78s cubic-bezier(.2,.75,.25,1);
-  will-change: opacity, transform;
+    opacity .48s cubic-bezier(.2,.75,.25,1),
+    transform .48s cubic-bezier(.2,.75,.25,1),
+    box-shadow .48s cubic-bezier(.2,.75,.25,1);
+  will-change: auto;
 }
 
 .storefront-reveal[data-scroll-reveal].is-visible,
@@ -112,12 +112,21 @@
 
 @media (max-width: 767px) {
   .storefront {
-    perspective: 1100px;
-    perspective-origin: 50% 12%;
+    perspective: none;
+    perspective-origin: initial;
+  }
+
+  .storefront,
+  .storefront > main,
+  .storefront > footer {
+    transform-style: flat;
   }
 
   .storefront-reveal[data-scroll-reveal] {
-    transform: translate3d(0, 1.25rem, -16px) rotateX(1deg) scale(.985);
+    transform: translate3d(0, .7rem, 0) !important;
+    transition:
+      opacity .32s ease-out,
+      transform .32s ease-out !important;
   }
 
   .storefront-reveal[data-scroll-reveal].is-visible,
@@ -131,6 +140,28 @@
 
   .storefront-course-card.is-visible:hover .storefront-course-visual {
     transform: translateZ(6px) scale(1.012);
+  }
+}
+
+/* Tablets still get depth in the artwork, but the document itself stays on a
+   flat compositor path so touch scrolling does not fight a large perspective
+   layer. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .storefront {
+    perspective: none;
+  }
+
+  .storefront,
+  .storefront > main,
+  .storefront > footer {
+    transform-style: flat;
+  }
+
+  .storefront-reveal[data-scroll-reveal] {
+    transform: translate3d(0, .9rem, 0) !important;
+    transition:
+      opacity .38s ease-out,
+      transform .38s ease-out !important;
   }
 }
 
