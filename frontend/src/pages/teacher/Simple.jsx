@@ -632,7 +632,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
             title={attachment.originalName || t("openFile")}
           >
             {isImage(attachment) ? (
-              <img
+              <SafeImage
                 src={mediaUrl(attachment.fileUrl)}
                 alt={attachment.originalName || t("submissionFile")}
                 className="h-8 w-8 rounded object-cover"
@@ -1164,6 +1164,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
             columns={columns}
             rows={visibleRows}
             showDetails={!isAdmin}
+            tableClassName={`learning-record-table learning-record-table-${section}${isAdmin ? " learning-record-table-admin" : ""}`}
             empty={
               editable.includes(section) && !hasAssignedCourse
                 ? t("noCourseAssignedShort")
