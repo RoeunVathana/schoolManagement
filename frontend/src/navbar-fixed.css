@@ -7,13 +7,29 @@
 }
 
 .site-public-navbar,
-.storefront > header {
+.storefront > header,
+.app-shell-content > .app-navbar {
+  box-sizing: border-box !important;
   position: fixed !important;
-  inset: 0 0 auto 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
   z-index: 80 !important;
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
+  transform: none !important;
+  will-change: transform;
+}
+
+/* Dashboard navigation shares the viewport's top edge.  Desktop keeps the
+   sidebar column clear; tablet/mobile use the full viewport width. */
+.app-shell-content > .app-navbar {
+  z-index: 100 !important;
+  min-height: var(--dashboard-navbar-height) !important;
+  height: var(--dashboard-navbar-height) !important;
+  left: 18rem !important;
 }
 
 .about-page,
@@ -33,12 +49,7 @@
 }
 
 .app-shell-content > .app-navbar {
-  position: fixed !important;
-  inset: 0 0 auto 0 !important;
-  left: 18rem !important;
-  z-index: 100 !important;
   width: auto !important;
-  min-height: var(--dashboard-navbar-height);
 }
 
 @media (max-width: 1023px) {
