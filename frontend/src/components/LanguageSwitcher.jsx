@@ -8,7 +8,7 @@ const flags = {
   km: { src: 'https://flagcdn.com/w40/kh.png', alt: 'Cambodia', label: 'ខ្មែរ', short: 'KH' },
 };
 
-export default function LanguageSwitcher({ variant = 'dashboard' }) {
+export default function LanguageSwitcher({ variant = 'dashboard', onSelect }) {
   const { user } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -26,6 +26,7 @@ export default function LanguageSwitcher({ variant = 'dashboard' }) {
   const choose = async (next) => {
     setLanguage(next);
     setOpen(false);
+    onSelect?.();
     if (user?.id) await api.patch('/auth/profile', { language: next }).catch(() => undefined);
   };
 

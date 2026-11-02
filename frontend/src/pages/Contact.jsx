@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../context/LanguageContext";
 import { roleHome } from "../utils/roles";
@@ -44,7 +45,7 @@ const content = {
 };
 
 export default function Contact() {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -85,10 +86,10 @@ export default function Contact() {
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span></Link>
           <nav className="about-nav-links" aria-label="Primary navigation"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact" className="is-active">{copy.navContact}</Link><Link to="/courses#faq">{copy.navFaq}</Link></nav>
-          <div className="about-nav-actions"><ThemeSwitch /><button type="button" className="about-language-toggle" onClick={() => setLanguage(language === "en" ? "km" : "en")} aria-label="Change language">{language === "en" ? "ខ្មែរ" : "EN"}</button>{hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}</div>
+          <div className="about-nav-actions"><ThemeSwitch /><LanguageSwitcher variant="public" />{hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}</div>
           <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen}>☰</button>
         </div>
-        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions"><button type="button" onClick={() => { setLanguage(language === "en" ? "km" : "en"); setMobileMenuOpen(false); }}>{language === "en" ? "ខ្មែរ" : "English"}</button><Link to={hasSession ? dashboardPath : "/login/student"} onClick={() => setMobileMenuOpen(false)}>{hasSession ? copy.dashboard : copy.login}</Link></div></div>}
+        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions"><LanguageSwitcher variant="public" onSelect={() => setMobileMenuOpen(false)} /><Link to={hasSession ? dashboardPath : "/login/student"} onClick={() => setMobileMenuOpen(false)}>{hasSession ? copy.dashboard : copy.login}</Link></div></div>}
       </header>
 
       <main>
