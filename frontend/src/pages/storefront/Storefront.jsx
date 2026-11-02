@@ -612,12 +612,12 @@ export default function Storefront() {
         hasPurchasedCourse={hasPurchasedCourse}
         t={t}
       />
-      <main className="pt-0">
-        <section className="relative flex min-h-[100svh] overflow-hidden bg-[#10243f] text-white">
+      <main className="storefront-home-main pt-0">
+        <section className="storefront-home-hero relative flex min-h-[100svh] overflow-hidden bg-[#10243f] text-white">
           <div className="absolute -left-24 -top-40 h-96 w-96 rounded-full bg-[#8de4ca]/15 blur-3xl" />
           <div className="absolute -bottom-48 right-0 h-[34rem] w-[34rem] rounded-full bg-[#f47b67]/15 blur-3xl" />
-          <div className="relative mx-auto grid min-h-[100svh] w-full max-w-7xl gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:px-10 lg:py-16">
-            <div className="storefront-reveal storefront-reveal-on-load">
+          <div className="storefront-home-hero-inner relative mx-auto grid min-h-[100svh] w-full max-w-7xl gap-12 px-5 py-12 sm:px-8 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:px-10 lg:py-16">
+            <div className="storefront-home-copy storefront-reveal storefront-reveal-on-load">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#8de4ca]/25 bg-white/10 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">
                 <span className="h-2 w-2 rounded-full bg-[#8de4ca] shadow-[0_0_14px_#8de4ca]" />
                 {copy.heroEyebrow}
@@ -655,7 +655,7 @@ export default function Storefront() {
                 <MiniStat value="1:1" label={copy.teacherSupport} />
               </div>
             </div>
-            <div className="storefront-reveal storefront-reveal-on-load storefront-3d-scene relative mx-auto w-full max-w-lg [--reveal-delay:140ms]">
+            <div className="storefront-home-art storefront-reveal storefront-reveal-on-load storefront-3d-scene relative mx-auto w-full max-w-lg [--reveal-delay:140ms]">
               <div className="absolute -inset-5 rounded-[2.25rem] bg-gradient-to-br from-[#8de4ca]/20 via-transparent to-[#f47b67]/20 blur-2xl" />
               <div className="storefront-3d-card relative rounded-[2rem] border border-white/15 bg-white/[.08] p-4 shadow-2xl backdrop-blur-xl sm:p-5">
                 <div className="storefront-3d-surface rounded-[1.5rem] bg-gradient-to-br from-[#dff8ee] via-[#e8f2ff] to-[#fff0e9] p-5 text-[#10243f] sm:p-7">
@@ -980,7 +980,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
   };
   return (
     <header className="site-public-navbar storefront-public-navbar fixed inset-x-0 top-0 z-50 border-b border-white/70 bg-white/90 shadow-[0_10px_30px_rgba(16,36,63,.08)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
-      <div className="storefront-mobile-header mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
+      <div className="storefront-public-nav-inner storefront-mobile-header mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
         <Link to="/" className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[#cdece1] bg-gradient-to-br from-[#d9fff1] via-white to-[#dcecff] p-1.5 shadow-[0_10px_24px_rgba(16,36,63,.16)] ring-1 ring-[#10243f]/10 transition duration-300 hover:scale-105 hover:rotate-2 dark:border-white/15 dark:ring-white/10"><BrandLogo className="rounded-[.9rem]" /></span>
           <span>
