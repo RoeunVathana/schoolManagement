@@ -11,7 +11,7 @@ import api from "../api/axios";
 
 const content = {
   en: {
-    navCourses: "Browse courses", navCommunity: "Community", navAbout: "Why CampusFlow", navContact: "Support", navFaq: "FAQ",
+    navCourses: "Browse courses", navCommunity: "Community", navAbout: "About", navContact: "Contact", navFaq: "FAQ",
     login: "Sign in", register: "Create account", dashboard: "Dashboard",
     eyebrow: "WE ARE HERE TO HELP", title: "Let's build your next step together.",
     heroBody: "Have a question about courses, payments, teacher support, or your learning path? Reach out and the CampusFlow team will point you in the right direction.",
@@ -27,7 +27,7 @@ const content = {
     ctaKicker: "Ready to start?", ctaTitle: "Find a course and keep moving forward.", ctaButton: "Explore courses", footerBody: "Practical online learning for Cambodia.",
   },
   km: {
-    navCourses: "មើលវគ្គសិក្សា", navCommunity: "សហគមន៍", navAbout: "ហេតុអ្វី CampusFlow", navContact: "ជំនួយ", navFaq: "សំណួរ",
+    navCourses: "មើលវគ្គសិក្សា", navCommunity: "សហគមន៍", navAbout: "អំពីយើង", navContact: "ទំនាក់ទំនង", navFaq: "សំណួរ",
     login: "ចូលប្រើ", register: "បង្កើតគណនី", dashboard: "ផ្ទាំងការងារ",
     eyebrow: "យើងនៅទីនេះដើម្បីជួយ", title: "តោះកសាងជំហានបន្ទាប់របស់អ្នកជាមួយគ្នា។",
     heroBody: "មានសំណួរអំពីវគ្គសិក្សា ការបង់ប្រាក់ ការគាំទ្រពីគ្រូ ឬផ្លូវរៀនរបស់អ្នក? ទាក់ទងមកយើង ហើយក្រុម CampusFlow នឹងជួយបង្ហាញទិសដៅដែលសមស្រប។",

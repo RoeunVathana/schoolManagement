@@ -10,9 +10,9 @@ import { roleHome } from "../utils/roles";
 
 const content = {
   en: {
-    navCourses: "Browse courses", navContact: "Support",
+    navCourses: "Browse courses", navContact: "Contact",
     navCommunity: "Community",
-    navAbout: "Why CampusFlow",
+    navAbout: "About",
     navFaq: "FAQ",
     login: "Sign in",
     register: "Create account",
@@ -55,9 +55,9 @@ const content = {
     footerBody: "Practical online learning for Cambodia.",
   },
   km: {
-    navCourses: "មើលវគ្គសិក្សា", navContact: "ជំនួយ",
+    navCourses: "មើលវគ្គសិក្សា", navContact: "ទំនាក់ទំនង",
     navCommunity: "សហគមន៍",
-    navAbout: "ហេតុអ្វី CampusFlow",
+    navAbout: "អំពីយើង",
     navFaq: "សំណួរ",
     login: "ចូលប្រើ",
     register: "បង្កើតគណនី",
