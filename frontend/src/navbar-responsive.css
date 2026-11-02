@@ -408,3 +408,53 @@ body,
     padding-top: 1.75rem !important;
   }
 }
+
+/* Compact public-page hero spacing on phones.  The navbar is fixed and the
+   page shell already reserves its height, so a second 5rem–8rem top inset
+   creates the oversized empty band visible below the header. */
+@media (max-width: 767px) {
+  .storefront > main > section:first-child > .mx-auto,
+  .storefront-home-hero-inner {
+    gap: 1.75rem !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
+  .public-community-page .public-community-hero {
+    min-height: auto !important;
+    align-items: start !important;
+    gap: 1.75rem !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
+  .about-page .about-hero {
+    min-height: auto !important;
+    align-items: start !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
+  .about-page .about-hero-grid {
+    min-height: auto !important;
+    gap: 1.75rem !important;
+    padding-block: 0 !important;
+  }
+
+  .contact-page .contact-hero-inner {
+    min-height: auto !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+}
+
+/* Keep tablet layouts compact without collapsing their two-column balance. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .storefront-home-hero-inner,
+  .public-community-page .public-community-hero,
+  .about-page .about-hero-grid,
+  .contact-page .contact-hero-inner {
+    padding-top: 1.75rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+}
