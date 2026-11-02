@@ -1,0 +1,154 @@
+/* Scroll depth system: restrained 3D movement that stays readable on phones. */
+.storefront {
+  perspective: 1600px;
+  perspective-origin: 50% 18%;
+}
+
+.storefront > main,
+.storefront > footer {
+  transform-style: preserve-3d;
+}
+
+.storefront-reveal[data-scroll-reveal] {
+  transform: translate3d(0, 2.25rem, -34px) rotateX(2.4deg) scale(.975);
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition:
+    opacity .78s cubic-bezier(.2,.75,.25,1),
+    transform .78s cubic-bezier(.2,.75,.25,1),
+    box-shadow .78s cubic-bezier(.2,.75,.25,1);
+  will-change: opacity, transform;
+}
+
+.storefront-reveal[data-scroll-reveal].is-visible,
+.storefront-reveal-on-load[data-scroll-reveal] {
+  transform: translate3d(0, 0, 0) rotateX(0) scale(1);
+}
+
+.storefront-course-card {
+  transform-style: preserve-3d;
+  transform-origin: 50% 80%;
+}
+
+.storefront-course-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 25%, rgb(255 255 255 / .18) 47%, transparent 68%);
+  opacity: 0;
+  transform: translate3d(-35%, 0, 18px);
+  transition: opacity .35s ease, transform .65s cubic-bezier(.2,.75,.25,1);
+}
+
+.storefront-course-card.is-visible:hover {
+  transform: translate3d(0, -.65rem, 18px) rotateX(1.5deg) rotateY(-1.5deg) scale(1.012);
+  box-shadow: 0 28px 62px rgb(16 36 63 / .18), 0 10px 22px rgb(141 228 202 / .1) !important;
+}
+
+.storefront-course-card.is-visible:hover::after {
+  opacity: .8;
+  transform: translate3d(35%, 0, 18px);
+}
+
+.storefront-course-card .storefront-course-visual {
+  transform: translateZ(0);
+  transition: transform .65s cubic-bezier(.2,.75,.25,1), filter .65s ease;
+  transform-style: preserve-3d;
+}
+
+.storefront-course-card.is-visible:hover .storefront-course-visual {
+  transform: translateZ(14px) scale(1.025);
+  filter: saturate(1.08) contrast(1.03);
+}
+
+.storefront-3d-scene,
+.storefront-3d-card,
+.storefront-3d-surface {
+  transform-style: preserve-3d;
+}
+
+.storefront-3d-scene {
+  will-change: transform;
+}
+
+.storefront-3d-card {
+  box-shadow: 0 34px 70px rgb(0 0 0 / .2), 0 8px 24px rgb(141 228 202 / .08) !important;
+}
+
+.storefront-home-hero,
+.storefront-home-main > section {
+  transform-style: preserve-3d;
+}
+
+.storefront::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 78%, rgb(141 228 202 / .08), transparent 22%),
+    radial-gradient(circle at 84% 20%, rgb(244 123 103 / .08), transparent 24%);
+  opacity: .22;
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: opacity, transform;
+}
+
+@keyframes campusScrollDepth {
+  from { opacity: .2; transform: translate3d(0, 0, 0) scale(1); }
+  to { opacity: .72; transform: translate3d(0, 5vh, 0) scale(1.08); }
+}
+
+@supports (animation-timeline: scroll()) {
+  .storefront::after {
+    animation: campusScrollDepth 1s linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120vh;
+  }
+}
+
+@media (max-width: 767px) {
+  .storefront {
+    perspective: 1100px;
+    perspective-origin: 50% 12%;
+  }
+
+  .storefront-reveal[data-scroll-reveal] {
+    transform: translate3d(0, 1.25rem, -16px) rotateX(1deg) scale(.985);
+  }
+
+  .storefront-reveal[data-scroll-reveal].is-visible,
+  .storefront-reveal-on-load[data-scroll-reveal] {
+    transform: translate3d(0, 0, 0) rotateX(0) scale(1);
+  }
+
+  .storefront-course-card.is-visible:hover {
+    transform: translate3d(0, -.25rem, 8px) rotateX(.5deg) scale(1.005);
+  }
+
+  .storefront-course-card.is-visible:hover .storefront-course-visual {
+    transform: translateZ(6px) scale(1.012);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storefront,
+  .storefront > main,
+  .storefront > footer,
+  .storefront-reveal[data-scroll-reveal],
+  .storefront-reveal[data-scroll-reveal].is-visible,
+  .storefront-reveal-on-load[data-scroll-reveal],
+  .storefront-course-card,
+  .storefront-course-card.is-visible:hover,
+  .storefront-course-card .storefront-course-visual,
+  .storefront::after {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .storefront-course-card::after { display: none; }
+}
