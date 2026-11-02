@@ -594,3 +594,77 @@
     line-height: 1 !important;
   }
 }
+
+/* Readable navbar typography: keep every visible label at 10px or larger. */
+@media (min-width: 768px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    font-size: .9rem !important;
+    line-height: 1.2;
+  }
+
+  .site-public-navbar .about-nav-links a,
+  .site-public-navbar .public-community-nav-links a,
+  .site-public-navbar .storefront-mobile-header > nav a {
+    font-size: inherit !important;
+  }
+
+  .site-public-navbar .about-brand small,
+  .site-public-navbar .public-community-brand small,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:last-child {
+    font-size: .625rem !important;
+  }
+
+  .site-public-navbar .theme-switch,
+  .site-public-navbar .about-language-toggle,
+  .site-public-navbar [data-language-menu] > button,
+  .site-public-navbar .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .community-language-switch button,
+  .site-public-navbar .about-nav-login,
+  .site-public-navbar .about-nav-button,
+  .site-public-navbar .site-public-nav-login,
+  .site-public-navbar .site-public-nav-cta,
+  .site-public-navbar .public-community-nav-login,
+  .site-public-navbar .public-community-nav-button,
+  .site-public-navbar .public-community-nav-logout {
+    font-size: .82rem !important;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 1101px) and (max-width: 1260px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    font-size: .84rem !important;
+  }
+
+  .site-public-navbar .theme-switch,
+  .site-public-navbar .about-language-toggle,
+  .site-public-navbar [data-language-menu] > button,
+  .site-public-navbar .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .community-language-switch button,
+  .site-public-navbar .about-nav-login,
+  .site-public-navbar .about-nav-button,
+  .site-public-navbar .site-public-nav-login,
+  .site-public-navbar .site-public-nav-cta,
+  .site-public-navbar .public-community-nav-login,
+  .site-public-navbar .public-community-nav-button,
+  .site-public-navbar .public-community-nav-logout {
+    font-size: .78rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-public-navbar .about-mobile-menu > a,
+  .site-public-navbar .about-mobile-actions > *,
+  .site-public-navbar .public-community-mobile-menu-links a,
+  .site-public-navbar .public-community-mobile-menu-actions a,
+  .site-public-navbar .public-community-mobile-menu-actions button,
+  .site-public-navbar #storefront-mobile-menu nav a,
+  .site-public-navbar #storefront-mobile-menu > div > div > a,
+  .site-public-navbar #storefront-mobile-menu > div > div > button {
+    font-size: .95rem !important;
+  }
+}
