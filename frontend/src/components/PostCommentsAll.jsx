@@ -20,6 +20,7 @@ export default function PostCommentsAll({ post }) {
   const editedLabel = text.editedComment || 'edited';
   const replyLabel = text.replyComment || 'Reply';
   const replyPlaceholder = text.replyPlaceholder || 'Write a reply...';
+  const cancelReplyLabel = text.cancelComment || 'Cancel';
   const updateFailedLabel = text.commentUpdateFailed || 'Could not update comment.';
   const [comments, setComments] = useState(post.comments || []);
   const [commentCount, setCommentCount] = useState(post.commentCount || 0);
@@ -237,10 +238,13 @@ export default function PostCommentsAll({ post }) {
             {isOwner && <button type="button" onClick={() => startEdit(comment)}>{editLabel}</button>}
             {canDelete && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}
           </div>
-          {replyingId === comment.id && user && <form className="community-post-comment-reply-form" onSubmit={(event) => submitReply(event, comment)}>
+          {replyingId === comment.id && user && <form id={`reply-form-${comment.id}`} className="community-post-comment-reply-form" onSubmit={(event) => submitReply(event, comment)}>
             <UserAvatar person={user} size="sm" />
             <input value={replyDraft} onChange={(event) => setReplyDraft(event.target.value)} placeholder={replyPlaceholder} maxLength={2000} aria-label={replyPlaceholder} autoFocus />
-            <button type="submit" disabled={replyBusyId === comment.id || !replyDraft.trim()}>{replyBusyId === comment.id ? '...' : text.comment}</button>
+            <div className="community-post-comment-reply-actions">
+              <button type="button" className="community-post-comment-reply-cancel" onClick={() => { setReplyingId(null); setReplyDraft(''); }} disabled={replyBusyId === comment.id}>{cancelReplyLabel}</button>
+              <button type="submit" disabled={replyBusyId === comment.id || !replyDraft.trim()}>{replyBusyId === comment.id ? '...' : text.comment}</button>
+            </div>
           </form>}
           {replies.length > 0 && <div className="community-post-comment-replies">{replies.map((reply) => renderComment(reply, depth + 1))}</div>}
         </>}

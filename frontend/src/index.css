@@ -2201,13 +2201,17 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-post-comment-share span { font-size: .8rem; }
 .community-post-comment-meta button { border: 0; padding: 0; color: var(--community-blue); background: transparent; font: inherit; cursor: pointer; }
 .community-post-comment-actions > button:not(.community-post-comment-share) { border: 0; padding: .25rem .35rem; color: var(--community-blue); background: transparent; font: inherit; font-size: .63rem; cursor: pointer; }
+.community-post-comment-actions > button:not(.community-post-comment-share):hover { border-radius: 999px; background: rgb(34 158 217 / .1); }
 .community-post-comment-actions > button:disabled { cursor: wait; opacity: .55; }
 .community-post-comment-replies { display: grid; gap: .55rem; margin: .6rem 0 0 1.35rem; padding-left: .75rem; border-left: 2px solid var(--community-line); }
 .community-post-comment.is-reply .community-post-comment-bubble { background: color-mix(in srgb, var(--community-soft) 72%, transparent); }
 .community-post-comment-reply-form { display: flex; align-items: center; gap: .45rem; margin-top: .5rem; }
 .community-post-comment-reply-form input { min-width: 0; flex: 1; border: 1px solid var(--community-line); border-radius: 999px; padding: .55rem .75rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .68rem; outline: none; }
 .community-post-comment-reply-form input:focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }
+.community-post-comment-reply-actions { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .35rem; }
 .community-post-comment-reply-form button { flex: 0 0 auto; border: 0; border-radius: 999px; padding: .55rem .7rem; color: #fff; background: var(--community-blue); font-size: .62rem; font-weight: 900; cursor: pointer; }
+.community-post-comment-reply-form .community-post-comment-reply-cancel { color: var(--community-blue); background: transparent; }
+.community-post-comment-reply-form .community-post-comment-reply-cancel:hover { background: var(--community-soft); }
 .community-post-comment-reply-form button:disabled { cursor: wait; opacity: .55; }
 .community-post-comment-edit-form { display: grid; gap: .45rem; }
 .community-post-comment-edit-form textarea { width: 100%; min-width: 0; resize: vertical; border: 1px solid var(--community-line); border-radius: .85rem; padding: .65rem .75rem; color: var(--community-ink); background: var(--community-soft); font: inherit; font-size: .72rem; line-height: 1.45; outline: none; }
