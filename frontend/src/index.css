@@ -6867,6 +6867,263 @@ th {
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* Shared 3D motion system                                                    */
+/* -------------------------------------------------------------------------- */
+@keyframes siteSectionRise {
+  from { opacity: 0; transform: translate3d(0, 1.4rem, 0) rotateX(1.5deg); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0); }
+}
+
+@keyframes siteAboutCardFloat {
+  0%, 100% { transform: rotate(2deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(2.8deg) translate3d(0, -.55rem, 0); }
+}
+
+@keyframes siteContactCardFloat {
+  0%, 100% { transform: rotate(3deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(2.4deg) translate3d(0, -.55rem, 0); }
+}
+
+@keyframes siteCommunityCardFloat {
+  0%, 100% { transform: rotate(3deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(2.3deg) translate3d(0, -.55rem, 0); }
+}
+
+@keyframes siteGlowDrift {
+  0%, 100% { opacity: .4; transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: .7; transform: translate3d(.8rem, .6rem, 0) scale(1.06); }
+}
+
+.about-page,
+.contact-page,
+.public-community-page,
+.app-shell {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.about-page > main > section,
+.contact-page > main > section,
+.public-community-page > main > section {
+  animation: siteSectionRise .72s cubic-bezier(.2, .75, .25, 1) both;
+  transform-origin: center top;
+}
+
+.about-page > main > section:nth-child(2),
+.contact-page > main > section:nth-child(2),
+.public-community-page > main > section:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.about-page > main > section:nth-child(3),
+.contact-page > main > section:nth-child(3),
+.public-community-page > main > section:nth-child(3) {
+  animation-delay: 150ms;
+}
+
+.about-page > main > section:nth-child(4),
+.contact-page > main > section:nth-child(4),
+.public-community-page > main > section:nth-child(4) {
+  animation-delay: 220ms;
+}
+
+.about-hero-card,
+.contact-hero-mark,
+.public-community-art-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.about-hero-card {
+  animation: siteAboutCardFloat 8s ease-in-out infinite;
+}
+
+.contact-hero-mark {
+  animation: siteContactCardFloat 8.5s ease-in-out -.8s infinite;
+}
+
+.public-community-art-card {
+  animation: siteCommunityCardFloat 8.5s ease-in-out -1.4s infinite;
+}
+
+.about-hero-glow,
+.contact-hero-shape,
+.public-community-art-orbit,
+.storefront-ambient-orb,
+.storefront-ambient-ring {
+  will-change: transform, opacity;
+}
+
+.about-hero-glow,
+.contact-hero-shape {
+  animation: siteGlowDrift 12s ease-in-out infinite;
+}
+
+.contact-hero-shape-two,
+.about-hero-glow-two {
+  animation-delay: -4s;
+}
+
+.about-value-card,
+.about-benefit-card,
+.contact-info-card,
+.contact-side-card,
+.public-community-side-card,
+.community-card,
+.community-section,
+.card,
+.table-card,
+.storefront-course-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition: transform .35s cubic-bezier(.2, .75, .25, 1), box-shadow .35s ease, border-color .35s ease;
+}
+
+.about-value-card > *,
+.about-benefit-card > *,
+.contact-info-card > *,
+.contact-side-card > *,
+.public-community-side-card > *,
+.community-card > *,
+.storefront-course-card > * {
+  transform: translateZ(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-value-card:hover,
+  .about-benefit-card:hover,
+  .contact-info-card:hover,
+  .contact-side-card:hover,
+  .public-community-side-card:hover,
+  .community-card:hover,
+  .storefront-course-card:hover {
+    transform: translate3d(0, -.45rem, 1rem) rotateX(1deg) rotateY(-1deg);
+    box-shadow: 0 22px 48px rgb(16 36 63 / .14);
+  }
+
+  .dark .about-value-card:hover,
+  .dark .about-benefit-card:hover,
+  .dark .contact-info-card:hover,
+  .dark .contact-side-card:hover,
+  .dark .public-community-side-card:hover,
+  .dark .community-card:hover,
+  .dark .storefront-course-card:hover {
+    box-shadow: 0 24px 52px rgb(0 0 0 / .34);
+  }
+
+  .about-hero-card:hover,
+  .contact-hero-mark:hover,
+  .public-community-art-card:hover {
+    animation-play-state: paused;
+    box-shadow: 0 30px 76px rgb(0 0 0 / .28);
+  }
+
+  .about-button,
+  .contact-submit,
+  .community-button,
+  .public-community-button,
+  .site-public-navbar a,
+  .site-public-navbar button {
+    transform-style: preserve-3d;
+  }
+}
+
+.about-button,
+.contact-submit,
+.community-button,
+.public-community-button,
+.site-public-navbar a,
+.site-public-navbar button {
+  transition: transform .25s cubic-bezier(.2, .75, .25, 1), box-shadow .25s ease, background-color .25s ease, border-color .25s ease, color .25s ease;
+}
+
+.about-button:hover,
+.contact-submit:hover,
+.community-button:hover:not(:disabled),
+.public-community-button:hover,
+.site-public-navbar a:hover,
+.site-public-navbar button:hover {
+  transform: translate3d(0, -.14rem, .35rem);
+}
+
+.about-button:active,
+.contact-submit:active,
+.community-button:active:not(:disabled),
+.public-community-button:active,
+.site-public-navbar a:active,
+.site-public-navbar button:active {
+  transform: translate3d(0, .04rem, 0) scale(.98);
+}
+
+@media (max-width: 767px) {
+  .about-page,
+  .contact-page,
+  .public-community-page,
+  .app-shell {
+    perspective: none;
+  }
+
+  .about-page > main > section,
+  .contact-page > main > section,
+  .public-community-page > main > section {
+    animation-duration: .55s;
+  }
+
+  .about-hero-card,
+  .contact-hero-mark,
+  .public-community-art-card {
+    animation-duration: 11s;
+  }
+
+  .about-value-card,
+  .about-benefit-card,
+  .contact-info-card,
+  .contact-side-card,
+  .public-community-side-card,
+  .community-card,
+  .community-section,
+  .card,
+  .table-card,
+  .storefront-course-card {
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page > main > section,
+  .contact-page > main > section,
+  .public-community-page > main > section,
+  .about-hero-card,
+  .contact-hero-mark,
+  .public-community-art-card,
+  .about-hero-glow,
+  .contact-hero-shape {
+    animation: none !important;
+  }
+
+  .about-value-card,
+  .about-benefit-card,
+  .contact-info-card,
+  .contact-side-card,
+  .public-community-side-card,
+  .community-card,
+  .community-section,
+  .card,
+  .table-card,
+  .storefront-course-card,
+  .about-button,
+  .contact-submit,
+  .community-button,
+  .public-community-button,
+  .site-public-navbar a,
+  .site-public-navbar button {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
 @media (max-width: 620px) {
   .about-container,
   .about-nav-inner {
