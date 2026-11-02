@@ -1,0 +1,58 @@
+/* Compact desktop public navbar spacing to match the reference header. */
+@media (min-width: 1101px) {
+  .site-public-navbar {
+    min-height: 4.35rem;
+    padding-block: .5rem !important;
+    padding-inline: clamp(.75rem, 2.4vw, 2.6rem) !important;
+  }
+
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header {
+    min-height: 4.35rem;
+    gap: .7rem;
+    padding-inline: clamp(.75rem, 2.4vw, 2.6rem) !important;
+  }
+
+  .site-public-navbar.public-community-nav {
+    min-height: 4.35rem;
+    padding-block: .5rem !important;
+    padding-inline: max(.75rem, calc((100vw - 84rem) / 2)) !important;
+  }
+
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    gap: clamp(.65rem, 1.5vw, 1.35rem) !important;
+  }
+
+  .site-public-navbar .about-nav-links a,
+  .site-public-navbar .public-community-nav-links a,
+  .site-public-navbar .storefront-mobile-header > nav a {
+    min-height: 2.15rem;
+    padding: .3rem .4rem;
+  }
+
+  .site-public-navbar .about-nav-actions,
+  .site-public-navbar .public-community-nav-actions,
+  .site-public-navbar .storefront-mobile-header > .hidden.items-center {
+    gap: .35rem;
+  }
+
+  .site-public-navbar .theme-switch,
+  .site-public-navbar .about-language-toggle,
+  .site-public-navbar [data-language-menu] > button,
+  .site-public-navbar .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .about-nav-login,
+  .site-public-navbar .about-nav-button,
+  .site-public-navbar .site-public-nav-login,
+  .site-public-navbar .site-public-nav-cta,
+  .site-public-navbar .public-community-nav-login,
+  .site-public-navbar .public-community-nav-button,
+  .site-public-navbar .public-community-nav-logout {
+    min-height: 2.2rem;
+    padding-block: .42rem !important;
+    padding-inline: .72rem !important;
+    border-radius: .7rem;
+    font-size: .74rem;
+  }
+}
