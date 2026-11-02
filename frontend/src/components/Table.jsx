@@ -30,7 +30,7 @@ function DetailGrid({ value, depth = 0, language = 'en' }) {
   return <dl className={`grid gap-3 ${depth === 0 ? 'sm:grid-cols-2' : ''}`}>{entries.map(([key, item]) => <div key={key} className="min-w-0 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/70"><dt className="text-[10px] font-extrabold uppercase tracking-[.14em] text-slate-400">{labelFor(key)}</dt><dd className="mt-1.5 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200"><DetailValue value={item} depth={depth + 1} language={language} /></dd></div>)}</dl>;
 }
 
-function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true, onViewDetails }) {
+function Table({ columns = [], rows = [], empty = 'No records found.', pageSize = 10, showDetails = true, onViewDetails, tableClassName = '' }) {
   const { language, t } = useLanguage();
   const [selectedRow, setSelectedRow] = useState(null);
   const [page, setPage] = useState(1);
@@ -67,7 +67,7 @@ function Table({ columns = [], rows = [], empty = 'No records found.', pageSize 
   }, [currentPage, pageSize, safeRows]);
 
   return <>
-    <div className="table-card overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#111c30]">
+    <div className={`table-card ${tableClassName} overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#111c30]`}>
       <div className="table-desktop-view table-scroll overflow-x-auto">
         <table className="w-full min-w-[44rem] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/40 dark:text-slate-400"><tr>{tableColumns.map((column) => <th key={column.key} className={`whitespace-nowrap px-5 py-4 font-extrabold ${column.headerClassName || ''}`}>{column.label}</th>)}</tr></thead>

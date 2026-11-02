@@ -8969,3 +8969,48 @@ html:lang(km) .storefront-home-copy > p {
     margin-right: clamp(.5rem, 1.8vw, 2rem);
   }
 }
+
+/* Keep long submission values readable without making every row grow taller. */
+.learning-record-table-submissions .table-desktop-view table {
+  min-width: 78rem;
+  table-layout: fixed;
+}
+
+.learning-record-table-submissions .table-desktop-view th,
+.learning-record-table-submissions .table-desktop-view td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.learning-record-table-submissions .table-desktop-view td:nth-child(1) { width: 15%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(2) { width: 12%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(3) { width: 15%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(4) { width: 10%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(5) { width: 16%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(6) { width: 12%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(7) { width: 11%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(8) { width: 9%; }
+.learning-record-table-submissions .table-desktop-view td:nth-child(9) { width: 16%; }
+
+.learning-record-table-submissions .table-desktop-view td > * {
+  max-width: 100%;
+}
+
+.learning-record-table-submissions .table-desktop-view td:last-child > div {
+  overflow: visible;
+}
+
+@media (max-width: 1023px) {
+  .learning-record-table-submissions .table-mobile-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .learning-record-table-submissions .table-mobile-actions,
+  .learning-record-table-submissions .table-mobile-actions > div {
+    overflow: visible;
+    white-space: normal;
+  }
+}
