@@ -416,7 +416,9 @@ body,
   .storefront > main > section:first-child > .mx-auto,
   .storefront-home-hero-inner {
     gap: 1.75rem !important;
-    padding-top: 1.25rem !important;
+    /* Storefront intentionally has no root top padding, so keep only one
+       navbar-height offset plus a small breathing space here. */
+    padding-top: calc(var(--public-navbar-height, 4.35rem) + 1.25rem) !important;
     padding-bottom: 2.75rem !important;
   }
 
