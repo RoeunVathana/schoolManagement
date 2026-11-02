@@ -630,6 +630,96 @@
   }
 }
 
+/* Theme-aware public navbar: light mode must not keep the dark navy surface. */
+html:not(.dark) .site-public-navbar {
+  border-bottom-color: #cfe1eb !important;
+  background:
+    radial-gradient(circle at 18% -80%, rgb(84 202 236 / .16), transparent 30%),
+    linear-gradient(110deg, #ffffff 0%, #f4f9fc 58%, #edf7f5 100%) !important;
+  box-shadow: 0 12px 30px rgb(16 36 63 / .12) !important;
+  color: #10243f !important;
+}
+
+html:not(.dark) .site-public-navbar .about-brand,
+html:not(.dark) .site-public-navbar .public-community-brand,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > a,
+html:not(.dark) .site-public-navbar .about-brand strong,
+html:not(.dark) .site-public-navbar .public-community-brand strong,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+  color: #10243f !important;
+  text-shadow: none !important;
+}
+
+html:not(.dark) .site-public-navbar .about-brand small,
+html:not(.dark) .site-public-navbar .public-community-brand small,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > a > span:last-child > span:last-child {
+  color: #6c8294 !important;
+}
+
+html:not(.dark) .site-public-navbar .about-nav-links,
+html:not(.dark) .site-public-navbar .public-community-nav-links,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > nav,
+html:not(.dark) .site-public-navbar .about-nav-links a,
+html:not(.dark) .site-public-navbar .public-community-nav-links a,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > nav a {
+  color: #526b80 !important;
+}
+
+html:not(.dark) .site-public-navbar .about-nav-links a:hover,
+html:not(.dark) .site-public-navbar .about-nav-links a.is-active,
+html:not(.dark) .site-public-navbar .public-community-nav-links a:hover,
+html:not(.dark) .site-public-navbar .public-community-nav-links a.is-active,
+html:not(.dark) .site-public-navbar .storefront-mobile-header > nav a:hover {
+  color: #168fbd !important;
+  text-shadow: none !important;
+}
+
+html:not(.dark) .site-public-navbar .theme-switch,
+html:not(.dark) .site-public-navbar .about-language-toggle,
+html:not(.dark) .site-public-navbar [data-language-menu] > button,
+html:not(.dark) .site-public-navbar .language-switcher-public .language-switcher-trigger,
+html:not(.dark) .site-public-navbar .about-nav-login,
+html:not(.dark) .site-public-navbar .site-public-nav-login,
+html:not(.dark) .site-public-navbar .public-community-nav-login,
+html:not(.dark) .site-public-navbar .about-mobile-toggle,
+html:not(.dark) .site-public-navbar .public-community-nav-menu-button,
+html:not(.dark) .site-public-navbar .storefront-mobile-menu-button {
+  border-color: #c8dce7 !important;
+  background: linear-gradient(135deg, rgb(255 255 255 / .96), rgb(237 247 250 / .9)) !important;
+  color: #29445c !important;
+  box-shadow: 0 6px 16px rgb(16 36 63 / .08) !important;
+}
+
+html:not(.dark) .site-public-navbar .about-mobile-menu,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu,
+html:not(.dark) .site-public-navbar #storefront-mobile-menu {
+  border-top-color: #cfe1eb !important;
+  background: linear-gradient(145deg, #ffffff 0%, #f2f8fb 100%) !important;
+  color: #10243f !important;
+  box-shadow: 0 22px 48px rgb(16 36 63 / .18) !important;
+}
+
+html:not(.dark) .site-public-navbar .about-mobile-menu > a,
+html:not(.dark) .site-public-navbar .about-mobile-actions > *,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu-links a,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu-actions a,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu-actions button,
+html:not(.dark) .site-public-navbar #storefront-mobile-menu nav a {
+  border-color: #d4e3eb !important;
+  background: rgb(255 255 255 / .72) !important;
+  color: #29445c !important;
+}
+
+html:not(.dark) .site-public-navbar .about-mobile-menu > a:hover,
+html:not(.dark) .site-public-navbar .about-mobile-actions > *:hover,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu-links a:hover,
+html:not(.dark) .site-public-navbar .public-community-mobile-menu-links a.is-active,
+html:not(.dark) .site-public-navbar #storefront-mobile-menu nav a:hover {
+  border-color: #54caec !important;
+  background: #e8f5fb !important;
+  color: #17624e !important;
+}
+
 /* Mobile menu drawers must sit below the fixed header, never inside its flex row. */
 @media (max-width: 1100px) {
   .site-public-navbar {
