@@ -1,0 +1,49 @@
+/* Keep long submitted answers compact and keep row actions in the same
+   horizontally scrollable table. */
+.learning-record-table-submissions .submission-answer-preview {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+@media (min-width: 1101px) {
+  .learning-record-table-submissions .table-desktop-view th.submission-answer-header,
+  .learning-record-table-submissions .table-desktop-view td.submission-answer-column {
+    width: 18rem !important;
+    min-width: 18rem !important;
+    max-width: 18rem !important;
+  }
+
+  .learning-record-table-submissions .table-desktop-view th:last-child,
+  .learning-record-table-submissions .table-desktop-view td:last-child {
+    width: 20rem !important;
+    min-width: 20rem !important;
+    max-width: 20rem !important;
+  }
+
+  .learning-record-table-submissions .table-desktop-view td.submission-answer-column > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .learning-record-table-submissions .table-desktop-view td:last-child > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .45rem;
+    max-width: 100%;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 1100px) {
+  .learning-record-table-submissions .submission-answer-preview {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+}

@@ -989,9 +989,10 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "answer",
                       label: t("answer"),
-                      className: "min-w-[15rem]",
+                      className: "min-w-[15rem] submission-answer-column",
+                      headerClassName: "submission-answer-header",
                       render: (row) => (
-                        <span className="block max-w-[18rem] line-clamp-2 whitespace-normal break-words leading-5" title={row.answerText || "-"}>
+                        <span className="submission-answer-preview leading-5" title={row.answerText || "-"}>
                           {row.answerText || "-"}
                         </span>
                       ),
