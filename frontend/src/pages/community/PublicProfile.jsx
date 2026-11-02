@@ -13,6 +13,7 @@ import UploadProgressPanel from '../../components/UploadProgressPanel';
 import { useAuth } from '../../hooks/useAuth';
 import { roleHome } from '../../utils/roles';
 import { useCommunityText } from '../../context/communityTranslations';
+import { optimisticReactionState } from '../../utils/reactionUi';
 import { isImageTooLarge } from '../../utils/fileValidation';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -290,14 +291,22 @@ function PostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl }) {
 
   const toggleReaction = async (nextType) => {
     if (reactionBusy) return;
+    const previous = { reactionType, reactionCount, reactionCounts };
+    const optimistic = optimisticReactionState(reactionType, nextType, reactionCount, reactionCounts);
+    setReactionType(optimistic.reactionType);
+    setReactionCount(optimistic.reactionCount);
+    setReactionCounts(optimistic.reactionCounts);
+    setReactionMenuOpen(false);
     setReactionBusy(true);
     try {
       const result = unwrap(await (nextType ? api.post(`/api/posts/${post.id}/reaction`, { type: nextType }) : api.delete(`/api/posts/${post.id}/reaction`)));
       setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
       setReactionCounts(result.reactionCounts || {});
-      setReactionMenuOpen(false);
     } catch {
+      setReactionType(previous.reactionType);
+      setReactionCount(previous.reactionCount);
+      setReactionCounts(previous.reactionCounts);
       setShareNotice(text.reactionFailed);
     } finally {
       setReactionBusy(false);
@@ -341,14 +350,22 @@ function ShareablePostCard({ post, isOwner, deleting, onEdit, onDelete, mediaUrl
 
   const toggleReaction = async (nextType) => {
     if (reactionBusy) return;
+    const previous = { reactionType, reactionCount, reactionCounts };
+    const optimistic = optimisticReactionState(reactionType, nextType, reactionCount, reactionCounts);
+    setReactionType(optimistic.reactionType);
+    setReactionCount(optimistic.reactionCount);
+    setReactionCounts(optimistic.reactionCounts);
+    setReactionMenuOpen(false);
     setReactionBusy(true);
     try {
       const result = unwrap(await (nextType ? api.post(`/api/posts/${post.id}/reaction`, { type: nextType }) : api.delete(`/api/posts/${post.id}/reaction`)));
       setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
       setReactionCounts(result.reactionCounts || {});
-      setReactionMenuOpen(false);
     } catch {
+      setReactionType(previous.reactionType);
+      setReactionCount(previous.reactionCount);
+      setReactionCounts(previous.reactionCounts);
       setShareNotice(text.reactionFailed);
     } finally {
       setReactionBusy(false);

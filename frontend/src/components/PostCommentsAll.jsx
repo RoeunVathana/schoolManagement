@@ -5,6 +5,7 @@ import UserAvatar from './UserAvatar';
 import ReactionPicker from './ReactionPicker';
 import { useAuth } from '../hooks/useAuth';
 import { useCommunityText } from '../context/communityTranslations';
+import { optimisticReactionState } from '../utils/reactionUi';
 
 function formatCommentDate(value) {
   if (!value) return '';
@@ -181,6 +182,21 @@ export default function PostCommentsAll({ post }) {
       return;
     }
     if (reactionBusy[comment.id]) return;
+    const previous = {
+      reactionType: comment.viewerReaction || null,
+      reactionCount: comment.reactionCount ?? comment.likeCount ?? 0,
+      reactionCounts: comment.reactionCounts || {},
+    };
+    const optimistic = optimisticReactionState(previous.reactionType, nextType, previous.reactionCount, previous.reactionCounts);
+    setComments((current) => current.map((item) => item.id === comment.id ? {
+      ...item,
+      reactionCount: optimistic.reactionCount,
+      likeCount: optimistic.reactionCount,
+      reactionCounts: optimistic.reactionCounts,
+      viewerReaction: optimistic.reactionType,
+      viewerLiked: optimistic.reactionType === 'LIKE',
+    } : item));
+    setReactionMenuId(null);
     setReactionBusy((current) => ({ ...current, [comment.id]: true }));
     setNotice('');
     try {
@@ -195,8 +211,15 @@ export default function PostCommentsAll({ post }) {
         viewerReaction: result.viewerReaction || null,
         viewerLiked: result.viewerReaction === 'LIKE',
       } : item));
-      setReactionMenuId(null);
     } catch (requestError) {
+      setComments((current) => current.map((item) => item.id === comment.id ? {
+        ...item,
+        reactionCount: previous.reactionCount,
+        likeCount: previous.reactionCount,
+        reactionCounts: previous.reactionCounts,
+        viewerReaction: previous.reactionType,
+        viewerLiked: previous.reactionType === 'LIKE',
+      } : item));
       setNotice(requestError.response?.data?.message || text.commentLikeFailed);
     } finally {
       setReactionBusy((current) => ({ ...current, [comment.id]: false }));

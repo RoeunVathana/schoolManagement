@@ -26,7 +26,7 @@ export default function ReactionPicker({ selected, count = 0, counts = {}, open,
     {pickerVisible && <div className="community-reaction-picker" role="toolbar" aria-label="Choose a reaction">
       {REACTION_OPTIONS.map((option) => <button type="button" key={option.type} className={selected === option.type ? 'is-selected' : ''} onClick={() => onSelect(option.type === selected ? null : option.type)} disabled={disabled} aria-label={option.label} title={option.label}>{option.emoji}</button>)}
     </div>}
-    <button type="button" disabled={disabled} onMouseEnter={() => setHovered(true)} onFocus={() => setHovered(true)} onBlur={() => setHovered(false)} onClick={() => onSelect(selected ? null : 'LIKE')} className={`community-reaction-action${selected ? ' is-active' : ''}`} aria-pressed={Boolean(selected)}>
+    <button type="button" disabled={disabled} title={selected ? selectedOption.label : label} aria-label={`${selected ? selectedOption.label : label}${count > 0 ? `, ${count}` : ''}`} onMouseEnter={() => setHovered(true)} onFocus={() => setHovered(true)} onBlur={() => setHovered(false)} onClick={() => onSelect(selected ? null : 'LIKE')} className={`community-reaction-action${selected ? ' is-active' : ''}${count > 0 ? ' has-count' : ''}`} aria-pressed={Boolean(selected)}>
       <span className="community-reaction-emojis" aria-hidden="true">{visibleTypes.length ? visibleTypes.map((option) => <span key={option.type}>{option.emoji}</span>) : <span>{selectedOption.emoji}</span>}</span>
       <span>{selected ? selectedOption.label : label}</span>
       {count > 0 && <b>{count}</b>}

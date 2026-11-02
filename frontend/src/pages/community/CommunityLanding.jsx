@@ -14,6 +14,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useCommunityText } from '../../context/communityTranslations';
 import { roleHome } from '../../utils/roles';
 import Seo, { SITE_URL } from '../../components/Seo';
+import { optimisticReactionState } from '../../utils/reactionUi';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
@@ -124,6 +125,12 @@ function PublicPostContent({ post, text }) {
       navigate('/login/student', { state: { from: '/community' } });
       return;
     }
+    const previous = { reactionType, reactionCount, reactionCounts };
+    const optimistic = optimisticReactionState(reactionType, nextType, reactionCount, reactionCounts);
+    setReactionType(optimistic.reactionType);
+    setReactionCount(optimistic.reactionCount);
+    setReactionCounts(optimistic.reactionCounts);
+    setReactionMenuOpen(false);
     setReactionBusy(true);
     setNotice('');
     try {
@@ -131,8 +138,10 @@ function PublicPostContent({ post, text }) {
       setReactionType(result.viewerReaction || null);
       setReactionCount(result.reactionCount || 0);
       setReactionCounts(result.reactionCounts || {});
-      setReactionMenuOpen(false);
     } catch (requestError) {
+      setReactionType(previous.reactionType);
+      setReactionCount(previous.reactionCount);
+      setReactionCounts(previous.reactionCounts);
       setNotice(requestError.response?.data?.message || communityText.reactionFailed);
     } finally {
       setReactionBusy(false);
