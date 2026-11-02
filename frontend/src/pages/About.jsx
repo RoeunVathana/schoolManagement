@@ -135,7 +135,11 @@ export default function About() {
             <LanguageSwitcher variant="public" />
             {hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}
           </div>
-          <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span></button>
+          <div className="about-mobile-controls">
+            <LanguageSwitcher variant="public" />
+            <ThemeSwitch />
+            <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span></button>
+          </div>
         </div>
         {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{hasSession ? <Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/register" onClick={() => setMobileMenuOpen(false)}>{copy.register}</Link></>}</div></div>}
       </header>
