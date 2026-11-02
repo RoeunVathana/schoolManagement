@@ -8,12 +8,14 @@ export default function AppShell() {
     const syncBodyScroll = () => {
       const isMobile = window.matchMedia('(max-width: 1023px)').matches;
       document.body.classList.toggle('mobile-nav-open', open && isMobile);
+      document.documentElement.classList.toggle('mobile-nav-open', open && isMobile);
     };
     syncBodyScroll();
     window.addEventListener('resize', syncBodyScroll);
     return () => {
       window.removeEventListener('resize', syncBodyScroll);
       document.body.classList.remove('mobile-nav-open');
+      document.documentElement.classList.remove('mobile-nav-open');
     };
   }, [open]);
   useEffect(() => {

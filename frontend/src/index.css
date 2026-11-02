@@ -306,7 +306,8 @@
 .dark .table-scroll::-webkit-scrollbar-track {
   background: linear-gradient(180deg, #091a31, #10243f);
 }
-body.mobile-nav-open { overflow: hidden; }
+body.mobile-nav-open,
+html.mobile-nav-open { overflow: hidden; }
 @media (max-width: 639px) {
   .sidebar-link { min-height: 2.75rem; }
   .sidebar-note { line-height: 1.7; }
@@ -1367,6 +1368,26 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .app-shell-content { min-width: 0; min-height: 100dvh; padding-top: 4.25rem; }
 .app-main { min-height: calc(100dvh - 4.25rem); min-width: 0; }
 .app-main > * { min-width: 0; }
+
+/* Keep dashboard pages on the document scroll path. Fixed navigation and
+   contained widgets may have their own scroll areas, but the workspace itself
+   must remain vertically scrollable on every device. */
+html,
+body {
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+
+.app-shell,
+.app-shell-content,
+.app-main {
+  overflow-y: visible;
+}
+
+.app-main {
+  touch-action: pan-y;
+}
+
 .dashboard-page { width: 100%; min-width: 0; }
 .dashboard-page > section,
 .dashboard-page > div { min-width: 0; }
