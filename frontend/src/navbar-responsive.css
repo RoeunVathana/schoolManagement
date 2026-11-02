@@ -426,7 +426,7 @@ body,
     min-height: auto !important;
     align-items: start !important;
     gap: 1.75rem !important;
-    padding-top: 1.25rem !important;
+    padding-top: .75rem !important;
     padding-bottom: 2.75rem !important;
   }
 
