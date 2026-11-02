@@ -48,6 +48,8 @@ export default function Sidebar({ open, onClose }) {
   const { t } = useLanguage();
   const communityText = useCommunityText();
   const workspaceLabel = user?.role === 'ADMIN' ? t('adminTools') : user?.role === 'TEACHER' ? t('teacherWorkspace') : t('studentSpace');
+  const roleKey = { ADMIN: 'administrator', TEACHER: 'teacher', STUDENT: 'student', CUSTOMER: 'student' }[user?.role];
+  const translatedRole = roleKey ? t(roleKey) : 'Account';
   const profilePath = user?.role === 'STUDENT' || user?.role === 'CUSTOMER' ? '/student/profile' : user?.role ? `/${user.role.toLowerCase()}/profile` : '/login';
   const communityProfilePath = user?.id ? `/profile/${user.id}` : profilePath;
   const initials = user?.fullName?.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'U';
@@ -66,7 +68,7 @@ export default function Sidebar({ open, onClose }) {
 
     <NavLink to={communityProfilePath} onClick={onClose} aria-label="Open my community profile" className="group sidebar-profile mb-6 flex shrink-0 items-center gap-3 rounded-2xl p-3 transition-all duration-200">
       <UserAvatar person={user} size="sidebar" className="ring-1 ring-white/10" />
-      <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-white">{user?.fullName || 'User'}</p><p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">{user?.role || 'Account'}</p></div>
+      <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-white">{user?.fullName || 'User'}</p><p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">{translatedRole}</p></div>
       <span className="text-lg text-slate-500 transition group-hover:text-mint">›</span>
     </NavLink>
 

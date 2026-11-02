@@ -44,6 +44,8 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const { t } = useLanguage();
+  const roleKey = { ADMIN: 'administrator', TEACHER: 'teacher', STUDENT: 'student', CUSTOMER: 'student' }[user?.role];
+  const translatedRole = roleKey ? t(roleKey) : '';
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -185,7 +187,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
 
       <LanguageSwitcher />
       <button type="button" onClick={toggleTheme} className="app-theme-button flex h-10 min-w-10 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" title={isDark ? t('light') : t('dark')} aria-label={isDark ? t('light') : t('dark')}><span aria-hidden="true" className="text-sm">{isDark ? <SunIcon /> : <MoonIcon />}</span><span className="theme-label hidden sm:inline">{isDark ? t('light') : t('dark')}</span></button>
-      <div className="dashboard-user-meta hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{user?.role}</p></div>
+      <div className="dashboard-user-meta hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{translatedRole}</p></div>
       <button type="button" className="app-logout-button flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl border border-rose-200/80 bg-white px-2 text-rose-600 transition hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-50 sm:px-3 sm:text-sm dark:border-rose-900/60 dark:bg-slate-800 dark:text-rose-300 dark:hover:bg-rose-950/30" onClick={logout} aria-label={t('signOut')} title={t('signOut')}><span className="logout-icon sm:hidden"><LogoutIcon /></span><span className="logout-label hidden sm:inline">{t('signOut')}</span></button>
     </div>
   </header>;

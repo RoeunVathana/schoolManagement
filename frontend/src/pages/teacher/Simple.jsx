@@ -91,6 +91,23 @@ const statusClass = (status) =>
     RETURNED: "bg-slate-100 text-slate-700",
   })[status] || "bg-slate-100 text-slate-700";
 
+const translatedStatus = (status, t) => {
+  const key = {
+    ACTIVE: "active",
+    INACTIVE: "inactive",
+    COMPLETED: "completed",
+    CANCELLED: "cancelled",
+    SUBMITTED: "submitted",
+    LATE: "late",
+    GRADED: "graded",
+    RETURNED: "returned",
+    PRESENT: "present",
+    ABSENT: "absent",
+    EXCUSED: "excused",
+  }[status];
+  return key ? t(key) : status || "-";
+};
+
 export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const { section: routeSection } = useParams();
   const section = sectionOverride || routeSection;
@@ -738,14 +755,14 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
           {
             key: "startDate",
             label: t("starts"),
-            render: (row) => formatDate(row.startDate),
+            render: (row) => formatDate(row.startDate, language),
           },
           {
             key: "endDate",
             label: t("ends"),
-            render: (row) => formatDate(row.endDate),
+            render: (row) => formatDate(row.endDate, language),
           },
-          { key: "status", label: t("status") },
+          { key: "status", label: t("status"), render: (row) => translatedStatus(row.status, t) },
         ]
       : section === "materials"
         ? [
@@ -854,13 +871,13 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                 {
                   key: "examDate",
                   label: t("date"),
-                  render: (row) => formatDate(row.examDate),
+                    render: (row) => formatDate(row.examDate, language),
                 },
                 {
                   key: "submissionDeadline",
                   label: t("submissionDeadline"),
                   render: (row) =>
-                    row.submissionDeadline ? formatDateTime(row.submissionDeadline) : "-",
+                    row.submissionDeadline ? formatDateTime(row.submissionDeadline, language) : "-",
                 },
                 { key: "maxScore", label: t("maxScore") },
                 {
@@ -918,7 +935,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                   {
                     key: "createdAt",
                     label: t("published"),
-                    render: (row) => formatDate(row.createdAt),
+                    render: (row) => formatDate(row.createdAt, language),
                   },
                   ...actionColumn,
                 ]
@@ -965,14 +982,14 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "submittedAt",
                       label: t("submitted"),
-                      render: (row) => formatDate(row.submittedAt),
+                      render: (row) => formatDate(row.submittedAt, language),
                     },
                     {
                       key: "status",
                       label: t("status"),
                       render: (row) => (
                         <span className={`badge ${statusClass(row.status)}`}>
-                          {row.status}
+                          {translatedStatus(row.status, t)}
                         </span>
                       ),
                     },
@@ -993,9 +1010,9 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                       {
                         key: "attendanceDate",
                         label: t("date"),
-                        render: (row) => formatDate(row.attendanceDate),
+                        render: (row) => formatDate(row.attendanceDate, language),
                       },
-                      { key: "status", label: t("status") },
+                      { key: "status", label: t("status"), render: (row) => translatedStatus(row.status, t) },
                     ]
                   : [
                       {
