@@ -1,0 +1,55 @@
+/* The private chat is a workspace, so use the viewport for the conversation
+   instead of stacking a marketing hero above a fixed-height panel. */
+@media (min-width: 1101px) {
+  .app-shell-chat {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .app-shell-chat .app-shell-content {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .app-shell-chat .app-main {
+    height: calc(100dvh - 4.25rem);
+    max-height: calc(100dvh - 4.25rem);
+    min-height: 0;
+    overflow: hidden;
+    padding-bottom: 1.25rem;
+  }
+
+  .app-shell-chat .community-page.community-chat-page {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .app-shell-chat .community-chat-page .community-hero-compact {
+    display: none;
+  }
+
+  .app-shell-chat .community-chat-shell {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .app-shell-chat .community-chat-sidebar,
+  .app-shell-chat .community-chat-main {
+    min-height: 0;
+  }
+
+  .app-shell-chat .community-message-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
