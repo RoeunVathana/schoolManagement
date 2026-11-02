@@ -70,7 +70,7 @@ function Table({ columns = [], rows = [], empty = 'No records found.', pageSize 
     <div className={`table-card ${tableClassName} overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#111c30]`}>
       <div className="table-desktop-view table-scroll overflow-x-auto">
         <table className="w-full min-w-[44rem] text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/40 dark:text-slate-400"><tr>{tableColumns.map((column) => <th key={column.key} className={`whitespace-nowrap px-5 py-4 font-extrabold ${column.headerClassName || ''}`}>{column.label}</th>)}</tr></thead>
+          <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/40 dark:text-slate-400"><tr>{tableColumns.map((column) => <th key={column.key} className={`whitespace-nowrap px-5 py-4 font-extrabold ${column.className || ''} ${column.headerClassName || ''}`}>{column.label}</th>)}</tr></thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {visibleRows.length ? visibleRows.map((row, index) => <tr key={row.id || index} className="transition hover:bg-slate-50 dark:hover:bg-slate-800/60">{tableColumns.map((column) => <td key={column.key} className={`max-w-[22rem] px-5 py-4 text-slate-700 dark:text-slate-200 ${column.className || ''}`}>{column.render ? column.render(row) : row[column.key] ?? '-'}</td>)}</tr>) : <tr><td colSpan={tableColumns.length || 1} className="px-5 py-12 text-center text-slate-400">{empty}</td></tr>}
           </tbody>

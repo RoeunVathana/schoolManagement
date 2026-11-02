@@ -1,5 +1,25 @@
 /* Keep long submitted answers compact and keep row actions in the same
-   horizontally scrollable table. */
+   horizontally scrollable table. The table stays in normal document flow;
+   only the table viewport scrolls when the available width is smaller. */
+.learning-record-table-submissions .table-desktop-view {
+  scrollbar-gutter: stable;
+}
+
+.learning-record-table-submissions .table-desktop-view th,
+.learning-record-table-submissions .table-desktop-view td {
+  box-sizing: border-box;
+}
+
+.learning-record-table-submissions .submission-file-column > div {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.learning-record-table-submissions .submission-file-column a {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .learning-record-table-submissions .submission-answer-preview {
   display: block;
   width: 100%;
@@ -12,18 +32,32 @@
 }
 
 @media (min-width: 1101px) {
+  .learning-record-table-submissions .table-desktop-view table {
+    min-width: 96rem !important;
+    table-layout: fixed !important;
+  }
+
+  .learning-record-table-submissions .submission-student-column { width: 9rem !important; min-width: 9rem !important; }
+  .learning-record-table-submissions .submission-assignment-column { width: 10rem !important; min-width: 10rem !important; }
+  .learning-record-table-submissions .submission-course-column { width: 10rem !important; min-width: 10rem !important; }
+  .learning-record-table-submissions .submission-score-column { width: 7rem !important; min-width: 7rem !important; }
+  .learning-record-table-submissions .submission-answer-column { width: 13rem !important; min-width: 13rem !important; }
+  .learning-record-table-submissions .submission-file-column { width: 11rem !important; min-width: 11rem !important; }
+  .learning-record-table-submissions .submission-submitted-column { width: 9rem !important; min-width: 9rem !important; }
+  .learning-record-table-submissions .submission-status-column { width: 8rem !important; min-width: 8rem !important; }
+
   .learning-record-table-submissions .table-desktop-view th.submission-answer-header,
   .learning-record-table-submissions .table-desktop-view td.submission-answer-column {
-    width: 18rem !important;
-    min-width: 18rem !important;
-    max-width: 18rem !important;
+    width: 13rem !important;
+    min-width: 13rem !important;
+    max-width: 13rem !important;
   }
 
   .learning-record-table-submissions .table-desktop-view th:last-child,
   .learning-record-table-submissions .table-desktop-view td:last-child {
-    width: 20rem !important;
-    min-width: 20rem !important;
-    max-width: 20rem !important;
+    width: 18rem !important;
+    min-width: 18rem !important;
+    max-width: 18rem !important;
   }
 
   .learning-record-table-submissions .table-desktop-view td.submission-answer-column > * {
@@ -38,6 +72,10 @@
     gap: .45rem;
     max-width: 100%;
     overflow: visible;
+  }
+
+  .learning-record-table-submissions .table-desktop-view td:last-child button {
+    padding-inline: .7rem;
   }
 }
 

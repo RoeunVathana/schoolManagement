@@ -621,28 +621,28 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
         ? [{ fileUrl: row.fileUrl }]
         : [];
     return attachments.length ? (
-      <div className="flex min-w-[10rem] max-w-[18rem] flex-wrap gap-2">
+      <div className="flex min-w-0 max-w-full flex-wrap gap-1.5">
         {attachments.map((attachment, index) => (
           <a
             key={attachment.id || attachment.fileUrl || index}
             href={mediaUrl(attachment.fileUrl)}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex min-w-[10rem] max-w-full items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/40"
+            className="inline-flex min-w-0 max-w-full items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/40"
             title={attachment.originalName || t("openFile")}
           >
             {isImage(attachment) ? (
               <SafeImage
                 src={mediaUrl(attachment.fileUrl)}
                 alt={attachment.originalName || t("submissionFile")}
-                className="h-10 w-10 shrink-0 rounded-lg border border-white/80 bg-slate-200 object-cover shadow-sm dark:border-slate-600 dark:bg-slate-900"
+                className="h-9 w-9 shrink-0 rounded-lg border border-white/80 bg-slate-200 object-cover shadow-sm dark:border-slate-600 dark:bg-slate-900"
               />
             ) : (
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-100 text-[10px] font-black text-red-700 dark:bg-red-950/50 dark:text-red-200">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-100 text-[10px] font-black text-red-700 dark:bg-red-950/50 dark:text-red-200">
                 FILE
               </span>
             )}
-            <span className="min-w-0 max-w-[8rem] truncate whitespace-nowrap leading-4">
+            <span className="min-w-0 max-w-[6.5rem] truncate whitespace-nowrap leading-4">
               {attachments.length > 1 ? `${t("openFile")} ${index + 1}` : t("openFile")}
             </span>
           </a>
@@ -951,7 +951,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "student",
                       label: t("student"),
-                      className: "min-w-[10rem]",
+                      className: "submission-student-column min-w-[9rem]",
                       render: (row) => {
                         const value = row.student?.user?.fullName || "-";
                         return <span className="block max-w-[12rem] break-words font-semibold leading-5" title={value}>{value}</span>;
@@ -960,7 +960,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "assignment",
                       label: t("assignment"),
-                      className: "min-w-[12rem]",
+                      className: "submission-assignment-column min-w-[10rem]",
                       render: (row) => {
                         const value = row.assignment?.title || "-";
                         return <span className="block max-w-[15rem] break-words leading-5" title={value}>{value}</span>;
@@ -969,7 +969,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "course",
                       label: t("course"),
-                      className: "min-w-[12rem]",
+                      className: "submission-course-column min-w-[10rem]",
                       render: (row) => {
                         const value = row.assignment?.course?.courseName || "-";
                         return <span className="block max-w-[15rem] break-words leading-5" title={value}>{value}</span>;
@@ -978,7 +978,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "score",
                       label: t("score"),
-                      className: "min-w-[7rem] whitespace-nowrap",
+                      className: "submission-score-column min-w-[7rem] whitespace-nowrap",
                       render: (row) =>
                         <span className="whitespace-nowrap font-bold">
                           {row.grade
@@ -989,7 +989,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "answer",
                       label: t("answer"),
-                      className: "min-w-[15rem] submission-answer-column",
+                      className: "submission-answer-column min-w-[13rem]",
                       headerClassName: "submission-answer-header",
                       render: (row) => (
                         <span className="submission-answer-preview leading-5" title={row.answerText || "-"}>
@@ -1000,19 +1000,19 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "file",
                       label: t("attachment"),
-                      className: "min-w-[12rem]",
+                      className: "submission-file-column min-w-[11rem]",
                       render: submissionFileCell,
                     },
                     {
                       key: "submittedAt",
                       label: t("submitted"),
-                      className: "min-w-[9rem] whitespace-nowrap",
+                      className: "submission-submitted-column min-w-[9rem] whitespace-nowrap",
                       render: (row) => <span className="whitespace-nowrap">{formatDate(row.submittedAt, language)}</span>,
                     },
                     {
                       key: "status",
                       label: t("status"),
-                      className: "min-w-[9rem] whitespace-nowrap",
+                      className: "submission-status-column min-w-[8rem] whitespace-nowrap",
                       render: (row) => (
                         <span className={`badge ${statusClass(row.status)}`}>
                           {translatedStatus(row.status, t)}
