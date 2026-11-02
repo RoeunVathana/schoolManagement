@@ -953,3 +953,287 @@ html:not(.dark) .site-public-navbar #storefront-mobile-menu nav a:hover {
     font-size: .95rem !important;
   }
 }
+
+/* Final mobile navbar contract: one predictable layout for every public page
+   and the signed-in dashboard. Keep the brand on the left, controls on the
+   right, and never let labels or drawers create horizontal overflow. */
+@media (max-width: 767px) {
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .site-public-navbar,
+  .site-public-navbar.about-nav,
+  .site-public-navbar.public-community-nav,
+  .site-public-navbar.storefront-public-navbar {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 4.25rem !important;
+    height: 4.25rem !important;
+    padding: .45rem max(.65rem, env(safe-area-inset-left)) .45rem max(.65rem, env(safe-area-inset-right)) !important;
+  }
+
+  .site-public-navbar > .about-nav-inner,
+  .site-public-navbar > .storefront-public-nav-inner,
+  .site-public-navbar > .storefront-mobile-header {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    gap: .35rem !important;
+  }
+
+  .site-public-navbar .about-brand,
+  .site-public-navbar .public-community-brand,
+  .site-public-navbar .storefront-mobile-header > a {
+    min-width: 0 !important;
+    max-width: calc(100% - 8.15rem) !important;
+    flex: 1 1 auto !important;
+    gap: .42rem !important;
+    overflow: hidden !important;
+  }
+
+  .site-public-navbar .about-brand-mark,
+  .site-public-navbar .public-community-logo,
+  .site-public-navbar .storefront-mobile-header > a > span:first-child {
+    width: 2.45rem !important;
+    height: 2.45rem !important;
+    min-width: 2.45rem !important;
+    flex: 0 0 2.45rem !important;
+    border-radius: .75rem !important;
+    padding: .2rem !important;
+  }
+
+  .site-public-navbar .about-brand strong,
+  .site-public-navbar .public-community-brand strong,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    font-size: .88rem !important;
+    line-height: 1 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .site-public-navbar .about-mobile-controls,
+  .site-public-navbar .public-community-nav-actions,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    gap: .24rem !important;
+    margin-left: auto !important;
+  }
+
+  .site-public-navbar .about-mobile-controls .theme-switch,
+  .site-public-navbar .about-mobile-controls .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .public-community-nav-actions .theme-switch,
+  .site-public-navbar .public-community-nav-actions .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 .theme-switch,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 [data-language-menu] > button,
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button {
+    box-sizing: border-box !important;
+    width: 2.45rem !important;
+    min-width: 2.45rem !important;
+    height: 2.45rem !important;
+    min-height: 2.45rem !important;
+    padding: 0 !important;
+    border-radius: .72rem !important;
+  }
+
+  .site-public-navbar .language-switcher-flag,
+  .site-public-navbar .community-language-switch img {
+    flex: 0 0 auto;
+  }
+
+  .site-public-navbar .language-switcher-menu {
+    right: 0 !important;
+    left: auto !important;
+    width: min(13rem, calc(100vw - 1rem)) !important;
+    max-width: calc(100vw - 1rem) !important;
+  }
+
+  .site-public-navbar .about-mobile-menu,
+  .site-public-navbar .public-community-mobile-menu,
+  .site-public-navbar #storefront-mobile-menu {
+    box-sizing: border-box !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: calc(100svh - 4.25rem) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    padding: .55rem .65rem .7rem !important;
+  }
+
+  .site-public-navbar .about-mobile-menu > a,
+  .site-public-navbar .public-community-mobile-menu-links a,
+  .site-public-navbar #storefront-mobile-menu nav a {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 2.7rem !important;
+    padding: .6rem .7rem !important;
+    border-radius: .78rem !important;
+    font-size: .9rem !important;
+    line-height: 1.25 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .site-public-navbar .about-mobile-actions,
+  .site-public-navbar .public-community-mobile-menu-actions,
+  .site-public-navbar #storefront-mobile-menu nav + div {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .4rem !important;
+    margin-top: .55rem !important;
+    padding: .55rem 0 0 !important;
+  }
+
+  .site-public-navbar .about-mobile-actions > *,
+  .site-public-navbar .public-community-mobile-menu-actions > *,
+  .site-public-navbar #storefront-mobile-menu nav + div > a,
+  .site-public-navbar #storefront-mobile-menu nav + div > button,
+  .site-public-navbar #storefront-mobile-menu nav + div > div a {
+    min-width: 0 !important;
+    min-height: 2.7rem !important;
+    padding: .6rem .45rem !important;
+    font-size: .84rem !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .site-public-navbar .about-mobile-actions > a:only-child,
+  .site-public-navbar .public-community-mobile-menu-actions > a:only-child,
+  .site-public-navbar #storefront-mobile-menu nav + div > a:only-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  .app-navbar {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 4rem !important;
+    height: 4rem !important;
+    gap: .3rem !important;
+    padding: .45rem max(.55rem, env(safe-area-inset-left)) .45rem max(.55rem, env(safe-area-inset-right)) !important;
+  }
+
+  .app-navbar > div:first-child {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .app-navbar > div:first-child > div:last-child {
+    min-width: 0 !important;
+    max-width: 7rem !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .app-navbar > div:last-child {
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    gap: .24rem !important;
+  }
+
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar [data-dashboard-language] > button,
+  .app-navbar > div:last-child > div > button {
+    width: 2.4rem !important;
+    min-width: 2.4rem !important;
+    height: 2.4rem !important;
+    min-height: 2.4rem !important;
+    padding: 0 !important;
+    border-radius: .72rem !important;
+  }
+
+  .app-navbar .app-notification-panel {
+    right: -.25rem !important;
+    width: min(22rem, calc(100vw - 1rem)) !important;
+    max-width: calc(100vw - 1rem) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-public-navbar,
+  .site-public-navbar.about-nav,
+  .site-public-navbar.public-community-nav,
+  .site-public-navbar.storefront-public-navbar {
+    min-height: 4rem !important;
+    height: 4rem !important;
+    padding-inline: .5rem !important;
+  }
+
+  .site-public-navbar > .about-nav-inner,
+  .site-public-navbar > .storefront-public-nav-inner,
+  .site-public-navbar > .storefront-mobile-header {
+    gap: .2rem !important;
+  }
+
+  .site-public-navbar .about-brand,
+  .site-public-navbar .public-community-brand,
+  .site-public-navbar .storefront-mobile-header > a {
+    max-width: calc(100% - 7.6rem) !important;
+    gap: .3rem !important;
+  }
+
+  .site-public-navbar .about-brand-mark,
+  .site-public-navbar .public-community-logo,
+  .site-public-navbar .storefront-mobile-header > a > span:first-child,
+  .site-public-navbar .about-mobile-controls .theme-switch,
+  .site-public-navbar .about-mobile-controls .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .public-community-nav-actions .theme-switch,
+  .site-public-navbar .public-community-nav-actions .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 .theme-switch,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 [data-language-menu] > button,
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button {
+    width: 2.25rem !important;
+    min-width: 2.25rem !important;
+    height: 2.25rem !important;
+    min-height: 2.25rem !important;
+  }
+
+  .site-public-navbar .about-brand strong,
+  .site-public-navbar .public-community-brand strong,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+    font-size: .82rem !important;
+  }
+
+  .app-navbar {
+    min-height: 3.8rem !important;
+    height: 3.8rem !important;
+    padding-inline: .4rem !important;
+  }
+
+  .app-navbar > div:first-child > div:last-child {
+    max-width: 5rem !important;
+  }
+
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar [data-dashboard-language] > button,
+  .app-navbar > div:last-child > div > button {
+    width: 2.25rem !important;
+    min-width: 2.25rem !important;
+    height: 2.25rem !important;
+    min-height: 2.25rem !important;
+  }
+}
