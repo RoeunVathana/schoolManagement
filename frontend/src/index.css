@@ -8952,3 +8952,20 @@ html:lang(km) .storefront-home-copy > p {
     font-size: .95rem;
   }
 }
+
+/* Desktop reference alignment: keep the brand on the left and cluster the
+   navigation plus account controls against the right side of the bar. */
+@media (min-width: 1024px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-public-nav-inner,
+  .site-public-navbar .storefront-mobile-header {
+    justify-content: flex-start;
+  }
+
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    margin-left: auto !important;
+    margin-right: clamp(.5rem, 1.8vw, 2rem);
+  }
+}
