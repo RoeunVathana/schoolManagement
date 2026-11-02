@@ -140,6 +140,9 @@ async function bootstrap() {
       response.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'; object-src 'none'");
       response.setHeader('X-Content-Type-Options', 'nosniff');
       response.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+      // Upload filenames are generated with a timestamp/random suffix and
+      // never change in place, so media can be cached safely for repeat views.
+      response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     },
   });
 
