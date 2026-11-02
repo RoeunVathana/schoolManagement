@@ -8980,3 +8980,134 @@ html:lang(km) .storefront-home-copy > p {
     padding-inline: 1rem !important;
   }
 }
+
+/* Final public-page polish for tablet widths and short viewport pages. */
+.about-page,
+.contact-page,
+.public-community-page,
+.storefront {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.about-page > main,
+.contact-page > main,
+.public-community-page > main,
+.storefront > main {
+  width: 100%;
+  flex: 1 0 auto;
+}
+
+.site-public-navbar .about-nav-inner,
+.site-public-navbar .storefront-public-nav-inner,
+.site-public-navbar .storefront-mobile-header {
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: clamp(.75rem, 4vw, 4.5rem) !important;
+}
+
+.site-public-navbar .about-nav-links,
+.site-public-navbar .public-community-nav-links,
+.site-public-navbar .storefront-mobile-header > nav {
+  min-width: 0;
+  flex-shrink: 1;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.site-public-navbar .about-nav-links a,
+.site-public-navbar .public-community-nav-links a,
+.site-public-navbar .storefront-mobile-header > nav a,
+.site-public-navbar .about-nav-actions > *,
+.site-public-navbar .public-community-nav-actions > *,
+.site-public-navbar .storefront-mobile-header > .hidden.items-center > *,
+.site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 > * {
+  white-space: nowrap;
+}
+
+.site-public-navbar .about-nav-actions,
+.site-public-navbar .public-community-nav-actions,
+.site-public-navbar .storefront-mobile-header > .hidden.items-center,
+.site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
+  flex-shrink: 0;
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header {
+    gap: .65rem;
+    padding-inline: .8rem !important;
+  }
+
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    gap: clamp(.55rem, 1.2vw, 1rem) !important;
+    font-size: .69rem !important;
+  }
+
+  .site-public-navbar .about-nav-actions,
+  .site-public-navbar .public-community-nav-actions,
+  .site-public-navbar .storefront-mobile-header > .hidden.items-center {
+    gap: .3rem !important;
+  }
+
+  .site-public-navbar .about-nav-login,
+  .site-public-navbar .about-nav-button,
+  .site-public-navbar .site-public-nav-login,
+  .site-public-navbar .site-public-nav-cta,
+  .site-public-navbar .public-community-nav-login,
+  .site-public-navbar .public-community-nav-button,
+  .site-public-navbar .public-community-nav-logout {
+    min-width: 0 !important;
+    padding-inline: .65rem !important;
+    font-size: .64rem !important;
+  }
+
+  .site-public-navbar .theme-switch,
+  .site-public-navbar .about-language-toggle,
+  .site-public-navbar [data-language-menu] > button,
+  .site-public-navbar .language-switcher-public .language-switcher-trigger {
+    padding-inline: .55rem !important;
+    font-size: .66rem !important;
+  }
+
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header {
+    width: 100% !important;
+    padding-inline: .8rem !important;
+  }
+
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav,
+  .site-public-navbar .about-nav-actions,
+  .site-public-navbar .public-community-nav-actions > .public-community-nav-button,
+  .site-public-navbar .public-community-nav-actions > .public-community-nav-login,
+  .site-public-navbar .public-community-nav-actions > .public-community-nav-logout,
+  .site-public-navbar .storefront-mobile-header > .hidden.items-center {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-public-navbar .storefront-mobile-header > a > span:first-child,
+  .site-public-navbar .about-brand-mark,
+  .site-public-navbar .public-community-logo {
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child,
+  .site-public-navbar .about-brand strong,
+  .site-public-navbar .public-community-brand strong {
+    font-size: .95rem;
+  }
+}
