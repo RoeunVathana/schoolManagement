@@ -305,3 +305,33 @@
     gap: .3rem !important;
   }
 }
+
+/* Final viewport anchor: public and workspace navbars stay at the top while
+   their page/workspace content scrolls underneath. These rules intentionally
+   come last so older sticky/utility declarations cannot move the bars. */
+.site-public-navbar,
+.app-navbar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+}
+
+.site-public-navbar {
+  z-index: 100 !important;
+}
+
+.app-navbar {
+  z-index: 100 !important;
+}
+
+.app-shell-content > .app-navbar {
+  left: 0 !important;
+}
+
+@media (min-width: 1024px) {
+  .app-shell-content > .app-navbar {
+    left: 18rem !important;
+  }
+}
