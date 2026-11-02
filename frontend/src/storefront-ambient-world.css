@@ -120,6 +120,91 @@
   opacity: .8;
 }
 
+/* Bring the old planet atmosphere back to every public page, not only the
+   course storefront. The globe stays behind the page content and uses CSS
+   layers so it does not add another image request or block interaction. */
+.about-page,
+.contact-page,
+.public-community-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.about-page::before,
+.contact-page::before,
+.public-community-page::before {
+  position: fixed;
+  top: clamp(6.5rem, 13vh, 10rem);
+  right: clamp(-5rem, 4vw, 4rem);
+  z-index: 0;
+  width: clamp(15rem, 28vw, 31rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(37 114 145 / .18);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+  opacity: .28;
+  background:
+    radial-gradient(ellipse at 28% 35%, rgb(91 184 156 / .72) 0 7%, transparent 8%),
+    radial-gradient(ellipse at 63% 27%, rgb(77 163 139 / .54) 0 9%, transparent 10%),
+    radial-gradient(ellipse at 57% 65%, rgb(71 155 132 / .62) 0 12%, transparent 13%),
+    radial-gradient(ellipse at 31% 76%, rgb(77 163 139 / .38) 0 6%, transparent 7%),
+    radial-gradient(circle at 29% 22%, rgb(255 255 255 / .9) 0 1.5%, transparent 13%),
+    radial-gradient(circle at 35% 30%, rgb(215 255 246 / .32), transparent 31%),
+    radial-gradient(circle at 70% 78%, rgb(0 0 0 / .62), transparent 67%),
+    linear-gradient(135deg, #2d7184 0%, #163b59 42%, #0a1c32 100%);
+  box-shadow:
+    inset -2.8rem -2.5rem 4rem rgb(0 5 14 / .72),
+    inset 1.2rem 1rem 2rem rgb(255 255 255 / .16),
+    0 0 5rem rgb(84 202 236 / .12),
+    0 2rem 5rem rgb(0 0 0 / .2);
+  filter: saturate(1.1);
+  animation: campusPublicGlobeFloat 20s ease-in-out infinite;
+}
+
+.about-page::after,
+.contact-page::after,
+.public-community-page::after {
+  position: fixed;
+  top: clamp(7rem, 15vh, 11rem);
+  right: clamp(-10rem, -2vw, 1rem);
+  z-index: 0;
+  width: clamp(21rem, 39vw, 43rem);
+  height: clamp(8rem, 16vw, 16rem);
+  border: 1px solid rgb(141 228 202 / .16);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+  opacity: .5;
+  transform: rotate(-16deg);
+  box-shadow:
+    0 0 0 1.2rem rgb(141 228 202 / .025),
+    0 0 0 2.5rem rgb(244 123 103 / .018);
+  animation: campusPublicGlobeOrbit 24s linear infinite;
+}
+
+.about-page > main,
+.about-page > footer,
+.contact-page > main,
+.contact-page > footer,
+.public-community-page > main,
+.public-community-page > footer {
+  position: relative;
+  z-index: 1;
+}
+
+.dark .about-page::before,
+.dark .contact-page::before,
+.dark .public-community-page::before {
+  opacity: .84;
+}
+
+.dark .about-page::after,
+.dark .contact-page::after,
+.dark .public-community-page::after {
+  opacity: .78;
+}
+
 @keyframes campusWorldGradient {
   0%, 100% { background-position: 0% 46%, 100% 0%, 0% 50%; }
   50% { background-position: 18% 58%, 82% 12%, 100% 50%; }
@@ -150,7 +235,42 @@
   to { transform: rotate(-14deg) rotateZ(360deg); }
 }
 
+@keyframes campusPublicGlobeFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(-.8rem, .65rem, 0) rotate(3deg); }
+}
+
+@keyframes campusPublicGlobeOrbit {
+  from { transform: rotate(-16deg) rotateZ(0deg); }
+  to { transform: rotate(-16deg) rotateZ(360deg); }
+}
+
 @media (max-width: 767px) {
+  .about-page::before,
+  .contact-page::before,
+  .public-community-page::before {
+    top: 7.5rem;
+    right: -5.5rem;
+    width: 15rem;
+    opacity: .18;
+  }
+
+  .about-page::after,
+  .contact-page::after,
+  .public-community-page::after {
+    top: 8rem;
+    right: -8rem;
+    width: 22rem;
+    height: 8rem;
+    opacity: .3;
+  }
+
+  .dark .about-page::before,
+  .dark .contact-page::before,
+  .dark .public-community-page::before {
+    opacity: .5;
+  }
+
   .dark .storefront-ambient-orb-a {
     top: 11%;
     right: -1.5rem;
@@ -177,7 +297,13 @@
   .storefront-ambient-background::after,
   .storefront-ambient-grid,
   .storefront-ambient-orb-a,
-  .storefront-ambient-orb-a::before {
+  .storefront-ambient-orb-a::before,
+  .about-page::before,
+  .contact-page::before,
+  .public-community-page::before,
+  .about-page::after,
+  .contact-page::after,
+  .public-community-page::after {
     animation: none !important;
   }
 }
