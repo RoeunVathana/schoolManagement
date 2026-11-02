@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useAuth } from "../hooks/useAuth";
+import useScrollReveal from "../hooks/useScrollReveal";
 import { useLanguage } from "../context/LanguageContext";
 import { roleHome } from "../utils/roles";
 
@@ -108,9 +109,10 @@ export default function About() {
   const copy = content[language] || content.en;
   const hasSession = !authLoading && Boolean(user);
   const dashboardPath = roleHome(user?.role);
+  const revealRef = useScrollReveal([language]);
 
   return (
-    <div className="about-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
+    <div ref={revealRef} className="about-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
       <Seo
         title={language === "km" ? "អំពី CampusFlow LMS | ការរៀនជំនាញអនុវត្ត" : "About CampusFlow LMS | Practical Learning in Cambodia"}
         description={copy.heroBody}
@@ -149,7 +151,7 @@ export default function About() {
           <div className="about-hero-glow about-hero-glow-one" />
           <div className="about-hero-glow about-hero-glow-two" />
           <div className="about-container about-hero-grid">
-            <div className="about-hero-copy">
+            <div data-scroll-reveal className="about-hero-copy storefront-reveal">
               <p className="about-eyebrow"><span />{copy.eyebrow}</p>
               <h1>{copy.title}</h1>
               <p className="about-hero-body">{copy.heroBody}</p>
@@ -165,18 +167,18 @@ export default function About() {
           </div>
         </section>
 
-        <section className="about-stats"><div className="about-container about-stats-grid">{copy.stats.map(([value, label]) => <div className="about-stat" key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></section>
+        <section className="about-stats"><div className="about-container about-stats-grid">{copy.stats.map(([value, label], index) => <div data-scroll-reveal className="about-stat storefront-reveal" style={{ "--reveal-delay": `${index * 65}ms` }} key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></section>
 
-        <section className="about-section about-story"><div className="about-container about-story-grid"><div><p className="about-eyebrow about-eyebrow-light">{copy.storyKicker}</p><h2>{copy.storyTitle}</h2><p className="about-section-body">{copy.storyBody}</p></div><blockquote><span>“</span><p>{copy.quote}</p><cite>{copy.quoteBy}</cite></blockquote></div></section>
+        <section className="about-section about-story"><div className="about-container about-story-grid"><div data-scroll-reveal className="storefront-reveal"><p className="about-eyebrow about-eyebrow-light">{copy.storyKicker}</p><h2>{copy.storyTitle}</h2><p className="about-section-body">{copy.storyBody}</p></div><blockquote data-scroll-reveal className="storefront-reveal" style={{ "--reveal-delay": "90ms" }}><span>“</span><p>{copy.quote}</p><cite>{copy.quoteBy}</cite></blockquote></div></section>
 
-        <section className="about-section about-values"><div className="about-container"><div className="about-section-heading"><p className="about-eyebrow">{copy.valuesKicker}</p><h2>{copy.valuesTitle}</h2><p>{copy.valuesBody}</p></div><div className="about-values-grid">{copy.values.map(([number, title, body]) => <article key={number} className="about-value-card"><span>{number}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
+        <section className="about-section about-values"><div className="about-container"><div data-scroll-reveal className="about-section-heading storefront-reveal"><p className="about-eyebrow">{copy.valuesKicker}</p><h2>{copy.valuesTitle}</h2><p>{copy.valuesBody}</p></div><div className="about-values-grid">{copy.values.map(([number, title, body], index) => <article data-scroll-reveal key={number} className="about-value-card storefront-reveal" style={{ "--reveal-delay": `${index * 70}ms` }}><span>{number}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
 
-        <section className="about-section about-benefits"><div className="about-container"><div className="about-section-heading"><p className="about-eyebrow about-eyebrow-light">{copy.benefitsKicker}</p><h2>{copy.benefitsTitle}</h2></div><div className="about-benefits-grid">{copy.benefits.map(([icon, title, body]) => <article key={title} className="about-benefit-card"><span>{icon}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
+        <section className="about-section about-benefits"><div className="about-container"><div data-scroll-reveal className="about-section-heading storefront-reveal"><p className="about-eyebrow about-eyebrow-light">{copy.benefitsKicker}</p><h2>{copy.benefitsTitle}</h2></div><div className="about-benefits-grid">{copy.benefits.map(([icon, title, body], index) => <article data-scroll-reveal key={title} className="about-benefit-card storefront-reveal" style={{ "--reveal-delay": `${index * 70}ms` }}><span>{icon}</span><h3>{title}</h3><p>{body}</p></article>)}</div></div></section>
 
-        <section className="about-cta"><div className="about-container about-cta-inner"><div><p className="about-eyebrow about-eyebrow-light">{copy.ctaKicker}</p><h2>{copy.ctaTitle}</h2><p>{copy.ctaBody}</p></div><Link to="/courses#courses" className="about-button about-button-primary">{copy.ctaButton} <span>→</span></Link></div></section>
+        <section className="about-cta"><div data-scroll-reveal className="about-container about-cta-inner storefront-reveal"><div><p className="about-eyebrow about-eyebrow-light">{copy.ctaKicker}</p><h2>{copy.ctaTitle}</h2><p>{copy.ctaBody}</p></div><Link to="/courses#courses" className="about-button about-button-primary">{copy.ctaButton} <span>→</span></Link></div></section>
       </main>
 
-      <footer className="about-footer"><div className="about-container about-footer-inner"><div><p className="about-footer-brand">Campus<span>Flow</span></p><p>{copy.footerBody}</p></div><div className="about-footer-links"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact">{copy.navContact}</Link></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">Telegram support →</a></div></footer>
+      <footer className="about-footer"><div data-scroll-reveal className="about-container about-footer-inner storefront-reveal"><div><p className="about-footer-brand">Campus<span>Flow</span></p><p>{copy.footerBody}</p></div><div className="about-footer-links"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact">{copy.navContact}</Link></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">Telegram support →</a></div></footer>
     </div>
   );
 }

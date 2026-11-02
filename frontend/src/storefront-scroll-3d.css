@@ -1,5 +1,5 @@
-/* Keep the storefront static while scrolling.  Card hover depth is still
-   available below, but page scroll itself no longer moves sections in 3D. */
+/* Lightweight item reveals. The document itself stays flat so touch scrolling
+   remains smooth; only newly visible content fades and rises a short distance. */
 .storefront {
   perspective: none;
 }
@@ -10,14 +10,20 @@
 }
 
 .storefront-reveal[data-scroll-reveal] {
-  transform: none !important;
-  transition: none !important;
-  will-change: auto;
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0) !important;
+  transition:
+    opacity .46s cubic-bezier(.2,.75,.25,1),
+    transform .46s cubic-bezier(.2,.75,.25,1) !important;
+  transition-delay: var(--reveal-delay, 0ms) !important;
+  will-change: opacity, transform;
 }
 
 .storefront-reveal[data-scroll-reveal].is-visible,
 .storefront-reveal-on-load[data-scroll-reveal] {
+  opacity: 1;
   transform: none !important;
+  will-change: auto;
 }
 
 .storefront-course-card {
@@ -56,6 +62,13 @@
 .storefront-course-card.is-visible:hover .storefront-course-visual {
   transform: translateZ(14px) scale(1.025);
   filter: saturate(1.08) contrast(1.03);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-value-card.storefront-reveal[data-scroll-reveal].is-visible:hover,
+  .about-benefit-card.storefront-reveal[data-scroll-reveal].is-visible:hover {
+    transform: translate3d(0, -.45rem, 1rem) rotateX(1deg) rotateY(-1deg) !important;
+  }
 }
 
 .storefront-3d-scene,
@@ -102,6 +115,15 @@
     transform-style: flat;
   }
 
+  .storefront-reveal[data-scroll-reveal] {
+    transform: translate3d(0, .65rem, 0) !important;
+    transition-duration: .36s !important;
+  }
+
+  .storefront-reveal[data-scroll-reveal].is-visible {
+    transform: none !important;
+  }
+
   .storefront-course-card.is-visible:hover {
     transform: translate3d(0, -.25rem, 8px) rotateX(.5deg) scale(1.005);
   }
@@ -128,4 +150,6 @@
   }
 
   .storefront-course-card::after { display: none; }
+
+  .storefront-reveal[data-scroll-reveal] { opacity: 1 !important; }
 }
