@@ -10,7 +10,7 @@ import api from "../api/axios";
 
 const content = {
   en: {
-    navCourses: "Courses", navCommunity: "Community", navAbout: "About us", navContact: "Contact", navFaq: "FAQ",
+    navCourses: "Browse courses", navCommunity: "Community", navAbout: "Why CampusFlow", navContact: "Support", navFaq: "FAQ",
     login: "Sign in", register: "Create account", dashboard: "Dashboard",
     eyebrow: "WE ARE HERE TO HELP", title: "Let's build your next step together.",
     heroBody: "Have a question about courses, payments, teacher support, or your learning path? Reach out and the CampusFlow team will point you in the right direction.",
@@ -26,7 +26,7 @@ const content = {
     ctaKicker: "Ready to start?", ctaTitle: "Find a course and keep moving forward.", ctaButton: "Explore courses", footerBody: "Practical online learning for Cambodia.",
   },
   km: {
-    navCourses: "វគ្គសិក្សា", navCommunity: "សហគមន៍", navAbout: "អំពីយើង", navContact: "ទាក់ទង", navFaq: "សំណួរ",
+    navCourses: "មើលវគ្គសិក្សា", navCommunity: "សហគមន៍", navAbout: "ហេតុអ្វី CampusFlow", navContact: "ជំនួយ", navFaq: "សំណួរ",
     login: "ចូលប្រើ", register: "បង្កើតគណនី", dashboard: "ផ្ទាំងការងារ",
     eyebrow: "យើងនៅទីនេះដើម្បីជួយ", title: "តោះកសាងជំហានបន្ទាប់របស់អ្នកជាមួយគ្នា។",
     heroBody: "មានសំណួរអំពីវគ្គសិក្សា ការបង់ប្រាក់ ការគាំទ្រពីគ្រូ ឬផ្លូវរៀនរបស់អ្នក? ទាក់ទងមកយើង ហើយក្រុម CampusFlow នឹងជួយបង្ហាញទិសដៅដែលសមស្រប។",
@@ -83,7 +83,7 @@ export default function Contact() {
       <Seo title={language === "km" ? "ទាក់ទង CampusFlow LMS | ការគាំទ្រការរៀន" : "Contact CampusFlow LMS | Learning Support"} description={copy.heroBody} path="/contact" language={language} />
       <header className="site-public-navbar about-nav contact-nav">
         <div className="about-nav-inner">
-          <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "វេទិការៀន" : "Learning platform"}</small></span></Link>
+          <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span></Link>
           <nav className="about-nav-links" aria-label="Primary navigation"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact" className="is-active">{copy.navContact}</Link><Link to="/courses#faq">{copy.navFaq}</Link></nav>
           <div className="about-nav-actions"><ThemeSwitch /><button type="button" className="about-language-toggle" onClick={() => setLanguage(language === "en" ? "km" : "en")} aria-label="Change language">{language === "en" ? "ខ្មែរ" : "EN"}</button>{hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}</div>
           <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen}>☰</button>

@@ -9,9 +9,9 @@ import { roleHome } from "../utils/roles";
 
 const content = {
   en: {
-    navCourses: "Courses", navContact: "Contact",
+    navCourses: "Browse courses", navContact: "Support",
     navCommunity: "Community",
-    navAbout: "About us",
+    navAbout: "Why CampusFlow",
     navFaq: "FAQ",
     login: "Sign in",
     register: "Create account",
@@ -54,9 +54,9 @@ const content = {
     footerBody: "Practical online learning for Cambodia.",
   },
   km: {
-    navCourses: "វគ្គសិក្សា", navContact: "ទាក់ទង",
+    navCourses: "មើលវគ្គសិក្សា", navContact: "ជំនួយ",
     navCommunity: "សហគមន៍",
-    navAbout: "អំពីយើង",
+    navAbout: "ហេតុអ្វី CampusFlow",
     navFaq: "សំណួរ",
     login: "ចូលប្រើ",
     register: "បង្កើតគណនី",
@@ -120,7 +120,7 @@ export default function About() {
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}>
             <span className="about-brand-mark"><BrandLogo /></span>
-            <span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "វេទិការៀន" : "Learning platform"}</small></span>
+            <span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span>
           </Link>
           <nav className="about-nav-links" aria-label="Primary navigation">
             <Link to="/courses#courses">{copy.navCourses}</Link>

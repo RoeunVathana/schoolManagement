@@ -8149,6 +8149,9 @@ body {
 .site-public-navbar .storefront-mobile-header > nav {
   gap: clamp(1.15rem, 2.3vw, 1.8rem);
   color: #afc5d2 !important;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: -.015em;
 }
 
 .site-public-navbar .about-nav-links a,
