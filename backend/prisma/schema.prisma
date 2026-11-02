@@ -512,6 +512,7 @@ model Student {
   user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   enrollments    Enrollment[]
   attendance     Attendance[]
+  callCooldowns  StudentCallCooldown[]
   submissions    Submission[]
   examResults    ExamResult[]
   coursePayments CoursePayment[]
@@ -533,6 +534,7 @@ model Teacher {
   assignments       Assignment[]
   grades            Grade[]
   teacherAttendance TeacherAttendance[]
+  callCooldowns     StudentCallCooldown[]
   telegramSetting   TeacherTelegramSetting?
 
   @@index([teacherCode])
@@ -587,6 +589,7 @@ model Course {
   coursePayments        CoursePayment[]
   materials             CourseMaterial[]
   certificates          CourseCertificate[]
+  callCooldowns         StudentCallCooldown[]
 
   @@index([courseName])
   @@index([status])
@@ -718,6 +721,23 @@ model Attendance {
   @@index([studentId, attendanceDate])
   @@index([courseId, attendanceDate])
   @@map("attendance")
+}
+
+model StudentCallCooldown {
+  id        String   @id @default(cuid())
+  teacherId String
+  courseId  String
+  studentId String
+  calledAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([teacherId, courseId, studentId])
+  @@index([teacherId, courseId, calledAt])
+  @@map("student_call_cooldowns")
 }
 
 model TeacherAttendance {
