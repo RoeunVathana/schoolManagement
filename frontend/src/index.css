@@ -6514,6 +6514,35 @@ table td {
   }
 }
 
+/* Public navbar readability pass. */
+.site-public-navbar .about-brand strong,
+.site-public-navbar .public-community-brand strong,
+.site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+  font-size: 1.25rem;
+}
+
+.site-public-navbar .about-brand small,
+.site-public-navbar .public-community-brand small,
+.site-public-navbar .storefront-mobile-header > a > span:last-child > span:last-child {
+  font-size: .58rem;
+}
+
+.site-public-navbar .theme-switch,
+.site-public-navbar .language-switcher-public .language-switcher-trigger,
+.site-public-navbar .about-nav-login,
+.site-public-navbar .about-nav-button,
+.site-public-navbar .site-public-nav-login,
+.site-public-navbar .site-public-nav-cta,
+.site-public-navbar .public-community-nav-login,
+.site-public-navbar .public-community-nav-button,
+.site-public-navbar .public-community-nav-logout {
+  font-size: .8rem;
+}
+
+.site-public-navbar .language-switcher-public .language-switcher-current {
+  font-size: .8rem;
+}
+
 /* Full-screen public storytelling layout for Community and Why CampusFlow. */
 .about-page,
 .public-community-page {
@@ -8248,7 +8277,7 @@ body {
 .site-public-navbar .storefront-mobile-header > nav {
   gap: clamp(1.15rem, 2.3vw, 1.8rem);
   color: #afc5d2 !important;
-  font-size: .76rem;
+  font-size: .9rem;
   font-weight: 850;
   letter-spacing: -.015em;
 }
