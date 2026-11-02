@@ -57,6 +57,16 @@ function DiscountPreview({ form, t }) {
   </div>;
 }
 
+function CreateCourseCard({ t, openCreate }) {
+  return <button type="button" onClick={openCreate} className="group flex min-h-[31.5rem] flex-col overflow-hidden rounded-[1.45rem] border-2 border-dashed border-[#8de4ca] bg-gradient-to-br from-[#effcf7] via-white to-[#eef6ff] p-6 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#229ed9] hover:shadow-[0_22px_45px_rgba(34,158,217,.16)] dark:border-emerald-800 dark:from-emerald-950/30 dark:via-[#111c30] dark:to-sky-950/25">
+    <span className="flex h-16 w-16 items-center justify-center rounded-[1.35rem] bg-[#10243f] text-4xl font-light text-white shadow-lg shadow-[#10243f]/20 transition duration-300 group-hover:rotate-90 group-hover:bg-[#229ed9]">+</span>
+    <p className="mt-8 text-xs font-extrabold uppercase tracking-[.18em] text-coral">{t('adminWorkspace')}</p>
+    <h2 className="mt-2 text-2xl font-extrabold leading-tight text-ink dark:text-white">{t('createCourse')}</h2>
+    <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-300">{t('courseDirectoryDescription')}</p>
+    <span className="mt-auto inline-flex w-full items-center justify-center rounded-xl bg-[#64748b] px-4 py-3.5 text-sm font-extrabold text-white transition group-hover:bg-[#52657d]">+ {t('newCourse')}</span>
+  </button>;
+}
+
 function CourseCard({ course, language, t, openEdit, remove }) {
   const isActive = course.status === 'ACTIVE';
   const hasDiscount = activeDiscount(course);
@@ -269,7 +279,8 @@ export default function Courses() {
         <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-coral">{t('adminWorkspace')}</p><h2 className="mt-1 text-2xl font-extrabold text-ink dark:text-white">{result.pagination?.total ?? rows.length} {t('courses')}</h2><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{language === 'km' ? 'គ្រប់គ្រងវគ្គសិក្សា រូបភាព តម្លៃ និងការទូទាត់ពីកន្លែងតែមួយ។' : 'Manage course cards, images, pricing and payment access from one place.'}</p></div>
         <div className="flex flex-wrap gap-2 text-xs font-bold"><span className="rounded-full bg-[#e4f8ef] px-3 py-2 text-emerald-800">{rows.filter((course) => course.status === 'ACTIVE').length} {t('active')}</span><span className="rounded-full bg-slate-100 px-3 py-2 text-slate-600 dark:bg-slate-800 dark:text-slate-300">{rows.filter((course) => course.paymentEnabled === false).length} {language === 'km' ? 'បិទការទូទាត់' : 'payments closed'}</span></div>
       </div>
-      {rows.length ? <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{rows.map((course) => <CourseCard key={course.id} course={course} language={language} t={t} openEdit={openEdit} remove={remove} />)}</div> : <div className="rounded-[1.35rem] border border-dashed border-slate-300 bg-white px-5 py-16 text-center text-sm font-semibold text-slate-400 dark:border-slate-700 dark:bg-[#111c30]">{t('noCourses')}</div>}
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"><CreateCourseCard t={t} openCreate={openCreate} />{rows.map((course) => <CourseCard key={course.id} course={course} language={language} t={t} openEdit={openEdit} remove={remove} />)}</div>
+      {!rows.length && <div className="mt-5 rounded-[1.35rem] border border-dashed border-slate-300 bg-white px-5 py-8 text-center text-sm font-semibold text-slate-400 dark:border-slate-700 dark:bg-[#111c30]">{t('noCourses')}</div>}
       <Pagination value={result.pagination} onChange={setPage} />
     </> : <Loading />}
 
