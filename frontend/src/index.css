@@ -9033,3 +9033,19 @@ html:lang(km) .storefront-home-copy > p {
     padding-inline: .8rem !important;
   }
 }
+
+/* Keep the shared public navbar content edge-to-edge on every public page. */
+.site-public-navbar .about-nav-inner,
+.site-public-navbar .storefront-mobile-header {
+  width: 100%;
+  max-width: none !important;
+  box-sizing: border-box;
+  padding-inline: clamp(1rem, 5vw, 6rem) !important;
+}
+
+@media (max-width: 900px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header {
+    padding-inline: .8rem !important;
+  }
+}
