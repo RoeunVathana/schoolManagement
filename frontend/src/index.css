@@ -6381,6 +6381,20 @@ table td {
   background: #0b1726;
 }
 
+.dark .about-cta {
+  background: linear-gradient(120deg, #0b1726, #10263a 52%, #1d2935);
+  color: #eef6fb;
+}
+
+.dark .about-cta .about-button-primary {
+  background: var(--about-mint);
+  color: var(--about-navy);
+}
+
+.dark .about-cta .about-button-primary:hover {
+  background: #b8f6e3;
+}
+
 .dark .about-value-card {
   border-color: #284b68;
 }
@@ -7659,6 +7673,7 @@ th {
 
 .dark .contact-info-card strong,
 .dark .contact-form label,
+.dark .contact-form-wrap h2,
 .dark .contact-side-card h2,
 .dark .contact-side-card h3,
 .dark .contact-quick-card summary {
