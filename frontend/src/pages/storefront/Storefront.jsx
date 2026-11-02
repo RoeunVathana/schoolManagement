@@ -43,6 +43,33 @@ const fileTypeLabel = (material) => {
 
 const isBakongUnavailable = (message) => /bakong|daily request limit|request limit|not configured|temporarily unavailable|verification/i.test(String(message || ""));
 
+const technologyRows = [
+  [
+    { name: "React", slug: "react", color: "61DAFB", short: "⚛" },
+    { name: "Node.js", slug: "nodedotjs", color: "5FA04E", short: "N" },
+    { name: "Python", slug: "python", color: "3776AB", short: "Py" },
+    { name: "C++", slug: "cplusplus", color: "00599C", short: "C++" },
+    { name: "Java", slug: "openjdk", color: "ED8B00", short: "☕" },
+    { name: "PHP", slug: "php", color: "777BB4", short: "php" },
+    { name: "Swift", slug: "swift", color: "F05138", short: "S" },
+    { name: "Kotlin", slug: "kotlin", color: "7F52FF", short: "K" },
+    { name: "Go", slug: "go", color: "00ADD8", short: "go" },
+    { name: "Dart", slug: "dart", color: "0175C2", short: "◆" },
+  ],
+  [
+    { name: "JavaScript", slug: "javascript", color: "F7DF1E", short: "JS" },
+    { name: "CSS3", slug: "css", color: "1572B6", short: "3" },
+    { name: "HTML5", slug: "html5", color: "E34F26", short: "5" },
+    { name: "Dart", slug: "dart", color: "0175C2", short: "◆" },
+    { name: "Go", slug: "go", color: "00ADD8", short: "go" },
+    { name: "Kotlin", slug: "kotlin", color: "7F52FF", short: "K" },
+    { name: "Swift", slug: "swift", color: "F05138", short: "S" },
+    { name: "PHP", slug: "php", color: "777BB4", short: "php" },
+    { name: "Java", slug: "openjdk", color: "ED8B00", short: "☕" },
+    { name: "C++", slug: "cplusplus", color: "00599C", short: "C++" },
+  ],
+];
+
 const isCoursePaymentOpen = (course) => {
   if (course?.paymentOpen === false) return false;
   if (!course?.endDate) return true;
@@ -658,6 +685,8 @@ export default function Storefront() {
           </div>
         </section>
 
+        <TechnologyRail language={language} />
+
         <section id="courses" data-scroll-reveal className="storefront-reveal mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -772,6 +801,48 @@ function PaymentPlanChooser({ course, isPurchased = false, t, onChoose, onClose 
       <p className="text-center text-xs font-semibold text-slate-400">{t('monthlyPaymentReminder')}</p>
     </div>
   </Modal>;
+}
+
+function TechnologyRail({ language }) {
+  const title = language === "km" ? "ស្វែងរកជំនាញដែលអ្នកចង់រៀន" : "Explore skills that move you forward";
+  const body = language === "km"
+    ? "រៀនជំនាញបច្ចេកវិទ្យាដែលត្រូវការសម្រាប់ការងារ និងគម្រោងពិត។"
+    : "Build practical skills with guided courses for real projects and real opportunities.";
+
+  return (
+    <section className="technology-rail" aria-labelledby="technology-rail-title">
+      <div className="technology-rail-heading">
+        <p className="technology-rail-kicker">CAMPUSFLOW ACADEMY</p>
+        <h2 id="technology-rail-title">{title}</h2>
+        <p>{body}</p>
+      </div>
+      <div className="technology-rail-viewport" aria-label="Technology skills">
+        {technologyRows.map((row, rowIndex) => (
+          <div className={`technology-rail-row technology-rail-row-${rowIndex + 1}`} key={`technology-row-${rowIndex}`}>
+            <div className="technology-rail-track">
+              {[...row, ...row].map((item, itemIndex) => (
+                <div className="technology-rail-item" key={`${item.name}-${rowIndex}-${itemIndex}`}>
+                  <span className="technology-rail-icon" style={{ "--technology-color": `#${item.color}` }}>
+                    <img
+                      src={`https://cdn.simpleicons.org/${item.slug}/${item.color}`}
+                      alt=""
+                      loading="lazy"
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                        event.currentTarget.nextElementSibling.style.display = "inline-flex";
+                      }}
+                    />
+                    <span className="technology-rail-fallback" aria-hidden="true">{item.short}</span>
+                  </span>
+                  <span className="technology-rail-name">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function StorefrontAmbientBackground() {

@@ -5118,3 +5118,239 @@ table td {
   --community-card: var(--surface-card);
   --community-soft: var(--surface-muted);
 }
+
+.technology-rail {
+  position: relative;
+  overflow: hidden;
+  padding: 4.75rem 0 5.15rem;
+  border-top: 1px solid rgb(218 229 237 / .72);
+  border-bottom: 1px solid rgb(218 229 237 / .72);
+  background-color: #f8fbfd;
+  background-image:
+    linear-gradient(rgb(205 220 231 / .22) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(205 220 231 / .22) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.technology-rail::before,
+.technology-rail::after {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  width: min(18vw, 17rem);
+  pointer-events: none;
+  content: "";
+}
+
+.technology-rail::before {
+  left: 0;
+  background: linear-gradient(90deg, #f8fbfd 8%, rgb(248 251 253 / .86) 42%, transparent);
+}
+
+.technology-rail::after {
+  right: 0;
+  background: linear-gradient(270deg, #f8fbfd 8%, rgb(248 251 253 / .86) 42%, transparent);
+}
+
+.technology-rail-heading {
+  position: relative;
+  z-index: 3;
+  max-width: 44rem;
+  margin: 0 auto 2.6rem;
+  padding: 0 1.25rem;
+  text-align: center;
+}
+
+.technology-rail-kicker {
+  margin: 0;
+  color: #6e91a8;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.technology-rail-heading h2 {
+  margin: .65rem 0 0;
+  color: #536c83;
+  font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+  font-weight: 850;
+  letter-spacing: -.025em;
+}
+
+.technology-rail-heading p:last-child {
+  max-width: 34rem;
+  margin: .7rem auto 0;
+  color: #8ba0b1;
+  font-size: .9rem;
+  line-height: 1.75;
+}
+
+.technology-rail-viewport {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2.9rem;
+  overflow: hidden;
+  padding: .4rem 0 .55rem;
+}
+
+.technology-rail-row {
+  overflow: hidden;
+}
+
+.technology-rail-track {
+  display: flex;
+  width: max-content;
+  gap: 1.45rem;
+  padding: 0 1.25rem;
+  animation: technologyRailDrift 34s linear infinite;
+  will-change: transform;
+}
+
+.technology-rail-row-2 .technology-rail-track {
+  animation-name: technologyRailDriftReverse;
+  animation-duration: 39s;
+}
+
+.technology-rail-item {
+  display: grid;
+  flex: 0 0 6.85rem;
+  justify-items: center;
+  gap: .78rem;
+  color: #5e7185;
+  text-align: center;
+}
+
+.technology-rail-icon {
+  display: inline-flex;
+  width: 5.1rem;
+  height: 5.1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(216 228 237 / .82);
+  border-radius: 1.3rem;
+  background: rgb(255 255 255 / .86);
+  box-shadow: 0 12px 28px rgb(91 123 145 / .08), inset 0 1px 0 rgb(255 255 255 / .9);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.technology-rail-item:hover .technology-rail-icon {
+  border-color: color-mix(in srgb, var(--technology-color) 38%, #d8e4ed);
+  box-shadow: 0 16px 32px rgb(91 123 145 / .15), 0 0 0 4px color-mix(in srgb, var(--technology-color) 12%, transparent);
+  transform: translateY(-5px);
+}
+
+.technology-rail-icon img {
+  width: 2.8rem;
+  height: 2.8rem;
+  object-fit: contain;
+}
+
+.technology-rail-fallback {
+  display: none;
+  min-width: 2.65rem;
+  min-height: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--technology-color);
+  font-size: 1rem;
+  font-weight: 950;
+  letter-spacing: -.04em;
+}
+
+.technology-rail-name {
+  color: #60758a;
+  font-size: .75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dark .technology-rail {
+  border-color: rgb(44 74 101 / .75);
+  background-color: #0d1b2b;
+  background-image:
+    linear-gradient(rgb(63 94 121 / .18) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(63 94 121 / .18) 1px, transparent 1px);
+}
+
+.dark .technology-rail::before {
+  background: linear-gradient(90deg, #0d1b2b 8%, rgb(13 27 43 / .86) 42%, transparent);
+}
+
+.dark .technology-rail::after {
+  background: linear-gradient(270deg, #0d1b2b 8%, rgb(13 27 43 / .86) 42%, transparent);
+}
+
+.dark .technology-rail-heading h2,
+.dark .technology-rail-name {
+  color: #d8e7f2;
+}
+
+.dark .technology-rail-heading p:last-child,
+.dark .technology-rail-kicker {
+  color: #91aec2;
+}
+
+.dark .technology-rail-icon {
+  border-color: rgb(66 99 126 / .78);
+  background: rgb(20 42 64 / .88);
+  box-shadow: 0 12px 28px rgb(0 0 0 / .18), inset 0 1px 0 rgb(255 255 255 / .05);
+}
+
+@keyframes technologyRailDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes technologyRailDriftReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@media (max-width: 640px) {
+  .technology-rail {
+    padding: 3.6rem 0 4rem;
+    background-size: 46px 46px;
+  }
+
+  .technology-rail-heading {
+    margin-bottom: 2rem;
+  }
+
+  .technology-rail-viewport {
+    gap: 2rem;
+  }
+
+  .technology-rail-track {
+    gap: .85rem;
+    padding-inline: .7rem;
+  }
+
+  .technology-rail-item {
+    flex-basis: 5.55rem;
+    gap: .6rem;
+  }
+
+  .technology-rail-icon {
+    width: 4.25rem;
+    height: 4.25rem;
+    border-radius: 1.1rem;
+  }
+
+  .technology-rail-icon img {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .technology-rail-name {
+    font-size: .68rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technology-rail-track {
+    animation-play-state: paused;
+  }
+}
