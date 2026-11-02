@@ -979,7 +979,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
     navigate("/", { replace: true });
   };
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/70 bg-white/90 shadow-[0_10px_30px_rgba(16,36,63,.08)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
+    <header className="site-public-navbar storefront-public-navbar fixed inset-x-0 top-0 z-50 border-b border-white/70 bg-white/90 shadow-[0_10px_30px_rgba(16,36,63,.08)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-[#101b2d]/95">
       <div className="storefront-mobile-header mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8 lg:px-10">
         <Link to="/" className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[#cdece1] bg-gradient-to-br from-[#d9fff1] via-white to-[#dcecff] p-1.5 shadow-[0_10px_24px_rgba(16,36,63,.16)] ring-1 ring-[#10243f]/10 transition duration-300 hover:scale-105 hover:rotate-2 dark:border-white/15 dark:ring-white/10"><BrandLogo className="rounded-[.9rem]" /></span>
@@ -1001,16 +1001,16 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
           {hasSession ? (
             <>
               {canOpenWorkspace ? (
-                <Link to={dashboardPath} className="hidden rounded-xl bg-[#10243f] px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] sm:inline-flex">{t("dashboard")}</Link>
+                <Link to={dashboardPath} className="site-public-nav-cta hidden rounded-xl bg-[#10243f] px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] sm:inline-flex">{t("dashboard")}</Link>
               ) : (
-                <Link to="/courses#courses" className="rounded-xl bg-[#10243f] px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] dark:bg-[#8de4ca] dark:text-[#10243f]">{copy.browse}</Link>
+                <Link to="/courses#courses" className="site-public-nav-cta rounded-xl bg-[#10243f] px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] dark:bg-[#8de4ca] dark:text-[#10243f]">{copy.browse}</Link>
               )}
               <button type="button" onClick={handleLogout} className="inline-flex whitespace-nowrap rounded-xl border border-rose-200 bg-white px-3 py-2.5 text-xs font-extrabold text-rose-600 transition hover:border-rose-300 hover:bg-rose-50 dark:border-rose-900/60 dark:bg-slate-800 dark:text-rose-300 dark:hover:bg-rose-950/30">{logoutLabel}</button>
             </>
           ) : (
             <>
-              <Link to="/login/student" className="inline-flex whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 py-2.5 text-[11px] font-extrabold text-[#10243f] transition hover:border-[#10243f] hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:border-[#8de4ca] dark:hover:bg-slate-700 sm:px-3 sm:text-xs">{loginLabel}</Link>
-              <Link to="/register" className="inline-flex whitespace-nowrap rounded-xl bg-[#10243f] px-2.5 py-2.5 text-[11px] font-extrabold text-white shadow-md shadow-[#10243f]/15 transition hover:bg-[#1c4e6b] sm:px-4 sm:text-xs">{copy.register}</Link>
+              <Link to="/login/student" className="site-public-nav-login inline-flex whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 py-2.5 text-[11px] font-extrabold text-[#10243f] transition hover:border-[#10243f] hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:border-[#8de4ca] dark:hover:bg-slate-700 sm:px-3 sm:text-xs">{loginLabel}</Link>
+              <Link to="/register" className="site-public-nav-cta inline-flex whitespace-nowrap rounded-xl bg-[#10243f] px-2.5 py-2.5 text-[11px] font-extrabold text-white shadow-md shadow-[#10243f]/15 transition hover:bg-[#1c4e6b] sm:px-4 sm:text-xs">{copy.register}</Link>
             </>
           )}
         </div>

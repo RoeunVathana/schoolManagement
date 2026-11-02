@@ -116,7 +116,7 @@ export default function About() {
         path="/about"
         language={language}
       />
-      <header className="about-nav">
+      <header className="site-public-navbar about-nav">
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}>
             <span className="about-brand-mark"><BrandLogo /></span>

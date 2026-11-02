@@ -61,7 +61,7 @@ export default function Contact() {
   return (
     <div className="contact-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
       <Seo title={language === "km" ? "ទាក់ទង CampusFlow LMS | ការគាំទ្រការរៀន" : "Contact CampusFlow LMS | Learning Support"} description={copy.heroBody} path="/contact" language={language} />
-      <header className="about-nav contact-nav">
+      <header className="site-public-navbar about-nav contact-nav">
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "វេទិការៀន" : "Learning platform"}</small></span></Link>
           <nav className="about-nav-links" aria-label="Primary navigation"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact" className="is-active">{copy.navContact}</Link><Link to="/courses#faq">{copy.navFaq}</Link></nav>
