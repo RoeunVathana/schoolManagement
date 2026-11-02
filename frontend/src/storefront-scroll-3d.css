@@ -1,29 +1,23 @@
-/* Scroll depth system: restrained 3D movement that stays readable on phones. */
+/* Keep the storefront static while scrolling.  Card hover depth is still
+   available below, but page scroll itself no longer moves sections in 3D. */
 .storefront {
-  perspective: 1600px;
-  perspective-origin: 50% 18%;
+  perspective: none;
 }
 
 .storefront > main,
 .storefront > footer {
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 .storefront-reveal[data-scroll-reveal] {
-  transform: translate3d(0, 1.35rem, -12px) rotateX(1deg) scale(.99);
-  transform-origin: 50% 0;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition:
-    opacity .48s cubic-bezier(.2,.75,.25,1),
-    transform .48s cubic-bezier(.2,.75,.25,1),
-    box-shadow .48s cubic-bezier(.2,.75,.25,1);
+  transform: none !important;
+  transition: none !important;
   will-change: auto;
 }
 
 .storefront-reveal[data-scroll-reveal].is-visible,
 .storefront-reveal-on-load[data-scroll-reveal] {
-  transform: translate3d(0, 0, 0) rotateX(0) scale(1);
+  transform: none !important;
 }
 
 .storefront-course-card {
@@ -80,7 +74,7 @@
 
 .storefront-home-hero,
 .storefront-home-main > section {
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 .storefront::after {
@@ -93,45 +87,19 @@
     radial-gradient(circle at 18% 78%, rgb(141 228 202 / .08), transparent 22%),
     radial-gradient(circle at 84% 20%, rgb(244 123 103 / .08), transparent 24%);
   opacity: .22;
-  transform: translate3d(0, 0, 0) scale(1);
-  will-change: opacity, transform;
-}
-
-@keyframes campusScrollDepth {
-  from { opacity: .2; transform: translate3d(0, 0, 0) scale(1); }
-  to { opacity: .72; transform: translate3d(0, 5vh, 0) scale(1.08); }
-}
-
-@supports (animation-timeline: scroll()) {
-  .storefront::after {
-    animation: campusScrollDepth 1s linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 120vh;
-  }
+  transform: none;
+  will-change: auto;
 }
 
 @media (max-width: 767px) {
   .storefront {
     perspective: none;
-    perspective-origin: initial;
   }
 
   .storefront,
   .storefront > main,
   .storefront > footer {
     transform-style: flat;
-  }
-
-  .storefront-reveal[data-scroll-reveal] {
-    transform: translate3d(0, .7rem, 0) !important;
-    transition:
-      opacity .32s ease-out,
-      transform .32s ease-out !important;
-  }
-
-  .storefront-reveal[data-scroll-reveal].is-visible,
-  .storefront-reveal-on-load[data-scroll-reveal] {
-    transform: translate3d(0, 0, 0) rotateX(0) scale(1);
   }
 
   .storefront-course-card.is-visible:hover {
@@ -140,28 +108,6 @@
 
   .storefront-course-card.is-visible:hover .storefront-course-visual {
     transform: translateZ(6px) scale(1.012);
-  }
-}
-
-/* Tablets still get depth in the artwork, but the document itself stays on a
-   flat compositor path so touch scrolling does not fight a large perspective
-   layer. */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .storefront {
-    perspective: none;
-  }
-
-  .storefront,
-  .storefront > main,
-  .storefront > footer {
-    transform-style: flat;
-  }
-
-  .storefront-reveal[data-scroll-reveal] {
-    transform: translate3d(0, .9rem, 0) !important;
-    transition:
-      opacity .38s ease-out,
-      transform .38s ease-out !important;
   }
 }
 
