@@ -213,7 +213,12 @@ export default function Courses() {
   };
   const remove = useCallback(async (course) => {
     if (!(await ask(`${t('deleteCourseConfirm')} ${course.courseName}`))) return;
-    try { await api.delete(`/courses/${course.id}`); await load(); } catch (e) { setError(e.response?.data?.message || t('couldNotSaveCourse')); }
+    try {
+      await api.delete(`/courses/${course.id}`);
+      await load();
+      setError('');
+      setNotice(t('deleteSuccess'));
+    } catch (e) { setError(e.response?.data?.message || t('couldNotSaveCourse')); }
   }, [ask, load, t]);
   const rows = result?.data || [];
   const courseTableColumns = useMemo(() => [
@@ -231,6 +236,7 @@ export default function Courses() {
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
     <ImageCropper file={cropFile} labels={{ title: t('cropImage'), description: t('cropImageDescription'), zoom: t('zoom'), cancel: t('cancel'), useImage: t('useCroppedImage'), processing: t('preparingImage') }} onCancel={cancelCrop} onComplete={completeCrop} onError={() => { resetImageInput(); setError(language === 'km' ? 'មិនអាចអានរូបភាពនេះបានទេ។ សូមជ្រើសរើសរូបភាពផ្សេងទៀត។' : 'This image could not be read. Please choose another image.'); setCropFile(null); }} />
     {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</div>}
+    {notice && <div className="mb-4 rounded-xl bg-emerald-50 p-4 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200" role="status" aria-live="polite">{notice}</div>}
     {result ? <>
       <Table columns={courseTableColumns} rows={rows} empty={t('noCourses')} />
       <Pagination value={result.pagination} onChange={setPage} />

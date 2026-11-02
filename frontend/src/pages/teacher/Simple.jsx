@@ -126,6 +126,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const [form, setForm] = useState({ ...blank });
   const [cropFile, setCropFile] = useState(null);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [uploadStage, setUploadStage] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -175,6 +176,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
     setPage(1);
     setData(null);
     setError("");
+    setNotice("");
     setScheduleFilters({ from: "", to: "" });
     load(1);
     if (
@@ -580,6 +582,8 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
     try {
       await api.delete(`${endpoint}/${row.id}`);
       await load(page);
+      setError("");
+      setNotice(t("deleteSuccess"));
     } catch (e) {
       setError(e.response?.data?.message || t("couldNotSaveRecord"));
     }
@@ -1141,6 +1145,11 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
       {error && (
         <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700">
           {error}
+        </div>
+      )}
+      {notice && (
+        <div className="mb-4 rounded-xl bg-emerald-50 p-4 text-sm font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200" role="status" aria-live="polite">
+          {notice}
         </div>
       )}
       {data ? (
