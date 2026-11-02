@@ -9014,3 +9014,22 @@ html:lang(km) .storefront-home-copy > p {
     white-space: normal;
   }
 }
+
+/* Public community navigation uses the full viewport instead of the older
+   centered 76rem rail. */
+.site-public-navbar.public-community-nav {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding-inline: clamp(1rem, 5vw, 6rem) !important;
+}
+
+.site-public-navbar.public-community-nav .public-community-brand {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+  .site-public-navbar.public-community-nav {
+    padding-inline: .8rem !important;
+  }
+}
