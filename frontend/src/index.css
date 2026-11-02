@@ -9485,3 +9485,24 @@ html::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: linear-gradient(180deg, #4f7890, #8de4ca) padding-box;
 }
+/* Natural page scrolling: avoid delayed wheel movement and make the scroll
+   thumb easier to grab on desktop, tablets, and touch browsers. */
+html {
+  scroll-behavior: auto;
+  scrollbar-width: auto;
+  scroll-padding-top: var(--public-navbar-height, 4.8rem);
+}
+
+html::-webkit-scrollbar {
+  width: .8rem;
+}
+
+.app-shell:not(.app-shell-chat) .app-shell-content {
+  overscroll-behavior-y: auto;
+  scrollbar-width: auto;
+  scroll-padding-top: var(--dashboard-navbar-height, 4.25rem);
+}
+
+.app-shell:not(.app-shell-chat) .app-shell-content::-webkit-scrollbar {
+  width: .8rem;
+}
