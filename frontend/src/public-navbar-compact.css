@@ -384,3 +384,116 @@
     justify-content: space-between !important;
   }
 }
+
+/* Mobile navbar polish: keep the brand readable and reserve a clean,
+   predictable space for language, theme, and menu controls. */
+@media (max-width: 767px) {
+  .site-public-navbar,
+  .site-public-navbar.about-nav,
+  .site-public-navbar.public-community-nav,
+  .site-public-navbar.storefront-public-navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 4.65rem !important;
+    height: 4.65rem !important;
+    padding: .55rem .75rem !important;
+  }
+
+  .site-public-navbar > .about-nav-inner,
+  .site-public-navbar > .storefront-public-nav-inner,
+  .site-public-navbar > .storefront-mobile-header {
+    display: flex !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: .45rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .site-public-navbar .about-brand,
+  .site-public-navbar .public-community-brand,
+  .site-public-navbar .storefront-mobile-header > a {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    gap: .5rem !important;
+    overflow: hidden;
+  }
+
+  .site-public-navbar .about-brand-mark,
+  .site-public-navbar .public-community-logo,
+  .site-public-navbar .storefront-mobile-header > a > span:first-child {
+    width: 2.85rem !important;
+    height: 2.85rem !important;
+    flex: 0 0 2.85rem !important;
+    border-radius: .85rem !important;
+    padding: .25rem !important;
+  }
+
+  .site-public-navbar .about-brand strong,
+  .site-public-navbar .public-community-brand strong,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+    overflow: hidden;
+    font-size: 1rem !important;
+    line-height: 1 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .site-public-navbar .about-brand small,
+  .site-public-navbar .public-community-brand small,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:last-child {
+    display: none !important;
+  }
+
+  .site-public-navbar .about-mobile-controls,
+  .site-public-navbar .public-community-nav-actions,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: .35rem !important;
+    margin-left: auto !important;
+  }
+
+  .site-public-navbar .about-mobile-controls .theme-switch,
+  .site-public-navbar .about-mobile-controls .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .public-community-nav-actions .theme-switch,
+  .site-public-navbar .public-community-nav-actions .language-switcher-public .language-switcher-trigger,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 .theme-switch,
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 [data-language-menu] > button,
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button {
+    width: 2.85rem !important;
+    min-width: 2.85rem !important;
+    height: 2.85rem !important;
+    min-height: 2.85rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: .85rem !important;
+  }
+
+  .site-public-navbar .theme-switch-label,
+  .site-public-navbar .language-switcher-public .language-switcher-current,
+  .site-public-navbar .storefront-mobile-menu-button > span:not(:first-child),
+  .site-public-navbar .public-community-nav-menu-button > span:last-child {
+    display: none !important;
+  }
+
+  .site-public-navbar .storefront-mobile-menu-button {
+    font-size: 0 !important;
+  }
+
+  .site-public-navbar .about-mobile-toggle span,
+  .site-public-navbar .public-community-nav-menu-button > span:first-child,
+  .site-public-navbar .storefront-mobile-menu-button > span:first-child {
+    font-size: 1.15rem !important;
+    line-height: 1 !important;
+  }
+}
