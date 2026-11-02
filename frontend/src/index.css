@@ -9049,3 +9049,27 @@ html:lang(km) .storefront-home-copy > p {
     padding-inline: .8rem !important;
   }
 }
+
+/* Add breathing room around public navbar labels without changing the layout. */
+.site-public-navbar .about-nav-links a,
+.site-public-navbar .public-community-nav-links a,
+.site-public-navbar .storefront-mobile-header > nav a {
+  display: inline-flex;
+  min-height: 2.35rem;
+  align-items: center;
+  border-radius: .65rem;
+  padding: .45rem .5rem;
+}
+
+.site-public-navbar .about-nav-links a:hover,
+.site-public-navbar .public-community-nav-links a:hover,
+.site-public-navbar .storefront-mobile-header > nav a:hover {
+  background: rgb(84 202 236 / .08);
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .site-public-navbar .about-nav-links a,
+  .site-public-navbar .public-community-nav-links a,
+  .site-public-navbar .storefront-mobile-header > nav a {
+    padding-inline: .35rem;
+  }
