@@ -6493,6 +6493,84 @@ table td {
   }
 }
 
+/* Full-screen public storytelling layout for Community and Why CampusFlow. */
+.about-page,
+.public-community-page {
+  width: 100%;
+  min-width: 0;
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+.about-page > header,
+.about-page > main,
+.about-page > footer,
+.public-community-page > header,
+.public-community-page > main,
+.public-community-page > footer {
+  width: 100%;
+}
+
+.about-page .about-container {
+  width: min(100% - clamp(2rem, 8vw, 9rem), 92rem);
+  max-width: 92rem;
+}
+
+.about-page .about-hero,
+.public-community-page .public-community-hero {
+  min-height: max(42rem, calc(100svh - 4.8rem));
+}
+
+.about-page .about-hero-grid {
+  min-height: inherit;
+  padding-block: clamp(4rem, 10vh, 8rem);
+}
+
+.about-page .about-hero-card {
+  min-height: clamp(28rem, 58vh, 36rem);
+}
+
+.about-page .about-section {
+  padding-block: clamp(5rem, 10vh, 8rem);
+}
+
+.public-community-page .public-community-hero {
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-block: clamp(4rem, 10vh, 8rem);
+}
+
+@media (max-width: 900px) {
+  .about-page .about-hero,
+  .public-community-page .public-community-hero {
+    min-height: max(38rem, calc(100svh - 4.35rem));
+  }
+
+  .about-page .about-hero-grid {
+    min-height: inherit;
+    padding-block: clamp(3.5rem, 8vh, 5rem);
+  }
+}
+
+@media (max-width: 620px) {
+  .about-page .about-container {
+    width: min(100% - 1.5rem, 92rem);
+  }
+
+  .about-page .about-hero,
+  .public-community-page .public-community-hero {
+    min-height: auto;
+  }
+
+  .about-page .about-hero-grid {
+    min-height: auto;
+    padding-block: 3.5rem 4.5rem;
+  }
+
+  .about-page .about-section {
+    padding-block: 4.25rem;
+  }
+}
+
 .contact-error {
   margin: .9rem 0 0;
   border-left: 3px solid #f47b67;
