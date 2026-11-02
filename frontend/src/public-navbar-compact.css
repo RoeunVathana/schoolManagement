@@ -861,6 +861,23 @@ html:not(.dark) .site-public-navbar #storefront-mobile-menu nav a:hover {
     font-size: 1.2rem !important;
     line-height: 1 !important;
   }
+
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button {
+    border: 1px solid rgb(141 228 202 / .28) !important;
+    box-shadow: 0 7px 18px rgb(4 28 49 / .16) !important;
+    touch-action: manipulation;
+  }
+
+  .site-public-navbar .about-mobile-toggle[aria-expanded="true"],
+  .site-public-navbar .public-community-nav-menu-button.is-open,
+  .site-public-navbar .storefront-mobile-menu-button[aria-expanded="true"] {
+    border-color: #54caec !important;
+    background: #229ed9 !important;
+    color: #ffffff !important;
+    box-shadow: 0 9px 22px rgb(34 158 217 / .28) !important;
+  }
 }
 
 /* Readable navbar typography: keep every visible label at 10px or larger. */

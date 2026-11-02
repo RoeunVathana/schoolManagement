@@ -1012,8 +1012,8 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
         <div className="flex items-center gap-2 lg:hidden">
           <LanguageMenu language={language} setLanguage={setLanguage} compact onSelect={() => setMobileMenuOpen(false)} />
           <ThemeSwitch />
-          <button type="button" aria-expanded={mobileMenuOpen} aria-controls="storefront-mobile-menu" onClick={() => setMobileMenuOpen((open) => !open)} className="storefront-mobile-menu-button inline-flex items-center gap-2 rounded-xl bg-[#10243f] px-3 py-2.5 text-xs font-extrabold text-white shadow-md transition hover:bg-[#1c4e6b] dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
-            <span className="text-base leading-none">{mobileMenuOpen ? "×" : "☰"}</span>{language === "en" ? "More" : "បន្ថែម"}
+          <button type="button" aria-expanded={mobileMenuOpen} aria-controls="storefront-mobile-menu" aria-label={mobileMenuOpen ? (language === "en" ? "Close menu" : "បិទម៉ឺនុយ") : (language === "en" ? "Open menu" : "បើកម៉ឺនុយ")} title={mobileMenuOpen ? (language === "en" ? "Close menu" : "បិទម៉ឺនុយ") : (language === "en" ? "Open menu" : "បើកម៉ឺនុយ")} onClick={() => setMobileMenuOpen((open) => !open)} className="storefront-mobile-menu-button inline-flex items-center gap-2 rounded-xl bg-[#10243f] px-3 py-2.5 text-xs font-extrabold text-white shadow-md transition hover:bg-[#1c4e6b] dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
+            <span className="text-base leading-none" aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span>
           </button>
         </div>
       </div>
