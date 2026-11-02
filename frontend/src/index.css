@@ -9372,3 +9372,17 @@ html:lang(km) .storefront-home-copy > p {
 .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
   gap: .4rem;
 }
+
+/* Keep the Community navbar at the very top instead of being offset by the
+   page's 3D/overflow container while the document scrolls. */
+.public-community-page {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.site-public-navbar.public-community-nav {
+  position: sticky !important;
+  inset-inline: 0;
+  top: 0 !important;
+  margin-top: 0 !important;
+}
