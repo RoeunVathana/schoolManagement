@@ -9073,3 +9073,12 @@ html:lang(km) .storefront-home-copy > p {
   .site-public-navbar .storefront-mobile-header > nav a {
     padding-inline: .35rem;
   }
+}
+
+/* Keep submission actions inside the visible table cell. */
+.learning-record-table-submissions .table-desktop-view td:last-child > div {
+  flex-wrap: wrap !important;
+  gap: .45rem;
+  max-width: 100%;
+  overflow: visible;
+}
