@@ -9,6 +9,7 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { CacheService } from '../cache/cache.service';
+import { isCoursePaymentOpen } from '../common/course-availability';
 
 @Controller('storefront')
 export class StorefrontController {
@@ -16,7 +17,7 @@ export class StorefrontController {
 
   private withPricing(course: any) {
     const pricing = getCoursePricing(course);
-    return { ...course, ...pricing };
+    return { ...course, ...pricing, paymentOpen: isCoursePaymentOpen(course.endDate) };
   }
 
   @Get('courses')

@@ -43,6 +43,19 @@ const fileTypeLabel = (material) => {
 
 const isBakongUnavailable = (message) => /bakong|daily request limit|request limit|not configured|temporarily unavailable|verification/i.test(String(message || ""));
 
+const isCoursePaymentOpen = (course) => {
+  if (course?.paymentOpen === false) return false;
+  if (!course?.endDate) return true;
+  const endDate = new Date(course.endDate);
+  if (Number.isNaN(endDate.getTime())) return false;
+  const datePart = endDate.toISOString().slice(0, 10);
+  return new Date(`${datePart}T23:59:59.999+07:00`).getTime() >= Date.now();
+};
+
+const paymentStatusCopy = (language) => language === "km"
+  ? { closed: "ការទូទាត់ត្រូវបានបិទ", closedHint: "វគ្គសិក្សានេះបានបញ្ចប់ ហើយលែងទទួលការបង់ប្រាក់ថ្មីទៀតហើយ។" }
+  : { closed: "Payment closed", closedHint: "This course has ended and is no longer accepting new payments." };
+
 const getCoursePricing = (course) => {
   const originalPrice = Number(course?.originalPrice ?? course?.price ?? 0);
   const percent = Number(course?.discountPercent || 0);
@@ -314,6 +327,11 @@ export default function Storefront() {
   }, [id, deferredSearch, user?.id, user?.role]);
 
   const startCoursePayment = async (selectedCourse, plan = "FULL") => {
+    if (!isCoursePaymentOpen(selectedCourse)) {
+      setPaymentPlanCourse(null);
+      setError(paymentStatusCopy(language).closedHint);
+      return;
+    }
     if (!user) {
       navigate("/login/student", {
         state: { message: copy.signInToBuy, from: `/courses/${selectedCourse.id}` },
@@ -340,6 +358,11 @@ export default function Storefront() {
   };
 
   const buyCourse = async (selectedCourse) => {
+    if (!isCoursePaymentOpen(selectedCourse)) {
+      setPaymentPlanCourse(null);
+      setError(paymentStatusCopy(language).closedHint);
+      return;
+    }
     if (!user) {
       navigate("/login/student", {
         state: { message: copy.signInToBuy, from: `/courses/${selectedCourse.id}` },
@@ -938,6 +961,8 @@ function CoursePrice({ course, currency, large = false }) {
 }
 
 function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan, revealDelay = 0 }) {
+  const paymentOpen = isCoursePaymentOpen(course);
+  const paymentStatus = paymentStatusCopy(language);
   return (
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
@@ -962,6 +987,8 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
             <Link to={`/courses/${course.id}`} className="inline-flex items-center gap-1.5 rounded-xl border border-[#8de4ca]/50 bg-[#effcf7] px-3.5 py-2.5 text-xs font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
               <span aria-hidden="true">✓</span>{t("purchaseComplete")}
             </Link>
+          ) : !paymentOpen ? (
+            <span className="rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-center text-[11px] font-extrabold text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{paymentStatus.closed}</span>
           ) : (
             <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} aria-label={!user ? copy.signInToBuy : undefined} className="rounded-xl bg-[#10243f] px-3.5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#1c4e6b] disabled:cursor-wait disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
               {buyBusy === course.id ? "..." : isPurchased ? t("payMonthly") : user ? t("buyCourse") : `${copy.signIn} · ${t("buyCourse")}`}
@@ -976,6 +1003,8 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
 
 function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan }) {
   const canViewLearningContent = ['STUDENT', 'CUSTOMER'].includes(user?.role) && isPurchased;
+  const paymentOpen = isCoursePaymentOpen(course);
+  const paymentStatus = paymentStatusCopy(language);
 
   return (
     <>
@@ -1076,7 +1105,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
                   {!user ? (
                     <Link to="/login/student" state={{ from: `/courses/${course.id}` }} className="mt-6 inline-flex rounded-xl bg-[#8de4ca] px-4 py-3 text-sm font-extrabold text-[#10243f] transition hover:bg-[#a5f1dc]">{t("signInToUnlock")}</Link>
                   ) : ['STUDENT', 'CUSTOMER'].includes(user.role) && !isPurchased ? (
-                    <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 rounded-xl bg-[#229ed9] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button>
+                    paymentOpen ? <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 rounded-xl bg-[#229ed9] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button> : <p className="mt-6 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-bold text-white/75">{paymentStatus.closedHint}</p>
                   ) : null}
                 </div>
               </div>
@@ -1088,18 +1117,20 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
             <p className="text-xs font-extrabold uppercase tracking-[.18em] text-slate-400">{copy.from}</p>
              <CoursePrice course={course} currency={course.currency} large />
              {getCoursePricing(course).active && <p className="mt-2 text-sm font-bold text-emerald-700 dark:text-[#a5f1dc]">Save {formatPrice(getCoursePricing(course).savings, course.currency)}</p>}
-             {course.monthlyPaymentEnabled && Number(course.monthlyPrice || 0) > 0 && <div className="mt-4 rounded-2xl border border-[#8de4ca]/60 bg-[#effcf7] p-3 dark:border-[#2f8b78] dark:bg-[#122e35]"><p className="text-[10px] font-extrabold uppercase tracking-[.16em] text-[#17624e] dark:text-[#a5f1dc]">{t('monthlyPayment')}</p><p className="mt-1 text-lg font-black text-[#10243f] dark:text-white">{formatPrice(course.monthlyPrice, course.currency)} <span className="text-xs font-bold text-slate-500 dark:text-slate-300">/ {t('month')}</span></p></div>}
-             <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-300">{copy.purchaseHint}</p>
+              {paymentOpen && course.monthlyPaymentEnabled && Number(course.monthlyPrice || 0) > 0 && <div className="mt-4 rounded-2xl border border-[#8de4ca]/60 bg-[#effcf7] p-3 dark:border-[#2f8b78] dark:bg-[#122e35]"><p className="text-[10px] font-extrabold uppercase tracking-[.16em] text-[#17624e] dark:text-[#a5f1dc]">{t('monthlyPayment')}</p><p className="mt-1 text-lg font-black text-[#10243f] dark:text-white">{formatPrice(course.monthlyPrice, course.currency)} <span className="text-xs font-bold text-slate-500 dark:text-slate-300">/ {t('month')}</span></p></div>}
+              <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-300">{paymentOpen ? copy.purchaseHint : paymentStatus.closedHint}</p>
             {isPurchased && paymentPlan !== "MONTHLY" ? (
               <Link to="/student/courses" className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#8de4ca]/50 bg-[#effcf7] px-4 py-4 text-sm font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
                 <span aria-hidden="true">✓</span>{t("purchaseComplete")}
               </Link>
-            ) : (
-              <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 w-full rounded-2xl bg-[#10243f] px-4 py-4 text-sm font-extrabold text-white shadow-lg shadow-[#10243f]/15 transition hover:-translate-y-0.5 hover:bg-[#1c4e6b] disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
+             ) : paymentOpen ? (
+               <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 w-full rounded-2xl bg-[#10243f] px-4 py-4 text-sm font-extrabold text-white shadow-lg shadow-[#10243f]/15 transition hover:-translate-y-0.5 hover:bg-[#1c4e6b] disabled:opacity-60 dark:bg-[#229ed9] dark:hover:bg-[#168dcc]">
                 {buyBusy === course.id ? "..." : user ? (isPurchased ? t("payMonthly") : t("buyCourse")) : `${copy.signIn} · ${t("buyCourse")}`}
-              </button>
-            )}
-            <p className="mt-4 text-center text-xs font-semibold text-slate-400">{copy.paymentMethods}</p>
+               </button>
+             ) : (
+               <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-100 px-4 py-4 text-center dark:border-slate-700 dark:bg-slate-800"><p className="text-sm font-extrabold text-slate-600 dark:text-slate-200">{paymentStatus.closed}</p><p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">{paymentStatus.closedHint}</p></div>
+             )}
+             {paymentOpen && <p className="mt-4 text-center text-xs font-semibold text-slate-400">{copy.paymentMethods}</p>}
           </div>
            <a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between rounded-2xl border border-[#b9e9db] bg-[#effcf7] px-4 py-3 text-sm font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#285b59] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
             <span>{copy.support}</span><span>↗</span>
