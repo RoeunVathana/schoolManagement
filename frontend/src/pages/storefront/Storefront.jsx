@@ -385,7 +385,7 @@ export default function Storefront() {
           setPayment(null);
           setPaymentError("");
           navigate("/student/courses");
-        }, 1600);
+        }, 4000);
       } else {
         setPaymentError(nextPayment.message || t("paymentPending"));
       }

@@ -188,8 +188,11 @@ export class PaymentService {
     const accessToken = this.config.get<string>('BAKONG_API_TOKEN') || this.config.get<string>('BAKONG_ACCESS_TOKEN');
     if (!enabled || !accessToken) return { enabled: false };
     const apiUrl = (this.config.get<string>('BAKONG_API_URL', 'https://api-bakong.nbc.gov.kh') || '').replace(/\/$/, '');
+    const timeoutMs = Math.min(Math.max(Number(this.config.get<string>('BAKONG_CHECK_TIMEOUT_MS', '8000')), 3000), 15000);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const response = await fetch(`${apiUrl}/v1/check_transaction_by_md5`, { method: 'POST', headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ md5 }) });
+      const response = await fetch(`${apiUrl}/v1/check_transaction_by_md5`, { method: 'POST', headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ md5 }), signal: controller.signal });
       const result: any = await response.json();
       const message = String(result.responseMessage || '');
       if (response.status === 429 || result.errorCode === 17 || /daily request limit|request limit.*exceeded/i.test(message)) {
@@ -200,6 +203,8 @@ export class PaymentService {
     } catch (error) {
       this.logger.warn(`Bakong payment check failed: ${error instanceof Error ? error.message : 'unknown error'}`);
       return { enabled: true, unavailable: true };
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
@@ -218,8 +223,7 @@ export class PaymentService {
       await tx.profile.updateMany({ where: { userId: payment.userId }, data: { accountStatus: UserStatus.ACTIVE } });
       return updated;
     });
-    const customer = await this.prisma.user.findUnique({ where: { id: payment.userId }, select: { fullName: true, email: true } });
-    await this.telegram.sendPaymentReport({ type: 'Student registration', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paidAt: paid.paidAt, customerName: customer?.fullName, customerEmail: customer?.email, transactionHash: paid.transactionHash });
+    void this.notifyRegistrationPayment(paid);
     return this.toPublicPayment(paid, { message: 'Payment confirmed. Your account is now active.' });
   }
 
@@ -237,12 +241,29 @@ export class PaymentService {
       await tx.enrollment.upsert({ where: { courseId_studentId: { courseId: updated.courseId, studentId: updated.studentId } }, update: { status: 'ACTIVE', enrollmentDate: new Date() }, create: { courseId: updated.courseId, studentId: updated.studentId, status: 'ACTIVE' } });
       return updated;
     });
-    const customer = await this.prisma.student.findUnique({ where: { id: paid.studentId }, include: { user: { select: { fullName: true, email: true } } } });
-    await this.telegram.sendPaymentReport({ type: 'Course purchase', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt, courseName: paid.course?.courseName, customerName: customer?.user.fullName, customerEmail: customer?.user.email, transactionHash: paid.transactionHash });
-    if (customer?.user.email) {
-      await this.mail.sendCoursePaymentConfirmation(customer.user.email, customer.user.fullName, { invoiceNumber: paid.invoiceNumber, courseName: paid.course?.courseName, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt }).catch((error) => this.logger.warn(`Course payment email could not be sent for ${paid.invoiceNumber}: ${error?.message || error}`));
-    }
+    void this.notifyCoursePayment(paid);
     return this.toPublicCoursePayment(paid, { message: 'Payment confirmed. The course is now unlocked.', enrolled: true });
+  }
+
+  private async notifyRegistrationPayment(paid: any) {
+    try {
+      const customer = await this.prisma.user.findUnique({ where: { id: paid.userId }, select: { fullName: true, email: true } });
+      await this.telegram.sendPaymentReport({ type: 'Student registration', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paidAt: paid.paidAt, customerName: customer?.fullName, customerEmail: customer?.email, transactionHash: paid.transactionHash });
+    } catch (error) {
+      this.logger.warn(`Registration payment notification could not be sent for ${paid.invoiceNumber}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  private async notifyCoursePayment(paid: any) {
+    try {
+      const customer = await this.prisma.student.findUnique({ where: { id: paid.studentId }, include: { user: { select: { fullName: true, email: true } } } });
+      const tasks: Promise<unknown>[] = [this.telegram.sendPaymentReport({ type: 'Course purchase', invoiceNumber: paid.invoiceNumber, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt, courseName: paid.course?.courseName, customerName: customer?.user.fullName, customerEmail: customer?.user.email, transactionHash: paid.transactionHash })];
+      if (customer?.user.email) tasks.push(this.mail.sendCoursePaymentConfirmation(customer.user.email, customer.user.fullName, { invoiceNumber: paid.invoiceNumber, courseName: paid.course?.courseName, amount: paid.amount.toString(), currency: paid.currency, paymentPlan: paid.paymentPlan, billingPeriod: paid.billingPeriod, paidAt: paid.paidAt }));
+      const results = await Promise.allSettled(tasks);
+      results.filter((result): result is PromiseRejectedResult => result.status === 'rejected').forEach((result) => this.logger.warn(`Course payment notification could not be sent for ${paid.invoiceNumber}: ${result.reason?.message || result.reason || 'unknown error'}`));
+    } catch (error) {
+      this.logger.warn(`Course payment notification could not be prepared for ${paid.invoiceNumber}: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   private paymentExpiry() {
