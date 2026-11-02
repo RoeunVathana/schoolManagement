@@ -4,6 +4,7 @@ import api from '../api/axios';
 const HEALTH_CHECK_TIMEOUT = 5000;
 const HEALTHY_POLL_INTERVAL = 30000;
 const BUSY_RETRY_INTERVAL = 5000;
+const HEALTH_FAILURE_THRESHOLD = 2;
 
 function isMonitoringEnabled() {
   return import.meta.env.PROD || import.meta.env.VITE_ENABLE_SERVER_STATUS === 'true';
@@ -14,6 +15,7 @@ export default function ServerStatusGuard({ children }) {
   const serverBusyRef = useRef(false);
   const timerRef = useRef(null);
   const checkingRef = useRef(false);
+  const failedChecksRef = useRef(0);
 
   const setBusy = useCallback((busy) => {
     serverBusyRef.current = busy;
@@ -26,10 +28,14 @@ export default function ServerStatusGuard({ children }) {
     checkingRef.current = true;
     try {
       await api.get('/health', { timeout: HEALTH_CHECK_TIMEOUT });
+      failedChecksRef.current = 0;
       setBusy(false);
       return true;
     } catch {
-      setBusy(true);
+      failedChecksRef.current += 1;
+      // One delayed health request can happen during a Railway restart or a
+      // transient network handoff. Cover the app only after confirmation.
+      if (failedChecksRef.current >= HEALTH_FAILURE_THRESHOLD) setBusy(true);
       return false;
     } finally {
       checkingRef.current = false;
@@ -47,7 +53,7 @@ export default function ServerStatusGuard({ children }) {
         if (stopped) return;
         await checkServer();
         if (!stopped) scheduleCheck();
-      }, serverBusyRef.current ? BUSY_RETRY_INTERVAL : HEALTHY_POLL_INTERVAL);
+      }, serverBusyRef.current || failedChecksRef.current > 0 ? BUSY_RETRY_INTERVAL : HEALTHY_POLL_INTERVAL);
     };
 
     const handleServerBusy = () => {

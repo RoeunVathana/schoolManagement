@@ -5,7 +5,11 @@ let refreshing = null;
 function notifyServerBusy(error) {
   if (typeof window === 'undefined' || error?.code === 'ERR_CANCELED') return;
   const status = error?.response?.status;
-  if (!status || [502, 503, 504].includes(status)) window.dispatchEvent(new Event('campusflow:server-busy'));
+  // A missing response is usually a browser/network/CORS interruption, not
+  // proof that the whole API is unavailable. The status guard performs its
+  // own health check for those cases. Only gateway/service failures should
+  // trigger an immediate confirmation check.
+  if ([502, 503, 504].includes(status)) window.dispatchEvent(new Event('campusflow:server-busy'));
 }
 
 api.interceptors.request.use((config) => {
