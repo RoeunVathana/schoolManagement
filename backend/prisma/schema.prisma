@@ -245,15 +245,19 @@ model PostComment {
   id        String   @id @default(cuid())
   postId    String
   authorId  String
+  parentId  String?
   content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   author    User     @relation("PostCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  parent    PostComment?  @relation("PostCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   PostComment[]  @relation("PostCommentReplies")
   reactions PostCommentReaction[]
 
   @@index([postId, createdAt])
   @@index([authorId, createdAt])
+  @@index([parentId, createdAt])
   @@map("post_comments")
 }
 

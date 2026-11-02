@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreatePostCommentDto {
   @ApiProperty({ example: 'Great progress. Keep going!' })
@@ -7,4 +7,9 @@ export class CreatePostCommentDto {
   @MinLength(1)
   @MaxLength(2000)
   content!: string;
+
+  @ApiProperty({ required: false, description: 'Top-level comment ID when this is a reply.' })
+  @IsOptional()
+  @IsString()
+  parentId?: string;
 }

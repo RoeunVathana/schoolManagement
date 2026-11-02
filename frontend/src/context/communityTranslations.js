@@ -2,7 +2,7 @@ import { useLanguage } from './LanguageContext';
 
 export const communityTranslations = {
   en: {
-    editComment: 'Edit', saveComment: 'Save', cancelComment: 'Cancel', editedComment: 'edited', commentUpdateFailed: 'Could not update comment.',
+    editComment: 'Edit', saveComment: 'Save', cancelComment: 'Cancel', editedComment: 'edited', commentUpdateFailed: 'Could not update comment.', replyComment: 'Reply', replyPlaceholder: 'Write a reply...', replyFailed: 'Could not add reply.',
     community: 'CampusFlow community', profile: 'Profile', friends: 'Friends', messages: 'Messages',
     openMessages: 'Open messages', browseCourses: 'Browse courses',
     friendsTitle: 'Welcome to your circle.', friendsDescription: 'find people who make learning feel easier, more useful, and more fun.',
@@ -17,6 +17,7 @@ export const communityTranslations = {
     aboutProfile: 'About this profile', peopleInCircle: 'People in this circle', viewFriends: 'View friends', noPosts: 'No posts yet', shareFirstUpdate: 'Share your first update with friends.', noVisiblePosts: 'This profile has not shared any visible posts.', noFriends: 'No friends yet', acceptedFriendsAppear: 'Accepted friends will appear here.', noPhotos: 'No photos yet', photosAppear: 'Photos shared by this user will appear here.', location: 'Location', school: 'School', course: 'Course', website: 'Website', yearLevel: 'Year level', username: 'Username', email: 'Email', phone: 'Phone', about: 'About', dashboard: 'Dashboard', uploading: 'Uploading...', editCover: 'Edit cover photo', postUpdated: 'Post updated successfully.', postPublished: 'Post published successfully.', postDeleted: 'Post deleted.', deletePostConfirm: 'Delete this post? This action cannot be undone.',
   },
   km: {
+    replyComment: 'ឆ្លើយតប', replyPlaceholder: 'សរសេរការឆ្លើយតប...', replyFailed: 'មិនអាចបន្ថែមការឆ្លើយតបបានទេ។',
     postMediaLimit: 'រូបភាព និងវីដេអូនៃការបង្ហោះត្រូវតែតូចជាង ឬស្មើ ១០០ MB។',
     cropCoverTitle: 'កាត់រូបថតគម្រប', cropCoverDescription: 'អូស និងពង្រីករូបភាព រួចបញ្ជាក់ការកាត់រូបភាព។', zoom: 'ពង្រីក', useCroppedImage: 'ប្រើរូបភាពដែលបានកាត់', preparingImage: 'កំពុងរៀបចំរូបភាព...', coverUpdated: 'បានធ្វើបច្ចុប្បន្នភាពរូបថតគម្រប។', coverUploadFailed: 'មិនអាចធ្វើបច្ចុប្បន្នភាពរូបថតគម្របបានទេ។',
     community: 'សហគមន៍ CampusFlow', profile: 'ប្រវត្តិរូប', friends: 'មិត្តភក្តិ', messages: 'សារ',

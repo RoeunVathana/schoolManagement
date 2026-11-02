@@ -15,7 +15,7 @@ export class PostsService {
       author: { select: this.authorSelect },
       media: { orderBy: { sortOrder: 'asc' as const }, select: { id: true, url: true, mediaType: true, sortOrder: true } },
       reactions: { select: { userId: true, type: true } },
-      comments: { orderBy: { createdAt: 'desc' as const }, take: 3, select: { id: true, postId: true, authorId: true, content: true, createdAt: true, updatedAt: true, author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } },
+      comments: { where: { parentId: null }, orderBy: { createdAt: 'desc' as const }, take: 3, select: { id: true, postId: true, authorId: true, parentId: true, content: true, createdAt: true, updatedAt: true, author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true, replies: true } } } },
       _count: { select: { reactions: true, comments: true } },
     } as const;
   }
@@ -35,12 +35,14 @@ export class PostsService {
       id: comment.id,
       postId: comment.postId,
       authorId: comment.authorId,
+      parentId: comment.parentId || null,
       content: comment.content,
       createdAt: comment.createdAt,
       updatedAt: comment.updatedAt,
       author: comment.author,
       likeCount: comment._count?.reactions ?? comment.likeCount ?? 0,
       reactionCount: comment._count?.reactions ?? comment.reactionCount ?? comment.likeCount ?? 0,
+      replyCount: comment._count?.replies ?? comment.replyCount ?? 0,
       reactionCounts: (comment.reactions || []).reduce((counts: Record<string, number>, reaction: { type: PostReactionType }) => { counts[reaction.type] = (counts[reaction.type] || 0) + 1; return counts; }, {}),
       viewerReaction: comment.reactions?.find((reaction: { userId: string }) => reaction.userId === viewerId)?.type || comment.viewerReaction || null,
       viewerLiked: Boolean(comment.reactions?.some((reaction: { userId: string; type: PostReactionType }) => reaction.userId === viewerId && reaction.type === PostReactionType.LIKE) || comment.viewerLiked),
@@ -138,13 +140,13 @@ export class PostsService {
     if (!(await this.canView(post, userId))) throw new ForbiddenException('You cannot view comments on this post');
     const take = Math.min(Math.max(Number(limit) || 30, 1), 50);
     const [comments, total] = await this.prisma.$transaction([
-      this.prisma.postComment.findMany({ where: { postId }, orderBy: { createdAt: 'desc' }, take, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } }),
+      this.prisma.postComment.findMany({ where: { postId }, orderBy: { createdAt: 'desc' }, take, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true, replies: true } } } }),
       this.prisma.postComment.count({ where: { postId } }),
     ]);
     return { items: comments.map((comment) => this.presentComment(comment, userId)), total, hasMore: total > comments.length };
   }
 
-  async createComment(postId: string, userId: string, contentInput: string) {
+  async createComment(postId: string, userId: string, contentInput: string, parentIdInput?: string) {
     await this.assertCommenter(userId);
     const post = await this.prisma.post.findUnique({ where: { id: postId }, select: { authorId: true, visibility: true } });
     if (!post) throw new NotFoundException('Post not found');
@@ -152,8 +154,16 @@ export class PostsService {
     const content = String(contentInput || '').trim();
     if (!content) throw new BadRequestException('Comment cannot be empty');
     if (content.length > 2000) throw new BadRequestException('Comment must be 2000 characters or fewer');
+    const requestedParentId = String(parentIdInput || '').trim() || null;
+    const parent = requestedParentId
+      ? await this.prisma.postComment.findUnique({ where: { id: requestedParentId }, select: { id: true, postId: true, parentId: true } })
+      : null;
+    if (requestedParentId && (!parent || parent.postId !== postId)) throw new BadRequestException('Reply target was not found on this post');
+    // Keep the thread easy to read by allowing one reply level. A reply to a
+    // reply stays under the original top-level comment.
+    const parentId = parent ? (parent.parentId || parent.id) : null;
     const [comment, commentCount] = await this.prisma.$transaction([
-      this.prisma.postComment.create({ data: { postId, authorId: userId, content }, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true } } } }),
+      this.prisma.postComment.create({ data: { postId, authorId: userId, parentId, content }, include: { author: { select: this.commentAuthorSelect }, reactions: { select: { userId: true, type: true } }, _count: { select: { reactions: true, replies: true } } } }),
       this.prisma.postComment.count({ where: { postId } }),
     ]);
     return { comment: this.presentComment(comment, userId), commentCount };

@@ -18,6 +18,8 @@ export default function PostCommentsAll({ post }) {
   const saveLabel = text.saveComment || 'Save';
   const cancelLabel = text.cancelComment || 'Cancel';
   const editedLabel = text.editedComment || 'edited';
+  const replyLabel = text.replyComment || 'Reply';
+  const replyPlaceholder = text.replyPlaceholder || 'Write a reply...';
   const updateFailedLabel = text.commentUpdateFailed || 'Could not update comment.';
   const [comments, setComments] = useState(post.comments || []);
   const [commentCount, setCommentCount] = useState(post.commentCount || 0);
@@ -30,6 +32,9 @@ export default function PostCommentsAll({ post }) {
   const [editingId, setEditingId] = useState(null);
   const [editDraft, setEditDraft] = useState('');
   const [editBusy, setEditBusy] = useState(false);
+  const [replyingId, setReplyingId] = useState(null);
+  const [replyDraft, setReplyDraft] = useState('');
+  const [replyBusyId, setReplyBusyId] = useState(null);
   const [draft, setDraft] = useState('');
   const [notice, setNotice] = useState('');
 
@@ -39,6 +44,8 @@ export default function PostCommentsAll({ post }) {
     setOpen(Boolean(post.comments?.length));
     setLoaded(false);
     setDraft('');
+    setReplyingId(null);
+    setReplyDraft('');
     setNotice('');
     setReactionBusy({});
     setReactionMenuId(null);
@@ -61,6 +68,10 @@ export default function PostCommentsAll({ post }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (open && user && !loaded) loadComments();
+  }, [open, user, loaded, post.id]);
 
   const toggleComments = () => {
     const nextOpen = !open;
@@ -88,12 +99,46 @@ export default function PostCommentsAll({ post }) {
     }
   };
 
+  const submitReply = async (event, parentComment) => {
+    event.preventDefault();
+    const content = replyDraft.trim();
+    if (!content || replyBusyId) return;
+    setReplyBusyId(parentComment.id);
+    setNotice('');
+    try {
+      const result = unwrap(await api.post(`/api/posts/${post.id}/comments`, { content, parentId: parentComment.id })) || {};
+      if (result.comment) setComments((current) => [...current, result.comment]);
+      setCommentCount(result.commentCount ?? commentCount + 1);
+      setReplyDraft('');
+      setReplyingId(null);
+      setOpen(true);
+      setLoaded(true);
+    } catch (requestError) {
+      setNotice(requestError.response?.data?.message || text.replyFailed || text.commentPostFailed);
+    } finally {
+      setReplyBusyId(null);
+    }
+  };
+
   const remove = async (comment) => {
     if (!window.confirm(text.deleteCommentConfirm)) return;
     setNotice('');
     try {
       const result = unwrap(await api.delete(`/api/posts/${post.id}/comments/${comment.id}`)) || {};
-      setComments((current) => current.filter((item) => item.id !== comment.id));
+      setComments((current) => {
+        const removedIds = new Set([comment.id]);
+        let changed = true;
+        while (changed) {
+          changed = false;
+          current.forEach((item) => {
+            if (item.parentId && removedIds.has(item.parentId) && !removedIds.has(item.id)) {
+              removedIds.add(item.id);
+              changed = true;
+            }
+          });
+        }
+        return current.filter((item) => !removedIds.has(item.id));
+      });
       setCommentCount(result.commentCount ?? Math.max(0, commentCount - 1));
     } catch (requestError) {
       setNotice(requestError.response?.data?.message || text.commentFailed);
@@ -167,39 +212,50 @@ export default function PostCommentsAll({ post }) {
     }
   };
 
+  const renderComment = (comment, depth = 0) => {
+    const isOwner = user?.id === comment.authorId;
+    const canDelete = isOwner || user?.role === 'ADMIN';
+    const replies = comments.filter((item) => item.parentId === comment.id);
+    const replyCount = Math.max(comment.replyCount || 0, replies.length);
+
+    return <article key={comment.id} id={`comment-${comment.id}`} className={`community-post-comment ${depth ? 'is-reply' : ''}`}>
+      <UserAvatar person={comment.author} size="sm" />
+      <div className="community-post-comment-body">
+        {editingId === comment.id ? <form className="community-post-comment-edit-form" onSubmit={(event) => saveEdit(event, comment)}>
+          <textarea value={editDraft} onChange={(event) => setEditDraft(event.target.value)} maxLength={2000} rows={3} aria-label={editLabel} autoFocus />
+          <div>
+            <button type="button" onClick={cancelEdit} disabled={editBusy}>{cancelLabel}</button>
+            <button type="submit" disabled={editBusy || !editDraft.trim()}>{editBusy ? '...' : saveLabel}</button>
+          </div>
+        </form> : <>
+          <div className="community-post-comment-bubble"><strong>{comment.author?.fullName || text.communityMember}</strong><p>{comment.content}</p></div>
+          <div className="community-post-comment-meta"><time dateTime={comment.updatedAt || comment.createdAt}>{formatCommentDate(comment.updatedAt || comment.createdAt)}</time>{comment.updatedAt && comment.updatedAt !== comment.createdAt ? ` · ${editedLabel}` : ''}</div>
+          <div className="community-post-comment-actions">
+            <ReactionPicker selected={comment.viewerReaction} count={comment.reactionCount ?? comment.likeCount ?? 0} counts={comment.reactionCounts || {}} open={reactionMenuId === comment.id} onToggle={() => setReactionMenuId((current) => current === comment.id ? null : comment.id)} onSelect={(nextType) => toggleReaction(comment, nextType)} disabled={Boolean(reactionBusy[comment.id])} label={text.likeComment} />
+            <button type="button" className="community-post-comment-share" onClick={() => shareComment(comment)}><span aria-hidden="true">↗</span>{text.share}</button>
+            {user && <button type="button" onClick={() => { setReplyingId(comment.id); setReplyDraft(''); setNotice(''); }}>{replyLabel}{replyCount ? ` · ${replyCount}` : ''}</button>}
+            {isOwner && <button type="button" onClick={() => startEdit(comment)}>{editLabel}</button>}
+            {canDelete && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}
+          </div>
+          {replyingId === comment.id && user && <form className="community-post-comment-reply-form" onSubmit={(event) => submitReply(event, comment)}>
+            <UserAvatar person={user} size="sm" />
+            <input value={replyDraft} onChange={(event) => setReplyDraft(event.target.value)} placeholder={replyPlaceholder} maxLength={2000} aria-label={replyPlaceholder} autoFocus />
+            <button type="submit" disabled={replyBusyId === comment.id || !replyDraft.trim()}>{replyBusyId === comment.id ? '...' : text.comment}</button>
+          </form>}
+          {replies.length > 0 && <div className="community-post-comment-replies">{replies.map((reply) => renderComment(reply, depth + 1))}</div>}
+        </>}
+      </div>
+    </article>;
+  };
+
+  const rootComments = comments.filter((comment) => !comment.parentId);
+
   return <section className="community-post-comments" aria-label={text.comments}>
     <button type="button" className="community-post-comments-toggle" onClick={toggleComments} aria-expanded={open}>
       <span aria-hidden="true">💬</span>{open ? text.hideComments : text.viewComments}{commentCount > 0 ? ` · ${commentCount}` : ''}
     </button>
     {open && <div className="community-post-comments-panel">
-      {loading ? <p className="community-post-comments-state">{text.loadingComments}</p> : comments.length ? <div className="community-post-comments-list">
-        {comments.map((comment) => {
-          const isOwner = user?.id === comment.authorId;
-          const canDelete = isOwner || user?.role === 'ADMIN';
-
-          return <article key={comment.id} id={`comment-${comment.id}`} className="community-post-comment">
-            <UserAvatar person={comment.author} size="sm" />
-            <div className="community-post-comment-body">
-              {editingId === comment.id ? <form className="community-post-comment-edit-form" onSubmit={(event) => saveEdit(event, comment)}>
-                <textarea value={editDraft} onChange={(event) => setEditDraft(event.target.value)} maxLength={2000} rows={3} aria-label={editLabel} autoFocus />
-                <div>
-                  <button type="button" onClick={cancelEdit} disabled={editBusy}>{cancelLabel}</button>
-                  <button type="submit" disabled={editBusy || !editDraft.trim()}>{editBusy ? '...' : saveLabel}</button>
-                </div>
-              </form> : <>
-                <div className="community-post-comment-bubble"><strong>{comment.author?.fullName || text.communityMember}</strong><p>{comment.content}</p></div>
-                <div className="community-post-comment-meta"><time dateTime={comment.updatedAt || comment.createdAt}>{formatCommentDate(comment.updatedAt || comment.createdAt)}</time>{comment.updatedAt && comment.updatedAt !== comment.createdAt ? ` · ${editedLabel}` : ''}</div>
-                <div className="community-post-comment-actions">
-                  <ReactionPicker selected={comment.viewerReaction} count={comment.reactionCount ?? comment.likeCount ?? 0} counts={comment.reactionCounts || {}} open={reactionMenuId === comment.id} onToggle={() => setReactionMenuId((current) => current === comment.id ? null : comment.id)} onSelect={(nextType) => toggleReaction(comment, nextType)} disabled={Boolean(reactionBusy[comment.id])} label={text.likeComment} />
-                  <button type="button" className="community-post-comment-share" onClick={() => shareComment(comment)}><span aria-hidden="true">↗</span>{text.share}</button>
-                  {isOwner && <button type="button" onClick={() => startEdit(comment)}>{editLabel}</button>}
-                  {canDelete && <button type="button" onClick={() => remove(comment)}>{text.deleteComment}</button>}
-                </div>
-              </>}
-            </div>
-          </article>;
-        })}
-      </div> : <p className="community-post-comments-state">{text.noComments}</p>}
+      {loading ? <p className="community-post-comments-state">{text.loadingComments}</p> : rootComments.length ? <div className="community-post-comments-list">{rootComments.map((comment) => renderComment(comment))}</div> : <p className="community-post-comments-state">{text.noComments}</p>}
       {notice && <p className="community-post-comments-notice" role="alert">{notice}</p>}
       {user ? <form className="community-post-comment-form" onSubmit={submit}><UserAvatar person={user} size="sm" /><input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={text.writeComment} maxLength={2000} aria-label={text.writeComment} /><button type="submit" disabled={busy || !draft.trim()}>{busy ? '...' : text.comment}</button></form> : <p className="community-post-comments-login"><Link to="/login/student">{text.signInToComment}</Link></p>}
     </div>}
