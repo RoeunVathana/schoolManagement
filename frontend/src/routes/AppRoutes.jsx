@@ -34,6 +34,7 @@ const StudentSimple = lazy(() => import('../pages/student/Simple'));
 const StudentCertificates = lazy(() => import('../pages/student/Certificates'));
 const Profile = lazy(() => import('../pages/profile/Profile'));
 const Storefront = lazy(() => import('../pages/storefront/Storefront'));
+const About = lazy(() => import('../pages/About'));
 const PublicProfile = lazy(() => import('../pages/community/PublicProfile'));
 const Friends = lazy(() => import('../pages/community/Friends'));
 const Chat = lazy(() => import('../pages/community/Chat'));
@@ -54,6 +55,7 @@ export default function AppRoutes() {
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
+    <Route path="/about" element={<About />} />
     <Route path="/community" element={<CommunityLanding />} />
     <Route path="/404" element={<NotFound />} />
     <Route path="/" element={<Storefront />} />

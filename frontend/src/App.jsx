@@ -10,7 +10,7 @@ import SiteWelcomePopup from './components/SiteWelcomePopup';
 
 function RouteSeo() {
   const { pathname } = useLocation();
-  if (pathname === '/' || pathname === '/courses' || pathname.startsWith('/courses/') || pathname === '/community') return null;
+  if (pathname === '/' || pathname === '/courses' || pathname.startsWith('/courses/') || pathname === '/community' || pathname === '/about') return null;
 
   const privateRoute = /^(\/admin|\/teacher|\/student|\/customer|\/profile|\/friends|\/groups|\/chat)/.test(pathname);
   const authRoute = /^(\/login|\/register|\/forgot-password)/.test(pathname);
