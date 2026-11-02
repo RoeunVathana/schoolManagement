@@ -10,9 +10,10 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const MAX_CHAT_MEDIA_SIZE = 250 * 1024 * 1024;
 
-function imageFileName(value, fallbackId) {
+function imageFileName(value, fallbackId, mediaType) {
   const name = value?.split('/').pop()?.split('?')[0];
-  return name || `campusflow-chat-${fallbackId}.jpg`;
+  const extension = String(mediaType || '').toUpperCase() === 'VIDEO' ? '.mp4' : '.jpg';
+  return name || `campusflow-chat-${fallbackId}${extension}`;
 }
 function displayDate(value) {
   if (!value) return '';
@@ -288,7 +289,7 @@ export default function Chat() {
       const downloadUrl = URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = imageFileName(message.imageUrl, message.id);
+      link.download = imageFileName(message.imageUrl, message.id, message.mediaType);
       document.body.appendChild(link);
       link.click();
       link.remove();

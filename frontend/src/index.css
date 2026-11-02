@@ -2403,7 +2403,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-message-form input:not(.community-chat-file-input) { min-width: 0; flex: 1; border: 1px solid var(--community-line); border-radius: .9rem; padding: .75rem .85rem; color: var(--community-ink); background: var(--community-soft); font-size: .78rem; outline: none; }
 .community-message-form input:not(.community-chat-file-input):focus { border-color: var(--community-blue); box-shadow: 0 0 0 3px rgb(34 158 217 / .12); }
 .community-chat-file-input { display: none; }
-.community-chat-attach-button { display: inline-flex; width: 2.55rem; height: 2.55rem; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid var(--community-line); border-radius: .85rem; color: var(--community-ink); background: var(--community-soft); font-size: 1rem; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, transform .2s ease; }
+.community-chat-attach-button { display: inline-flex; width: auto; min-width: 2.55rem; height: 2.55rem; flex: 0 0 auto; align-items: center; justify-content: center; gap: .35rem; border: 1px solid var(--community-line); border-radius: .85rem; padding: 0 .7rem; color: var(--community-ink); background: var(--community-soft); font-size: .78rem; font-weight: 800; white-space: nowrap; cursor: pointer; transition: border-color .2s ease, background-color .2s ease, transform .2s ease; }
+.community-chat-attach-button::after { content: attr(aria-label); overflow: hidden; max-width: 13rem; text-overflow: ellipsis; }
 .community-chat-attach-button:hover:not(:disabled) { border-color: var(--community-blue); background: rgb(34 158 217 / .1); transform: translateY(-1px); }
 .community-chat-attach-button:disabled { cursor: not-allowed; opacity: .5; }
 .community-chat-image-preview { position: relative; width: fit-content; max-width: min(14rem, 100%); overflow: hidden; border: 1px solid var(--community-line); border-radius: .8rem; background: var(--community-soft); }
@@ -4336,7 +4337,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .dark .community-message-form { background: rgb(34 158 217 / .05); }
 .community-message-form-row { gap: .65rem; }
 .community-message-form input:not(.community-chat-file-input) { min-height: 2.8rem; border-radius: 1.1rem; padding-inline: 1rem; background: var(--community-card); font-size: .82rem; }
-.community-chat-attach-button { width: 2.8rem; height: 2.8rem; border-radius: 1rem; }
+.community-chat-attach-button { min-width: 2.8rem; width: auto; height: 2.8rem; border-radius: 1rem; }
 .community-message-form-row .community-button { min-height: 2.8rem; border-radius: 1rem; padding-inline: 1rem; }
 
 @media (max-width: 1023px) {
@@ -4494,6 +4495,10 @@ a, button, input, textarea, select { max-width: 100%; }
     min-width: 2.55rem;
     height: 2.55rem;
     padding: 0;
+  }
+
+  .app-shell-chat .community-message-form-row .community-chat-attach-button::after {
+    display: none;
   }
 
   .app-shell-chat .community-message-form-row input:not(.community-chat-file-input) {
