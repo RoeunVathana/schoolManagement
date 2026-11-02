@@ -377,3 +377,34 @@ body,
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Keep the first public screen compact. The hero used to center itself inside
+   a large minimum-height block, which created a distracting empty band below
+   the fixed navbar. Start the content near the header while preserving the
+   full-screen hero and the existing responsive gutters. */
+@media (min-width: 768px) {
+  .about-page .about-hero,
+  .public-community-page .public-community-hero {
+    min-height: calc(100svh - var(--public-navbar-height)) !important;
+    align-items: start !important;
+    padding-top: clamp(2rem, 4vw, 4rem) !important;
+    padding-bottom: clamp(2rem, 4vw, 4rem) !important;
+  }
+
+  .about-page .about-hero-grid {
+    min-height: 0 !important;
+    align-items: start !important;
+    padding-block: 0 !important;
+  }
+
+  .public-community-page .public-community-hero-art {
+    margin-top: clamp(.5rem, 2vw, 2rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .about-page .about-hero,
+  .public-community-page .public-community-hero {
+    padding-top: 1.75rem !important;
+  }
+}
