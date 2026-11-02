@@ -36,6 +36,7 @@ import { CommunityAdminModule } from './community-admin/community-admin.module';
 import { HealthController } from './health/health.controller';
 import { RootController } from './health/root.controller';
 import { CacheModule } from './cache/cache.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -73,6 +74,7 @@ import { CacheModule } from './cache/cache.module';
     GroupsModule,
     MediaModule,
     CommunityAdminModule,
+    ContactModule,
   ],
   controllers: [RootController, HealthController],
 })

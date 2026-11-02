@@ -6479,6 +6479,23 @@ table td {
   }
 }
 
+.contact-error {
+  margin: .9rem 0 0;
+  border-left: 3px solid #f47b67;
+  border-radius: .75rem;
+  background: rgb(244 123 103 / .1);
+  padding: .75rem .9rem;
+  color: #b84435;
+  font-size: .86rem;
+  line-height: 1.5;
+}
+
+.contact-submit:disabled {
+  cursor: wait;
+  opacity: .65;
+  transform: none;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Responsive system pass: shared behavior for phones, tablets, and wide UI. */
 /* -------------------------------------------------------------------------- */

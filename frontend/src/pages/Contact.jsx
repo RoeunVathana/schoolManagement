@@ -6,6 +6,7 @@ import ThemeSwitch from "../components/ThemeSwitch";
 import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../context/LanguageContext";
 import { roleHome } from "../utils/roles";
+import api from "../api/axios";
 
 const content = {
   en: {
@@ -18,7 +19,7 @@ const content = {
     locationLabel: "Serving learners", locationValue: "Cambodia", locationBody: "Practical learning made for local goals.",
     timeLabel: "Response", timeValue: "As soon as possible", timeBody: "We will get back to your request when we can.",
     formKicker: "Send a message", formTitle: "Tell us how we can help.", formBody: "Share a little context and continue the conversation with our Telegram support team.",
-    name: "Full name", namePlaceholder: "Your name", email: "Email address", emailPlaceholder: "your@email.com", subject: "What can we help with?", subjectPlaceholder: "Choose a topic", message: "Message", messagePlaceholder: "Write your message here...", send: "Continue to Telegram", sent: "Your message draft is ready. Telegram will open so you can send it to the CampusFlow team.",
+    name: "Full name", namePlaceholder: "Your name", email: "Email address", emailPlaceholder: "your@email.com", subject: "What can we help with?", subjectPlaceholder: "Choose a topic", message: "Message", messagePlaceholder: "Write your message here...", send: "Continue to Telegram", sent: "Your message has been saved. Telegram will open so you can continue with the CampusFlow team.",
     topics: ["Course information", "Payment help", "Teacher support", "Partnership", "Other"],
     officeKicker: "Support desk", officeTitle: "A calm place to get answers.", officeBody: "Whether you are just starting or already learning with us, you can ask about your account, courses, progress, and support.",
     quickKicker: "Quick answers", quickTitle: "Common questions", quick: [["How quickly will I get a reply?", "We will respond as soon as possible through Telegram support."], ["Can I ask in Khmer?", "Yes. CampusFlow support is available in Khmer and English."], ["Need help choosing a course?", "Tell us your goal and we will help you find a practical next step."]],
@@ -48,14 +49,33 @@ export default function Contact() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const copy = content[language] || content.en;
   const hasSession = !authLoading && Boolean(user);
   const dashboardPath = roleHome(user?.role);
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    setSent(true);
-    window.open("https://t.me/RoeunVathana", "_blank", "noopener,noreferrer");
+    setBusy(true);
+    setSent(false);
+    setError("");
+    try {
+      await api.post("/contact", {
+        fullName: form.name.trim(),
+        email: form.email.trim(),
+        subject: form.subject,
+        message: form.message.trim(),
+      });
+      setSent(true);
+      setForm({ name: "", email: "", subject: "", message: "" });
+      window.open("https://t.me/RoeunVathana", "_blank", "noopener,noreferrer");
+    } catch (requestError) {
+      const message = requestError.response?.data?.message;
+      setError(Array.isArray(message) ? message.join(" ") : message || "Could not save your message. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -76,7 +96,7 @@ export default function Contact() {
 
         <section className="contact-info-strip"><div className="about-container contact-info-grid"><ContactInfo icon="↗" label={copy.emailLabel} value={copy.emailValue} body={copy.emailBody} /><ContactInfo icon="✦" label={copy.phoneLabel} value={copy.phoneValue} body={copy.phoneBody} /><ContactInfo icon="⌂" label={copy.locationLabel} value={copy.locationValue} body={copy.locationBody} /><ContactInfo icon="◷" label={copy.timeLabel} value={copy.timeValue} body={copy.timeBody} /></div></section>
 
-        <section className="contact-section"><div className="about-container contact-main-grid"><div className="contact-form-wrap"><p className="about-eyebrow">{copy.formKicker}</p><h2>{copy.formTitle}</h2><p className="contact-lead">{copy.formBody}</p><form className="contact-form" onSubmit={submit}><div className="contact-form-grid"><label>{copy.name}<input required value={form.name} onChange={updateField("name")} placeholder={copy.namePlaceholder} /></label><label>{copy.email}<input required type="email" value={form.email} onChange={updateField("email")} placeholder={copy.emailPlaceholder} /></label></div><label>{copy.subject}<select required value={form.subject} onChange={updateField("subject")}><option value="">{copy.subjectPlaceholder}</option>{copy.topics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}</select></label><label>{copy.message}<textarea required rows="6" value={form.message} onChange={updateField("message")} placeholder={copy.messagePlaceholder} /></label><button type="submit" className="contact-submit">{copy.send} <span>→</span></button>{sent && <p className="contact-success" role="status">{copy.sent}</p>}</form></div><aside className="contact-side"><div className="contact-side-card contact-side-card-dark"><p className="about-eyebrow about-eyebrow-light">{copy.officeKicker}</p><h2>{copy.officeTitle}</h2><p>{copy.officeBody}</p><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="contact-side-link">@RoeunVathana <span>↗</span></a></div><div className="contact-side-card contact-quick-card"><p className="about-eyebrow">{copy.quickKicker}</p><h3>{copy.quickTitle}</h3><div>{copy.quick.map(([question, answer]) => <details key={question}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></div></aside></div></section>
+        <section className="contact-section"><div className="about-container contact-main-grid"><div className="contact-form-wrap"><p className="about-eyebrow">{copy.formKicker}</p><h2>{copy.formTitle}</h2><p className="contact-lead">{copy.formBody}</p><form className="contact-form" onSubmit={submit}><div className="contact-form-grid"><label>{copy.name}<input required value={form.name} onChange={updateField("name")} placeholder={copy.namePlaceholder} /></label><label>{copy.email}<input required type="email" value={form.email} onChange={updateField("email")} placeholder={copy.emailPlaceholder} /></label></div><label>{copy.subject}<select required value={form.subject} onChange={updateField("subject")}><option value="">{copy.subjectPlaceholder}</option>{copy.topics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}</select></label><label>{copy.message}<textarea required rows="6" value={form.message} onChange={updateField("message")} placeholder={copy.messagePlaceholder} /></label><button type="submit" className="contact-submit" disabled={busy} aria-busy={busy}>{busy ? (language === "km" ? "កំពុងរក្សាទុក..." : "Saving...") : copy.send} <span>→</span></button>{sent && <p className="contact-success" role="status">{copy.sent}</p>}{error && <p className="contact-error" role="alert">{error}</p>}</form></div><aside className="contact-side"><div className="contact-side-card contact-side-card-dark"><p className="about-eyebrow about-eyebrow-light">{copy.officeKicker}</p><h2>{copy.officeTitle}</h2><p>{copy.officeBody}</p><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="contact-side-link">@RoeunVathana <span>↗</span></a></div><div className="contact-side-card contact-quick-card"><p className="about-eyebrow">{copy.quickKicker}</p><h3>{copy.quickTitle}</h3><div>{copy.quick.map(([question, answer]) => <details key={question}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></div></aside></div></section>
 
         <section className="contact-cta"><div className="about-container contact-cta-inner"><div><p className="about-eyebrow about-eyebrow-light">{copy.ctaKicker}</p><h2>{copy.ctaTitle}</h2></div><Link to="/courses#courses" className="about-button about-button-primary">{copy.ctaButton} <span>→</span></Link></div></section>
       </main>

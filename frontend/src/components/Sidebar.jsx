@@ -9,7 +9,7 @@ const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 
 const links = {
-  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['courseMaterials', '/admin/materials', 'materials'], ['assignments', '/admin/assignments', 'assignments'], ['submissions', '/admin/submissions', 'submissions'], ['exams', '/admin/exams', 'exams'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['groups', '/admin/community', 'groups'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['teacherAttendanceManagement', '/admin/teacher-attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
+  ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['courseMaterials', '/admin/materials', 'materials'], ['assignments', '/admin/assignments', 'assignments'], ['submissions', '/admin/submissions', 'submissions'], ['exams', '/admin/exams', 'exams'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['contactMessages', '/admin/contact', 'contact'], ['groups', '/admin/community', 'groups'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['teacherAttendanceManagement', '/admin/teacher-attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
   TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/teacher/courses', 'courses'], ['courseMaterials', '/teacher/materials', 'materials'], ['certificates', '/teacher/certificates', 'certificates'], ['schedule', '/teacher/schedule', 'schedule'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
   STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
   CUSTOMER: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
@@ -37,6 +37,7 @@ const iconPaths = {
   friends: ['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8', 'M19 8v6', 'M22 11h-6'],
   chat: ['M20 11.5a7.5 7.5 0 0 1-8 7.5 8.6 8.6 0 0 1-3.3-.65L4 20l1.4-3.9A7.2 7.2 0 0 1 4.5 12 7.5 7.5 0 0 1 12 4.5a7.5 7.5 0 0 1 8 7Z', 'M8 12h.01', 'M12 12h.01', 'M16 12h.01'],
   groups: ['M4 7h16v13H4z', 'M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2', 'M4 12h16', 'M10 12v2h4v-2'],
+  contact: ['M4 5h16v14H4z', 'M4 7l8 6 8-6'],
 };
 
 function NavIcon({ name }) {
@@ -45,7 +46,7 @@ function NavIcon({ name }) {
 
 export default function Sidebar({ open, onClose }) {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const communityText = useCommunityText();
   const workspaceLabel = user?.role === 'ADMIN' ? t('adminTools') : user?.role === 'TEACHER' ? t('teacherWorkspace') : t('studentSpace');
   const roleKey = { ADMIN: 'administrator', TEACHER: 'teacher', STUDENT: 'student', CUSTOMER: 'student' }[user?.role];
@@ -74,7 +75,7 @@ export default function Sidebar({ open, onClose }) {
 
     <div className="mb-3 shrink-0 px-3 text-[10px] font-bold uppercase tracking-[.22em] text-slate-500">{workspaceLabel}</div>
     <nav className="sidebar-scrollbar min-h-0 flex-1 space-y-1 overflow-y-auto pr-1">
-      {links[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={label === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? profilePath : path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{label === 'groups' ? communityText.groups : t(label)}</span></NavLink>)}
+      {links[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={label === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? profilePath : path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{label === 'groups' ? communityText.groups : label === 'contactMessages' ? (language === 'km' ? 'សារទំនាក់ទំនង' : 'Contact messages') : t(label)}</span></NavLink>)}
     </nav>
 
     <div className="sidebar-note mt-5 shrink-0 rounded-2xl p-4 text-xs leading-5 text-slate-300"><span className="mb-2 block h-1 w-8 rounded-full bg-coral" />{t('sidebarNote')}</div>

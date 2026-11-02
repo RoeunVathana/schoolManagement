@@ -25,6 +25,7 @@ const AdminTelegramSettings = lazy(() => import('../pages/admin/TelegramSettings
 const AdminCertificates = lazy(() => import('../pages/admin/Certificates'));
 const AdminTeacherAttendance = lazy(() => import('../pages/admin/TeacherAttendance'));
 const AdminCommunity = lazy(() => import('../pages/admin/Community'));
+const AdminContactMessages = lazy(() => import('../pages/admin/ContactMessages'));
 const TeacherDashboard = lazy(() => import('../pages/teacher/Dashboard'));
 const TeacherAttendance = lazy(() => import('../pages/teacher/Attendance'));
 const TeacherSimple = lazy(() => import('../pages/teacher/Simple'));
@@ -74,6 +75,7 @@ export default function AppRoutes() {
           <Route path="admin/certificates" element={<AdminCertificates />} />
           <Route path="admin/teacher-attendance" element={<AdminTeacherAttendance />} />
           <Route path="admin/community" element={<AdminCommunity />} />
+          <Route path="admin/contact" element={<AdminContactMessages />} />
           <Route path="admin/materials" element={<AdminLearningManagement />} />
           <Route path="admin/assignments" element={<AdminLearningManagement />} />
           <Route path="admin/submissions" element={<AdminLearningManagement />} />
