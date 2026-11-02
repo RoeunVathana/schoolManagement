@@ -79,6 +79,12 @@ const isCoursePaymentOpen = (course) => {
   return new Date(`${datePart}T23:59:59.999+07:00`).getTime() >= Date.now();
 };
 
+const isCourseUpcoming = (course) => {
+  if (!course?.startDate) return false;
+  const startTime = new Date(course.startDate).getTime();
+  return Number.isFinite(startTime) && startTime > Date.now();
+};
+
 const paymentStatusCopy = (language) => language === "km"
   ? { closed: "ការទូទាត់ត្រូវបានបិទ", closedHint: "វគ្គសិក្សានេះបានបញ្ចប់ ហើយលែងទទួលការបង់ប្រាក់ថ្មីទៀតហើយ។" }
   : { closed: "Payment closed", closedHint: "This course has ended and is no longer accepting new payments." };
@@ -1213,6 +1219,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
 }
 
 function CourseVisual({ course, large = false }) {
+  const isUpcoming = isCourseUpcoming(course);
   return (
     <div className={`storefront-course-visual group/visual relative overflow-hidden bg-gradient-to-br from-[#dff8ee] via-[#e8f2ff] to-[#fff0e9] dark:from-[#142c3c] dark:via-[#18243a] dark:to-[#2b1e2f] ${large ? "rounded-[1.75rem] border border-white/15 p-3 shadow-2xl" : "h-56 border-b border-slate-100 dark:border-slate-700"}`}>
       {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className={`h-full w-full object-cover transition duration-700 group-hover/visual:scale-105 ${large ? "max-h-[28rem] rounded-[1.35rem]" : ""}`} /> : <div className="flex h-full min-h-56 flex-col justify-between p-6 text-[#10243f] dark:text-white">
@@ -1221,6 +1228,7 @@ function CourseVisual({ course, large = false }) {
       </div>}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#08111f]/55 to-transparent opacity-80" />
       <div className="pointer-events-none absolute -bottom-14 -right-10 h-40 w-40 rounded-full border-[22px] border-white/30" />
+      {isUpcoming && <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-sky-500/90 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.14em] text-white shadow-lg backdrop-blur-sm">{language === "km" ? "\u179c\u1782\u17d2\u1782\u17a2\u1793\u17b6\u1782\u178f" : "Future course"}</span>}
       <span className="absolute bottom-4 left-4 rounded-full border border-white/25 bg-[#10243f]/75 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.16em] text-white shadow-lg backdrop-blur-sm">{course.courseCode}</span>
     </div>
   );

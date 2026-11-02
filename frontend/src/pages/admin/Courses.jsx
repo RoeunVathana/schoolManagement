@@ -34,6 +34,12 @@ const activeDiscount = (course) => {
   return percent > 0 && percent < 100 && (!startTime || startTime <= now) && (!endTime || endTime > now);
 };
 
+const isFutureCourse = (course) => {
+  if (!course?.startDate) return false;
+  const startTime = new Date(course.startDate).getTime();
+  return Number.isFinite(startTime) && startTime > Date.now();
+};
+
 const discountedPrice = (course) => (Number(course.price || 0) * (1 - Number(course.discountPercent || 0) / 100)).toFixed(2);
 
 function Field({ label, hint, children, className = '' }) {
@@ -69,9 +75,10 @@ function CreateCourseCard({ t, openCreate }) {
 
 function CourseCard({ course, language, t, openEdit, remove }) {
   const isActive = course.status === 'ACTIVE';
+  const isFuture = isFutureCourse(course);
   const hasDiscount = activeDiscount(course);
   const price = hasDiscount ? discountedPrice(course) : Number(course.price || 0).toFixed(2);
-  const statusLabel = course.status === 'ACTIVE' ? t('active') : course.status === 'COMPLETED' ? t('completed') : t('cancelled');
+  const statusLabel = isFuture ? 'Future course' : course.status === 'ACTIVE' ? t('active') : course.status === 'COMPLETED' ? t('completed') : t('cancelled');
   const startDate = course.startDate ? new Date(course.startDate).toLocaleDateString(language === 'km' ? 'km-KH' : 'en-US') : '-';
 
   return <article className="group overflow-hidden rounded-[1.45rem] border border-slate-200/80 bg-white shadow-[0_12px_32px_rgba(16,36,63,.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(16,36,63,.14)] dark:border-slate-700 dark:bg-[#111c30]">
@@ -79,7 +86,7 @@ function CourseCard({ course, language, t, openEdit, remove }) {
       {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /> : <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,.75),transparent_32%),linear-gradient(135deg,#dbe7ef,#7890a5)]"><span className="rounded-full bg-white/75 px-4 py-2 text-xs font-extrabold uppercase tracking-[.16em] text-slate-600">{t('noImage')}</span></div>}
       <div className="absolute inset-0 bg-gradient-to-t from-[#10243f]/75 via-[#10243f]/5 to-transparent" />
       <div className="absolute left-4 right-4 top-4 flex items-start justify-between gap-2">
-        <span className={`rounded-full px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.14em] shadow-sm ${isActive ? 'bg-[#e4f8ef] text-emerald-800' : 'bg-white/85 text-slate-600'}`}>{statusLabel}</span>
+        <span className={`rounded-full px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.14em] shadow-sm ${isFuture ? 'bg-sky-100 text-sky-800' : isActive ? 'bg-[#e4f8ef] text-emerald-800' : 'bg-white/85 text-slate-600'}`}>{statusLabel}</span>
         {course.paymentEnabled === false && <span className="rounded-full bg-slate-950/55 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[.12em] text-white backdrop-blur-sm">{language === 'km' ? 'បិទការទូទាត់' : 'Payments closed'}</span>}
       </div>
       <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
