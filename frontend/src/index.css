@@ -9102,3 +9102,197 @@ html:lang(km) .storefront-home-copy > p {
 .about-page > footer,
 .public-community-page > footer {
   flex: 0 0 auto;
+}
+
+/* Final responsive guardrails for public pages and dashboard workspaces. */
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav {
+    gap: .5rem !important;
+    font-size: .68rem !important;
+  }
+
+  .public-community-page .public-community-hero {
+    gap: 2rem;
+    padding-inline: 2rem;
+  }
+
+  .storefront-home-hero-inner {
+    gap: 2rem;
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .site-public-navbar .about-nav-links,
+  .site-public-navbar .public-community-nav-links,
+  .site-public-navbar .storefront-mobile-header > nav,
+  .site-public-navbar .about-nav-actions,
+  .site-public-navbar .storefront-mobile-header > .hidden.items-center {
+    display: none !important;
+  }
+
+  .site-public-navbar .about-mobile-toggle,
+  .site-public-navbar .public-community-nav-menu-button,
+  .site-public-navbar .storefront-mobile-menu-button {
+    display: inline-flex !important;
+  }
+
+  .site-public-navbar .storefront-mobile-header > .flex.items-center.gap-2 {
+    display: flex !important;
+  }
+
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header,
+  .site-public-navbar.public-community-nav {
+    min-height: 4.35rem;
+    gap: .65rem;
+    padding-inline: 1rem !important;
+  }
+
+  .table-desktop-view {
+    display: none !important;
+  }
+
+  .table-mobile-view {
+    display: grid !important;
+    gap: .75rem;
+  }
+
+  .table-card {
+    border-radius: 1.15rem;
+  }
+
+  .app-main {
+    padding-inline: 1rem;
+  }
+
+  .page-header {
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .page-header-action {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .page-header-action > * {
+    flex: 1 1 12rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header,
+  .site-public-navbar.public-community-nav {
+    padding-inline: .8rem !important;
+  }
+
+  .public-community-page .public-community-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 2.5rem;
+    padding: 5rem 1rem 3.5rem !important;
+  }
+
+  .public-community-page .public-community-section,
+  .public-community-page .public-community-footer {
+    padding-inline: 1rem !important;
+  }
+
+  .public-community-page .public-community-hero-art {
+    width: min(100%, 28rem);
+    min-height: 21rem;
+    margin-inline: auto;
+  }
+
+  .about-page .about-container {
+    width: 100%;
+    max-width: none;
+    padding-inline: 1rem !important;
+  }
+
+  .about-page .about-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-block: 3.5rem;
+  }
+
+  .about-page .about-hero-card {
+    width: 100%;
+    min-height: 24rem;
+    margin-inline: auto;
+  }
+
+  .storefront-home-hero-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 2.5rem;
+    padding: 6.5rem 1rem 3.5rem !important;
+  }
+
+  .storefront-home-art {
+    order: 2;
+    max-width: 28rem;
+  }
+
+  .storefront > main > section > .mx-auto,
+  .storefront > footer > div {
+    padding-inline: 1rem !important;
+  }
+
+  .about-footer-inner,
+  .public-community-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 2rem;
+  }
+
+  .about-footer-links {
+    flex-wrap: wrap;
+    gap: .8rem 1rem;
+  }
+
+  .app-main {
+    padding-inline: .7rem;
+  }
+
+  .page-header-action {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-header-action > * {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-public-navbar .about-nav-inner,
+  .site-public-navbar .storefront-mobile-header,
+  .site-public-navbar.public-community-nav {
+    padding-inline: .6rem !important;
+  }
+
+  .site-public-navbar .about-brand strong,
+  .site-public-navbar .public-community-brand strong,
+  .site-public-navbar .storefront-mobile-header > a > span:last-child > span:first-child {
+    font-size: .95rem;
+  }
+
+  .public-community-page .public-community-hero h1 {
+    font-size: clamp(2.8rem, 15vw, 4.2rem);
+  }
+
+  .storefront-home-hero-inner h1 {
+    font-size: clamp(2.2rem, 12vw, 3.5rem);
+  }
+
+  .table-mobile-record {
+    padding: .8rem;
+  }
+}
