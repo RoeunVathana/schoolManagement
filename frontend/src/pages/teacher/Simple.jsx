@@ -621,28 +621,30 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
         ? [{ fileUrl: row.fileUrl }]
         : [];
     return attachments.length ? (
-      <div className="flex max-w-[18rem] flex-wrap gap-2">
+      <div className="flex min-w-[10rem] max-w-[18rem] flex-wrap gap-2">
         {attachments.map((attachment, index) => (
           <a
             key={attachment.id || attachment.fileUrl || index}
             href={mediaUrl(attachment.fileUrl)}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-mint"
+            className="inline-flex min-w-[10rem] max-w-full items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/40"
             title={attachment.originalName || t("openFile")}
           >
             {isImage(attachment) ? (
               <SafeImage
                 src={mediaUrl(attachment.fileUrl)}
                 alt={attachment.originalName || t("submissionFile")}
-                className="h-8 w-8 rounded object-cover"
+                className="h-10 w-10 shrink-0 rounded-lg border border-white/80 bg-slate-200 object-cover shadow-sm dark:border-slate-600 dark:bg-slate-900"
               />
             ) : (
-              <span className="flex h-8 w-8 items-center justify-center rounded bg-red-100 text-[10px] font-bold text-red-700">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-100 text-[10px] font-black text-red-700 dark:bg-red-950/50 dark:text-red-200">
                 FILE
               </span>
             )}
-            <span>{attachments.length > 1 ? `${t("openFile")} ${index + 1}` : t("openFile")}</span>
+            <span className="min-w-0 max-w-[8rem] truncate whitespace-nowrap leading-4">
+              {attachments.length > 1 ? `${t("openFile")} ${index + 1}` : t("openFile")}
+            </span>
           </a>
         ))}
       </div>
@@ -949,32 +951,47 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "student",
                       label: t("student"),
-                      render: (row) => row.student?.user?.fullName || "-",
+                      className: "min-w-[10rem]",
+                      render: (row) => {
+                        const value = row.student?.user?.fullName || "-";
+                        return <span className="block max-w-[12rem] break-words font-semibold leading-5" title={value}>{value}</span>;
+                      },
                     },
                     {
                       key: "assignment",
                       label: t("assignment"),
-                      render: (row) => row.assignment?.title || "-",
+                      className: "min-w-[12rem]",
+                      render: (row) => {
+                        const value = row.assignment?.title || "-";
+                        return <span className="block max-w-[15rem] break-words leading-5" title={value}>{value}</span>;
+                      },
                     },
                     {
                       key: "course",
                       label: t("course"),
-                      render: (row) =>
-                        row.assignment?.course?.courseName || "-",
+                      className: "min-w-[12rem]",
+                      render: (row) => {
+                        const value = row.assignment?.course?.courseName || "-";
+                        return <span className="block max-w-[15rem] break-words leading-5" title={value}>{value}</span>;
+                      },
                     },
                     {
                       key: "score",
                       label: t("score"),
+                      className: "min-w-[7rem] whitespace-nowrap",
                       render: (row) =>
-                        row.grade
+                        <span className="whitespace-nowrap font-bold">
+                          {row.grade
                           ? `${row.grade.score} / ${row.assignment?.maxScore || "-"}`
-                          : t("notGradedYet"),
+                          : t("notGradedYet")}
+                        </span>,
                     },
                     {
                       key: "answer",
                       label: t("answer"),
+                      className: "min-w-[15rem]",
                       render: (row) => (
-                        <span className="block max-w-xs truncate">
+                        <span className="block max-w-[18rem] line-clamp-2 whitespace-normal break-words leading-5" title={row.answerText || "-"}>
                           {row.answerText || "-"}
                         </span>
                       ),
@@ -982,16 +999,19 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
                     {
                       key: "file",
                       label: t("attachment"),
+                      className: "min-w-[12rem]",
                       render: submissionFileCell,
                     },
                     {
                       key: "submittedAt",
                       label: t("submitted"),
-                      render: (row) => formatDate(row.submittedAt, language),
+                      className: "min-w-[9rem] whitespace-nowrap",
+                      render: (row) => <span className="whitespace-nowrap">{formatDate(row.submittedAt, language)}</span>,
                     },
                     {
                       key: "status",
                       label: t("status"),
+                      className: "min-w-[9rem] whitespace-nowrap",
                       render: (row) => (
                         <span className={`badge ${statusClass(row.status)}`}>
                           {translatedStatus(row.status, t)}
