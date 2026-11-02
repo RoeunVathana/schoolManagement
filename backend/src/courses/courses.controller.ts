@@ -47,6 +47,7 @@ export class CoursesController {
   private paymentData(body: any, partial = false) {
     const has = (key: string) => Object.prototype.hasOwnProperty.call(body, key);
     const data: any = {};
+    if (!partial || has('paymentEnabled')) data.paymentEnabled = body.paymentEnabled === undefined ? true : body.paymentEnabled === true || body.paymentEnabled === 'true';
     const enabled = body.monthlyPaymentEnabled === true || body.monthlyPaymentEnabled === 'true';
     if (!partial || has('monthlyPaymentEnabled')) data.monthlyPaymentEnabled = enabled;
     if (!partial || has('monthlyPrice')) {

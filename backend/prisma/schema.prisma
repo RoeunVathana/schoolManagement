@@ -554,6 +554,7 @@ model Course {
   startDate             DateTime
   endDate               DateTime
   status                CourseStatus        @default(ACTIVE)
+  paymentEnabled        Boolean             @default(true)
   academicYearId        String?
   semesterId            String?
   imageUrl              String?

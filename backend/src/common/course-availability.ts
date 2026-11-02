@@ -1,4 +1,5 @@
-export function isCoursePaymentOpen(endDate: Date | string | null | undefined, now = new Date()) {
+export function isCoursePaymentOpen(endDate: Date | string | null | undefined, paymentEnabled = true, now = new Date()) {
+  if (paymentEnabled === false) return false;
   if (!endDate) return true;
 
   const parsed = endDate instanceof Date ? endDate : new Date(endDate);

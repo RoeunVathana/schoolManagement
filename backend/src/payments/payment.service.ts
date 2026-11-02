@@ -69,7 +69,7 @@ export class PaymentService {
     const student = await this.prisma.student.findUniqueOrThrow({ where: { userId }, select: { id: true } });
     const course = await this.prisma.course.findFirst({ where: { id: courseId, status: 'ACTIVE' } });
     if (!course) throw new NotFoundException('This course is not available for purchase.');
-    if (!isCoursePaymentOpen(course.endDate)) throw new ConflictException('Course payment is closed because this course has ended.');
+    if (!isCoursePaymentOpen(course.endDate, course.paymentEnabled)) throw new ConflictException('Course payment is closed by the administrator or because this course has ended.');
     const currentEnrollment = await this.prisma.enrollment.findUnique({ where: { courseId_studentId: { courseId, studentId: student.id } } });
     if (paymentPlan === CoursePaymentPlan.FULL && currentEnrollment?.status === 'ACTIVE') throw new ConflictException('You have already purchased this course.');
 
@@ -304,6 +304,6 @@ export class PaymentService {
 
   private toPublicCoursePayment(payment: any, extra: Record<string, unknown> = {}) {
     const pricing = payment.course ? getCoursePricing(payment.course) : null;
-    return { ...this.toPublicPayment(payment, extra), courseId: payment.courseId, courseName: payment.course?.courseName, courseCode: payment.course?.courseCode, paymentPlan: payment.paymentPlan || CoursePaymentPlan.FULL, billingPeriod: payment.billingPeriod || null, monthlyPaymentEnabled: payment.course?.monthlyPaymentEnabled ?? false, monthlyPrice: payment.course?.monthlyPrice?.toString() || null, fullCourseAmount: pricing?.salePrice?.toString() || null, paymentOpen: isCoursePaymentOpen(payment.course?.endDate) };
+    return { ...this.toPublicPayment(payment, extra), courseId: payment.courseId, courseName: payment.course?.courseName, courseCode: payment.course?.courseCode, paymentPlan: payment.paymentPlan || CoursePaymentPlan.FULL, billingPeriod: payment.billingPeriod || null, monthlyPaymentEnabled: payment.course?.monthlyPaymentEnabled ?? false, monthlyPrice: payment.course?.monthlyPrice?.toString() || null, fullCourseAmount: pricing?.salePrice?.toString() || null, paymentOpen: isCoursePaymentOpen(payment.course?.endDate, payment.course?.paymentEnabled) };
   }
 }

@@ -17,7 +17,7 @@ export class StorefrontController {
 
   private withPricing(course: any) {
     const pricing = getCoursePricing(course);
-    return { ...course, ...pricing, paymentOpen: isCoursePaymentOpen(course.endDate) };
+    return { ...course, ...pricing, paymentOpen: isCoursePaymentOpen(course.endDate, course.paymentEnabled) };
   }
 
   @Get('courses')
@@ -50,6 +50,7 @@ export class StorefrontController {
           discountPercent: true,
           discountStart: true,
           discountEnd: true,
+          paymentEnabled: true,
           monthlyPaymentEnabled: true,
           monthlyPrice: true,
           teacher: { select: { specialization: true, user: { select: { fullName: true, profileImageUrl: true } } } },
@@ -79,6 +80,7 @@ export class StorefrontController {
           discountPercent: true,
           discountStart: true,
           discountEnd: true,
+          paymentEnabled: true,
           monthlyPaymentEnabled: true,
           monthlyPrice: true,
           teacher: { select: { specialization: true, user: { select: { fullName: true, email: true, profileImageUrl: true } } } },
@@ -113,6 +115,7 @@ export class StorefrontController {
         discountPercent: true,
         discountStart: true,
         discountEnd: true,
+        paymentEnabled: true,
         monthlyPaymentEnabled: true,
         monthlyPrice: true,
         teacher: { select: { specialization: true, user: { select: { fullName: true, email: true, profileImageUrl: true } } } },

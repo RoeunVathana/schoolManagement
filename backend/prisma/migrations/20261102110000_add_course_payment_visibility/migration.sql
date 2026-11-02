@@ -1,0 +1,1 @@
+ALTER TABLE "courses" ADD COLUMN "paymentEnabled" BOOLEAN NOT NULL DEFAULT true;

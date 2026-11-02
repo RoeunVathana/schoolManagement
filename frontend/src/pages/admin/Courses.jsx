@@ -15,7 +15,7 @@ import { isImageTooLarge } from '../../utils/fileValidation';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', image: null };
+const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', paymentEnabled: true, price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', image: null };
 const previewCode = (prefix) => `${prefix}-${(globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 8).toUpperCase()}`;
 const courseFormData = (values, file) => {
   const data = new FormData();
@@ -115,6 +115,7 @@ export default function Courses() {
       startDate: course.startDate.slice(0, 10),
       endDate: course.endDate.slice(0, 10),
       status: course.status,
+      paymentEnabled: course.paymentEnabled !== false,
       price: String(course.price ?? '1.00'),
       currency: course.currency || 'USD',
       monthlyPaymentEnabled: Boolean(course.monthlyPaymentEnabled),
@@ -228,9 +229,10 @@ export default function Courses() {
     { key: 'price', label: t('coursePrice'), render: (row) => <PriceCell row={row} /> },
     { key: 'teacher', label: t('teacher'), render: (row) => row.teacher?.user?.fullName || t('unassigned') },
     { key: 'startDate', label: t('starts'), render: (row) => new Date(row.startDate).toLocaleDateString() },
+    { key: 'paymentEnabled', label: language === 'km' ? 'ការទូទាត់' : 'Payment', render: (row) => <span className={`badge ${row.paymentEnabled === false ? 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300' : 'bg-mint text-emerald-800'}`}>{row.paymentEnabled === false ? (language === 'km' ? 'បិទ' : 'Closed') : (language === 'km' ? 'បើក' : 'Open')}</span> },
     { key: 'status', label: t('status'), render: (row) => <span className="badge bg-mint text-emerald-800">{row.status === 'ACTIVE' ? t('active') : row.status === 'COMPLETED' ? t('completed') : t('cancelled')}</span> },
     { key: 'actions', label: t('actions'), render: (row) => <div className="flex gap-2"><button onClick={() => openEdit(row)} className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-200">{t('edit')}</button><button onClick={() => remove(row)} className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">{t('delete')}</button></div> },
-  ], [openEdit, remove, t]);
+  ], [language, openEdit, remove, t]);
 
   return <>
     <Header eyebrow={t('courses')} title={t('courses')} description={t('courseDirectoryDescription')} action={<button onClick={openCreate} className="rounded-xl bg-navy px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg">+ {t('newCourse')}</button>} />
@@ -274,6 +276,7 @@ export default function Courses() {
           </div>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>
+        <div className="rounded-2xl border border-sky-200/80 bg-sky-50/70 p-4 dark:border-sky-900/70 dark:bg-sky-950/25"><label className="flex cursor-pointer items-start gap-3"><input type="checkbox" checked={form.paymentEnabled} onChange={(event) => setForm((current) => ({ ...current, paymentEnabled: event.target.checked }))} className="mt-1 h-5 w-5 accent-[#229ed9]" /><span><span className="block text-sm font-extrabold text-ink dark:text-white">{language === 'km' ? 'បើកការទូទាត់សម្រាប់វគ្គនេះ' : 'Allow new payments for this course'}</span><span className="mt-1 block text-xs leading-5 text-slate-500 dark:text-slate-300">{language === 'km' ? 'បិទជម្រើសនេះ ដើម្បីលាក់ប៊ូតុងបង់ប្រាក់ពីសិស្ស និងអតិថិជន។' : 'Turn this off to hide the payment button from students and customers.'}</span></span></label></div>
         <div className="rounded-2xl bg-slate-50 p-4"><Field label={t('courseImage')} hint={t('imageSizeHint')}><input ref={imageInputRef} type="file" accept="image/*,.png,.jpg,.jpeg,.webp" className="input mt-2 p-2" onClick={(event) => { event.currentTarget.value = ''; }} onChange={chooseCourseImage} /><FileImagePreview file={form.image} label={t('useCroppedImage')} /></Field></div>
         {notice && <p className="rounded-lg bg-mint p-3 text-sm text-emerald-800">{notice}</p>}
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</p>}
