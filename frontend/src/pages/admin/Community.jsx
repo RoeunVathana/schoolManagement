@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Component, useEffect, useMemo, useState } from 'react';
 import request, { unwrap } from '../../api/axios';
 import Header from '../../components/Header';
 import Loading from '../../components/Loading';
@@ -7,11 +7,43 @@ import { useAdminCommunityText } from '../../context/adminCommunityTranslations'
 
 const emptyData = { groups: [], friendships: [], requests: [], posts: [], stories: [], blocks: [], conversations: [] };
 const ADMIN_COMMUNITY_API = '/api/admin/community';
+const COMMUNITY_REQUEST_TIMEOUT = 12000;
 const api = {
   get: (path, ...args) => request.get(path, ...args),
   patch: (path, ...args) => request.patch(path, ...args),
   delete: (path, ...args) => request.delete(path, ...args),
 };
+
+function listValue(response) {
+  const value = unwrap(response);
+  if (Array.isArray(value)) return value;
+  if (Array.isArray(value?.items)) return value.items;
+  if (Array.isArray(value?.data)) return value.data;
+  return [];
+}
+
+class CommunityErrorBoundary extends Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error) {
+    console.error('Admin community page failed to render.', error);
+  }
+
+  render() {
+    if (!this.state.hasError) return this.props.children;
+
+    return <section className="rounded-3xl border border-red-200 bg-white p-8 shadow-sm dark:border-red-900/60 dark:bg-[#121f35]">
+      <p className="text-xs font-black uppercase tracking-[.2em] text-red-500">Admin community</p>
+      <h1 className="mt-2 text-2xl font-extrabold text-ink dark:text-white">This page could not be displayed.</h1>
+      <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 dark:text-slate-400">Please reload the page. Your community data was not changed.</p>
+      <button type="button" onClick={() => window.location.reload()} className="mt-5 rounded-xl bg-navy px-4 py-2.5 text-sm font-bold text-white">Reload page</button>
+    </section>;
+  }
+}
 
 const personName = (person) => person?.fullName || person?.email || '';
 const date = (value) => value ? new Date(value).toLocaleString() : '—';
@@ -32,17 +64,18 @@ function MediaPreview({ item, label }) {
     : <img src={item.url} alt={label} className="max-h-52 w-full rounded-xl bg-slate-100 object-cover dark:bg-slate-900" />;
 }
 
-export default function Community() {
+function CommunityPage() {
   const { ask } = useConfirmDialog();
   const text = useAdminCommunityText();
   const [tab, setTab] = useState('groups');
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(emptyData);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [editingGroup, setEditingGroup] = useState(null);
   const [busy, setBusy] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const displayName = (person) => personName(person) || text.unknownAccount;
   const format = (template, values = {}) => Object.entries(values).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, value), template);
@@ -50,29 +83,28 @@ export default function Community() {
   const statusLabel = (value) => value === 'PENDING' ? text.pending : value === 'ACCEPTED' ? text.accepted : value === 'DECLINED' ? text.declined : value;
 
   const load = async () => {
+    setLoading(true);
     setError('');
     try {
-      const [groups, friendships, requests, posts, stories, blocks, conversations] = await Promise.all([
-        api.get(`${ADMIN_COMMUNITY_API}/groups`),
-        api.get(`${ADMIN_COMMUNITY_API}/friendships`),
-        api.get(`${ADMIN_COMMUNITY_API}/requests`),
-        api.get(`${ADMIN_COMMUNITY_API}/posts`),
-        api.get(`${ADMIN_COMMUNITY_API}/stories`),
-        api.get(`${ADMIN_COMMUNITY_API}/blocks`),
-        api.get(`${ADMIN_COMMUNITY_API}/conversations`),
-      ]);
+      const paths = ['groups', 'friendships', 'requests', 'posts', 'stories', 'blocks', 'conversations'];
+      const results = await Promise.allSettled(paths.map((path) => api.get(`${ADMIN_COMMUNITY_API}/${path}`, { timeout: COMMUNITY_REQUEST_TIMEOUT })));
+      const failed = results.filter((result) => result.status === 'rejected');
+      const values = results.map((result) => result.status === 'fulfilled' ? listValue(result.value) : []);
       setData({
-        groups: unwrap(groups) || [],
-        friendships: unwrap(friendships) || [],
-        requests: unwrap(requests) || [],
-        posts: unwrap(posts) || [],
-        stories: unwrap(stories) || [],
-        blocks: unwrap(blocks) || [],
-        conversations: unwrap(conversations) || [],
+        groups: values[0],
+        friendships: values[1],
+        requests: values[2],
+        posts: values[3],
+        stories: values[4],
+        blocks: values[5],
+        conversations: values[6],
       });
+      if (failed.length) setError(text.couldNotLoadCommunity);
     } catch (e) {
       setError(e.response?.data?.message || text.couldNotLoadCommunity);
       setData(emptyData);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,8 +156,6 @@ export default function Community() {
     [text.blocks, data.blocks.length],
   ] : [], [data, text]);
 
-  if (!data) return <Loading />;
-
   const tabs = [
     ['groups', text.groups], ['posts', text.posts], ['stories', text.stories],
     ['friends', text.friendships], ['requests', text.friendRequests],
@@ -138,7 +168,8 @@ export default function Community() {
       {counts.map(([label, count]) => <div key={label} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-[#121f35]"><p className="text-xs font-bold uppercase tracking-[.16em] text-slate-400">{label}</p><p className="mt-2 text-3xl font-extrabold text-ink dark:text-white">{count}</p></div>)}
     </div>
     <div className="mb-5 rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-100">{text.moderationNotice}</div>
-    {error && <div className="mb-4 rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-950/30 dark:text-red-200">{error}</div>}
+    {loading && <div className="mb-4 rounded-xl border border-sky-100 bg-sky-50 p-4 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-100" role="status">{text.loadingCommunity}</div>}
+    {error && <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-950/30 dark:text-red-200"><span>{error}</span><button type="button" onClick={load} className="rounded-lg bg-red-100 px-3 py-1.5 font-bold text-red-700 hover:bg-red-200 dark:bg-red-900/40 dark:text-red-100">{text.retry}</button></div>}
     {notice && <div className="mb-4 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200">{notice}</div>}
     <div className="mb-5 flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-700 dark:bg-[#121f35]">
       {tabs.map(([value, label]) => <button key={value} type="button" onClick={() => setTab(value)} className={`rounded-xl px-4 py-2.5 text-sm font-bold transition ${tab === value ? 'bg-navy text-white' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}>{label}</button>)}
@@ -164,4 +195,8 @@ export default function Community() {
 
     {tab === 'blocks' && <section className="space-y-3">{data.blocks.length ? data.blocks.map((block) => <article key={block.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center dark:border-slate-700 dark:bg-[#121f35]"><div><p className="font-bold text-ink dark:text-white">{displayName(block.blocker)} <span className="mx-2 text-slate-400">{text.blocked}</span> {displayName(block.blocked)}</p><p className="mt-1 text-xs text-slate-400">{text.created} {date(block.createdAt)}</p></div><button type="button" onClick={() => remove(text.removeBlockConfirm, `block:${block.id}`, () => api.delete(`${ADMIN_COMMUNITY_API}/blocks/${block.id}`))} className="rounded-xl bg-red-50 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-100">{text.removeBlock}</button></article>) : <Empty>{text.noBlocks}</Empty>}</section>}
   </>;
+}
+
+export default function Community() {
+  return <CommunityErrorBoundary><CommunityPage /></CommunityErrorBoundary>;
 }
