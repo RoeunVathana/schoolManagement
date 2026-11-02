@@ -9386,3 +9386,58 @@ html:lang(km) .storefront-home-copy > p {
   top: 0 !important;
   margin-top: 0 !important;
 }
+
+/* Keep public pages anchored to the viewport while scrolling.  The shared
+   page shells contain perspective/overflow effects, so a sticky header can
+   inherit an unexpected offset and leave a blank strip above the navbar. */
+:root {
+  --public-navbar-height: 4.8rem;
+}
+
+.site-public-navbar.about-nav,
+.site-public-navbar.public-community-nav {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  top: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  will-change: transform;
+}
+
+.about-page > main,
+.public-community-page > main {
+  padding-top: var(--public-navbar-height);
+}
+
+@media (max-width: 900px) {
+  :root {
+    --public-navbar-height: 4.5rem;
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --public-navbar-height: 4.2rem;
+  }
+}
+
+/* A slim, consistent scrollbar keeps long public pages easy to scan without
+   changing the normal document scroll behavior. */
+html {
+  scrollbar-color: #5f879a transparent;
+  scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+  width: .65rem;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4f7890, #8de4ca) padding-box;
+}
