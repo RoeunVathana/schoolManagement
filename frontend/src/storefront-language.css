@@ -1,0 +1,60 @@
+/* Improve contrast for the storefront language menu in the dark navbar. */
+[data-language-menu] > div[role="menu"] {
+  border-color: #b9d2df !important;
+  background: linear-gradient(155deg, #ffffff 0%, #f4f9fc 100%) !important;
+  box-shadow: 0 20px 46px rgb(16 36 63 / .24), 0 0 0 1px rgb(34 158 217 / .08) !important;
+}
+
+[data-language-menu] > div[role="menu"] > p {
+  color: #6b8194 !important;
+}
+
+[data-language-menu] > div[role="menu"] > button {
+  color: #304d63 !important;
+}
+
+[data-language-menu] > div[role="menu"] > button:hover {
+  color: #123d58 !important;
+  background: #e7f5fa !important;
+}
+
+[data-language-menu] > div[role="menu"] > button[aria-checked="true"] {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #123b57 0%, #176b84 100%) !important;
+  box-shadow: 0 8px 18px rgb(18 59 87 / .22);
+}
+
+[data-language-menu] > div[role="menu"] > button[aria-checked="true"]:hover {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #174a69 0%, #1d88a3 100%) !important;
+}
+
+.dark [data-language-menu] > div[role="menu"] {
+  border-color: #315875 !important;
+  background: linear-gradient(155deg, #10243a 0%, #0c1b2e 100%) !important;
+  box-shadow: 0 22px 50px rgb(0 0 0 / .44), 0 0 0 1px rgb(84 202 236 / .08) !important;
+}
+
+.dark [data-language-menu] > div[role="menu"] > p {
+  color: #9eb6c8 !important;
+}
+
+.dark [data-language-menu] > div[role="menu"] > button {
+  color: #dcecf5 !important;
+}
+
+.dark [data-language-menu] > div[role="menu"] > button:hover {
+  color: #f1fffb !important;
+  background: #19384f !important;
+}
+
+.dark [data-language-menu] > div[role="menu"] > button[aria-checked="true"] {
+  color: #062337 !important;
+  background: linear-gradient(135deg, #8de4ca 0%, #55c5df 100%) !important;
+  box-shadow: 0 8px 20px rgb(84 202 236 / .2);
+}
+
+.dark [data-language-menu] > div[role="menu"] > button[aria-checked="true"]:hover {
+  color: #062337 !important;
+  background: linear-gradient(135deg, #a5f1dc 0%, #71d7f6 100%) !important;
+}
