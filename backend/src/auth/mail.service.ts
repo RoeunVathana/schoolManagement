@@ -62,14 +62,15 @@ export class MailService {
       console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`);
     } catch (error: any) {
       this.logTransportError('SMTP verification failed', error);
-      if (!this.fallbackTransporter || error?.command !== 'CONN') {
+      const fallback = this.fallbackTransporter;
+      if (!fallback || !this.canUseFallback(error)) {
         this.smtpStatus = 'failed';
         return;
       }
 
       try {
-        await this.fallbackTransporter.verify();
-        this.transporter = this.fallbackTransporter;
+        await fallback.verify();
+        this.transporter = fallback;
         this.smtpStatus = 'ready';
         this.smtpError = null;
         console.log('[mail] SMTP fallback connection verified (smtp.gmail.com:465, secure=true)');
@@ -120,13 +121,16 @@ export class MailService {
       await this.transporter.sendMail(message);
     } catch (error) {
       this.logTransportError('Password OTP email failed', error);
-      if (!this.fallbackTransporter || this.transporter === this.fallbackTransporter || !this.isConnectionFailure(error)) {
+      this.smtpStatus = 'failed';
+      if (!this.canUseFallback(error)) {
         throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
       }
 
       try {
-        await this.fallbackTransporter.sendMail(message);
-        this.transporter = this.fallbackTransporter;
+        const fallback = this.fallbackTransporter;
+        if (!fallback) throw new Error('SMTP fallback is unavailable');
+        await fallback.sendMail(message);
+        this.transporter = fallback;
         this.smtpStatus = 'ready';
         this.smtpError = null;
         console.log('[mail] Password OTP delivered through Gmail fallback (smtp.gmail.com:465, secure=true)');
@@ -215,7 +219,18 @@ export class MailService {
   private isConnectionFailure(error: any) {
     const code = String(error?.code || '').toUpperCase();
     const command = String(error?.command || '').toUpperCase();
-    return command === 'CONN' || ['ECONNECTION', 'ECONNRESET', 'ESOCKET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code);
+    return command === 'CONN' || ['ECONNECTION', 'ECONNREFUSED', 'ECONNRESET', 'EHOSTUNREACH', 'ENETUNREACH', 'EPIPE', 'EPROTO', 'ESOCKET', 'ETIMEDOUT', 'EAI_AGAIN', 'ETLS'].includes(code);
+  }
+
+  private canUseFallback(error: any) {
+    if (!this.fallbackTransporter || this.transporter === this.fallbackTransporter) return false;
+    const code = String(error?.code || '').toUpperCase();
+    const command = String(error?.command || '').toUpperCase();
+    // Authentication failures can also be caused by a provider-specific
+    // STARTTLS negotiation. Trying implicit TLS once is safe; if credentials
+    // are actually wrong, the fallback fails and the caller still receives a
+    // generic delivery error without exposing SMTP details.
+    return this.isConnectionFailure(error) || command === 'AUTH' || code === 'EAUTH';
   }
 
   private logTransportError(label: string, error: any) {
