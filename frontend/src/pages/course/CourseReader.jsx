@@ -89,6 +89,11 @@ const readerText = {
     outputEmpty: "Finished with no output.",
     practiceEveryDay: "Practice a little every day.",
     home: "CampusFlow home",
+    browseCourses: "Courses",
+    community: "Community",
+    about: "About",
+    faq: "FAQ",
+    contact: "Contact",
   },
   km: {
     courseTitle: (title) => `វគ្គសិក្សា ${title}`,
@@ -139,6 +144,11 @@ const readerText = {
     secureRunnerMessage: (language) => `កម្មវិធីកែសម្រួល ${language} នេះរួចរាល់ ប៉ុន្តែមិនទាន់បានភ្ជាប់ compiler សុវត្ថិភាពនៅលើ server ទេ។`,
     practiceEveryDay: "អនុវត្តបន្តិចរាល់ថ្ងៃ។",
     home: "ទំព័រដើម CampusFlow",
+    browseCourses: "វគ្គសិក្សា",
+    community: "សហគមន៍",
+    about: "អំពីយើង",
+    faq: "សំណួរដែលសួរញឹកញាប់",
+    contact: "ទំនាក់ទំនង",
   },
 };
 
@@ -1620,6 +1630,13 @@ export default function CourseReader() {
             <h1>{copy.courseTitle(course.title)}</h1>
           </div>
         </div>
+        <nav className="course-reader-nav" aria-label="CampusFlow navigation">
+          <a href="/#courses">{copy.browseCourses}</a>
+          <Link to="/community">{copy.community}</Link>
+          <Link to="/about">{copy.about}</Link>
+          <a href="/#faq">{copy.faq}</a>
+          <Link to="/contact">{copy.contact}</Link>
+        </nav>
         <div className="course-reader-header-actions">
           <LanguageSwitcher variant="course" />
           <Link className="course-reader-back" to="/courses">{copy.backToCourses}</Link>
