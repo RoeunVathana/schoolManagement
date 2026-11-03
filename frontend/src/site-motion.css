@@ -33,14 +33,18 @@
 
 /* All route shells get a short 2D entrance when their content changes. */
 .app-shell-content .app-main,
-.about-page,
-.contact-page,
-.course-reader,
-.storefront,
-.community-page,
-.public-community-page,
 .auth-background,
 .auth-layout {
+  animation: cf-page-enter .55s var(--cf-motion-ease) both;
+}
+
+/* Public/course roots contain viewport-fixed navigation. Keep the entrance
+   motion on their scrolling content, never on the ancestor of a fixed bar. */
+.about-page > main,
+.contact-page > main,
+.storefront > main,
+.community-page > main,
+.public-community-page > main {
   animation: cf-page-enter .55s var(--cf-motion-ease) both;
 }
 
@@ -282,7 +286,7 @@
     radial-gradient(circle at 88% 82%, rgb(124 140 248 / .07), transparent 28%),
     linear-gradient(120deg, transparent 0%, rgb(255 255 255 / .035) 48%, transparent 100%);
   background-size: 160% 160%, 170% 170%, 220% 100%;
-  animation: cf-page-enter .55s var(--cf-motion-ease) both, cf-background-shift 28s ease-in-out infinite;
+  animation: cf-background-shift 28s ease-in-out infinite;
 }
 
 /* Keep fixed dashboard navigation fixed: the content wrapper gets only the
