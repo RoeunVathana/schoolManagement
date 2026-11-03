@@ -48,8 +48,11 @@ const readerText = {
     lessonProgress: (current, total) => `Lesson ${current} of ${total}`,
     beginner: "Beginner",
     preview: "Preview",
+    menu: "Menu",
     openLessonMenu: "Open lesson menu",
     openPreview: "Open example preview",
+    openNavigation: "Open CampusFlow navigation",
+    closeNavigation: "Close CampusFlow navigation",
     closeLessonMenu: "Close lesson menu",
     closePreview: "Close preview",
     learnAtYourOwnPace: "Learn at your own pace. Your progress stays on this device.",
@@ -1652,6 +1655,7 @@ export default function CourseReader() {
   const [selectedId, setSelectedId] = useState(courseLessons[0].id);
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const [completed, setCompleted] = useState(() => new Set());
   const [copied, setCopied] = useState("");
   const techBarRef = useRef(null);
@@ -1688,6 +1692,7 @@ export default function CourseReader() {
   const closeDrawers = () => {
     setLeftOpen(false);
     setRightOpen(false);
+    setNavOpen(false);
   };
 
   useEffect(() => {
@@ -1695,6 +1700,7 @@ export default function CourseReader() {
       if (event.key === "Escape") {
         setLeftOpen(false);
         setRightOpen(false);
+        setNavOpen(false);
       }
     };
     window.addEventListener("keydown", closeDrawers);
@@ -1779,7 +1785,7 @@ export default function CourseReader() {
             <h1>{copy.courseTitle(course.title)}</h1>
           </div>
         </div>
-        <nav className="course-reader-nav" aria-label="CampusFlow navigation">
+        <nav id="course-reader-navigation" className={`course-reader-nav ${navOpen ? "is-open" : ""}`} aria-label="CampusFlow navigation" onClick={() => setNavOpen(false)}>
           <Link className="course-reader-nav-academy" to="/course/html">{copy.academy}</Link>
           <a href="/courses#courses">{copy.browseCourses}</a>
           <Link to="/community">{copy.community}</Link>
@@ -1791,7 +1797,7 @@ export default function CourseReader() {
           <LanguageSwitcher variant="course" />
           <Link className="course-reader-back" to="/courses">{copy.backToCourses}</Link>
           <ThemeSwitch />
-          <button type="button" className="course-mobile-action" onClick={() => { setRightOpen(false); setLeftOpen((current) => !current); }} aria-expanded={leftOpen} aria-controls="course-lessons-panel" aria-label={leftOpen ? copy.closeLessonMenu : copy.openLessonMenu}>{leftOpen ? "×" : "☰"} <span>{copy.lessons}</span></button>
+          <button type="button" className="course-mobile-action course-mobile-nav-action" onClick={() => setNavOpen((current) => !current)} aria-expanded={navOpen} aria-controls="course-reader-navigation" aria-label={navOpen ? copy.closeNavigation : copy.openNavigation}>{navOpen ? "×" : "☰"} <span>{copy.menu}</span></button>
           <button type="button" className="course-mobile-action" onClick={() => { setLeftOpen(false); setRightOpen((current) => !current); }} aria-expanded={rightOpen} aria-controls="course-preview-panel" aria-label={rightOpen ? copy.closePreview : copy.openPreview}>{rightOpen ? "×" : "▣"} <span>{copy.preview}</span></button>
         </div>
       </header>
