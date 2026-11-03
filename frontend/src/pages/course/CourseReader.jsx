@@ -1686,7 +1686,11 @@ export default function CourseReader() {
 
   useEffect(() => {
     document.body.classList.add("course-reader-active");
-    return () => document.body.classList.remove("course-reader-active");
+    document.documentElement.classList.add("course-reader-page");
+    return () => {
+      document.body.classList.remove("course-reader-active");
+      document.documentElement.classList.remove("course-reader-page");
+    };
   }, []);
 
   const closeDrawers = () => {
@@ -1718,9 +1722,9 @@ export default function CourseReader() {
     closeDrawers();
     window.requestAnimationFrame(() => rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" }));
     if (isReferenceCourse) {
-      window.requestAnimationFrame(() => document.getElementById(`course-lesson-${lesson.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+      window.requestAnimationFrame(() => document.getElementById(`course-lesson-${lesson.id}`)?.scrollIntoView({ behavior: "auto", block: "start" }));
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     }
   };
 
@@ -1752,7 +1756,7 @@ export default function CourseReader() {
   };
 
   const moveTechBar = (amount) => {
-    techBarRef.current?.scrollBy({ left: amount, behavior: "smooth" });
+    techBarRef.current?.scrollBy({ left: amount, behavior: "auto" });
   };
 
   const renderTechnologyLink = ([name, color]) => {

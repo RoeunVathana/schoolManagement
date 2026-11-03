@@ -21,6 +21,10 @@
 .course-reader button { border: 0; font: inherit; cursor: pointer; }
 .course-reader pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .course-reader-active { overflow-x: hidden; }
+html.course-reader-page,
+body.course-reader-active,
+.course-reader,
+.course-reader * { scroll-behavior: auto !important; }
 body.course-drawer-open { overflow: hidden; }
 
 .course-techbar {
