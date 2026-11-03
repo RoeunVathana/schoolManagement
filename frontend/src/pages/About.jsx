@@ -5,6 +5,7 @@ import SiteFooter from "../components/SiteFooter";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import PublicNavIcon from "../components/PublicNavIcon";
 import { useAuth } from "../hooks/useAuth";
 import { useLanguage } from "../context/LanguageContext";
 import { roleHome } from "../utils/roles";
@@ -132,11 +133,11 @@ export default function About() {
             <span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "សាលា CampusFlow" : "CampusFlow Academy"}</small></span>
           </Link>
           <nav className="about-nav-links" aria-label="Primary navigation">
-            <Link to="/courses#courses">{copy.navCourses}</Link>
-            <Link to="/community">{copy.navCommunity}</Link>
-            <Link to="/about" className="is-active">{copy.navAbout}</Link>
-            <Link to="/contact">{copy.navContact}</Link>
-            <Link to="/courses#faq">{copy.navFaq}</Link>
+            <Link to="/courses#courses"><PublicNavIcon name="academy" /><span>{copy.navCourses}</span></Link>
+            <Link to="/community"><PublicNavIcon name="community" /><span>{copy.navCommunity}</span></Link>
+            <Link to="/about" className="is-active"><PublicNavIcon name="about" /><span>{copy.navAbout}</span></Link>
+            <Link to="/contact"><PublicNavIcon name="contact" /><span>{copy.navContact}</span></Link>
+            <Link to="/courses#faq"><PublicNavIcon name="faq" /><span>{copy.navFaq}</span></Link>
           </nav>
           <div className="about-nav-actions">
             <ThemeSwitch />
@@ -149,7 +150,7 @@ export default function About() {
             <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span></button>
           </div>
         </div>
-        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link><button type="button" onClick={handleLogout}>{logoutLabel}</button></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link></>)}</div></div>}
+        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="academy" /><span>{copy.navCourses}</span></Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="community" /><span>{copy.navCommunity}</span></Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="about" /><span>{copy.navAbout}</span></Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="contact" /><span>{copy.navContact}</span></Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="faq" /><span>{copy.navFaq}</span></Link><div className="about-mobile-actions">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="dashboard" /><span>{copy.dashboard}</span></Link><button type="button" onClick={handleLogout}>{logoutLabel}</button></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)}><PublicNavIcon name="dashboard" /><span>{copy.dashboard}</span></Link></>)}</div></div>}
       </header>
 
       <main>

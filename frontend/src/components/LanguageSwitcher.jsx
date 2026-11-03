@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../context/LanguageContext';
+import PublicNavIcon from './PublicNavIcon';
 
 const flags = {
   en: { src: 'https://flagcdn.com/w40/gb.png', alt: 'United Kingdom', label: 'English', short: 'EN' },
@@ -35,12 +36,12 @@ export default function LanguageSwitcher({ variant = 'dashboard', onSelect }) {
       <span className="language-switcher-flag" aria-hidden="true"><img src={selected.src} alt="" /></span>
       <span className="language-switcher-current">{selected.label}</span>
       <span className="language-switcher-short hidden" aria-hidden="true">{selected.short}</span>
-      <span className={`language-switcher-chevron ${open ? 'is-open' : ''}`} aria-hidden="true">⌄</span>
+      <PublicNavIcon name="chevron" className={`language-switcher-chevron ${open ? 'is-open' : ''}`} />
     </button>
     {open && <div className="language-switcher-menu" role="menu">
       <div className="language-switcher-menu-heading"><span>{t('language')}</span><b>{selected.short}</b></div>
       {Object.entries(flags).map(([key, option]) => <button type="button" key={key} role="menuitemradio" aria-checked={language === key} onClick={() => choose(key)} className={`language-switcher-option ${language === key ? 'is-selected' : ''}`}>
-        <span className="language-switcher-option-flag"><img src={option.src} alt={option.alt} /></span><span>{option.label}</span>{language === key && <span className="language-switcher-check" aria-hidden="true">✓</span>}
+        <span className="language-switcher-option-flag"><img src={option.src} alt={option.alt} /></span><span>{option.label}</span>{language === key && <span className="language-switcher-check"><PublicNavIcon name="check" /></span>}
       </button>)}
     </div>}
   </div>;
