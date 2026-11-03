@@ -32,6 +32,8 @@ const content = {
   },
 };
 
+const WELCOME_DISMISSED_KEY = "campusflow-welcome-dismissed";
+
 function CourseIcon() {
   return <span className="site-welcome-feature-icon" aria-hidden="true">▣</span>;
 }
@@ -43,16 +45,30 @@ function WorkspaceIcon() {
 export default function SiteWelcomePopup() {
   const { language } = useLanguage();
   const { pathname } = useLocation();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => {
+    try {
+      return window.sessionStorage.getItem(WELCOME_DISMISSED_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
   const copy = content[language] || content.en;
   const isDashboardRoute = /^\/(admin|teacher|student|customer)(?:\/|$)/.test(pathname);
   const isAuthRoute = /^\/(login|register|forgot-password)(?:\/|$)/.test(pathname);
   const isCourseReaderRoute = /^\/course(?:\/|$)/.test(pathname);
+  const dismiss = () => {
+    try {
+      window.sessionStorage.setItem(WELCOME_DISMISSED_KEY, "1");
+    } catch {
+      // Continue closing the dialog even when browser storage is unavailable.
+    }
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (!open) return undefined;
     const closeOnEscape = (event) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") dismiss();
     };
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
@@ -65,11 +81,11 @@ export default function SiteWelcomePopup() {
       className="site-welcome-overlay"
       role="presentation"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) setOpen(false);
+        if (event.target === event.currentTarget) dismiss();
       }}
     >
       <section className="site-welcome-panel" role="dialog" aria-modal="true" aria-label={copy.dialogLabel}>
-        <button type="button" className="site-welcome-close" onClick={() => setOpen(false)} aria-label={copy.close}>×</button>
+        <button type="button" className="site-welcome-close" onClick={dismiss} aria-label={copy.close}>×</button>
         <div className="site-welcome-info-icon" aria-hidden="true">i</div>
         <h2>{copy.title}</h2>
         <p className="site-welcome-subtitle">{copy.subtitle}</p>
@@ -94,8 +110,8 @@ export default function SiteWelcomePopup() {
         </div>
 
         <div className="site-welcome-actions">
-          <Link to="/courses#courses" className="site-welcome-primary" onClick={() => setOpen(false)}>{copy.browse} <span aria-hidden="true">→</span></Link>
-          <button type="button" className="site-welcome-secondary" onClick={() => setOpen(false)}><span aria-hidden="true">×</span> {copy.close}</button>
+          <Link to="/courses#courses" className="site-welcome-primary" onClick={dismiss}>{copy.browse} <span aria-hidden="true">→</span></Link>
+          <button type="button" className="site-welcome-secondary" onClick={dismiss}><span aria-hidden="true">×</span> {copy.close}</button>
         </div>
       </section>
     </div>,
