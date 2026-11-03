@@ -1037,7 +1037,7 @@ const localCourseBlueprints = [
   },
   {
     slug: "mysql", title: "MySQL", codeLabel: "query.sql", tip: "Use constraints and parameterized queries to protect data integrity and security.",
-    firstLabel: "1.1 What is MySQL?", firstHeading: "1. Introduction to MySQL", firstCode: "CREATE DATABASE campusflow;\nUSE campusflow;\n\nCREATE TABLE students (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(120) NOT NULL\n);", firstPreview: { title: "campusflow", body: "A database and students table are ready for queries." },
+    firstLabel: "1.1 What is MySQL?", firstHeading: "1. Introduction to MySQL", firstCode: "CREATE TABLE students (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  name TEXT NOT NULL\n);\n\nINSERT INTO students (name) VALUES ('CampusFlow');\nSELECT * FROM students;", firstPreview: { title: "campusflow", body: "A students table is ready for SQLite-compatible practice queries." },
     sections: [[1, "Introduction to MySQL", ["1.1 What is MySQL?", "1.2 Installing MySQL", "1.3 Creating a Database", "1.4 MySQL Workbench"]], [2, "SQL Basics", ["2.1 CREATE and ALTER", "2.2 INSERT", "2.3 SELECT", "2.4 UPDATE and DELETE"]], [3, "Filtering and Functions", ["3.1 WHERE", "3.2 ORDER BY and LIMIT", "3.3 Aggregate Functions", "3.4 GROUP BY and HAVING"]], [4, "Relationships", ["4.1 Primary Keys", "4.2 Foreign Keys", "4.3 INNER JOIN", "4.4 LEFT JOIN"]], [5, "Indexes and Transactions", ["5.1 Indexes", "5.2 Transactions", "5.3 Constraints", "5.4 Views"]], [6, "Security and Performance", ["6.1 Users and Privileges", "6.2 Backups", "6.3 Query Optimization", "6.4 Prepared Statements"]]],
   },
   {
