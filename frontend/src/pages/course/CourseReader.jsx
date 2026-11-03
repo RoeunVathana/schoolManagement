@@ -527,6 +527,103 @@ const courseCatalog = {
 
 const cleanLessonTopic = (label) => label.replace(/^\d+(?:\.\d+)*\.?\s*/, "").trim();
 
+const khmerCourseTitles = {
+  HTML: "HTML",
+  CSS: "CSS",
+  JavaScript: "JavaScript",
+  React: "React",
+  "Tailwind CSS": "Tailwind CSS",
+  "C Programming": "ភាសា C",
+  "C++": "C++",
+  Java: "Java",
+  "C#": "C#",
+  Dart: "Dart",
+  SpringBoot: "Spring Boot",
+  "Python": "Python",
+  PHP: "PHP",
+  Laravel: "Laravel",
+  "Node.js": "Node.js",
+  Kotlin: "Kotlin",
+  Flutter: "Flutter",
+  MySQL: "MySQL",
+  Git: "Git",
+  "Cyber Security": "សុវត្ថិភាពសាយប័រ",
+  "Computer Components": "គ្រឿងបន្លាស់កុំព្យូទ័រ",
+  Bootstrap: "Bootstrap",
+  "Learn Code Yourself": "រៀនសរសេរកូដដោយខ្លួនឯង",
+};
+
+const getKhmerCourseTitle = (title) => khmerCourseTitles[title] || title;
+const containsKhmer = (value) => typeof value === "string" && /[\u1780-\u17ff]/.test(value);
+
+const getKhmerTopic = (topic, courseTitle) => {
+  const cleanTopic = topic.replace(/[?៖:]+$/, "").trim();
+  const khmerCourseTitle = getKhmerCourseTitle(courseTitle);
+  if (/^what is\b/i.test(cleanTopic)) return `តើ ${cleanTopic.replace(/^what is\s*/i, "")} ជាអ្វី?`;
+  if (/^why learn\b/i.test(cleanTopic)) return `ហេតុអ្វីត្រូវរៀន ${khmerCourseTitle}?`;
+  if (/(variable|data type|constant|type casting|conversion|storage class|nullable|primitive)/i.test(cleanTopic)) return "អថេរ និងប្រភេទទិន្នន័យ";
+  if (/(function|method|procedure|lambda|closure|higher-order)/i.test(cleanTopic)) return "អនុគមន៍ និងវិធីសាស្ត្រ";
+  if (/(loop|iteration|for |while|do-while|recursion|break|continue)/i.test(cleanTopic)) return "រង្វិលជុំ និងការធ្វើម្តងហើយម្តងទៀត";
+  if (/(class|object|inheritance|polymorphism|interface|encapsulation|constructor|component|widget)/i.test(cleanTopic)) return "ថ្នាក់ វត្ថុ និងសមាសភាគ";
+  if (/(array|list|map|set|collection|string|iterator|generics|dictionary|tuple)/i.test(cleanTopic)) return "បញ្ជី អារេ និងការប្រមូលទិន្នន័យ";
+  if (/(database|sql|query|repository|entity|jpa|hibernate|crud|migration|transaction)/i.test(cleanTopic)) return "មូលដ្ឋានទិន្នន័យ និងសំណួរ";
+  if (/(api|http|request|response|rest|socket|network|websocket|fetch)/i.test(cleanTopic)) return "API និងការទំនាក់ទំនងតាមបណ្តាញ";
+  if (/(security|authentication|authorization|password|token|firewall|phishing|owasp|cors|csrf|permission)/i.test(cleanTopic)) return "សុវត្ថិភាព និងការគ្រប់គ្រងសិទ្ធិ";
+  if (/(test|debug|error|exception|logging|monitoring|performance|profil|optimization)/i.test(cleanTopic)) return "ការធ្វើតេស្ត កែកំហុស និងប្រសិទ្ធភាព";
+  if (/(deploy|docker|cloud|production|ci\/cd|release|publish)/i.test(cleanTopic)) return "ការដាក់ឱ្យប្រើប្រាស់ និងការចេញផ្សាយ";
+  if (/(form|input|button|accessib|keyboard|responsive|layout|style|color|typography|navigation)/i.test(cleanTopic)) return "ការរចនា និងបទពិសោធន៍អ្នកប្រើ";
+  if (/^(introduction|overview|history|features|install|setting up|setup|environment)/i.test(cleanTopic)) return `សេចក្តីផ្តើមអំពី ${khmerCourseTitle}`;
+  return `មេរៀន៖ ${cleanTopic}`;
+};
+
+const getKhmerSectionTitle = (title, courseTitle) => {
+  const khmerCourseTitle = getKhmerCourseTitle(courseTitle);
+  if (/introduction|overview|getting started/i.test(title)) return `សេចក្តីផ្តើមអំពី ${khmerCourseTitle}`;
+  if (/basic/i.test(title)) return `មូលដ្ឋាន ${khmerCourseTitle}`;
+  if (/advanced/i.test(title)) return `មេរៀនកម្រិតខ្ពស់ ${khmerCourseTitle}`;
+  if (/project|practice|workflow/i.test(title)) return "ការអនុវត្តគម្រោង";
+  if (/testing|debugging/i.test(title)) return "ការធ្វើតេស្ត និងកែកំហុស";
+  if (/security/i.test(title)) return "សុវត្ថិភាព";
+  return `ផ្នែក៖ ${title}`;
+};
+
+const getKhmerLesson = (courseTitle, lesson) => {
+  const topic = cleanLessonTopic(lesson.label);
+  const khmerTopic = getKhmerTopic(topic, courseTitle);
+  const number = (lesson.label.match(/^\d+(?:\.\d+)*/) || [""])[0];
+  const label = `${number}${number ? ". " : ""}${khmerTopic}`;
+  const khmerCourseTitle = getKhmerCourseTitle(courseTitle);
+  return {
+    ...lesson,
+    label,
+    heading: containsKhmer(lesson.heading) ? lesson.heading : `${number ? `${number}. ` : ""}${khmerTopic}`,
+    intro: containsKhmer(lesson.intro) ? lesson.intro : `មេរៀននេះណែនាំអំពី ${khmerTopic} ក្នុង ${khmerCourseTitle}។ សូមអានគំនិតសំខាន់ៗ បន្ទាប់មកសាកល្បងកូដដោយខ្លួនឯង ដើម្បីភ្ជាប់ទ្រឹស្តីទៅនឹងការអនុវត្ត។`,
+    bodyHeading: containsKhmer(lesson.bodyHeading) ? lesson.bodyHeading : `ចំណុចសំខាន់៖ ${khmerTopic}`,
+    body: containsKhmer(lesson.body) ? lesson.body : `សម្រាប់ ${khmerTopic} សូមចាប់ផ្តើមពីឧទាហរណ៍តូចមួយ ហើយពិនិត្យលទ្ធផលបន្ទាប់ពីការផ្លាស់ប្តូរម្តងៗ។ កុំចម្លងកូដដោយមិនយល់ពីមូលហេតុដែលវាដំណើរការ។\n\nចំណុចសម្រាប់អនុវត្ត៖\n- ពន្យល់គំនិតសំខាន់ជាពាក្យរបស់អ្នក។\n- ផ្លាស់ប្តូរតម្លៃមួយ ហើយពិនិត្យលទ្ធផល។\n- សាកល្បងករណីធម្មតា និងករណីខុសប្រក្រតី។`,
+    preview: {
+      ...lesson.preview,
+      title: containsKhmer(lesson.preview?.title) ? lesson.preview.title : khmerTopic,
+      body: containsKhmer(lesson.preview?.body) ? lesson.preview.body : `លទ្ធផលសម្រាប់មេរៀន ${khmerTopic}។`,
+    },
+  };
+};
+
+const localizeCourseForLanguage = (course, language) => {
+  if (language !== "km") return course;
+  const khmerTitle = getKhmerCourseTitle(course.title);
+  return {
+    ...course,
+    title: khmerTitle,
+    description: `សិក្សា ${khmerTitle} តាមរយៈមេរៀនជាក់ស្តែង ជំហានអនុវត្ត និងឧទាហរណ៍កូដដែលងាយយល់។`,
+    tip: "អនុវត្តមេរៀនមួយៗដោយកែប្រែឧទាហរណ៍តូចៗ ហើយពិនិត្យលទ្ធផលមុននឹងបន្តទៅមេរៀនបន្ទាប់។",
+    lessons: course.lessons.map((section) => ({
+      ...section,
+      title: getKhmerSectionTitle(section.title, course.title),
+      items: section.items.map((lesson) => getKhmerLesson(course.title, lesson)),
+    })),
+  };
+};
+
 const getLessonGuidance = (courseTitle, topic) => {
   const lowerTopic = topic.toLowerCase();
   if (/(what is|introduction|overview|history|features|install|setting up|environment)/i.test(lowerTopic)) {
@@ -1290,7 +1387,8 @@ export default function CourseReader() {
   const { slug = "html" } = useParams();
   const { language } = useLanguage();
   const copy = getReaderText(language);
-  const course = courseCatalog[slug] || courseCatalog.html;
+  const sourceCourse = courseCatalog[slug] || courseCatalog.html;
+  const course = useMemo(() => localizeCourseForLanguage(sourceCourse, language), [sourceCourse, language]);
   const isReferenceCourse = Boolean(referenceCourseCatalog[slug]);
   const courseSections = course.lessons;
   const courseLessons = useMemo(() => courseSections.flatMap((section) => section.items), [courseSections]);
@@ -1314,7 +1412,7 @@ export default function CourseReader() {
     setCompleted(new Set());
     setCopied("");
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [courseLessons, slug]);
+  }, [slug]);
 
   useEffect(() => {
     document.body.classList.add("course-reader-active");
@@ -1369,7 +1467,7 @@ export default function CourseReader() {
 
   const renderTechnologyLink = ([name, color]) => {
     const courseSlug = technologyCourseSlugs[name] || "html";
-    const label = <><i style={{ backgroundColor: color }} />{name}</>;
+    const label = <><i style={{ backgroundColor: color }} />{language === "km" ? getKhmerCourseTitle(name) : name}</>;
     return <Link className="course-tech-pill" to={`/course/${courseSlug}`} key={name}>{label}</Link>;
   };
 
