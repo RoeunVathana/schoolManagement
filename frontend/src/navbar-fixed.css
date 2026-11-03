@@ -31,6 +31,11 @@
 .public-community-page,
 .app-shell {
   perspective: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+  filter: none !important;
+  contain: none !important;
+  will-change: auto !important;
 }
 
 .about-page > main,
