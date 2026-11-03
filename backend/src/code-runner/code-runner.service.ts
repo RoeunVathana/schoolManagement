@@ -47,6 +47,29 @@ const runtimeByLanguage: Record<CodeRunnerLanguage, Runtime> = {
 
 const clampOutput = (value: unknown, max = 8000) => String(value ?? '').slice(0, max);
 
+const JAVA_PUBLIC_TYPE_PATTERN = /\bpublic\s+(?:class|interface|enum|record)\s+([A-Za-z_$][\w$]*)/;
+
+function getJavaPublicTypeName(code: string): string | null {
+  return code.match(JAVA_PUBLIC_TYPE_PATTERN)?.[1] || null;
+}
+
+function normalizeJavaForJudge0(code: string): string {
+  const publicTypeName = getJavaPublicTypeName(code);
+  if (!publicTypeName || publicTypeName === 'Main') return code;
+
+  // Judge0 compiles the submitted source as Main.java. Rename the public type
+  // and its references so examples such as `public class HelloWorld` compile
+  // without asking learners to change a perfectly valid Java class name.
+  const identifier = new RegExp(`\\b${publicTypeName.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\b`, 'g');
+  return code.replace(identifier, 'Main');
+}
+
+function getPistonFileName(runtime: Runtime, code: string): string {
+  if (runtime.language !== 'java') return runtime.file;
+  const publicTypeName = getJavaPublicTypeName(code);
+  return publicTypeName ? `${publicTypeName}.java` : runtime.file;
+}
+
 @Injectable()
 export class CodeRunnerService {
   constructor(private readonly config: ConfigService) {}
@@ -124,7 +147,7 @@ export class CodeRunnerService {
         body: JSON.stringify({
           language: runtime.language,
           version: '*',
-          files: [{ name: runtime.file, content: code }],
+          files: [{ name: getPistonFileName(runtime, code), content: code }],
           stdin,
           compile_timeout: 10000,
           run_timeout: 3000,
@@ -160,7 +183,7 @@ export class CodeRunnerService {
       response = await fetch(endpoint, {
         method: 'POST',
         headers,
-        body: JSON.stringify({ language_id: runtime.judge0Id, source_code: code, stdin }),
+        body: JSON.stringify({ language_id: runtime.judge0Id, source_code: normalizeJavaForJudge0(code), stdin }),
         signal: AbortSignal.timeout(25000),
         redirect: 'error',
       });
