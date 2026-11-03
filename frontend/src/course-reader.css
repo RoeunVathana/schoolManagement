@@ -161,7 +161,44 @@
 .course-prev-next button:hover { border-color: #8ba9ea; box-shadow: 0 8px 20px rgba(45,83,160,.08); color: var(--reader-blue); }
 .course-prev-next small { color: #8595aa; font-size: .66rem; font-weight: 800; }
 .course-prev-next span { font-size: .78rem; font-weight: 850; }
-.course-reader-footer { align-items: center; background: #f7f9fc; border-top: 1px solid var(--reader-line); box-sizing: border-box; color: #566b88; display: flex; font-size: .72rem; font-weight: 700; gap: .7rem; justify-content: space-between; margin: 0; min-height: 4.2rem; padding: 1rem clamp(1.1rem, 5vw, 4.5rem) 1.5rem; position: relative; width: 100%; z-index: 25; }
+.course-reader-footer {
+  align-items: center;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4fc 100%);
+  border-top: 1px solid var(--reader-line);
+  box-sizing: border-box;
+  color: #566b88;
+  display: flex;
+  font-size: .72rem;
+  font-weight: 700;
+  gap: .7rem;
+  justify-content: space-between;
+  margin: 0;
+  min-height: 5.25rem;
+  overflow: hidden;
+  padding: 1.25rem clamp(1.1rem, 5vw, 4.5rem);
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+.course-reader-footer::before {
+  background: linear-gradient(180deg, #39b8df, #5b61e8);
+  content: "";
+  height: 2.2rem;
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .25rem;
+}
+.course-reader-footer span:first-child {
+  color: var(--reader-ink);
+  font-size: .8rem;
+  letter-spacing: .02em;
+}
+.course-reader-footer span:last-child {
+  color: #7184a0;
+  font-size: .68rem;
+}
 
 @media (min-width: 1181px) {
   .course-reader-layout { grid-template-columns: minmax(235px, 280px) minmax(0, 1fr) minmax(270px, 350px); }
@@ -198,7 +235,12 @@
 .dark .course-reader-header h1, .dark .course-panel-heading h2 { color: #f3f7fc; }
 .dark .course-lesson-lead, .dark .course-lesson-section p { color: #c3d0e0; }
 .dark .course-reader-footer, .dark .course-breadcrumb, .dark .course-lesson-meta { border-color: #293b56; color: #c5d3e3; }
-.dark .course-reader-footer { background: #111d30; }
+.dark .course-reader-footer {
+  background: linear-gradient(135deg, #0d1b2f 0%, #142b47 100%);
+  border-color: #293b56;
+}
+.dark .course-reader-footer span:first-child { color: #e8f2ff; }
+.dark .course-reader-footer span:last-child { color: #a9bdd5; }
 .dark .course-outline-item { color: #b5c4d8; }
 .dark .course-outline-item:hover, .dark .course-outline-item.is-selected { background: #1a3155; color: #a6c3ff; }
 .dark .course-prev-next button { color: #c5d3e3; }
