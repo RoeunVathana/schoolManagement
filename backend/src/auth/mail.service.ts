@@ -26,9 +26,19 @@ export class MailService {
   }
 
   private applyConfiguration(current: MailRuntimeConfig) {
-    const { host, user, password, port, secure } = current;
     this.activeConfig = current;
-    this.from = current.from || user || 'CampusFlow <no-reply@localhost>';
+    this.from = current.from || current.user || 'CampusFlow <no-reply@localhost>';
+    const { transporter, fallbackTransporter } = this.createTransporters(current);
+    this.transporter = transporter;
+    this.fallbackTransporter = fallbackTransporter;
+    this.configSignature = [current.source, current.host, current.port, current.secure, current.user, current.password, current.from].join('|');
+    this.smtpStatus = this.transporter ? 'checking' : 'not-configured';
+    this.smtpError = null;
+    if (this.transporter) void this.verifyConnection(current.host, current.port, current.secure);
+  }
+
+  private createTransporters(current: MailRuntimeConfig) {
+    const { host, user, password, port, secure } = current;
     const createTransporter = (transportPort: number, transportSecure: boolean) => nodemailer.createTransport({
       host,
       port: transportPort,
@@ -43,14 +53,11 @@ export class MailService {
       auth: { user, pass: password },
     });
 
-    this.transporter = host && user && password ? createTransporter(port, secure) : null;
-    this.fallbackTransporter = this.transporter && host.toLowerCase() === 'smtp.gmail.com' && port === 587
+    const transporter = host && user && password ? createTransporter(port, secure) : null;
+    const fallbackTransporter = transporter && host.toLowerCase() === 'smtp.gmail.com' && port === 587
       ? createTransporter(465, true)
       : null;
-    this.configSignature = [current.source, host, port, secure, user, password, current.from].join('|');
-    this.smtpStatus = this.transporter ? 'checking' : 'not-configured';
-    this.smtpError = null;
-    if (this.transporter) void this.verifyConnection(host, port, secure);
+    return { transporter, fallbackTransporter };
   }
 
   private async verifyConnection(host: string, port: number, secure: boolean) {
@@ -101,7 +108,8 @@ export class MailService {
   }
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {
-    const transporter = await this.getTransporter();
+    const current = await this.reload();
+    const transporter = this.transporter;
     if (!transporter) {
       throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
     }
@@ -146,12 +154,49 @@ export class MailService {
         this.smtpStatus = 'ready';
         this.smtpError = null;
         console.log('[mail] Password OTP delivered through Gmail fallback (smtp.gmail.com:465, secure=true)');
+        return;
       } catch (fallbackError) {
         this.smtpStatus = 'failed';
         this.logTransportError('Password OTP fallback email failed', fallbackError);
-        throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
       }
     }
+
+    // A saved admin SMTP record intentionally takes priority over MAIL_* values,
+    // but an old saved record must not permanently break password recovery after
+    // Railway has been configured with a verified environment account. Retry the
+    // environment configuration without deleting the admin record.
+    if (current.source === 'database') {
+      const environment = this.mailSettings.environmentConfig();
+      const environmentTransporters = this.createTransporters(environment);
+      if (environmentTransporters.transporter) {
+        console.warn('[mail] Saved SMTP configuration failed; retrying server environment configuration');
+        try {
+          await environmentTransporters.transporter.sendMail(message);
+          this.applyConfiguration(environment);
+          this.smtpStatus = 'ready';
+          console.log('[mail] Password OTP delivered through server environment configuration');
+          return;
+        } catch (environmentError: any) {
+          this.logTransportError('Password OTP environment email failed', environmentError);
+          const fallback = environmentTransporters.fallbackTransporter;
+          if (fallback && this.canUseFallback(environmentError, fallback, environmentTransporters.transporter)) {
+            try {
+              await fallback.sendMail(message);
+              this.applyConfiguration(environment);
+              this.transporter = fallback;
+              this.smtpStatus = 'ready';
+              this.smtpError = null;
+              console.log('[mail] Password OTP delivered through environment Gmail fallback');
+              return;
+            } catch (fallbackError: any) {
+              this.logTransportError('Password OTP environment fallback email failed', fallbackError);
+            }
+          }
+        }
+      }
+    }
+
+    throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
   }
 
   async sendAdminPasswordOtp(email: string, otp: string, expiresInMinutes: number) {
@@ -241,8 +286,8 @@ export class MailService {
     return command === 'CONN' || ['ECONNECTION', 'ECONNREFUSED', 'ECONNRESET', 'EHOSTUNREACH', 'ENETUNREACH', 'EPIPE', 'EPROTO', 'ESOCKET', 'ETIMEDOUT', 'EAI_AGAIN', 'ETLS'].includes(code);
   }
 
-  private canUseFallback(error: any) {
-    if (!this.fallbackTransporter || this.transporter === this.fallbackTransporter) return false;
+  private canUseFallback(error: any, fallback = this.fallbackTransporter, primary = this.transporter) {
+    if (!fallback || !primary || primary === fallback) return false;
     const code = String(error?.code || '').toUpperCase();
     const command = String(error?.command || '').toUpperCase();
     // Authentication failures can also be caused by a provider-specific
