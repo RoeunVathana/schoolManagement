@@ -7,6 +7,7 @@ export class MailService {
   private readonly transporter: nodemailer.Transporter | null;
   private readonly from: string;
   private smtpStatus: 'not-configured' | 'checking' | 'ready' | 'failed' = 'not-configured';
+  private smtpError: { code: string; responseCode: number | null; command: string | null } | null = null;
 
   constructor(private readonly config: ConfigService) {
     const host = this.config.get<string>('MAIL_HOST')?.trim();
@@ -42,6 +43,7 @@ export class MailService {
       void this.transporter.verify()
         .then(() => {
           this.smtpStatus = 'ready';
+          this.smtpError = null;
           console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`);
         })
         .catch((error: any) => {
@@ -56,7 +58,7 @@ export class MailService {
   }
 
   configuration() {
-    return { configured: this.isConfigured(), status: this.smtpStatus };
+    return { configured: this.isConfigured(), status: this.smtpStatus, error: this.smtpError };
   }
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {
@@ -159,10 +161,13 @@ export class MailService {
   }
 
   private logTransportError(label: string, error: any) {
-    console.error(`[mail] ${label}`, {
+    this.smtpError = {
       code: error?.code || 'UNKNOWN',
       responseCode: error?.responseCode || null,
       command: error?.command || null,
+    };
+    console.error(`[mail] ${label}`, {
+      ...this.smtpError,
       message: error?.message || 'No SMTP error message was provided',
     });
   }
