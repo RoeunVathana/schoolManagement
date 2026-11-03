@@ -22,6 +22,12 @@ const technologies = [
   ["SpringBoot", "#159c83"],
   ["Kotlin", "#6a3187"],
   ["Flutter", "#0872b4"],
+  ["MySQL", "#e78319"],
+  ["Git", "#f04f31"],
+  ["Cyber Security", "#45c74d"],
+  ["Computer Components", "#d45d66"],
+  ["Bootstrap", "#7952b3"],
+  ["Learn Code Yourself", "#2185a8"],
 ];
 
 const lessons = [
@@ -635,6 +641,18 @@ const technologyCourseSlugs = {
   "C#": "csharp",
   Dart: "dart-programming",
   SpringBoot: "springboot",
+  "C++": "cpp_programming",
+  Python: "python",
+  PHP: "php",
+  Laravel: "laravel",
+  "Node.js": "node",
+  MySQL: "mysql",
+  Git: "git",
+  "Cyber Security": "Cyber-Security",
+  "Computer Components": "components-of-computer",
+  Bootstrap: "bootstrap",
+  "Learn Code Yourself": "Learn-the-code-yourself",
+  Flutter: "flutter",
 };
 
 export default function CourseReader() {
@@ -716,6 +734,15 @@ export default function CourseReader() {
     techBarRef.current?.scrollBy({ left: amount, behavior: "smooth" });
   };
 
+  const renderTechnologyLink = ([name, color]) => {
+    const courseSlug = technologyCourseSlugs[name] || "html";
+    const label = <><i style={{ backgroundColor: color }} />{name}</>;
+    if (courseCatalog[courseSlug]) {
+      return <Link className="course-tech-pill" to={`/course/${courseSlug}`} key={name}>{label}</Link>;
+    }
+    return <a className="course-tech-pill" href={`https://codekhmerlearning.site/course/${courseSlug}`} target="_blank" rel="noreferrer" key={name}>{label}</a>;
+  };
+
   return (
     <div className="course-reader">
       <Seo
@@ -727,7 +754,7 @@ export default function CourseReader() {
       <div className="course-techbar course-techbar-before-header" aria-label="Available technologies" aria-hidden="true">
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">‹</button>
         <div className="course-techbar-track" ref={techBarRef}>
-          {technologies.map(([name, color]) => <Link className="course-tech-pill" to={`/course/${technologyCourseSlugs[name] || "html"}`} key={name}><i style={{ backgroundColor: color }} />{name}</Link>)}
+          {technologies.map(renderTechnologyLink)}
         </div>
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label="Scroll technologies right">›</button>
       </div>
@@ -751,7 +778,7 @@ export default function CourseReader() {
       <div className="course-techbar" aria-label="Available technologies">
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">&lsaquo;</button>
         <div className="course-techbar-track" ref={techBarRef}>
-          {technologies.map(([name, color]) => <Link className="course-tech-pill" to={`/course/${technologyCourseSlugs[name] || "html"}`} key={name}><i style={{ backgroundColor: color }} />{name}</Link>)}
+          {technologies.map(renderTechnologyLink)}
         </div>
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label="Scroll technologies right">&rsaquo;</button>
       </div>
