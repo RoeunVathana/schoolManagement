@@ -525,10 +525,127 @@ const courseCatalog = {
   },
 };
 
-// The four language readers below follow the chapter order used by the
-// CodeKhmerLearning reference readers.  The existing reader interaction is
-// intentionally retained: learners can open one lesson at a time, copy its
-// example, mark it complete, and continue with Previous/Next.
+const cleanLessonTopic = (label) => label.replace(/^\d+(?:\.\d+)*\.?\s*/, "").trim();
+
+const getLessonGuidance = (courseTitle, topic) => {
+  const lowerTopic = topic.toLowerCase();
+  if (/(what is|introduction|overview|history|features|install|setting up|environment)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} gives you the context needed to use ${courseTitle} with confidence. Start with the problem it solves, learn the vocabulary, and run the smallest working example before adding more features.`,
+      bodyHeading: "Build the mental model",
+      body: `In ${courseTitle}, ${topic.toLowerCase()} connects the idea to a real development workflow. Identify the input, the transformation and the result, then explain the example in your own words.\n\nPractice checklist:\n- Run the example once.\n- Change one value and observe the result.\n- Write down one question to investigate next.`,
+    };
+  }
+  if (/(variable|data type|constant|type casting|conversion|storage class|nullable|primitive)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} is about representing information safely inside a ${courseTitle} program. Choose a clear name, select the narrowest useful type, and make conversions visible instead of relying on hidden behavior.`,
+      bodyHeading: "Name and validate values",
+      body: `A good value has a clear purpose and a predictable lifetime. Compare the type before and after a conversion, test an empty or boundary value, and keep mutable state limited to the code that owns it.\n\nPractice checklist:\n- Declare one value with an explicit type.\n- Try a valid and an invalid value.\n- Read the compiler or runtime message carefully.`,
+    };
+  }
+  if (/(function|method|procedure|lambda|closure|higher-order)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} helps you divide a ${courseTitle} program into small, testable actions. A useful function has a clear name, focused responsibility, explicit inputs and a predictable result.`,
+      bodyHeading: "Design a small reusable action",
+      body: "Begin with one responsibility, then decide what the function needs to receive and what it should return. Keep side effects at the boundary so the core logic can be tested with ordinary values.\n\nPractice checklist:\n- Give the function a verb-based name.\n- Test the normal case and one edge case.\n- Reuse it from two different call sites.",
+    };
+  }
+  if (/(loop|iteration|for |while|do-while|recursion|break|continue)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} repeats work in a controlled way. In ${courseTitle}, make the stopping condition obvious and keep each iteration small enough to inspect while debugging.`,
+      bodyHeading: "Control repetition",
+      body: "Choose the loop that matches the problem: iterate over a collection when the data is known, or use a condition when the work continues until a state changes. Always check the initial value, update step and exit condition.\n\nPractice checklist:\n- Trace the first three iterations on paper.\n- Test an empty collection or zero count.\n- Confirm that the loop always makes progress.",
+    };
+  }
+  if (/(class|object|inheritance|polymorphism|interface|encapsulation|constructor|component|widget)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} organizes related data and behavior into a reusable design. Use the smallest abstraction that makes the ${courseTitle} code easier to understand, test and change.`,
+      bodyHeading: "Model one responsibility",
+      body: "Separate public behavior from internal details and keep dependencies explicit. Prefer composition when two pieces can work together without creating a rigid inheritance tree.\n\nPractice checklist:\n- Name the responsibility of the type in one sentence.\n- Expose only the operations callers need.\n- Create one object and exercise its main behavior.",
+    };
+  }
+  if (/(array|list|map|set|collection|string|iterator|generics|dictionary|tuple)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} gives ${courseTitle} a structured way to store and transform related values. Select a collection based on ordering, uniqueness, lookup speed and how the data will change.`,
+      bodyHeading: "Choose the right collection",
+      body: "Start with a small data set and inspect the result after each transformation. Keep the element type clear, handle an empty collection, and avoid mutating shared data unless that behavior is intentional.\n\nPractice checklist:\n- Add three sample values.\n- Read one value by position or key.\n- Transform the collection into the output the UI needs.",
+    };
+  }
+  if (/(database|sql|query|repository|entity|jpa|hibernate|crud|migration|transaction)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} connects application behavior to reliable data storage. In ${courseTitle}, design the data shape first, validate inputs at the boundary, and make failures safe to retry or report.`,
+      bodyHeading: "Make data operations predictable",
+      body: "Use constraints to protect important relationships, parameterized queries to avoid injection, and transactions when several writes must succeed together. Measure slow queries instead of guessing about performance.\n\nPractice checklist:\n- Define the data you need to store.\n- Add validation and a useful error path.\n- Test empty, duplicate and missing records.",
+    };
+  }
+  if (/(api|http|request|response|rest|socket|network|websocket|fetch)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} describes how software exchanges information across a boundary. Treat every request as untrusted input, return a clear status, and keep the response shape stable for clients.`,
+      bodyHeading: "Follow the request lifecycle",
+      body: "A dependable API validates the request, performs one use-case, and returns a useful success or error response. Add timeouts, logging and authentication at the boundary rather than scattering them through business logic.\n\nPractice checklist:\n- Define the request and response shape.\n- Test success, validation failure and not-found cases.\n- Never log passwords, tokens or private user data.",
+    };
+  }
+  if (/(security|authentication|authorization|password|token|firewall|phishing|owasp|cors|csrf|permission)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} is a security boundary in ${courseTitle}. Verify identity, check permissions, protect secrets and assume that external input can be deliberately malformed.`,
+      bodyHeading: "Reduce risk by default",
+      body: "Security is a sequence of small decisions: collect less data, grant the minimum access, validate on the server and record meaningful events without exposing secrets. Review both the happy path and the abuse path.\n\nPractice checklist:\n- Identify the asset being protected.\n- Name the user or service allowed to access it.\n- Add a safe failure response and test it.",
+    };
+  }
+  if (/(test|debug|error|exception|logging|monitoring|performance|profil|optimization)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} turns a working ${courseTitle} example into software that is easier to trust. Reproduce the behavior, isolate the smallest failing case, and verify the fix with a repeatable check.`,
+      bodyHeading: "Observe, fix and verify",
+      body: "A good debugging loop is: observe the actual behavior, form one hypothesis, change one thing, then run the same check again. Keep useful logs and remove sensitive values before they reach a console or monitoring system.\n\nPractice checklist:\n- Write the expected result first.\n- Capture the input that reproduces the issue.\n- Add a regression test or verification step.",
+    };
+  }
+  if (/(deploy|docker|cloud|production|ci\/cd|release|publish)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} prepares a ${courseTitle} project for other people to use. Make configuration explicit, keep secrets outside source control, and verify the deployed behavior instead of trusting the build alone.`,
+      bodyHeading: "Ship a repeatable build",
+      body: "Separate development and production settings, add a health check, and record the version that was released. A small rollback plan is part of a safe deployment.\n\nPractice checklist:\n- Build from a clean checkout.\n- Configure secrets through the deployment environment.\n- Test the public route and review the server logs.",
+    };
+  }
+  return {
+    intro: `${topic} is a practical ${courseTitle} skill. Learn the smallest useful rule, connect it to the surrounding unit, and apply it in a short example that you can change and test.`,
+    bodyHeading: `Practice ${topic}`,
+    body: `Use ${topic.toLowerCase()} to solve one focused problem before combining it with other features. Read the example line by line, predict the result, then make a small change and compare the output.\n\nPractice checklist:\n- Explain the main idea without copying the code.\n- Change one input or rule.\n- Keep the experiment small enough to debug.`,
+  };
+};
+
+const getGeneratedLessonCode = (courseTitle, topic) => {
+  const safeTopic = topic.replace(/["']/g, "").slice(0, 70);
+  const lowerTitle = courseTitle.toLowerCase();
+  if (lowerTitle === "html") return `<section class="lesson-card">\n  <h2>${safeTopic}</h2>\n  <p>Practice this HTML concept with meaningful structure.</p>\n</section>`;
+  if (lowerTitle.includes("tailwind")) return `<article class="rounded-2xl bg-white p-6 shadow-sm">\n  <h2 class="text-2xl font-black text-slate-900">${safeTopic}</h2>\n  <p class="mt-2 text-slate-600">Practice one utility at a time.</p>\n</article>`;
+  if (lowerTitle === "css") return `.lesson-card {\n  display: grid;\n  gap: 1rem;\n  padding: 1.5rem;\n  border-radius: 1rem;\n}`;
+  if (lowerTitle === "javascript") return `const lessonTopic = "${safeTopic}";\nconst message = document.querySelector("#message");\nmessage.textContent = \`Practice: ${safeTopic}\`;\nconsole.log(lessonTopic);`;
+  if (lowerTitle === "react") return `export default function LessonCard() {\n  return (\n    <article>\n      <h2>${safeTopic}</h2>\n      <p>Build this lesson as a focused component.</p>\n    </article>\n  );\n}`;
+  if (lowerTitle === "c programming") return `#include <stdio.h>\n\nint main(void) {\n    printf("Practice: ${safeTopic}\\n");\n    return 0;\n}`;
+  if (lowerTitle === "c++") return `#include <iostream>\n\nint main() {\n    std::cout << "Practice: ${safeTopic}\\n";\n    return 0;\n}`;
+  if (lowerTitle.includes("c#")) return `using System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine("Practice: ${safeTopic}");\n    }\n}`;
+  if (lowerTitle === "java") return `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Practice: ${safeTopic}");\n    }\n}`;
+  if (lowerTitle === "python") return `topic = "${safeTopic}"\nprint(f"Practice: {topic}")`;
+  if (lowerTitle === "php") return `<?php\n$topic = "${safeTopic}";\necho "Practice: $topic";`;
+  if (lowerTitle === "laravel") return `use Illuminate\\Support\\Facades\\Route;\n\nRoute::get('/lesson', function () {\n    return '${safeTopic}';\n});`;
+  if (lowerTitle === "node.js") return `const http = require("http");\n\nhttp.createServer((request, response) => {\n  response.end("Practice: ${safeTopic}");\n}).listen(3000);`;
+  if (lowerTitle === "kotlin") return `fun main() {\n    println("Practice: ${safeTopic}")\n}`;
+  if (lowerTitle === "flutter") return `class LessonCard extends StatelessWidget {\n  const LessonCard({super.key});\n\n  @override\n  Widget build(BuildContext context) {\n    return const Text("${safeTopic}");\n  }\n}`;
+  if (lowerTitle === "dart") return `void main() {\n  print("Practice: ${safeTopic}");\n}`;
+  if (lowerTitle === "mysql") return `SELECT id, name\nFROM students\nWHERE status = 'active'\nORDER BY name;`;
+  if (lowerTitle === "git") return `git status\ngit add .\ngit commit -m "Practice ${safeTopic}"`;
+  if (lowerTitle.includes("cyber")) return `Security review: ${safeTopic}\n- Identify the asset\n- Check the permission\n- Record a safe result`;
+  if (lowerTitle.includes("computer")) return `Computer system\n|- Input\n|- Processing\n|- Memory\n|- Storage\n\\- Output`;
+  if (lowerTitle === "bootstrap") return `<div class="container py-4">\n  <h2 class="text-primary">${safeTopic}</h2>\n  <button class="btn btn-success">Practice</button>\n</div>`;
+  if (lowerTitle.includes("learn code")) return `const steps = ["understand", "practice", "test", "improve"];\nconsole.log("${safeTopic}", steps);`;
+  if (lowerTitle.includes("springboot")) return `@RestController\nclass LessonController {\n    @GetMapping("/lessons")\n    String lessons() {\n        return "${safeTopic}";\n    }\n}`;
+  return `// ${safeTopic}\n// Practice this ${courseTitle} lesson in a small example.`;
+};
+
+// The course readers use the reference sites for topic coverage, while the
+// lesson explanations and examples below are original CampusFlow content.
+// Learners can open one lesson, copy its example, mark it complete and move
+// through the full subject with Previous/Next.
 const createReferenceCourse = ({ slug, title, description, codeLabel, tip, sections, details = {} }) => ({
   slug,
   title,
@@ -540,16 +657,18 @@ const createReferenceCourse = ({ slug, title, description, codeLabel, tip, secti
     title: sectionTitle,
     items: labels.map((label, index) => {
       const detail = details[label] || {};
+      const topic = cleanLessonTopic(label);
+      const generated = getLessonGuidance(title, topic);
       const id = `${slug}-${String(number).replace(/[^a-z0-9]+/gi, "-")}-${index + 1}`;
       return {
         id,
         label,
-        heading: detail.heading || `${number}. ${sectionTitle}`,
-        intro: detail.intro || `មេរៀននេះពន្យល់អំពី ${label.replace(/^\d+(?:\.\d+)*\.?\s*/, "")} និងបង្ហាញគំនិតសំខាន់ៗសម្រាប់ការអនុវត្តជាក់ស្តែង។`,
-        bodyHeading: detail.bodyHeading || label,
-        body: detail.body || `សិក្សាមេរៀន ${label} បន្ទាប់មកសាកល្បងកែប្រែឧទាហរណ៍កូដ ដើម្បីយល់ពីរបៀបដែល ${title} ដំណើរការ។`,
-        code: detail.code || `// ${label}\n// Practice this ${title} lesson in your editor.`,
-        preview: detail.preview || { title: label, body: `Example output for ${title}.` },
+        heading: detail.heading || label.replace(/\.$/, ""),
+        intro: detail.intro || generated.intro,
+        bodyHeading: detail.bodyHeading || generated.bodyHeading,
+        body: detail.body || generated.body,
+        code: detail.code || getGeneratedLessonCode(title, topic),
+        preview: detail.preview || { title: topic, body: `Practice output for ${title}: ${topic}.` },
       };
     }),
   })),
@@ -829,6 +948,125 @@ const additionalReferenceCourseCatalog = Object.fromEntries(localCourseBlueprint
 
 Object.assign(referenceCourseCatalog, additionalReferenceCourseCatalog);
 Object.assign(courseCatalog, referenceCourseCatalog);
+
+// Additional original units keep every subject useful beyond the first
+// reference outline. The labels follow the same progression style, but the
+// explanations, examples and practice prompts are generated locally above.
+const supplementalCourseUnits = {
+  html: [
+    [1, "Forms and Accessibility", ["Forms and Labels", "Input Types", "Accessible Buttons", "Keyboard Navigation"]],
+    [2, "HTML for Search and Sharing", ["Metadata", "Semantic Landmarks", "Images and Responsive Media", "Social Sharing Cards"]],
+    [3, "HTML Project Practice", ["Plan a Profile Page", "Build a Course Page", "Review HTML Structure", "Publish a Static Page"]],
+  ],
+  css: [
+    [1, "Advanced CSS", ["Positioning", "Transitions and Transforms", "Custom Properties", "Container Queries"]],
+    [2, "Accessible Responsive Design", ["Color Contrast", "Focus Styles", "Reduced Motion", "Responsive Typography"]],
+    [3, "CSS Project Practice", ["Build a Course Card", "Build a Navigation Bar", "Create a Dashboard Grid", "Review and Refactor Styles"]],
+  ],
+  javascript: [
+    [1, "Objects and Modules", ["Objects and Properties", "Destructuring", "ES Modules", "Error Boundaries"]],
+    [2, "Browser APIs", ["Local Storage", "Form Validation", "Timers", "URL and History APIs"]],
+    [3, "Testing and Projects", ["Write a Small Test", "Debug with DevTools", "Build a Quiz Interaction", "Deploy a JavaScript Page"]],
+  ],
+  tailwindcss: [
+    [1, "Themes and Customization", ["Theme Tokens", "Custom Utilities", "Component Variants", "Plugin Basics"]],
+    [2, "Accessible Components", ["Accessible Buttons", "Navigation States", "Form Feedback", "Dark Mode Contrast"]],
+    [3, "Production Workflow", ["Class Organization", "Purge and Build Output", "Responsive Review", "Tailwind Project Checklist"]],
+  ],
+  react: [
+    [1, "Hooks and State", ["useState", "useEffect", "useMemo and useCallback", "Custom Hooks"]],
+    [2, "Data and Forms", ["Controlled Forms", "Loading and Error States", "Fetching API Data", "Optimistic Updates"]],
+    [3, "Testing and Deployment", ["Component Testing", "Accessibility Testing", "Production Build", "React Project Review"]],
+  ],
+  c_programming: [
+    [1, "C Projects and Tooling", ["Command-Line Projects", "Makefiles", "Testing C Functions", "Building a Release"]],
+    [2, "C Safety Review", ["Input Validation", "Resource Ownership", "Undefined Behavior", "C Project Checklist"]],
+  ],
+  java: [
+    [1, "Modern Java", ["Records", "Streams", "Optional Values", "Date and Time API"]],
+    [2, "Java Projects", ["Unit Testing", "Maven Project Structure", "REST Client Practice", "Package and Deploy"]],
+  ],
+  csharp: [
+    [1, "Modern C#", ["Properties and Records", "LINQ", "Async and Await", "Pattern Matching"]],
+    [2, ".NET Application Practice", ["Build a Console App", "Create a Web API", "Dependency Injection", "Test and Publish"]],
+  ],
+  "dart-programming": [
+    [1, "Dart Packages and Testing", ["pubspec.yaml", "Reusable Libraries", "Unit Testing", "Dart Analyzer"]],
+    [2, "Dart Project Practice", ["Read JSON Data", "Build a CLI Tool", "Handle Errors", "Prepare a Release"]],
+  ],
+  springboot: [
+    [1, "Production Readiness", ["Health Checks", "Structured Logging", "Configuration Profiles", "Observability"]],
+    [2, "Spring Boot Project Review", ["Design the Use Case", "Secure the API", "Test the Deployment", "Document the Release"]],
+  ],
+  cpp_programming: [
+    [1, "Modern C++ Practice", ["RAII", "Move Semantics", "Lambda Expressions", "Concurrency Basics"]],
+    [2, "C++ Project Workflow", ["CMake", "Unit Testing", "Debugging", "Release Checklist"]],
+  ],
+  python: [
+    [1, "Python Data and Web", ["Comprehensions", "Iterators and Generators", "HTTP Requests", "Working with APIs"]],
+    [2, "Python Project Workflow", ["Testing with pytest", "Logging", "Packaging", "Deploying a Python App"]],
+  ],
+  php: [
+    [1, "Modern PHP", ["Namespaces", "Composer", "Object Interfaces", "Typed Properties"]],
+    [2, "PHP Application Practice", ["Secure Forms", "REST Endpoints", "Testing PHP", "Production Configuration"]],
+  ],
+  laravel: [
+    [1, "Laravel Application Quality", ["Form Requests", "Authorization Policies", "API Resources", "Automated Tests"]],
+    [2, "Laravel Production", ["Queues", "Events and Listeners", "Caching", "Deployment Checklist"]],
+  ],
+  node: [
+    [1, "Node.js Application Quality", ["Environment Configuration", "Input Validation", "Testing Routes", "Structured Logging"]],
+    [2, "Node.js Production", ["Authentication Middleware", "Database Transactions", "Caching", "Deploy an API"]],
+  ],
+  kotlin: [
+    [1, "Kotlin Application Patterns", ["Sealed Classes", "Generics", "Extension Functions", "Testing Kotlin"]],
+    [2, "Kotlin Project Practice", ["Coroutines and Cancellation", "HTTP Client", "Persistence", "Package a Release"]],
+  ],
+  flutter: [
+    [1, "Flutter Application Quality", ["Widget Testing", "Accessibility", "Animations", "Responsive Breakpoints"]],
+    [2, "Flutter Project Practice", ["Navigation Shell", "API Loading States", "Local Persistence", "Build for Release"]],
+  ],
+  mysql: [
+    [1, "Advanced SQL", ["Subqueries", "Common Table Expressions", "Window Functions", "Stored Procedures"]],
+    [2, "Database Operations", ["User Roles", "Backup and Restore", "Query Plans", "Production Checklist"]],
+  ],
+  git: [
+    [1, "Collaboration Workflow", ["Pull Requests", "Code Review", "Rebasing", "Release Tags"]],
+    [2, "Git Project Practice", ["Protect Secrets", "Recover a Commit", "Automate Checks", "Repository Checklist"]],
+  ],
+  "Cyber-Security": [
+    [1, "Security Assessment", ["Threat Modeling", "Asset Inventory", "Vulnerability Triage", "Security Testing"]],
+    [2, "Incident Readiness", ["Alert Handling", "Evidence Preservation", "Recovery Planning", "Security Review"]],
+  ],
+  "components-of-computer": [
+    [1, "Operating Systems", ["Processes", "Filesystems", "Drivers", "System Updates"]],
+    [2, "Hardware Troubleshooting", ["Read Error Symptoms", "Check Power and Cooling", "Test Components", "Maintenance Plan"]],
+  ],
+  bootstrap: [
+    [1, "Bootstrap Components", ["Responsive Navbar", "Cards and Modals", "Alerts and Toasts", "Accessible Forms"]],
+    [2, "Bootstrap Project Practice", ["Build a Landing Page", "Build a Course Grid", "Customize Theme Colors", "Production Review"]],
+  ],
+  "Learn-the-code-yourself": [
+    [1, "Practice Habits", ["Read Documentation", "Ask Better Questions", "Use Version Control", "Learn from Errors"]],
+    [2, "Build Your First Project", ["Choose a Small Scope", "Design the Data", "Test the Main Flow", "Share the Result"]],
+  ],
+};
+
+Object.entries(supplementalCourseUnits).forEach(([slug, sections]) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const normalizedSections = sections.map(([unusedNumber, sectionTitle, labels], index) => [highestNumber + index + 1, sectionTitle, labels]);
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections: normalizedSections,
+  });
+  course.lessons = [...course.lessons, ...generated.lessons];
+});
 
 const technologyCourseSlugs = {
   HTML: "html",
