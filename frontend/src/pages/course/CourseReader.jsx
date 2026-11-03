@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
+import { useLanguage } from "../../context/LanguageContext";
 
 const technologies = [
   ["HTML", "#f16529"],
@@ -29,6 +31,113 @@ const technologies = [
   ["Bootstrap", "#7952b3"],
   ["Learn Code Yourself", "#2185a8"],
 ];
+
+const readerText = {
+  en: {
+    courseTitle: (title) => `${title} Course`,
+    courses: "Courses",
+    backToCourses: "Back to courses",
+    availableTechnologies: "Available technologies",
+    scrollTechnologiesLeft: "Scroll technologies left",
+    scrollTechnologiesRight: "Scroll technologies right",
+    lessons: "Lessons",
+    courseOutline: "Course outline",
+    complete: "complete",
+    lessonProgress: (current, total) => `Lesson ${current} of ${total}`,
+    beginner: "Beginner",
+    preview: "Preview",
+    openLessonMenu: "Open lesson menu",
+    openPreview: "Open example preview",
+    closeLessonMenu: "Close lesson menu",
+    closePreview: "Close preview",
+    learnAtYourOwnPace: "Learn at your own pace. Your progress stays on this device.",
+    referenceNote: "Reference-style reader · scroll through the full course or choose a lesson from the outline.",
+    copied: "Copied",
+    copy: "Copy",
+    markAsComplete: "Mark as complete",
+    completed: "Completed",
+    previous: "Previous",
+    next: "Next",
+    liveExample: "Live example",
+    renderedResult: "Rendered result:",
+    tryItYourself: "Try it yourself",
+    tryItYourselfBody: "Read the example, then change the code in your own editor to see what happens.",
+    interactiveCoding: "Interactive coding",
+    writeAndRun: "Write and run",
+    browserSandbox: "Browser sandbox",
+    secureRunnerNeeded: "Secure runner needed",
+    live: "Live",
+    reset: "Reset",
+    run: "Run",
+    checkRunner: "Check runner",
+    codePlayground: "Code playground",
+    editCode: (language) => `Edit ${language} code`,
+    runShortcut: "Ctrl / ⌘ + Enter to run",
+    result: "Result",
+    editorReady: "Editor ready",
+    editorReadyBody: (language) => `Write and copy your ${language} code here. To execute it safely, CampusFlow needs a containerized compiler service for this language.`,
+    console: "Console",
+    error: "Error",
+    info: "Info",
+    secureRunnerMessage: (language) => `This ${language} editor is ready, but a secure server compiler is not connected yet.`,
+    practiceEveryDay: "Practice a little every day.",
+    home: "CampusFlow home",
+  },
+  km: {
+    courseTitle: (title) => `វគ្គសិក្សា ${title}`,
+    courses: "វគ្គសិក្សា",
+    backToCourses: "ត្រឡប់ទៅវគ្គសិក្សា",
+    availableTechnologies: "បច្ចេកវិទ្យាដែលមាន",
+    scrollTechnologiesLeft: "រមូរបច្ចេកវិទ្យាទៅឆ្វេង",
+    scrollTechnologiesRight: "រមូរបច្ចេកវិទ្យាទៅស្ដាំ",
+    lessons: "មេរៀន",
+    courseOutline: "គ្រោងមេរៀន",
+    complete: "បានបញ្ចប់",
+    lessonProgress: (current, total) => `មេរៀន ${current} នៃ ${total}`,
+    beginner: "អ្នកចាប់ផ្តើម",
+    preview: "មើលជាមុន",
+    openLessonMenu: "បើកម៉ឺនុយមេរៀន",
+    openPreview: "បើកការមើលឧទាហរណ៍ជាមុន",
+    closeLessonMenu: "បិទម៉ឺនុយមេរៀន",
+    closePreview: "បិទការមើលជាមុន",
+    learnAtYourOwnPace: "រៀនតាមល្បឿនរបស់អ្នក។ វឌ្ឍនភាពរបស់អ្នកត្រូវបានរក្សាទុកនៅលើឧបករណ៍នេះ។",
+    referenceNote: "ទំព័រមេរៀនពេញលេញ · រមូរមើលវគ្គសិក្សាទាំងមូល ឬជ្រើសរើសមេរៀនពីគ្រោងមេរៀន។",
+    copied: "បានចម្លង",
+    copy: "ចម្លង",
+    markAsComplete: "សម្គាល់ថាបានបញ្ចប់",
+    completed: "បានបញ្ចប់",
+    previous: "មុន",
+    next: "បន្ទាប់",
+    liveExample: "ឧទាហរណ៍បន្តផ្ទាល់",
+    renderedResult: "លទ្ធផលដែលបានបង្ហាញ៖",
+    tryItYourself: "សាកល្បងដោយខ្លួនឯង",
+    tryItYourselfBody: "អានឧទាហរណ៍ បន្ទាប់មកកែប្រែកូដក្នុងកម្មវិធីកែសម្រួលរបស់អ្នក ដើម្បីមើលលទ្ធផល។",
+    interactiveCoding: "ការសរសេរកូដអន្តរកម្ម",
+    writeAndRun: "សរសេរ និងដំណើរការ",
+    browserSandbox: "បរិស្ថានសាកល្បងក្នុងកម្មវិធីរុករក",
+    secureRunnerNeeded: "ត្រូវការឧបករណ៍ដំណើរការដែលមានសុវត្ថិភាព",
+    live: "បន្តផ្ទាល់",
+    reset: "កំណត់ឡើងវិញ",
+    run: "ដំណើរការ",
+    checkRunner: "ពិនិត្យឧបករណ៍ដំណើរការ",
+    codePlayground: "កន្លែងសាកល្បងកូដ",
+    editCode: (language) => `កែសម្រួលកូដ ${language}`,
+    runShortcut: "Ctrl / ⌘ + Enter ដើម្បីដំណើរការ",
+    result: "លទ្ធផល",
+    editorReady: "កម្មវិធីកែសម្រួលរួចរាល់",
+    editorReadyBody: (language) => `សរសេរ និងចម្លងកូដ ${language} របស់អ្នកនៅទីនេះ។ ដើម្បីដំណើរការដោយសុវត្ថិភាព CampusFlow ត្រូវការសេវាកម្ម compiler ដែលដំណើរការក្នុង container សម្រាប់ភាសានេះ។`,
+    console: "កុងសូល",
+    error: "កំហុស",
+    info: "ព័ត៌មាន",
+    secureRunnerMessage: (language) => `កម្មវិធីកែសម្រួល ${language} នេះរួចរាល់ ប៉ុន្តែមិនទាន់បានភ្ជាប់ compiler សុវត្ថិភាពនៅលើ server ទេ។`,
+    practiceEveryDay: "អនុវត្តបន្តិចរាល់ថ្ងៃ។",
+    home: "ទំព័រដើម CampusFlow",
+  },
+};
+
+function getReaderText(language) {
+  return readerText[language] || readerText.en;
+}
 
 const lessons = [
   {
@@ -820,6 +929,8 @@ function buildPlaygroundDocument(language, code) {
 }
 
 function CodePlayground({ course, lesson }) {
+  const { language: uiLanguage } = useLanguage();
+  const copy = getReaderText(uiLanguage);
   const language = getCodeLanguage(course.slug);
   const canRunInBrowser = browserRunnableLanguages.has(language);
   const [draftCode, setDraftCode] = useState(lesson.code || "");
@@ -858,7 +969,7 @@ function CodePlayground({ course, lesson }) {
 
   const run = () => {
     if (!canRunInBrowser) {
-      setMessages([{ type: "info", message: `This ${language} editor is ready, but a secure server compiler is not connected yet.` }]);
+      setMessages([{ type: "info", message: copy.secureRunnerMessage(language) }]);
       return;
     }
     setRunCode(draftCode);
@@ -893,17 +1004,17 @@ function CodePlayground({ course, lesson }) {
   };
 
   return (
-    <section className="course-playground" aria-label="Code playground">
+    <section className="course-playground" aria-label={copy.codePlayground}>
       <div className="course-playground-heading">
-        <div><p className="course-panel-eyebrow">Interactive coding</p><h3>Write and run</h3></div>
-        <span className={`course-playground-status ${canRunInBrowser ? "is-ready" : "is-server"}`}>{canRunInBrowser ? "Browser sandbox" : "Secure runner needed"}</span>
+        <div><p className="course-panel-eyebrow">{copy.interactiveCoding}</p><h3>{copy.writeAndRun}</h3></div>
+        <span className={`course-playground-status ${canRunInBrowser ? "is-ready" : "is-server"}`}>{canRunInBrowser ? copy.browserSandbox : copy.secureRunnerNeeded}</span>
       </div>
       <div className="course-playground-toolbar">
         <span className="course-playground-language">{language}</span>
         <div className="course-playground-actions">
-          {canRunInBrowser && <label className="course-live-toggle"><input type="checkbox" checked={autoRun} onChange={(event) => setAutoRun(event.target.checked)} /> Live</label>}
-          <button type="button" onClick={reset}>Reset</button>
-          <button type="button" className="is-primary" onClick={run}>{canRunInBrowser ? "Run" : "Check runner"}</button>
+          {canRunInBrowser && <label className="course-live-toggle"><input type="checkbox" checked={autoRun} onChange={(event) => setAutoRun(event.target.checked)} /> {copy.live}</label>}
+          <button type="button" onClick={reset}>{copy.reset}</button>
+          <button type="button" className="is-primary" onClick={run}>{canRunInBrowser ? copy.run : copy.checkRunner}</button>
         </div>
       </div>
       <textarea
@@ -912,9 +1023,9 @@ function CodePlayground({ course, lesson }) {
         onChange={(event) => setDraftCode(event.target.value)}
         onKeyDown={handleEditorKeyDown}
         spellCheck="false"
-        aria-label={`Edit ${language} code`}
+        aria-label={copy.editCode(language)}
       />
-      <div className="course-playground-output-heading"><span>Result</span><small>Ctrl / ⌘ + Enter to run</small></div>
+      <div className="course-playground-output-heading"><span>{copy.result}</span><small>{copy.runShortcut}</small></div>
       {canRunInBrowser ? (
         <iframe
           key={`${lesson.id}-${runKey}`}
@@ -925,17 +1036,19 @@ function CodePlayground({ course, lesson }) {
         />
       ) : (
         <div className="course-playground-unavailable" role="status">
-          <strong>Editor ready</strong>
-          <p>Write and copy your {language} code here. To execute it safely, CampusFlow needs a containerized compiler service for this language.</p>
+          <strong>{copy.editorReady}</strong>
+          <p>{copy.editorReadyBody(language)}</p>
         </div>
       )}
-      {messages.length > 0 && <div className="course-playground-console" role="status"><strong>Console</strong>{messages.map((entry, index) => <div className={entry.type === "error" ? "is-error" : ""} key={`${entry.type}-${index}`}>{entry.type === "error" ? "Error: " : entry.type === "info" ? "Info: " : ""}{entry.message}</div>)}</div>}
+      {messages.length > 0 && <div className="course-playground-console" role="status"><strong>{copy.console}</strong>{messages.map((entry, index) => <div className={entry.type === "error" ? "is-error" : ""} key={`${entry.type}-${index}`}>{entry.type === "error" ? `${copy.error}: ` : entry.type === "info" ? `${copy.info}: ` : ""}{entry.message}</div>)}</div>}
     </section>
   );
 }
 
 export default function CourseReader() {
   const { slug = "html" } = useParams();
+  const { language } = useLanguage();
+  const copy = getReaderText(language);
   const course = courseCatalog[slug] || courseCatalog.html;
   const isReferenceCourse = Boolean(referenceCourseCatalog[slug]);
   const courseSections = course.lessons;
@@ -1027,47 +1140,48 @@ export default function CourseReader() {
         path={`/course/${course.slug}`}
       />
 
-      <div className="course-techbar course-techbar-before-header" aria-label="Available technologies" aria-hidden="true">
-        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">‹</button>
+      <div className="course-techbar course-techbar-before-header" aria-label={copy.availableTechnologies} aria-hidden="true">
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label={copy.scrollTechnologiesLeft}>‹</button>
         <div className="course-techbar-track" ref={techBarRef}>
           {technologies.map(renderTechnologyLink)}
         </div>
-        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label="Scroll technologies right">›</button>
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label={copy.scrollTechnologiesRight}>›</button>
       </div>
 
       <header className="course-reader-header">
         <div className="course-reader-brand">
-          <Link to="/" className="course-reader-logo" aria-label="CampusFlow home"><BrandLogo alt="" /></Link>
+          <Link to="/" className="course-reader-logo" aria-label={copy.home}><BrandLogo alt="" /></Link>
           <div>
             <p className="course-reader-kicker">CampusFlow Academy</p>
-            <h1>{course.title} Course</h1>
+            <h1>{copy.courseTitle(course.title)}</h1>
           </div>
         </div>
         <div className="course-reader-header-actions">
-          <Link className="course-reader-back" to="/courses">Back to courses</Link>
+          <LanguageSwitcher variant="course" />
+          <Link className="course-reader-back" to="/courses">{copy.backToCourses}</Link>
           <ThemeSwitch />
-          <button type="button" className="course-mobile-action" onClick={() => setLeftOpen(true)} aria-label="Open lesson menu">☰ <span>Lessons</span></button>
-          <button type="button" className="course-mobile-action" onClick={() => setRightOpen(true)} aria-label="Open example preview">▣ <span>Preview</span></button>
+          <button type="button" className="course-mobile-action" onClick={() => setLeftOpen(true)} aria-label={copy.openLessonMenu}>☰ <span>{copy.lessons}</span></button>
+          <button type="button" className="course-mobile-action" onClick={() => setRightOpen(true)} aria-label={copy.openPreview}>▣ <span>{copy.preview}</span></button>
         </div>
       </header>
 
-      <div className="course-techbar" aria-label="Available technologies">
-        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">&lsaquo;</button>
+      <div className="course-techbar" aria-label={copy.availableTechnologies}>
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label={copy.scrollTechnologiesLeft}>&lsaquo;</button>
         <div className="course-techbar-track" ref={techBarRef}>
           {technologies.map(renderTechnologyLink)}
         </div>
-        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label="Scroll technologies right">&rsaquo;</button>
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label={copy.scrollTechnologiesRight}>&rsaquo;</button>
       </div>
 
       <div className={`course-reader-backdrop ${(leftOpen || rightOpen) ? "is-visible" : ""}`} onClick={() => { setLeftOpen(false); setRightOpen(false); }} aria-hidden="true" />
 
       <div className="course-reader-layout">
-        <aside className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label="Course lessons">
+        <aside className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label={`${course.title} ${copy.lessons}`}>
           <div className="course-panel-heading">
-            <div><p className="course-panel-eyebrow">Course outline</p><h2>{course.title} Lessons</h2></div>
-            <button type="button" className="course-drawer-close" onClick={() => setLeftOpen(false)} aria-label="Close lesson menu">×</button>
+            <div><p className="course-panel-eyebrow">{copy.courseOutline}</p><h2>{course.title} {copy.lessons}</h2></div>
+            <button type="button" className="course-drawer-close" onClick={() => setLeftOpen(false)} aria-label={copy.closeLessonMenu}>×</button>
           </div>
-          <div className="course-progress-row"><span>{completed.size}/{courseLessons.length} complete</span><span>{Math.round((completed.size / courseLessons.length) * 100)}%</span></div>
+          <div className="course-progress-row"><span>{completed.size}/{courseLessons.length} {copy.complete}</span><span>{Math.round((completed.size / courseLessons.length) * 100)}%</span></div>
           <div className="course-progress"><span style={{ width: `${(completed.size / courseLessons.length) * 100}%` }} /></div>
           <nav className="course-outline">
             {courseSections.map((section) => (
@@ -1088,42 +1202,42 @@ export default function CourseReader() {
               </div>
             ))}
           </nav>
-          <div className="course-sidebar-note"><span>♥</span><p>Learn at your own pace. Your progress stays on this device.</p></div>
+          <div className="course-sidebar-note"><span>♥</span><p>{copy.learnAtYourOwnPace}</p></div>
         </aside>
 
         <main className="course-reader-main">
           <div className="course-reader-mobile-toolbar">
-            <button type="button" onClick={() => setLeftOpen(true)}>☰ <span>Lessons</span></button>
+            <button type="button" onClick={() => setLeftOpen(true)}>☰ <span>{copy.lessons}</span></button>
             <span>{course.title} / {selectedLesson.label}</span>
-            <button type="button" onClick={() => setRightOpen(true)}>▣ <span>Preview</span></button>
+            <button type="button" onClick={() => setRightOpen(true)}>▣ <span>{copy.preview}</span></button>
           </div>
           {isReferenceCourse ? (
             <article className="course-lesson-article course-reference-article">
-              <div className="course-breadcrumb"><Link to="/courses">Courses</Link><span>/</span><strong>{course.title}</strong></div>
-              <div className="course-reference-note">Reference-style reader · scroll through the full course or choose a lesson from the outline.</div>
+              <div className="course-breadcrumb"><Link to="/courses">{copy.courses}</Link><span>/</span><strong>{course.title}</strong></div>
+              <div className="course-reference-note">{copy.referenceNote}</div>
               {courseLessons.map((lesson, index) => (
                 <section className="course-reference-lesson" id={`course-lesson-${lesson.id}`} key={lesson.id}>
-                  <div className="course-lesson-meta"><span>Lesson {index + 1} of {courseLessons.length}</span><span>Beginner</span></div>
+                  <div className="course-lesson-meta"><span>{copy.lessonProgress(index + 1, courseLessons.length)}</span><span>{copy.beginner}</span></div>
                   <h2>{lesson.heading}</h2>
                   <p className="course-lesson-lead" style={{ whiteSpace: "pre-line" }}>{lesson.intro}</p>
                   <section className="course-lesson-section">
                     <h3>{lesson.bodyHeading}</h3>
                     <p style={{ whiteSpace: "pre-line" }}>{lesson.body}</p>
                     <div className="course-code-wrap">
-                      <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={() => copyCode(lesson.code, lesson.id)}>{copied === lesson.id ? "Copied" : "Copy"}</button></div>
+                      <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={() => copyCode(lesson.code, lesson.id)}>{copied === lesson.id ? copy.copied : copy.copy}</button></div>
                       <pre><code>{lesson.code}</code></pre>
                     </div>
                   </section>
                   <div className="course-lesson-actions">
-                    <button type="button" className={`course-complete-button ${completed.has(lesson.id) ? "is-complete" : ""}`} onClick={() => toggleCompleted(lesson.id)}>{completed.has(lesson.id) ? "Completed" : "Mark as complete"}</button>
+                    <button type="button" className={`course-complete-button ${completed.has(lesson.id) ? "is-complete" : ""}`} onClick={() => toggleCompleted(lesson.id)}>{completed.has(lesson.id) ? copy.completed : copy.markAsComplete}</button>
                   </div>
                 </section>
               ))}
             </article>
           ) : (
           <article className="course-lesson-article">
-            <div className="course-breadcrumb"><Link to="/courses">Courses</Link><span>/</span><span>{course.title}</span><span>/</span><strong>{selectedLesson.label}</strong></div>
-            <div className="course-lesson-meta"><span>Lesson {selectedIndex + 1} of {courseLessons.length}</span><span>⌁ Beginner</span></div>
+            <div className="course-breadcrumb"><Link to="/courses">{copy.courses}</Link><span>/</span><span>{course.title}</span><span>/</span><strong>{selectedLesson.label}</strong></div>
+            <div className="course-lesson-meta"><span>{copy.lessonProgress(selectedIndex + 1, courseLessons.length)}</span><span>⌁ {copy.beginner}</span></div>
             <h2>{selectedLesson.heading}</h2>
             <p className="course-lesson-lead">{selectedLesson.intro}</p>
 
@@ -1131,34 +1245,34 @@ export default function CourseReader() {
               <h3>{selectedLesson.bodyHeading}</h3>
               <p>{selectedLesson.body}</p>
               <div className="course-code-wrap">
-                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? "Copied" : "Copy"}</button></div>
+                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? copy.copied : copy.copy}</button></div>
                 <pre><code>{selectedLesson.code}</code></pre>
               </div>
             </section>
 
-            <div className="course-lesson-tip"><span>!</span><p><strong>Good practice:</strong> {course.tip}</p></div>
+            <div className="course-lesson-tip"><span>!</span><p><strong>{language === "km" ? "ការអនុវត្តល្អ៖" : "Good practice:"}</strong> {course.tip}</p></div>
 
             <div className="course-lesson-actions">
-              <button type="button" className={`course-complete-button ${completed.has(selectedLesson.id) ? "is-complete" : ""}`} onClick={toggleCompleted}>{completed.has(selectedLesson.id) ? "✓ Completed" : "Mark as complete"}</button>
+              <button type="button" className={`course-complete-button ${completed.has(selectedLesson.id) ? "is-complete" : ""}`} onClick={toggleCompleted}>{completed.has(selectedLesson.id) ? `✓ ${copy.completed}` : copy.markAsComplete}</button>
               <div className="course-prev-next">
-                {previousLesson ? <button type="button" onClick={() => selectLesson(previousLesson)}><small>← Previous</small><span>{previousLesson.label}</span></button> : <span />}
-                {nextLesson ? <button type="button" onClick={() => selectLesson(nextLesson)}><small>Next →</small><span>{nextLesson.label}</span></button> : <span />}
+                {previousLesson ? <button type="button" onClick={() => selectLesson(previousLesson)}><small>← {copy.previous}</small><span>{previousLesson.label}</span></button> : <span />}
+                {nextLesson ? <button type="button" onClick={() => selectLesson(nextLesson)}><small>{copy.next} →</small><span>{nextLesson.label}</span></button> : <span />}
               </div>
             </div>
           </article>
           )}
         </main>
 
-        <aside className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label="Lesson example preview">
+        <aside className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
           <CodePlayground course={course} lesson={selectedLesson} />
-          <div className="course-panel-heading"><div><p className="course-panel-eyebrow">Live example</p><h2>Preview</h2></div><button type="button" className="course-drawer-close" onClick={() => setRightOpen(false)} aria-label="Close preview">×</button></div>
+          <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={() => setRightOpen(false)} aria-label={copy.closePreview}>×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
-          <div className="course-preview-label">Rendered result:</div>
+          <div className="course-preview-label">{copy.renderedResult}</div>
           <div className="course-rendered-preview"><h3>{selectedLesson.preview.title}</h3><p>{selectedLesson.preview.body}</p><span className="course-preview-link">CampusFlow LMS</span></div>
-          <div className="course-preview-help"><strong>Try it yourself</strong><p>Read the example, then change the code in your own editor to see what happens.</p></div>
+          <div className="course-preview-help"><strong>{copy.tryItYourself}</strong><p>{copy.tryItYourselfBody}</p></div>
         </aside>
       </div>
-      <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>Practice a little every day.</span></footer>
+      <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>{copy.practiceEveryDay}</span></footer>
     </div>
   );
 }
