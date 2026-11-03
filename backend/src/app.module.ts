@@ -38,6 +38,7 @@ import { RootController } from './health/root.controller';
 import { CacheModule } from './cache/cache.module';
 import { ContactModule } from './contact/contact.module';
 import { MailModule } from './mail/mail.module';
+import { CodeRunnerModule } from './code-runner/code-runner.module';
 
 @Module({
   imports: [
@@ -77,6 +78,7 @@ import { MailModule } from './mail/mail.module';
     CommunityAdminModule,
     ContactModule,
     MailModule,
+    CodeRunnerModule,
   ],
   controllers: [RootController, HealthController],
 })

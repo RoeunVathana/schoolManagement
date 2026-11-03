@@ -5,6 +5,7 @@ import LanguageSwitcher from "../../components/LanguageSwitcher";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import { useLanguage } from "../../context/LanguageContext";
+import api from "../../api/axios";
 
 const technologies = [
   ["HTML", "#f16529"],
@@ -65,6 +66,7 @@ const readerText = {
     interactiveCoding: "Interactive coding",
     writeAndRun: "Write and run",
     browserSandbox: "Browser sandbox",
+    secureRunnerReady: "Secure runner",
     secureRunnerNeeded: "Secure runner needed",
     live: "Live",
     reset: "Reset",
@@ -80,6 +82,11 @@ const readerText = {
     error: "Error",
     info: "Info",
     secureRunnerMessage: (language) => `This ${language} editor is ready, but a secure server compiler is not connected yet.`,
+    compileAndRun: "Compile & run",
+    runnerUnavailable: "The secure runner is unavailable. Check the API configuration and try again.",
+    running: "Running...",
+    syntaxOn: "Syntax colors on",
+    outputEmpty: "Finished with no output.",
     practiceEveryDay: "Practice a little every day.",
     home: "CampusFlow home",
   },
@@ -136,7 +143,7 @@ const readerText = {
 };
 
 function getReaderText(language) {
-  return readerText[language] || readerText.en;
+  return { ...readerText.en, ...(readerText[language] || {}) };
 }
 
 const lessons = [
@@ -1228,6 +1235,58 @@ const codeLanguageBySlug = {
 };
 
 const browserRunnableLanguages = new Set(["html", "css", "javascript"]);
+const serverRunnableLanguages = new Set(["c", "cpp", "csharp", "dart", "java", "javascript", "kotlin", "php", "python", "shell", "sql"]);
+
+const syntaxKeywords = new Set([
+  "as", "async", "await", "break", "case", "catch", "class", "const", "continue", "def", "do", "else", "export",
+  "extends", "final", "finally", "for", "from", "function", "if", "implements", "import", "in", "interface", "let",
+  "new", "null", "private", "protected", "public", "return", "static", "struct", "switch", "this", "throw", "try",
+  "using", "var", "void", "while", "with", "yield", "true", "false", "None", "True", "False", "print", "echo",
+]);
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function highlightCode(source, language) {
+  const commentHash = new Set(["python", "shell", "sql", "c", "cpp"]);
+  const pattern = [
+    language === "html" ? "</?[A-Za-z][^>]*>" : null,
+    "//[^\\n]*|/\\*[\\s\\S]*?\\*/",
+    commentHash.has(language) ? "#[^\\n]*" : null,
+    "#[0-9a-fA-F]{3,8}\\b",
+    "\\\"(?:\\\\.|[^\\\"\\\\])*\\\"|'(?:\\\\.|[^'\\\\])*'|`(?:\\\\.|[^`\\\\])*`",
+    "\\b\\d+(?:\\.\\d+)?\\b",
+    language === "css" ? "[A-Za-z_-]+(?=\\s*:)" : null,
+    "\\b[A-Za-z_$][\\w$]*(?=\\s*\\()",
+    "\\b[A-Za-z_$][\\w$]*\\b",
+  ].filter(Boolean).join("|");
+  const tokenPattern = new RegExp(pattern, "gm");
+  let output = "";
+  let lastIndex = 0;
+  let match;
+  while ((match = tokenPattern.exec(String(source || "")))) {
+    output += escapeHtml(String(source || "").slice(lastIndex, match.index));
+    const token = match[0];
+    let tokenClass = "syntax-plain";
+    if (language === "html" && /^<\/?[A-Za-z]/.test(token)) tokenClass = "syntax-tag";
+    else if (/^(\/\/|\/\*|#)/.test(token) && !(language === "css" && /^#[0-9a-f]/i.test(token))) tokenClass = "syntax-comment";
+    else if (/^(\"|'|`)/.test(token)) tokenClass = "syntax-string";
+    else if (/^#?[0-9a-f]+$/i.test(token) || /^\d/.test(token)) tokenClass = "syntax-number";
+    else if (syntaxKeywords.has(token)) tokenClass = "syntax-keyword";
+    else if (/^[A-Za-z_$][\w$]*$/.test(token) && new RegExp(`\\b${token}\\b\\s*\\(`).test(String(source || "").slice(Math.max(0, match.index - 1)))) tokenClass = "syntax-function";
+    else if (language === "css" && /[A-Za-z_-]/.test(token)) tokenClass = "syntax-property";
+    output += `<span class="${tokenClass}">${escapeHtml(token)}</span>`;
+    lastIndex = match.index + token.length;
+  }
+  output += escapeHtml(String(source || "").slice(lastIndex));
+  return output || " ";
+}
 
 function getCodeLanguage(slug) {
   return codeLanguageBySlug[slug] || "text";
@@ -1282,17 +1341,24 @@ function CodePlayground({ course, lesson }) {
   const copy = getReaderText(uiLanguage);
   const language = getCodeLanguage(course.slug);
   const canRunInBrowser = browserRunnableLanguages.has(language);
+  const canRunOnServer = serverRunnableLanguages.has(language);
   const [draftCode, setDraftCode] = useState(lesson.code || "");
   const [runCode, setRunCode] = useState(lesson.code || "");
   const [runKey, setRunKey] = useState(0);
   const [autoRun, setAutoRun] = useState(canRunInBrowser);
   const [messages, setMessages] = useState([]);
+  const [serverResult, setServerResult] = useState(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const highlightRef = useRef(null);
+  const editorRef = useRef(null);
 
   useEffect(() => {
     setDraftCode(lesson.code || "");
     setRunCode(lesson.code || "");
     setRunKey((current) => current + 1);
     setMessages([]);
+    setServerResult(null);
+    setIsRunning(false);
     setAutoRun(canRunInBrowser);
   }, [lesson.id, lesson.code, canRunInBrowser]);
 
@@ -1316,20 +1382,41 @@ function CodePlayground({ course, lesson }) {
     return () => window.clearTimeout(timer);
   }, [autoRun, canRunInBrowser, draftCode]);
 
-  const run = () => {
-    if (!canRunInBrowser) {
+  const syncEditorScroll = (event) => {
+    if (!highlightRef.current) return;
+    highlightRef.current.scrollTop = event.currentTarget.scrollTop;
+    highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+  };
+
+  const run = async () => {
+    setMessages([]);
+    setServerResult(null);
+    if (canRunInBrowser) {
+      setRunCode(draftCode);
+      setRunKey((current) => current + 1);
+      return;
+    }
+    if (!canRunOnServer) {
       setMessages([{ type: "info", message: copy.secureRunnerMessage(language) }]);
       return;
     }
-    setRunCode(draftCode);
-    setMessages([]);
-    setRunKey((current) => current + 1);
+    setIsRunning(true);
+    try {
+      const response = await api.post("/code/run", { language, code: draftCode });
+      const result = response.data?.data ?? response.data;
+      setServerResult(result);
+    } catch (error) {
+      setMessages([{ type: "error", message: error?.response?.data?.message || error?.message || copy.runnerUnavailable }]);
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   const reset = () => {
     setDraftCode(lesson.code || "");
     setRunCode(lesson.code || "");
     setMessages([]);
+    setServerResult(null);
     setRunKey((current) => current + 1);
   };
 
@@ -1348,32 +1435,52 @@ function CodePlayground({ course, lesson }) {
     }
     if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       event.preventDefault();
-      run();
+      void run();
     }
   };
+
+  const serverOutput = serverResult && [
+    serverResult.compile?.stderr,
+    serverResult.compile?.stdout,
+    serverResult.run?.stdout,
+    serverResult.run?.stderr,
+    serverResult.compile?.message,
+    serverResult.run?.message,
+    serverResult.run?.code !== null && serverResult.run?.code !== undefined ? `Exit code: ${serverResult.run.code}` : "",
+  ].filter(Boolean).join("\n");
 
   return (
     <section className="course-playground" aria-label={copy.codePlayground}>
       <div className="course-playground-heading">
         <div><p className="course-panel-eyebrow">{copy.interactiveCoding}</p><h3>{copy.writeAndRun}</h3></div>
-        <span className={`course-playground-status ${canRunInBrowser ? "is-ready" : "is-server"}`}>{canRunInBrowser ? copy.browserSandbox : copy.secureRunnerNeeded}</span>
+        <span className={`course-playground-status ${canRunInBrowser || canRunOnServer ? "is-ready" : "is-server"}`}>
+          {canRunInBrowser ? copy.browserSandbox : canRunOnServer ? copy.secureRunnerReady : copy.secureRunnerNeeded}
+        </span>
       </div>
       <div className="course-playground-toolbar">
         <span className="course-playground-language">{language}</span>
         <div className="course-playground-actions">
           {canRunInBrowser && <label className="course-live-toggle"><input type="checkbox" checked={autoRun} onChange={(event) => setAutoRun(event.target.checked)} /> {copy.live}</label>}
+          <span className="course-syntax-badge">{copy.syntaxOn}</span>
           <button type="button" onClick={reset}>{copy.reset}</button>
-          <button type="button" className="is-primary" onClick={run}>{canRunInBrowser ? copy.run : copy.checkRunner}</button>
+          <button type="button" className="is-primary" onClick={() => void run()} disabled={isRunning}>
+            {isRunning ? copy.running : canRunInBrowser || canRunOnServer ? (canRunOnServer && !canRunInBrowser ? copy.compileAndRun : copy.run) : copy.checkRunner}
+          </button>
         </div>
       </div>
-      <textarea
-        className="course-playground-editor"
-        value={draftCode}
-        onChange={(event) => setDraftCode(event.target.value)}
-        onKeyDown={handleEditorKeyDown}
-        spellCheck="false"
-        aria-label={copy.editCode(language)}
-      />
+      <div className="course-playground-editor-shell">
+        <pre ref={highlightRef} className="course-playground-highlight" aria-hidden="true"><code dangerouslySetInnerHTML={{ __html: highlightCode(draftCode, language) }} /></pre>
+        <textarea
+          ref={editorRef}
+          className="course-playground-editor"
+          value={draftCode}
+          onChange={(event) => setDraftCode(event.target.value)}
+          onScroll={syncEditorScroll}
+          onKeyDown={handleEditorKeyDown}
+          spellCheck="false"
+          aria-label={copy.editCode(language)}
+        />
+      </div>
       <div className="course-playground-output-heading"><span>{copy.result}</span><small>{copy.runShortcut}</small></div>
       {canRunInBrowser ? (
         <iframe
@@ -1383,10 +1490,12 @@ function CodePlayground({ course, lesson }) {
           sandbox="allow-scripts"
           srcDoc={buildPlaygroundDocument(language, runCode)}
         />
+      ) : canRunOnServer && serverResult ? (
+        <pre className="course-playground-server-output" role="status">{serverOutput || copy.outputEmpty}</pre>
       ) : (
         <div className="course-playground-unavailable" role="status">
-          <strong>{copy.editorReady}</strong>
-          <p>{copy.editorReadyBody(language)}</p>
+          <strong>{canRunOnServer ? copy.editorReady : copy.secureRunnerNeeded}</strong>
+          <p>{canRunOnServer ? copy.editorReadyBody(language) : copy.secureRunnerMessage(language)}</p>
         </div>
       )}
       {messages.length > 0 && <div className="course-playground-console" role="status"><strong>{copy.console}</strong>{messages.map((entry, index) => <div className={entry.type === "error" ? "is-error" : ""} key={`${entry.type}-${index}`}>{entry.type === "error" ? `${copy.error}: ` : entry.type === "info" ? `${copy.info}: ` : ""}{entry.message}</div>)}</div>}

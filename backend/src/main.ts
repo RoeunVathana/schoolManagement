@@ -110,8 +110,16 @@ async function bootstrap() {
     skip: (request) => request.method !== 'POST',
     message: { success: false, message: 'Too many contact messages. Please try again later.' },
   });
+  const codeRunLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: getPositiveLimit(config, 'CODE_RUN_RATE_LIMIT', 12),
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many code runs. Please wait a moment before trying again.' },
+  });
   app.use(generalLimiter);
   app.use('/contact', contactLimiter);
+  app.use('/code/run', codeRunLimiter);
   app.use(
     [
       '/auth/login',
