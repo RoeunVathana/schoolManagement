@@ -284,6 +284,10 @@
   animation: cf-page-enter .55s var(--cf-motion-ease) both, cf-background-shift 28s ease-in-out infinite;
 }
 
+/* Keep fixed dashboard navigation fixed: the content wrapper gets only the
+   background-position animation, not a transform-based page entrance. */
+.app-shell-content { animation: cf-background-shift 28s ease-in-out infinite; }
+
 .dark .app-shell-content,
 .dark .auth-layout,
 .dark .course-reader,
