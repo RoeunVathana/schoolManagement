@@ -155,6 +155,13 @@ const textByLanguage = {
     roadmapTitle: "Choose the career path you want to build",
     roadmapBody: "Select a goal and follow a practical sequence from foundations to a portfolio-ready project.",
     recommended: "Recommended lessons",
+    ownerKicker: "MEET THE OWNER",
+    ownerTitle: "Built for practical learners",
+    ownerBody: "CampusFlow is created to make practical technology learning clearer, more welcoming and easier to continue every day.",
+    ownerRole: "Founder · CampusFlow LMS",
+    ownerIntro: "I believe students learn best by building real skills one small project at a time. CampusFlow brings lessons, practice and support together in one place.",
+    contactOwner: "Contact the owner",
+    messageTelegram: "Message on Telegram",
   },
   km: {
     demoKicker: "កូដដែលមានចលនា",
@@ -171,6 +178,13 @@ const textByLanguage = {
     roadmapTitle: "ជ្រើសរើសផ្លូវអាជីពដែលអ្នកចង់កសាង",
     roadmapBody: "ជ្រើសគោលដៅ ហើយរៀនតាមលំដាប់ជាក់ស្តែងពីមូលដ្ឋានរហូតដល់គម្រោង Portfolio។",
     recommended: "មេរៀនដែលណែនាំ",
+    ownerKicker: "ស្គាល់ម្ចាស់វេទិកា",
+    ownerTitle: "បង្កើតសម្រាប់អ្នករៀនអនុវត្ត",
+    ownerBody: "CampusFlow ត្រូវបានបង្កើតឡើងដើម្បីធ្វើឱ្យការរៀនបច្ចេកវិទ្យាជាក់ស្តែងកាន់តែច្បាស់ ងាយស្រួល និងអាចបន្តបានរាល់ថ្ងៃ។",
+    ownerRole: "ស្ថាបនិក · CampusFlow LMS",
+    ownerIntro: "ខ្ញុំជឿថាសិស្សរៀនបានល្អបំផុត នៅពេលពួកគេសាងសង់ជំនាញពិតតាមរយៈគម្រោងតូចៗ។ CampusFlow រួមបញ្ចូលមេរៀន ការអនុវត្ត និងការគាំទ្រនៅកន្លែងតែមួយ។",
+    contactOwner: "ទាក់ទងម្ចាស់វេទិកា",
+    messageTelegram: "ផ្ញើសារតាម Telegram",
   },
 };
 
@@ -291,6 +305,31 @@ export default function LearningJourneyShowcase({ language = "en" }) {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section className="owner-profile-section" aria-labelledby="owner-profile-title">
+        <div className="learning-section-heading">
+          <p>{copy.ownerKicker}</p>
+          <h2 id="owner-profile-title">{copy.ownerTitle}</h2>
+          <span>{copy.ownerBody}</span>
+        </div>
+        <article className="owner-profile-card">
+          <div className="owner-profile-portrait" aria-label="Roeun Vathana">
+            <div className="owner-profile-portrait-glow" />
+            <div className="owner-profile-initials"><span>RV</span><small>CAMPUSFLOW</small></div>
+          </div>
+          <div className="owner-profile-copy">
+            <p>{copy.ownerRole}</p>
+            <h3>Roeun Vathana</h3>
+            <strong>CampusFlow Academy</strong>
+            <span className="owner-profile-rule" aria-hidden="true" />
+            <p className="owner-profile-intro">{copy.ownerIntro}</p>
+            <div className="owner-profile-actions">
+              <a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">✈ {copy.messageTelegram}</a>
+              <Link to="/contact">✦ {copy.contactOwner}</Link>
+            </div>
+          </div>
+        </article>
       </section>
     </div>
   );
