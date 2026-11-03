@@ -128,7 +128,7 @@ export default function About() {
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}>
             <span className="about-brand-mark"><BrandLogo /></span>
-            <span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span>
+            <span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "សាលា CampusFlow" : "CampusFlow Academy"}</small></span>
           </Link>
           <nav className="about-nav-links" aria-label="Primary navigation">
             <Link to="/courses#courses">{copy.navCourses}</Link>

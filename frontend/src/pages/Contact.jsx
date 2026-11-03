@@ -91,7 +91,7 @@ export default function Contact() {
       <Seo title={language === "km" ? "ទាក់ទង CampusFlow LMS | ការគាំទ្រការរៀន" : "Contact CampusFlow LMS | Learning Support"} description={copy.heroBody} path="/contact" language={language} />
       <header className="site-public-navbar about-nav contact-nav">
         <div className="about-nav-inner">
-          <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span></Link>
+          <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "សាលា CampusFlow" : "CampusFlow Academy"}</small></span></Link>
           <nav className="about-nav-links" aria-label="Primary navigation"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact" className="is-active">{copy.navContact}</Link><Link to="/courses#faq">{copy.navFaq}</Link></nav>
           <div className="about-nav-actions"><ThemeSwitch /><LanguageSwitcher variant="public" />{!authLoading && (hasSession ? <><Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link><button type="button" onClick={handleLogout} className="about-nav-login">{logoutLabel}</button></> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/student/dashboard" className="about-nav-button">{copy.dashboard}</Link></>)}</div>
           <div className="about-mobile-controls">
