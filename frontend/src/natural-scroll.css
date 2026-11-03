@@ -95,3 +95,76 @@ body,
   transition-delay: 0ms !important;
   will-change: auto !important;
 }
+
+/* Final native-scroll mode. These rules are intentionally last in the import
+   order: every route keeps its design, but no page entrance, reveal, ambient
+   background, 2D/3D drift, or scroll-linked transform can compete with the
+   browser's normal wheel and touch scrolling. */
+html,
+body,
+#root {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
+
+.app-shell-content,
+.app-shell-content::before,
+.app-shell-content::after,
+.app-shell-content .app-main,
+.auth-background,
+.auth-layout,
+.course-reader,
+.course-reader::before,
+.course-reader::after,
+.storefront,
+.storefront > main,
+.storefront > footer,
+.about-page,
+.about-page::before,
+.about-page::after,
+.contact-page,
+.contact-page::before,
+.contact-page::after,
+.community-page,
+.public-community-page,
+.public-community-page::before,
+.public-community-page::after,
+.storefront-ambient-background,
+.storefront-ambient-background::before,
+.storefront-ambient-background::after,
+.storefront-ambient-grid,
+.storefront-ambient-orb-a,
+.storefront-ambient-orb-a::before,
+.storefront-ambient-orb-b,
+.storefront-ambient-orb-c,
+.storefront-ambient-ring,
+.storefront-ambient-ring-a,
+.storefront-ambient-ring-b {
+  animation: none !important;
+  background-attachment: scroll !important;
+}
+
+.app-main > *,
+.about-page > main > *,
+.contact-page > main > *,
+.community-page > main > *,
+.public-community-page > main > *,
+.course-reader .course-lesson-article,
+.course-reader .course-preview-panel {
+  animation: none !important;
+}
+
+[data-scroll-reveal],
+[data-scroll-reveal].is-visible,
+.storefront-reveal,
+.storefront-reveal.is-visible,
+.storefront-reveal-on-load,
+.storefront-course-card,
+.storefront-course-card .storefront-course-visual {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  transition-delay: 0ms !important;
+  will-change: auto !important;
+}
