@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
 import SiteFooter from "../../components/SiteFooter";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
+import Loading from "../../components/Loading";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import PublicNavIcon from "../../components/PublicNavIcon";
+import { notifyToast } from "../../context/ToastContext";
 import { useLanguage } from "../../context/LanguageContext";
-import api from "../../api/axios";
+import { useAuth } from "../../hooks/useAuth";
+import api, { unwrap } from "../../api/axios";
 
 const technologies = [
   ["HTML", "#f16529"],
@@ -101,6 +104,9 @@ const readerText = {
     about: "About",
     faq: "FAQ",
     contact: "Contact",
+    checkingAccess: "Checking course access...",
+    purchaseRequired: "Please buy a course before viewing lessons.",
+    signInRequired: "Please sign in and buy a course before viewing lessons.",
   },
   km: {
     courseTitle: (title) => `វគ្គសិក្សា ${title}`,
@@ -158,12 +164,20 @@ const readerText = {
     about: "អំពីយើង",
     faq: "សំណួរដែលសួរញឹកញាប់",
     contact: "ទំនាក់ទំនង",
+    checkingAccess: "កំពុងពិនិត្យសិទ្ធិចូលមើលវគ្គ...",
+    purchaseRequired: "សូមទិញវគ្គសិក្សាមុនពេលមើលមេរៀន។",
+    signInRequired: "សូមចូលគណនី និងទិញវគ្គសិក្សាមុនពេលមើលមេរៀន។",
   },
 };
 
 function getReaderText(language) {
   return { ...readerText.en, ...(readerText[language] || {}) };
 }
+
+const hasCourseAccess = (enrollment) => (
+  enrollment?.status === "ACTIVE" &&
+  ["PAID", "MANUAL"].includes(enrollment?.paymentStatus)
+);
 
 const lessons = [
   {
@@ -2090,12 +2104,15 @@ function CodePlayground({ course, lesson, runRequest = 0 }) {
 export default function CourseReader() {
   const { slug = "html" } = useParams();
   const { language } = useLanguage();
+  const { user, loading: authLoading } = useAuth();
+  const location = useLocation();
   const copy = getReaderText(language);
   const sourceCourse = courseCatalog[slug] || courseCatalog.html;
   const course = useMemo(() => localizeCourseForLanguage(sourceCourse, language), [sourceCourse, language]);
   const isReferenceCourse = Boolean(referenceCourseCatalog[slug]);
   const courseSections = course.lessons;
   const courseLessons = useMemo(() => courseSections.flatMap((section) => section.items), [courseSections]);
+  const [access, setAccess] = useState("checking");
   const [selectedId, setSelectedId] = useState(courseLessons[0].id);
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -2106,6 +2123,39 @@ export default function CourseReader() {
   const techBarRef = useRef(null);
   const leftPanelRef = useRef(null);
   const rightPanelRef = useRef(null);
+
+  useEffect(() => {
+    let active = true;
+    if (authLoading) return undefined;
+
+    if (!user) {
+      setAccess("login");
+      return undefined;
+    }
+
+    const role = String(user.role || "").toUpperCase();
+    if (!["STUDENT", "CUSTOMER"].includes(role)) {
+      setAccess("allowed");
+      return undefined;
+    }
+
+    setAccess("checking");
+    api.get("/enrollments/me")
+      .then((response) => {
+        if (!active) return;
+        const enrollments = unwrap(response);
+        setAccess(Array.isArray(enrollments) && enrollments.some(hasCourseAccess) ? "allowed" : "denied");
+      })
+      .catch(() => {
+        if (active) setAccess("denied");
+      });
+
+    return () => { active = false; };
+  }, [authLoading, user?.id, user?.role]);
+
+  useEffect(() => {
+    if (access === "denied") notifyToast(copy.purchaseRequired, "error");
+  }, [access, copy.purchaseRequired]);
 
   const selectedLesson = useMemo(
     () => courseLessons.find((lesson) => lesson.id === selectedId) || courseLessons[0],
@@ -2209,6 +2259,18 @@ export default function CourseReader() {
     const label = <><i style={{ backgroundColor: color }} />{language === "km" ? getKhmerCourseTitle(name) : name}</>;
     return <Link className="course-tech-pill" to={`/course/${courseSlug}`} key={name}>{label}</Link>;
   };
+
+  if (authLoading || access === "checking") {
+    return <Loading fullScreen label={copy.checkingAccess} />;
+  }
+
+  if (access === "login") {
+    return <Navigate to="/login/student" replace state={{ from: `${location.pathname}${location.search}`, message: copy.signInRequired }} />;
+  }
+
+  if (access === "denied") {
+    return <Navigate to="/courses" replace state={{ message: copy.purchaseRequired }} />;
+  }
 
   return (
     <div className={`course-reader ${language === "km" ? "is-khmer" : ""}`}>
