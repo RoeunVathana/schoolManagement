@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
 import SiteFooter from "../../components/SiteFooter";
@@ -1362,6 +1362,7 @@ const codeLanguageBySlug = {
   csharp: "csharp",
   "dart-programming": "dart",
   springboot: "java",
+  kotlin: "kotlin",
   php: "php",
   laravel: "php",
   node: "javascript",
@@ -1370,7 +1371,7 @@ const codeLanguageBySlug = {
   "Cyber-Security": "shell",
   "components-of-computer": "text",
   bootstrap: "html",
-  "Learn-the-code-yourself": "text",
+  "Learn-the-code-yourself": "javascript",
   flutter: "dart",
 };
 
@@ -1476,7 +1477,7 @@ function buildPlaygroundDocument(language, code) {
   </style></head><body><div id="app"><h2 id="message">JavaScript preview</h2><p id="status" role="status">Ready to run.</p><button id="run-demo" type="button">Demo action</button></div>${instrumentation}<script>${normalized}</script></body></html>`;
 }
 
-function CodePlayground({ course, lesson }) {
+function CodePlayground({ course, lesson, runRequest = 0 }) {
   const { language: uiLanguage } = useLanguage();
   const copy = getReaderText(uiLanguage);
   const language = getCodeLanguage(course.slug);
@@ -1489,8 +1490,10 @@ function CodePlayground({ course, lesson }) {
   const [messages, setMessages] = useState([]);
   const [serverResult, setServerResult] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [runnerStatus, setRunnerStatus] = useState({ checking: canRunOnServer, configured: false });
   const highlightRef = useRef(null);
   const editorRef = useRef(null);
+  const completedRunRequestRef = useRef(0);
 
   useEffect(() => {
     setDraftCode(lesson.code || "");
@@ -1501,6 +1504,27 @@ function CodePlayground({ course, lesson }) {
     setIsRunning(false);
     setAutoRun(canRunInBrowser);
   }, [lesson.id, lesson.code, canRunInBrowser]);
+
+  useEffect(() => {
+    let active = true;
+    if (!canRunOnServer) {
+      setRunnerStatus({ checking: false, configured: false });
+      return () => { active = false; };
+    }
+
+    setRunnerStatus({ checking: true, configured: false });
+    api.get("/code/status")
+      .then((response) => {
+        if (!active) return;
+        const status = response.data?.data ?? response.data;
+        setRunnerStatus({ checking: false, configured: Boolean(status?.configured) });
+      })
+      .catch(() => {
+        if (active) setRunnerStatus({ checking: false, configured: false });
+      });
+
+    return () => { active = false; };
+  }, [canRunOnServer]);
 
   useEffect(() => {
     const receiveMessage = (event) => {
@@ -1528,11 +1552,11 @@ function CodePlayground({ course, lesson }) {
     highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
   };
 
-  const run = async () => {
+  const run = useCallback(async (codeToRun = draftCode) => {
     setMessages([]);
     setServerResult(null);
     if (canRunInBrowser) {
-      setRunCode(draftCode);
+      setRunCode(codeToRun);
       setRunKey((current) => current + 1);
       return;
     }
@@ -1540,17 +1564,28 @@ function CodePlayground({ course, lesson }) {
       setMessages([{ type: "info", message: copy.secureRunnerMessage(language) }]);
       return;
     }
+    if (!runnerStatus.checking && !runnerStatus.configured) {
+      setMessages([{ type: "info", message: copy.secureRunnerMessage(language) }]);
+      return;
+    }
     setIsRunning(true);
     try {
-      const response = await api.post("/code/run", { language, code: draftCode });
+      const response = await api.post("/code/run", { language, code: codeToRun });
       const result = response.data?.data ?? response.data;
       setServerResult(result);
     } catch (error) {
+      setRunnerStatus({ checking: false, configured: false });
       setMessages([{ type: "error", message: error?.response?.data?.message || error?.message || copy.runnerUnavailable }]);
     } finally {
       setIsRunning(false);
     }
-  };
+  }, [canRunInBrowser, canRunOnServer, copy, draftCode, language, runnerStatus.checking, runnerStatus.configured]);
+
+  useEffect(() => {
+    if (!runRequest || completedRunRequestRef.current === runRequest) return;
+    completedRunRequestRef.current = runRequest;
+    void run(lesson.code || "");
+  }, [lesson.code, run, runRequest]);
 
   const reset = () => {
     setDraftCode(lesson.code || "");
@@ -1588,13 +1623,21 @@ function CodePlayground({ course, lesson }) {
     serverResult.run?.message,
     serverResult.run?.code !== null && serverResult.run?.code !== undefined ? `Exit code: ${serverResult.run.code}` : "",
   ].filter(Boolean).join("\n");
+  const secureRunnerReady = canRunOnServer && runnerStatus.configured;
+  const runnerStatusLabel = canRunInBrowser
+    ? copy.browserSandbox
+    : runnerStatus.checking
+      ? copy.checkRunner
+      : secureRunnerReady
+        ? copy.secureRunnerReady
+        : copy.secureRunnerNeeded;
 
   return (
     <section className="course-playground" aria-label={copy.codePlayground}>
       <div className="course-playground-heading">
         <div><p className="course-panel-eyebrow">{copy.interactiveCoding}</p><h3>{copy.writeAndRun}</h3></div>
-        <span className={`course-playground-status ${canRunInBrowser || canRunOnServer ? "is-ready" : "is-server"}`}>
-          {canRunInBrowser ? copy.browserSandbox : canRunOnServer ? copy.secureRunnerReady : copy.secureRunnerNeeded}
+        <span className={`course-playground-status ${canRunInBrowser || secureRunnerReady ? "is-ready" : "is-server"}`}>
+          {runnerStatusLabel}
         </span>
       </div>
       <div className="course-playground-toolbar">
@@ -1604,7 +1647,7 @@ function CodePlayground({ course, lesson }) {
           <span className="course-syntax-badge">{copy.syntaxOn}</span>
           <button type="button" onClick={reset}>{copy.reset}</button>
           <button type="button" className="is-primary" onClick={() => void run()} disabled={isRunning}>
-            {isRunning ? copy.running : canRunInBrowser || canRunOnServer ? (canRunOnServer && !canRunInBrowser ? copy.compileAndRun : copy.run) : copy.checkRunner}
+            {isRunning ? copy.running : canRunInBrowser ? copy.run : secureRunnerReady ? copy.compileAndRun : copy.checkRunner}
           </button>
         </div>
       </div>
@@ -1634,8 +1677,8 @@ function CodePlayground({ course, lesson }) {
         <pre className="course-playground-server-output" role="status">{serverOutput || copy.outputEmpty}</pre>
       ) : (
         <div className="course-playground-unavailable" role="status">
-          <strong>{canRunOnServer ? copy.editorReady : copy.secureRunnerNeeded}</strong>
-          <p>{canRunOnServer ? copy.editorReadyBody(language) : copy.secureRunnerMessage(language)}</p>
+          <strong>{secureRunnerReady ? copy.editorReady : copy.secureRunnerNeeded}</strong>
+          <p>{secureRunnerReady ? copy.editorReadyBody(language) : copy.secureRunnerMessage(language)}</p>
         </div>
       )}
       {messages.length > 0 && <div className="course-playground-console" role="status"><strong>{copy.console}</strong>{messages.map((entry, index) => <div className={entry.type === "error" ? "is-error" : ""} key={`${entry.type}-${index}`}>{entry.type === "error" ? `${copy.error}: ` : entry.type === "info" ? `${copy.info}: ` : ""}{entry.message}</div>)}</div>}
@@ -1656,6 +1699,7 @@ export default function CourseReader() {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const [runnerRequest, setRunnerRequest] = useState(0);
   const [completed, setCompleted] = useState(() => new Set());
   const [copied, setCopied] = useState("");
   const techBarRef = useRef(null);
@@ -1743,6 +1787,7 @@ export default function CourseReader() {
     setCopied("");
     setLeftOpen(false);
     setRightOpen(true);
+    setRunnerRequest((current) => current + 1);
     window.requestAnimationFrame(() => rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" }));
   };
 
@@ -1905,7 +1950,7 @@ export default function CourseReader() {
         </main>
 
         <aside id="course-preview-panel" ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
-          <CodePlayground course={course} lesson={selectedLesson} />
+          <CodePlayground course={course} lesson={selectedLesson} runRequest={runnerRequest} />
           <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={closeDrawers} aria-label={copy.closePreview} title={copy.closePreview}>×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
           <div className="course-preview-label">{copy.renderedResult}</div>
