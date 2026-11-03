@@ -314,9 +314,9 @@ export default function LearningJourneyShowcase({ language = "en" }) {
           <span>{copy.ownerBody}</span>
         </div>
         <article className="owner-profile-card">
-          <div className="owner-profile-portrait" aria-label="Roeun Vathana">
+          <div className="owner-profile-portrait">
+            <img className="owner-profile-photo" src="/image.png" alt="Roeun Vathana" loading="lazy" decoding="async" />
             <div className="owner-profile-portrait-glow" />
-            <div className="owner-profile-initials"><span>RV</span><small>CAMPUSFLOW</small></div>
           </div>
           <div className="owner-profile-copy">
             <p>{copy.ownerRole}</p>

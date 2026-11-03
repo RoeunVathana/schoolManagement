@@ -505,50 +505,27 @@
   box-shadow: 0 0 0 5px rgba(255, 255, 255, .9), 0 18px 32px rgba(52, 120, 238, .22);
 }
 
-.owner-profile-portrait::before {
+.owner-profile-photo {
   position: absolute;
   inset: .45rem;
+  z-index: 1;
+  width: calc(100% - .9rem);
+  height: calc(100% - .9rem);
   border-radius: inherit;
-  background: radial-gradient(circle at 30% 20%, #3d8fff 0%, #173b9b 48%, #17253f 100%);
-  content: "";
+  object-fit: cover;
+  object-position: 50% 30%;
+  background: #d7e0eb;
 }
 
 .owner-profile-portrait-glow {
   position: absolute;
   inset: 0;
+  z-index: 2;
   border-radius: inherit;
+  pointer-events: none;
   background:
-    linear-gradient(124deg, transparent 0 45%, rgba(255, 255, 255, .14) 45% 49%, transparent 49% 100%),
-    radial-gradient(circle at 74% 78%, rgba(141, 228, 202, .52), transparent 0 22%);
-}
-
-.owner-profile-initials {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  width: 76%;
-  height: 76%;
-  place-items: center;
-  align-content: center;
-  border: 1px solid rgba(255, 255, 255, .42);
-  border-radius: 45%;
-  background: linear-gradient(145deg, rgba(12, 31, 73, .25), rgba(255, 255, 255, .08));
-  color: #fff;
-  text-align: center;
-}
-
-.owner-profile-initials span {
-  font-size: clamp(2.4rem, 6vw, 4.4rem);
-  font-weight: 950;
-  letter-spacing: -.1em;
-  line-height: .9;
-}
-
-.owner-profile-initials small {
-  margin-top: .45rem;
-  font-size: .48rem;
-  font-weight: 900;
-  letter-spacing: .17em;
+    linear-gradient(145deg, rgba(255, 255, 255, .18), transparent 38%, rgba(15, 35, 70, .2) 100%),
+    radial-gradient(circle at 74% 78%, rgba(141, 228, 202, .28), transparent 0 22%);
 }
 
 .owner-profile-copy > p:first-child {
