@@ -263,7 +263,7 @@ body.course-drawer-open { overflow: hidden; }
   .course-reader-nav { display: none; }
   .course-reader-layout { grid-template-columns: minmax(225px, 260px) minmax(0, 1fr); }
   .course-preview-panel { display: none; }
-  .course-preview-panel.is-open { background: #fff; display: block; position: fixed; right: 0; top: 0; z-index: 50; width: min(350px, 92vw); }
+  .course-preview-panel.is-open { background: #fff; box-sizing: border-box; display: block; max-width: min(350px, 92vw); overflow-x: hidden; position: fixed; right: 0; top: 0; z-index: 50; width: min(350px, 92vw); }
   .course-mobile-action { display: inline-flex; }
   .course-preview-panel .course-drawer-close { display: inline-block; }
 }
@@ -326,6 +326,7 @@ body.course-drawer-open { overflow: hidden; }
   .course-mobile-action span { display: none; }
   .course-reader-mobile-toolbar { top: calc(var(--reader-header-height) + var(--reader-subject-height)); }
   .course-reader-mobile-toolbar button { font-size: .69rem; }
+  .course-preview-panel.is-open { border-left: 0; max-width: 100vw; width: 100vw; }
   .course-lesson-article { padding-inline: .9rem; }
   .course-lesson-meta { margin-top: 1.65rem; }
   .course-lesson-article h2 { font-size: 2rem; }
