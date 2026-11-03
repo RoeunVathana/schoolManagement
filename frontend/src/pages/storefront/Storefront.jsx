@@ -697,8 +697,6 @@ export default function Storefront() {
 
         <TechnologyRail language={language} />
 
-        <LearningJourneyShowcase language={language} />
-
         <section id="courses" data-scroll-reveal className="storefront-reveal mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -746,6 +744,8 @@ export default function Storefront() {
             </div>
           )}
         </section>
+
+        <LearningJourneyShowcase language={language} />
 
         <section id="how-it-works" data-scroll-reveal className="storefront-reveal border-y border-slate-200/80 bg-white scroll-mt-24 dark:border-slate-700 dark:bg-[#0f1b2d]">
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
