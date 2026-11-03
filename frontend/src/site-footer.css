@@ -168,13 +168,6 @@
   display: none;
 }
 
-/* Course-reader side panels are fixed over the lesson area. Keep the shared
-   footer above them so the final page section remains full-width and readable. */
-.course-reader > .site-footer {
-  position: relative;
-  z-index: 25;
-}
-
 @media (max-width: 767px) {
   .site-footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
