@@ -682,7 +682,7 @@ export default function CourseReader() {
         path={`/course/${course.slug}`}
       />
 
-      <div className="course-techbar" aria-label="Available technologies">
+      <div className="course-techbar course-techbar-before-header" aria-label="Available technologies" aria-hidden="true">
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">‹</button>
         <div className="course-techbar-track" ref={techBarRef}>
           {technologies.map(([name, color]) => <Link className="course-tech-pill" to={`/course/${technologyCourseSlugs[name] || "html"}`} key={name}><i style={{ backgroundColor: color }} />{name}</Link>)}
@@ -705,6 +705,14 @@ export default function CourseReader() {
           <button type="button" className="course-mobile-action" onClick={() => setRightOpen(true)} aria-label="Open example preview">▣ <span>Preview</span></button>
         </div>
       </header>
+
+      <div className="course-techbar" aria-label="Available technologies">
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(-240)} aria-label="Scroll technologies left">&lsaquo;</button>
+        <div className="course-techbar-track" ref={techBarRef}>
+          {technologies.map(([name, color]) => <Link className="course-tech-pill" to={`/course/${technologyCourseSlugs[name] || "html"}`} key={name}><i style={{ backgroundColor: color }} />{name}</Link>)}
+        </div>
+        <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label="Scroll technologies right">&rsaquo;</button>
+      </div>
 
       <div className={`course-reader-backdrop ${(leftOpen || rightOpen) ? "is-visible" : ""}`} onClick={() => { setLeftOpen(false); setRightOpen(false); }} aria-hidden="true" />
 

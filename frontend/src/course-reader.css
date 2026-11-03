@@ -28,6 +28,7 @@
   height: 2.4rem;
   padding: 0 .8rem;
 }
+.course-techbar-before-header { display: none; }
 .course-techbar-track {
   align-items: center;
   display: flex;
