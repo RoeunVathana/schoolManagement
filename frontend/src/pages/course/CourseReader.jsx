@@ -917,6 +917,9 @@ function buildPlaygroundDocument(language, code) {
     return `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><style>
       body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 1rem; color: #17335b; background: #fff; }
       .playground-card { border: 1px solid #d8e4f2; border-radius: 14px; padding: 1rem; }
+      .playground-card button { border: 0; border-radius: 10px; padding: .7rem 1rem; color: #fff; background: linear-gradient(135deg, #2858d5, #229ed9); box-shadow: 0 8px 18px rgba(40,88,213,.22); cursor: pointer; font: 700 .9rem/1.2 Inter, system-ui, sans-serif; transition: transform .18s ease, box-shadow .18s ease, filter .18s ease; }
+      .playground-card button:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(40,88,213,.28); }
+      .playground-card button:focus-visible { outline: 3px solid rgba(34,158,217,.35); outline-offset: 3px; }
     ${normalized}
     </style></head><body><div class="playground-card"><h2>Live CSS preview</h2><p>Edit the CSS to change this card.</p><button>Example button</button></div>${instrumentation}</body></html>`;
   }
