@@ -7,6 +7,13 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const emptyForm = { host: 'smtp.gmail.com', port: '465', secure: true, user: '', password: '', from: '' };
 
+const normalizeSecureForPort = (port, fallback = true) => {
+  const numericPort = Number(port);
+  if (numericPort === 465) return true;
+  if (numericPort === 587) return false;
+  return fallback;
+};
+
 export default function MailSettings() {
   const { t } = useLanguage();
   const [settings, setSettings] = useState(null);
@@ -23,7 +30,7 @@ export default function MailSettings() {
       ...current,
       host: data.host || current.host,
       port: String(data.port || current.port),
-      secure: data.secure !== false,
+      secure: normalizeSecureForPort(data.port || current.port, data.secure === true),
     }));
   });
 
@@ -46,7 +53,15 @@ export default function MailSettings() {
       };
       const data = unwrap(await api.patch('/mail-settings', payload));
       setSettings(data);
-      setForm((current) => ({ ...current, password: '', user: '', from: '' }));
+      setForm((current) => ({
+        ...current,
+        host: data.host || current.host,
+        port: String(data.port || current.port),
+        secure: normalizeSecureForPort(data.port || current.port, data.secure === true),
+        password: '',
+        user: '',
+        from: '',
+      }));
       setNotice({ type: 'success', text: t('mailSettingsSaved') });
     } catch (error) {
       setNotice({ type: 'error', text: error.response?.data?.message || t('mailSettingsSaveFailed') });
@@ -106,8 +121,8 @@ export default function MailSettings() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 sm:col-span-2">{t('mailHost')}<input required value={form.host} onChange={(event) => setForm({ ...form, host: event.target.value })} className="input mt-2" placeholder="smtp.gmail.com" /></label>
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('mailPort')}<input required type="number" min="1" max="65535" value={form.port} onChange={(event) => setForm({ ...form, port: event.target.value })} className="input mt-2" placeholder="465" /></label>
-          <label className="flex cursor-pointer items-center gap-3 self-end rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200"><input type="checkbox" checked={form.secure} onChange={(event) => setForm({ ...form, secure: event.target.checked })} className="h-4 w-4 accent-[#1e9bd7]" />{t('mailSecure')}</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('mailPort')}<input required type="number" min="1" max="65535" value={form.port} onChange={(event) => { const port = event.target.value; setForm((current) => ({ ...current, port, secure: normalizeSecureForPort(port, current.secure) })); }} className="input mt-2" placeholder="465" /></label>
+          <label className={'flex items-center gap-3 self-end rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200 ' + (Number(form.port) === 587 ? 'cursor-not-allowed opacity-75' : 'cursor-pointer')}><input type="checkbox" checked={form.secure} disabled={Number(form.port) === 587} onChange={(event) => setForm((current) => ({ ...current, secure: event.target.checked }))} className="h-4 w-4 accent-[#1e9bd7]" />{t('mailSecure')}<span className="text-xs font-normal text-slate-500">{Number(form.port) === 587 ? 'STARTTLS' : 'TLS'}</span></label>
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('mailUser')}<input type="email" value={form.user} onChange={(event) => setForm({ ...form, user: event.target.value })} className="input mt-2" placeholder={settings.user || 'your-email@gmail.com'} autoComplete="off" /><span className="mt-1.5 block text-xs font-normal text-slate-500">{t('mailUserHint')}</span></label>
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('mailPassword')}<PasswordInput value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} className="input mt-2 pr-12" placeholder={settings.passwordConfigured ? t('mailPasswordKeep') : t('mailPasswordPlaceholder')} autoComplete="new-password" /><span className="mt-1.5 block text-xs font-normal text-slate-500">{t('mailPasswordHint')}</span></label>
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 sm:col-span-2">{t('mailFrom')}<input value={form.from} onChange={(event) => setForm({ ...form, from: event.target.value })} className="input mt-2" placeholder={settings.from || 'CampusFlow <your-email@gmail.com>'} autoComplete="off" /></label>

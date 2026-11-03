@@ -106,7 +106,12 @@ export class MailService {
       throw new BadRequestException('Mail is not configured. Save MAIL_USER and MAIL_PASSWORD first.');
     }
     await this.verifyConnection(current.host, current.port, current.secure);
-    if (this.smtpStatus !== 'ready') throw new BadRequestException('SMTP connection failed. Check the Gmail address and App Password.');
+    if (this.smtpStatus !== 'ready') {
+      const code = this.smtpError?.code;
+      if (code === 'EAUTH' || this.smtpError?.responseCode === 535) throw new BadRequestException('SMTP authentication failed. Check the saved email address and App Password.');
+      if (this.isConnectionFailure(this.smtpError)) throw new BadRequestException('The server could not connect to the SMTP host. Check outbound SMTP access on your hosting provider and the host/port settings.');
+      throw new BadRequestException('SMTP verification failed. Check the mail server settings and server logs.');
+    }
     return { verified: true, host: current.host, port: current.port, secure: current.secure };
   }
 
@@ -142,6 +147,9 @@ export class MailService {
 
     try {
       await transporter.sendMail(message);
+      this.smtpStatus = 'ready';
+      this.smtpError = null;
+      return;
     } catch (error) {
       this.logTransportError('Password OTP email failed', error);
       this.smtpStatus = 'failed';
