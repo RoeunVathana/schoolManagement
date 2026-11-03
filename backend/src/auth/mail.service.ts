@@ -4,7 +4,8 @@ import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class MailService {
-  private readonly transporter: nodemailer.Transporter | null;
+  private transporter: nodemailer.Transporter | null;
+  private readonly fallbackTransporter: nodemailer.Transporter | null;
   private readonly from: string;
   private smtpStatus: 'not-configured' | 'checking' | 'ready' | 'failed' = 'not-configured';
   private smtpError: { code: string; responseCode: number | null; command: string | null } | null = null;
@@ -22,34 +23,57 @@ export class MailService {
     const secure = port === 465 ? true : port === 587 ? false : requestedSecure;
 
     this.from = this.config.get<string>('MAIL_FROM')?.trim() || user || 'CampusFlow <no-reply@localhost>';
-    this.transporter = host && user && password
-      ? nodemailer.createTransport({
-        host,
-        port,
-        secure,
-        requireTLS: !secure,
-        tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
-        connectionTimeout: 10_000,
-        greetingTimeout: 10_000,
-        socketTimeout: 20_000,
-        disableFileAccess: true,
-        disableUrlAccess: true,
-        auth: { user, pass: password },
-      })
+    const createTransporter = (transportPort: number, transportSecure: boolean) => nodemailer.createTransport({
+      host,
+      port: transportPort,
+      secure: transportSecure,
+      requireTLS: !transportSecure,
+      tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 20_000,
+      disableFileAccess: true,
+      disableUrlAccess: true,
+      auth: { user, pass: password },
+    });
+
+    this.transporter = host && user && password ? createTransporter(port, secure) : null;
+    // Some hosted runtimes cannot establish outbound STARTTLS connections on
+    // port 587 even though Gmail's implicit TLS port 465 is reachable. Keep a
+    // Gmail-only fallback so the configured 587 flow remains the first choice.
+    this.fallbackTransporter = this.transporter && host?.toLowerCase() === 'smtp.gmail.com' && port === 587
+      ? createTransporter(465, true)
       : null;
 
     if (this.transporter) {
       this.smtpStatus = 'checking';
-      void this.transporter.verify()
-        .then(() => {
-          this.smtpStatus = 'ready';
-          this.smtpError = null;
-          console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`);
-        })
-        .catch((error: any) => {
-          this.smtpStatus = 'failed';
-          this.logTransportError('SMTP verification failed', error);
-        });
+      void this.verifyConnection(host!, port, secure);
+    }
+  }
+
+  private async verifyConnection(host: string, port: number, secure: boolean) {
+    try {
+      await this.transporter?.verify();
+      this.smtpStatus = 'ready';
+      this.smtpError = null;
+      console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`);
+    } catch (error: any) {
+      this.logTransportError('SMTP verification failed', error);
+      if (!this.fallbackTransporter || error?.command !== 'CONN') {
+        this.smtpStatus = 'failed';
+        return;
+      }
+
+      try {
+        await this.fallbackTransporter.verify();
+        this.transporter = this.fallbackTransporter;
+        this.smtpStatus = 'ready';
+        this.smtpError = null;
+        console.log('[mail] SMTP fallback connection verified (smtp.gmail.com:465, secure=true)');
+      } catch (fallbackError: any) {
+        this.smtpStatus = 'failed';
+        this.logTransportError('SMTP fallback verification failed', fallbackError);
+      }
     }
   }
 
