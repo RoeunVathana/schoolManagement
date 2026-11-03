@@ -14,7 +14,10 @@ export class MailService {
     // the same 16 characters without those visual separators.
     const password = this.config.get<string>('MAIL_PASSWORD')?.replace(/\s+/g, '');
     const port = Number(this.config.get<string>('MAIL_PORT', '587'));
-    const secure = this.config.get<string>('MAIL_SECURE', 'false')?.trim().toLowerCase() === 'true';
+    const requestedSecure = this.config.get<string>('MAIL_SECURE', 'false')?.trim().toLowerCase() === 'true';
+    // Gmail uses STARTTLS on port 587 and implicit TLS on port 465. Normalize
+    // the common misconfiguration where MAIL_SECURE=true is left on port 587.
+    const secure = port === 465 ? true : port === 587 ? false : requestedSecure;
 
     this.from = this.config.get<string>('MAIL_FROM')?.trim() || user || 'CampusFlow <no-reply@localhost>';
     this.transporter = host && user && password
@@ -24,11 +27,20 @@ export class MailService {
         secure,
         requireTLS: !secure,
         tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
+        connectionTimeout: 10_000,
+        greetingTimeout: 10_000,
+        socketTimeout: 20_000,
         disableFileAccess: true,
         disableUrlAccess: true,
         auth: { user, pass: password },
       })
       : null;
+
+    if (this.transporter) {
+      void this.transporter.verify()
+        .then(() => console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`))
+        .catch((error: any) => this.logTransportError('SMTP verification failed', error));
+    }
   }
 
   isConfigured() {
@@ -41,12 +53,13 @@ export class MailService {
     }
 
     const safeName = recipientName?.trim() ? this.escapeHtml(recipientName.trim()) : 'there';
-    await this.transporter.sendMail({
-      from: this.from,
-      to: email,
-      subject: 'CampusFlow password reset code',
-      text: `Your CampusFlow password reset code is ${otp}. It expires in ${expiresInMinutes} minutes. If you did not request this, ignore this email.`,
-      html: `
+    try {
+      await this.transporter.sendMail({
+        from: this.from,
+        to: email,
+        subject: 'CampusFlow password reset code',
+        text: `Your CampusFlow password reset code is ${otp}. It expires in ${expiresInMinutes} minutes. If you did not request this, ignore this email.`,
+        html: `
         <div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49">
           <div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff">
             <h1 style="margin:0 0 8px">CampusFlow</h1>
@@ -61,7 +74,11 @@ export class MailService {
           </div>
         </div>
       `,
-    });
+      });
+    } catch (error) {
+      this.logTransportError('Password OTP email failed', error);
+      throw error;
+    }
   }
 
   async sendAdminPasswordOtp(email: string, otp: string, expiresInMinutes: number) {
@@ -127,5 +144,14 @@ export class MailService {
 
   private escapeHtml(value: string) {
     return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character);
+  }
+
+  private logTransportError(label: string, error: any) {
+    console.error(`[mail] ${label}`, {
+      code: error?.code || 'UNKNOWN',
+      responseCode: error?.responseCode || null,
+      command: error?.command || null,
+      message: error?.message || 'No SMTP error message was provided',
+    });
   }
 }
