@@ -71,7 +71,7 @@ async function bootstrap() {
     response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     response.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
     response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
-    if (/^\/(?:auth|api\/auth|payments|storefront\/courses\/[^/]+\/checkout)(?:\/|$)/.test(request.path)) {
+    if (/^\/health(?:\/|$)/.test(request.path) || /^\/(?:auth|api\/auth|payments|storefront\/courses\/[^/]+\/checkout)(?:\/|$)/.test(request.path)) {
       response.setHeader('Cache-Control', 'no-store');
       response.setHeader('Pragma', 'no-cache');
     } else if (request.method === 'GET' && (/^\/storefront\/courses(?:\/[^/]+)?$/.test(request.path) || request.path === '/api/community')) {
@@ -102,7 +102,16 @@ async function bootstrap() {
     legacyHeaders: false,
     message: { success: false, message: 'Too many authentication attempts. Please try again later.' },
   });
+  const contactLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: getPositiveLimit(config, 'CONTACT_RATE_LIMIT', 12),
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    skip: (request) => request.method !== 'POST',
+    message: { success: false, message: 'Too many contact messages. Please try again later.' },
+  });
   app.use(generalLimiter);
+  app.use('/contact', contactLimiter);
   app.use(
     [
       '/auth/login',
@@ -164,6 +173,8 @@ async function bootstrap() {
   server.requestTimeout = 120_000;
   server.keepAliveTimeout = 65_000;
   server.headersTimeout = 66_000;
+  server.maxHeadersCount = 100;
+  server.maxRequestsPerSocket = 1000;
 }
 
 void bootstrap();

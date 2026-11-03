@@ -57,6 +57,7 @@ export class StorefrontController {
           _count: { select: { enrollments: true, assignments: true, exams: true, materials: true } },
         },
         orderBy: { createdAt: 'desc' },
+        take: 100,
       });
       return courses.map((course) => this.withPricing(course));
     });

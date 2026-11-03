@@ -14,6 +14,8 @@ Set these Railway backend variables before deploying:
 - `ENABLE_SWAGGER=false`
 - `RATE_LIMIT_PER_MINUTE=240`
 - `AUTH_RATE_LIMIT=30`
+- `CONTACT_RATE_LIMIT=12` to limit anonymous contact-form submissions per IP
+- `HEALTH_DETAILS=false` in production so the public health endpoint does not expose cache, media, or SMTP diagnostics
 - `DATABASE_MIGRATION_MODE=migrate` after the existing database has a Prisma migration history
 
 Generate secrets locally with:

@@ -12,6 +12,7 @@ RUN npx prisma generate
 
 COPY backend ./
 RUN npm run build
+RUN npm prune --omit=dev
 
 FROM node:20-alpine AS frontend-build
 

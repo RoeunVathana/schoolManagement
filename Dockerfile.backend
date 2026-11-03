@@ -12,6 +12,7 @@ RUN npx prisma generate
 
 COPY backend ./
 RUN npm run build
+RUN npm prune --omit=dev
 
 RUN mkdir -p uploads && chown -R node:node /app
 USER node
