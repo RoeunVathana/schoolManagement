@@ -9,7 +9,6 @@ import { FirebaseAuthService } from './firebase-auth.service';
 import { PaymentsModule } from '../payments/payments.module';
 import { Phase1AuthController } from './phase1-auth.controller';
 import { MailModule } from '../mail/mail.module';
-import { MailService } from './mail.service';
 
-@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, MailModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET'), issuer: config.get('JWT_ISSUER', 'campusflow-api'), audience: config.get('JWT_AUDIENCE', 'campusflow-web') }) })], controllers: [AuthController, Phase1AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService], exports: [AuthService, MailService] })
+@Module({ imports: [ConfigModule, PassportModule, PaymentsModule, MailModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (config: ConfigService) => ({ secret: config.get('JWT_ACCESS_SECRET'), issuer: config.get('JWT_ISSUER', 'campusflow-api'), audience: config.get('JWT_AUDIENCE', 'campusflow-web') }) })], controllers: [AuthController, Phase1AuthController], providers: [AuthService, JwtStrategy, FirebaseAuthService], exports: [AuthService] })
 export class AuthModule {}
