@@ -8,6 +8,7 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import { uploadsRoot } from './common/upload-paths';
 import { NextFunction, Request, Response } from 'express';
+import { randomUUID } from 'crypto';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
@@ -68,6 +69,12 @@ async function bootstrap() {
     }),
   );
   app.use((request: Request, response: Response, next: NextFunction) => {
+    const incomingRequestId = request.header('x-request-id');
+    const requestId = incomingRequestId && /^[A-Za-z0-9._:-]{1,100}$/.test(incomingRequestId)
+      ? incomingRequestId
+      : randomUUID();
+    (request as Request & { requestId?: string }).requestId = requestId;
+    response.setHeader('X-Request-ID', requestId);
     response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     response.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
     response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');

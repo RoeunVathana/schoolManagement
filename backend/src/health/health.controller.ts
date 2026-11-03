@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../cache/cache.service';
 import { MediaStorageService } from '../media/media-storage.service';
 import { MailService } from '../auth/mail.service';
+import { CodeRunnerService } from '../code-runner/code-runner.service';
 
 @Controller('health')
 export class HealthController {
@@ -12,6 +13,7 @@ export class HealthController {
     private readonly cache: CacheService,
     private readonly media: MediaStorageService,
     private readonly mail: MailService,
+    private readonly codeRunner: CodeRunnerService,
     private readonly config: ConfigService,
   ) {}
 
@@ -37,7 +39,7 @@ export class HealthController {
       const nodeEnv = String(this.config.get('NODE_ENV', 'development')).toLowerCase();
       const includeDetails = String(this.config.get('HEALTH_DETAILS', nodeEnv !== 'production' ? 'true' : 'false')).toLowerCase() === 'true';
       return includeDetails
-        ? { ...response, cache: this.cache.status(), media: this.media.configuration(), mail: this.mail.configuration() }
+        ? { ...response, cache: this.cache.status(), media: this.media.configuration(), mail: this.mail.configuration(), codeRunner: this.codeRunner.configuration() }
         : response;
     } catch {
       throw new ServiceUnavailableException('Service unavailable');

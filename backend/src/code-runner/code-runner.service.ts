@@ -38,6 +38,17 @@ export class CodeRunnerService {
     return configured.endsWith('/execute') ? configured : `${configured}/api/v2/execute`;
   }
 
+  configuration() {
+    const endpoint = this.endpoint();
+    if (!endpoint) return { configured: false, provider: null };
+
+    try {
+      return { configured: true, provider: new URL(endpoint).hostname };
+    } catch {
+      return { configured: false, provider: null };
+    }
+  }
+
   async execute(language: CodeRunnerLanguage, code: string, stdin = '') {
     const endpoint = this.endpoint();
     if (!endpoint) {
@@ -72,6 +83,7 @@ export class CodeRunnerService {
           run_memory_limit: 128 * 1024 * 1024,
         }),
         signal: AbortSignal.timeout(15000),
+        redirect: 'error',
       });
     } catch {
       throw new ServiceUnavailableException('The secure code runner is unavailable. Please try again shortly.');
