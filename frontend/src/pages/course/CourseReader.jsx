@@ -628,6 +628,97 @@ const referenceCourseCatalog = {
   }),
 };
 
+// Keep every subject on the CampusFlow domain. These local readers use the
+// same outline, progress, copy-code and playground flow as the reference
+// readers, so a subject click never sends a learner to another website.
+const localCourseBlueprints = [
+  {
+    slug: "cpp_programming", title: "C++", codeLabel: "main.cpp", tip: "Compile with warnings enabled and keep ownership of memory explicit.",
+    firstLabel: "1.1 What is C++?", firstHeading: "1. Introduction to C++", firstCode: "#include <iostream>\n\nint main() {\n    std::cout << \"Hello, C++!\";\n    return 0;\n}", firstPreview: { title: "Hello, C++!", body: "The program starts in main and writes to standard output." },
+    sections: [[1, "Introduction to C++", ["1.1 What is C++?", "1.2 History and Features of C++", "1.3 Setting Up a C++ Environment", "1.4 Structure of a C++ Program"]], [2, "C++ Basics", ["2.1 Variables and Data Types", "2.2 Constants", "2.3 Input and Output", "2.4 Type Casting"]], [3, "Operators and Control Flow", ["3.1 Operators", "3.2 if and switch", "3.3 for, while and do-while", "3.4 break and continue"]], [4, "Functions and Arrays", ["4.1 Functions", "4.2 Parameters and Return Values", "4.3 Arrays and Strings", "4.4 Recursion"]], [5, "Object-Oriented C++", ["5.1 Classes and Objects", "5.2 Constructors and Destructors", "5.3 Inheritance", "5.4 Polymorphism", "5.5 Encapsulation"]], [6, "STL and Modern C++", ["6.1 Vectors and Iterators", "6.2 Maps and Sets", "6.3 Templates", "6.4 Smart Pointers"]]],
+  },
+  {
+    slug: "python", title: "Python", codeLabel: "main.py", tip: "Use small functions, readable names and virtual environments for each project.",
+    firstLabel: "1.1 What is Python?", firstHeading: "1. Introduction to Python", firstCode: "def greet(name):\n    return f\"Hello, {name}!\"\n\nprint(greet(\"Learner\"))", firstPreview: { title: "Hello, Learner!", body: "Python keeps the first program short and readable." },
+    sections: [[1, "Introduction to Python", ["1.1 What is Python?", "1.2 Installing Python", "1.3 Running Your First Program", "1.4 Python Syntax and Indentation"]], [2, "Variables and Data Types", ["2.1 Variables", "2.2 Numbers and Strings", "2.3 Lists, Tuples and Sets", "2.4 Dictionaries", "2.5 Type Conversion"]], [3, "Control Flow", ["3.1 if, elif and else", "3.2 for Loops", "3.3 while Loops", "3.4 break and continue"]], [4, "Functions", ["4.1 Defining Functions", "4.2 Parameters and Arguments", "4.3 Return Values", "4.4 Lambda Functions", "4.5 Modules and Packages"]], [5, "Object-Oriented Python", ["5.1 Classes and Objects", "5.2 Constructors", "5.3 Inheritance", "5.4 Encapsulation"]], [6, "Files and Errors", ["6.1 Reading and Writing Files", "6.2 Exceptions", "6.3 JSON Data", "6.4 Virtual Environments"]]],
+  },
+  {
+    slug: "php", title: "PHP", codeLabel: "index.php", tip: "Validate input, escape output and keep database queries parameterized.",
+    firstLabel: "1.1 What is PHP?", firstHeading: "1. Introduction to PHP", firstCode: "<?php\n$name = \"Learner\";\necho \"Hello, $name!\";", firstPreview: { title: "Hello, Learner!", body: "PHP generates text on the server before the page reaches the browser." },
+    sections: [[1, "Introduction to PHP", ["1.1 What is PHP?", "1.2 Installing PHP", "1.3 Your First PHP Script", "1.4 PHP Syntax"]], [2, "PHP Basics", ["2.1 Variables", "2.2 Constants", "2.3 Strings and Numbers", "2.4 Arrays"]], [3, "Control Flow and Functions", ["3.1 if and switch", "3.2 Loops", "3.3 Functions", "3.4 Include and Require"]], [4, "Forms and Requests", ["4.1 HTML Forms", "4.2 GET and POST", "4.3 Input Validation", "4.4 Sessions and Cookies"]], [5, "PHP and Databases", ["5.1 MySQL Connection", "5.2 Prepared Statements", "5.3 CRUD Operations", "5.4 Error Handling"]], [6, "Object-Oriented PHP", ["6.1 Classes and Objects", "6.2 Inheritance", "6.3 Interfaces", "6.4 Namespaces"]]],
+  },
+  {
+    slug: "laravel", title: "Laravel", codeLabel: "routes/web.php", tip: "Keep validation, authorization and database access inside clear application layers.",
+    firstLabel: "1.1 What is Laravel?", firstHeading: "1. Introduction to Laravel", firstCode: "use Illuminate\\Support\\Facades\\Route;\n\nRoute::get('/hello', function () {\n    return 'Hello, Laravel!';\n});", firstPreview: { title: "Hello, Laravel!", body: "A route connects a browser request to application code." },
+    sections: [[1, "Introduction to Laravel", ["1.1 What is Laravel?", "1.2 Installing Laravel", "1.3 Laravel Project Structure", "1.4 Configuration and Environment"]], [2, "Routing and Controllers", ["2.1 Web Routes", "2.2 Route Parameters", "2.3 Controllers", "2.4 Middleware"]], [3, "Blade and Frontend", ["3.1 Blade Templates", "3.2 Layouts and Components", "3.3 Forms", "3.4 Validation"]], [4, "Database and Eloquent", ["4.1 Migrations", "4.2 Models", "4.3 Eloquent Queries", "4.4 Relationships", "4.5 Seeders and Factories"]], [5, "Authentication and APIs", ["5.1 Authentication", "5.2 Authorization and Policies", "5.3 API Resources", "5.4 API Authentication"]], [6, "Testing and Deployment", ["6.1 Feature Tests", "6.2 Unit Tests", "6.3 Queues and Jobs", "6.4 Production Deployment"]]],
+  },
+  {
+    slug: "node", title: "Node.js", codeLabel: "server.js", tip: "Keep secrets in environment variables and validate every request at the API boundary.",
+    firstLabel: "1.1 What is Node.js?", firstHeading: "1. Introduction to Node.js", firstCode: "const http = require('http');\n\nhttp.createServer((request, response) => {\n  response.end('Hello, Node.js!');\n}).listen(3000);", firstPreview: { title: "Hello, Node.js!", body: "Node.js runs JavaScript outside the browser." },
+    sections: [[1, "Introduction to Node.js", ["1.1 What is Node.js?", "1.2 Installing Node.js", "1.3 npm and package.json", "1.4 Running a Node Program"]], [2, "JavaScript for Node.js", ["2.1 Modules", "2.2 Callbacks and Promises", "2.3 async and await", "2.4 Working with Events"]], [3, "Files and HTTP", ["3.1 File System Module", "3.2 Creating an HTTP Server", "3.3 URL and Query Parameters", "3.4 Streams"]], [4, "Express.js", ["4.1 Express Setup", "4.2 Routes", "4.3 Middleware", "4.4 Request and Response", "4.5 Error Handling"]], [5, "Databases and APIs", ["5.1 Connecting to a Database", "5.2 REST API Design", "5.3 Authentication", "5.4 Input Validation"]], [6, "Testing and Deployment", ["6.1 Testing APIs", "6.2 Environment Variables", "6.3 Logging", "6.4 Production Deployment"]]],
+  },
+  {
+    slug: "kotlin", title: "Kotlin", codeLabel: "Main.kt", tip: "Use null safety and immutable values to make Kotlin code easier to maintain.",
+    firstLabel: "1.1 What is Kotlin?", firstHeading: "1. Introduction to Kotlin", firstCode: "fun main() {\n    println(\"Hello, Kotlin!\")\n}", firstPreview: { title: "Hello, Kotlin!", body: "Kotlin starts from a concise main function." },
+    sections: [[1, "Introduction to Kotlin", ["1.1 What is Kotlin?", "1.2 Installing Kotlin", "1.3 Your First Kotlin Program", "1.4 Kotlin and Java"]], [2, "Kotlin Basics", ["2.1 Variables and Constants", "2.2 Data Types", "2.3 Strings", "2.4 Nullable Types"]], [3, "Control Flow and Functions", ["3.1 if Expressions", "3.2 when Expressions", "3.3 Loops", "3.4 Functions and Parameters"]], [4, "Object-Oriented Kotlin", ["4.1 Classes and Objects", "4.2 Data Classes", "4.3 Inheritance", "4.4 Interfaces"]], [5, "Collections and Coroutines", ["5.1 Lists, Sets and Maps", "5.2 Lambdas", "5.3 Extension Functions", "5.4 Coroutines"]]],
+  },
+  {
+    slug: "flutter", title: "Flutter", codeLabel: "lib/main.dart", tip: "Keep widgets small, make state explicit and test layouts at multiple screen sizes.",
+    firstLabel: "1.1 What is Flutter?", firstHeading: "1. Introduction to Flutter", firstCode: "import 'package:flutter/material.dart';\n\nvoid main() => runApp(const MaterialApp(\n  home: Scaffold(body: Center(child: Text('Hello, Flutter!'))),\n));", firstPreview: { title: "Hello, Flutter!", body: "Flutter builds the interface from reusable widgets." },
+    sections: [[1, "Introduction to Flutter", ["1.1 What is Flutter?", "1.2 Installing Flutter", "1.3 Creating a Flutter Project", "1.4 Flutter Project Structure"]], [2, "Dart for Flutter", ["2.1 Variables and Functions", "2.2 Classes and Objects", "2.3 Lists and Maps", "2.4 Futures and async"]], [3, "Flutter Widgets", ["3.1 StatelessWidget", "3.2 StatefulWidget", "3.3 Text, Image and Icon", "3.4 Rows, Columns and Containers"]], [4, "Layouts and Navigation", ["4.1 Responsive Layouts", "4.2 Lists and Grids", "4.3 Navigation", "4.4 Forms and Validation"]], [5, "State and Data", ["5.1 Managing State", "5.2 Calling APIs", "5.3 Local Storage", "5.4 Error and Loading States"]]],
+  },
+  {
+    slug: "mysql", title: "MySQL", codeLabel: "query.sql", tip: "Use constraints and parameterized queries to protect data integrity and security.",
+    firstLabel: "1.1 What is MySQL?", firstHeading: "1. Introduction to MySQL", firstCode: "CREATE DATABASE campusflow;\nUSE campusflow;\n\nCREATE TABLE students (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(120) NOT NULL\n);", firstPreview: { title: "campusflow", body: "A database and students table are ready for queries." },
+    sections: [[1, "Introduction to MySQL", ["1.1 What is MySQL?", "1.2 Installing MySQL", "1.3 Creating a Database", "1.4 MySQL Workbench"]], [2, "SQL Basics", ["2.1 CREATE and ALTER", "2.2 INSERT", "2.3 SELECT", "2.4 UPDATE and DELETE"]], [3, "Filtering and Functions", ["3.1 WHERE", "3.2 ORDER BY and LIMIT", "3.3 Aggregate Functions", "3.4 GROUP BY and HAVING"]], [4, "Relationships", ["4.1 Primary Keys", "4.2 Foreign Keys", "4.3 INNER JOIN", "4.4 LEFT JOIN"]], [5, "Indexes and Transactions", ["5.1 Indexes", "5.2 Transactions", "5.3 Constraints", "5.4 Views"]], [6, "Security and Performance", ["6.1 Users and Privileges", "6.2 Backups", "6.3 Query Optimization", "6.4 Prepared Statements"]]],
+  },
+  {
+    slug: "git", title: "Git", codeLabel: "terminal", tip: "Make focused commits and never commit passwords, tokens or generated secrets.",
+    firstLabel: "1.1 What is Git?", firstHeading: "1. Introduction to Git", firstCode: "git init\ngit add .\ngit commit -m \"Start project\"", firstPreview: { title: "Repository created", body: "Git records a project snapshot that can be shared and restored." },
+    sections: [[1, "Introduction to Git", ["1.1 What is Git?", "1.2 Installing Git", "1.3 Creating a Repository", "1.4 Git Configuration"]], [2, "Working with Commits", ["2.1 git status", "2.2 git add", "2.3 git commit", "2.4 Viewing History"]], [3, "Branches and Merging", ["3.1 Creating Branches", "3.2 Switching Branches", "3.3 Merging", "3.4 Resolving Conflicts"]], [4, "Remote Repositories", ["4.1 git clone", "4.2 git remote", "4.3 git push", "4.4 git pull"]], [5, "Team Workflow", ["5.1 Pull Requests", "5.2 Code Review", "5.3 Tags and Releases", "5.4 .gitignore"]]],
+  },
+  {
+    slug: "Cyber-Security", title: "Cyber Security", codeLabel: "security-checklist.txt", tip: "Protect accounts, minimize access and treat every external input as untrusted.",
+    firstLabel: "1.1 What is Cyber Security?", firstHeading: "1. Introduction to Cyber Security", firstCode: "Security checklist:\n- Use unique passwords\n- Enable MFA\n- Update software\n- Verify links before opening", firstPreview: { title: "Safer habits", body: "Small security practices reduce common risks." },
+    sections: [[1, "Introduction to Cyber Security", ["1.1 What is Cyber Security?", "1.2 Common Threats", "1.3 Security Principles", "1.4 Security Careers"]], [2, "Account and Device Security", ["2.1 Passwords and MFA", "2.2 Phishing", "2.3 Secure Devices", "2.4 Updates and Backups"]], [3, "Network Security", ["3.1 Networks and Protocols", "3.2 Firewalls", "3.3 Wi-Fi Security", "3.4 VPN Basics"]], [4, "Web Application Security", ["4.1 Authentication", "4.2 Authorization", "4.3 Input Validation", "4.4 OWASP Top Risks"]], [5, "Security Operations", ["5.1 Logging and Monitoring", "5.2 Incident Response", "5.3 Risk Assessment", "5.4 Security Policies"]]],
+  },
+  {
+    slug: "components-of-computer", title: "Computer Components", codeLabel: "computer-parts.txt", tip: "Understand compatibility, cooling and safe handling before upgrading hardware.",
+    firstLabel: "1.1 What is a Computer?", firstHeading: "1. Introduction to Computer Components", firstCode: "Computer system\n├── Input devices\n├── CPU and memory\n├── Storage\n└── Output devices", firstPreview: { title: "Computer system", body: "Hardware components work together to process, store and display information." },
+    sections: [[1, "Introduction to Computers", ["1.1 What is a Computer?", "1.2 Hardware and Software", "1.3 Input and Output", "1.4 Digital Data"]], [2, "Core Components", ["2.1 CPU", "2.2 Motherboard", "2.3 RAM", "2.4 Power Supply"]], [3, "Storage and Graphics", ["3.1 Hard Drives", "3.2 SSDs", "3.3 Graphics Cards", "3.4 Cooling Systems"]], [4, "Building and Maintenance", ["4.1 Component Compatibility", "4.2 Installing Components", "4.3 Troubleshooting", "4.4 Safe Maintenance"]]],
+  },
+  {
+    slug: "bootstrap", title: "Bootstrap", codeLabel: "index.html", tip: "Use responsive utilities consistently and keep components accessible across breakpoints.",
+    firstLabel: "1.1 What is Bootstrap?", firstHeading: "1. Introduction to Bootstrap", firstCode: "<div class=\"container py-4\">\n  <h1 class=\"text-primary\">Hello, Bootstrap!</h1>\n  <button class=\"btn btn-success\">Start learning</button>\n</div>", firstPreview: { title: "Hello, Bootstrap!", body: "Bootstrap utilities help build responsive interfaces quickly." },
+    sections: [[1, "Introduction to Bootstrap", ["1.1 What is Bootstrap?", "1.2 Installing Bootstrap", "1.3 Containers", "1.4 Breakpoints"]], [2, "Layout and Grid", ["2.1 Rows and Columns", "2.2 Responsive Grid", "2.3 Flex Utilities", "2.4 Spacing Utilities"]], [3, "Components", ["3.1 Buttons", "3.2 Cards", "3.3 Navbar", "3.4 Modal and Alerts"]], [4, "Forms and Utilities", ["4.1 Form Controls", "4.2 Validation", "4.3 Typography", "4.4 Colors and Helpers"]]],
+  },
+  {
+    slug: "Learn-the-code-yourself", title: "Learn Code Yourself", codeLabel: "practice.html", tip: "Break a problem into small steps, test each step and keep practicing consistently.",
+    firstLabel: "1.1 How to Start Coding", firstHeading: "1. Introduction to Programming", firstCode: "const goal = 'Build something useful';\nconst steps = ['learn', 'practice', 'test', 'improve'];\nconsole.log(goal, steps);", firstPreview: { title: "Keep learning", body: "Programming improves through small projects and regular practice." },
+    sections: [[1, "Introduction to Programming", ["1.1 How to Start Coding", "1.2 What is an Algorithm?", "1.3 Variables and Values", "1.4 Input and Output"]], [2, "Problem Solving", ["2.1 Breaking Down a Problem", "2.2 Conditions", "2.3 Loops", "2.4 Functions"]], [3, "Web Development", ["3.1 HTML Structure", "3.2 CSS Styling", "3.3 JavaScript Interaction", "3.4 Responsive Design"]], [4, "Building Projects", ["4.1 Planning a Project", "4.2 Working with Data", "4.3 Testing and Debugging", "4.4 Publishing a Project"]]],
+  },
+];
+
+const additionalReferenceCourseCatalog = Object.fromEntries(localCourseBlueprints.map((blueprint) => [
+  blueprint.slug,
+  createReferenceCourse({
+    ...blueprint,
+    description: `Learn ${blueprint.title} through a CampusFlow reader with practical lessons and examples.`,
+    sections: blueprint.sections,
+    details: {
+      [blueprint.firstLabel]: {
+        heading: blueprint.firstHeading,
+        intro: `Learn the foundations of ${blueprint.title} with a practical first example.`,
+        bodyHeading: blueprint.firstLabel,
+        body: `This local CampusFlow lesson follows the same outline and reading flow as the other course subjects.`,
+        code: blueprint.firstCode,
+        preview: blueprint.firstPreview,
+      },
+    },
+  }),
+]));
+
+Object.assign(referenceCourseCatalog, additionalReferenceCourseCatalog);
 Object.assign(courseCatalog, referenceCourseCatalog);
 
 const technologyCourseSlugs = {
@@ -641,6 +732,7 @@ const technologyCourseSlugs = {
   "C#": "csharp",
   Dart: "dart-programming",
   SpringBoot: "springboot",
+  Kotlin: "kotlin",
   "C++": "cpp_programming",
   Python: "python",
   PHP: "php",
@@ -924,10 +1016,7 @@ export default function CourseReader() {
   const renderTechnologyLink = ([name, color]) => {
     const courseSlug = technologyCourseSlugs[name] || "html";
     const label = <><i style={{ backgroundColor: color }} />{name}</>;
-    if (courseCatalog[courseSlug]) {
-      return <Link className="course-tech-pill" to={`/course/${courseSlug}`} key={name}>{label}</Link>;
-    }
-    return <a className="course-tech-pill" href={`https://codekhmerlearning.site/course/${courseSlug}`} target="_blank" rel="noreferrer" key={name}>{label}</a>;
+    return <Link className="course-tech-pill" to={`/course/${courseSlug}`} key={name}>{label}</Link>;
   };
 
   return (
