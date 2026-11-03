@@ -48,10 +48,13 @@ export class MailService {
       connectionTimeout: 10_000,
       greetingTimeout: 10_000,
       socketTimeout: 20_000,
+      // Some hosted runtimes advertise an unreachable IPv6 route for Gmail.
+      // Prefer IPv4 so SMTP does not wait for the IPv6 connection to time out.
+      family: 4,
       disableFileAccess: true,
       disableUrlAccess: true,
       auth: { user, pass: password },
-    });
+    } as any);
 
     const transporter = host && user && password ? createTransporter(port, secure) : null;
     const fallbackTransporter = transporter && host.toLowerCase() === 'smtp.gmail.com' && port === 587
