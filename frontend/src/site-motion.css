@@ -256,6 +256,80 @@
   .course-reader .course-preview-help:hover { transform: translateY(-2px); }
 }
 
+/* A shared 2D atmosphere keeps every route visually connected. The gradient
+   moves by background-position only, so it never changes layout or scroll. */
+@keyframes cf-background-shift {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 0% 50%; }
+  50% { background-position: 18% 8%, 82% 92%, 100% 50%; }
+}
+
+@keyframes cf-depth-breathe {
+  0%, 100% { box-shadow: 0 16px 38px rgb(16 36 63 / .08); }
+  50% { box-shadow: 0 22px 48px rgb(16 36 63 / .14), 0 0 26px rgb(34 158 217 / .06); }
+}
+
+.app-shell-content,
+.auth-layout,
+.course-reader,
+.storefront,
+.about-page,
+.contact-page,
+.community-page,
+.public-community-page {
+  background-image:
+    radial-gradient(circle at 12% 16%, rgb(141 228 202 / .08), transparent 26%),
+    radial-gradient(circle at 88% 82%, rgb(124 140 248 / .07), transparent 28%),
+    linear-gradient(120deg, transparent 0%, rgb(255 255 255 / .035) 48%, transparent 100%);
+  background-size: 160% 160%, 170% 170%, 220% 100%;
+  animation: cf-page-enter .55s var(--cf-motion-ease) both, cf-background-shift 28s ease-in-out infinite;
+}
+
+.dark .app-shell-content,
+.dark .auth-layout,
+.dark .course-reader,
+.dark .storefront,
+.dark .about-page,
+.dark .contact-page,
+.dark .community-page,
+.dark .public-community-page {
+  background-image:
+    radial-gradient(circle at 12% 16%, rgb(45 164 171 / .12), transparent 28%),
+    radial-gradient(circle at 88% 82%, rgb(124 140 248 / .1), transparent 30%),
+    linear-gradient(120deg, transparent 0%, rgb(255 255 255 / .025) 48%, transparent 100%);
+}
+
+/* Dashboard/admin surfaces that use utility classes still receive a small
+   3D lift, while the content inside them remains at translateZ(0). */
+@media (hover: hover) and (pointer: fine) {
+  .app-main :where([class*="card"], [class*="tile"], [class*="stat"]) {
+    transform-style: preserve-3d;
+    transition: transform .3s var(--cf-motion-ease), box-shadow .3s ease, border-color .3s ease;
+  }
+
+  .app-main :where([class*="card"], [class*="tile"], [class*="stat"]):hover {
+    box-shadow: 0 22px 48px rgb(16 36 63 / .12);
+    transform: perspective(1100px) translate3d(0, -.3rem, 10px) rotateX(.6deg) rotateY(-.6deg);
+  }
+
+  .dark .app-main :where([class*="card"], [class*="tile"], [class*="stat"]):hover {
+    box-shadow: 0 24px 52px rgb(0 0 0 / .32);
+  }
+
+  .course-reader .course-code-wrap,
+  .course-reader .course-playground,
+  .course-reader .course-rendered-preview {
+    animation: cf-depth-breathe 7s ease-in-out infinite;
+    transform-style: preserve-3d;
+    transition: transform .3s var(--cf-motion-ease), box-shadow .3s ease;
+  }
+
+  .course-reader .course-code-wrap:hover,
+  .course-reader .course-playground:hover,
+  .course-reader .course-rendered-preview:hover {
+    transform: perspective(1100px) translate3d(0, -.25rem, 8px) rotateX(.45deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -265,4 +339,23 @@
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
   }
+
+  .app-shell-content,
+  .auth-layout,
+  .course-reader,
+  .storefront,
+  .about-page,
+  .contact-page,
+  .community-page,
+  .public-community-page,
+  .course-reader .course-code-wrap,
+  .course-reader .course-playground,
+  .course-reader .course-rendered-preview {
+    animation: none !important;
+  }
+
+  .app-main :where([class*="card"], [class*="tile"], [class*="stat"]):hover,
+  .course-reader .course-code-wrap:hover,
+  .course-reader .course-playground:hover,
+  .course-reader .course-rendered-preview:hover { transform: none !important; }
 }
