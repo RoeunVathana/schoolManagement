@@ -198,3 +198,41 @@
     grid-column: auto;
   }
 }
+
+/* On wide course readers the lesson and preview containers stay fixed at the
+   sides. Keep the footer underneath the center lesson container instead of
+   allowing those panels to cover its columns. */
+@media (min-width: 1181px) {
+  .course-reader > .site-footer {
+    width: calc(100% - clamp(235px, 18.23vw, 280px) - clamp(270px, 22.79vw, 350px));
+    margin-left: clamp(235px, 18.23vw, 280px);
+  }
+
+  .course-reader > .site-footer .site-footer-inner {
+    width: 100%;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .course-reader > .site-footer .site-footer-grid {
+    grid-template-columns: minmax(10rem, 1.35fr) repeat(3, minmax(7rem, 1fr));
+    gap: 1.2rem;
+  }
+}
+
+@media (min-width: 821px) and (max-width: 1180px) {
+  .course-reader > .site-footer {
+    width: calc(100% - min(260px, 32vw));
+    margin-left: min(260px, 32vw);
+  }
+
+  .course-reader > .site-footer .site-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .course-reader > .site-footer {
+    width: 100%;
+    margin-left: 0;
+  }
+}
