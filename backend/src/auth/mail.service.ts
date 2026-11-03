@@ -1,31 +1,34 @@
-import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { BadRequestException, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import { MailRuntimeConfig, MailSettingsService } from '../mail/mail-settings.service';
 
 @Injectable()
 export class MailService {
   private transporter: nodemailer.Transporter | null;
-  private readonly fallbackTransporter: nodemailer.Transporter | null;
-  private readonly from: string;
+  private fallbackTransporter: nodemailer.Transporter | null;
+  private from = 'CampusFlow <no-reply@localhost>';
+  private activeConfig: MailRuntimeConfig | null = null;
+  private configSignature = '';
   private smtpStatus: 'not-configured' | 'checking' | 'ready' | 'failed' = 'not-configured';
   private smtpError: { code: string; responseCode: number | null; command: string | null } | null = null;
 
-  constructor(private readonly config: ConfigService) {
-    // Railway values are normally entered without quotes, but accepting one
-    // pair of copied .env quotes prevents a subtle hosted-only SMTP failure.
-    const host = this.cleanConfigValue(this.config.get<string>('MAIL_HOST'));
-    const user = this.cleanConfigValue(this.config.get<string>('MAIL_USER'));
-    // Gmail displays app passwords in groups separated by spaces. SMTP expects
-    // the same 16 characters without those visual separators.
-    const password = this.cleanConfigValue(this.config.get<string>('MAIL_PASSWORD'))?.replace(/\s+/g, '');
-    const configuredPort = Number(this.cleanConfigValue(this.config.get<string>('MAIL_PORT', '587')) || 587);
-    const port = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 587;
-    const requestedSecure = this.cleanConfigValue(this.config.get<string>('MAIL_SECURE', 'false'))?.toLowerCase() === 'true';
-    // Gmail uses STARTTLS on port 587 and implicit TLS on port 465. Normalize
-    // the common misconfiguration where MAIL_SECURE=true is left on port 587.
-    const secure = port === 465 ? true : port === 587 ? false : requestedSecure;
+  constructor(private readonly config: ConfigService, private readonly mailSettings: MailSettingsService) {
+    this.applyConfiguration(this.mailSettings.environmentConfig());
+    void this.reload().catch((error) => console.error('[mail] Could not load saved mail settings', error?.message || error));
+  }
 
-    this.from = this.cleanConfigValue(this.config.get<string>('MAIL_FROM')) || user || 'CampusFlow <no-reply@localhost>';
+  async reload() {
+    const current = await this.mailSettings.resolve();
+    const signature = [current.source, current.host, current.port, current.secure, current.user, current.password, current.from].join('|');
+    if (signature !== this.configSignature) this.applyConfiguration(current);
+    return current;
+  }
+
+  private applyConfiguration(current: MailRuntimeConfig) {
+    const { host, user, password, port, secure } = current;
+    this.activeConfig = current;
+    this.from = current.from || user || 'CampusFlow <no-reply@localhost>';
     const createTransporter = (transportPort: number, transportSecure: boolean) => nodemailer.createTransport({
       host,
       port: transportPort,
@@ -41,17 +44,13 @@ export class MailService {
     });
 
     this.transporter = host && user && password ? createTransporter(port, secure) : null;
-    // Some hosted runtimes cannot establish outbound STARTTLS connections on
-    // port 587 even though Gmail's implicit TLS port 465 is reachable. Keep a
-    // Gmail-only fallback so the configured 587 flow remains the first choice.
-    this.fallbackTransporter = this.transporter && host?.toLowerCase() === 'smtp.gmail.com' && port === 587
+    this.fallbackTransporter = this.transporter && host.toLowerCase() === 'smtp.gmail.com' && port === 587
       ? createTransporter(465, true)
       : null;
-
-    if (this.transporter) {
-      this.smtpStatus = 'checking';
-      void this.verifyConnection(host!, port, secure);
-    }
+    this.configSignature = [current.source, host, port, secure, user, password, current.from].join('|');
+    this.smtpStatus = this.transporter ? 'checking' : 'not-configured';
+    this.smtpError = null;
+    if (this.transporter) void this.verifyConnection(host, port, secure);
   }
 
   private async verifyConnection(host: string, port: number, secure: boolean) {
@@ -85,12 +84,25 @@ export class MailService {
     return this.transporter !== null;
   }
 
-  configuration() {
-    return { configured: this.isConfigured(), status: this.smtpStatus, error: this.smtpError };
+  async configuration() {
+    const settings = await this.mailSettings.publicSettings();
+    await this.reload();
+    return { ...settings, status: this.smtpStatus, error: this.smtpError };
+  }
+
+  async verifyCurrentConfiguration() {
+    const current = await this.reload();
+    if (!this.transporter || !current.host || !current.user || !current.password) {
+      throw new BadRequestException('Mail is not configured. Save MAIL_USER and MAIL_PASSWORD first.');
+    }
+    await this.verifyConnection(current.host, current.port, current.secure);
+    if (this.smtpStatus !== 'ready') throw new BadRequestException('SMTP connection failed. Check the Gmail address and App Password.');
+    return { verified: true, host: current.host, port: current.port, secure: current.secure };
   }
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {
-    if (!this.transporter) {
+    const transporter = await this.getTransporter();
+    if (!transporter) {
       throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
     }
 
@@ -118,7 +130,7 @@ export class MailService {
     };
 
     try {
-      await this.transporter.sendMail(message);
+      await transporter.sendMail(message);
     } catch (error) {
       this.logTransportError('Password OTP email failed', error);
       this.smtpStatus = 'failed';
@@ -147,7 +159,8 @@ export class MailService {
   }
 
   async sendCoursePaymentConfirmation(email: string, recipientName: string, details: { invoiceNumber: string; courseName?: string; amount: string; currency: string; paymentPlan?: string; billingPeriod?: string | null; paidAt?: Date | string | null }) {
-    if (!this.transporter) return false;
+    const transporter = await this.getTransporter();
+    if (!transporter) return false;
 
     const safeName = this.escapeHtml(recipientName || 'Student');
     const safeInvoice = this.escapeHtml(details.invoiceNumber);
@@ -161,7 +174,7 @@ export class MailService {
     const appUrl = (this.config.get<string>('PUBLIC_APP_URL') || this.config.get<string>('FRONTEND_URL') || '').trim().replace(/\/+$/, '');
     const learningUrl = appUrl ? `${appUrl}/student/courses` : '';
 
-    await this.transporter.sendMail({
+    await transporter.sendMail({
       from: this.from,
       to: email,
       subject: 'CampusFlow course payment confirmed',
@@ -192,8 +205,9 @@ export class MailService {
   }
 
   private async sendCommunityEmail(email: string, subject: string, text: string, body: string, receiverName: string) {
-    if (!this.transporter) return false;
-    await this.transporter.sendMail({
+    const transporter = await this.getTransporter();
+    if (!transporter) return false;
+    await transporter.sendMail({
       from: this.from,
       to: email,
       subject,
@@ -201,6 +215,11 @@ export class MailService {
       html: `<div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49"><div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff"><h1 style="margin:0 0 8px">CampusFlow</h1><p style="margin:0;color:#c9f4e7">Learning community notification</p></div><div style="padding:28px 4px"><p>Hello ${this.escapeHtml(receiverName)},</p>${body}<p style="color:#64748b">You can manage your community notifications from your CampusFlow account.</p></div></div>`,
     });
     return true;
+  }
+
+  private async getTransporter() {
+    await this.reload();
+    return this.transporter;
   }
 
   private escapeHtml(value: string) {

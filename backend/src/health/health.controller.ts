@@ -39,7 +39,7 @@ export class HealthController {
       const nodeEnv = String(this.config.get('NODE_ENV', 'development')).toLowerCase();
       const includeDetails = String(this.config.get('HEALTH_DETAILS', nodeEnv !== 'production' ? 'true' : 'false')).toLowerCase() === 'true';
       return includeDetails
-        ? { ...response, cache: this.cache.status(), media: this.media.configuration(), mail: this.mail.configuration(), codeRunner: this.codeRunner.configuration() }
+        ? { ...response, cache: this.cache.status(), media: this.media.configuration(), mail: await this.mail.configuration(), codeRunner: this.codeRunner.configuration() }
         : response;
     } catch {
       throw new ServiceUnavailableException('Service unavailable');

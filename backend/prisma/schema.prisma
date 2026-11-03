@@ -692,6 +692,22 @@ model TelegramSetting {
   @@map("telegram_settings")
 }
 
+model MailSetting {
+  id                 String   @id @default("mail")
+  host               String
+  port               Int
+  secure             Boolean
+  user               String
+  passwordCiphertext String   @db.Text
+  passwordIv         String
+  passwordTag        String
+  from               String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("mail_settings")
+}
+
 model ClassSchedule {
   id          String    @id @default(cuid())
   courseId    String
