@@ -1,0 +1,69 @@
+/* Shared CampusFlow page surfaces.
+   Both themes use the same layered composition; only the luminance palette
+   changes so pages do not jump between unrelated background treatments. */
+:root {
+  --campus-page-background:
+    radial-gradient(circle at 8% 0%, rgb(223 248 238 / .95) 0, rgb(223 248 238 / 0) 28%),
+    radial-gradient(circle at 96% 8%, rgb(244 123 103 / .12) 0, rgb(244 123 103 / 0) 25%),
+    linear-gradient(135deg, #f8fbff 0%, #eef4ff 52%, #fff6f0 100%);
+  --campus-page-color: #162033;
+  --campus-page-transition: background-color .25s ease, color .25s ease;
+}
+
+.dark {
+  --campus-page-background:
+    radial-gradient(circle at 8% 0%, rgb(45 111 133 / .28) 0, rgb(45 111 133 / 0) 30%),
+    radial-gradient(circle at 96% 12%, rgb(244 123 103 / .16) 0, rgb(244 123 103 / 0) 28%),
+    linear-gradient(135deg, #070d18 0%, #0b1628 48%, #171525 100%);
+  --campus-page-color: #e8f4fb;
+}
+
+html,
+body,
+#root {
+  background: var(--campus-page-background);
+  color: var(--campus-page-color);
+  transition: var(--campus-page-transition);
+}
+
+body {
+  background-attachment: fixed;
+  background-color: var(--surface-page);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Top-level page shells all inherit one CampusFlow surface in both modes. */
+.app-background,
+.auth-background,
+.about-page,
+.contact-page,
+.storefront,
+.course-reader,
+.not-found-page {
+  background: var(--campus-page-background) !important;
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--campus-page-color);
+  transition: var(--campus-page-transition);
+}
+
+.app-shell,
+.app-shell-content,
+.app-main,
+.dashboard-page {
+  background: transparent;
+}
+
+/* Keep the course reader's fixed columns on the same surface as the page. */
+.course-reader .course-lessons-panel,
+.course-reader .course-preview-panel {
+  background: color-mix(in srgb, var(--surface-card) 94%, transparent);
+}
+
+@supports not (background: color-mix(in srgb, white 50%, black)) {
+  .course-reader .course-lessons-panel,
+  .course-reader .course-preview-panel {
+    background: var(--surface-card);
+  }
+}
