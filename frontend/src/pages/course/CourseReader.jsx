@@ -1291,6 +1291,127 @@ const advancedCourseUnits = {
   ],
 };
 
+// Expert tracks make the last part of each reader useful after the learner has
+// completed the foundations.  They focus on the practices used in real work:
+// designing systems, proving quality, and shipping a portfolio-ready project.
+const expertCourseUnits = {
+  html: [
+    [1, "Web Platform Mastery", ["Progressive Enhancement", "Web Components and Custom Elements", "Content Security Policy Basics", "Accessibility Audit with Assistive Technology"]],
+    [2, "Publishing and Measurement", ["Core Web Vitals", "Structured Data", "Internationalization", "Accessibility Regression Checklist"]],
+    [3, "HTML Portfolio Capstone", ["Plan an Accessible Documentation Site", "Build Semantic Templates", "Validate with Automated Tools", "Publish and Measure Improvements"]],
+  ],
+  css: [
+    [1, "Scalable CSS Systems", ["Layered Architecture", "Theming with Custom Properties", "Container Query Components", "CSS Performance Budget"]],
+    [2, "Production UI Quality", ["Cross-Browser Testing", "Visual Regression Testing", "Accessible Motion Design", "Debugging Layout Shifts"]],
+    [3, "CSS Portfolio Capstone", ["Design a Component Library", "Implement Responsive Variants", "Audit Contrast and Focus", "Publish a Style Guide"]],
+  ],
+  javascript: [
+    [1, "JavaScript Systems", ["Event Loop Diagnostics", "Memory Leak Investigation", "Worker-Based Computation", "Module Boundaries and Bundling"]],
+    [2, "Reliable Web Applications", ["Schema Validation", "Error Boundaries and Recovery", "Performance Measurement", "Testing Async Workflows"]],
+    [3, "JavaScript Portfolio Capstone", ["Design an Offline-Ready App", "Build a Data Flow", "Test User Journeys", "Deploy and Monitor"]],
+  ],
+  tailwindcss: [
+    [1, "Tailwind Design Engineering", ["Token-Driven Theme System", "Custom Plugin Architecture", "Component Variant API", "Production CSS Auditing"]],
+    [2, "Quality and Accessibility", ["Responsive Component Testing", "Dark Mode Contrast Audit", "Keyboard Interaction Patterns", "Bundle Size Optimization"]],
+    [3, "Tailwind Portfolio Capstone", ["Plan a Design System", "Build a Dashboard", "Create Accessible Forms", "Publish a Component Showcase"]],
+  ],
+  react: [
+    [1, "React Production Architecture", ["Server and Client Boundaries", "State Machine Design", "Suspense Data Strategy", "Rendering Performance Profiling"]],
+    [2, "React Reliability", ["Component Test Strategy", "Accessible Form State", "Error Recovery Design", "Security for Client Applications"]],
+    [3, "React Portfolio Capstone", ["Design a Learning Dashboard", "Build a Protected Feature", "Test Critical Flows", "Ship a Production Release"]],
+  ],
+  c_programming: [
+    [1, "C Systems Engineering", ["Memory Ownership Contracts", "Portable File I/O", "Process and Signal Safety", "Network Socket Fundamentals"]],
+    [2, "C Reliability", ["Sanitizers and Static Analysis", "Fuzzing Input Parsers", "Profiling Native Code", "Secure Error Handling"]],
+    [3, "C Portfolio Capstone", ["Design a Command Line Tool", "Implement File Persistence", "Test Resource Cleanup", "Package a Portable Release"]],
+  ],
+  java: [
+    [1, "Java Service Engineering", ["Virtual Threads and Concurrency", "JVM Diagnostics", "Database Transaction Boundaries", "Secure Serialization"]],
+    [2, "Java Reliability", ["JUnit Test Layers", "Observability and Metrics", "Performance Load Testing", "Dependency Vulnerability Review"]],
+    [3, "Java Portfolio Capstone", ["Design a Service API", "Build a Persistence Layer", "Secure the Endpoints", "Package and Deploy"]],
+  ],
+  csharp: [
+    [1, "Modern .NET Engineering", ["Async Concurrency Control", "Minimal API Architecture", "EF Core Transaction Patterns", "Background Worker Design"]],
+    [2, "C# Reliability", ["xUnit Integration Testing", "Structured Logging", "Performance Profiling", "Secure Configuration Management"]],
+    [3, "C# Portfolio Capstone", ["Design a .NET Service", "Add Authentication", "Test Data Access", "Deploy a Container"]],
+  ],
+  "dart-programming": [
+    [1, "Dart Engineering", ["Isolate Communication", "Stream Error Handling", "Package API Design", "Null Safety Migration"]],
+    [2, "Dart Reliability", ["Unit Testing", "Profiling Dart Code", "Secure HTTP Requests", "Release Configuration"]],
+    [3, "Dart Portfolio Capstone", ["Design a Command Line Utility", "Consume a Public API", "Test Edge Cases", "Package a Release"]],
+  ],
+  springboot: [
+    [1, "Spring Boot Systems", ["Configuration Properties Design", "Transactional Service Boundaries", "Resilience and Circuit Breakers", "Distributed Trace Context"]],
+    [2, "Spring Boot Reliability", ["Integration Test Slices", "Secure Resource Server", "Metrics and Health Checks", "Database Migration Strategy"]],
+    [3, "Spring Boot Portfolio Capstone", ["Design a School Service", "Implement Role Security", "Test the API Contract", "Dockerize and Deploy"]],
+  ],
+  cpp_programming: [
+    [1, "Modern C++ Systems", ["RAII Resource Architecture", "Template Constraints", "Move Semantics in APIs", "Concurrency and Data Races"]],
+    [2, "C++ Reliability", ["Sanitizers and Static Analysis", "Benchmarking Hot Paths", "Exception Safety Guarantees", "Secure File Handling"]],
+    [3, "C++ Portfolio Capstone", ["Design a Data Structure Library", "Write Unit Tests", "Build with CMake", "Profile and Release"]],
+  ],
+  python: [
+    [1, "Python Application Engineering", ["Async Service Patterns", "Type-Checked Boundaries", "Data Pipeline Design", "Packaging and Dependency Locking"]],
+    [2, "Python Reliability", ["Pytest Strategy", "Logging and Observability", "Input Validation", "Performance Profiling"]],
+    [3, "Python Portfolio Capstone", ["Design a REST Service", "Build Persistence", "Test Error Cases", "Deploy a Container"]],
+  ],
+  php: [
+    [1, "PHP Application Engineering", ["Composer Package Boundaries", "Typed Domain Models", "Secure Session Handling", "Queue Worker Design"]],
+    [2, "PHP Reliability", ["PHPUnit Test Strategy", "Database Transaction Safety", "Structured Logging", "Dependency Security Review"]],
+    [3, "PHP Portfolio Capstone", ["Design a JSON API", "Add Login and Authorization", "Test Data Access", "Deploy with Environment Configuration"]],
+  ],
+  laravel: [
+    [1, "Laravel Systems", ["Service and Action Boundaries", "Queue Failure Handling", "Policy and Permission Design", "Caching and Invalidation"]],
+    [2, "Laravel Reliability", ["Feature Test Strategy", "Database Factory Design", "API Rate Limiting", "Production Queue Monitoring"]],
+    [3, "Laravel Portfolio Capstone", ["Design a Multi-Role App", "Build a Payment Workflow", "Test Authorization Rules", "Deploy and Observe"]],
+  ],
+  node: [
+    [1, "Node.js Systems", ["Event Loop Latency", "Stream Processing", "Worker Thread Architecture", "Graceful Shutdown"]],
+    [2, "Node.js Reliability", ["API Contract Testing", "Request Validation", "Structured Logging", "Dependency Vulnerability Review"]],
+    [3, "Node.js Portfolio Capstone", ["Design a REST API", "Add Role Security", "Test Failure Paths", "Deploy and Monitor"]],
+  ],
+  kotlin: [
+    [1, "Kotlin Systems", ["Structured Concurrency", "Flow Backpressure", "Sealed Error Models", "Extension API Design"]],
+    [2, "Kotlin Reliability", ["Coroutine Test Strategy", "Persistence Transaction Safety", "Logging and Metrics", "Dependency Security Review"]],
+    [3, "Kotlin Portfolio Capstone", ["Design a Service Layer", "Build a JSON API", "Test Concurrent Code", "Package and Deploy"]],
+  ],
+  flutter: [
+    [1, "Flutter Production Apps", ["State Management Architecture", "Navigation and Deep Links", "Platform Channel Boundaries", "Large List Performance"]],
+    [2, "Flutter Reliability", ["Widget and Integration Testing", "Accessible Interaction Design", "Secure Token Storage", "Crash and Performance Monitoring"]],
+    [3, "Flutter Portfolio Capstone", ["Plan a Mobile Learning App", "Build Offline States", "Test Key Journeys", "Release to a Store"]],
+  ],
+  mysql: [
+    [1, "Database Engineering", ["Index Design from Query Plans", "Transaction Isolation Choices", "Partitioning Large Tables", "Replication and Backup Design"]],
+    [2, "Database Reliability", ["Migration Safety", "Query Performance Testing", "Least-Privilege Roles", "Incident Recovery Practice"]],
+    [3, "MySQL Portfolio Capstone", ["Model a School Database", "Write Reporting Queries", "Secure the Data Roles", "Document Backup and Restore"]],
+  ],
+  git: [
+    [1, "Git Team Engineering", ["History Design and Rebase", "Bisect Production Regressions", "Signed Commits and Tags", "Repository Automation Hooks"]],
+    [2, "Git Reliability", ["Pull Request Review Strategy", "Release Branch Management", "Secret Scanning", "Incident Rollback Workflow"]],
+    [3, "Git Portfolio Capstone", ["Plan a Team Workflow", "Automate Checks", "Create a Versioned Release", "Document Contribution Rules"]],
+  ],
+  "Cyber-Security": [
+    [1, "Security Engineering", ["Threat Modeling Workshop", "Authentication Architecture", "Web Security Headers", "Secrets and Key Rotation"]],
+    [2, "Security Operations", ["Vulnerability Triage", "Log Monitoring and Detection", "Incident Response Tabletop", "Secure Dependency Review"]],
+    [3, "Security Portfolio Capstone", ["Assess a Small Application", "Prioritize Security Risks", "Write a Remediation Plan", "Present the Security Review"]],
+  ],
+  "components-of-computer": [
+    [1, "Computer Systems Engineering", ["CPU Scheduling and Bottlenecks", "Memory Paging and Caches", "Storage Reliability and RAID", "Network Hardware Diagnostics"]],
+    [2, "Support and Operations", ["Performance Troubleshooting Workflow", "Compatible Upgrade Planning", "Backup and Restore Drills", "Security Patch Management"]],
+    [3, "Computer Systems Capstone", ["Diagnose a Slow Workstation", "Plan a Reliable Build", "Create a Maintenance Runbook", "Present a Support Report"]],
+  ],
+  bootstrap: [
+    [1, "Bootstrap Production UI", ["Sass Theme Architecture", "Component Customization", "Accessible Modal and Menu Patterns", "Bootstrap Bundle Optimization"]],
+    [2, "UI Reliability", ["Responsive Visual Testing", "Form Validation States", "Cross-Browser QA", "Performance and Accessibility Audit"]],
+    [3, "Bootstrap Portfolio Capstone", ["Plan a Marketplace Interface", "Build Reusable Sections", "Test Mobile Navigation", "Publish a Polished Site"]],
+  ],
+  "Learn-the-code-yourself": [
+    [1, "Professional Learning Workflow", ["Break Down a Technical Requirement", "Read an API Contract", "Plan an Experiment", "Review Code Quality"]],
+    [2, "Problem Solving Practice", ["Model Inputs and Outputs", "Choose Data Structures", "Debug a Failing Example", "Explain a Trade-off"]],
+    [3, "Learning Portfolio Capstone", ["Choose a Useful Project", "Build a Small Feature", "Test and Improve It", "Document and Share the Result"]],
+  ],
+};
+
 Object.entries(supplementalCourseUnits).forEach(([slug, sections]) => {
   const course = courseCatalog[slug];
   if (!course) return;
@@ -1308,6 +1429,22 @@ Object.entries(supplementalCourseUnits).forEach(([slug, sections]) => {
 });
 
 Object.entries(advancedCourseUnits).forEach(([slug, sections]) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const normalizedSections = sections.map(([unusedNumber, sectionTitle, labels], index) => [highestNumber + index + 1, sectionTitle, labels]);
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections: normalizedSections,
+  });
+  course.lessons = [...course.lessons, ...generated.lessons];
+});
+
+Object.entries(expertCourseUnits).forEach(([slug, sections]) => {
   const course = courseCatalog[slug];
   if (!course) return;
   const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
