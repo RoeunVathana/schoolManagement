@@ -410,6 +410,179 @@ const courseCatalog = {
   },
 };
 
+// The four language readers below follow the chapter order used by the
+// CodeKhmerLearning reference readers.  The existing reader interaction is
+// intentionally retained: learners can open one lesson at a time, copy its
+// example, mark it complete, and continue with Previous/Next.
+const createReferenceCourse = ({ slug, title, description, codeLabel, tip, sections, details = {} }) => ({
+  slug,
+  title,
+  description,
+  codeLabel,
+  tip,
+  lessons: sections.map(([number, sectionTitle, labels]) => ({
+    number: String(number),
+    title: sectionTitle,
+    items: labels.map((label, index) => {
+      const detail = details[label] || {};
+      const id = `${slug}-${String(number).replace(/[^a-z0-9]+/gi, "-")}-${index + 1}`;
+      return {
+        id,
+        label,
+        heading: detail.heading || `${number}. ${sectionTitle}`,
+        intro: detail.intro || `មេរៀននេះពន្យល់អំពី ${label.replace(/^\d+(?:\.\d+)*\.?\s*/, "")} និងបង្ហាញគំនិតសំខាន់ៗសម្រាប់ការអនុវត្តជាក់ស្តែង។`,
+        bodyHeading: detail.bodyHeading || label,
+        body: detail.body || `សិក្សាមេរៀន ${label} បន្ទាប់មកសាកល្បងកែប្រែឧទាហរណ៍កូដ ដើម្បីយល់ពីរបៀបដែល ${title} ដំណើរការ។`,
+        code: detail.code || `// ${label}\n// Practice this ${title} lesson in your editor.`,
+        preview: detail.preview || { title: label, body: `Example output for ${title}.` },
+      };
+    }),
+  })),
+});
+
+const referenceCourseCatalog = {
+  c_programming: createReferenceCourse({
+    slug: "c_programming",
+    title: "C Programming",
+    description: "មេរៀនកម្មវិធី C តាមលំដាប់ដូច CodeKhmerLearning។",
+    codeLabel: "main.c",
+    tip: "ចាប់ផ្តើមពីរចនាសម្ព័ន្ធសាមញ្ញ បើក compiler warnings និងសាកល្បងកូដជាបន្តបន្ទាប់។",
+    sections: [
+      [1, "Introduction to C Programming", ["1.1 Overview of C Programming", "1.2 History of C", "1.3 Features of C", "1.4 Setting Up the C Environment", "1.5 Structure of a C Program"]],
+      [2, "Variables and Data Types", ["2.1 Declaring Variables", "2.2 Basic Data Types", "2.3 Constants", "2.4 Type Casting and Conversion", "2.5 Storage Classes"]],
+      [3, "Operators in C", ["3.1 Arithmetic Operators", "3.2 Relational Operators", "3.3 Logical Operators", "3.4 Assignment Operators", "3.5 Bitwise Operators", "3.6 Increment and Decrement", "3.7 Conditional Operator"]],
+      [4, "Control Statements", ["4.1 if Statement", "4.2 else Statement", "4.3 if elseif else Statement", "4.4 switch Statement", "4.5 break Statement", "4.6 continue Statement", "4.7 goto Statement", "4.8 Nested Control Structures"]],
+      [5, "Loops in C", ["5.1 for Loop", "5.2 while Loop", "5.3 do-while Loop", "5.4 Nested Loops", "5.5 Infinite Loops"]],
+      [6, "Functions in C", ["6.1 Function Declaration and Definition", "6.2 Function Arguments and Return Types", "6.3 Recursion", "6.4 Call by Value vs. Call by Reference", "6.5 Function Prototypes", "6.6 Header Files and Libraries", "6.7 Standard Library Functions"]],
+      [7, "Arrays in C", ["7.1 One-dimensional Arrays", "7.2 Multi-dimensional Arrays", "7.3 Array Initialization", "7.4 Passing Arrays to Functions", "7.5 Array Manipulation"]],
+      [8, "Pointers in C", ["8.1 Introduction to Pointers", "8.2 Pointer Declaration and Initialization", "8.3 Pointers and Arrays", "8.4 Pointers to Functions", "8.5 Dynamic Memory Allocation", "8.6 Pointer Arithmetic", "8.7 Pointers to Structures and Arrays"]],
+      [9, "Structures and Unions", ["9.1 Introduction to Structures", "9.2 Structure Declaration and Initialization", "9.3 Accessing Structure Members", "9.4 Nested Structures", "9.5 Unions in C", "9.6 Differences Between Structures and Unions"]],
+      [10, "File Handling", ["10.1 Introduction to File Handling", "10.2 File Operations: fopen, fclose, fread, fwrite", "10.3 File Pointers and Modes", "10.4 Reading and Writing Text Files", "10.5 Error Handling in File Operations", "10.6 Binary File Handling"]],
+      [11, "Dynamic Memory Allocation", ["11.1 Introduction to Dynamic Memory", "11.2 malloc(), calloc(), realloc(), and free()", "11.3 Memory Leaks and Memory Management", "11.4 Using Pointers with Dynamic Memory"]],
+      [12, "Preprocessor Directives", ["12.1 #define and Constants", "12.2 #include and Header Files", "12.3 Conditional Compilation", "12.4 Macros and Inline Functions", "12.5 File Inclusion and Guard Directives"]],
+      [13, "Error Handling and Debugging", ["13.1 Error Handling in C", "13.2 Using assert() for Debugging", "13.3 Handling Runtime Errors", "13.4 Debugging with GDB", "13.5 Exception Handling Techniques"]],
+      [14, "Advanced C Concepts", ["14.1 Multithreading in C", "14.2 Sockets and Networking in C", "14.3 C and Object-Oriented Programming", "14.4 Advanced Data Structures (e.g., Trees, Graphs)", "14.5 Compiler Optimization Techniques"]],
+      [15, "C Standard Library", ["15.1 Standard Input/Output", "15.2 String Handling Functions", "15.3 Mathematical Functions", "15.4 Memory Management Functions", "15.5 Date and Time Functions", "15.6 Character Handling Functions"]],
+    ],
+    details: {
+      "1.1 Overview of C Programming": {
+        heading: "1. ការណែនាំអំពីការកម្មវិធី C",
+        intro: "កម្មវិធី C គឺជាភាសាកម្មវិធីទូទៅដែលមានអំណាច។ វាត្រូវបានប្រើប្រាស់យ៉ាងទូលំទូលាយក្នុង software ប្រព័ន្ធ និងកម្មវិធីដែលត្រូវការប្រសិទ្ធភាពខ្ពស់។",
+        bodyHeading: "1.1. សេចក្តីពិពណ៌នាអំពី C",
+        body: "C គឺជាភាសាកម្មវិធីដែលមានភាពច្រើនប្រើ និងជាមូលដ្ឋានសំខាន់សម្រាប់ភាសាទំនើបដូចជា C++, Java និង Python។ ភាសានេះផ្តល់ការគ្រប់គ្រងលើធនធានប្រព័ន្ធ។",
+        code: "#include <stdio.h>\n\nint main() {\n    printf(\"Hello, World!\");\n    return 0;\n}",
+        preview: { title: "Hello, World!", body: "The program starts in main and prints a message." },
+      },
+    },
+  }),
+  java: createReferenceCourse({
+    slug: "java",
+    title: "Java",
+    description: "មេរៀន Java តាមលំដាប់ដូច CodeKhmerLearning។",
+    codeLabel: "HelloWorld.java",
+    tip: "ប្រើ class តូចៗ ឈ្មោះដែលច្បាស់ និងអនុញ្ញាតឱ្យ compiler ជួយរកកំហុសនៅពេលសរសេរកូដ។",
+    sections: [
+      [1, "Introduction to Java", ["1.1. Introduction to Java", "1.2. History of Java", "1.3. Features of Java", "1.4. JDK, JRE, and JVM", "1.5. Setting up Java Environment"]],
+      [2, "Writing Your First Java Program", ["2.1. Hello World Program", "2.2. Understanding the Structure of a Java Program"]],
+      [3, "Java Syntax", ["3.1. Keywords and Identifiers", "3.2. Data Types (Primitive and Non-Primitive)", "3.3. Variables and Constants", "3.4. Comments (Single-line, Multi-line, and Documentation)"]],
+      [4, "Operators", ["4.1. Arithmetic Operators", "4.2. Relational Operators", "4.3. Logical Operators", "4.4. Bitwise Operators", "4.5. Assignment Operators", "4.6. Ternary Operator"]],
+      [5, "Control Flow Statements", ["5.1. If-Else", "5.2. Switch-Case", "5.3. For Loop", "5.4. While Loop", "5.5. Do-While Loop", "5.6. Break and Continue"]],
+      [6, "Introduction to OOP", ["6.1. Classes and Objects", "6.2. Constructors (Default and Parameterized)", "6.3. Methods (Instance and Static)"]],
+      [7, "Advanced OOP Concepts", ["7.1. Encapsulation", "7.2. Access Modifiers (Public, Private, Protected, Default)", "7.3. Getters and Setters", "7.4. Inheritance", "7.5. Types of Inheritance (Single, Multilevel, Hierarchical)", "7.6. super Keyword", "7.7. Method Overriding", "7.8. Polymorphism", "7.9. Method Overloading", "7.10. Dynamic Method Dispatch", "7.11. Abstraction", "7.12. Abstract Classes", "7.13. Interfaces"]],
+      [8, "Advanced OOP Concepts", ["8.1. Static Keyword", "8.2. Final Keyword", "8.3. this Keyword", "8.4. Inner Classes (Nested, Local, Anonymous, Static Nested)"]],
+      [9, "Java Data Structures", ["9.1. Arrays", "9.1.1. Single-dimensional Arrays", "9.1.2. Multi-dimensional Arrays", "9.1.3. Array Methods", "9.2. Strings", "9.2.1. String Class and Methods", "9.2.2. StringBuffer and StringBuilder", "9.3. Collections Framework", "9.3.1. List (ArrayList, LinkedList)", "9.3.2. Set (HashSet, TreeSet, LinkedHashSet)", "9.3.3. Map (HashMap, TreeMap, LinkedHashMap)", "9.3.4. Queue (PriorityQueue, Deque)", "9.3.5. Iterators (Iterator, ListIterator)", "9.4. Generics", "9.4.1. Generic Classes and Methods", "9.4.2. Bounded Types", "9.4.3. Wildcards"]],
+      [10, "Exception Handling", ["10.1. Introduction to Exceptions", "10.2. Types of Exceptions (Checked and Unchecked)", "10.3. Try-Catch Block", "10.4. Multiple Catch Blocks", "10.5. Finally Block", "10.6. Custom Exceptions"]],
+      [11, "File Handling and I/O", ["11.1. File Class", "11.2. Reading and Writing Files", "11.3. FileInputStream and FileOutputStream", "11.4. BufferedReader and BufferedWriter", "11.5. Serializable Interface", "11.6. ObjectInputStream and ObjectOutputStream"]],
+      [12, "Multithreading", ["12.1. Introduction to Threads", "12.2. Creating Threads", "12.3. Thread Life Cycle", "12.4. Thread Synchronization", "12.5. Advanced Thread Concepts", "12.6. Deadlock and Livelock", "12.7. Thread Communication"]],
+      [13, "Java Networking", ["13.1. Networking Basics", "13.2. Socket Programming", "13.3. TCP Sockets", "13.4. UDP Sockets", "13.5. URL Class", "13.6. URLConnection Class", "13.7. HTTP Requests", "13.8. HttpURLConnection", "13.9. HTTP Client API (Java 11+)"]],
+      [14, "Java Database Connectivity (JDBC)", ["14.1. Introduction to JDBC", "14.2. JDBC Architecture", "14.3. Connecting to a Database", "14.4. JDBC Drivers", "14.5. Creating a Connection", "14.6. Executing Queries", "14.7. Statement Interface", "14.8. DML and DQL", "14.9. ResultSet and PreparedStatement"]],
+    ],
+    details: {
+      "1.1. Introduction to Java": {
+        heading: "1. Introduction to Java",
+        intro: "Java គឺជាភាសាសរសេរកម្មវិធីដែលត្រូវបានប្រើប្រាស់យ៉ាងទូលំទូលាយ ដែលល្បីខាងភាពអាចចល័តបាន និងភាពបត់បែន។ ផ្នែកនេះគ្របដណ្តប់លើមូលដ្ឋានគ្រឹះនៃ Java រួមទាំង JDK, JRE និង JVM។",
+        bodyHeading: "1.1. Java ជាអ្វី?",
+        body: "Java គឺជាភាសាសរសេរកម្មវិធីកម្រិតខ្ពស់ និងតម្រង់ទិសវត្ថុ។ វាមានភាពឯករាជ្យលើវេទិកា ដូច្នេះកម្មវិធីអាចដំណើរការលើឧបករណ៍ដែលមាន Java Virtual Machine (JVM)។",
+        code: "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
+        preview: { title: "Hello, World!", body: "The JVM runs the compiled Java class." },
+      },
+    },
+  }),
+  csharp: createReferenceCourse({
+    slug: "csharp",
+    title: "C#",
+    description: "មេរៀន C# តាមលំដាប់ដូច CodeKhmerLearning។",
+    codeLabel: "Program.cs",
+    tip: "ប្រើ type system របស់ C# ដើម្បីធ្វើឱ្យកំហុសកើតមានតិច និងកូដងាយថែទាំ។",
+    sections: [
+      [1, "Introduction to C#", ["1.1 What is C#?", "1.2 Setting Up the Environment (Installing .NET SDK & Visual Studio)", "1.3 Writing and Running Your First C# Program", "1.4 Understanding the .NET Framework"]],
+      [2, "C# Basics", ["2.1 Syntax and Structure", "2.2 Variables and Data Types", "2.3 Constants and Readonly Fields", "2.4 Operators (Arithmetic, Logical, Comparison)", "2.5 Type Casting and Conversions"]],
+      [3, "Control Flow", ["3.1 Conditional Statements (if, else, switch)", "3.2 Loops (for, while, do-while, foreach)", "3.3 Jump Statements (break, continue, return, goto)"]],
+      [4, "Methods and Functions", ["4.1 Defining and Calling Methods", "4.2 Method Parameters (ref, out, params)", "4.3 Method Overloading", "4.4 Recursion"]],
+      [5, "Object-Oriented Programming (OOP) in C#", ["5.1 Classes and Objects", "5.2 Constructors and Destructors", "5.3 Encapsulation (Access Modifiers)", "5.4 Properties and Auto-Properties", "5.5 Static Members", "5.6 Inheritance (base and derived classes)", "5.7 Polymorphism (method overriding, abstract classes, virtual methods)", "5.8 Interfaces", "5.9 Sealed and Partial Classes"]],
+      [6, "Exception Handling", ["6.1. Try-Catch-Finally Blocks", "6.2. Throwing Exceptions", "6.3. Custom Exceptions"]],
+      [7, "Collections and Data Structures", ["7.1. Arrays (one-dimensional, multi-dimensional, jagged)", "7.2. Lists (List<T>)", "7.3. Dictionaries (Dictionary<TKey, TValue>)", "7.4. Queues and Stacks", "7.5. HashSet and SortedSet"]],
+      [8, "File Handling and Streams", ["8.1. Reading and Writing Files (File, StreamReader, StreamWriter)", "8.2. Working with JSON (System.Text.Json)", "8.3. Handling CSV Files"]],
+      [9, "LINQ", ["9.1. Introduction to LINQ", "9.2. LINQ Queries (Where, Select, OrderBy)", "9.3. LINQ with Collections", "9.4. LINQ with Databases (Entity Framework)"]],
+      [10, "Delegates and Events", ["10.1. Delegates (Func, Action, Predicate)", "10.2. Lambda Expressions", "10.3. Events and Event Handling"]],
+      [11, "Multithreading and Asynchronous Programming", ["11.1. Threads (Thread Class)", "11.2. Task-Based Asynchronous Pattern (async and await)", "11.3. Parallel Programming (Parallel.For, Parallel.ForEach)", "11.4. Background Workers"]],
+      [12, "Database Programming", ["12.1. ADO.NET Basics", "12.2. Connecting to SQL Server", "12.3. Executing SQL Queries with C#", "12.4. Entity Framework Core Basics"]],
+      [13, "Windows Forms", ["13.1. Introduction to Windows Forms", "13.2. Working with Controls (Buttons, Labels, Textboxes)", "13.3. Event Handling in Windows Forms", "13.4. Introduction to WPF (Windows Presentation Foundation)"]],
+      [14, "ASP.NET Core", ["14.1. Introduction to ASP.NET Core", "14.2. MVC Architecture in ASP.NET"]],
+    ],
+    details: {
+      "1.1 What is C#?": {
+        heading: "1. Introduction to C#",
+        intro: "C# (អានថា \"C Sharp\") គឺជាភាសាសរសេរកម្មវិធីទំនើបដែលមានលក្ខណៈវត្ថុនិយម បង្កើតឡើងដោយ Microsoft។ វាត្រូវបានប្រើសម្រាប់បង្កើតកម្មវិធី Windows, កម្មវិធីវេប, ហ្គេម និងកម្មវិធីទូរស័ព្ទ។",
+        bodyHeading: "1.1 What is C#?",
+        body: "C# គឺជាភាសាដែលមាន type safety និងការគ្រប់គ្រងកំហុសល្អ។ វាគាំទ្រការសរសេរកម្មវិធីបែបវត្ថុ និងដំណើរការលើ .NET។",
+        code: "using System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello, C#!\");\n    }\n}",
+        preview: { title: "Hello, C#!", body: ".NET ran the first C# statement." },
+      },
+    },
+  }),
+  "dart-programming": createReferenceCourse({
+    slug: "dart-programming",
+    title: "Dart",
+    description: "មេរៀនកម្មវិធី Dart តាមលំដាប់ដូច CodeKhmerLearning។",
+    codeLabel: "main.dart",
+    tip: "ប្រើ sound null safety និងប្រភេទទិន្នន័យដែលបង្ហាញច្បាស់ពីការសន្មត់របស់កូដ។",
+    sections: [
+      [1, "Introduction to Dart", ["1.1. What is Dart?", "1.2. Why Learn Dart?", "1.3. Installing Dart SDK", "1.4. Setting Up Dart in VS Code"]],
+      [2, "Dart Basics", ["2.1. Variables and Data Types", "2.2. Constants (final & const)", "2.3. Operators (Arithmetic, Logical, Comparison, Bitwise)"]],
+      [3, "Control Flow", ["3.1. Conditional Statements (if, if-else, if else-if else, switch)", "3.2. Loops (for, while, do-while)", "3.3. Exception Handling (try-catch-finally, throw)"]],
+      [4, "Functions in Dart", ["4.1. Defining Functions", "4.2. Parameters & Return Types", "4.3. Optional & Named Parameters", "4.4. Higher-Order Functions & Anonymous Functions"]],
+      [5, "Object-Oriented Programming (OOP)", ["5.1. Classes and Objects", "5.2. Constructors", "5.3. Inheritance", "5.3.1. Single Inheritance", "5.3.2. Multilevel Inheritance", "5.3.3. Hierarchical Inheritance", "5.3.4. Multiple Inheritance (via Mixins)", "5.4. Polymorphism", "5.5. Abstract Classes & Interfaces", "5.6. Getters & Setters"]],
+      [6, "Collections (Lists, Sets, Maps)", ["6.1. List and List Methods", "6.2. Set and Set Operations", "6.3. Map (Key-Value Pairs) & Manipulation"]],
+      [7, "Asynchronous Programming", ["7.1. Understanding Future and async-await", "7.2. Stream and Stream API", "7.3. Handling Asynchronous Errors"]],
+      [8, "Dart Packages & Libraries", ["8.1. Using External Packages (pub.dev)", "8.2. Creating and Publishing Your Own Package", "8.3. Importing and Exporting Files"]],
+      [9, "Functional Programming in Dart", ["9.1. Closures and Lambdas", "9.2. Immutable Data Structures", "9.3. Streams and Reactive Programming"]],
+      [10, "Memory Management & Performance", ["10.1. Garbage Collection", "10.2. Optimizing Dart Code", "10.3. Profiling & Debugging"]],
+      [11, "Dart for Web & Mobile (Flutter)", ["11.1. Introduction to Flutter", "11.2. Connecting Dart with Flutter UI", "11.3. State Management in Flutter", "11.4. Using APIs in Flutter (HTTP Requests)"]],
+    ],
+    details: {
+      "1.1. What is Dart?": {
+        heading: "1. Introduction to Dart",
+        intro: "Dart គឺជាភាសាកម្មវិធីដែលត្រូវបានបង្កើតឡើងដោយ Google ដែលត្រូវបានរចនាឡើងសម្រាប់ការអភិវឌ្ឍកម្មវិធីឆ្លងវេទិកា។ វាត្រូវបានគេស្គាល់ជាចម្បងសម្រាប់ការប្រើប្រាស់ជាមួយ Flutter ដែលជាក្របខ័ណ្ឌ UI សម្រាប់បង្កើតកម្មវិធីទូរស័ព្ទ។ ផ្នែកនេះនឹងណែនាំអ្នកអំពីភាសា Dart និងរបៀបចាប់ផ្តើមប្រើវា។",
+        bodyHeading: "1.1. What is Dart?",
+        body: "Dart គឺជាភាសាកម្មវិធីបើកចំហ (open-source) ដែលមានគោលបំណងផ្តល់នូវភាពងាយស្រួល និងប្រសិទ្ធភាពក្នុងការសរសេរកូដ។ វាត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ 2011 ដោយ Google និងត្រូវបានប្រើប្រាស់យ៉ាងទូលំទូលាយជាមួយ Flutter សម្រាប់ការអភិវឌ្ឍកម្មវិធីទូរស័ព្ទ គេហទំព័រ និង desktop។\n\nDart មានលក្ខណៈពិសេសដូចជា៖\n- ការគាំទ្រ JIT (Just-In-Time) និង AOT (Ahead-Of-Time) compilation។\n- វាក្យសម្ព័ន្ធសាមញ្ញ និងងាយយល់ស្រដៀងទៅនឹង Java និង JavaScript។\n- គាំទ្រការសរសេរកម្មវិធីទាំង object-oriented និង functional។",
+        code: "void main() {\n  print(\"Hello, Dart!\");\n}",
+        preview: { title: "Hello, Dart!", body: "The Dart runtime started from the main function." },
+      },
+      "1.2. Why Learn Dart?": {
+        heading: "1.2. Why Learn Dart?",
+        intro: "ការរៀន Dart មានអត្ថប្រយោជន៍ជាច្រើន ជាពិសេសប្រសិនបើអ្នកចាប់អារម្មណ៍លើការអភិវឌ្ឍកម្មវិធីជាមួយ Flutter។",
+        bodyHeading: "ឧទាហរណ៍កូដ Dart សាមញ្ញ៖",
+        body: "• ងាយស្រួលរៀនសម្រាប់អ្នកដែលស្គាល់ Java ឬ JavaScript។\n• បង្កើនផលិតភាពជាមួយ Flutter សម្រាប់ការបង្កើត UI ដ៏ស្រស់ស្អាត។\n• អាចប្រើបានសម្រាប់កម្មវិធីគ្រប់វេទិកា (mobile, web, desktop)។",
+        code: "void main() {\n  print(\"Hello, Dart!\");\n}",
+        preview: { title: "Hello, Dart!", body: "A simple Dart program prints to the console." },
+      },
+    },
+  }),
+};
+
+Object.assign(courseCatalog, referenceCourseCatalog);
+
 const technologyCourseSlugs = {
   HTML: "html",
   CSS: "css",
