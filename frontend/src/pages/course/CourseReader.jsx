@@ -1756,7 +1756,7 @@ export default function CourseReader() {
           </div>
         </div>
         <nav className="course-reader-nav" aria-label="CampusFlow navigation">
-          <a className="course-reader-nav-academy" href="/courses#courses">{copy.academy}</a>
+          <Link className="course-reader-nav-academy" to="/academy">{copy.academy}</Link>
           <a href="/courses#courses">{copy.browseCourses}</a>
           <Link to="/community">{copy.community}</Link>
           <Link to="/about">{copy.about}</Link>

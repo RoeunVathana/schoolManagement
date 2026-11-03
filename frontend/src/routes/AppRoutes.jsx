@@ -57,6 +57,7 @@ export default function AppRoutes() {
     <Route path="/register" element={<Register />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/course/:slug" element={<CourseReader />} />
+    <Route path="/academy" element={<Storefront />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
     <Route path="/about" element={<About />} />
