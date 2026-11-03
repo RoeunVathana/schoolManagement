@@ -3,6 +3,19 @@ import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { MailRuntimeConfig, MailSettingsService } from '../mail/mail-settings.service';
 
+type MailMessage = {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+};
+
+type ResendConfig = {
+  apiKey: string;
+  url: string;
+};
+
 @Injectable()
 export class MailService {
   private transporter: nodemailer.Transporter | null;
@@ -32,9 +45,9 @@ export class MailService {
     this.transporter = transporter;
     this.fallbackTransporter = fallbackTransporter;
     this.configSignature = [current.source, current.host, current.port, current.secure, current.user, current.password, current.from].join('|');
-    this.smtpStatus = this.transporter ? 'checking' : 'not-configured';
+    this.smtpStatus = this.deliveryMode() === 'resend' ? 'ready' : this.transporter ? 'checking' : 'not-configured';
     this.smtpError = null;
-    if (this.transporter) void this.verifyConnection(current.host, current.port, current.secure);
+    if (this.transporter && this.deliveryMode() !== 'resend') void this.verifyConnection(current.host, current.port, current.secure);
   }
 
   private createTransporters(current: MailRuntimeConfig) {
@@ -91,7 +104,7 @@ export class MailService {
   }
 
   isConfigured() {
-    return this.transporter !== null;
+    return this.deliveryMode() !== 'none';
   }
 
   async configuration() {
@@ -102,6 +115,15 @@ export class MailService {
 
   async verifyCurrentConfiguration() {
     const current = await this.reload();
+    if (this.deliveryMode() === 'resend') {
+      try {
+        await this.verifyResendConnection();
+      } catch (error) {
+        this.logTransportError('HTTPS mail provider verification failed', error);
+        throw new BadRequestException('HTTPS mail provider verification failed. Check RESEND_API_KEY and the verified sender domain.');
+      }
+      return { verified: true, provider: 'resend' };
+    }
     if (!this.transporter || !current.host || !current.user || !current.password) {
       throw new BadRequestException('Mail is not configured. Save MAIL_USER and MAIL_PASSWORD first.');
     }
@@ -117,8 +139,8 @@ export class MailService {
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {
     const current = await this.reload();
-    const transporter = this.transporter;
-    if (!transporter) {
+    const deliveryMode = this.deliveryMode();
+    if (deliveryMode === 'none') {
       throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
     }
 
@@ -144,6 +166,24 @@ export class MailService {
         </div>
       `,
     };
+
+    if (deliveryMode === 'resend') {
+      try {
+        await this.sendViaResend(message);
+        this.smtpStatus = 'ready';
+        this.smtpError = null;
+        return;
+      } catch (error) {
+        this.logTransportError('Password OTP HTTPS email failed', error);
+        this.smtpStatus = 'failed';
+        throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Check the HTTPS mail provider configuration.');
+      }
+    }
+
+    const transporter = this.transporter;
+    if (!transporter) {
+      throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
+    }
 
     try {
       await transporter.sendMail(message);
@@ -215,9 +255,6 @@ export class MailService {
   }
 
   async sendCoursePaymentConfirmation(email: string, recipientName: string, details: { invoiceNumber: string; courseName?: string; amount: string; currency: string; paymentPlan?: string; billingPeriod?: string | null; paidAt?: Date | string | null }) {
-    const transporter = await this.getTransporter();
-    if (!transporter) return false;
-
     const safeName = this.escapeHtml(recipientName || 'Student');
     const safeInvoice = this.escapeHtml(details.invoiceNumber);
     const safeCourse = this.escapeHtml(details.courseName || 'Course');
@@ -230,14 +267,13 @@ export class MailService {
     const appUrl = (this.config.get<string>('PUBLIC_APP_URL') || this.config.get<string>('FRONTEND_URL') || '').trim().replace(/\/+$/, '');
     const learningUrl = appUrl ? `${appUrl}/student/courses` : '';
 
-    await transporter.sendMail({
+    return this.sendEmail({
       from: this.from,
       to: email,
       subject: 'CampusFlow course payment confirmed',
       text: `Hello ${recipientName || 'Student'},\n\nYour payment was successful.\nCourse: ${details.courseName || 'Course'}\nAmount: ${details.amount} ${details.currency}\nInvoice: ${details.invoiceNumber}\nPayment plan: ${details.paymentPlan || 'FULL'}${details.billingPeriod ? `\nBilling period: ${details.billingPeriod}` : ''}\nPaid at: ${paidAt}\n\nYour course is now unlocked in CampusFlow.${learningUrl ? ` Open it here: ${learningUrl}` : ''}`,
       html: `<div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49"><div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff"><h1 style="margin:0 0 8px">CampusFlow</h1><p style="margin:0;color:#c9f4e7">Payment confirmed</p></div><div style="padding:28px 4px"><p>Hello ${safeName},</p><p>Your course payment was successful and your enrollment is now active.</p><div style="margin:20px 0;padding:18px;border-radius:14px;background:#eef4fb;line-height:1.8"><strong>Course:</strong> ${safeCourse}<br><strong>Amount:</strong> ${safeAmount} ${safeCurrency}<br><strong>Invoice:</strong> ${safeInvoice}<br><strong>Plan:</strong> ${safePlan}${safeBillingPeriod ? `<br><strong>Billing period:</strong> ${safeBillingPeriod}` : ''}<br><strong>Paid at:</strong> ${safePaidAt}</div>${learningUrl ? `<p><a href="${this.escapeHtml(learningUrl)}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#102846;color:#fff;text-decoration:none;font-weight:700">Open my courses</a></p>` : ''}<p style="color:#64748b">Keep this email as your payment confirmation. If you did not make this payment, contact your administrator immediately.</p></div></div>`,
     });
-    return true;
   }
 
   async sendFriendRequestNotification(email: string, receiverName: string, senderName: string) {
@@ -261,16 +297,77 @@ export class MailService {
   }
 
   private async sendCommunityEmail(email: string, subject: string, text: string, body: string, receiverName: string) {
-    const transporter = await this.getTransporter();
-    if (!transporter) return false;
-    await transporter.sendMail({
+    return this.sendEmail({
       from: this.from,
       to: email,
       subject,
       text,
       html: `<div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49"><div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff"><h1 style="margin:0 0 8px">CampusFlow</h1><p style="margin:0;color:#c9f4e7">Learning community notification</p></div><div style="padding:28px 4px"><p>Hello ${this.escapeHtml(receiverName)},</p>${body}<p style="color:#64748b">You can manage your community notifications from your CampusFlow account.</p></div></div>`,
     });
+  }
+
+  private async sendEmail(message: MailMessage) {
+    await this.reload();
+    if (this.deliveryMode() === 'resend') {
+      await this.sendViaResend(message);
+      return true;
+    }
+    const transporter = this.transporter;
+    if (!transporter) return false;
+    await transporter.sendMail(message);
     return true;
+  }
+
+  private deliveryMode(): 'smtp' | 'resend' | 'none' {
+    const provider = (this.cleanConfigValue(this.config.get<string>('MAIL_PROVIDER')) || 'auto').toLowerCase();
+    const resend = this.resendConfig();
+    if (provider === 'resend') return resend ? 'resend' : 'none';
+    if (provider === 'smtp') return this.transporter ? 'smtp' : 'none';
+    if (resend) return 'resend';
+    return this.transporter ? 'smtp' : 'none';
+  }
+
+  private resendConfig(): ResendConfig | null {
+    const apiKey = this.cleanConfigValue(this.config.get<string>('RESEND_API_KEY'));
+    if (!apiKey) return null;
+    return {
+      apiKey,
+      url: this.cleanConfigValue(this.config.get<string>('RESEND_API_URL')) || 'https://api.resend.com/emails',
+    };
+  }
+
+  private async verifyResendConnection() {
+    const resend = this.resendConfig();
+    if (!resend) throw new Error('RESEND_API_KEY is not configured');
+    const domainsUrl = new URL(resend.url);
+    domainsUrl.pathname = domainsUrl.pathname.replace(/\/emails\/?$/, '/domains') || '/domains';
+    const response = await fetch(domainsUrl, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${resend.apiKey}` },
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!response.ok) throw Object.assign(new Error(`HTTPS mail provider returned ${response.status}`), { code: `HTTP_${response.status}` });
+  }
+
+  private async sendViaResend(message: MailMessage) {
+    const resend = this.resendConfig();
+    if (!resend) throw new Error('RESEND_API_KEY is not configured');
+    const response = await fetch(resend.url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resend.apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: message.from,
+        to: [message.to],
+        subject: message.subject,
+        text: message.text,
+        html: message.html,
+      }),
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!response.ok) throw Object.assign(new Error(`HTTPS mail provider returned ${response.status}`), { code: `HTTP_${response.status}` });
   }
 
   private async getTransporter() {

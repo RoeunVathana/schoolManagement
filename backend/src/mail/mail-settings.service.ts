@@ -62,8 +62,12 @@ export class MailSettingsService {
 
   async publicSettings() {
     const current = await this.resolve();
+    const provider = (this.clean(this.config.get<string>('MAIL_PROVIDER')) || 'auto').toLowerCase();
+    const resendConfigured = Boolean(this.clean(this.config.get<string>('RESEND_API_KEY')))
+      && provider !== 'smtp';
     return {
-      configured: Boolean(current.host && current.user && current.password),
+      configured: Boolean(current.host && current.user && current.password) || resendConfigured,
+      provider: resendConfigured ? 'resend' : 'smtp',
       source: current.source,
       host: current.host,
       port: current.port,
