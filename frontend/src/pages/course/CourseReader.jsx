@@ -56,6 +56,7 @@ const readerText = {
     referenceNote: "Reference-style reader · scroll through the full course or choose a lesson from the outline.",
     copied: "Copied",
     copy: "Copy",
+    runTest: "Run test",
     markAsComplete: "Mark as complete",
     completed: "Completed",
     previous: "Previous",
@@ -118,6 +119,7 @@ const readerText = {
     referenceNote: "ទំព័រមេរៀនពេញលេញ · រមូរមើលវគ្គសិក្សាទាំងមូល ឬជ្រើសរើសមេរៀនពីគ្រោងមេរៀន។",
     copied: "បានចម្លង",
     copy: "ចម្លង",
+    runTest: "\u179f\u17b6\u1780\u179b\u17d2\u1794\u1784\u178a\u17c6\u178e\u17be\u179a\u1780\u17b6\u179a",
     markAsComplete: "សម្គាល់ថាបានបញ្ចប់",
     completed: "បានបញ្ចប់",
     previous: "មុន",
@@ -1721,6 +1723,14 @@ export default function CourseReader() {
     }
   };
 
+  const openLessonRunner = (lesson) => {
+    setSelectedId(lesson.id);
+    setCopied("");
+    setLeftOpen(false);
+    setRightOpen(true);
+    window.requestAnimationFrame(() => rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" }));
+  };
+
   const toggleCompleted = (lessonId = selectedLesson.id) => {
     setCompleted((current) => {
       const next = new Set(current);
@@ -1840,7 +1850,7 @@ export default function CourseReader() {
                     <h3>{lesson.bodyHeading}</h3>
                     <p style={{ whiteSpace: "pre-line" }}>{lesson.body}</p>
                     <div className="course-code-wrap">
-                      <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={() => copyCode(lesson.code, lesson.id)}>{copied === lesson.id ? copy.copied : copy.copy}</button></div>
+                      <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><div className="course-code-toolbar-actions"><button type="button" className="course-code-run-button" onClick={() => openLessonRunner(lesson)}>{copy.runTest}</button><button type="button" onClick={() => copyCode(lesson.code, lesson.id)}>{copied === lesson.id ? copy.copied : copy.copy}</button></div></div>
                       <pre><code>{lesson.code}</code></pre>
                     </div>
                   </section>
@@ -1861,7 +1871,7 @@ export default function CourseReader() {
               <h3>{selectedLesson.bodyHeading}</h3>
               <p>{selectedLesson.body}</p>
               <div className="course-code-wrap">
-                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? copy.copied : copy.copy}</button></div>
+                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><div className="course-code-toolbar-actions"><button type="button" className="course-code-run-button" onClick={() => openLessonRunner(selectedLesson)}>{copy.runTest}</button><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? copy.copied : copy.copy}</button></div></div>
                 <pre><code>{selectedLesson.code}</code></pre>
               </div>
             </section>

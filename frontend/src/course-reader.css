@@ -149,12 +149,14 @@ body.course-drawer-open { overflow: hidden; }
 .course-lesson-section h3 { color: var(--reader-blue); font-size: clamp(1.35rem, 2.2vw, 1.75rem); letter-spacing: -.02em; margin: 0 0 .65rem; }
 .course-lesson-section p { color: #3b4f6b; font-size: 1rem; line-height: 1.85; margin: 0 0 1.25rem; }
 .course-code-wrap { background: #292929; border-radius: .45rem; box-shadow: 0 12px 25px rgba(22,31,48,.12); color: #f6f7fb; overflow: hidden; }
-.course-code-toolbar { align-items: center; background: #202020; color: #a8b2c2; display: flex; font: 700 .68rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; justify-content: space-between; padding: .6rem .8rem; }
+.course-code-toolbar { align-items: center; background: #202020; color: #a8b2c2; display: flex; font: 700 .68rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; gap: .55rem; justify-content: space-between; padding: .6rem .8rem; }
 .course-code-toolbar > span:first-child { display: flex; gap: .3rem; }
 .course-code-toolbar i { background: #ff675c; border-radius: 50%; display: block; height: .45rem; width: .45rem; }
 .course-code-toolbar i:nth-child(2) { background: #ffc043; }
 .course-code-toolbar i:nth-child(3) { background: #39c273; }
+.course-code-toolbar-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .35rem; justify-content: flex-end; }
 .course-code-toolbar button { background: #3b3b3b; border-radius: .25rem; color: #e3e7ef; font-size: .65rem; padding: .3rem .45rem; }
+.course-code-toolbar button.course-code-run-button { background: var(--reader-blue); color: #fff; }
 .course-code-wrap pre { color: #f5ca92; font: 700 clamp(.77rem, 1.3vw, .88rem)/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 1rem 1.15rem 1.15rem; }
 .course-lesson-tip { align-items: flex-start; background: #eef6ff; border-left: 4px solid #4a82e9; border-radius: 0 .7rem .7rem 0; color: #46617f; display: flex; font-size: .86rem; gap: .7rem; line-height: 1.65; margin-top: 1.8rem; padding: .85rem 1rem; }
 .course-lesson-tip span { align-items: center; background: #4a82e9; border-radius: 50%; color: #fff; display: inline-flex; flex: 0 0 auto; font-weight: 900; height: 1.2rem; justify-content: center; width: 1.2rem; }
