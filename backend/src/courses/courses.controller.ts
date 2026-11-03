@@ -13,13 +13,43 @@ import { pagination, paginationResult } from '../common/pagination';
 import { courseImageUpload } from '../common/upload.options';
 import { MediaStorageService } from '../media/media-storage.service';
 import { CacheService } from '../cache/cache.service';
+import { TelegramService } from '../telegram/telegram.service';
 
 @ApiTags('courses') @ApiBearerAuth() @UseGuards(JwtAuthGuard, RolesGuard) @Roles(Role.ADMIN, Role.TEACHER, Role.STUDENT)
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService, private readonly cache: CacheService) {}
+  constructor(private readonly prisma: PrismaService, private readonly media: MediaStorageService, private readonly cache: CacheService, private readonly telegram: TelegramService) {}
+
+  @Post(':id/telegram/connect')
+  @Roles(Role.ADMIN)
+  @Permissions('edit')
+  async connectTelegram(@Param('id') id: string) {
+    const course = await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { telegramChatId: true } });
+    if (!course.telegramChatId) throw new BadRequestException('Save the Telegram chat ID first.');
+    return this.telegram.configureWelcomeWebhook(undefined, id);
+  }
 
   private generatedCourseCode() { return `CRS-${randomUUID().slice(0, 8).toUpperCase()}`; }
+
+  private courseBotToken(body: any) {
+    const token = String(body.telegramBotToken || '').trim();
+    if (token && !/^\d{5,20}:[A-Za-z0-9_-]{20,100}$/.test(token)) {
+      throw new BadRequestException('Enter a valid Telegram bot token from BotFather.');
+    }
+    return token;
+  }
+
+  private async saveCourseBot(course: any, body: any, token: string) {
+    const id = `course:${course.id}`;
+    if (body.removeTelegramBotToken === true || body.removeTelegramBotToken === 'true') {
+      await this.prisma.telegramSetting.deleteMany({ where: { id } });
+    } else if (token) {
+      await this.prisma.telegramSetting.upsert({ where: { id },
+        create: { id, botToken: token, chatId: course.telegramChatId || '', enabled: true },
+        update: { botToken: token, chatId: course.telegramChatId || '', enabled: true },
+      });
+    }
+  }
 
   private discountData(body: any, partial = false) {
     const has = (key: string) => Object.prototype.hasOwnProperty.call(body, key);
@@ -77,7 +107,11 @@ export class CoursesController {
       this.prisma.course.findMany({ where, skip, take: limit, include: { teacher: { include: { user: { select: { fullName: true } } } }, _count: { select: { enrollments: true, assignments: true } } }, orderBy: { createdAt: 'desc' } }),
       this.prisma.course.count({ where }),
     ]);
-    return paginationResult(data, total, page, limit);
+    const settings = user.role === Role.ADMIN ? await this.prisma.telegramSetting.findMany({
+      where: { id: { in: data.map((course) => `course:${course.id}`) } }, select: { id: true },
+    }) : [];
+    const configured = new Set(settings.map((setting) => setting.id));
+    return paginationResult(data.map((course) => ({ ...course, telegramBotConfigured: configured.has(`course:${course.id}`) })), total, page, limit);
   }
 
   @Get(':id')
@@ -101,6 +135,7 @@ export class CoursesController {
   @Permissions('create')
   @UseInterceptors(FileInterceptor('image', courseImageUpload))
   async create(@Body() b: any, @UploadedFile() file?: Express.Multer.File) {
+    const botToken = this.courseBotToken(b);
     let uploaded: { url: string } | undefined;
     let course;
     try {
@@ -110,6 +145,7 @@ export class CoursesController {
       if (uploaded?.url) await this.media.remove(uploaded.url);
       throw error;
     }
+    await this.saveCourseBot(course, b, botToken);
     await this.cache.invalidatePrefix('cache:storefront:');
     return course;
   }
@@ -125,6 +161,7 @@ export class CoursesController {
   @Permissions('edit')
   @UseInterceptors(FileInterceptor('image', courseImageUpload))
   async update(@Param('id') id: string, @Body() b: any, @UploadedFile() file?: Express.Multer.File) {
+    const botToken = this.courseBotToken(b);
     const previous = file ? await this.prisma.course.findUniqueOrThrow({ where: { id }, select: { imageUrl: true } }) : undefined;
     let uploaded: { url: string } | undefined;
     let course;
@@ -156,6 +193,7 @@ export class CoursesController {
       if (uploaded?.url) await this.media.remove(uploaded.url);
       throw error;
     }
+    await this.saveCourseBot(course, b, botToken);
     if (uploaded?.url) await this.media.remove(previous?.imageUrl);
     await this.cache.invalidatePrefix('cache:storefront:');
     return course;
@@ -163,5 +201,13 @@ export class CoursesController {
 
   @Delete(':id')
   @Roles(Role.ADMIN)
-  async remove(@Param('id') id: string) { const deleted = await this.prisma.course.delete({ where: { id }, select: { id: true } }); await this.cache.invalidatePrefix('cache:storefront:'); return deleted; }
+  async remove(@Param('id') id: string) {
+    const deleted = await this.prisma.$transaction(async (tx) => {
+      const course = await tx.course.delete({ where: { id }, select: { id: true } });
+      await tx.telegramSetting.deleteMany({ where: { id: `course:${id}` } });
+      return course;
+    });
+    await this.cache.invalidatePrefix('cache:storefront:');
+    return deleted;
+  }
 }

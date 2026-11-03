@@ -38,8 +38,13 @@ export class TelegramService {
     };
   }
 
-  async configureWelcomeWebhook(urlOverride?: string) {
+  async configureWelcomeWebhook(urlOverride?: string, courseId?: string) {
     const current = await this.resolveConfig();
+    if (courseId) {
+      const stored = await this.prisma.telegramSetting.findUnique({ where: { id: `course:${courseId}` } });
+      if (!stored?.botToken) throw new BadRequestException('Save a bot token for this course first.');
+      current.botToken = stored.botToken;
+    }
     const webhookUrl = String(urlOverride || this.config.get<string>('TELEGRAM_WEBHOOK_URL', '') || '').trim();
     const secret = String(this.config.get<string>('TELEGRAM_WEBHOOK_SECRET', '') || '').trim();
     if (!current.botToken) throw new BadRequestException('Please save the Telegram bot token first.');
@@ -164,9 +169,12 @@ export class TelegramService {
 
   private async welcomeNewMember(chat: TelegramChat, user: TelegramUser) {
     const current = await this.resolveConfig();
-    if (!current.enabled || !current.botToken) return false;
+    if (!current.enabled) return false;
     const chatId = String(chat.id);
-    const course = await this.prisma.course.findFirst({ where: { telegramChatId: chatId }, select: { courseName: true } });
+    const course = await this.prisma.course.findFirst({ where: { telegramChatId: chatId }, select: { id: true, courseName: true } });
+    const courseBot = course ? await this.prisma.telegramSetting.findUnique({ where: { id: `course:${course.id}` } }) : null;
+    const botToken = courseBot?.botToken || current.botToken;
+    if (!botToken) return false;
     if (!course && current.chatId && String(current.chatId).trim() !== chatId) return false;
     const displayName = [user.first_name, user.last_name].filter(Boolean).join(' ').trim() || user.username || 'student';
     const safeName = this.escapeHtml(displayName);
@@ -179,7 +187,7 @@ export class TelegramService {
       'We are happy to have you here. Please check the pinned messages for lessons, announcements, and class updates.',
       '<i>សូមស្វាគមន៍មកកាន់ក្រុមសិក្សា CampusFlow!</i>',
     ].join('\n');
-    return this.sendMessageWithConfig(current.botToken, chatId, message);
+    return this.sendMessageWithConfig(botToken, chatId, message);
   }
 
   async sendTeacherMeetingAlert(input: TeacherMeetingAlert) {

@@ -177,6 +177,8 @@ export default function Courses() {
       discountStart: course.discountStart ? new Date(course.discountStart).toISOString().slice(0, 16) : '',
       discountEnd: course.discountEnd ? new Date(course.discountEnd).toISOString().slice(0, 16) : '',
       telegramChatId: course.telegramChatId || '',
+      telegramBotToken: '',
+      removeTelegramBotToken: false,
       image: null,
     });
     setError('');
@@ -232,6 +234,7 @@ export default function Courses() {
     setNotice('');
     try {
       const payload = { ...form };
+      if (!payload.telegramBotToken?.trim()) delete payload.telegramBotToken;
       const image = payload.image;
       delete payload.image;
       const requestPayload = image ? courseFormData(payload, image) : payload;
@@ -322,6 +325,16 @@ export default function Courses() {
             </div>
             <Field label={t('description')} className="sm:col-span-2"><textarea rows="3" value={form.description} className="input mt-2" placeholder={t('courseDescriptionPlaceholder')} onChange={updateField('description')} /></Field>
             <Field label={language === 'km' ? 'Telegram Chat ID សម្រាប់ស្វាគមន៍សិស្ស' : 'Telegram chat ID for welcome bot'} hint={language === 'km' ? 'បញ្ចូល chat ID របស់ group នេះ ដូចជា -1001234567890។' : 'Enter the group chat ID, for example -1001234567890.'} className="sm:col-span-2"><input value={form.telegramChatId} className="input mt-2" placeholder="-1001234567890" onChange={updateField('telegramChatId')} /></Field>
+            <Field label="Telegram Bot Token (API key)" hint={language === 'km' ? 'យក Token ពី @BotFather។ ទុកទទេដើម្បីរក្សា Token ចាស់ ឬប្រើ Bot ទូទៅ។' : 'Get your token from @BotFather. Leave blank to keep the saved token or use the default bot.'} className="sm:col-span-2">
+              <input type="password" autoComplete="new-password" spellCheck={false} value={form.telegramBotToken || ''} disabled={form.removeTelegramBotToken} className="input mt-2" placeholder={editing?.telegramBotConfigured ? 'Token saved — enter a new token to replace' : '123456789:YourBotToken'} onChange={updateField('telegramBotToken')} />
+              {editing?.telegramBotConfigured && <label className="mt-3 flex items-center gap-2 text-sm"><input type="checkbox" checked={!!form.removeTelegramBotToken} onChange={(event) => setForm((current) => ({ ...current, removeTelegramBotToken: event.target.checked, telegramBotToken: '' }))} />{language === 'km' ? 'លុប Token របស់វគ្គនេះ និងប្រើ Bot ទូទៅ' : 'Remove this course token and use the default bot'}</label>}
+              {editing?.telegramBotConfigured && <button type="button" className="btn-secondary mt-3" disabled={busy || !!form.telegramBotToken || form.removeTelegramBotToken || form.telegramChatId !== editing.telegramChatId} onClick={async () => {
+                setBusy(true); setError('');
+                try { await api.post(`/courses/${editing.id}/telegram/connect`); setNotice(language === 'km' ? 'បានភ្ជាប់ Bot ស្វាគមន៍។' : 'Welcome bot connected.'); }
+                catch (error) { setError(error.response?.data?.message || 'Could not connect the welcome bot.'); }
+                finally { setBusy(false); }
+              }}>{language === 'km' ? 'ភ្ជាប់ Bot ដែលបានរក្សាទុក' : 'Connect saved welcome bot'}</button>}
+            </Field>
           </div>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">{t('coursePeriod')}</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label={t('startDate')}><input required type="date" value={form.startDate} className="input mt-2" onChange={updateField('startDate')} /></Field><Field label={t('endDate')}><input required type="date" value={form.endDate} className="input mt-2" onChange={updateField('endDate')} /></Field></div></div>
