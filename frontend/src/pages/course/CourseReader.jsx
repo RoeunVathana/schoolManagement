@@ -572,6 +572,17 @@ const getKhmerTopic = (topic, courseTitle) => {
   if (/(test|debug|error|exception|logging|monitoring|performance|profil|optimization)/i.test(cleanTopic)) return "ការធ្វើតេស្ត កែកំហុស និងប្រសិទ្ធភាព";
   if (/(deploy|docker|cloud|production|ci\/cd|release|publish)/i.test(cleanTopic)) return "ការដាក់ឱ្យប្រើប្រាស់ និងការចេញផ្សាយ";
   if (/(form|input|button|accessib|keyboard|responsive|layout|style|color|typography|navigation)/i.test(cleanTopic)) return "ការរចនា និងបទពិសោធន៍អ្នកប្រើ";
+  if (/(document structure|page structure|semantic|html structure)/i.test(cleanTopic)) return "រចនាសម្ព័ន្ធឯកសារ និងធាតុមានអត្ថន័យ";
+  if (/(tag|element|attribute)/i.test(cleanTopic)) return "ស្លាក ធាតុ និងគុណលក្ខណៈ";
+  if (/(syntax|selector|class selector)/i.test(cleanTopic)) return "វាក្យសម្ព័ន្ធ និងឧបករណ៍ជ្រើសរើស";
+  if (/(box model|flexbox|flex and grid|css grid)/i.test(cleanTopic)) return "គំរូប្រអប់ និងប្លង់ CSS";
+  if (/(dom|event|browser api|local storage|history api)/i.test(cleanTopic)) return "DOM ព្រឹត្តិការណ៍ និង API របស់កម្មវិធីរុករក";
+  if (/(module|package|library|namespace|composer|dependency)/i.test(cleanTopic)) return "ម៉ូឌុល បណ្ណាល័យ និងកញ្ចប់កម្មវិធី";
+  if (/(route|routing|controller|middleware|navigation)/i.test(cleanTopic)) return "ផ្លូវ ស្រទាប់កណ្ដាល និងការរុករក";
+  if (/(file|stream|input\/output|i\/o|storage)/i.test(cleanTopic)) return "ឯកសារ លំហូរទិន្នន័យ និងការផ្ទុក";
+  if (/(operator|condition|control flow|switch)/i.test(cleanTopic)) return "ប្រមាណវិធី លក្ខខណ្ឌ និងលំហូរបញ្ជា";
+  if (/(pointer|memory|process|thread|concurrency)/i.test(cleanTopic)) return "អង្គចងចាំ ដំណើរការ និងការប្រតិបត្តិ";
+  if (/(configuration|profile|health check|logging|observability)/i.test(cleanTopic)) return "ការកំណត់រចនាសម្ព័ន្ធ និងការតាមដានប្រព័ន្ធ";
   if (/^(introduction|overview|history|features|install|setting up|setup|environment)/i.test(cleanTopic)) return `សេចក្តីផ្តើមអំពី ${khmerCourseTitle}`;
   return `មេរៀន៖ ${cleanTopic}`;
 };
