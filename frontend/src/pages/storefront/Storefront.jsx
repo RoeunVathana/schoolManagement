@@ -4,6 +4,7 @@ import api, { unwrap } from "../../api/axios";
 import CoursePayment from "../../components/CoursePayment";
 import AnimatedNumber from "../../components/AnimatedNumber";
 import BrandLogo from "../../components/BrandLogo";
+import SiteFooter from "../../components/SiteFooter";
 import SafeImage from "../../components/SafeImage";
 import Modal from "../../components/Modal";
 import SupportDock from "../../components/SupportDock";
@@ -1295,5 +1296,6 @@ function ErrorState({ message, fallback, compact = false }) {
 }
 
 function StorefrontFooter({ copy }) {
+  return <SiteFooter />;
   return <footer className="bg-[#10243f] text-white"><div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10"><div><p className="text-lg font-black">Campus<span className="text-[#8de4ca]">Flow</span></p><p className="mt-1 text-xs text-white/50">{copy.secure}</p></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer" className="text-sm font-extrabold text-[#a5f1dc]">{copy.support} ↗</a></div></footer>;
 }

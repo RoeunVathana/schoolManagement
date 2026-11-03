@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
+import SiteFooter from "../components/SiteFooter";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
@@ -182,6 +183,7 @@ export default function About() {
 
         <section className="about-cta"><div data-scroll-reveal className="about-container about-cta-inner storefront-reveal"><div><p className="about-eyebrow about-eyebrow-light">{copy.ctaKicker}</p><h2>{copy.ctaTitle}</h2><p>{copy.ctaBody}</p></div><Link to="/courses#courses" className="about-button about-button-primary">{copy.ctaButton} <span>→</span></Link></div></section>
       </main>
+      <SiteFooter />
 
       <footer className="about-footer"><div data-scroll-reveal className="about-container about-footer-inner storefront-reveal"><div><p className="about-footer-brand">Campus<span>Flow</span></p><p>{copy.footerBody}</p></div><div className="about-footer-links"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact">{copy.navContact}</Link></div><a href="https://t.me/RoeunVathana" target="_blank" rel="noreferrer">Telegram support →</a></div></footer>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
+import SiteFooter from "../../components/SiteFooter";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
@@ -1756,6 +1757,7 @@ export default function CourseReader() {
           <div className="course-preview-help"><strong>{copy.tryItYourself}</strong><p>{copy.tryItYourselfBody}</p></div>
         </aside>
       </div>
+      <SiteFooter />
       <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>{copy.practiceEveryDay}</span></footer>
     </div>
   );
