@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import ScrollProgress from "../components/ScrollProgress";
 import { useAuth } from "../hooks/useAuth";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { useLanguage } from "../context/LanguageContext";
@@ -104,12 +105,19 @@ const content = {
 
 export default function About() {
   const { language } = useLanguage();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const copy = content[language] || content.en;
   const hasSession = !authLoading && Boolean(user);
   const dashboardPath = roleHome(user?.role);
   const revealRef = useScrollReveal([language]);
+  const logoutLabel = language === "en" ? "Logout" : "ចាកចេញ";
+  const handleLogout = async () => {
+    await logout();
+    setMobileMenuOpen(false);
+    navigate("/", { replace: true });
+  };
 
   return (
     <div ref={revealRef} className="about-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
@@ -119,6 +127,7 @@ export default function About() {
         path="/about"
         language={language}
       />
+      <ScrollProgress />
       <header className="site-public-navbar about-nav">
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}>
@@ -135,7 +144,7 @@ export default function About() {
           <div className="about-nav-actions">
             <ThemeSwitch />
             <LanguageSwitcher variant="public" />
-            {hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}
+            {!authLoading && (hasSession ? <><Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link><button type="button" onClick={handleLogout} className="about-nav-login">{logoutLabel}</button></> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/student/dashboard" className="about-nav-button">{copy.dashboard}</Link></>)}
           </div>
           <div className="about-mobile-controls">
             <LanguageSwitcher variant="public" />
@@ -143,7 +152,7 @@ export default function About() {
             <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span></button>
           </div>
         </div>
-        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{hasSession ? <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/register" onClick={() => setMobileMenuOpen(false)}>{copy.register}</Link></>}</div></div>}
+        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link><button type="button" onClick={handleLogout}>{logoutLabel}</button></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link></>)}</div></div>}
       </header>
 
       <main>

@@ -460,3 +460,32 @@ body,
     padding-bottom: 3.5rem !important;
   }
 }
+
+/* About and Contact are long-form reading pages. Keep their scroll on the
+   document itself: perspective creates a containing block for fixed children
+   in some browsers, which makes the public navbar scroll with the page and
+   makes touch scrolling feel sticky. Reveal effects can also leave content
+   hidden when a remote browser throttles IntersectionObserver callbacks. */
+.about-page,
+.contact-page {
+  /* Do not create a clipping/scroll container here. The document must remain
+     the vertical scroller, especially on iOS Safari. */
+  overflow: visible !important;
+  perspective: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+}
+
+.about-page .storefront-reveal,
+.contact-page .storefront-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+@media (min-width: 768px) {
+  .about-page .about-hero {
+    min-height: calc(100svh - var(--public-navbar-height));
+  }
+}

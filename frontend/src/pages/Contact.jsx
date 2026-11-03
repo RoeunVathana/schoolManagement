@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import ScrollProgress from "../components/ScrollProgress";
 import { useAuth } from "../hooks/useAuth";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { useLanguage } from "../context/LanguageContext";
@@ -47,7 +48,8 @@ const content = {
 
 export default function Contact() {
   const { language } = useLanguage();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -57,6 +59,12 @@ export default function Contact() {
   const hasSession = !authLoading && Boolean(user);
   const dashboardPath = roleHome(user?.role);
   const revealRef = useScrollReveal([language]);
+  const logoutLabel = language === "en" ? "Logout" : "ចាកចេញ";
+  const handleLogout = async () => {
+    await logout();
+    setMobileMenuOpen(false);
+    navigate("/", { replace: true });
+  };
   const updateField = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   const submit = async (event) => {
     event.preventDefault();
@@ -84,18 +92,19 @@ export default function Contact() {
   return (
     <div ref={revealRef} className="contact-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
       <Seo title={language === "km" ? "ទាក់ទង CampusFlow LMS | ការគាំទ្រការរៀន" : "Contact CampusFlow LMS | Learning Support"} description={copy.heroBody} path="/contact" language={language} />
+      <ScrollProgress />
       <header className="site-public-navbar about-nav contact-nav">
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}><span className="about-brand-mark"><BrandLogo /></span><span><strong>Campus<span>Flow</span></strong><small>{language === "km" ? "ទីផ្សារវគ្គសិក្សា" : "Learning marketplace"}</small></span></Link>
           <nav className="about-nav-links" aria-label="Primary navigation"><Link to="/courses#courses">{copy.navCourses}</Link><Link to="/community">{copy.navCommunity}</Link><Link to="/about">{copy.navAbout}</Link><Link to="/contact" className="is-active">{copy.navContact}</Link><Link to="/courses#faq">{copy.navFaq}</Link></nav>
-          <div className="about-nav-actions"><ThemeSwitch /><LanguageSwitcher variant="public" />{hasSession ? <Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/register" className="about-nav-button">{copy.register}</Link></>}</div>
+          <div className="about-nav-actions"><ThemeSwitch /><LanguageSwitcher variant="public" />{!authLoading && (hasSession ? <><Link to={dashboardPath} className="about-nav-button">{copy.dashboard}</Link><button type="button" onClick={handleLogout} className="about-nav-login">{logoutLabel}</button></> : <><Link to="/login/student" className="about-nav-login">{copy.login}</Link><Link to="/student/dashboard" className="about-nav-button">{copy.dashboard}</Link></>)}</div>
           <div className="about-mobile-controls">
             <LanguageSwitcher variant="public" />
             <ThemeSwitch />
             <button type="button" className="about-mobile-toggle" onClick={() => setMobileMenuOpen((open) => !open)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span></button>
           </div>
         </div>
-        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{hasSession ? <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/register" onClick={() => setMobileMenuOpen(false)}>{copy.register}</Link></>}</div></div>}
+        {mobileMenuOpen && <div className="about-mobile-menu"><Link to="/courses#courses" onClick={() => setMobileMenuOpen(false)}>{copy.navCourses}</Link><Link to="/community" onClick={() => setMobileMenuOpen(false)}>{copy.navCommunity}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)}>{copy.navAbout}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)}>{copy.navContact}</Link><Link to="/courses#faq" onClick={() => setMobileMenuOpen(false)}>{copy.navFaq}</Link><div className="about-mobile-actions">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link><button type="button" onClick={handleLogout}>{logoutLabel}</button></> : <><Link to="/login/student" onClick={() => setMobileMenuOpen(false)}>{copy.login}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)}>{copy.dashboard}</Link></>)}</div></div>}
       </header>
 
       <main>

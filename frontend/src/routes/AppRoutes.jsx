@@ -35,6 +35,7 @@ const StudentSimple = lazy(() => import('../pages/student/Simple'));
 const StudentCertificates = lazy(() => import('../pages/student/Certificates'));
 const Profile = lazy(() => import('../pages/profile/Profile'));
 const Storefront = lazy(() => import('../pages/storefront/Storefront'));
+const CourseReader = lazy(() => import('../pages/course/CourseReader'));
 const About = lazy(() => import('../pages/About'));
 const Contact = lazy(() => import('../pages/Contact'));
 const PublicProfile = lazy(() => import('../pages/community/PublicProfile'));
@@ -55,6 +56,7 @@ export default function AppRoutes() {
     <Route path="/login/customer" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/course/:slug" element={<CourseReader />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
     <Route path="/about" element={<About />} />
@@ -93,13 +95,13 @@ export default function AppRoutes() {
         </Route>
       </Route>
       <Route element={<RoleRoute role={['STUDENT', 'CUSTOMER']} />}>
-        {/* Students should always be able to edit their own profile. */}
+        {/* Students should always be able to open their dashboard and edit their own profile. */}
         <Route element={<StudentLayout />}>
           <Route path="student/profile" element={<Profile />} />
+          <Route path="student/dashboard" element={<StudentDashboard />} />
         </Route>
         <Route element={<StudentPurchaseRoute />}>
           <Route element={<StudentLayout />}>
-            <Route path="student/dashboard" element={<StudentDashboard />} />
             <Route path="student/certificates" element={<StudentCertificates />} />
             <Route path="student/:section" element={<StudentSimple />} />
           </Route>

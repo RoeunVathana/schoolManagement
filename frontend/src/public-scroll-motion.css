@@ -1,0 +1,63 @@
+/* Scroll motion for the long public pages. The document remains the only
+   vertical scroller so wheel and touch gestures stay natural on mobile. */
+.public-scroll-progress {
+  background: linear-gradient(90deg, #229ed9, #8de4ca 68%, #f47b67);
+  height: 3px;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left center;
+  transition: transform .12s linear;
+  width: 100%;
+  z-index: 120;
+}
+
+.about-page > main > section,
+.contact-page > main > section {
+  animation: none !important;
+}
+
+.about-page .storefront-reveal[data-scroll-reveal],
+.contact-page .storefront-reveal[data-scroll-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 1.35rem, 0) scale(.992) !important;
+  transition: opacity .58s cubic-bezier(.2, .75, .25, 1), transform .58s cubic-bezier(.2, .75, .25, 1) !important;
+  transition-delay: var(--reveal-delay, 0ms) !important;
+  will-change: opacity, transform;
+}
+
+.about-page .storefront-reveal[data-scroll-reveal].is-visible,
+.contact-page .storefront-reveal[data-scroll-reveal].is-visible {
+  opacity: 1;
+  transform: none !important;
+  will-change: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-page .about-hero-card,
+  .contact-page .contact-hero-mark {
+    transition: transform .55s cubic-bezier(.2, .75, .25, 1), box-shadow .55s ease;
+  }
+
+  .about-page .about-hero-card:hover,
+  .contact-page .contact-hero-mark:hover {
+    transform: translateY(-.35rem) rotate(1deg) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-scroll-progress { transition: none; }
+
+  .about-page .storefront-reveal[data-scroll-reveal],
+  .contact-page .storefront-reveal[data-scroll-reveal],
+  .about-page .storefront-reveal[data-scroll-reveal].is-visible,
+  .contact-page .storefront-reveal[data-scroll-reveal].is-visible,
+  .about-page .about-hero-card,
+  .contact-page .contact-hero-mark {
+    opacity: 1;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -71,7 +71,7 @@ export class DashboardController {
   }
 
   @Get('student')
-  @Roles(Role.STUDENT)
+  @Roles(Role.STUDENT, Role.CUSTOMER)
   async student(@CurrentUser() user: any) {
     const student = await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id } });
     const [enrollments, pendingHomework, submissions, attendance, grades, schedules, announcements] = await Promise.all([

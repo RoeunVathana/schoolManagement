@@ -46,6 +46,8 @@ export default function SiteWelcomePopup() {
   const [open, setOpen] = useState(true);
   const copy = content[language] || content.en;
   const isDashboardRoute = /^\/(admin|teacher|student|customer)(?:\/|$)/.test(pathname);
+  const isAuthRoute = /^\/(login|register|forgot-password)(?:\/|$)/.test(pathname);
+  const isCourseReaderRoute = /^\/course(?:\/|$)/.test(pathname);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -56,7 +58,7 @@ export default function SiteWelcomePopup() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  if (!open || isDashboardRoute) return null;
+  if (!open || isDashboardRoute || isAuthRoute || isCourseReaderRoute) return null;
 
   return createPortal(
     <div
