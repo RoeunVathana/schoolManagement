@@ -272,6 +272,16 @@
   50% { box-shadow: 0 22px 48px rgb(16 36 63 / .14), 0 0 26px rgb(34 158 217 / .06); }
 }
 
+@keyframes cf-grid-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 3rem 3rem, -3rem 3rem; }
+}
+
+@keyframes cf-ambient-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: .5; }
+  50% { transform: translate3d(1.5rem, -.75rem, 0) scale(1.06); opacity: .78; }
+}
+
 .app-shell-content,
 .auth-background,
 .auth-layout,
@@ -340,6 +350,55 @@
   }
 }
 
+/* Shared 2D/3D atmosphere for workspace and lesson routes. The decorative
+   layers stay behind content and never animate the page itself, which keeps
+   fixed navbars, drawers and natural document scrolling reliable. */
+.app-shell-content,
+.course-reader {
+  isolation: isolate;
+  position: relative;
+}
+
+.app-shell-content::before,
+.course-reader::before {
+  background-image:
+    linear-gradient(90deg, rgb(34 158 217 / .055) 1px, transparent 1px),
+    linear-gradient(rgb(141 228 202 / .045) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  content: "";
+  inset: 0;
+  opacity: .42;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  animation: cf-grid-drift 34s linear infinite;
+}
+
+.app-shell-content::after,
+.course-reader::after {
+  background:
+    radial-gradient(circle at 12% 18%, rgb(141 228 202 / .16), transparent 22%),
+    radial-gradient(circle at 88% 76%, rgb(124 140 248 / .12), transparent 25%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  animation: cf-ambient-float 18s ease-in-out infinite;
+}
+
+.dark .app-shell-content::before,
+.dark .course-reader::before {
+  opacity: .62;
+}
+
+.dark .app-shell-content::after,
+.dark .course-reader::after {
+  background:
+    radial-gradient(circle at 12% 18%, rgb(45 164 171 / .22), transparent 24%),
+    radial-gradient(circle at 88% 76%, rgb(124 140 248 / .18), transparent 28%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -361,7 +420,11 @@
   .public-community-page,
   .course-reader .course-code-wrap,
   .course-reader .course-playground,
-  .course-reader .course-rendered-preview {
+  .course-reader .course-rendered-preview,
+  .app-shell-content::before,
+  .course-reader::before,
+  .app-shell-content::after,
+  .course-reader::after {
     animation: none !important;
   }
 
