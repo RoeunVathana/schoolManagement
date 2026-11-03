@@ -4,9 +4,7 @@ import BrandLogo from "../components/BrandLogo";
 import Seo from "../components/Seo";
 import ThemeSwitch from "../components/ThemeSwitch";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import ScrollProgress from "../components/ScrollProgress";
 import { useAuth } from "../hooks/useAuth";
-import useScrollReveal from "../hooks/useScrollReveal";
 import { useLanguage } from "../context/LanguageContext";
 import { roleHome } from "../utils/roles";
 
@@ -111,7 +109,6 @@ export default function About() {
   const copy = content[language] || content.en;
   const hasSession = !authLoading && Boolean(user);
   const dashboardPath = roleHome(user?.role);
-  const revealRef = useScrollReveal([language]);
   const logoutLabel = language === "en" ? "Logout" : "ចាកចេញ";
   const handleLogout = async () => {
     await logout();
@@ -120,14 +117,13 @@ export default function About() {
   };
 
   return (
-    <div ref={revealRef} className="about-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
+    <div className="about-page min-h-screen bg-[#f7fafc] text-[#10243f] dark:bg-[#0b1220] dark:text-slate-100">
       <Seo
         title={language === "km" ? "អំពី CampusFlow LMS | ការរៀនជំនាញអនុវត្ត" : "About CampusFlow LMS | Practical Learning in Cambodia"}
         description={copy.heroBody}
         path="/about"
         language={language}
       />
-      <ScrollProgress />
       <header className="site-public-navbar about-nav">
         <div className="about-nav-inner">
           <Link to="/" className="about-brand" onClick={() => setMobileMenuOpen(false)}>
