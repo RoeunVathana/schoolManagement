@@ -969,3 +969,22 @@ body.course-reader-active,
   .course-live-toggle,
   .course-syntax-badge { font-size: .55rem; }
 }
+
+/* Keep mobile and portrait-tablet drawers below the fixed reader chrome. The
+   drawer used to start at the viewport top, so its heading was hidden behind
+   the header and subject strip even though the editor itself remained usable. */
+@media (max-width: 959px) {
+  .course-lessons-panel,
+  .course-preview-panel,
+  .course-lessons-panel.is-open,
+  .course-preview-panel.is-open {
+    bottom: 0;
+    height: calc(100dvh - var(--reader-header-height) - var(--reader-subject-height));
+    max-height: calc(100dvh - var(--reader-header-height) - var(--reader-subject-height));
+    top: calc(var(--reader-header-height) + var(--reader-subject-height));
+  }
+
+  .course-reader-backdrop.is-visible {
+    inset: calc(var(--reader-header-height) + var(--reader-subject-height)) 0 0;
+  }
+}
