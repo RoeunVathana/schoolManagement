@@ -23,6 +23,24 @@
   will-change: transform;
 }
 
+/* A perspective on an ancestor makes position: fixed resolve against that
+   ancestor instead of the viewport. Keep perspective on scrolling content so
+   public and dashboard navbars remain pinned to the screen. */
+.about-page,
+.contact-page,
+.public-community-page,
+.app-shell {
+  perspective: none !important;
+}
+
+.about-page > main,
+.contact-page > main,
+.public-community-page > main,
+.app-main {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
 /* Dashboard navigation shares the viewport's top edge.  Desktop keeps the
    sidebar column clear; tablet/mobile use the full viewport width. */
 .app-shell-content > .app-navbar {
