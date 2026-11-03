@@ -56,6 +56,7 @@ export default function Simple() {
   const [enrolledIds, setEnrolledIds] = useState(new Set());
   const [paidCourseIds, setPaidCourseIds] = useState(new Set());
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedHomework, setSelectedHomework] = useState(null);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [answerText, setAnswerText] = useState("");
@@ -172,6 +173,7 @@ export default function Simple() {
     setData(null);
     setError("");
     setSelectedCourse(null);
+    setSelectedHomework(null);
     setCoursePage(1);
     setScheduleFilters({ from: "", to: "" });
     if (section === "courses") loadCourses();
@@ -405,6 +407,12 @@ export default function Simple() {
     ) : (
       <span className="text-xs text-slate-400">{t("noFile")}</span>
     );
+  const homeworkStatus = (row) => {
+    if (isHomeworkOverdue(row) && !row.submission) return t("overdue");
+    if (row.submission?.grade) return t("graded");
+    if (row.submission?.status) return statusLabel(row.submission.status);
+    return t("notSubmitted");
+  };
   const title =
     section === "courses"
       ? t("courseCatalog")
@@ -662,6 +670,20 @@ export default function Simple() {
     section === "homework"
       ? [
           {
+            key: "details",
+            label: t("viewDetails"),
+            render: (r) => (
+              <button
+                type="button"
+                onClick={() => setSelectedHomework(r)}
+                className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-xs font-extrabold text-emerald-700 transition hover:bg-emerald-50 hover:text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 dark:text-emerald-300 dark:hover:bg-emerald-950/30"
+              >
+                <span aria-hidden="true">↗</span>
+                {t("viewDetails")}
+              </button>
+            ),
+          },
+          {
             key: "assignment",
             label: t("homework"),
             render: (r) => (
@@ -709,13 +731,7 @@ export default function Simple() {
             label: t("status"),
             render: (r) => (
               <span className="badge bg-slate-100 text-slate-700">
-                {isHomeworkOverdue(r) && !r.submission
-                  ? t("overdue")
-                  : r.submission?.grade
-                  ? t("graded")
-                  : r.submission?.status
-                    ? statusLabel(r.submission.status)
-                    : t("notSubmitted")}
+                {homeworkStatus(r)}
               </span>
             ),
           },
@@ -1048,6 +1064,127 @@ export default function Simple() {
                 ? t("viewDetails")
                 : t("payOnWebsite")}
             </Link>
+          </div>
+        )}
+      </Modal>
+      <Modal
+        open={section === "homework" && !!selectedHomework}
+        title={selectedHomework?.title || t("homeworkDetails")}
+        onClose={() => setSelectedHomework(null)}
+        className="sm:max-w-2xl"
+      >
+        {selectedHomework && (
+          <div className="space-y-5">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-emerald-50/60 p-4 dark:border-slate-700 dark:from-slate-800 dark:to-emerald-950/20 sm:p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-coral">
+                    {t("homework")}
+                  </p>
+                  <h3 className="mt-1 break-words text-2xl font-extrabold text-ink dark:text-white">
+                    {selectedHomework.title}
+                  </h3>
+                  <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-300">
+                    {selectedHomework.course?.courseName || t("course")}
+                  </p>
+                </div>
+                <span className="badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-100">
+                  {homeworkStatus(selectedHomework)}
+                </span>
+              </div>
+              <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+                <div className="rounded-xl bg-white/80 p-3 dark:bg-slate-900/50">
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{t("dueDate")}</p>
+                  <p className={`mt-1 font-extrabold ${isHomeworkOverdue(selectedHomework) ? "text-red-600" : "text-ink dark:text-white"}`}>
+                    {formatDateTime(selectedHomework.dueDate, language)}
+                  </p>
+                </div>
+                <div className="rounded-xl bg-white/80 p-3 dark:bg-slate-900/50">
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{t("maxScore")}</p>
+                  <p className="mt-1 font-extrabold text-ink dark:text-white">{selectedHomework.maxScore ?? "-"}</p>
+                </div>
+              </div>
+            </div>
+
+            <section>
+              <h4 className="text-sm font-extrabold text-ink dark:text-white">{t("instructions")}</h4>
+              <div className="mt-2 min-h-24 whitespace-pre-wrap break-words rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-600 dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-300">
+                {selectedHomework.description || t("noHomeworkInstructions")}
+              </div>
+            </section>
+
+            <section className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+                <h4 className="text-sm font-extrabold text-ink dark:text-white">{t("assignmentFile")}</h4>
+                <div className="mt-3">{assignmentAttachmentCell(selectedHomework)}</div>
+              </div>
+              <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+                <h4 className="text-sm font-extrabold text-ink dark:text-white">{t("submissionFile")}</h4>
+                <div className="mt-3">{attachmentCell(selectedHomework.submission || {})}</div>
+              </div>
+            </section>
+
+            {selectedHomework.submission && (
+              <section className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h4 className="text-sm font-extrabold text-ink dark:text-white">{t("submissionDetails")}</h4>
+                  <span className="badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-100">
+                    {homeworkStatus(selectedHomework)}
+                  </span>
+                </div>
+                <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="text-slate-400">{t("submittedAt")}</dt>
+                    <dd className="mt-1 font-semibold text-slate-700 dark:text-slate-200">
+                      {formatDateTime(selectedHomework.submission.submittedAt, language)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-slate-400">{t("score")}</dt>
+                    <dd className="mt-1 font-semibold text-slate-700 dark:text-slate-200">
+                      {selectedHomework.submission.grade?.score ?? t("notGradedYet")}
+                    </dd>
+                  </div>
+                </dl>
+                {selectedHomework.submission.answerText && (
+                  <div className="mt-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{t("answer")}</p>
+                    <p className="mt-2 whitespace-pre-wrap break-words rounded-xl bg-slate-50 p-3 text-sm leading-6 text-slate-600 dark:bg-slate-900/50 dark:text-slate-300">
+                      {selectedHomework.submission.answerText}
+                    </p>
+                  </div>
+                )}
+                {selectedHomework.submission.grade?.feedback && (
+                  <div className="mt-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{t("teacherFeedback")}</p>
+                    <p className="mt-2 whitespace-pre-wrap break-words rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
+                      {selectedHomework.submission.grade.feedback}
+                    </p>
+                  </div>
+                )}
+              </section>
+            )}
+
+            <div className="flex flex-wrap justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
+              <button
+                type="button"
+                onClick={() => setSelectedHomework(null)}
+                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                {t("close")}
+              </button>
+              <button
+                type="button"
+                disabled={isHomeworkOverdue(selectedHomework) || (selectedHomework.submission ? !user?.canEdit : !user?.canCreate)}
+                onClick={() => {
+                  setSelectedHomework(null);
+                  startEdit(selectedHomework);
+                }}
+                className="rounded-xl bg-navy px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {isHomeworkOverdue(selectedHomework) ? t("overdue") : selectedHomework.submission ? t("edit") : t("submitWork")}
+              </button>
+            </div>
           </div>
         )}
       </Modal>
