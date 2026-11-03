@@ -62,6 +62,21 @@
   transform-style: preserve-3d;
 }
 
+/* Course readers set this body class while they are mounted. Reset the
+   document/root chain too, because a transformed ancestor makes fixed bars
+   scroll with that ancestor in Chromium and Safari. */
+body.course-reader-active,
+body.course-reader-active #root,
+body.course-reader-active .course-reader {
+  animation: none !important;
+  contain: none !important;
+  filter: none !important;
+  perspective: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+  will-change: auto !important;
+}
+
 /* Dashboard navigation shares the viewport's top edge.  Desktop keeps the
    sidebar column clear; tablet/mobile use the full viewport width. */
 .app-shell-content > .app-navbar {
