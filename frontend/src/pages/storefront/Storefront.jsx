@@ -5,6 +5,7 @@ import CoursePayment from "../../components/CoursePayment";
 import AnimatedNumber from "../../components/AnimatedNumber";
 import BrandLogo from "../../components/BrandLogo";
 import SiteFooter from "../../components/SiteFooter";
+import LearningJourneyShowcase from "../../components/LearningJourneyShowcase";
 import SafeImage from "../../components/SafeImage";
 import Modal from "../../components/Modal";
 import SupportDock from "../../components/SupportDock";
@@ -695,6 +696,8 @@ export default function Storefront() {
         </section>
 
         <TechnologyRail language={language} />
+
+        <LearningJourneyShowcase language={language} />
 
         <section id="courses" data-scroll-reveal className="storefront-reveal mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">

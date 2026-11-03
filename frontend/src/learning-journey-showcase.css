@@ -1,0 +1,549 @@
+.learning-journey-shell {
+  --journey-blue: #3478ee;
+  --journey-ink: #17263d;
+  --journey-muted: #687a93;
+  --journey-line: #dfe7f1;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  border-block: 1px solid var(--journey-line);
+  background-color: #f8fbff;
+  background-image:
+    linear-gradient(rgba(62, 111, 181, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 111, 181, .055) 1px, transparent 1px),
+    radial-gradient(circle at 50% 10%, rgba(115, 113, 255, .08), transparent 34%),
+    radial-gradient(circle at 7% 88%, rgba(78, 218, 186, .09), transparent 30%);
+  background-size: 64px 64px, 64px 64px, auto, auto;
+  color: var(--journey-ink);
+}
+
+.code-motion-section,
+.career-roadmap-section {
+  width: min(100% - 2rem, 76rem);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+.career-roadmap-section {
+  border-top: 1px solid rgba(138, 163, 197, .25);
+}
+
+.learning-section-heading {
+  max-width: 54rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.learning-section-heading > p {
+  margin: 0;
+  color: #ef6d58;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .2em;
+}
+
+.learning-section-heading h2 {
+  margin: .8rem 0 0;
+  color: var(--journey-ink);
+  font-size: clamp(2rem, 4.6vw, 3.8rem);
+  font-weight: 950;
+  letter-spacing: -.045em;
+  line-height: 1.08;
+}
+
+.learning-section-heading > span {
+  display: block;
+  max-width: 47rem;
+  margin: 1rem auto 0;
+  color: var(--journey-muted);
+  font-size: clamp(.92rem, 1.6vw, 1.05rem);
+  line-height: 1.75;
+}
+
+.code-motion-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  margin-top: 2.5rem;
+}
+
+.code-motion-controls button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  border: 1px solid var(--journey-line);
+  border-radius: .85rem;
+  padding: .65rem 1.15rem;
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 8px 22px rgba(31, 58, 93, .06);
+  color: #52637b;
+  font-size: .78rem;
+  font-weight: 900;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.code-motion-controls button:hover,
+.code-motion-controls button:focus-visible {
+  border-color: #7aa5f5;
+  box-shadow: 0 10px 25px rgba(52, 120, 238, .14);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.code-motion-controls button.is-primary {
+  border-color: transparent;
+  padding-inline: 1.45rem;
+  background: linear-gradient(135deg, #3478ee, #5d72f5);
+  box-shadow: 0 12px 28px rgba(52, 120, 238, .3);
+  color: #fff;
+}
+
+.code-motion-controls button b {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.code-motion-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+  margin-top: 2.25rem;
+}
+
+.code-motion-card {
+  min-width: 0;
+  min-height: 19rem;
+  overflow: hidden;
+  border: 1px solid var(--journey-line);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 18px 45px rgba(33, 61, 97, .075);
+}
+
+.code-motion-card header {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: .65rem;
+  border-bottom: 1px solid var(--journey-line);
+  padding: .75rem 1rem;
+  color: #35465d;
+  font-size: .76rem;
+  font-weight: 950;
+  letter-spacing: .03em;
+}
+
+.code-motion-card header > span {
+  width: .65rem;
+  height: .65rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--demo-color, #19c78b);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--demo-color, #19c78b) 15%, transparent);
+}
+
+.code-motion-result header > span {
+  background: #19c78b;
+  box-shadow: 0 0 0 4px rgba(25, 199, 139, .14);
+}
+
+.code-motion-editor pre {
+  min-height: 15.7rem;
+  margin: 0;
+  overflow: auto;
+  padding: 1.65rem;
+  color: #39475b;
+  font: 700 .88rem/1.75 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  tab-size: 2;
+  white-space: pre-wrap;
+}
+
+.code-motion-cursor {
+  display: inline-block;
+  width: .55rem;
+  height: 1.15rem;
+  margin-left: .15rem;
+  background: #3478ee;
+  vertical-align: -.18rem;
+  animation: journeyCursorBlink .72s steps(2, start) infinite;
+}
+
+.code-motion-result > div {
+  display: flex;
+  min-height: 15.7rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.3rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.code-motion-result strong {
+  color: #b4c0cf;
+  font: 900 clamp(1.25rem, 2.7vw, 1.7rem)/1.25 ui-monospace, SFMono-Regular, Menlo, monospace;
+  opacity: .6;
+  transform: translateY(.35rem);
+  transition: color .25s ease, opacity .25s ease, transform .25s ease;
+}
+
+.code-motion-result .is-ready strong {
+  color: #14a856;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.code-motion-result a {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  border-radius: 999px;
+  padding: .65rem .95rem;
+  background: #edf4ff;
+  color: #245fd4;
+  font-size: .72rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.code-motion-result a:hover {
+  background: #dfeaff;
+  transform: translateY(-1px);
+}
+
+.code-motion-dots {
+  display: flex;
+  justify-content: center;
+  gap: .42rem;
+  margin-top: 1.7rem;
+}
+
+.code-motion-dots button {
+  width: .45rem;
+  height: .45rem;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: #cdd9e7;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.code-motion-dots button.is-active {
+  background: #3478ee;
+  transform: scale(1.25);
+}
+
+.code-motion-position {
+  margin: .8rem 0 0;
+  color: #667994;
+  font-size: .75rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.code-motion-tabs,
+.career-path-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .65rem;
+}
+
+.code-motion-tabs {
+  margin-top: 1.8rem;
+}
+
+.code-motion-tabs button {
+  border: 1px solid var(--journey-line);
+  border-radius: 999px;
+  padding: .65rem 1rem;
+  background: rgba(255, 255, 255, .9);
+  color: #637189;
+  font-size: .72rem;
+  font-weight: 850;
+  transition: .18s ease;
+}
+
+.code-motion-tabs button:hover,
+.code-motion-tabs button:focus-visible,
+.code-motion-tabs button.is-active {
+  border-color: #3478ee;
+  outline: 0;
+  background: #3478ee;
+  box-shadow: 0 8px 20px rgba(52, 120, 238, .25);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.career-path-tabs {
+  max-width: 70rem;
+  margin: 2.75rem auto 0;
+}
+
+.career-path-tabs button {
+  display: inline-flex;
+  min-height: 3.45rem;
+  flex: 1 1 19rem;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  border: 1px solid var(--journey-line);
+  border-radius: 999px;
+  padding: .7rem 1.1rem;
+  background: rgba(255, 255, 255, .9);
+  color: #56667d;
+  font-size: .82rem;
+  font-weight: 900;
+  transition: .2s ease;
+}
+
+.career-path-tabs button b {
+  font-size: .95rem;
+}
+
+.career-path-tabs button:hover,
+.career-path-tabs button:focus-visible,
+.career-path-tabs button.is-active {
+  border-color: transparent;
+  outline: 0;
+  background: linear-gradient(135deg, #3478ee, #7a56ee);
+  box-shadow: 0 12px 25px rgba(70, 99, 230, .25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.career-roadmap-intro {
+  display: flex;
+  max-width: 70rem;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem auto 0;
+  border: 1px solid var(--journey-line);
+  border-radius: 1rem;
+  padding: 1.25rem 1.4rem;
+  background: rgba(255, 255, 255, .86);
+  box-shadow: 0 14px 32px rgba(38, 66, 101, .06);
+}
+
+.career-roadmap-intro > span {
+  display: inline-flex;
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: .85rem;
+  background: #eaf2ff;
+  color: #3478ee;
+  font-weight: 950;
+}
+
+.career-roadmap-intro h3 {
+  margin: 0;
+  color: var(--journey-ink);
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+.career-roadmap-intro p {
+  margin: .3rem 0 0;
+  color: var(--journey-muted);
+  font-size: .82rem;
+  line-height: 1.65;
+}
+
+.career-roadmap-list {
+  position: relative;
+  max-width: 70rem;
+  margin: 1.35rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.career-roadmap-list::before {
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.45rem;
+  width: 2px;
+  background: linear-gradient(#3478ee, #8c76f5, #7edfc1);
+  content: "";
+}
+
+.career-roadmap-list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.career-roadmap-list li + li {
+  margin-top: 1rem;
+}
+
+.career-step-number {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #f8fbff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px #4a86f1, 0 8px 20px rgba(52, 120, 238, .16);
+  color: #3478ee;
+  font-size: .85rem;
+  font-weight: 950;
+}
+
+.career-roadmap-list article {
+  min-width: 0;
+  border: 1px solid var(--journey-line);
+  border-radius: 1rem;
+  padding: 1.35rem 1.5rem;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 15px 35px rgba(31, 59, 94, .06);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.career-roadmap-list article:hover {
+  border-color: #a7c1ee;
+  box-shadow: 0 18px 40px rgba(52, 120, 238, .11);
+  transform: translateY(-2px);
+}
+
+.career-roadmap-list h3 {
+  margin: 0;
+  color: #3478ee;
+  font-size: 1.08rem;
+  font-weight: 950;
+}
+
+.career-roadmap-list p {
+  margin: .6rem 0 0;
+  color: var(--journey-muted);
+  font-size: .86rem;
+  line-height: 1.75;
+}
+
+.career-roadmap-list article > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin-top: 1rem;
+  border-top: 1px solid #e7edf5;
+  padding-top: 1rem;
+}
+
+.career-roadmap-list small {
+  width: 100%;
+  color: #75869c;
+  font-size: .67rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.career-roadmap-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  border-radius: .65rem;
+  padding: .55rem .72rem;
+  background: #eef4ff;
+  color: #3478ee;
+  font-size: .7rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.career-roadmap-list a:hover {
+  background: #dfeaff;
+  transform: translateY(-1px);
+}
+
+.dark .learning-journey-shell {
+  --journey-ink: #eef5ff;
+  --journey-muted: #a9bbd0;
+  --journey-line: #2c405b;
+  background-color: #0c1728;
+  background-image:
+    linear-gradient(rgba(128, 166, 212, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 166, 212, .055) 1px, transparent 1px),
+    radial-gradient(circle at 50% 10%, rgba(96, 82, 220, .12), transparent 34%),
+    radial-gradient(circle at 7% 88%, rgba(78, 218, 186, .08), transparent 30%);
+}
+
+.dark .code-motion-card,
+.dark .code-motion-controls button,
+.dark .code-motion-tabs button,
+.dark .career-path-tabs button,
+.dark .career-roadmap-intro,
+.dark .career-roadmap-list article {
+  background: rgba(17, 31, 52, .94);
+}
+
+.dark .code-motion-card header,
+.dark .code-motion-editor pre { color: #d7e4f4; }
+.dark .code-motion-result a,
+.dark .career-roadmap-list a,
+.dark .career-roadmap-intro > span { background: #1c3556; color: #8fb7ff; }
+.dark .career-roadmap-list article > div { border-color: #2c405b; }
+.dark .career-step-number { border-color: #0c1728; background: #132441; color: #8fb7ff; }
+
+@keyframes journeyCursorBlink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  .code-motion-section,
+  .career-roadmap-section { width: min(100% - 1.25rem, 76rem); padding-block: 3.5rem; }
+  .code-motion-stage { grid-template-columns: 1fr; gap: .85rem; }
+  .code-motion-card { min-height: 15rem; }
+  .code-motion-editor pre,
+  .code-motion-result > div { min-height: 11.75rem; }
+  .code-motion-controls { gap: .45rem; }
+  .code-motion-controls button { min-height: 2.75rem; padding-inline: .8rem; }
+  .code-motion-controls button.is-primary { padding-inline: 1rem; }
+  .code-motion-tabs { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding: .25rem .1rem .7rem; scrollbar-width: none; }
+  .code-motion-tabs::-webkit-scrollbar { display: none; }
+  .code-motion-tabs button { flex: 0 0 auto; }
+  .career-path-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+  .career-path-tabs button { min-height: 3.2rem; border-radius: .85rem; padding: .65rem .7rem; font-size: .72rem; }
+  .career-roadmap-intro { align-items: flex-start; margin-top: 1.5rem; padding: 1rem; }
+  .career-roadmap-list::before { left: 1.08rem; }
+  .career-roadmap-list li { grid-template-columns: 2.25rem minmax(0, 1fr); gap: .7rem; }
+  .career-step-number { width: 2.25rem; height: 2.25rem; border-width: 3px; }
+  .career-roadmap-list article { padding: 1rem; }
+}
+
+@media (max-width: 430px) {
+  .learning-section-heading h2 { font-size: 2rem; }
+  .code-motion-controls button { font-size: 0; }
+  .code-motion-controls button b { font-size: 1.05rem; }
+  .code-motion-controls button { width: 3rem; padding: 0; }
+  .code-motion-editor pre { padding: 1.1rem; font-size: .75rem; }
+  .career-path-tabs { grid-template-columns: 1fr; }
+  .career-path-tabs button { justify-content: flex-start; padding-inline: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-journey-shell *,
+  .learning-journey-shell *::before,
+  .learning-journey-shell *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
