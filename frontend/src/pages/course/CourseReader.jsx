@@ -5,6 +5,7 @@ import SiteFooter from "../../components/SiteFooter";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
+import PublicNavIcon from "../../components/PublicNavIcon";
 import { useLanguage } from "../../context/LanguageContext";
 import api from "../../api/axios";
 
@@ -2234,12 +2235,12 @@ export default function CourseReader() {
           </div>
         </div>
         <nav id="course-reader-navigation" className={`course-reader-nav ${navOpen ? "is-open" : ""}`} aria-label="CampusFlow navigation" onClick={() => setNavOpen(false)}>
-          <Link className="course-reader-nav-academy" to="/course/html">{copy.academy}</Link>
-          <a href="/courses#courses">{copy.browseCourses}</a>
-          <Link to="/community">{copy.community}</Link>
-          <Link to="/about">{copy.about}</Link>
-          <a href="/#faq">{copy.faq}</a>
-          <Link to="/contact">{copy.contact}</Link>
+          <Link className="course-reader-nav-academy" to="/course/html"><PublicNavIcon name="academy" /><span>{copy.academy}</span></Link>
+          <a href="/courses#courses"><PublicNavIcon name="academy" /><span>{copy.browseCourses}</span></a>
+          <Link to="/community"><PublicNavIcon name="community" /><span>{copy.community}</span></Link>
+          <Link to="/about"><PublicNavIcon name="about" /><span>{copy.about}</span></Link>
+          <a href="/#faq"><PublicNavIcon name="faq" /><span>{copy.faq}</span></a>
+          <Link to="/contact"><PublicNavIcon name="contact" /><span>{copy.contact}</span></Link>
         </nav>
         <div className="course-reader-header-actions">
           <LanguageSwitcher variant="course" />
