@@ -168,8 +168,9 @@
   .course-lessons-panel,
   .course-preview-panel {
     bottom: 0;
-    height: auto;
-    position: fixed;
+    height: calc(100dvh - var(--reader-header-height) - var(--reader-subject-height));
+    overflow-y: auto;
+    position: fixed !important;
     top: calc(var(--reader-header-height) + var(--reader-subject-height));
     z-index: 20;
   }

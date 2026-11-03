@@ -1518,6 +1518,8 @@ export default function CourseReader() {
   const [completed, setCompleted] = useState(() => new Set());
   const [copied, setCopied] = useState("");
   const techBarRef = useRef(null);
+  const leftPanelRef = useRef(null);
+  const rightPanelRef = useRef(null);
 
   const selectedLesson = useMemo(
     () => courseLessons.find((lesson) => lesson.id === selectedId) || courseLessons[0],
@@ -1531,6 +1533,8 @@ export default function CourseReader() {
     setSelectedId(courseLessons[0].id);
     setCompleted(new Set());
     setCopied("");
+    leftPanelRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" });
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [slug]);
 
@@ -1555,6 +1559,7 @@ export default function CourseReader() {
     setCopied("");
     setLeftOpen(false);
     setRightOpen(false);
+    window.requestAnimationFrame(() => rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" }));
     if (isReferenceCourse) {
       window.requestAnimationFrame(() => document.getElementById(`course-lesson-${lesson.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
     } else {
@@ -1635,7 +1640,7 @@ export default function CourseReader() {
       <div className={`course-reader-backdrop ${(leftOpen || rightOpen) ? "is-visible" : ""}`} onClick={() => { setLeftOpen(false); setRightOpen(false); }} aria-hidden="true" />
 
       <div className="course-reader-layout">
-        <aside className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label={`${course.title} ${copy.lessons}`}>
+         <aside ref={leftPanelRef} className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label={`${course.title} ${copy.lessons}`}>
           <div className="course-panel-heading">
             <div><p className="course-panel-eyebrow">{copy.courseOutline}</p><h2>{course.title} {copy.lessons}</h2></div>
             <button type="button" className="course-drawer-close" onClick={() => setLeftOpen(false)} aria-label={copy.closeLessonMenu}>×</button>
@@ -1722,7 +1727,7 @@ export default function CourseReader() {
           )}
         </main>
 
-        <aside className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
+        <aside ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
           <CodePlayground course={course} lesson={selectedLesson} />
           <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={() => setRightOpen(false)} aria-label={copy.closePreview}>×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
