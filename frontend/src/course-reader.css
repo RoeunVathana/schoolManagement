@@ -20,12 +20,32 @@
 .course-reader a { color: inherit; text-decoration: none; }
 .course-reader button { border: 0; font: inherit; cursor: pointer; }
 .course-reader pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.course-reader-active { overflow-x: hidden; }
+.course-reader-active { overflow-x: clip; }
 html.course-reader-page,
 body.course-reader-active,
 .course-reader,
 .course-reader * { scroll-behavior: auto !important; }
-body.course-drawer-open { overflow: hidden; }
+
+/* Reading must always use the document's native wheel and touch scroll. A
+   lesson or preview drawer may sit above the page, but it must never lock the
+   page behind it or leave the next subject in a non-scrollable state. */
+html.course-reader-page,
+body.course-reader-active {
+  height: auto !important;
+  min-height: 100%;
+  overflow-y: auto !important;
+  overscroll-behavior-y: auto !important;
+  touch-action: pan-y;
+}
+
+.course-reader,
+.course-reader-main,
+.course-lesson-article,
+.course-reference-article {
+  overflow: visible;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
+}
 
 /* Khmer needs its own reading rhythm. The course reader otherwise inherits a
    compact Latin UI font, which makes Khmer labels hard to scan in sidebars and

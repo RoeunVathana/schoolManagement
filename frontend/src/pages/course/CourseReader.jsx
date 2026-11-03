@@ -1866,10 +1866,14 @@ export default function CourseReader() {
   }, [slug]);
 
   useEffect(() => {
+    // Clear an obsolete drawer lock from an earlier page before the reader
+    // mounts. Course pages always keep native document scrolling available.
+    document.body.classList.remove("course-drawer-open");
     document.body.classList.add("course-reader-active");
     document.documentElement.classList.add("course-reader-page");
     return () => {
       document.body.classList.remove("course-reader-active");
+      document.body.classList.remove("course-drawer-open");
       document.documentElement.classList.remove("course-reader-page");
     };
   }, []);
@@ -1891,11 +1895,6 @@ export default function CourseReader() {
     window.addEventListener("keydown", closeDrawers);
     return () => window.removeEventListener("keydown", closeDrawers);
   }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle("course-drawer-open", leftOpen || rightOpen);
-    return () => document.body.classList.remove("course-drawer-open");
-  }, [leftOpen, rightOpen]);
 
   const selectLesson = (lesson) => {
     setSelectedId(lesson.id);
