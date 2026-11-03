@@ -65,6 +65,7 @@ export default function AppRoutes() {
     <Route path="/404" element={<NotFound />} />
     <Route path="/" element={<Storefront />} />
     <Route element={<ProtectedRoute />}>
+      <Route path="dashboard" element={<Home />} />
       <Route element={<RoleRoute role="ADMIN" />}>
         <Route element={<AdminLayout />}>
           <Route path="admin/dashboard" element={<AdminDashboard />} />
