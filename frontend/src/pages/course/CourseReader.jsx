@@ -734,6 +734,13 @@ const getLessonGuidance = (courseTitle, topic) => {
       body: "Separate development and production settings, add a health check, and record the version that was released. A small rollback plan is part of a safe deployment.\n\nPractice checklist:\n- Build from a clean checkout.\n- Configure secrets through the deployment environment.\n- Test the public route and review the server logs.",
     };
   }
+  if (/(advanced|architecture|capstone|project|design pattern|system design|scalability|concurrency|optimization)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} is an advanced ${courseTitle} skill. Connect the individual techniques into a maintainable design, make the trade-offs explicit, and prove the result with tests or measurements.`,
+      bodyHeading: "Move from examples to engineering",
+      body: `At this stage, the goal is not only to make ${topic.toLowerCase()} work once. Decide where the responsibility belongs, define the failure cases, and leave the project easier to extend than it was before.\n\nAdvanced practice checklist:\n- Describe the design decision and one alternative.\n- Add validation, error handling and a focused test.\n- Measure or inspect the result before optimizing.\n- Document how another learner can run the example.`,
+    };
+  }
   return {
     intro: `${topic} is a practical ${courseTitle} skill. Learn the smallest useful rule, connect it to the surrounding unit, and apply it in a short example that you can change and test.`,
     bodyHeading: `Practice ${topic}`,
@@ -1180,7 +1187,122 @@ const supplementalCourseUnits = {
   ],
 };
 
+// A second learning layer gives every subject a clear path from fundamentals
+// to advanced engineering and a practical capstone. These sections are kept
+// in the same outline format so the reader, progress tracking and Khmer
+// localization continue to work automatically.
+const advancedCourseUnits = {
+  html: [
+    [1, "Advanced HTML and Web Quality", ["Accessible Forms", "Advanced Semantic Layout", "Responsive Images", "Performance and Resource Hints"]],
+    [2, "HTML Capstone Project", ["Plan a Multi-Page Site", "Build a Course Detail Page", "Add SEO and Social Metadata", "Audit and Publish the Site"]],
+  ],
+  css: [
+    [1, "Advanced CSS Architecture", ["Cascade Layers", "Logical Properties", "Advanced Grid Patterns", "CSS Performance"]],
+    [2, "CSS Capstone Project", ["Design Tokens", "Build a Responsive Dashboard", "Add Motion Safely", "Audit the Final Styles"]],
+  ],
+  javascript: [
+    [1, "Advanced JavaScript", ["Event Loop and Microtasks", "Abortable Fetch Requests", "Web Workers", "Performance Profiling"]],
+    [2, "JavaScript Capstone Project", ["Plan an App State Model", "Build a Search Interface", "Add Offline Support", "Test and Deploy the App"]],
+  ],
+  tailwindcss: [
+    [1, "Advanced Tailwind CSS", ["Design Tokens", "Reusable Component Variants", "Container Queries", "Build and Purge Strategy"]],
+    [2, "Tailwind Capstone Project", ["Plan a Design System", "Build a Responsive Dashboard", "Add Dark Mode", "Audit Accessibility and Bundle Size"]],
+  ],
+  react: [
+    [1, "Advanced React Architecture", ["Rendering and Reconciliation", "State Machines", "Suspense and Streaming", "Performance Profiling"]],
+    [2, "React Capstone Project", ["Plan Feature Boundaries", "Build a Protected Dashboard", "Add Error Recovery", "Test and Deploy the App"]],
+  ],
+  c_programming: [
+    [1, "Advanced C and Systems", ["Data Structures in C", "Function Pointers", "POSIX Processes and Threads", "Network Programming"]],
+    [2, "C Capstone Project", ["Design a CLI Tool", "Add File Persistence", "Test Memory and Errors", "Build a Portable Release"]],
+  ],
+  java: [
+    [1, "Advanced Java Engineering", ["Concurrency Utilities", "JVM Memory and Garbage Collection", "Design Patterns", "Java Performance Profiling"]],
+    [2, "Java Capstone Project", ["Design a Layered Service", "Add a Database Repository", "Secure the REST API", "Test and Package the Service"]],
+  ],
+  csharp: [
+    [1, "Advanced .NET Development", ["Dependency Injection Lifetimes", "ASP.NET Core Middleware", "Entity Framework Performance", "Background Services"]],
+    [2, "C# Capstone Project", ["Design a Web API", "Add Authentication and Roles", "Write Integration Tests", "Publish a Production Build"]],
+  ],
+  "dart-programming": [
+    [1, "Advanced Dart", ["Isolates and Concurrency", "Streams and Backpressure", "Generics and Mixins", "Dart Performance"]],
+    [2, "Dart Capstone Project", ["Design a CLI Application", "Consume a REST API", "Add Tests and Error States", "Prepare a Release Package"]],
+  ],
+  springboot: [
+    [1, "Advanced Spring Boot Architecture", ["Modular Monolith Design", "Resilience and Retry", "Distributed Tracing", "Performance and Capacity"]],
+    [2, "Spring Boot Capstone Project", ["Design a School API", "Secure Roles and Payments", "Add Integration Tests", "Dockerize and Deploy"]],
+  ],
+  cpp_programming: [
+    [1, "Advanced Modern C++", ["Move Semantics", "Smart Pointer Ownership", "Templates and Concepts", "Concurrency and Parallelism"]],
+    [2, "C++ Capstone Project", ["Design a CMake Project", "Build a Data Structure", "Add Unit Tests", "Profile and Release the Program"]],
+  ],
+  python: [
+    [1, "Advanced Python", ["Decorators and Context Managers", "Asyncio and Concurrency", "Typing and Protocols", "Python Performance"]],
+    [2, "Python Capstone Project", ["Design a REST Service", "Add Database Access", "Test and Document the API", "Package and Deploy the App"]],
+  ],
+  php: [
+    [1, "Advanced PHP Engineering", ["Dependency Injection", "Generators and Iterators", "Secure Session Design", "PHP Performance"]],
+    [2, "PHP Capstone Project", ["Design a REST API", "Add Authentication", "Test Database Queries", "Prepare Production Configuration"]],
+  ],
+  laravel: [
+    [1, "Advanced Laravel Architecture", ["Service Classes", "Events and Queues", "Caching Strategies", "API Performance"]],
+    [2, "Laravel Capstone Project", ["Design a Multi-Role App", "Build a Payment Flow", "Add Feature Tests", "Deploy and Monitor the App"]],
+  ],
+  node: [
+    [1, "Advanced Node.js Architecture", ["Streams and Backpressure", "Worker Threads", "API Rate Limiting", "Observability and Profiling"]],
+    [2, "Node.js Capstone Project", ["Design a REST API", "Add Secure Authentication", "Test Failure Paths", "Deploy with Environment Config"]],
+  ],
+  kotlin: [
+    [1, "Advanced Kotlin", ["Coroutines and Structured Concurrency", "Flow and Reactive Streams", "Sealed Domain Models", "Kotlin Performance"]],
+    [2, "Kotlin Capstone Project", ["Design a Service Layer", "Add Persistence", "Test Coroutine Code", "Package and Deploy the Project"]],
+  ],
+  flutter: [
+    [1, "Advanced Flutter Architecture", ["State Management Choices", "Slivers and Large Lists", "Animations and Motion", "Flutter Performance"]],
+    [2, "Flutter Capstone Project", ["Plan a Responsive App", "Connect a Secure API", "Add Offline States", "Test and Build for Release"]],
+  ],
+  mysql: [
+    [1, "Advanced MySQL", ["Index Design", "Query Execution Plans", "Isolation Levels", "Partitioning and Scale"]],
+    [2, "MySQL Capstone Project", ["Model a School Database", "Write Reporting Queries", "Secure Roles and Backups", "Tune and Document the Database"]],
+  ],
+  git: [
+    [1, "Advanced Git", ["Rebase and History Design", "Bisect and Debugging", "Hooks and Automation", "Repository Security"]],
+    [2, "Git Collaboration Capstone", ["Plan a Branching Strategy", "Review a Pull Request", "Automate Quality Checks", "Create a Release Workflow"]],
+  ],
+  "Cyber-Security": [
+    [1, "Advanced Cyber Security", ["Threat Modeling", "Identity and Zero Trust", "Secure Web Architecture", "Security Monitoring"]],
+    [2, "Security Capstone Project", ["Assess a Small Application", "Prioritize Vulnerabilities", "Write an Incident Plan", "Present the Security Review"]],
+  ],
+  "components-of-computer": [
+    [1, "Advanced Computer Systems", ["CPU Performance", "Memory and Virtual Memory", "Operating System Processes", "Network Hardware"]],
+    [2, "Computer Support Capstone", ["Diagnose a Slow Computer", "Plan a Compatible Upgrade", "Create a Backup Strategy", "Write a Maintenance Report"]],
+  ],
+  bootstrap: [
+    [1, "Advanced Bootstrap", ["Customize Sass Variables", "Responsive Component Composition", "Accessible Interactive Components", "Bootstrap Performance"]],
+    [2, "Bootstrap Capstone Project", ["Plan a Design System", "Build a Course Marketplace", "Add Form Validation", "Audit and Publish the Site"]],
+  ],
+  "Learn-the-code-yourself": [
+    [1, "Advanced Learning Skills", ["Read an API Documentation", "Compare Technical Solutions", "Plan a Learning Project", "Review Code Quality"]],
+    [2, "Full Stack Capstone Project", ["Design the User Flow", "Build the Main Feature", "Test and Debug the Project", "Document and Present the Result"]],
+  ],
+};
+
 Object.entries(supplementalCourseUnits).forEach(([slug, sections]) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const normalizedSections = sections.map(([unusedNumber, sectionTitle, labels], index) => [highestNumber + index + 1, sectionTitle, labels]);
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections: normalizedSections,
+  });
+  course.lessons = [...course.lessons, ...generated.lessons];
+});
+
+Object.entries(advancedCourseUnits).forEach(([slug, sections]) => {
   const course = courseCatalog[slug];
   if (!course) return;
   const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
