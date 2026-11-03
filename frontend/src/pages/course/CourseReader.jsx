@@ -655,6 +655,193 @@ const technologyCourseSlugs = {
   Flutter: "flutter",
 };
 
+const codeLanguageBySlug = {
+  html: "html",
+  css: "css",
+  javascript: "javascript",
+  react: "javascript",
+  tailwindcss: "html",
+  c_programming: "c",
+  cpp_programming: "cpp",
+  python: "python",
+  java: "java",
+  csharp: "csharp",
+  "dart-programming": "dart",
+  springboot: "java",
+  php: "php",
+  laravel: "php",
+  node: "javascript",
+  mysql: "sql",
+  git: "shell",
+  "Cyber-Security": "shell",
+  "components-of-computer": "text",
+  bootstrap: "html",
+  "Learn-the-code-yourself": "text",
+  flutter: "dart",
+};
+
+const browserRunnableLanguages = new Set(["html", "css", "javascript"]);
+
+function getCodeLanguage(slug) {
+  return codeLanguageBySlug[slug] || "text";
+}
+
+function buildPlaygroundDocument(language, code) {
+  const safeCode = String(code || "");
+  const instrumentation = `<script>
+    (() => {
+      const report = (type, payload = {}) => window.parent.postMessage({ source: "campusflow-playground", type, ...payload }, "*");
+      const stringify = (value) => {
+        try { return typeof value === "string" ? value : JSON.stringify(value, null, 2); }
+        catch { return String(value); }
+      };
+      const originalLog = console.log.bind(console);
+      console.log = (...values) => { report("log", { message: values.map(stringify).join(" ") }); originalLog(...values); };
+      window.addEventListener("error", (event) => report("error", { message: event.message + " (" + event.lineno + ":" + event.colno + ")" }));
+      window.addEventListener("unhandledrejection", (event) => report("error", { message: stringify(event.reason) }));
+      report("ready");
+    })();
+  <\/script>`;
+
+  if (language === "html") {
+    const normalized = safeCode.replace(/<\/script/gi, "<\\/script");
+    if (/<(?:!doctype|html)[\s>]/i.test(normalized)) {
+      return normalized.replace(/<\/body>/i, `${instrumentation}</body>`);
+    }
+    return `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>${instrumentation}${normalized}</body></html>`;
+  }
+
+  if (language === "css") {
+    const normalized = safeCode.replace(/<\/style/gi, "<\\/style");
+    return `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><style>
+      body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 1rem; color: #17335b; background: #fff; }
+      .playground-card { border: 1px solid #d8e4f2; border-radius: 14px; padding: 1rem; }
+    ${normalized}
+    </style></head><body><div class="playground-card"><h2>Live CSS preview</h2><p>Edit the CSS to change this card.</p><button>Example button</button></div>${instrumentation}</body></html>`;
+  }
+
+  const normalized = safeCode.replace(/<\/script/gi, "<\\/script");
+  return `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><style>
+    body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 1rem; color: #17335b; background: #fff; }
+    button { border: 0; border-radius: 10px; padding: .65rem .85rem; color: #fff; background: #2858d5; cursor: pointer; }
+  </style></head><body><div id="app"><h2 id="message">JavaScript preview</h2><p id="status" role="status">Ready to run.</p><button id="run-demo" type="button">Demo action</button></div>${instrumentation}<script>${normalized}</script></body></html>`;
+}
+
+function CodePlayground({ course, lesson }) {
+  const language = getCodeLanguage(course.slug);
+  const canRunInBrowser = browserRunnableLanguages.has(language);
+  const [draftCode, setDraftCode] = useState(lesson.code || "");
+  const [runCode, setRunCode] = useState(lesson.code || "");
+  const [runKey, setRunKey] = useState(0);
+  const [autoRun, setAutoRun] = useState(canRunInBrowser);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setDraftCode(lesson.code || "");
+    setRunCode(lesson.code || "");
+    setRunKey((current) => current + 1);
+    setMessages([]);
+    setAutoRun(canRunInBrowser);
+  }, [lesson.id, lesson.code, canRunInBrowser]);
+
+  useEffect(() => {
+    const receiveMessage = (event) => {
+      if (event.data?.source !== "campusflow-playground") return;
+      if (event.data.type === "ready") return;
+      setMessages((current) => [...current.slice(-7), { type: event.data.type, message: event.data.message || "" }]);
+    };
+    window.addEventListener("message", receiveMessage);
+    return () => window.removeEventListener("message", receiveMessage);
+  }, []);
+
+  useEffect(() => {
+    if (!canRunInBrowser || !autoRun) return undefined;
+    const timer = window.setTimeout(() => {
+      setRunCode(draftCode);
+      setMessages([]);
+      setRunKey((current) => current + 1);
+    }, 450);
+    return () => window.clearTimeout(timer);
+  }, [autoRun, canRunInBrowser, draftCode]);
+
+  const run = () => {
+    if (!canRunInBrowser) {
+      setMessages([{ type: "info", message: `This ${language} editor is ready, but a secure server compiler is not connected yet.` }]);
+      return;
+    }
+    setRunCode(draftCode);
+    setMessages([]);
+    setRunKey((current) => current + 1);
+  };
+
+  const reset = () => {
+    setDraftCode(lesson.code || "");
+    setRunCode(lesson.code || "");
+    setMessages([]);
+    setRunKey((current) => current + 1);
+  };
+
+  const handleEditorKeyDown = (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      const target = event.currentTarget;
+      const start = target.selectionStart;
+      const end = target.selectionEnd;
+      const next = `${draftCode.slice(0, start)}  ${draftCode.slice(end)}`;
+      setDraftCode(next);
+      window.requestAnimationFrame(() => {
+        target.selectionStart = start + 2;
+        target.selectionEnd = start + 2;
+      });
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      event.preventDefault();
+      run();
+    }
+  };
+
+  return (
+    <section className="course-playground" aria-label="Code playground">
+      <div className="course-playground-heading">
+        <div><p className="course-panel-eyebrow">Interactive coding</p><h3>Write and run</h3></div>
+        <span className={`course-playground-status ${canRunInBrowser ? "is-ready" : "is-server"}`}>{canRunInBrowser ? "Browser sandbox" : "Secure runner needed"}</span>
+      </div>
+      <div className="course-playground-toolbar">
+        <span className="course-playground-language">{language}</span>
+        <div className="course-playground-actions">
+          {canRunInBrowser && <label className="course-live-toggle"><input type="checkbox" checked={autoRun} onChange={(event) => setAutoRun(event.target.checked)} /> Live</label>}
+          <button type="button" onClick={reset}>Reset</button>
+          <button type="button" className="is-primary" onClick={run}>{canRunInBrowser ? "Run" : "Check runner"}</button>
+        </div>
+      </div>
+      <textarea
+        className="course-playground-editor"
+        value={draftCode}
+        onChange={(event) => setDraftCode(event.target.value)}
+        onKeyDown={handleEditorKeyDown}
+        spellCheck="false"
+        aria-label={`Edit ${language} code`}
+      />
+      <div className="course-playground-output-heading"><span>Result</span><small>Ctrl / ⌘ + Enter to run</small></div>
+      {canRunInBrowser ? (
+        <iframe
+          key={`${lesson.id}-${runKey}`}
+          className="course-playground-frame"
+          title={`${course.title} live result`}
+          sandbox="allow-scripts"
+          srcDoc={buildPlaygroundDocument(language, runCode)}
+        />
+      ) : (
+        <div className="course-playground-unavailable" role="status">
+          <strong>Editor ready</strong>
+          <p>Write and copy your {language} code here. To execute it safely, CampusFlow needs a containerized compiler service for this language.</p>
+        </div>
+      )}
+      {messages.length > 0 && <div className="course-playground-console" role="status"><strong>Console</strong>{messages.map((entry, index) => <div className={entry.type === "error" ? "is-error" : ""} key={`${entry.type}-${index}`}>{entry.type === "error" ? "Error: " : entry.type === "info" ? "Info: " : ""}{entry.message}</div>)}</div>}
+    </section>
+  );
+}
+
 export default function CourseReader() {
   const { slug = "html" } = useParams();
   const course = courseCatalog[slug] || courseCatalog.html;
@@ -871,10 +1058,10 @@ export default function CourseReader() {
             </div>
           </article>
           )}
-          <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>Practice a little every day.</span></footer>
         </main>
 
         <aside className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label="Lesson example preview">
+          <CodePlayground course={course} lesson={selectedLesson} />
           <div className="course-panel-heading"><div><p className="course-panel-eyebrow">Live example</p><h2>Preview</h2></div><button type="button" className="course-drawer-close" onClick={() => setRightOpen(false)} aria-label="Close preview">×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
           <div className="course-preview-label">Rendered result:</div>
@@ -882,6 +1069,7 @@ export default function CourseReader() {
           <div className="course-preview-help"><strong>Try it yourself</strong><p>Read the example, then change the code in your own editor to see what happens.</p></div>
         </aside>
       </div>
+      <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>Practice a little every day.</span></footer>
     </div>
   );
 }
