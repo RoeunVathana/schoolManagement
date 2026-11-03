@@ -6,6 +6,7 @@ import * as nodemailer from 'nodemailer';
 export class MailService {
   private readonly transporter: nodemailer.Transporter | null;
   private readonly from: string;
+  private smtpStatus: 'not-configured' | 'checking' | 'ready' | 'failed' = 'not-configured';
 
   constructor(private readonly config: ConfigService) {
     const host = this.config.get<string>('MAIL_HOST')?.trim();
@@ -37,14 +38,25 @@ export class MailService {
       : null;
 
     if (this.transporter) {
+      this.smtpStatus = 'checking';
       void this.transporter.verify()
-        .then(() => console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`))
-        .catch((error: any) => this.logTransportError('SMTP verification failed', error));
+        .then(() => {
+          this.smtpStatus = 'ready';
+          console.log(`[mail] SMTP connection verified (${host}:${port}, secure=${secure})`);
+        })
+        .catch((error: any) => {
+          this.smtpStatus = 'failed';
+          this.logTransportError('SMTP verification failed', error);
+        });
     }
   }
 
   isConfigured() {
     return this.transporter !== null;
+  }
+
+  configuration() {
+    return { configured: this.isConfigured(), status: this.smtpStatus };
   }
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {

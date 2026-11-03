@@ -2,6 +2,7 @@ import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../cache/cache.service';
 import { MediaStorageService } from '../media/media-storage.service';
+import { MailService } from '../auth/mail.service';
 
 @Controller('health')
 export class HealthController {
@@ -9,6 +10,7 @@ export class HealthController {
     private readonly prisma: PrismaService,
     private readonly cache: CacheService,
     private readonly media: MediaStorageService,
+    private readonly mail: MailService,
   ) {}
 
   @Get()
@@ -21,6 +23,7 @@ export class HealthController {
         revision: process.env.RAILWAY_GIT_COMMIT_SHA || null,
         cache: this.cache.status(),
         media: this.media.configuration(),
+        mail: this.mail.configuration(),
         timestamp: new Date().toISOString(),
       };
     } catch {
