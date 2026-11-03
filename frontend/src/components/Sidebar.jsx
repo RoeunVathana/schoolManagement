@@ -8,7 +8,7 @@ import { useCommunityText } from '../context/communityTranslations';
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
 
-const links = {
+export const dashboardLinks = {
   ADMIN: [['dashboard', '/admin/dashboard', 'dashboard'], ['profile', '/admin/profile', 'profile'], ['students', '/admin/students', 'students'], ['teachers', '/admin/teachers', 'teachers'], ['courses', '/admin/courses', 'courses'], ['courseMaterials', '/admin/materials', 'materials'], ['assignments', '/admin/assignments', 'assignments'], ['submissions', '/admin/submissions', 'submissions'], ['exams', '/admin/exams', 'exams'], ['certificates', '/admin/certificates', 'certificates'], ['users', '/admin/users', 'users'], ['contactMessages', '/admin/contact', 'contact'], ['groups', '/admin/community', 'groups'], ['telegramSettings', '/admin/telegram-settings', 'telegram'], ['mailSettings', '/admin/mail-settings', 'mail'], ['enrollments', '/admin/enrollments', 'enrollments'], ['schedules', '/admin/schedules', 'schedule'], ['attendance', '/admin/attendance', 'attendance'], ['teacherAttendanceManagement', '/admin/teacher-attendance', 'attendance'], ['announcements', '/admin/announcements', 'announcements']],
   TEACHER: [['dashboard', '/teacher/dashboard', 'dashboard'], ['profile', '/teacher/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/teacher/courses', 'courses'], ['courseMaterials', '/teacher/materials', 'materials'], ['certificates', '/teacher/certificates', 'certificates'], ['schedule', '/teacher/schedule', 'schedule'], ['assignments', '/teacher/assignments', 'assignments'], ['submissions', '/teacher/submissions', 'submissions'], ['attendance', '/teacher/attendance', 'attendance'], ['exams', '/teacher/exams', 'exams'], ['announcements', '/teacher/announcements', 'announcements']],
   STUDENT: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
@@ -41,7 +41,7 @@ const iconPaths = {
   contact: ['M4 5h16v14H4z', 'M4 7l8 6 8-6'],
 };
 
-function NavIcon({ name }) {
+export function NavIcon({ name }) {
   return <span className="sidebar-icon shrink-0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]">{iconPaths[name]?.map((path) => <path key={path} d={path} />)}</svg></span>;
 }
 
@@ -76,7 +76,7 @@ export default function Sidebar({ open, onClose }) {
 
     <div className="mb-3 shrink-0 px-3 text-[10px] font-bold uppercase tracking-[.22em] text-slate-500">{workspaceLabel}</div>
     <nav className="sidebar-scrollbar min-h-0 flex-1 space-y-1 overflow-y-auto pr-1">
-      {links[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={label === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? profilePath : path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{label === 'groups' ? communityText.groups : label === 'contactMessages' ? (language === 'km' ? 'សារទំនាក់ទំនង' : 'Contact messages') : t(label)}</span></NavLink>)}
+      {dashboardLinks[user?.role]?.map(([label, path, icon]) => <NavLink key={path} onClick={onClose} to={label === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? profilePath : path} className={({ isActive }) => `sidebar-link group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all duration-200 ${isActive ? 'sidebar-link-active' : ''}`}><NavIcon name={icon} /><span>{label === 'groups' ? communityText.groups : label === 'contactMessages' ? (language === 'km' ? 'សារទំនាក់ទំនង' : 'Contact messages') : t(label)}</span></NavLink>)}
     </nav>
 
     <div className="sidebar-note mt-5 shrink-0 rounded-2xl p-4 text-xs leading-5 text-slate-300"><span className="mb-2 block h-1 w-8 rounded-full bg-coral" />{t('sidebarNote')}</div>

@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useCommunityText } from '../context/communityTranslations';
 import api, { unwrap } from '../api/axios';
 import LanguageSwitcher from './LanguageSwitcher';
+import { dashboardLinks, NavIcon } from './Sidebar';
 
 const announcementPath = { ADMIN: '/admin/announcements', TEACHER: '/teacher/announcements', STUDENT: '/student/announcements', CUSTOMER: '/student/announcements' };
 
@@ -43,7 +45,8 @@ function playNotificationTone(context) {
 export default function Navbar({ onMenu, menuOpen = false }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const communityText = useCommunityText();
   const roleKey = { ADMIN: 'administrator', TEACHER: 'teacher', STUDENT: 'student', CUSTOMER: 'student' }[user?.role];
   const translatedRole = roleKey ? t(roleKey) : '';
   const navigate = useNavigate();
@@ -56,6 +59,10 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   const notificationFeedReady = useRef(false);
   const audioContextRef = useRef(null);
   const audioUnlocked = useRef(false);
+  const dashboardSearchRef = useRef(null);
+  const dashboardSearchInputRef = useRef(null);
+  const [dashboardSearchOpen, setDashboardSearchOpen] = useState(false);
+  const [dashboardSearchQuery, setDashboardSearchQuery] = useState('');
 
   const getAudioContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
@@ -146,6 +153,40 @@ export default function Navbar({ onMenu, menuOpen = false }) {
     return () => window.clearInterval(timer);
   }, [loadNotifications]);
 
+  useEffect(() => {
+    const closeSearchOnOutsideClick = (event) => {
+      if (!dashboardSearchRef.current?.contains(event.target)) setDashboardSearchOpen(false);
+    };
+    const handleSearchKeyboard = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setDashboardSearchOpen(true);
+        window.requestAnimationFrame(() => dashboardSearchInputRef.current?.focus());
+      }
+      if (event.key === 'Escape') setDashboardSearchOpen(false);
+    };
+    document.addEventListener('pointerdown', closeSearchOnOutsideClick);
+    document.addEventListener('keydown', handleSearchKeyboard);
+    return () => {
+      document.removeEventListener('pointerdown', closeSearchOnOutsideClick);
+      document.removeEventListener('keydown', handleSearchKeyboard);
+    };
+  }, []);
+
+  const dashboardSearchItems = (dashboardLinks[user?.role] || []).map(([key, path, icon]) => ({
+    key,
+    path: key === 'profile' && (user?.role === 'STUDENT' || user?.role === 'CUSTOMER') ? '/student/profile' : path,
+    icon,
+    label: key === 'groups' ? communityText.groups : key === 'contactMessages' ? (language === 'km' ? 'សារទំនាក់ទំនង' : 'Contact messages') : t(key),
+  }));
+  const normalizedSearch = dashboardSearchQuery.trim().toLocaleLowerCase();
+  const filteredDashboardSearchItems = dashboardSearchItems.filter((item) => !normalizedSearch || `${item.label} ${item.key} ${item.path}`.toLocaleLowerCase().includes(normalizedSearch));
+  const selectDashboardSearchItem = (path) => {
+    setDashboardSearchOpen(false);
+    setDashboardSearchQuery('');
+    navigate(path);
+  };
+
   const markRead = async (notification) => {
     const inviteLink = telegramInviteLink(notification);
     // Open while the click gesture is still active. Waiting for the read API
@@ -173,7 +214,23 @@ export default function Navbar({ onMenu, menuOpen = false }) {
       <div className="min-w-0 truncate text-xs font-semibold text-slate-500 sm:text-sm lg:hidden">{user?.fullName?.split(' ')[0]}</div>
     </div>
 
-    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+    <div className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
+      <div ref={dashboardSearchRef} className="relative w-10 min-w-10 sm:w-[clamp(12rem,20vw,17rem)] sm:min-w-0">
+        <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition focus-within:border-[#229ed9] focus-within:ring-2 focus-within:ring-[#229ed9]/15 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300">
+          <SearchIcon />
+          <input ref={dashboardSearchInputRef} type="search" value={dashboardSearchQuery} onFocus={() => setDashboardSearchOpen(true)} onChange={(event) => { setDashboardSearchQuery(event.target.value); setDashboardSearchOpen(true); }} onKeyDown={(event) => { if (event.key === 'Enter' && filteredDashboardSearchItems[0]) selectDashboardSearchItem(filteredDashboardSearchItems[0].path); }} placeholder={language === 'km' ? 'ស្វែងរកទំព័រ...' : 'Search dashboard pages...'} aria-label={language === 'km' ? 'ស្វែងរកទំព័រផ្ទាំងគ្រប់គ្រង' : 'Search dashboard pages'} aria-expanded={dashboardSearchOpen} className="hidden min-w-0 flex-1 bg-transparent px-2 text-xs font-semibold text-ink outline-none placeholder:text-slate-400 sm:block dark:text-white" />
+          <button type="button" onClick={() => { setDashboardSearchOpen((current) => !current); window.requestAnimationFrame(() => dashboardSearchInputRef.current?.focus()); }} className="flex h-full w-full items-center justify-center sm:hidden" aria-label={language === 'km' ? 'បើកការស្វែងរក' : 'Open dashboard search'} aria-expanded={dashboardSearchOpen}><SearchIcon /></button>
+          <kbd className="mr-2 hidden rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[9px] font-bold text-slate-400 lg:inline dark:border-slate-600 dark:bg-slate-700">⌘K</kbd>
+        </div>
+        {dashboardSearchOpen && <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(28rem,70vh)] w-[min(23rem,calc(100vw-1.5rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-950/15 dark:border-slate-700 dark:bg-[#101d31]">
+          <div className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[.16em] text-slate-400">{language === 'km' ? 'ទំព័រផ្ទាំងគ្រប់គ្រង' : 'Dashboard pages'}</div>
+          {filteredDashboardSearchItems.length ? filteredDashboardSearchItems.map((item) => <button type="button" key={item.path} onClick={() => selectDashboardSearchItem(item.path)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#eaf7f3] text-[#1c8c74] dark:bg-emerald-950/40 dark:text-[#8de4ca]"><NavIcon name={item.icon} /></span>
+            <span className="min-w-0 flex-1"><span className="block truncate text-xs font-extrabold text-ink dark:text-white">{item.label}</span><span className="mt-0.5 block truncate text-[10px] font-semibold text-slate-400">{item.path}</span></span>
+            <span className="text-sm text-slate-400" aria-hidden="true">→</span>
+          </button>) : <p className="px-3 py-6 text-center text-xs font-semibold text-slate-500">{language === 'km' ? 'រកមិនឃើញទំព័រទេ។' : 'No dashboard page found.'}</p>}
+        </div>}
+      </div>
       <div className="relative">
         <button type="button" onClick={() => setShowNotifications((current) => !current)} className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" aria-label={t('notifications')} aria-expanded={showNotifications} aria-controls="app-notification-panel" title={t('notifications')}>
           <BellIcon />
@@ -199,3 +256,4 @@ function BellIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="curren
 function SunIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-4 w-4"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>; }
 function MoonIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z" /></svg>; }
 function LogoutIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true"><path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" /></svg>; }
+function SearchIcon() { return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3" /><path d="m16 16 4.5 4.5" /></svg>; }
