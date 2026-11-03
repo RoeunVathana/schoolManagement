@@ -1766,7 +1766,7 @@ export default function CourseReader() {
   };
 
   return (
-    <div className="course-reader">
+    <div className={`course-reader ${language === "km" ? "is-khmer" : ""}`}>
       <Seo
         title={`${course.title} Course | CampusFlow LMS`}
         description={course.description}
