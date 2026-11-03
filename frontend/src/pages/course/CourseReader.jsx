@@ -266,6 +266,148 @@ const courseCatalog = {
       },
     ],
   },
+  c_programming: {
+    slug: "c_programming",
+    title: "C Programming",
+    description: "Learn C programming fundamentals, memory, functions and structured problem solving.",
+    codeLabel: "main.c",
+    tip: "Write small functions, initialize variables and compile often so errors stay easy to understand.",
+    lessons: [
+      {
+        number: "1",
+        title: "Introduction to C",
+        items: [
+          { id: "c-what", label: "1.1. What is C?", heading: "1. Introduction to C", intro: "C is a compiled programming language used to build operating systems, embedded software and fast applications. It gives you a clear view of how programs use memory and instructions.", bodyHeading: "1.1 What is C?", body: "C combines a small language with a powerful standard library. Learning its syntax builds a strong foundation for C++, Java and many other languages.", code: "#include <stdio.h>\n\nint main(void) {\n  printf(\"Hello, C!\\n\");\n  return 0;\n}", preview: { title: "Hello, C!", body: "The program starts in main and prints a message." } },
+          { id: "c-setup", label: "1.2. Setting Up a C Compiler", heading: "1.2 Setting Up a C Compiler", intro: "A C compiler translates source code into a program the computer can run. GCC and Clang are popular compilers for learning and production work.", bodyHeading: "Compile and run a program", body: "Keep the source file separate from the executable and use compiler warnings to catch mistakes early.", code: "cc -Wall -Wextra -std=c17 main.c -o main\n./main", preview: { title: "Compiled successfully", body: "Warnings help you improve the program before it grows." } },
+          { id: "c-syntax", label: "1.3. C Syntax and Structure", heading: "1.3 C Syntax and Structure", intro: "C programs are made from statements, expressions, functions and blocks. Semicolons end statements and braces define a block of code.", bodyHeading: "Read the program structure", body: "Use indentation and meaningful names to make low-level code as easy to read as possible.", code: "#include <stdio.h>\n\nint add(int left, int right) {\n  return left + right;\n}", preview: { title: "A clear structure", body: "Functions can hide details behind a name that explains the action." } },
+        ],
+      },
+      {
+        number: "2",
+        title: "C Fundamentals",
+        items: [
+          { id: "c-variables", label: "2.1. Variables and Data Types", heading: "2.1 Variables and Data Types", intro: "C provides types such as int, double, char and arrays. The type tells the compiler how to store and interpret a value.", bodyHeading: "Choose the right type", body: "Initialize values close to their declaration and use constants when a value should not change.", code: "int lessons = 4;\ndouble progress = 0.75;\nchar level = 'A';\nconst int max_lessons = 10;", preview: { title: "Course progress", body: "4 of 10 lessons are complete." } },
+          { id: "c-control", label: "2.2. Control Flow", heading: "2.2 Control Flow", intro: "Conditions and loops let a program choose what to do and repeat work. They are the building blocks of every useful algorithm.", bodyHeading: "Make decisions", body: "Keep conditions simple and give each branch a clear purpose for the reader.", code: "if (score >= 80) {\n  printf(\"Excellent\\n\");\n} else {\n  printf(\"Keep practicing\\n\");\n}", preview: { title: "Keep practicing", body: "The program selected a branch from the score." } },
+          { id: "c-loops", label: "2.3. Loops", heading: "2.3 Loops", intro: "for, while and do-while loops repeat a block of code while a condition is true. Pick the loop that makes the stopping rule obvious.", bodyHeading: "Repeat a known number of times", body: "A for loop keeps initialization, the condition and the update together so the iteration is easy to review.", code: "for (int lesson = 1; lesson <= 3; lesson++) {\n  printf(\"Lesson %d\\n\", lesson);\n}", preview: { title: "Lesson 1 · Lesson 2 · Lesson 3", body: "The loop rendered three lesson labels." } },
+        ],
+      },
+      {
+        number: "3",
+        title: "Functions and Arrays",
+        items: [
+          { id: "c-functions", label: "3.1. Functions", heading: "3.1 Functions", intro: "Functions group a task behind a reusable name. Parameters provide input and a return value communicates the result.", bodyHeading: "Build reusable logic", body: "Declare functions with a clear return type and keep each function focused on one job.", code: "int square(int value) {\n  return value * value;\n}\n\nint result = square(5);", preview: { title: "Result: 25", body: "The function returned the square of the input." } },
+          { id: "c-arrays", label: "3.2. Arrays and Strings", heading: "3.2 Arrays and Strings", intro: "Arrays store values of the same type next to one another. C strings are character arrays that end with a null character.", bodyHeading: "Work with a collection", body: "Track the array length carefully and leave space for the string terminator when allocating character storage.", code: "int scores[] = {80, 92, 88};\nsize_t count = sizeof(scores) / sizeof(scores[0]);\n\nprintf(\"Count: %zu\\n\", count);", preview: { title: "3 scores", body: "Arrays make a group of related values easy to process." } },
+          { id: "c-pointers", label: "3.3. Pointers and Memory", heading: "3.3 Pointers and Memory", intro: "A pointer stores the address of another value. Pointers allow functions to update data and let programs work directly with memory.", bodyHeading: "Understand an address", body: "Only dereference valid pointers, initialize them and release memory that was allocated dynamically.", code: "int lessons = 3;\nint *lessons_ptr = &lessons;\n*lessons_ptr += 1;", preview: { title: "Lessons: 4", body: "The pointer changed the value stored at an address." } },
+        ],
+      },
+    ],
+  },
+  java: {
+    slug: "java",
+    title: "Java",
+    description: "Learn Java syntax, object-oriented programming and collections through practical examples.",
+    codeLabel: "Main.java",
+    tip: "Prefer small classes with clear responsibilities and let the compiler guide you as you refactor.",
+    lessons: [
+      {
+        number: "1",
+        title: "Introduction to Java",
+        items: [
+          { id: "java-what", label: "1.1. What is Java?", heading: "1. Introduction to Java", intro: "Java is a strongly typed, object-oriented language that runs on the Java Virtual Machine. It is used for services, Android applications and large business systems.", bodyHeading: "1.1 What is Java?", body: "Java source is compiled to bytecode so the same program can run on any platform with a compatible JVM.", code: "public class Main {\n  public static void main(String[] args) {\n    System.out.println(\"Hello, Java!\");\n  }\n}", preview: { title: "Hello, Java!", body: "The JVM runs the compiled class through its main method." } },
+          { id: "java-setup", label: "1.2. Setting Up the JDK", heading: "1.2 Setting Up the JDK", intro: "The Java Development Kit includes the compiler, runtime tools and utilities needed to build Java applications.", bodyHeading: "Compile and run a class", body: "Use the same JDK version for local development and the deployment environment when possible.", code: "javac Main.java\njava Main", preview: { title: "JDK ready", body: "The compiler created a class that the JVM can execute." } },
+          { id: "java-types", label: "1.3. Variables and Data Types", heading: "1.3 Variables and Data Types", intro: "Java includes primitive types for simple values and reference types for objects. The compiler checks types before the program runs.", bodyHeading: "Declare values clearly", body: "Use final for values that should not be reassigned and choose names that explain the data.", code: "final String course = \"Java\";\nint completedLessons = 2;\nboolean active = true;", preview: { title: "Java", body: "2 lessons completed · account active" } },
+        ],
+      },
+      {
+        number: "2",
+        title: "Object-Oriented Java",
+        items: [
+          { id: "java-classes", label: "2.1. Classes and Objects", heading: "2.1 Classes and Objects", intro: "A class describes data and behavior. An object is an instance of that class created while the program runs.", bodyHeading: "Model a learning course", body: "Keep fields private and expose behavior through methods so the class can protect its own rules.", code: "class Course {\n  private final String title;\n\n  Course(String title) { this.title = title; }\n  String getTitle() { return title; }\n}", preview: { title: "Java Fundamentals", body: "An object keeps its title behind a small API." } },
+          { id: "java-inheritance", label: "2.2. Inheritance and Interfaces", heading: "2.2 Inheritance and Interfaces", intro: "Interfaces describe capabilities and inheritance can share a base implementation. Prefer composition when a type does not truly have an is-a relationship.", bodyHeading: "Program to an interface", body: "A small interface lets different implementations work with the same calling code.", code: "interface Notifier {\n  void send(String message);\n}\n\nclass EmailNotifier implements Notifier {\n  public void send(String message) {\n    System.out.println(message);\n  }\n}", preview: { title: "Notification sent", body: "The caller uses the interface, not a concrete implementation." } },
+          { id: "java-exceptions", label: "2.3. Exceptions", heading: "2.3 Exceptions", intro: "Exceptions represent failures that need a different path. Handle errors where you can add useful context or recover safely.", bodyHeading: "Handle a recoverable error", body: "Do not hide exceptions silently. Give the user a useful message and log enough context for debugging.", code: "try {\n  int lesson = Integer.parseInt(input);\n  System.out.println(lesson);\n} catch (NumberFormatException error) {\n  System.out.println(\"Enter a lesson number.\");\n}", preview: { title: "Enter a lesson number.", body: "The invalid input was handled without crashing the page." } },
+        ],
+      },
+      {
+        number: "3",
+        title: "Collections and Streams",
+        items: [
+          { id: "java-collections", label: "3.1. Lists and Maps", heading: "3.1 Lists and Maps", intro: "Collections store groups of objects. Lists preserve order while maps associate a key with a value.", bodyHeading: "Store course data", body: "Choose a collection based on how the data will be accessed and keep the element type explicit.", code: "List<String> courses = List.of(\"Java\", \"C#\", \"Dart\");\nMap<String, Integer> progress = Map.of(\"Java\", 3);", preview: { title: "3 courses", body: "The collection keeps course names and progress together." } },
+          { id: "java-streams", label: "3.2. Streams", heading: "3.2 Streams", intro: "Streams describe a pipeline that filters, transforms and collects data. They are useful when a collection needs a readable sequence of operations.", bodyHeading: "Filter active courses", body: "Keep each stream operation small and name complicated predicates so the pipeline stays readable.", code: "List<String> active = courses.stream()\n  .filter(course -> course.length() > 3)\n  .toList();", preview: { title: "Java · Dart", body: "The stream kept courses longer than three characters." } },
+        ],
+      },
+    ],
+  },
+  csharp: {
+    slug: "csharp",
+    title: "C#",
+    description: "Learn C# fundamentals, classes, LINQ and the .NET way to build applications.",
+    codeLabel: "Program.cs",
+    tip: "Use the type system and modern C# features to make invalid states harder to represent.",
+    lessons: [
+      {
+        number: "1",
+        title: "Introduction to C#",
+        items: [
+          { id: "csharp-what", label: "1.1. What is C#?", heading: "1. Introduction to C#", intro: "C# is a modern, strongly typed language in the .NET ecosystem. It is used for web APIs, desktop applications, games and cloud services.", bodyHeading: "1.1 What is C#?", body: "C# combines object-oriented design with concise features such as pattern matching, records and async methods.", code: "Console.WriteLine(\"Hello, C#!\");", preview: { title: "Hello, C#!", body: ".NET ran the first C# statement." } },
+          { id: "csharp-dotnet", label: "1.2. .NET and the SDK", heading: "1.2 .NET and the SDK", intro: "The .NET SDK provides the compiler, runtime and command-line tools used to create, build and run C# projects.", bodyHeading: "Create a console project", body: "The project file records the target framework and dependencies so the build can be reproduced on another machine.", code: "dotnet new console -n CampusFlow.CSharp\ncd CampusFlow.CSharp\ndotnet run", preview: { title: "Project created", body: "The .NET CLI can create and run a C# application." } },
+          { id: "csharp-types", label: "1.3. Types and Variables", heading: "1.3 Types and Variables", intro: "C# has value types, reference types and nullable annotations that communicate how a value may be used.", bodyHeading: "Make values explicit", body: "Use var when the type is obvious from the right side and explicit types when they improve understanding.", code: "string course = \"C#\";\nint lessons = 4;\nbool isPublished = true;", preview: { title: "C#", body: "4 lessons are ready to study." } },
+        ],
+      },
+      {
+        number: "2",
+        title: "C# Fundamentals",
+        items: [
+          { id: "csharp-control", label: "2.1. Conditions and Loops", heading: "2.1 Conditions and Loops", intro: "if, switch and loops control the path through a C# program. Pattern matching can keep complex decisions readable.", bodyHeading: "Choose a result", body: "Keep the default case intentional and make the loop condition easy to verify.", code: "string badge = score switch {\n  >= 90 => \"Excellent\",\n  >= 70 => \"Good\",\n  _ => \"Keep practicing\"\n};", preview: { title: "Good", body: "The switch expression selected a badge from the score." } },
+          { id: "csharp-methods", label: "2.2. Methods", heading: "2.2 Methods", intro: "Methods organize behavior and can use optional parameters, named arguments and expression-bodied syntax for small operations.", bodyHeading: "Name the operation", body: "A method should make its inputs, output and side effects easy to understand from the signature.", code: "static int AddLessons(int completed, int added)\n  => completed + added;\n\nint total = AddLessons(2, 1);", preview: { title: "Total: 3", body: "The method combined two values." } },
+          { id: "csharp-classes", label: "2.3. Classes and Records", heading: "2.3 Classes and Records", intro: "Classes model behavior and mutable identity. Records are useful for immutable data values that are compared by their contents.", bodyHeading: "Represent a course", body: "Choose a class or record based on whether the value has identity and behavior or is simply data.", code: "public record Course(string Title, int Lessons);\n\nvar course = new Course(\"C# Basics\", 6);", preview: { title: "C# Basics", body: "6 lessons are described by an immutable record." } },
+        ],
+      },
+      {
+        number: "3",
+        title: "Modern .NET",
+        items: [
+          { id: "csharp-linq", label: "3.1. LINQ", heading: "3.1 LINQ", intro: "LINQ lets you query collections with a consistent syntax. A query can filter, order and project data into a new shape.", bodyHeading: "Query course lessons", body: "Break a long query into named steps when it becomes difficult to read or debug.", code: "var titles = lessons\n  .Where(lesson => lesson.IsPublished)\n  .Select(lesson => lesson.Title)\n  .ToList();", preview: { title: "Published lessons", body: "LINQ selected only lessons visible to learners." } },
+          { id: "csharp-async", label: "3.2. Async and Await", heading: "3.2 Async and Await", intro: "Async methods keep applications responsive while they wait for a database, file or web request.", bodyHeading: "Await a course request", body: "Return Task from asynchronous methods and handle cancellation or errors at the boundary of the request.", code: "async Task<Course> LoadCourseAsync(string id)\n{\n  return await repository.GetAsync(id);\n}", preview: { title: "Course loaded", body: "The UI can keep responding while data is requested." } },
+        ],
+      },
+    ],
+  },
+  "dart-programming": {
+    slug: "dart-programming",
+    title: "Dart",
+    description: "Learn Dart syntax, sound null safety, collections and async programming for modern apps.",
+    codeLabel: "main.dart",
+    tip: "Use sound null safety and expressive types so your Dart code explains its assumptions.",
+    lessons: [
+      {
+        number: "1",
+        title: "Introduction to Dart",
+        items: [
+          { id: "dart-what", label: "1.1. What is Dart?", heading: "1. Introduction to Dart", intro: "Dart is a client-optimized language created by Google. It is commonly used with Flutter to build mobile, web and desktop interfaces.", bodyHeading: "1.1 What is Dart?", body: "Dart supports just-in-time development and ahead-of-time production compilation, giving developers a fast edit-and-run loop and efficient releases.", code: "void main() {\n  print('Hello, Dart!');\n}", preview: { title: "Hello, Dart!", body: "The Dart runtime started from the main function." } },
+          { id: "dart-setup", label: "1.2. Installing the Dart SDK", heading: "1.2 Installing the Dart SDK", intro: "The Dart SDK includes the dart command, formatter, analyzer and package tools used to build Dart programs.", bodyHeading: "Run a Dart file", body: "Format and analyze code as you work so small issues are caught before the application grows.", code: "dart format .\ndart analyze\ndart run bin/main.dart", preview: { title: "Dart SDK ready", body: "The toolchain can format, analyze and run the project." } },
+          { id: "dart-vscode", label: "1.3. Setting Up Dart in VS Code", heading: "1.3 Setting Up Dart in VS Code", intro: "The Dart and Flutter extensions add formatting, analysis, debugging and hot reload support to VS Code.", bodyHeading: "Use the editor as a learning tool", body: "Keep format-on-save enabled and read analyzer messages as suggestions about the code's structure.", code: "{\n  \"editor.formatOnSave\": true,\n  \"editor.codeActionsOnSave\": {\n    \"source.fixAll\": \"explicit\"\n  }\n}", preview: { title: "Editor configured", body: "Formatting and analysis run while you build." } },
+        ],
+      },
+      {
+        number: "2",
+        title: "Dart Basics",
+        items: [
+          { id: "dart-variables", label: "2.1. Variables and Data Types", heading: "2.1 Variables and Data Types", intro: "Dart supports type inference with var, explicit types and final or const values that cannot be reassigned.", bodyHeading: "Declare safe values", body: "Use final for a value assigned once at runtime and const for a value known at compile time.", code: "final String course = 'Dart';\nvar completedLessons = 2;\nconst maxLessons = 10;", preview: { title: "Dart", body: "2 of 10 lessons are complete." } },
+          { id: "dart-null-safety", label: "2.2. Sound Null Safety", heading: "2.2 Sound Null Safety", intro: "Dart's type system distinguishes values that can be null from values that must exist. This prevents many null reference errors before runtime.", bodyHeading: "Make optional data explicit", body: "Use ? for an optional value and check it before reading the value as non-null.", code: "String? nickname;\n\nfinal label = nickname ?? 'Learner';\nprint(label);", preview: { title: "Learner", body: "The fallback is used when optional data is missing." } },
+          { id: "dart-control", label: "2.3. Control Flow", heading: "2.3 Control Flow", intro: "Dart uses familiar if statements, loops and switch patterns to express decisions and repeated work.", bodyHeading: "Choose the learning state", body: "Keep branches short and use a default so new states do not create an unexpected empty screen.", code: "final status = progress >= 1.0\n    ? 'Completed'\n    : 'In progress';", preview: { title: "In progress", body: "The conditional expression selected a learner-friendly state." } },
+        ],
+      },
+      {
+        number: "3",
+        title: "Dart Functions and Async",
+        items: [
+          { id: "dart-functions", label: "3.1. Functions and Named Parameters", heading: "3.1 Functions and Named Parameters", intro: "Dart functions can use optional and named parameters. This makes calls self-documenting and keeps reusable logic compact.", bodyHeading: "Write a readable function", body: "Use named parameters when a call would be unclear without labels and give important parameters useful defaults.", code: "String greeting({required String name, String prefix = 'Hello'}) {\n  return '$prefix, $name!';\n}\n\ngreeting(name: 'Learner');", preview: { title: "Hello, Learner!", body: "Named parameters make the call easy to understand." } },
+          { id: "dart-collections", label: "3.2. Lists and Maps", heading: "3.2 Lists and Maps", intro: "Lists contain ordered values and maps associate keys with values. Collection methods make transformations concise.", bodyHeading: "Transform course titles", body: "Prefer map, where and fold when they make a data transformation clearer than a manual loop.", code: "final courses = ['Dart', 'Flutter', 'C#'];\nfinal labels = courses.map((name) => 'Learn $name').toList();", preview: { title: "Three paths", body: "Learn Dart · Learn Flutter · Learn C#" } },
+          { id: "dart-async", label: "3.3. Futures and Async", heading: "3.3 Futures and Async", intro: "Future represents a value that will be available later. async and await make asynchronous code read like a sequence.", bodyHeading: "Load a lesson", body: "Show a loading state, await the request and handle errors before displaying the result to the learner.", code: "Future<String> loadLesson() async {\n  final response = await api.get('/lessons/1');\n  return response.title;\n}", preview: { title: "Lesson loaded", body: "The app can fetch data without blocking the interface." } },
+        ],
+      },
+    ],
+  },
 };
 
 const technologyCourseSlugs = {
@@ -274,6 +416,10 @@ const technologyCourseSlugs = {
   JavaScript: "javascript",
   React: "react",
   "Tailwind CSS": "tailwindcss",
+  C: "c_programming",
+  Java: "java",
+  "C#": "csharp",
+  Dart: "dart-programming",
 };
 
 export default function CourseReader() {
