@@ -8,7 +8,9 @@
 
 .site-public-navbar,
 .storefront > header,
-.app-shell-content > .app-navbar {
+.app-shell-content > .app-navbar,
+.course-reader > .course-reader-header,
+.course-reader > .course-techbar:not(.course-techbar-before-header) {
   box-sizing: border-box !important;
   position: fixed !important;
   top: 0 !important;
@@ -23,13 +25,27 @@
   will-change: transform;
 }
 
+/* Course readers have two stacked navigation rows. Keep both rows attached
+   to the viewport so changing lessons never makes the header drift away. */
+.course-reader > .course-reader-header {
+  z-index: 100 !important;
+}
+
+.course-reader > .course-techbar:not(.course-techbar-before-header) {
+  top: var(--reader-header-height) !important;
+  z-index: 99 !important;
+}
+
 /* A perspective on an ancestor makes position: fixed resolve against that
    ancestor instead of the viewport. Keep perspective on scrolling content so
    public and dashboard navbars remain pinned to the screen. */
 .about-page,
 .contact-page,
 .public-community-page,
-.app-shell {
+.app-shell,
+.course-reader,
+.storefront,
+.community-page {
   perspective: none !important;
   transform: none !important;
   transform-style: flat !important;
