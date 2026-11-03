@@ -269,6 +269,7 @@
 }
 
 .app-shell-content,
+.auth-background,
 .auth-layout,
 .course-reader,
 .storefront,
@@ -289,6 +290,7 @@
 .app-shell-content { animation: cf-background-shift 28s ease-in-out infinite; }
 
 .dark .app-shell-content,
+.dark .auth-background,
 .dark .auth-layout,
 .dark .course-reader,
 .dark .storefront,
@@ -345,6 +347,7 @@
   }
 
   .app-shell-content,
+  .auth-background,
   .auth-layout,
   .course-reader,
   .storefront,
