@@ -104,6 +104,7 @@ const copyByLanguage = {
     heroTitle: "Learn skills that move your future forward.",
     heroBody:
       "Practical courses, local teachers and a simple way to learn from anywhere in Cambodia.",
+    academy: "CampusFlow Academy",
     browse: "Browse courses",
     steps: "A clear path from curious to capable",
     stepsBody: "Choose a course, pay securely with KHQR, then start learning with your teacher.",
@@ -179,6 +180,7 @@ const copyByLanguage = {
     heroEyebrow: "CAMPUSFLOW ACADEMY",
     heroTitle: "រៀនជំនាញថ្មី ដើម្បីបង្កើតឱកាសថ្មីសម្រាប់អនាគត។",
     heroBody: "វគ្គសិក្សាអនុវត្ត គ្រូក្នុងស្រុក និងការរៀនដែលងាយស្រួលសម្រាប់អ្នកនៅកម្ពុជា។",
+    academy: "សាលា CampusFlow",
     browse: "មើលវគ្គសិក្សា",
     steps: "ដំណើររៀនដែលងាយស្រួលយល់",
     stepsBody: "ជ្រើសរើសវគ្គ បង់ប្រាក់តាម KHQR ហើយចាប់ផ្តើមរៀនជាមួយគ្រូរបស់អ្នក។",
@@ -988,7 +990,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
           </span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-bold text-slate-500 lg:flex">
-          <a href="/#courses" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.browse}</a>
+          <a href="/courses#courses" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.academy}</a>
           <Link to={communityPath} className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.community}</Link>
           <Link to="/about" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.about}</Link>
           <a href="/#faq" className="transition hover:text-[#10243f] dark:text-slate-300 dark:hover:text-white">{copy.faq}</a>
@@ -1017,7 +1019,7 @@ function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurc
           </button>
         </div>
       </div>
-      {mobileMenuOpen && <div id="storefront-mobile-menu" className="border-t border-slate-200/80 bg-white/95 px-5 py-4 shadow-xl dark:border-slate-700/80 dark:bg-[#101b2d]/98 lg:hidden"><div className="mx-auto max-w-7xl"><nav className="grid gap-2 text-sm font-bold text-slate-600 dark:text-slate-200"><a href="/#courses" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.browse}</a><Link to="/community" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.community}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.about}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.supportLabel}</Link><a href="/#faq" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.faq}</a></nav><div className="mt-3 grid gap-2 border-t border-slate-200 pt-3 dark:border-slate-700">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-4 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{t("dashboard")}</Link><button type="button" onClick={handleLogout} className="rounded-xl border border-rose-200 px-4 py-3 text-center text-xs font-extrabold text-rose-600 dark:border-rose-900/60 dark:text-rose-300">{logoutLabel}</button></> : <div className="grid grid-cols-2 gap-2"><Link to="/login/student" onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-slate-200 px-3 py-3 text-center text-xs font-extrabold text-[#10243f] dark:border-slate-600 dark:text-white">{loginLabel}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-3 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{t("dashboard")}</Link></div>)}</div></div></div>}
+      {mobileMenuOpen && <div id="storefront-mobile-menu" className="border-t border-slate-200/80 bg-white/95 px-5 py-4 shadow-xl dark:border-slate-700/80 dark:bg-[#101b2d]/98 lg:hidden"><div className="mx-auto max-w-7xl"><nav className="grid gap-2 text-sm font-bold text-slate-600 dark:text-slate-200"><a href="/courses#courses" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.academy}</a><Link to="/community" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.community}</Link><Link to="/about" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.about}</Link><Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.supportLabel}</Link><a href="/#faq" onClick={() => setMobileMenuOpen(false)} className="rounded-xl px-3 py-3 transition hover:bg-slate-100 dark:hover:bg-slate-800">{copy.faq}</a></nav><div className="mt-3 grid gap-2 border-t border-slate-200 pt-3 dark:border-slate-700">{!authLoading && (hasSession ? <><Link to={dashboardPath} onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-4 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{t("dashboard")}</Link><button type="button" onClick={handleLogout} className="rounded-xl border border-rose-200 px-4 py-3 text-center text-xs font-extrabold text-rose-600 dark:border-rose-900/60 dark:text-rose-300">{logoutLabel}</button></> : <div className="grid grid-cols-2 gap-2"><Link to="/login/student" onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-slate-200 px-3 py-3 text-center text-xs font-extrabold text-[#10243f] dark:border-slate-600 dark:text-white">{loginLabel}</Link><Link to="/student/dashboard" onClick={() => setMobileMenuOpen(false)} className="rounded-xl bg-[#10243f] px-3 py-3 text-center text-xs font-extrabold text-white dark:bg-[#229ed9]">{t("dashboard")}</Link></div>)}</div></div></div>}
     </header>
   );
 }

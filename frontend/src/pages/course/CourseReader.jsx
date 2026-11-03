@@ -89,6 +89,7 @@ const readerText = {
     outputEmpty: "Finished with no output.",
     practiceEveryDay: "Practice a little every day.",
     home: "CampusFlow home",
+    academy: "CampusFlow Academy",
     browseCourses: "Courses",
     community: "Community",
     about: "About",
@@ -144,6 +145,7 @@ const readerText = {
     secureRunnerMessage: (language) => `កម្មវិធីកែសម្រួល ${language} នេះរួចរាល់ ប៉ុន្តែមិនទាន់បានភ្ជាប់ compiler សុវត្ថិភាពនៅលើ server ទេ។`,
     practiceEveryDay: "អនុវត្តបន្តិចរាល់ថ្ងៃ។",
     home: "ទំព័រដើម CampusFlow",
+    academy: "សាលា CampusFlow",
     browseCourses: "វគ្គសិក្សា",
     community: "សហគមន៍",
     about: "អំពីយើង",
@@ -1631,7 +1633,8 @@ export default function CourseReader() {
           </div>
         </div>
         <nav className="course-reader-nav" aria-label="CampusFlow navigation">
-          <a href="/#courses">{copy.browseCourses}</a>
+          <a className="course-reader-nav-academy" href="/courses#courses">{copy.academy}</a>
+          <a href="/courses#courses">{copy.browseCourses}</a>
           <Link to="/community">{copy.community}</Link>
           <Link to="/about">{copy.about}</Link>
           <a href="/#faq">{copy.faq}</a>

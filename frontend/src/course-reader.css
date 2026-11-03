@@ -83,6 +83,7 @@
 .course-reader-header h1 { color: var(--reader-ink); font-size: 1.05rem; line-height: 1.2; margin: 0; }
 .course-reader-nav { align-items: center; display: flex; flex: 1 1 auto; gap: clamp(.7rem, 1.55vw, 1.55rem); justify-content: center; min-width: 0; }
 .course-reader-nav a { color: #6a7d96; font-size: .73rem; font-weight: 850; overflow: hidden; position: relative; text-overflow: ellipsis; transition: color .18s ease; white-space: nowrap; }
+.course-reader-nav a.course-reader-nav-academy { color: var(--reader-blue); }
 .course-reader-nav a::after { background: #39b8df; border-radius: 999px; bottom: -.35rem; content: ""; height: 2px; left: 0; position: absolute; transform: scaleX(0); transform-origin: center; transition: transform .18s ease; width: 100%; }
 .course-reader-nav a:hover { color: var(--reader-blue); }
 .course-reader-nav a:hover::after { transform: scaleX(1); }
@@ -239,6 +240,7 @@
 .dark .course-techbar, .dark .course-reader-header, .dark .course-lessons-panel, .dark .course-preview-panel, .dark .course-reader-mobile-toolbar, .dark .course-prev-next button { background: #111d30; border-color: #293b56; }
 .dark .course-reader-header h1, .dark .course-panel-heading h2 { color: #f3f7fc; }
 .dark .course-reader-nav a { color: #b4c3d6; }
+.dark .course-reader-nav a.course-reader-nav-academy { color: #9fffe0; }
 .dark .course-reader-nav a:hover { color: #9fffe0; }
 .dark .course-lesson-lead, .dark .course-lesson-section p { color: #c3d0e0; }
 .dark .course-reader-footer, .dark .course-breadcrumb, .dark .course-lesson-meta { border-color: #293b56; color: #c5d3e3; }
