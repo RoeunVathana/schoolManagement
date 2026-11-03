@@ -46,8 +46,33 @@ async function bootstrap() {
   // production, but do not trust client-supplied forwarded headers locally.
   app.set('trust proxy', nodeEnv === 'production' ? 1 : false);
   app.getHttpAdapter().getInstance().disable('x-powered-by');
+
+  // Attach a safe correlation ID before body parsing so even malformed or
+  // oversized requests can be matched to the server logs.
+  app.use((request: Request, response: Response, next: NextFunction) => {
+    const incomingRequestId = request.header('x-request-id');
+    const requestId = incomingRequestId && /^[A-Za-z0-9._:-]{1,100}$/.test(incomingRequestId)
+      ? incomingRequestId
+      : randomUUID();
+    (request as Request & { requestId?: string }).requestId = requestId;
+    response.setHeader('X-Request-ID', requestId);
+    next();
+  });
   app.useBodyParser('json', { limit: '1mb' });
   app.useBodyParser('urlencoded', { extended: false, limit: '1mb', parameterLimit: 100 });
+  app.use((error: unknown, request: Request & { requestId?: string }, response: Response, next: NextFunction) => {
+    if (response.headersSent) return next(error);
+    const errorCode = typeof error === 'object' && error !== null && 'type' in error
+      ? String((error as { type?: unknown }).type || '')
+      : '';
+    const isPayloadTooLarge = errorCode === 'entity.too.large' || (error instanceof Error && error.name === 'PayloadTooLargeError');
+    const isMalformedJson = errorCode === 'entity.parse.failed' || (error instanceof SyntaxError && 'body' in error);
+    if (!isPayloadTooLarge && !isMalformedJson) return next(error);
+
+    const statusCode = isPayloadTooLarge ? 413 : 400;
+    const message = isPayloadTooLarge ? 'Request body is too large.' : 'The request body contains invalid JSON.';
+    response.status(statusCode).json({ success: false, message, statusCode, requestId: request.requestId });
+  });
   app.use(compression({ threshold: 1024, level: 6 }));
   app.use(
     helmet({
@@ -69,12 +94,6 @@ async function bootstrap() {
     }),
   );
   app.use((request: Request, response: Response, next: NextFunction) => {
-    const incomingRequestId = request.header('x-request-id');
-    const requestId = incomingRequestId && /^[A-Za-z0-9._:-]{1,100}$/.test(incomingRequestId)
-      ? incomingRequestId
-      : randomUUID();
-    (request as Request & { requestId?: string }).requestId = requestId;
-    response.setHeader('X-Request-ID', requestId);
     response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     response.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
     response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
