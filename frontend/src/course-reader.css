@@ -27,6 +27,34 @@ body.course-reader-active,
 .course-reader * { scroll-behavior: auto !important; }
 body.course-drawer-open { overflow: hidden; }
 
+/* Course pages should scroll exactly with the mouse wheel or touch gesture.
+   Do not inherit decorative page, snap, or smooth-scroll motion from the
+   storefront styles. Drawer state still works; it simply changes instantly. */
+html.course-reader-page,
+body.course-reader-active,
+.course-reader,
+.course-reader * {
+  scroll-snap-type: none !important;
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
+.course-reader *,
+.course-reader *::before,
+.course-reader *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+.course-reader .course-lessons-panel,
+.course-reader .course-preview-panel,
+.course-reader .course-playground-editor,
+.course-reader .course-preview-code pre {
+  -webkit-overflow-scrolling: auto;
+  overscroll-behavior: auto;
+  scroll-behavior: auto !important;
+}
+
 .course-techbar {
   align-items: center;
   background: #fbfcfe;
