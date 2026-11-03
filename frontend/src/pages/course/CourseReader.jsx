@@ -756,6 +756,191 @@ const getLessonGuidance = (courseTitle, topic) => {
 const getGeneratedLessonCode = (courseTitle, topic) => {
   const safeTopic = topic.replace(/["']/g, "").slice(0, 70);
   const lowerTitle = courseTitle.toLowerCase();
+  const lowerTopic = topic.toLowerCase();
+  const isProgrammingCourse = /javascript|react|c programming|c\+\+|c#|java|python|php|laravel|node\.js|kotlin|dart|flutter|learn code/.test(lowerTitle);
+  const isFunctionLesson = /(function|method|procedure|lambda|closure|higher-order)/.test(lowerTopic);
+  const isObjectLesson = /(class|object|oop|object-oriented|inheritance|polymorphism|encapsulation|interface|constructor)/.test(lowerTopic);
+
+  if (isProgrammingCourse && isFunctionLesson) {
+    if (lowerTitle === "python") return `def calculate_progress(completed, total):
+    return round((completed / total) * 100)
+
+print(calculate_progress(3, 4))`;
+    if (lowerTitle === "java" || lowerTitle.includes("springboot")) return `public class Main {
+    static int calculateProgress(int completed, int total) {
+        return (completed * 100) / total;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calculateProgress(3, 4));
+    }
+}`;
+    if (lowerTitle.includes("c#")) return `using System;
+
+class Program {
+    static int CalculateProgress(int completed, int total) => completed * 100 / total;
+
+    static void Main() {
+        Console.WriteLine(CalculateProgress(3, 4));
+    }
+}`;
+    if (lowerTitle === "c programming") return `#include <stdio.h>
+
+int calculate_progress(int completed, int total) {
+    return completed * 100 / total;
+}
+
+int main(void) {
+    printf("%d%%\\n", calculate_progress(3, 4));
+    return 0;
+}`;
+    if (lowerTitle === "c++") return `#include <iostream>
+
+int calculateProgress(int completed, int total) {
+    return completed * 100 / total;
+}
+
+int main() {
+    std::cout << calculateProgress(3, 4) << "%\\n";
+}`;
+    if (lowerTitle === "kotlin") return `fun calculateProgress(completed: Int, total: Int): Int {
+    return completed * 100 / total
+}
+
+fun main() {
+    println("\${calculateProgress(3, 4)}%")
+}`;
+    if (lowerTitle === "dart" || lowerTitle === "flutter") return `int calculateProgress(int completed, int total) {
+  return completed * 100 ~/ total;
+}
+
+void main() {
+  print("\${calculateProgress(3, 4)}%");
+}`;
+    if (lowerTitle === "php" || lowerTitle === "laravel") return `<?php
+function calculateProgress(int $completed, int $total): int {
+    return intdiv($completed * 100, $total);
+}
+
+echo calculateProgress(3, 4) . "%";`;
+    return `function calculateProgress(completed, total) {
+  return Math.round((completed / total) * 100);
+}
+
+console.log(\`${safeTopic}: \${calculateProgress(3, 4)}%\`);`;
+  }
+
+  if (isProgrammingCourse && isObjectLesson) {
+    if (lowerTitle === "python") return `class CourseProgress:
+    def __init__(self, title):
+        self.title = title
+
+    def summary(self, completed, total):
+        return f"{self.title}: {completed}/{total} lessons"
+
+course = CourseProgress("CampusFlow")
+print(course.summary(3, 4))`;
+    if (lowerTitle === "java" || lowerTitle.includes("springboot")) return `class CourseProgress {
+    private final String title;
+
+    CourseProgress(String title) {
+        this.title = title;
+    }
+
+    String summary(int completed, int total) {
+        return title + ": " + completed + "/" + total + " lessons";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(new CourseProgress("CampusFlow").summary(3, 4));
+    }
+}`;
+    if (lowerTitle.includes("c#")) return `using System;
+
+class CourseProgress {
+    public string Title { get; }
+    public CourseProgress(string title) => Title = title;
+    public string Summary(int completed, int total) => $"{Title}: {completed}/{total} lessons";
+}
+
+class Program {
+    static void Main() => Console.WriteLine(new CourseProgress("CampusFlow").Summary(3, 4));
+}`;
+    if (lowerTitle === "c programming") return `#include <stdio.h>
+
+struct CourseProgress {
+    const char *title;
+    int completed;
+};
+
+void print_summary(struct CourseProgress course) {
+    printf("%s: %d lessons complete\\n", course.title, course.completed);
+}
+
+int main(void) {
+    struct CourseProgress course = {"CampusFlow", 3};
+    print_summary(course);
+    return 0;
+}`;
+    if (lowerTitle === "c++") return `#include <iostream>
+#include <string>
+#include <utility>
+
+class CourseProgress {
+public:
+    explicit CourseProgress(std::string title) : title_(std::move(title)) {}
+    void printSummary(int completed) const {
+        std::cout << title_ << ": " << completed << " lessons complete\\n";
+    }
+private:
+    std::string title_;
+};
+
+int main() {
+    CourseProgress course("CampusFlow");
+    course.printSummary(3);
+}`;
+    if (lowerTitle === "kotlin") return `data class CourseProgress(val title: String, val completed: Int)
+
+fun main() {
+    val course = CourseProgress("CampusFlow", 3)
+    println("\${course.title}: \${course.completed} lessons complete")
+}`;
+    if (lowerTitle === "dart" || lowerTitle === "flutter") return `class CourseProgress {
+  final String title;
+  final int completed;
+  CourseProgress(this.title, this.completed);
+}
+
+void main() {
+  final course = CourseProgress("CampusFlow", 3);
+  print("\${course.title}: \${course.completed} lessons complete");
+}`;
+    if (lowerTitle === "php" || lowerTitle === "laravel") return `<?php
+class CourseProgress {
+    public function __construct(public string $title, public int $completed) {}
+    public function summary(): string {
+        return "{$this->title}: {$this->completed} lessons complete";
+    }
+}
+
+echo (new CourseProgress("CampusFlow", 3))->summary();`;
+    return `class CourseProgress {
+  constructor(title, completed) {
+    this.title = title;
+    this.completed = completed;
+  }
+
+  summary() {
+    return \`${safeTopic}: \${this.completed} lessons complete\`;
+  }
+}
+
+console.log(new CourseProgress("CampusFlow", 3).summary());`;
+  }
+
   if (lowerTitle === "html") return `<section class="lesson-card">\n  <h2>${safeTopic}</h2>\n  <p>Practice this HTML concept with meaningful structure.</p>\n</section>`;
   if (lowerTitle.includes("tailwind")) return `<article class="rounded-2xl bg-white p-6 shadow-sm">\n  <h2 class="text-2xl font-black text-slate-900">${safeTopic}</h2>\n  <p class="mt-2 text-slate-600">Practice one utility at a time.</p>\n</article>`;
   if (lowerTitle === "css") return `.lesson-card {\n  display: grid;\n  gap: 1rem;\n  padding: 1.5rem;\n  border-radius: 1rem;\n}`;
@@ -1088,6 +1273,84 @@ const additionalReferenceCourseCatalog = Object.fromEntries(localCourseBlueprint
 
 Object.assign(referenceCourseCatalog, additionalReferenceCourseCatalog);
 Object.assign(courseCatalog, referenceCourseCatalog);
+
+// Every subject now includes a dedicated concept track before the advanced
+// units. Programming subjects cover functions, classes and OOP explicitly;
+// design, database and systems subjects receive the equivalent reusable
+// architecture track for their own discipline.
+const programmingCoreUnits = [
+  [1, "Functions and Reusable Code", ["Function Basics", "Parameters and Return Values", "Scope and Side Effects", "Recursion and Higher-Order Functions"]],
+  [2, "Classes and Object-Oriented Programming", ["Classes and Objects", "Constructors and Methods", "Encapsulation and Access Modifiers", "Inheritance and Composition", "Polymorphism and Interfaces"]],
+  [3, "Algorithms, Testing and Projects", ["Data Structures for Real Problems", "Error Handling and Validation", "Unit Testing and Debugging", "Build a Reusable Feature", "Review and Refactor the Project"]],
+];
+
+const frontendCoreUnits = [
+  [1, "Reusable Components and Classes", ["Component and Template Structure", "Classes, IDs and Variants", "Composition and Reuse", "Accessible Component Contracts"]],
+  [2, "Interaction and Responsive Architecture", ["Functions of an Interface", "State and User Feedback", "Responsive Component Patterns", "Performance and Browser Testing"]],
+  [3, "Frontend Project Practice", ["Plan a Reusable Page", "Build a Component Library", "Test Keyboard and Mobile Flows", "Publish and Review the Interface"]],
+];
+
+const databaseCoreUnits = [
+  [1, "Functions, Procedures and Queries", ["Built-in SQL Functions", "Stored Functions", "Stored Procedures", "Parameters and Return Values"]],
+  [2, "Data Objects and Relational Design", ["Tables and Schema Objects", "Keys and Relationships", "Normalization and Composition", "Transactions and Constraints"]],
+  [3, "Reliable Database Projects", ["Validation and Error Handling", "Indexes and Query Plans", "Testing Migrations", "Build a School Database", "Backup and Review the Design"]],
+];
+
+const systemsCoreUnits = [
+  [1, "Functions and System Components", ["Function of Each Component", "Inputs, Processing and Outputs", "Component Interfaces", "Performance Responsibilities"]],
+  [2, "Classes of Systems and Architecture", ["Classes of Hardware", "System Layers", "Composition and Compatibility", "Failure Isolation"]],
+  [3, "Troubleshooting and Projects", ["Read Symptoms and Evidence", "Validate a Diagnosis", "Test a Safe Change", "Create a Maintenance Plan"]],
+];
+
+const coreSubjectUnits = {
+  javascript: programmingCoreUnits,
+  react: programmingCoreUnits,
+  c_programming: programmingCoreUnits,
+  cpp_programming: programmingCoreUnits,
+  python: programmingCoreUnits,
+  java: programmingCoreUnits,
+  csharp: programmingCoreUnits,
+  "dart-programming": programmingCoreUnits,
+  springboot: programmingCoreUnits,
+  kotlin: programmingCoreUnits,
+  php: programmingCoreUnits,
+  laravel: programmingCoreUnits,
+  node: programmingCoreUnits,
+  flutter: programmingCoreUnits,
+  "Learn-the-code-yourself": programmingCoreUnits,
+  html: frontendCoreUnits,
+  css: frontendCoreUnits,
+  tailwindcss: frontendCoreUnits,
+  bootstrap: frontendCoreUnits,
+  mysql: databaseCoreUnits,
+  git: [
+    [1, "Functions of a Professional Git Workflow", ["Repository Functions", "Commits and Their Purpose", "Hooks and Automation", "Reviewable Changes"]],
+    [2, "Classes of Branches and Releases", ["Feature Branches", "Protected Branches", "Tags and Versions", "Composition Through Merges"]],
+    [3, "Reliable Team Projects", ["Recover from Mistakes", "Resolve Conflicts", "Test Before Release", "Document the Team Workflow"]],
+  ],
+  "Cyber-Security": [
+    [1, "Security Functions and Controls", ["Authentication Functions", "Authorization Functions", "Validation and Sanitization", "Logging and Alerting"]],
+    [2, "Classes of Vulnerabilities and OOP Thinking", ["Classes of Security Risks", "Assets, Objects and Trust Boundaries", "Defense in Depth", "Secure Interfaces"]],
+    [3, "Security Testing and Projects", ["Threat Modeling", "Test a Security Control", "Write an Incident Playbook", "Review and Improve the Security Posture"]],
+  ],
+  "components-of-computer": systemsCoreUnits,
+};
+
+Object.entries(coreSubjectUnits).forEach(([slug, sections]) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const normalizedSections = sections.map(([unusedNumber, sectionTitle, labels], index) => [highestNumber + index + 1, sectionTitle, labels]);
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections: normalizedSections,
+  });
+  course.lessons = [...course.lessons, ...generated.lessons];
+});
 
 // Additional original units keep every subject useful beyond the first
 // reference outline. The labels follow the same progression style, but the
