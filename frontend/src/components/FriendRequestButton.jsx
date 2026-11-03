@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { unwrap } from '../api/axios';
 import { useCommunityText } from '../context/communityTranslations';
+import { notifyToast } from '../context/ToastContext';
 
 const buttonBase = 'inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-60';
 
 export default function FriendRequestButton({ userId, status = 'NONE', requestId, onChange, onMessage, ownProfilePath }) {
-  const [currentStatus, setCurrentStatus] = useState(status);
+  const [currentStatus, setCurrentStatus] = useState(status || 'NONE');
   const [currentRequestId, setCurrentRequestId] = useState(requestId);
   const [busy, setBusy] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const text = useCommunityText();
 
-  useEffect(() => { setCurrentStatus(status); setCurrentRequestId(requestId); }, [status, requestId]);
+  useEffect(() => { setCurrentStatus(status || 'NONE'); setCurrentRequestId(requestId); }, [status, requestId, userId]);
 
   const update = (nextStatus, nextRequestId = null) => {
     setCurrentStatus(nextStatus);
@@ -34,6 +35,7 @@ export default function FriendRequestButton({ userId, status = 'NONE', requestId
     try {
       const result = await act(() => api.post('/api/friends/request', { receiverId: userId }));
       update('REQUEST_SENT', result?.id || null);
+      notifyToast('Friend request sent successfully.', 'success', 'create');
     } catch (error) {
       onChange?.(currentStatus, currentRequestId, error);
     }
@@ -41,22 +43,22 @@ export default function FriendRequestButton({ userId, status = 'NONE', requestId
 
   const cancel = async () => {
     if (!currentRequestId) return;
-    try { await act(() => api.delete(`/api/friends/request/${currentRequestId}`)); update('NONE'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
+    try { await act(() => api.delete(`/api/friends/request/${currentRequestId}`)); update('NONE'); notifyToast('Friend request cancelled successfully.', 'success', 'delete'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
   };
 
   const accept = async () => {
     if (!currentRequestId) return;
-    try { await act(() => api.patch(`/api/friends/request/${currentRequestId}/accept`)); update('FRIENDS'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
+    try { await act(() => api.patch(`/api/friends/request/${currentRequestId}/accept`)); update('FRIENDS'); notifyToast('Friend request accepted successfully.', 'success', 'update'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
   };
 
   const decline = async () => {
     if (!currentRequestId) return;
-    try { await act(() => api.patch(`/api/friends/request/${currentRequestId}/reject`)); update('NONE'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
+    try { await act(() => api.patch(`/api/friends/request/${currentRequestId}/reject`)); update('NONE'); notifyToast('Friend request declined.', 'success', 'update'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
   };
 
   const unfriend = async () => {
     setMenuOpen(false);
-    try { await act(() => api.delete(`/api/friends/${userId}`)); update('NONE'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
+    try { await act(() => api.delete(`/api/friends/${userId}`)); update('NONE'); notifyToast('Friend removed successfully.', 'success', 'delete'); } catch (error) { onChange?.(currentStatus, currentRequestId, error); }
   };
 
   if (currentStatus === 'SELF') return <Link to={ownProfilePath || `/profile/${userId}`} className={`${buttonBase} bg-navy text-white shadow-lg shadow-navy/15 hover:-translate-y-0.5 hover:bg-[#1b3b5d]`}>{text.editProfile}</Link>;

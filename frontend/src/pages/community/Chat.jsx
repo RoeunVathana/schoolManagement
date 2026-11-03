@@ -7,6 +7,7 @@ import UploadProgressPanel from '../../components/UploadProgressPanel';
 import { AuthContext } from '../../context/AuthContext';
 import { useCommunityText } from '../../context/communityTranslations';
 import { useLanguage } from '../../context/LanguageContext';
+import { notifyToast } from '../../context/ToastContext';
 
 const MAX_CHAT_MEDIA_SIZE = 250 * 1024 * 1024;
 
@@ -180,7 +181,7 @@ export default function Chat() {
   useEffect(() => {
     const list = messageListRef.current;
     if (!list || !shouldAutoScrollRef.current) return;
-    list.scrollTo({ top: list.scrollHeight, behavior: messages.length > 1 ? 'smooth' : 'auto' });
+    list.scrollTo({ top: list.scrollHeight, behavior: 'auto' });
   }, [messages.length]);
 
   const activePerson = activeConversation?.otherUser;
@@ -199,6 +200,7 @@ export default function Chat() {
       const message = unwrap(await api.post(`/api/chat/conversations/${activeConversation.id}/messages`, { body: `Hello ${name}, please come to study when you are available. Let me know if you need help.` }));
       setMessages((current) => [...current, message]);
       await loadConversations();
+      notifyToast('Study reminder sent successfully.', 'success', 'create');
     } catch (requestError) {
       setError(requestError.response?.data?.message || 'Could not send the study reminder.');
     } finally {
@@ -272,6 +274,7 @@ export default function Chat() {
       setDraft('');
       clearImage();
       await loadConversations();
+      notifyToast('Message sent successfully.', 'success', 'create');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.messageNotSent);
     } finally {
@@ -324,6 +327,7 @@ export default function Chat() {
       setMessages((current) => current.map((item) => item.id === message.id ? updated : item));
       cancelEditing();
       await loadConversations();
+      notifyToast('Message updated successfully.', 'success', 'update');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.editFailed || 'Could not edit this message.');
     } finally {
@@ -341,6 +345,7 @@ export default function Chat() {
       const deleted = unwrap(await api.delete(`/api/chat/messages/${message.id}`));
       setMessages((current) => current.map((item) => item.id === message.id ? deleted : item));
       await loadConversations();
+      notifyToast('Message deleted successfully.', 'success', 'delete');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.deleteFailed || 'Could not delete this message.');
     } finally {
@@ -363,6 +368,7 @@ export default function Chat() {
       setMessages((current) => [...current, message]);
       setDraft('');
       await loadConversations();
+      notifyToast('Message sent successfully.', 'success', 'create');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.messageNotSent);
     } finally {

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
@@ -11,18 +11,21 @@ export class MailService {
   private smtpError: { code: string; responseCode: number | null; command: string | null } | null = null;
 
   constructor(private readonly config: ConfigService) {
-    const host = this.config.get<string>('MAIL_HOST')?.trim();
-    const user = this.config.get<string>('MAIL_USER')?.trim();
+    // Railway values are normally entered without quotes, but accepting one
+    // pair of copied .env quotes prevents a subtle hosted-only SMTP failure.
+    const host = this.cleanConfigValue(this.config.get<string>('MAIL_HOST'));
+    const user = this.cleanConfigValue(this.config.get<string>('MAIL_USER'));
     // Gmail displays app passwords in groups separated by spaces. SMTP expects
     // the same 16 characters without those visual separators.
-    const password = this.config.get<string>('MAIL_PASSWORD')?.replace(/\s+/g, '');
-    const port = Number(this.config.get<string>('MAIL_PORT', '587'));
-    const requestedSecure = this.config.get<string>('MAIL_SECURE', 'false')?.trim().toLowerCase() === 'true';
+    const password = this.cleanConfigValue(this.config.get<string>('MAIL_PASSWORD'))?.replace(/\s+/g, '');
+    const configuredPort = Number(this.cleanConfigValue(this.config.get<string>('MAIL_PORT', '587')) || 587);
+    const port = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 587;
+    const requestedSecure = this.cleanConfigValue(this.config.get<string>('MAIL_SECURE', 'false'))?.toLowerCase() === 'true';
     // Gmail uses STARTTLS on port 587 and implicit TLS on port 465. Normalize
     // the common misconfiguration where MAIL_SECURE=true is left on port 587.
     const secure = port === 465 ? true : port === 587 ? false : requestedSecure;
 
-    this.from = this.config.get<string>('MAIL_FROM')?.trim() || user || 'CampusFlow <no-reply@localhost>';
+    this.from = this.cleanConfigValue(this.config.get<string>('MAIL_FROM')) || user || 'CampusFlow <no-reply@localhost>';
     const createTransporter = (transportPort: number, transportSecure: boolean) => nodemailer.createTransport({
       host,
       port: transportPort,
@@ -87,17 +90,16 @@ export class MailService {
 
   async sendPasswordOtp(email: string, otp: string, expiresInMinutes: number, recipientName?: string) {
     if (!this.transporter) {
-      throw new InternalServerErrorException('Email service is not configured. Set MAIL_HOST, MAIL_USER and MAIL_PASSWORD in backend/.env.');
+      throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
     }
 
     const safeName = recipientName?.trim() ? this.escapeHtml(recipientName.trim()) : 'there';
-    try {
-      await this.transporter.sendMail({
-        from: this.from,
-        to: email,
-        subject: 'CampusFlow password reset code',
-        text: `Your CampusFlow password reset code is ${otp}. It expires in ${expiresInMinutes} minutes. If you did not request this, ignore this email.`,
-        html: `
+    const message = {
+      from: this.from,
+      to: email,
+      subject: 'CampusFlow password reset code',
+      text: `Your CampusFlow password reset code is ${otp}. It expires in ${expiresInMinutes} minutes. If you did not request this, ignore this email.`,
+      html: `
         <div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#142b49">
           <div style="padding:24px;border-radius:20px;background:linear-gradient(135deg,#102846,#236878);color:#fff">
             <h1 style="margin:0 0 8px">CampusFlow</h1>
@@ -112,10 +114,27 @@ export class MailService {
           </div>
         </div>
       `,
-      });
+    };
+
+    try {
+      await this.transporter.sendMail(message);
     } catch (error) {
       this.logTransportError('Password OTP email failed', error);
-      throw error;
+      if (!this.fallbackTransporter || this.transporter === this.fallbackTransporter || !this.isConnectionFailure(error)) {
+        throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
+      }
+
+      try {
+        await this.fallbackTransporter.sendMail(message);
+        this.transporter = this.fallbackTransporter;
+        this.smtpStatus = 'ready';
+        this.smtpError = null;
+        console.log('[mail] Password OTP delivered through Gmail fallback (smtp.gmail.com:465, secure=true)');
+      } catch (fallbackError) {
+        this.smtpStatus = 'failed';
+        this.logTransportError('Password OTP fallback email failed', fallbackError);
+        throw new ServiceUnavailableException('Email delivery is temporarily unavailable. Please try again later.');
+      }
     }
   }
 
@@ -182,6 +201,21 @@ export class MailService {
 
   private escapeHtml(value: string) {
     return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character);
+  }
+
+  private cleanConfigValue(value?: string) {
+    const trimmed = value?.trim();
+    if (!trimmed) return undefined;
+    if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+      return trimmed.slice(1, -1).trim();
+    }
+    return trimmed;
+  }
+
+  private isConnectionFailure(error: any) {
+    const code = String(error?.code || '').toUpperCase();
+    const command = String(error?.command || '').toUpperCase();
+    return command === 'CONN' || ['ECONNECTION', 'ECONNRESET', 'ESOCKET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code);
   }
 
   private logTransportError(label: string, error: any) {

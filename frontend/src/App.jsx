@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { ConfirmProvider } from './context/ConfirmContext';
+import { ToastProvider } from './context/ToastContext';
 import AppRoutes from './routes/AppRoutes';
 import Seo from './components/Seo';
 import ServerStatusGuard from './components/ServerStatusGuard';
@@ -29,5 +30,5 @@ function RouteSeo() {
 }
 
 export default function App() {
-  return <BrowserRouter><RouteSeo /><ThemeProvider><LanguageProvider><SiteWelcomePopup /><AuthProvider><ConfirmProvider><ServerStatusGuard><AppRoutes /></ServerStatusGuard></ConfirmProvider></AuthProvider></LanguageProvider></ThemeProvider></BrowserRouter>;
+  return <BrowserRouter><RouteSeo /><ThemeProvider><LanguageProvider><ToastProvider><SiteWelcomePopup /><AuthProvider><ConfirmProvider><ServerStatusGuard><AppRoutes /></ServerStatusGuard></ConfirmProvider></AuthProvider></ToastProvider></LanguageProvider></ThemeProvider></BrowserRouter>;
 }

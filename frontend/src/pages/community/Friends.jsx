@@ -6,6 +6,7 @@ import CommunityStories from '../../components/CommunityStories';
 import UserAvatar from '../../components/UserAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { useCommunityText } from '../../context/communityTranslations';
+import { notifyToast } from '../../context/ToastContext';
 
 export default function Friends() {
   const FRIEND_PREVIEW_LIMIT = 3;
@@ -81,6 +82,7 @@ export default function Friends() {
       const failed = results.filter((result) => result.status === 'rejected').length;
       await load({ preserveError: failed > 0, silent: true });
       if (failed) setError(`${failed} ${failed === 1 ? text.requestFailed : text.requestsFailed}`);
+      else notifyToast('Friend requests accepted successfully.', 'success', 'update');
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.actionFailed);
       await load({ preserveError: true, silent: true });
