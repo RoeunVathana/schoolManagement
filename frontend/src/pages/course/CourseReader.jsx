@@ -1678,6 +1678,11 @@ export default function CourseReader() {
     return () => document.body.classList.remove("course-reader-active");
   }, []);
 
+  const closeDrawers = () => {
+    setLeftOpen(false);
+    setRightOpen(false);
+  };
+
   useEffect(() => {
     const closeDrawers = (event) => {
       if (event.key === "Escape") {
@@ -1689,11 +1694,15 @@ export default function CourseReader() {
     return () => window.removeEventListener("keydown", closeDrawers);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle("course-drawer-open", leftOpen || rightOpen);
+    return () => document.body.classList.remove("course-drawer-open");
+  }, [leftOpen, rightOpen]);
+
   const selectLesson = (lesson) => {
     setSelectedId(lesson.id);
     setCopied("");
-    setLeftOpen(false);
-    setRightOpen(false);
+    closeDrawers();
     window.requestAnimationFrame(() => rightPanelRef.current?.scrollTo({ top: 0, behavior: "auto" }));
     if (isReferenceCourse) {
       window.requestAnimationFrame(() => document.getElementById(`course-lesson-${lesson.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -1767,8 +1776,8 @@ export default function CourseReader() {
           <LanguageSwitcher variant="course" />
           <Link className="course-reader-back" to="/courses">{copy.backToCourses}</Link>
           <ThemeSwitch />
-          <button type="button" className="course-mobile-action" onClick={() => setLeftOpen(true)} aria-label={copy.openLessonMenu}>☰ <span>{copy.lessons}</span></button>
-          <button type="button" className="course-mobile-action" onClick={() => setRightOpen(true)} aria-label={copy.openPreview}>▣ <span>{copy.preview}</span></button>
+          <button type="button" className="course-mobile-action" onClick={() => { setRightOpen(false); setLeftOpen((current) => !current); }} aria-expanded={leftOpen} aria-controls="course-lessons-panel" aria-label={leftOpen ? copy.closeLessonMenu : copy.openLessonMenu}>{leftOpen ? "×" : "☰"} <span>{copy.lessons}</span></button>
+          <button type="button" className="course-mobile-action" onClick={() => { setLeftOpen(false); setRightOpen((current) => !current); }} aria-expanded={rightOpen} aria-controls="course-preview-panel" aria-label={rightOpen ? copy.closePreview : copy.openPreview}>{rightOpen ? "×" : "▣"} <span>{copy.preview}</span></button>
         </div>
       </header>
 
@@ -1780,13 +1789,13 @@ export default function CourseReader() {
         <button type="button" className="course-techbar-arrow" onClick={() => moveTechBar(240)} aria-label={copy.scrollTechnologiesRight}>&rsaquo;</button>
       </div>
 
-      <div className={`course-reader-backdrop ${(leftOpen || rightOpen) ? "is-visible" : ""}`} onClick={() => { setLeftOpen(false); setRightOpen(false); }} aria-hidden="true" />
+      <div className={`course-reader-backdrop ${(leftOpen || rightOpen) ? "is-visible" : ""}`} onClick={closeDrawers} aria-hidden="true" />
 
       <div className="course-reader-layout">
-         <aside ref={leftPanelRef} className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label={`${course.title} ${copy.lessons}`}>
+         <aside id="course-lessons-panel" ref={leftPanelRef} className={`course-lessons-panel ${leftOpen ? "is-open" : ""}`} aria-label={`${course.title} ${copy.lessons}`}>
           <div className="course-panel-heading">
             <div><p className="course-panel-eyebrow">{copy.courseOutline}</p><h2>{course.title} {copy.lessons}</h2></div>
-            <button type="button" className="course-drawer-close" onClick={() => setLeftOpen(false)} aria-label={copy.closeLessonMenu}>×</button>
+            <button type="button" className="course-drawer-close" onClick={closeDrawers} aria-label={copy.closeLessonMenu} title={copy.closeLessonMenu}>×</button>
           </div>
           <div className="course-progress-row"><span>{completed.size}/{courseLessons.length} {copy.complete}</span><span>{Math.round((completed.size / courseLessons.length) * 100)}%</span></div>
           <div className="course-progress"><span style={{ width: `${(completed.size / courseLessons.length) * 100}%` }} /></div>
@@ -1814,9 +1823,9 @@ export default function CourseReader() {
 
         <main className="course-reader-main">
           <div className="course-reader-mobile-toolbar">
-            <button type="button" onClick={() => setLeftOpen(true)}>☰ <span>{copy.lessons}</span></button>
+            <button type="button" onClick={() => { setRightOpen(false); setLeftOpen((current) => !current); }} aria-expanded={leftOpen} aria-controls="course-lessons-panel">{leftOpen ? "×" : "☰"} <span>{copy.lessons}</span></button>
             <span>{course.title} / {selectedLesson.label}</span>
-            <button type="button" onClick={() => setRightOpen(true)}>▣ <span>{copy.preview}</span></button>
+            <button type="button" onClick={() => { setLeftOpen(false); setRightOpen((current) => !current); }} aria-expanded={rightOpen} aria-controls="course-preview-panel">{rightOpen ? "×" : "▣"} <span>{copy.preview}</span></button>
           </div>
           {isReferenceCourse ? (
             <article className="course-lesson-article course-reference-article">
@@ -1870,9 +1879,9 @@ export default function CourseReader() {
           )}
         </main>
 
-        <aside ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
+        <aside id="course-preview-panel" ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
           <CodePlayground course={course} lesson={selectedLesson} />
-          <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={() => setRightOpen(false)} aria-label={copy.closePreview}>×</button></div>
+          <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={closeDrawers} aria-label={copy.closePreview} title={copy.closePreview}>×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
           <div className="course-preview-label">{copy.renderedResult}</div>
           <div className="course-rendered-preview"><h3>{selectedLesson.preview.title}</h3><p>{selectedLesson.preview.body}</p><span className="course-preview-link">CampusFlow LMS</span></div>
