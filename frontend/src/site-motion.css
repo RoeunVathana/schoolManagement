@@ -37,8 +37,10 @@
 .contact-page,
 .course-reader,
 .storefront,
+.community-page,
 .public-community-page,
-.auth-background {
+.auth-background,
+.auth-layout {
   animation: cf-page-enter .55s var(--cf-motion-ease) both;
 }
 
@@ -54,6 +56,11 @@
 .about-page .about-benefit-card,
 .contact-page .contact-info-card,
 .contact-page .contact-side-card,
+.community-page .community-hero,
+.community-page .community-chat-shell,
+.community-page .community-stories-card,
+.community-page .community-post,
+.community-page .community-post-card,
 .public-community-page .public-community-post,
 .public-community-page .public-community-side-card,
 .course-reader .course-lesson-article,
@@ -93,6 +100,11 @@
 .about-page .about-benefit-card,
 .contact-page .contact-info-card,
 .contact-page .contact-side-card,
+.community-page .community-hero,
+.community-page .community-chat-shell,
+.community-page .community-stories-card,
+.community-page .community-post,
+.community-page .community-post-card,
 .public-community-page .public-community-post,
 .public-community-page .public-community-side-card,
 .course-reader .course-rendered-preview,
@@ -133,6 +145,11 @@
   .about-page .about-benefit-card,
   .contact-page .contact-info-card,
   .contact-page .contact-side-card,
+  .community-page .community-hero,
+  .community-page .community-chat-shell,
+  .community-page .community-stories-card,
+  .community-page .community-post,
+  .community-page .community-post-card,
   .public-community-page .public-community-side-card,
   .course-reader .course-rendered-preview,
   .course-reader .course-preview-help {
@@ -150,6 +167,11 @@
   .about-page .about-benefit-card:hover,
   .contact-page .contact-info-card:hover,
   .contact-page .contact-side-card:hover,
+  .community-page .community-hero:hover,
+  .community-page .community-chat-shell:hover,
+  .community-page .community-stories-card:hover,
+  .community-page .community-post:hover,
+  .community-page .community-post-card:hover,
   .public-community-page .public-community-side-card:hover,
   .course-reader .course-rendered-preview:hover,
   .course-reader .course-preview-help:hover {
@@ -165,6 +187,11 @@
   .about-page .about-benefit-card:hover::after,
   .contact-page .contact-info-card:hover::after,
   .contact-page .contact-side-card:hover::after,
+  .community-page .community-hero:hover::after,
+  .community-page .community-chat-shell:hover::after,
+  .community-page .community-stories-card:hover::after,
+  .community-page .community-post:hover::after,
+  .community-page .community-post-card:hover::after,
   .public-community-page .public-community-side-card:hover::after,
   .course-reader .course-rendered-preview:hover::after {
     opacity: 1;
@@ -219,6 +246,11 @@
   .about-page .about-benefit-card:hover,
   .contact-page .contact-info-card:hover,
   .contact-page .contact-side-card:hover,
+  .community-page .community-hero:hover,
+  .community-page .community-chat-shell:hover,
+  .community-page .community-stories-card:hover,
+  .community-page .community-post:hover,
+  .community-page .community-post-card:hover,
   .public-community-page .public-community-side-card:hover,
   .course-reader .course-rendered-preview:hover,
   .course-reader .course-preview-help:hover { transform: translateY(-2px); }
