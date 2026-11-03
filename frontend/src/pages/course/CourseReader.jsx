@@ -598,13 +598,14 @@ const technologyCourseSlugs = {
 export default function CourseReader() {
   const { slug = "html" } = useParams();
   const course = courseCatalog[slug] || courseCatalog.html;
+  const isReferenceCourse = Boolean(referenceCourseCatalog[slug]);
   const courseSections = course.lessons;
   const courseLessons = useMemo(() => courseSections.flatMap((section) => section.items), [courseSections]);
   const [selectedId, setSelectedId] = useState(courseLessons[0].id);
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [completed, setCompleted] = useState(() => new Set());
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState("");
   const techBarRef = useRef(null);
 
   const selectedLesson = useMemo(
@@ -618,7 +619,7 @@ export default function CourseReader() {
   useEffect(() => {
     setSelectedId(courseLessons[0].id);
     setCompleted(new Set());
-    setCopied(false);
+    setCopied("");
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [courseLessons, slug]);
 
@@ -640,27 +641,31 @@ export default function CourseReader() {
 
   const selectLesson = (lesson) => {
     setSelectedId(lesson.id);
-    setCopied(false);
+    setCopied("");
     setLeftOpen(false);
     setRightOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const copyCode = async () => {
-    try {
-      await navigator.clipboard.writeText(selectedLesson.code);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      setCopied(false);
+    if (isReferenceCourse) {
+      window.requestAnimationFrame(() => document.getElementById(`course-lesson-${lesson.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const toggleCompleted = () => {
+  const copyCode = async (code = selectedLesson.code, lessonId = selectedLesson.id) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(lessonId);
+      window.setTimeout(() => setCopied((current) => (current === lessonId ? "" : current)), 1600);
+    } catch {
+      setCopied("");
+    }
+  };
+
+  const toggleCompleted = (lessonId = selectedLesson.id) => {
     setCompleted((current) => {
       const next = new Set(current);
-      if (next.has(selectedLesson.id)) next.delete(selectedLesson.id);
-      else next.add(selectedLesson.id);
+      if (next.has(lessonId)) next.delete(lessonId);
+      else next.add(lessonId);
       return next;
     });
   };
@@ -739,6 +744,30 @@ export default function CourseReader() {
             <span>{course.title} / {selectedLesson.label}</span>
             <button type="button" onClick={() => setRightOpen(true)}>▣ <span>Preview</span></button>
           </div>
+          {isReferenceCourse ? (
+            <article className="course-lesson-article course-reference-article">
+              <div className="course-breadcrumb"><Link to="/courses">Courses</Link><span>/</span><strong>{course.title}</strong></div>
+              <div className="course-reference-note">Reference-style reader · scroll through the full course or choose a lesson from the outline.</div>
+              {courseLessons.map((lesson, index) => (
+                <section className="course-reference-lesson" id={`course-lesson-${lesson.id}`} key={lesson.id}>
+                  <div className="course-lesson-meta"><span>Lesson {index + 1} of {courseLessons.length}</span><span>Beginner</span></div>
+                  <h2>{lesson.heading}</h2>
+                  <p className="course-lesson-lead" style={{ whiteSpace: "pre-line" }}>{lesson.intro}</p>
+                  <section className="course-lesson-section">
+                    <h3>{lesson.bodyHeading}</h3>
+                    <p style={{ whiteSpace: "pre-line" }}>{lesson.body}</p>
+                    <div className="course-code-wrap">
+                      <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={() => copyCode(lesson.code, lesson.id)}>{copied === lesson.id ? "Copied" : "Copy"}</button></div>
+                      <pre><code>{lesson.code}</code></pre>
+                    </div>
+                  </section>
+                  <div className="course-lesson-actions">
+                    <button type="button" className={`course-complete-button ${completed.has(lesson.id) ? "is-complete" : ""}`} onClick={() => toggleCompleted(lesson.id)}>{completed.has(lesson.id) ? "Completed" : "Mark as complete"}</button>
+                  </div>
+                </section>
+              ))}
+            </article>
+          ) : (
           <article className="course-lesson-article">
             <div className="course-breadcrumb"><Link to="/courses">Courses</Link><span>/</span><span>{course.title}</span><span>/</span><strong>{selectedLesson.label}</strong></div>
             <div className="course-lesson-meta"><span>Lesson {selectedIndex + 1} of {courseLessons.length}</span><span>⌁ Beginner</span></div>
@@ -749,7 +778,7 @@ export default function CourseReader() {
               <h3>{selectedLesson.bodyHeading}</h3>
               <p>{selectedLesson.body}</p>
               <div className="course-code-wrap">
-                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={copyCode}>{copied ? "Copied" : "Copy"}</button></div>
+                <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? "Copied" : "Copy"}</button></div>
                 <pre><code>{selectedLesson.code}</code></pre>
               </div>
             </section>
@@ -764,6 +793,7 @@ export default function CourseReader() {
               </div>
             </div>
           </article>
+          )}
           <footer className="course-reader-footer"><span>CampusFlow LMS</span><span>Practice a little every day.</span></footer>
         </main>
 

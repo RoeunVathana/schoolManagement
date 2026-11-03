@@ -112,6 +112,12 @@
 .course-reader-mobile-toolbar button { background: #eef3ff; border-radius: .45rem; color: var(--reader-blue); font-size: .74rem; font-weight: 850; padding: .48rem .6rem; }
 .course-reader-mobile-toolbar > span { color: #70819c; font-size: .66rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .course-lesson-article { margin: 0 auto; max-width: 850px; padding: clamp(1.5rem, 4vw, 3.3rem) clamp(1.1rem, 5vw, 4.5rem) 3rem; }
+.course-reference-article { max-width: 980px; }
+.course-reference-note { background: #f2f7ff; border: 1px solid #d7e6fc; border-radius: .55rem; color: #536d8e; font-size: .78rem; font-weight: 750; line-height: 1.6; margin: 1.25rem 0 2.4rem; padding: .7rem .85rem; }
+.course-reference-lesson { border-bottom: 1px solid var(--reader-line); padding-bottom: 3rem; scroll-margin-top: 6rem; }
+.course-reference-lesson + .course-reference-lesson { margin-top: 3rem; }
+.course-reference-lesson h2 { font-size: clamp(1.8rem, 3.6vw, 2.7rem); }
+.course-reference-lesson .course-lesson-actions { margin-top: 1.5rem; }
 .course-breadcrumb { align-items: center; color: #8a99ad; display: flex; flex-wrap: wrap; font-size: .7rem; font-weight: 700; gap: .45rem; }
 .course-breadcrumb a { color: var(--reader-blue); }
 .course-breadcrumb strong { color: #566b88; font-weight: 800; }
