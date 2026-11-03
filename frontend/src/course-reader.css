@@ -789,6 +789,74 @@ body.course-reader-active,
     white-space: nowrap;
   }
   .course-code-toolbar-actions { flex: 0 0 auto; }
+
+  /* Keep the English playground controls readable in the narrow preview
+     drawer. The old wrapping split short labels into "Liv / e", "Rese / t"
+     and "Ru / n". A compact two-row grid gives each control a stable slot. */
+  .course-playground-toolbar {
+    align-items: stretch;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(4.25rem, auto);
+    grid-template-areas:
+      "language syntax actions"
+      "live live actions";
+    gap: .45rem;
+    justify-content: initial;
+  }
+
+  .course-playground-language {
+    grid-area: language;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .course-live-toggle {
+    align-items: center;
+    grid-area: live;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .course-live-toggle span,
+  .course-syntax-badge {
+    white-space: nowrap;
+  }
+
+  .course-syntax-badge {
+    align-self: center;
+    grid-area: syntax;
+    font-size: .56rem;
+  }
+
+  .course-playground-actions {
+    align-items: stretch;
+    display: grid;
+    flex: 0 0 auto;
+    gap: .35rem;
+    grid-area: actions;
+    grid-template-columns: minmax(4.25rem, auto);
+    justify-content: stretch;
+    min-width: 4.25rem;
+  }
+
+  .course-playground-actions button {
+    min-height: 2.25rem;
+    min-width: 4.25rem;
+    padding-inline: .45rem;
+    white-space: nowrap;
+  }
+
+  .course-reader.is-khmer .course-playground-toolbar {
+    align-items: stretch;
+    flex-wrap: initial;
+  }
+
+  .course-reader.is-khmer .course-playground-actions {
+    flex-basis: auto;
+    justify-content: stretch;
+  }
 }
 
 @media (max-width: 380px) {
