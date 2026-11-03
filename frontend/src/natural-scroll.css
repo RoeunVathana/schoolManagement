@@ -1,0 +1,77 @@
+/* Natural scrolling is the default for CampusFlow.  Do not trap the wheel or
+   touch gesture inside a fixed-height application frame: the browser document
+   is smoother, preserves momentum on iOS/iPadOS, and behaves consistently
+   when a learner changes route or opens a subject. */
+html {
+  scroll-behavior: auto !important;
+  overscroll-behavior-y: auto;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
+}
+
+.app-shell:not(.app-shell-chat) {
+  height: auto !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.app-shell:not(.app-shell-chat) .app-shell-content {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  overscroll-behavior-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Every subject reader shares this root.  Stop decorative backgrounds and
+   fixed background attachment from competing with reading scroll performance. */
+.course-reader,
+.course-reader::before,
+.course-reader::after {
+  animation: none !important;
+}
+
+.course-reader {
+  background-attachment: scroll !important;
+}
+
+.learning-journey-shell {
+  overflow: visible;
+}
+
+/* Touch devices do not benefit from persistent floating and background motion.
+   Removing it avoids jank while keeping the full visual design and desktop
+   hover effects intact. */
+@media (max-width: 1100px), (hover: none) {
+  .app-shell-content,
+  .app-shell-content::before,
+  .app-shell-content::after,
+  .auth-background,
+  .auth-layout,
+  .storefront,
+  .about-page,
+  .contact-page,
+  .community-page,
+  .public-community-page {
+    animation: none !important;
+    background-attachment: scroll !important;
+  }
+
+  .storefront-reveal[data-scroll-reveal],
+  .storefront-reveal[data-scroll-reveal].is-visible,
+  .storefront-reveal-on-load[data-scroll-reveal] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
