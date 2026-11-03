@@ -100,7 +100,10 @@ export default function MailSettings() {
     }
   };
 
-  const statusClass = settings?.configured
+  const connectionFailed = settings?.status === 'failed';
+  const statusClass = connectionFailed
+    ? 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300'
+    : settings?.configured
     ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
     : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300';
   const sourceLabel = settings?.source === 'database' ? t('mailSettingsDatabase') : settings?.source === 'environment' ? t('mailSettingsEnvironment') : t('mailSettingsNone');
@@ -116,7 +119,7 @@ export default function MailSettings() {
       <form onSubmit={save} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 sm:p-7">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
           <div><p className="text-xs font-bold uppercase tracking-[.18em] text-coral">SMTP</p><h2 className="mt-2 text-xl font-bold text-ink dark:text-white">{t('mailSettingsConnection')}</h2><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t('mailSettingsSecurityHint')}</p></div>
-          <span className={'rounded-full px-3 py-1.5 text-xs font-bold ' + statusClass}>{settings.configured ? t('mailSettingsConfigured') : t('mailSettingsNotConfigured')}</span>
+          <span className={'rounded-full px-3 py-1.5 text-xs font-bold ' + statusClass}>{connectionFailed ? t('mailSettingsTestFailed') : settings.configured ? t('mailSettingsConfigured') : t('mailSettingsNotConfigured')}</span>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -128,6 +131,7 @@ export default function MailSettings() {
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 sm:col-span-2">{t('mailFrom')}<input value={form.from} onChange={(event) => setForm({ ...form, from: event.target.value })} className="input mt-2" placeholder={settings.from || 'CampusFlow <your-email@gmail.com>'} autoComplete="off" /></label>
         </div>
 
+        {connectionFailed && <p className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-300">{t('mailSettingsTestFailed')}</p>}
         {notice.text && <p className={'mt-5 rounded-2xl px-4 py-3 text-sm font-semibold ' + noticeClass}>{notice.text}</p>}
         <div className="mt-6 flex flex-wrap gap-3"><button disabled={busy} className="rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : t('saveMailSettings')}</button><button type="button" disabled={testing || !settings.configured} onClick={test} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200">{testing ? t('loading') : t('testMailSettings')}</button><button type="button" disabled={clearing} onClick={clear} className="rounded-xl border border-red-200 px-5 py-3 text-sm font-bold text-red-700 disabled:opacity-50 dark:border-red-900/60 dark:text-red-300">{clearing ? t('loading') : t('clearMailSettings')}</button></div>
       </form>
