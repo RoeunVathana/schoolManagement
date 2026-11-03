@@ -1,0 +1,236 @@
+/* CampusFlow site-wide motion layer.
+   Motion is intentional and bounded: no scroll hijacking, no continuous heavy
+   transforms on content, and no animation for users who prefer less motion. */
+:root {
+  --cf-motion-ease: cubic-bezier(.2, .75, .25, 1);
+  --cf-motion-shadow: 0 18px 42px rgb(16 36 63 / .13), 0 5px 15px rgb(35 104 120 / .08);
+}
+
+@keyframes cf-page-enter {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes cf-card-enter {
+  from { opacity: 0; transform: translate3d(0, 12px, 0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes cf-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+  50% { transform: translate3d(0, -8px, 0) rotateZ(.7deg); }
+}
+
+@keyframes cf-orbit {
+  from { transform: rotate(0deg) translateX(5px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(5px) rotate(-360deg); }
+}
+
+@keyframes cf-shimmer {
+  from { transform: translate3d(-120%, 0, 0); }
+  to { transform: translate3d(120%, 0, 0); }
+}
+
+/* All route shells get a short 2D entrance when their content changes. */
+.app-shell-content .app-main,
+.about-page,
+.contact-page,
+.course-reader,
+.storefront,
+.public-community-page,
+.auth-background {
+  animation: cf-page-enter .55s var(--cf-motion-ease) both;
+}
+
+/* Shared content surfaces get a small stagger without relying on scroll state. */
+.app-main > .page-header,
+.app-main > .card,
+.app-main > .table-card,
+.app-main > .grid > .card,
+.app-main > .grid > .table-card,
+.app-main > .dashboard-page > *,
+.about-page .about-stat,
+.about-page .about-value-card,
+.about-page .about-benefit-card,
+.contact-page .contact-info-card,
+.contact-page .contact-side-card,
+.public-community-page .public-community-post,
+.public-community-page .public-community-side-card,
+.course-reader .course-lesson-article,
+.course-reader .course-preview-panel {
+  animation: cf-card-enter .52s var(--cf-motion-ease) both;
+}
+
+.app-main > .grid > .card:nth-child(2),
+.app-main > .grid > .table-card:nth-child(2),
+.about-page .about-value-card:nth-child(2),
+.about-page .about-benefit-card:nth-child(2),
+.contact-page .contact-info-card:nth-child(2),
+.public-community-page .public-community-post:nth-child(2) { animation-delay: 70ms; }
+
+.app-main > .grid > .card:nth-child(3),
+.app-main > .grid > .table-card:nth-child(3),
+.about-page .about-value-card:nth-child(3),
+.about-page .about-benefit-card:nth-child(3),
+.contact-page .contact-info-card:nth-child(3),
+.public-community-page .public-community-post:nth-child(3) { animation-delay: 140ms; }
+
+.app-main > .grid > .card:nth-child(4),
+.about-page .about-value-card:nth-child(4),
+.about-page .about-benefit-card:nth-child(4),
+.contact-page .contact-info-card:nth-child(4),
+.public-community-page .public-community-post:nth-child(4) { animation-delay: 210ms; }
+
+/* A quiet highlight travels across interactive surfaces on hover. */
+.app-main .card,
+.app-main .table-card,
+.app-main .stat-card,
+.app-main .payment-universal-card,
+.app-main .payment-amount-card,
+.app-main .payment-status-card,
+.about-page .about-stat,
+.about-page .about-value-card,
+.about-page .about-benefit-card,
+.contact-page .contact-info-card,
+.contact-page .contact-side-card,
+.public-community-page .public-community-post,
+.public-community-page .public-community-side-card,
+.course-reader .course-rendered-preview,
+.course-reader .course-preview-help {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.app-main .card::after,
+.app-main .table-card::after,
+.app-main .stat-card::after,
+.about-page .about-stat::after,
+.about-page .about-value-card::after,
+.about-page .about-benefit-card::after,
+.contact-page .contact-info-card::after,
+.contact-page .contact-side-card::after,
+.public-community-page .public-community-side-card::after,
+.course-reader .course-rendered-preview::after {
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / .24) 50%, transparent 65%);
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(-120%, 0, 1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .app-main .card,
+  .app-main .table-card,
+  .app-main .stat-card,
+  .app-main .payment-universal-card,
+  .app-main .payment-amount-card,
+  .app-main .payment-status-card,
+  .about-page .about-stat,
+  .about-page .about-value-card,
+  .about-page .about-benefit-card,
+  .contact-page .contact-info-card,
+  .contact-page .contact-side-card,
+  .public-community-page .public-community-side-card,
+  .course-reader .course-rendered-preview,
+  .course-reader .course-preview-help {
+    transition: transform .32s var(--cf-motion-ease), box-shadow .32s ease, border-color .32s ease;
+  }
+
+  .app-main .card:hover,
+  .app-main .table-card:hover,
+  .app-main .stat-card:hover,
+  .app-main .payment-universal-card:hover,
+  .app-main .payment-amount-card:hover,
+  .app-main .payment-status-card:hover,
+  .about-page .about-stat:hover,
+  .about-page .about-value-card:hover,
+  .about-page .about-benefit-card:hover,
+  .contact-page .contact-info-card:hover,
+  .contact-page .contact-side-card:hover,
+  .public-community-page .public-community-side-card:hover,
+  .course-reader .course-rendered-preview:hover,
+  .course-reader .course-preview-help:hover {
+    box-shadow: var(--cf-motion-shadow);
+    transform: perspective(900px) translate3d(0, -5px, 0) rotateX(1.2deg) rotateY(-1.2deg);
+  }
+
+  .app-main .card:hover::after,
+  .app-main .table-card:hover::after,
+  .app-main .stat-card:hover::after,
+  .about-page .about-stat:hover::after,
+  .about-page .about-value-card:hover::after,
+  .about-page .about-benefit-card:hover::after,
+  .contact-page .contact-info-card:hover::after,
+  .contact-page .contact-side-card:hover::after,
+  .public-community-page .public-community-side-card:hover::after,
+  .course-reader .course-rendered-preview:hover::after {
+    opacity: 1;
+    animation: cf-shimmer .85s var(--cf-motion-ease) both;
+  }
+
+  .app-main button:not(:disabled),
+  .app-main a.rounded-xl,
+  .about-page .about-button,
+  .contact-page .contact-submit,
+  .course-reader button,
+  .course-reader a {
+    transition: transform .2s var(--cf-motion-ease), box-shadow .2s ease, filter .2s ease;
+  }
+
+  .app-main button:not(:disabled):hover,
+  .app-main a.rounded-xl:hover,
+  .about-page .about-button:hover,
+  .contact-page .contact-submit:hover,
+  .course-reader button:hover,
+  .course-reader a:hover { transform: translateY(-2px); }
+
+  .app-main button:not(:disabled):active,
+  .app-main a.rounded-xl:active,
+  .about-page .about-button:active,
+  .contact-page .contact-submit:active,
+  .course-reader button:active,
+  .course-reader a:active { transform: translateY(0) scale(.98); }
+
+  .about-page .about-hero-card,
+  .contact-page .contact-hero-mark,
+  .storefront .storefront-3d-card,
+  .public-community-page .public-community-art-card,
+  .public-community-page .public-community-floating-card {
+    animation: cf-float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+
+  .about-page .about-hero-card-orbit-one,
+  .public-community-page .public-community-art-orbit-one { animation: cf-orbit 18s linear infinite; }
+
+  .about-page .about-hero-card-orbit-two,
+  .public-community-page .public-community-art-orbit-two { animation: cf-orbit 24s linear infinite reverse; }
+}
+
+@media (max-width: 767px) {
+  .app-main .card:hover,
+  .app-main .table-card:hover,
+  .app-main .stat-card:hover,
+  .about-page .about-stat:hover,
+  .about-page .about-value-card:hover,
+  .about-page .about-benefit-card:hover,
+  .contact-page .contact-info-card:hover,
+  .contact-page .contact-side-card:hover,
+  .public-community-page .public-community-side-card:hover,
+  .course-reader .course-rendered-preview:hover,
+  .course-reader .course-preview-help:hover { transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
