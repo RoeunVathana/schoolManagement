@@ -3,7 +3,7 @@
 @tailwind base; @tailwind components; @tailwind utilities;
 @layer base {
   :root { --campus-font: 'Battambang', 'Khmer OS Siemreap', 'Siemreap', sans-serif; }
-  html { scroll-behavior: smooth; font-family: var(--campus-font); }
+  html { scroll-behavior: auto; font-family: var(--campus-font); }
   body { @apply m-0 bg-[#f6f8fb] font-sans text-ink antialiased; font-family: var(--campus-font); }
   #root, #root * { font-family: var(--campus-font); }
   button, input, textarea, select { font: inherit; }

@@ -75,3 +75,23 @@ body {
     transition: none !important;
   }
 }
+
+/* Native scrolling is the default on every route and every viewport. Keep
+   content visible immediately so scrolling never drives a reveal animation. */
+html,
+body,
+#root,
+#root * {
+  scroll-behavior: auto !important;
+}
+
+[data-scroll-reveal],
+.storefront-reveal,
+.storefront-reveal-on-load {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  transition-delay: 0ms !important;
+  will-change: auto !important;
+}
