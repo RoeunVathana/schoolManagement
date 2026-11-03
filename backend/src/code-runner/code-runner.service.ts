@@ -202,7 +202,8 @@ export class CodeRunnerService {
     const statusId = Number(payload.status?.id || 0);
     const status = payload.status?.description || null;
     const compileOutput = clampOutput(payload.compile_output);
-    const compile = compileOutput || statusId === 6
+    const hasCompilationError = statusId === 6 || /compilation\s+error/i.test(status || '');
+    const compile = hasCompilationError
       ? this.stage({
           stderr: compileOutput || payload.message || status,
           code: 1,
@@ -214,7 +215,11 @@ export class CodeRunnerService {
       ? null
       : this.stage({
           stdout: payload.stdout,
-          stderr: payload.stderr,
+          // Some runtimes (notably Dart and Kotlin) put harmless compiler
+          // warnings in compile_output even when the program is accepted.
+          // Keep that context visible without turning a successful run into
+          // a false compilation error.
+          stderr: [compileOutput, payload.stderr].filter(Boolean).join('\n'),
           code: statusId === 3 ? 0 : statusId ? 1 : null,
           status,
           message: payload.message || (statusId && statusId !== 3 ? status : null),
