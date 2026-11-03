@@ -1894,7 +1894,7 @@ export default function CourseReader() {
           )}
         </main>
 
-        <aside id="course-preview-panel" ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-hidden={!rightOpen && typeof window !== "undefined" && window.innerWidth < 1181 ? "true" : undefined} aria-label={copy.openPreview}>
+        <aside id="course-preview-panel" ref={rightPanelRef} className={`course-preview-panel ${rightOpen ? "is-open" : ""}`} aria-label={copy.openPreview}>
           <CodePlayground course={course} lesson={selectedLesson} />
           <div className="course-panel-heading"><div><p className="course-panel-eyebrow">{copy.liveExample}</p><h2>{copy.preview}</h2></div><button type="button" className="course-drawer-close" onClick={closeDrawers} aria-label={copy.closePreview} title={copy.closePreview}>×</button></div>
           <div className="course-preview-code"><div className="course-preview-code-bar"><span>{course.title}</span><span>● ● ●</span></div><pre><code>{selectedLesson.code}</code></pre></div>
