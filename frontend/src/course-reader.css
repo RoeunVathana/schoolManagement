@@ -263,7 +263,7 @@ body.course-drawer-open { overflow: hidden; }
   .course-reader-nav { display: none; }
   .course-reader-layout { grid-template-columns: minmax(225px, 260px) minmax(0, 1fr); }
   .course-preview-panel { display: none; }
-  .course-preview-panel.is-open { background: #fff; box-sizing: border-box; display: block; max-width: min(350px, 92vw); overflow-x: hidden; position: fixed; right: 0; top: 0; z-index: 50; width: min(350px, 92vw); }
+  .course-preview-panel.is-open { background: #fff; box-sizing: border-box; display: block; height: 100dvh; max-height: 100dvh; max-width: min(420px, 92vw); overflow-x: hidden; position: fixed; right: 0; top: 0; transform: translateX(0); transition: transform .22s ease; width: min(420px, 92vw); z-index: 50; }
   .course-mobile-action { display: inline-flex; }
   .course-preview-panel .course-drawer-close { display: inline-block; }
 }
