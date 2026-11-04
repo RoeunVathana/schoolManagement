@@ -958,10 +958,11 @@ function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
   };
 
   return <div className="relative" data-language-menu>
-    <button type="button" aria-haspopup="menu" aria-expanded={open} aria-label={`Language: ${current.label}`} title={`Language: ${current.label}`} onClick={() => setOpen((value) => !value)} className={`group inline-flex h-10 items-center justify-center gap-2 rounded-xl border px-2.5 text-xs font-extrabold shadow-sm transition duration-200 hover:-translate-y-0.5 sm:px-3 sm:text-sm ${open ? 'border-[#229ed9] bg-[#e8f5fb] text-[#14536a] dark:border-[#4ab8df] dark:bg-[#173d4d] dark:text-[#e8fff7]' : 'border-slate-200 bg-white/95 text-slate-700 hover:border-[#229ed9] dark:border-slate-600 dark:bg-slate-800/95 dark:text-slate-100 dark:hover:border-[#8de4ca]'}`}>
-      <span className="flex h-5 w-7 shrink-0 items-center justify-center overflow-hidden rounded-[4px] bg-slate-100 ring-1 ring-black/10 dark:bg-slate-700" aria-hidden="true"><img src={current.flag} alt="" className="h-full w-full object-cover" /></span>
-      {!compact && <span>{current.label}</span>}
-      <PublicNavIcon name="chevron" className={`language-menu-chevron text-slate-400 transition duration-200 ${open ? 'is-open text-[#229ed9]' : ''}`} />
+    <button type="button" aria-haspopup="menu" aria-expanded={open} aria-label={`Language: ${current.label}`} title={`Language: ${current.label}`} onClick={() => setOpen((value) => !value)} className={`language-switcher-trigger language-menu-trigger group inline-flex h-10 items-center justify-center gap-2 rounded-xl border px-2.5 text-xs font-extrabold shadow-sm transition duration-200 hover:-translate-y-0.5 sm:px-3 sm:text-sm ${open ? 'border-[#229ed9] bg-[#e8f5fb] text-[#14536a] dark:border-[#4ab8df] dark:bg-[#173d4d] dark:text-[#e8fff7]' : 'border-slate-200 bg-white/95 text-slate-700 hover:border-[#229ed9] dark:border-slate-600 dark:bg-slate-800/95 dark:text-slate-100 dark:hover:border-[#8de4ca]'}`}>
+      <span className="language-switcher-flag" aria-hidden="true"><img src={current.flag} alt="" /></span>
+      {!compact && <span className="language-switcher-current language-menu-current">{current.label}</span>}
+      <span className="language-switcher-short language-menu-short" aria-hidden="true">{current.value === 'km' ? 'KH' : 'EN'}</span>
+      <PublicNavIcon name="chevron" className={`language-switcher-chevron language-menu-chevron text-slate-400 transition duration-200 ${open ? 'is-open text-[#229ed9]' : ''}`} />
     </button>
     {open && <div role="menu" className="absolute right-0 top-[calc(100%+.6rem)] z-[70] w-48 origin-top-right overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(16,36,63,.2)] ring-1 ring-black/5 dark:border-slate-600 dark:bg-[#101b2d] dark:shadow-[0_20px_45px_rgba(0,0,0,.42)]">
       <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[.16em] text-slate-400 dark:text-slate-500">{language === 'en' ? 'Language' : 'ភាសា'}</p>
