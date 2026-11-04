@@ -21,9 +21,13 @@ function RouteSeo() {
       ? 'Create an account | CampusFlow LMS'
       : pathname === '/forgot-password'
         ? 'Recover your account | CampusFlow LMS'
+        : pathname === '/lab'
+          ? 'Programming Lab | CampusFlow LMS'
         : 'CampusFlow LMS';
   const description = pathname.startsWith('/login')
     ? 'Sign in to CampusFlow LMS to access your courses, assignments, teachers, and learning progress.'
+    : pathname === '/lab'
+      ? 'Write, run, and compile code in the CampusFlow Programming Lab.'
     : 'CampusFlow LMS is a practical online learning platform for students, teachers, and learning communities in Cambodia.';
 
   return <Seo title={title} description={description} path={pathname} noindex={privateRoute || authRoute || pathname === '/404'} />;
