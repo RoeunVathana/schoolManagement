@@ -12,8 +12,21 @@ const LOGO_URLS = {
   dart: "https://cdn.simpleicons.org/dart/0175C2",
   sql: "https://cdn.simpleicons.org/mysql/4479A1",
   shell: "https://cdn.simpleicons.org/gnubash/4EAA25",
+  react: "https://cdn.simpleicons.org/react/61DAFB",
+  tailwindcss: "https://cdn.simpleicons.org/tailwindcss/06B6D4",
+  bootstrap: "https://cdn.simpleicons.org/bootstrap/7952B3",
+  node: "https://cdn.simpleicons.org/nodedotjs/5FA04E",
+  laravel: "https://cdn.simpleicons.org/laravel/FF2D20",
+  springboot: "https://cdn.simpleicons.org/springboot/6DB33F",
+  mysql: "https://cdn.simpleicons.org/mysql/4479A1",
+  git: "https://cdn.simpleicons.org/git/F05032",
+  cybersecurity: "https://cdn.simpleicons.org/owasp/000000",
+  computer: "https://cdn.simpleicons.org/gnometerminal/241F31",
 };
 
+export const getLogoUrl = (id) => LOGO_URLS[id] || LOGO_URLS.javascript;
+
 export default function LabLogo({ lab, className = "" }) {
-  return <img className={`lab-logo-image ${className}`} src={LOGO_URLS[lab.id]} alt={`${lab.label} logo`} loading="lazy" />;
+  const label = lab?.label || lab?.name || lab?.id || "Programming language";
+  return <img className={`lab-logo-image ${className}`} src={getLogoUrl(lab?.id)} alt={`${label} logo`} loading="lazy" />;
 }

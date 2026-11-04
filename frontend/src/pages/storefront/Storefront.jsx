@@ -15,6 +15,9 @@ import Seo, { SITE_URL } from "../../components/Seo";
 import { useAuth } from "../../hooks/useAuth";
 import { useLanguage } from "../../context/LanguageContext";
 import { roleHome } from "../../utils/roles";
+import LabLogo from "../lab/LabLogo";
+import { academySubjects } from "./subjectCatalog";
+import "./subject-library.css";
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || "http://localhost:3001";
 const mediaUrl = (path) =>
@@ -71,34 +74,6 @@ const technologyRows = [
     { name: "Java", slug: "openjdk", color: "ED8B00", short: "☕" },
     { name: "C++", slug: "cplusplus", color: "00599C", short: "C++" },
   ],
-];
-
-// Complete internal subject catalogue. Every link stays on CampusFlow and
-// opens the detailed reader instead of sending learners to an external site.
-const academySubjects = [
-  { name: "HTML", slug: "html", group: "Web foundations" },
-  { name: "CSS", slug: "css", group: "Web foundations" },
-  { name: "JavaScript", slug: "javascript", group: "Web foundations" },
-  { name: "React", slug: "react", group: "Frontend" },
-  { name: "Tailwind CSS", slug: "tailwindcss", group: "Frontend" },
-  { name: "Bootstrap", slug: "bootstrap", group: "Frontend" },
-  { name: "C", slug: "c_programming", group: "Programming" },
-  { name: "C++", slug: "cpp_programming", group: "Programming" },
-  { name: "C#", slug: "csharp", group: "Programming" },
-  { name: "Java", slug: "java", group: "Programming" },
-  { name: "Python", slug: "python", group: "Programming" },
-  { name: "PHP", slug: "php", group: "Programming" },
-  { name: "Dart", slug: "dart-programming", group: "Programming" },
-  { name: "Kotlin", slug: "kotlin", group: "Programming" },
-  { name: "Node.js", slug: "node", group: "Backend" },
-  { name: "Laravel", slug: "laravel", group: "Backend" },
-  { name: "Spring Boot", slug: "springboot", group: "Backend" },
-  { name: "MySQL", slug: "mysql", group: "Data" },
-  { name: "Git", slug: "git", group: "Tools" },
-  { name: "Cyber Security", slug: "Cyber-Security", group: "Systems" },
-  { name: "Computer Components", slug: "components-of-computer", group: "Systems" },
-  { name: "Flutter", slug: "flutter", group: "Mobile" },
-  { name: "Learn Code Yourself", slug: "Learn-the-code-yourself", group: "Practice" },
 ];
 
 const isCoursePaymentOpen = (course) => {
@@ -744,9 +719,9 @@ export default function Storefront() {
                 {copy.subjectLibraryBody || "Open every CampusFlow subject with its full lesson path, practice examples and progress tracking."}
               </p>
             </div>
-            <span className="inline-flex w-fit rounded-full border border-[#8de4ca]/50 bg-[#effcf7] px-3 py-1.5 text-xs font-black text-[#17624e] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc]">
-              {academySubjects.length} subjects
-            </span>
+            <Link to="/subjects" className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8de4ca]/50 bg-[#effcf7] px-3 py-1.5 text-xs font-black text-[#17624e] transition hover:border-[#229ed9] hover:bg-white dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
+              {academySubjects.length} subjects <span aria-hidden="true">→</span>
+            </Link>
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -762,6 +737,9 @@ export default function Storefront() {
                 <span className="min-w-0">
                   <strong className="block truncate text-sm font-black text-[#10243f] dark:text-white">{subject.name}</strong>
                   <small className="mt-1 block text-xs font-semibold text-slate-500 dark:text-slate-300">{subject.group}</small>
+                </span>
+                <span className="storefront-subject-card-logo" aria-hidden="true">
+                  <LabLogo lab={{ id: subject.logoId, label: subject.name }} className="storefront-subject-logo-image" />
                 </span>
                 <span className="ml-auto text-lg text-[#229ed9] transition group-hover:translate-x-1" aria-hidden="true">→</span>
               </Link>

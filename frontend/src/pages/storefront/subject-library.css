@@ -1,0 +1,44 @@
+.subject-library-page {
+  min-height: 100dvh;
+  color: #f7fbff;
+  background: #0c2139;
+  background-image: linear-gradient(90deg, rgba(141, 228, 202, .04) 1px, transparent 1px), linear-gradient(rgba(141, 228, 202, .04) 1px, transparent 1px), radial-gradient(circle at 12% 20%, rgba(34, 158, 217, .26), transparent 34rem), radial-gradient(circle at 88% 12%, rgba(244, 123, 103, .12), transparent 28rem);
+  background-size: 64px 64px, 64px 64px, auto, auto;
+}
+
+.subject-library-nav { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(165, 241, 220, .18); background: rgba(8, 25, 44, .92); backdrop-filter: blur(14px); }
+.subject-library-nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1440px; margin: 0 auto; padding: 14px clamp(16px, 4vw, 54px); }
+.subject-library-brand { display: inline-flex; align-items: center; gap: 11px; color: #fff; text-decoration: none; }
+.subject-library-brand-mark { display: grid; place-items: center; width: 45px; height: 45px; padding: 6px; border-radius: 15px; background: #fff; box-shadow: 0 10px 22px rgba(0, 0, 0, .22); }
+.subject-library-brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+.subject-library-brand strong { display: block; font-size: 18px; letter-spacing: -.03em; }
+.subject-library-brand strong span { color: #f47b67; }
+.subject-library-brand small { display: block; margin-top: 2px; color: #91a8c1; font-size: 9px; font-weight: 900; letter-spacing: .19em; }
+.subject-library-nav nav { display: flex; align-items: center; gap: 19px; }
+.subject-library-nav nav a { display: inline-flex; align-items: center; gap: 6px; color: #aabbd0; font-size: 12px; font-weight: 800; text-decoration: none; transition: color .16s ease; }
+.subject-library-nav nav a:hover { color: #a5f1dc; }
+.subject-library-actions { display: flex; align-items: center; gap: 8px; }
+.subject-library-language { display: inline-flex; align-items: center; gap: 7px; min-height: 39px; padding: 0 13px; border: 1px solid rgba(165, 241, 220, .2); border-radius: 12px; color: #e7f5ff; background: rgba(255, 255, 255, .07); font-weight: 800; cursor: pointer; }
+.subject-library-content { max-width: 1440px; margin: 0 auto; padding: clamp(42px, 7vw, 92px) clamp(16px, 5vw, 72px) 110px; }
+.subject-library-hero { max-width: 800px; }
+.subject-library-hero > span { color: #f47b67; font-size: 12px; font-weight: 900; letter-spacing: .2em; }
+.subject-library-hero h1 { margin: 16px 0 15px; color: #fff; font-size: clamp(2.4rem, 6vw, 5.4rem); line-height: .98; letter-spacing: -.06em; }
+.subject-library-hero p { max-width: 720px; margin: 0; color: #a9bbcf; font-size: clamp(1rem, 1.7vw, 1.25rem); line-height: 1.7; }
+.subject-library-back { display: inline-flex; margin-top: 25px; color: #a5f1dc; font-size: 13px; font-weight: 900; text-decoration: none; }
+.subject-library-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 52px; }
+.subject-library-card { display: flex; min-height: 205px; flex-direction: column; padding: 20px; border: 1px solid rgba(164, 194, 220, .18); border-radius: 20px; color: #fff; background: rgba(18, 38, 64, .86); text-decoration: none; box-shadow: 0 14px 35px rgba(0, 0, 0, .12); transition: border-color .16s ease, background .16s ease, transform .16s ease, box-shadow .16s ease; }
+.subject-library-card:hover { border-color: rgba(141, 228, 202, .65); background: rgba(24, 57, 85, .96); box-shadow: 0 18px 38px rgba(0, 0, 0, .23); transform: translateY(-3px); }
+.subject-library-card-top { display: flex; align-items: center; justify-content: space-between; }
+.subject-library-number { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; color: #a5f1dc; background: #102b4b; font-size: 13px; font-weight: 900; }
+.subject-library-logo { display: grid; place-items: center; width: 62px; height: 62px; border: 1px solid rgba(255, 255, 255, .12); border-radius: 17px; background: #f8fbff; }
+.subject-library-logo .lab-logo-image { width: 35px; height: 35px; object-fit: contain; }
+.subject-library-card-copy { display: block; margin-top: 26px; }
+.subject-library-card-copy strong { display: block; color: #fff; font-size: 17px; letter-spacing: -.02em; }
+.subject-library-card-copy small { display: block; margin-top: 7px; color: #94abc3; font-size: 12px; font-weight: 800; }
+.subject-library-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 20px; color: #83e4c6; font-size: 11px; font-weight: 900; }
+.subject-library-card-footer span:last-child { color: #229ed9; font-size: 20px; transition: transform .16s ease; }
+.subject-library-card:hover .subject-library-card-footer span:last-child { transform: translateX(4px); }
+
+@media (max-width: 1050px) { .subject-library-nav nav { gap: 11px; } .subject-library-nav nav a { font-size: 11px; } .subject-library-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .subject-library-nav-inner { gap: 12px; } .subject-library-nav nav { display: none; } .subject-library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; margin-top: 36px; } .subject-library-card { min-height: 181px; padding: 15px; } .subject-library-card-copy { margin-top: 18px; } .subject-library-card-copy strong { font-size: 14px; } .subject-library-card-footer { padding-top: 14px; } }
+@media (max-width: 430px) { .subject-library-brand strong { font-size: 15px; } .subject-library-brand small { font-size: 7px; } .subject-library-brand-mark { width: 39px; height: 39px; border-radius: 12px; } .subject-library-language { min-height: 35px; padding: 0 9px; font-size: 11px; } .subject-library-content { padding-top: 36px; } .subject-library-hero h1 { font-size: 2.45rem; } .subject-library-card { min-height: 167px; padding: 12px; border-radius: 16px; } .subject-library-number { width: 36px; height: 36px; border-radius: 11px; font-size: 11px; } .subject-library-logo { width: 48px; height: 48px; border-radius: 13px; } .subject-library-logo .lab-logo-image { width: 27px; height: 27px; } }

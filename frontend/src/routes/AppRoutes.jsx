@@ -36,6 +36,7 @@ const StudentSimple = lazy(() => import('../pages/student/Simple'));
 const StudentCertificates = lazy(() => import('../pages/student/Certificates'));
 const Profile = lazy(() => import('../pages/profile/Profile'));
 const Storefront = lazy(() => import('../pages/storefront/Storefront'));
+const SubjectLibrary = lazy(() => import('../pages/storefront/SubjectLibrary'));
 const CourseReader = lazy(() => import('../pages/course/CourseReader'));
 const ProgrammingLab = lazy(() => import('../pages/lab/ProgrammingLab'));
 const LabLibrary = lazy(() => import('../pages/lab/LabLibrary'));
@@ -62,6 +63,7 @@ export default function AppRoutes() {
     <Route path="/course/:slug" element={<CourseReader />} />
     <Route path="/lab" element={<ProgrammingLab />} />
     <Route path="/lab/library" element={<LabLibrary />} />
+    <Route path="/subjects" element={<SubjectLibrary />} />
     <Route path="/academy" element={<Storefront />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
