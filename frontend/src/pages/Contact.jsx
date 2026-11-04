@@ -57,7 +57,7 @@ export default function Contact() {
   const [error, setError] = useState("");
   const copy = content[language] || content.en;
   const hasSession = !authLoading && Boolean(user);
-  const dashboardPath = roleHome(user?.role);
+  const dashboardPath = ['STUDENT', 'CUSTOMER'].includes(user?.role) ? '/student/dashboard' : roleHome(user?.role);
   const logoutLabel = language === "en" ? "Logout" : "ចាកចេញ";
   const handleLogout = async () => {
     await logout();

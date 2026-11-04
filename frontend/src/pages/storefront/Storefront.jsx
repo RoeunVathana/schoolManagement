@@ -971,7 +971,7 @@ function LanguageMenu({ language, setLanguage, compact = false, onSelect }) {
 }
 
 function StorefrontNav({ copy, language, setLanguage, user, authLoading, hasPurchasedCourse, t }) {
-  const dashboardPath = roleHome(user?.role);
+  const dashboardPath = ['STUDENT', 'CUSTOMER'].includes(user?.role) ? '/student/dashboard' : roleHome(user?.role);
   const hasSession = !authLoading && Boolean(user);
   const communityPath = "/community";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

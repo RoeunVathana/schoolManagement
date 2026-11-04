@@ -56,7 +56,7 @@ export default function CommunityLanding() {
   }, [language]);
 
   const communityPath = user ? '/friends' : '/login/student';
-  const dashboardPath = user ? roleHome(user.role) : '/student/dashboard';
+  const dashboardPath = ['STUDENT', 'CUSTOMER'].includes(user?.role) ? '/student/dashboard' : (user ? roleHome(user.role) : '/student/dashboard');
   const displayName = user?.fullName?.split(' ')[0] || '';
   const joinState = !user ? { message: language === 'km' ? 'សូមចូលគណនីដើម្បីចូលរួមសហគមន៍។' : 'Sign in to join the CampusFlow community.', from: '/friends' } : undefined;
 
