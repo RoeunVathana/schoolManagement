@@ -17,6 +17,8 @@ export const academySubjects = [
   { name: "Laravel", slug: "laravel", group: "Backend", logoId: "laravel" },
   { name: "Spring Boot", slug: "springboot", group: "Backend", logoId: "springboot" },
   { name: "MySQL", slug: "mysql", group: "Data", logoId: "mysql" },
+  { name: "SQL", slug: "sql", group: "Programming", logoId: "sql" },
+  { name: "Shell", slug: "shell", group: "Programming", logoId: "shell" },
   { name: "Git", slug: "git", group: "Tools", logoId: "git" },
   { name: "Cyber Security", slug: "Cyber-Security", group: "Systems", logoId: "cybersecurity" },
   { name: "Computer Components", slug: "components-of-computer", group: "Systems", logoId: "computer" },

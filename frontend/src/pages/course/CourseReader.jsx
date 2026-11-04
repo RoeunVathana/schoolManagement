@@ -1524,6 +1524,16 @@ const localCourseBlueprints = [
     sections: [[1, "Introduction to MySQL", ["1.1 What is MySQL?", "1.2 Installing MySQL", "1.3 Creating a Database", "1.4 MySQL Workbench"]], [2, "SQL Basics", ["2.1 CREATE and ALTER", "2.2 INSERT", "2.3 SELECT", "2.4 UPDATE and DELETE"]], [3, "Filtering and Functions", ["3.1 WHERE", "3.2 ORDER BY and LIMIT", "3.3 Aggregate Functions", "3.4 GROUP BY and HAVING"]], [4, "Relationships", ["4.1 Primary Keys", "4.2 Foreign Keys", "4.3 INNER JOIN", "4.4 LEFT JOIN"]], [5, "Indexes and Transactions", ["5.1 Indexes", "5.2 Transactions", "5.3 Constraints", "5.4 Views"]], [6, "Security and Performance", ["6.1 Users and Privileges", "6.2 Backups", "6.3 Query Optimization", "6.4 Prepared Statements"]]],
   },
   {
+    slug: "sql", title: "SQL", codeLabel: "main.sql", tip: "Design tables with constraints, use parameterized queries, and verify every result with a SELECT.",
+    firstLabel: "1.1 What is SQL?", firstHeading: "1. Introduction to SQL", firstCode: "CREATE TABLE courses (\n  id INTEGER PRIMARY KEY,\n  title TEXT NOT NULL,\n  seats INTEGER NOT NULL\n);\n\nINSERT INTO courses (id, title, seats)\nVALUES (1, 'HTML Foundations', 30);\n\nSELECT id, title, seats\nFROM courses\nWHERE seats > 0;", firstPreview: { title: "HTML Foundations", body: "The query creates a table, inserts one course, and returns available seats." },
+    sections: [[1, "Introduction to SQL", ["1.1 What is SQL?", "1.2 Databases and Tables", "1.3 Rows, Columns and Data Types", "1.4 Primary Keys"]], [2, "Creating and Changing Data", ["2.1 CREATE TABLE", "2.2 INSERT", "2.3 UPDATE", "2.4 DELETE"]], [3, "Reading Data", ["3.1 SELECT", "3.2 WHERE", "3.3 ORDER BY and LIMIT", "3.4 DISTINCT"]], [4, "Relationships and Joins", ["4.1 Foreign Keys", "4.2 INNER JOIN", "4.3 LEFT JOIN", "4.4 Designing Relationships"]], [5, "Aggregation and Reporting", ["5.1 COUNT, SUM and AVG", "5.2 GROUP BY", "5.3 HAVING", "5.4 Reporting Queries"]], [6, "Transactions and Security", ["6.1 Transactions", "6.2 Constraints", "6.3 Indexes", "6.4 Prepared Statements"]]],
+  },
+  {
+    slug: "shell", title: "Shell", codeLabel: "main.sh", tip: "Quote variables, check command failures, and keep scripts small, repeatable and safe to run.",
+    firstLabel: "1.1 What is Shell?", firstHeading: "1. Introduction to Shell", firstCode: "#!/bin/sh\nset -eu\n\nname=\"Learner\"\nlesson=\"Shell basics\"\nprintf 'Hello, %s! Today: %s\\n' \"$name\" \"$lesson\"", firstPreview: { title: "Hello, Learner!", body: "The script safely stores values and prints a repeatable message." },
+    sections: [[1, "Introduction to Shell", ["1.1 What is Shell?", "1.2 Terminal and Commands", "1.3 Files and Directories", "1.4 Safe Script Defaults"]], [2, "Shell Syntax", ["2.1 Variables", "2.2 Quoting", "2.3 Command Substitution", "2.4 Exit Status"]], [3, "Conditions and Loops", ["3.1 if Statements", "3.2 Test Expressions", "3.3 for Loops", "3.4 while Loops"]], [4, "Functions and Arguments", ["4.1 Defining Functions", "4.2 Script Arguments", "4.3 Local Variables", "4.4 Return Codes"]], [5, "Files and Automation", ["5.1 Reading Files", "5.2 Pipes and Redirection", "5.3 grep and awk", "5.4 Reusable Automation"]], [6, "Reliable Production Scripts", ["6.1 set -e and set -u", "6.2 Logging", "6.3 Validation", "6.4 Secure Secrets Handling"]]],
+  },
+  {
     slug: "git", title: "Git", codeLabel: "terminal", tip: "Make focused commits and never commit passwords, tokens or generated secrets.",
     firstLabel: "1.1 What is Git?", firstHeading: "1. Introduction to Git", firstCode: "git init\ngit add .\ngit commit -m \"Start project\"", firstPreview: { title: "Repository created", body: "Git records a project snapshot that can be shared and restored." },
     sections: [[1, "Introduction to Git", ["1.1 What is Git?", "1.2 Installing Git", "1.3 Creating a Repository", "1.4 Git Configuration"]], [2, "Working with Commits", ["2.1 git status", "2.2 git add", "2.3 git commit", "2.4 Viewing History"]], [3, "Branches and Merging", ["3.1 Creating Branches", "3.2 Switching Branches", "3.3 Merging", "3.4 Resolving Conflicts"]], [4, "Remote Repositories", ["4.1 git clone", "4.2 git remote", "4.3 git push", "4.4 git pull"]], [5, "Team Workflow", ["5.1 Pull Requests", "5.2 Code Review", "5.3 Tags and Releases", "5.4 .gitignore"]]],
@@ -2146,7 +2156,7 @@ Object.entries(pdfCourseContent).forEach(([slug, pdfCourse]) => {
 // subject receives an equivalent applied-practice unit.
 const programmingCourseSlugs = new Set([
   "javascript", "react", "c_programming", "cpp_programming", "python", "java", "csharp",
-  "dart-programming", "springboot", "kotlin", "php", "laravel", "node", "flutter", "Learn-the-code-yourself",
+  "dart-programming", "springboot", "kotlin", "php", "laravel", "node", "flutter", "sql", "shell", "Learn-the-code-yourself",
 ]);
 
 const learningRequirementsFor = (slug) => (programmingCourseSlugs.has(slug)
@@ -2242,6 +2252,8 @@ const codeLanguageBySlug = {
   laravel: "php",
   node: "javascript",
   mysql: "sql",
+  sql: "sql",
+  shell: "shell",
   git: "shell",
   "Cyber-Security": "shell",
   "components-of-computer": "text",

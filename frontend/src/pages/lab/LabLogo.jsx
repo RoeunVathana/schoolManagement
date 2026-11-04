@@ -10,6 +10,7 @@ const LOGO_URLS = {
   java: "https://cdn.simpleicons.org/openjdk/ED8B00",
   kotlin: "https://cdn.simpleicons.org/kotlin/7F52FF",
   dart: "https://cdn.simpleicons.org/dart/0175C2",
+  flutter: "https://cdn.simpleicons.org/flutter/02569B",
   sql: "https://cdn.simpleicons.org/mysql/4479A1",
   shell: "https://cdn.simpleicons.org/gnubash/4EAA25",
   react: "https://cdn.simpleicons.org/react/61DAFB",
