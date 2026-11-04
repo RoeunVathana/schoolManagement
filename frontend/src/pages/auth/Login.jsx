@@ -19,6 +19,13 @@ const roleOptions = {
 
 const roleFromPath = { '/login/admin': 'ADMIN', '/login/teacher': 'TEACHER', '/login/student': 'STUDENT', '/login/customer': 'CUSTOMER' };
 const transitionDelay = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+const loginDestination = (user, from) => {
+  const isLearner = ['STUDENT', 'CUSTOMER'].includes(user?.role);
+  // Keep a direct lesson link, but do not return learners to a dashboard
+  // simply because it was the page that initiated sign-in.
+  if (isLearner) return typeof from === 'string' && from.startsWith('/course/') ? from : '/';
+  return from || roleHome(user?.role);
+};
 const apiMessage = (error, fallback) => {
   const message = error?.response?.data?.message;
   if (Array.isArray(message)) return message.filter(Boolean).join(' ');
@@ -73,7 +80,7 @@ export default function Login() {
         if (!mounted) return;
         setRedirecting(true);
         await transitionDelay(650);
-        navigate(location.state?.from || roleHome(user.role), { replace: true });
+        navigate(loginDestination(user, location.state?.from), { replace: true });
       } catch (e) {
         if (mounted) {
           await signOut(firebaseAuth).catch(() => undefined);
@@ -100,7 +107,7 @@ export default function Login() {
       }
       setRedirecting(true);
       await transitionDelay(650);
-      navigate(location.state?.from || roleHome(user.role), { replace: true });
+      navigate(loginDestination(user, location.state?.from), { replace: true });
     } catch (e) {
       setError(apiMessage(e, t('unableToSignIn')));
     } finally {
@@ -124,7 +131,7 @@ export default function Login() {
       const user = await loginWithGoogle({ idToken, role: selectedRole });
       setRedirecting(true);
       await transitionDelay(650);
-      navigate(location.state?.from || roleHome(user.role), { replace: true });
+      navigate(loginDestination(user, location.state?.from), { replace: true });
     } catch (e) {
       // Some browsers block popups. Keep the redirect flow as a fallback.
       if (e?.code === 'auth/popup-blocked') {
