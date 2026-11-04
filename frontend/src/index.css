@@ -5006,6 +5006,42 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-section:hover { transform: none; }
 }
 
+/* Tables must stay on a flat rendering layer. The shared 3D card hover makes
+   table text look soft while the pointer crosses the surface, especially on
+   Chromium and high-density tablet displays. Keep the table crisp and only
+   change its elevation and row background. */
+.table-card,
+.table-card:hover,
+.table-card:focus-within {
+  filter: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+  will-change: auto !important;
+  transition: box-shadow .18s ease, border-color .18s ease !important;
+}
+
+.table-card::after,
+.table-card:hover::after {
+  display: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+.table-card:hover {
+  box-shadow: 0 12px 28px rgb(16 36 63 / .08) !important;
+}
+
+.dark .table-card:hover {
+  box-shadow: 0 14px 32px rgb(0 0 0 / .2) !important;
+}
+
+.table-card table tbody tr {
+  filter: none !important;
+  transform: none !important;
+  transition: background-color .15s ease !important;
+}
+
 /* -------------------------------------------------------------------------- */
 /* CampusFlow theme color system                                             */
 /* -------------------------------------------------------------------------- */
