@@ -6,7 +6,16 @@ import { useLanguage } from '../context/LanguageContext';
 const todayKey = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Phnom_Penh' }).format(new Date());
 const formatStamp = (value, language) => value ? new Date(value).toLocaleString(language === 'km' ? 'km-KH' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
 const initials = (name = '') => name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
-const dateTimeInput = (value) => value ? new Date(value).toISOString().slice(0, 16) : '';
+// `datetime-local` expects the browser's local wall-clock time, not UTC.
+// Formatting through `toISOString()` shifted saved Phnom Penh times by seven
+// hours when an administrator reopened an attendance record for editing.
+const dateTimeInput = (value) => {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const pad = (part) => String(part).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
 const panelText = {
   en: {
     saveMeetError: 'Could not save the Google Meet link.',
