@@ -73,6 +73,34 @@ const technologyRows = [
   ],
 ];
 
+// Complete internal subject catalogue. Every link stays on CampusFlow and
+// opens the detailed reader instead of sending learners to an external site.
+const academySubjects = [
+  { name: "HTML", slug: "html", group: "Web foundations" },
+  { name: "CSS", slug: "css", group: "Web foundations" },
+  { name: "JavaScript", slug: "javascript", group: "Web foundations" },
+  { name: "React", slug: "react", group: "Frontend" },
+  { name: "Tailwind CSS", slug: "tailwindcss", group: "Frontend" },
+  { name: "Bootstrap", slug: "bootstrap", group: "Frontend" },
+  { name: "C", slug: "c_programming", group: "Programming" },
+  { name: "C++", slug: "cpp_programming", group: "Programming" },
+  { name: "C#", slug: "csharp", group: "Programming" },
+  { name: "Java", slug: "java", group: "Programming" },
+  { name: "Python", slug: "python", group: "Programming" },
+  { name: "PHP", slug: "php", group: "Programming" },
+  { name: "Dart", slug: "dart-programming", group: "Programming" },
+  { name: "Kotlin", slug: "kotlin", group: "Programming" },
+  { name: "Node.js", slug: "node", group: "Backend" },
+  { name: "Laravel", slug: "laravel", group: "Backend" },
+  { name: "Spring Boot", slug: "springboot", group: "Backend" },
+  { name: "MySQL", slug: "mysql", group: "Data" },
+  { name: "Git", slug: "git", group: "Tools" },
+  { name: "Cyber Security", slug: "Cyber-Security", group: "Systems" },
+  { name: "Computer Components", slug: "components-of-computer", group: "Systems" },
+  { name: "Flutter", slug: "flutter", group: "Mobile" },
+  { name: "Learn Code Yourself", slug: "Learn-the-code-yourself", group: "Practice" },
+];
+
 const isCoursePaymentOpen = (course) => {
   if (course?.paymentOpen === false) return false;
   if (!course?.endDate) return true;
@@ -108,6 +136,8 @@ const copyByLanguage = {
     heroBody:
       "Practical courses, local teachers and a simple way to learn from anywhere in Cambodia.",
     academy: "CampusFlow Academy",
+    subjectLibrary: "Complete subject library",
+    subjectLibraryBody: "Open every CampusFlow subject with its full lesson path, practice examples and progress tracking.",
     browse: "Browse courses",
     steps: "A clear path from curious to capable",
     stepsBody: "Choose a course, pay securely with KHQR, then start learning with your teacher.",
@@ -697,6 +727,47 @@ export default function Storefront() {
         </section>
 
         <TechnologyRail language={language} />
+
+        <section
+          id="subjects"
+          data-scroll-reveal
+          className="storefront-reveal mx-auto max-w-7xl scroll-mt-24 px-5 py-14 sm:px-8 lg:px-10 lg:py-16"
+          aria-labelledby="subject-library-title"
+        >
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#f06f5b]">{copy.academy}</p>
+              <h2 id="subject-library-title" className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+                {copy.subjectLibrary || "Complete subject library"}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500 dark:text-slate-300">
+                {copy.subjectLibraryBody || "Open every CampusFlow subject with its full lesson path, practice examples and progress tracking."}
+              </p>
+            </div>
+            <span className="inline-flex w-fit rounded-full border border-[#8de4ca]/50 bg-[#effcf7] px-3 py-1.5 text-xs font-black text-[#17624e] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc]">
+              {academySubjects.length} subjects
+            </span>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {academySubjects.map((subject, index) => (
+              <Link
+                key={subject.slug}
+                to={`/course/${subject.slug}`}
+                className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-lg dark:border-slate-700 dark:bg-[#132238]/90"
+              >
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#10243f] text-sm font-black text-[#a5f1dc] transition group-hover:bg-[#229ed9] group-hover:text-white">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <strong className="block truncate text-sm font-black text-[#10243f] dark:text-white">{subject.name}</strong>
+                  <small className="mt-1 block text-xs font-semibold text-slate-500 dark:text-slate-300">{subject.group}</small>
+                </span>
+                <span className="ml-auto text-lg text-[#229ed9] transition group-hover:translate-x-1" aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section id="courses" data-scroll-reveal className="storefront-reveal mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
