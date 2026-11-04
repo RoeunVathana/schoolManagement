@@ -1,0 +1,48 @@
+/* Public mobile navigation: use the available width instead of stacking every
+   link into a long single column. Account actions remain a full-width row. */
+@media (max-width: 1100px) {
+  .site-public-navbar .about-mobile-menu,
+  .site-public-navbar #storefront-mobile-menu nav,
+  .site-public-navbar .public-community-mobile-menu-links {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch;
+    gap: .55rem !important;
+  }
+
+  .site-public-navbar .about-mobile-menu > a,
+  .site-public-navbar .public-community-mobile-menu-links a,
+  .site-public-navbar #storefront-mobile-menu nav a {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 3.15rem !important;
+    margin: 0 !important;
+    padding: .7rem .55rem !important;
+    justify-content: center !important;
+    text-align: center !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .site-public-navbar .about-mobile-actions,
+  .site-public-navbar .public-community-mobile-menu-actions,
+  .site-public-navbar #storefront-mobile-menu nav + div {
+    grid-column: 1 / -1;
+    margin-top: .15rem !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-public-navbar .about-mobile-menu,
+  .site-public-navbar #storefront-mobile-menu nav,
+  .site-public-navbar .public-community-mobile-menu-links {
+    gap: .4rem !important;
+  }
+
+  .site-public-navbar .about-mobile-menu > a,
+  .site-public-navbar .public-community-mobile-menu-links a,
+  .site-public-navbar #storefront-mobile-menu nav a {
+    min-height: 2.9rem !important;
+    padding-inline: .35rem !important;
+    font-size: .78rem !important;
+  }
+}
