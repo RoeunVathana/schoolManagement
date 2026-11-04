@@ -433,3 +433,80 @@
   .course-reader .course-playground:hover,
   .course-reader .course-rendered-preview:hover { transform: none !important; }
 }
+
+/* Keep data tables crisp. A 3D transform on the whole table card makes text
+   look soft during hover, especially on Chromium and high-density screens. */
+.table-card,
+.table-card:hover,
+.table-card:focus-within {
+  filter: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+  transition: box-shadow .18s ease, border-color .18s ease !important;
+}
+
+.table-card::after,
+.table-card:hover::after {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+.table-card:hover {
+  box-shadow: 0 12px 28px rgb(16 36 63 / .08) !important;
+}
+
+.dark .table-card:hover {
+  box-shadow: 0 14px 32px rgb(0 0 0 / .2) !important;
+}
+
+.table-card table tbody tr {
+  transition: background-color .15s ease !important;
+}
+
+.table-card table tbody tr:hover {
+  background: #eef7fb !important;
+}
+
+.dark .table-card table tbody tr:hover {
+  background: #18314b !important;
+}
+
+/* Touch devices should use native scrolling without dashboard entrance,
+   perspective, lift, shimmer, or background motion. Hover states can remain
+   visually simple, but nothing should move after a tap or while scrolling. */
+@media (max-width: 1023px) {
+  .app-shell-content,
+  .app-shell-content::before,
+  .app-shell-content::after,
+  .app-shell-content .app-main,
+  .app-shell-content .app-main > * {
+    animation: none !important;
+  }
+
+  .app-shell-content .app-main {
+    perspective: none !important;
+    transform: none !important;
+    transform-style: flat !important;
+  }
+
+  .app-shell-content .app-main > *,
+  .app-shell-content .app-main :where([class*="card"], [class*="tile"], [class*="stat"]),
+  .app-shell-content .app-main :where([class*="card"], [class*="tile"], [class*="stat"]):hover {
+    transform: none !important;
+    transform-style: flat !important;
+  }
+
+  .app-shell-content .app-main :where([class*="card"], [class*="tile"], [class*="stat"]),
+  .app-shell-content .app-main :where([class*="card"], [class*="tile"], [class*="stat"]):hover {
+    transition: none !important;
+  }
+
+  .app-shell-content .app-main .card::after,
+  .app-shell-content .app-main .table-card::after,
+  .app-shell-content .app-main .stat-card::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
