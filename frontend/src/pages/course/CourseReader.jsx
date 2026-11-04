@@ -7,7 +7,6 @@ import Loading from "../../components/Loading";
 import Seo from "../../components/Seo";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import PublicNavIcon from "../../components/PublicNavIcon";
-import { notifyToast } from "../../context/ToastContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../hooks/useAuth";
 import api, { unwrap } from "../../api/axios";
@@ -105,8 +104,7 @@ const readerText = {
     faq: "FAQ",
     contact: "Contact",
     checkingAccess: "Checking course access...",
-    purchaseRequired: "Please buy a course before viewing lessons.",
-    signInRequired: "Please sign in and buy a course before viewing lessons.",
+    signInRequired: "Please sign in to view lessons.",
   },
   km: {
     courseTitle: (title) => `វគ្គសិក្សា ${title}`,
@@ -165,19 +163,13 @@ const readerText = {
     faq: "សំណួរដែលសួរញឹកញាប់",
     contact: "ទំនាក់ទំនង",
     checkingAccess: "កំពុងពិនិត្យសិទ្ធិចូលមើលវគ្គ...",
-    purchaseRequired: "សូមទិញវគ្គសិក្សាមុនពេលមើលមេរៀន។",
-    signInRequired: "សូមចូលគណនី និងទិញវគ្គសិក្សាមុនពេលមើលមេរៀន។",
+    signInRequired: "សូមចូលគណនីមុនពេលមើលមេរៀន។",
   },
 };
 
 function getReaderText(language) {
   return { ...readerText.en, ...(readerText[language] || {}) };
 }
-
-const hasCourseAccess = (enrollment) => (
-  enrollment?.status === "ACTIVE" &&
-  ["PAID", "MANUAL"].includes(enrollment?.paymentStatus)
-);
 
 const lessons = [
   {
@@ -2125,7 +2117,6 @@ export default function CourseReader() {
   const rightPanelRef = useRef(null);
 
   useEffect(() => {
-    let active = true;
     if (authLoading) return undefined;
 
     if (!user) {
@@ -2133,29 +2124,11 @@ export default function CourseReader() {
       return undefined;
     }
 
-    const role = String(user.role || "").toUpperCase();
-    if (!["STUDENT", "CUSTOMER"].includes(role)) {
-      setAccess("allowed");
-      return undefined;
-    }
-
-    setAccess("checking");
-    api.get("/enrollments/me")
-      .then((response) => {
-        if (!active) return;
-        const enrollments = unwrap(response);
-        setAccess(Array.isArray(enrollments) && enrollments.some(hasCourseAccess) ? "allowed" : "denied");
-      })
-      .catch(() => {
-        if (active) setAccess("denied");
-      });
-
-    return () => { active = false; };
+    // Lessons are available before payment. Enrollment and payment still
+    // control purchases, homework, exams and other protected student actions.
+    setAccess("allowed");
+    return undefined;
   }, [authLoading, user?.id, user?.role]);
-
-  useEffect(() => {
-    if (access === "denied") notifyToast(copy.purchaseRequired, "error");
-  }, [access, copy.purchaseRequired]);
 
   const selectedLesson = useMemo(
     () => courseLessons.find((lesson) => lesson.id === selectedId) || courseLessons[0],
@@ -2266,10 +2239,6 @@ export default function CourseReader() {
 
   if (access === "login") {
     return <Navigate to="/login/student" replace state={{ from: `${location.pathname}${location.search}`, message: copy.signInRequired }} />;
-  }
-
-  if (access === "denied") {
-    return <Navigate to="/courses" replace state={{ message: copy.purchaseRequired }} />;
   }
 
   return (
