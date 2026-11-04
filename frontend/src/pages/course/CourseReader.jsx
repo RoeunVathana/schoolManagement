@@ -767,11 +767,222 @@ const getLessonGuidance = (courseTitle, topic) => {
   };
 };
 
+const getTopicSpecificLessonCode = (courseTitle, topic) => {
+  const safeTopic = topic.replace(/["'`]/g, "").slice(0, 70);
+  const lowerTitle = courseTitle.toLowerCase();
+  const lowerTopic = topic.toLowerCase();
+  const isSpringBoot = /spring\s*boot/.test(lowerTitle);
+
+  // Styling lessons should demonstrate the named CSS idea instead of
+  // returning the same generic card for every project topic.
+  if (lowerTitle === "css") {
+    if (/dashboard grid|responsive grid|css grid/.test(lowerTopic)) return `.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}`;
+    if (/flexbox|flex layout|course actions/.test(lowerTopic)) return `.course-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+}`;
+    if (/position/.test(lowerTopic)) return `.course-card {
+  position: relative;
+}
+
+.course-card__badge {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+}`;
+    if (/transition|transform|motion/.test(lowerTopic)) return `.course-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgb(16 36 63 / 16%);
+}`;
+    if (/custom propert|design token|theme/.test(lowerTopic)) return `:root {
+  --brand: #2563eb;
+  --surface: #ffffff;
+  --text: #10243f;
+}
+
+.course-card {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--brand);
+}`;
+    if (/container quer/.test(lowerTopic)) return `.course-shell {
+  container-type: inline-size;
+}
+
+@container (min-width: 36rem) {
+  .course-card {
+    grid-template-columns: 1fr 1fr;
+  }
+}`;
+    if (/responsive|breakpoint|typography|mobile/.test(lowerTopic)) return `.course-title {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (max-width:  fortyrem) {
+  .course-layout {
+    padding: 1rem;
+  }
+}`.replace("fortyrem", "40rem");
+    if (/color contrast|focus style|accessible/.test(lowerTopic)) return `.primary-link {
+  color: #0b3b82;
+  background: #dbeafe;
+}
+
+.primary-link:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}`;
+    if (/navigation bar|navbar/.test(lowerTopic)) return `.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}`;
+    if (/course page|course card|lesson card/.test(lowerTopic)) return `.course-page {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 2rem;
+}
+
+.course-card {
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}`;
+    return `.lesson-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+}`;
+  }
+
+  if (lowerTitle === "html") {
+    if (/form|input|validation/.test(lowerTopic)) return `<form class="course-form">
+  <label for="email">Email address</label>
+  <input id="email" name="email" type="email" required>
+  <button type="submit">Join course</button>
+</form>`;
+    if (/metadata|seo|social sharing/.test(lowerTopic)) return `<head>
+  <meta name="description" content="Learn practical web development.">
+  <meta property="og:title" content="CampusFlow Academy">
+  <title>CampusFlow Academy</title>
+</head>`;
+    if (/semantic|landmark|accessib/.test(lowerTopic)) return `<main>
+  <article>
+    <h1>HTML course</h1>
+    <p>Learn with meaningful document structure.</p>
+  </article>
+</main>`;
+    if (/image|media/.test(lowerTopic)) return `<picture>
+  <source media="(min-width: 800px)" srcset="course-large.webp">
+  <img src="course-small.webp" alt="Students learning together">
+</picture>`;
+    if (/navigation|link/.test(lowerTopic)) return `<nav aria-label="Course navigation">
+  <a href="/course/html">HTML</a>
+  <a href="/courses">All courses</a>
+</nav>`;
+    if (/course page|profile page/.test(lowerTopic)) return `<main class="course-page">
+  <h1>HTML Fundamentals</h1>
+  <p>Learn structure, semantics and accessible page design.</p>
+  <a href="/courses">Browse courses</a>
+</main>`;
+  }
+
+  if (lowerTitle.includes("tailwind")) {
+    if (/dashboard|grid/.test(lowerTopic)) return `<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <article class="rounded-2xl bg-white p-6 shadow-sm">
+    <h2 class="text-xl font-black text-slate-900">Course progress</h2>
+    <p class="mt-2 text-slate-600">3 lessons complete.</p>
+  </article>
+</div>`;
+    if (/button|interactive|form/.test(lowerTopic)) return `<button class="rounded-xl bg-blue-600 px-4 py-3 font-bold text-white hover:bg-blue-700 focus-visible:outline-2">
+  Start lesson
+</button>`;
+    if (/responsive|breakpoint|mobile/.test(lowerTopic)) return `<article class="p-4 sm:p-6 lg:p-8">
+  <h2 class="text-xl sm:text-2xl lg:text-3xl">Responsive course card</h2>
+</article>`;
+    if (/dark mode|theme|color/.test(lowerTopic)) return `<article class="bg-white p-6 text-slate-900 dark:bg-slate-900 dark:text-white">
+  <h2 class="text-2xl font-black">Theme-aware lesson</h2>
+</article>`;
+  }
+
+  if (lowerTitle === "bootstrap") {
+    if (/grid|course grid/.test(lowerTopic)) return `<div class="container py-4">
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-4"><article class="card p-3">HTML</article></div>
+    <div class="col-12 col-md-6 col-lg-4"><article class="card p-3">CSS</article></div>
+  </div>
+</div>`;
+    if (/navbar|navigation/.test(lowerTopic)) return `<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container"><a class="navbar-brand" href="/">CampusFlow</a></div>
+</nav>`;
+    if (/form|validation/.test(lowerTopic)) return `<form class="needs-validation" novalidate>
+  <label class="form-label" for="course-email">Email</label>
+  <input id="course-email" class="form-control" type="email" required>
+  <button class="btn btn-primary mt-3" type="submit">Continue</button>
+</form>`;
+  }
+
+  if (isSpringBoot) {
+    if (/controller|rest|api|endpoint|request|response/.test(lowerTopic)) return `@RestController
+@RequestMapping("/api/lessons")
+class LessonController {
+    @GetMapping("/{id}")
+    LessonResponse find(@PathVariable Long id) {
+        return service.findById(id);
+    }
+}`;
+    if (/repository|jpa|hibernate|database|entity|crud/.test(lowerTopic)) return `@Entity
+class Lesson {
+    @Id @GeneratedValue
+    private Long id;
+    private String title;
+}
+
+interface LessonRepository extends JpaRepository<Lesson, Long> {}`;
+    if (/test|junit|mockito/.test(lowerTopic)) return `@SpringBootTest
+class LessonServiceTest {
+    @Test
+    void returnsTheRequestedLesson() {
+        assertEquals("HTML", service.findById(1L).title());
+    }
+}`;
+    if (/deploy|docker|profile|environment/.test(lowerTopic)) return `FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY target/app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]`;
+    return `@SpringBootApplication
+public class CampusFlowApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CampusFlowApplication.class, args);
+    }
+}`;
+  }
+
+  return null;
+};
+
 const getGeneratedLessonCode = (courseTitle, topic) => {
   const safeTopic = topic.replace(/["']/g, "").slice(0, 70);
   const lowerTitle = courseTitle.toLowerCase();
   const lowerTopic = topic.toLowerCase();
-  const isProgrammingCourse = /javascript|react|c programming|c\+\+|c#|java|python|php|laravel|node\.js|kotlin|dart|flutter|learn code/.test(lowerTitle);
+  const topicSpecificCode = getTopicSpecificLessonCode(courseTitle, topic);
+  if (topicSpecificCode) return topicSpecificCode;
+  const isProgrammingCourse = /javascript|react|c programming|c\+\+|c#|java|python|php|laravel|node\.js|kotlin|dart|flutter|learn code|spring\s*boot/.test(lowerTitle);
   const isFunctionLesson = /(function|method|procedure|lambda|closure|higher-order)/.test(lowerTopic);
   const isObjectLesson = /(class|object|oop|object-oriented|inheritance|polymorphism|encapsulation|interface|constructor)/.test(lowerTopic);
   const isAssignmentLesson = /(assignment|augmented|compound assignment|state update|operator precedence)/.test(lowerTopic);
