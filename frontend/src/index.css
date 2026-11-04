@@ -9878,3 +9878,130 @@ html::-webkit-scrollbar {
   }
   .campusflow-toast { border-radius: .85rem; padding: .7rem .65rem .7rem .75rem; }
 }
+
+/* Mobile chat composition --------------------------------------------------
+   Shared responsive form rules stack controls on small screens. A chat
+   composer is an exception: keeping its controls in one compact grid stops
+   the attachment button from occupying a line by itself on phones. */
+@media (max-width: 767px) {
+  .app-shell-chat .app-main {
+    padding: .5rem .5rem calc(.7rem + env(safe-area-inset-bottom));
+  }
+
+  .app-shell-chat .community-page.community-chat-page {
+    padding: 0;
+  }
+
+  .app-shell-chat .community-chat-shell {
+    height: calc(var(--app-viewport-height, 100dvh) - 5.25rem);
+    max-height: calc(var(--app-viewport-height, 100dvh) - 5.25rem);
+    min-height: 0;
+    margin-top: 0;
+    border-radius: 1rem;
+  }
+
+  .app-shell-chat .community-chat-header {
+    min-height: 4.15rem;
+    padding: .55rem .65rem;
+  }
+
+  .app-shell-chat .community-chat-person,
+  .app-shell-chat .community-chat-header-actions {
+    min-width: 0;
+  }
+
+  .app-shell-chat .community-message-list {
+    min-height: 0;
+    flex: 1 1 0%;
+    padding: .7rem;
+    scroll-padding-bottom: .7rem;
+  }
+
+  .app-shell-chat .community-message-form {
+    flex: 0 0 auto;
+    padding: .55rem;
+  }
+
+  .app-shell-chat .community-message-form-row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 2.55rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .4rem;
+    flex-direction: unset;
+    flex-wrap: nowrap;
+  }
+
+  .app-shell-chat .community-message-form-row > * {
+    width: auto;
+    max-width: none;
+  }
+
+  .app-shell-chat .community-message-form-row .community-chat-attach-button {
+    grid-column: 1;
+    grid-row: 1;
+    width: 2.55rem;
+    min-width: 2.55rem;
+    height: 2.55rem;
+    padding: 0;
+  }
+
+  .app-shell-chat .community-message-form-row input:not(.community-chat-file-input) {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    height: 2.55rem;
+    padding-inline: .75rem;
+    font-size: 16px;
+  }
+
+  .app-shell-chat .community-message-form-row .community-button {
+    grid-column: 3;
+    grid-row: 1;
+    width: auto;
+    min-width: 3.2rem;
+    max-width: 5rem;
+    min-height: 2.55rem;
+    padding-inline: .65rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-shell-chat .community-chat-shell {
+    height: calc(var(--app-viewport-height, 100dvh) - 4.85rem);
+    max-height: calc(var(--app-viewport-height, 100dvh) - 4.85rem);
+  }
+
+  .app-shell-chat .community-chat-header {
+    min-height: 3.8rem;
+    padding: .48rem .55rem;
+  }
+
+  .app-shell-chat .community-message-form-row {
+    grid-template-columns: 2.35rem minmax(0, 1fr) auto;
+    gap: .32rem;
+  }
+
+  .app-shell-chat .community-message-form-row .community-chat-attach-button {
+    width: 2.35rem;
+    min-width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .app-shell-chat .community-message-form-row input:not(.community-chat-file-input),
+  .app-shell-chat .community-message-form-row .community-button {
+    min-height: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .app-shell-chat .community-message-form-row .community-button {
+    min-width: 2.9rem;
+    max-width: 4.3rem;
+    padding-inline: .48rem;
+    font-size: .7rem;
+  }
+}
