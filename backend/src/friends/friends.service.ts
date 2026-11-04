@@ -52,13 +52,43 @@ export class FriendsService {
       this.prisma.friendRequest.findFirst({ where: { status: FriendRequestStatus.PENDING, OR: [{ senderId, receiverId }, { senderId: receiverId, receiverId: senderId }] }, select: { id: true } }),
     ]);
     if (friendship) throw new ConflictException('You are already friends');
-    if (pending) throw new ConflictException('A pending friend request already exists');
+    // A delayed tab, a double click, or two devices can submit the same
+    // request at almost the same time. Sending the request is idempotent for
+    // the sender: return its pending request so the client can immediately
+    // switch to the "Requested" state instead of showing a false failure.
+    if (pending) {
+      const existing = await this.prisma.friendRequest.findUnique({
+        where: { id: pending.id },
+        include: {
+          sender: { select: { id: true, fullName: true, profileImageUrl: true } },
+          receiver: { select: { id: true, fullName: true } },
+        },
+      });
+      if (existing?.senderId === senderId) return existing;
+      throw new ConflictException('This person has already sent you a friend request. Accept it from Friend requests.');
+    }
     const requestKey = [userAId, userBId].join(':');
     let request;
     try {
       request = await this.prisma.friendRequest.create({ data: { senderId, receiverId, requestKey, status: FriendRequestStatus.PENDING }, include: { sender: { select: { id: true, fullName: true, profileImageUrl: true } }, receiver: { select: { id: true, fullName: true } } } });
     } catch (error) {
-      if ((error as { code?: string })?.code === 'P2002') throw new ConflictException('A pending friend request already exists');
+      if ((error as { code?: string })?.code === 'P2002') {
+        // The partial unique index is the final guard against concurrent
+        // requests. Re-read the row so the operation remains safe to retry.
+        const existing = await this.prisma.friendRequest.findFirst({
+          where: {
+            status: FriendRequestStatus.PENDING,
+            OR: [{ senderId, receiverId }, { senderId: receiverId, receiverId: senderId }],
+          },
+          include: {
+            sender: { select: { id: true, fullName: true, profileImageUrl: true } },
+            receiver: { select: { id: true, fullName: true } },
+          },
+        });
+        if (existing?.senderId === senderId) return existing;
+        if (existing) throw new ConflictException('This person has already sent you a friend request. Accept it from Friend requests.');
+        throw new ConflictException('The friend request could not be created. Please try again.');
+      }
       throw error;
     }
     // Do not make the friend action wait for SMTP or notification I/O.
