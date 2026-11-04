@@ -17,6 +17,7 @@ const normalizeSecureForPort = (port, fallback = true) => {
 export default function MailSettings() {
   const { t } = useLanguage();
   const [settings, setSettings] = useState(null);
+  const [loadError, setLoadError] = useState('');
   const [form, setForm] = useState(emptyForm);
   const [notice, setNotice] = useState({ type: '', text: '' });
   const [busy, setBusy] = useState(false);
@@ -25,6 +26,7 @@ export default function MailSettings() {
 
   const load = () => api.get('/mail-settings').then((response) => {
     const data = unwrap(response);
+    setLoadError('');
     setSettings(data);
     setForm((current) => ({
       ...current,
@@ -34,8 +36,14 @@ export default function MailSettings() {
     }));
   });
 
+  const handleLoadError = (error) => {
+    const message = error.response?.data?.message || t('mailSettingsLoadFailed');
+    setLoadError(message);
+    setNotice({ type: 'error', text: message });
+  };
+
   useEffect(() => {
-    load().catch((error) => setNotice({ type: 'error', text: error.response?.data?.message || t('mailSettingsLoadFailed') }));
+    load().catch(handleLoadError);
   }, [t]);
 
   const save = async (event) => {
@@ -111,6 +119,15 @@ export default function MailSettings() {
   const noticeClass = notice.type === 'error'
     ? 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300'
     : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300';
+
+  if (!settings && loadError) return <>
+    <Header eyebrow="adminTools" title="mailSettings" description="mailSettingsDescription" />
+    <div className="rounded-3xl border border-red-200 bg-red-50 p-6 shadow-sm dark:border-red-900/60 dark:bg-red-950/30 sm:p-8">
+      <h2 className="text-lg font-bold text-red-800 dark:text-red-200">{t('mailSettingsLoadFailed')}</h2>
+      <p className="mt-2 text-sm leading-6 text-red-700 dark:text-red-300">{loadError}</p>
+      <button type="button" onClick={() => { setLoadError(''); load().catch(handleLoadError); }} className="mt-5 rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg">{t('retry')}</button>
+    </div>
+  </>;
 
   if (!settings) return <><Header eyebrow="adminTools" title="mailSettings" description="mailSettingsDescription" /><Loading /></>;
 
