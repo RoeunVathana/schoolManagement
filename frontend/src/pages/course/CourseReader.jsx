@@ -2226,7 +2226,12 @@ export default function CourseReader() {
   const copy = getReaderText(language);
   const sourceCourse = courseCatalog[slug] || courseCatalog.html;
   const course = useMemo(() => localizeCourseForLanguage(sourceCourse, language), [sourceCourse, language]);
-  const isReferenceCourse = Boolean(referenceCourseCatalog[slug]);
+  // Every subject now uses the same full-course reading flow. The catalog is
+  // normalized above so each lesson has original CampusFlow detail, keywords,
+  // objectives, a matched example and a practice preview. Keeping the mode
+  // consistent means learners can browse the complete subject on one page,
+  // while the outline and preview drawers still jump to the selected lesson.
+  const isReferenceCourse = Boolean(sourceCourse?.lessons?.length);
   const courseSections = course.lessons;
   const courseLessons = useMemo(() => courseSections.flatMap((section) => section.items), [courseSections]);
   const [access, setAccess] = useState("checking");
