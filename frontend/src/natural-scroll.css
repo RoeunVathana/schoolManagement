@@ -190,3 +190,81 @@ body,
   scroll-snap-type: none !important;
   scroll-behavior: auto !important;
 }
+
+/* Final zero-motion page mode ---------------------------------------------
+   Keep the browser fully in charge of wheel/touch scrolling. These are the
+   page shells and decorative layers that can otherwise continue to move
+   while the user is trying to read or drag the scrollbar. Interactive
+   controls and operational loaders are intentionally left outside this list. */
+html,
+body,
+#root,
+#root * {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
+
+.app-shell,
+.app-shell::before,
+.app-shell-content,
+.app-shell-content::before,
+.app-shell-content::after,
+.app-main,
+.app-main > *,
+.auth-background,
+.auth-layout,
+.course-reader,
+.course-reader::before,
+.course-reader::after,
+.storefront,
+.storefront > main,
+.storefront > footer,
+.storefront-ambient-background,
+.storefront-ambient-background::before,
+.storefront-ambient-background::after,
+.storefront-ambient-grid,
+.storefront-ambient-orb-a,
+.storefront-ambient-orb-b,
+.storefront-ambient-orb-c,
+.storefront-ambient-ring,
+.storefront-ambient-ring-a,
+.storefront-ambient-ring-b,
+.technology-rail-track,
+.about-page,
+.about-page > main,
+.about-page > main > *,
+.about-page .about-hero-card,
+.about-page .about-hero-glow,
+.about-page .about-hero-glow-two,
+.contact-page,
+.contact-page > main,
+.contact-page > main > *,
+.contact-page .contact-hero-mark,
+.contact-page .contact-hero-shape,
+.contact-page .contact-hero-shape-two,
+.community-page,
+.community-page > main,
+.community-page > main > *,
+.public-community-page,
+.public-community-page > main,
+.public-community-page > main > *,
+.public-community-page .public-community-art-card,
+.public-community-page .public-community-art-orbit,
+.public-community-page .public-community-art-orbit-one,
+.public-community-page .public-community-art-orbit-two {
+  animation: none !important;
+  background-attachment: scroll !important;
+}
+
+.app-shell,
+.app-shell-content,
+.app-main,
+.course-reader,
+.storefront,
+.about-page,
+.contact-page,
+.community-page,
+.public-community-page {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
