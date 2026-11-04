@@ -1324,6 +1324,98 @@ const additionalReferenceCourseCatalog = Object.fromEntries(localCourseBlueprint
 Object.assign(referenceCourseCatalog, additionalReferenceCourseCatalog);
 Object.assign(courseCatalog, referenceCourseCatalog);
 
+// The reference curriculum uses a long, topic-first outline. Keep the same
+// lesson coverage in CampusFlow, while generating original explanations,
+// examples and practice guidance locally for every item.
+const referenceSyllabusBySlug = {
+  tailwindcss: [
+    [1, "Introduction to Tailwind CSS", [
+      "1.1. What is Tailwind CSS?",
+      "1.2. Why Use Tailwind? (Utility-First vs Traditional CSS)",
+      "1.3. Installing Tailwind CSS",
+      "1.3.1. Using CDN for quick testing",
+      "1.3.2. Installing via npm or yarn",
+      "1.3.3. Using the Tailwind CLI",
+      "1.3.4. Setting up with PostCSS",
+      "1.4. Understanding tailwind.config.js",
+      "1.5. How Tailwind CSS Works (Utility-First Approach)",
+    ]],
+    [2, "Tailwind CSS Basics", [
+      "2.1. Container and Box Model",
+      "2.2. Padding and Margin",
+      "2.3. Borders and Shadows",
+      "2.4. Colors and Backgrounds",
+      "2.5. Typography",
+    ]],
+    [3, "Layout and Flexbox/Grid", [
+      "3.1. Using Flexbox",
+      "3.2. Using CSS Grid",
+      "3.3. Positioning",
+      "3.4. Display and Visibility",
+    ]],
+    [4, "Responsive Design in Tailwind CSS", [
+      "4.1. Mobile-First Responsive Design",
+      "4.2. Breakpoints",
+      "4.3. Applying Responsive Classes",
+      "4.4. Aspect Ratio and Object Fit for Images",
+    ]],
+    [5, "Components and UI Elements", [
+      "5.1. Buttons and Interactive States",
+      "5.2. Forms and Form Controls",
+      "5.3. Cards and Content Panels",
+      "5.4. Alerts and Notifications",
+      "5.5. Modals and Popups",
+      "5.6. Navigation Bars, Menus and Dropdowns",
+      "5.7. Footers and Page Headers",
+    ]],
+    [6, "Tailwind CSS Interactivity", [
+      "6.1. Hover, Focus and Active States",
+      "6.2. Transitions and Animation Utilities",
+      "6.3. Custom Animations with Keyframes",
+      "6.4. Dark Mode",
+    ]],
+    [7, "Extending Tailwind CSS", [
+      "7.1. Custom Colors and Fonts in tailwind.config.js",
+      "7.2. Custom Utilities and @apply",
+      "7.3. Using Tailwind with Sass",
+      "7.4. Tailwind Plugins",
+    ]],
+    [8, "Tailwind CSS with JavaScript Frameworks", [
+      "8.1. Using Tailwind CSS with React",
+      "8.2. Using Tailwind CSS with Next.js",
+      "8.3. Using Tailwind CSS with Vue.js",
+      "8.4. Using Tailwind CSS with Angular",
+    ]],
+    [9, "Performance Optimization", [
+      "9.1. Removing Unused CSS",
+      "9.2. Optimizing the PostCSS Build",
+      "9.3. Just-In-Time Development Mode",
+      "9.4. Measuring CSS Bundle Size",
+    ]],
+    [10, "Tailwind CSS Best Practices", [
+      "10.1. Writing Clean and Maintainable Tailwind Code",
+      "10.2. Component Libraries with Tailwind CSS",
+      "10.3. Comparing Tailwind with Bootstrap",
+      "10.4. Debugging Tailwind CSS Issues",
+      "10.5. Build a Production-Ready Tailwind Page",
+    ]],
+  ],
+};
+
+Object.entries(referenceSyllabusBySlug).forEach(([slug, sections]) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections,
+  });
+  course.lessons = generated.lessons;
+});
+
 // Every subject now includes a dedicated concept track before the advanced
 // units. Programming subjects cover functions, classes and OOP explicitly;
 // design, database and systems subjects receive the equivalent reusable
