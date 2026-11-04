@@ -1,0 +1,152 @@
+/* Dashboard search --------------------------------------------------------
+   Keep the search control readable at every dashboard width. The panel is
+   intentionally solid and stable so it does not blur or move with the page. */
+.dashboard-search {
+  flex: 0 1 clamp(13rem, 22vw, 20rem);
+  width: clamp(13rem, 22vw, 20rem) !important;
+  min-width: 0;
+  z-index: 130;
+}
+
+.dashboard-search > div:first-child {
+  min-height: 2.75rem;
+  gap: .42rem;
+  padding-inline: .65rem;
+  border-radius: .9rem;
+  background: #f8fafc;
+  box-shadow: 0 4px 14px rgb(16 36 63 / .05);
+}
+
+.dashboard-search > div:first-child > svg {
+  color: #5f879a;
+}
+
+.dashboard-search > div:first-child:focus-within {
+  border-color: rgb(34 158 217 / .68);
+  box-shadow: 0 0 0 3px rgb(34 158 217 / .14), 0 8px 18px rgb(16 36 63 / .08);
+}
+
+.dark .dashboard-search > div:first-child {
+  border-color: rgb(100 141 174 / .54);
+  background: #14243a;
+  box-shadow: 0 6px 16px rgb(0 0 0 / .18);
+}
+
+.dark .dashboard-search > div:first-child:focus-within {
+  border-color: rgb(141 228 202 / .65);
+  box-shadow: 0 0 0 3px rgb(141 228 202 / .12), 0 8px 20px rgb(0 0 0 / .2);
+}
+
+.dashboard-search.is-open > div:last-child {
+  top: calc(100% + .55rem) !important;
+  width: min(28rem, calc(100vw - 2rem)) !important;
+  max-height: min(31rem, calc(100dvh - 6.5rem)) !important;
+  padding: .55rem !important;
+  border-radius: 1rem !important;
+  border-color: rgb(148 163 184 / .34) !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 42px rgb(15 23 42 / .18), 0 2px 8px rgb(15 23 42 / .08) !important;
+  overscroll-behavior: contain;
+  scrollbar-color: #7da7ba transparent;
+  scrollbar-width: thin;
+}
+
+.dashboard-search.is-open > div:last-child::-webkit-scrollbar {
+  width: .55rem;
+}
+
+.dashboard-search.is-open > div:last-child::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #7da7ba padding-box;
+}
+
+.dashboard-search.is-open > div:last-child > div:first-child {
+  padding: .35rem .55rem .5rem !important;
+  color: #6d8498;
+  letter-spacing: .12em;
+}
+
+.dashboard-search.is-open > div:last-child > button {
+  min-height: 3.1rem;
+  gap: .65rem;
+  padding: .55rem .65rem !important;
+  border: 1px solid transparent;
+  border-radius: .8rem;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.dashboard-search.is-open > div:last-child > button:hover {
+  border-color: rgb(34 158 217 / .16);
+  background: #eef8fb;
+}
+
+.dashboard-search.is-open > div:last-child > button:focus-visible {
+  outline: 3px solid rgb(34 158 217 / .28);
+  outline-offset: -2px;
+}
+
+.dark .dashboard-search.is-open > div:last-child {
+  border-color: rgb(100 141 174 / .48) !important;
+  background: #101d31 !important;
+  box-shadow: 0 20px 46px rgb(0 0 0 / .38), 0 0 0 1px rgb(141 228 202 / .04) !important;
+  scrollbar-color: #5d8ca0 transparent;
+}
+
+.dark .dashboard-search.is-open > div:last-child > button:hover {
+  border-color: rgb(141 228 202 / .18);
+  background: #182b43;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .dashboard-search {
+    flex: 1 1 clamp(11rem, 23vw, 16rem);
+    width: clamp(11rem, 23vw, 16rem) !important;
+  }
+
+  .dashboard-search.is-open > div:last-child {
+    width: min(25rem, calc(100vw - 1.5rem)) !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .dashboard-search {
+    flex: 0 0 2.6rem;
+    width: 2.6rem !important;
+  }
+
+  .dashboard-search > div:first-child {
+    width: 2.6rem;
+    min-height: 2.6rem;
+    padding-inline: 0;
+    box-shadow: 0 5px 14px rgb(16 36 63 / .08);
+  }
+
+  .dashboard-search.is-open > div:last-child {
+    right: max(.5rem, env(safe-area-inset-right));
+    width: min(25rem, calc(100vw - 1rem)) !important;
+    max-height: min(27rem, calc(100dvh - 9rem)) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-search {
+    flex-basis: 2.45rem;
+    width: 2.45rem !important;
+  }
+
+  .dashboard-search > div:first-child {
+    width: 2.45rem;
+    min-height: 2.45rem;
+  }
+
+  .dashboard-search.is-open > div:first-child input[type="search"] {
+    width: calc(100vw - 1rem);
+  }
+
+  .dashboard-search.is-open > div:last-child {
+    right: max(.5rem, env(safe-area-inset-right));
+    width: calc(100vw - 1rem) !important;
+    max-height: min(24rem, calc(100dvh - 8rem)) !important;
+  }
+}
