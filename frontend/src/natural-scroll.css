@@ -308,3 +308,57 @@ body,
     animation-play-state: paused !important;
   }
 }
+
+/* Text-only entrance motion. This is deliberately independent from scrolling:
+   it runs once when a page opens and never changes the document height or
+   captures wheel/touch input. */
+@keyframes campusflowTextReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, .65rem, 0);
+    text-shadow: 0 0 .8rem rgb(141 228 202 / 0%);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    text-shadow: 0 0 0 rgb(141 228 202 / 0%);
+  }
+}
+
+.storefront-home-copy h1,
+.storefront-home-copy > p,
+.storefront h2,
+.about-page .about-hero-copy h1,
+.about-page .about-section h2,
+.contact-page .contact-hero h1,
+.contact-page .contact-section h2,
+.community-page h1,
+.community-page h2,
+.public-community-page h1,
+.public-community-page h2,
+.course-reader-header h1,
+.course-reader .course-lesson-article > h2 {
+  animation: campusflowTextReveal .62s cubic-bezier(.2, .75, .25, 1) both;
+  animation-delay: var(--text-animation-delay, 0ms);
+}
+
+.storefront-home-copy > p { --text-animation-delay: 90ms; }
+.storefront-home-copy h1 { --text-animation-delay: 30ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .storefront-home-copy h1,
+  .storefront-home-copy > p,
+  .storefront h2,
+  .about-page .about-hero-copy h1,
+  .about-page .about-section h2,
+  .contact-page .contact-hero h1,
+  .contact-page .contact-section h2,
+  .community-page h1,
+  .community-page h2,
+  .public-community-page h1,
+  .public-community-page h2,
+  .course-reader-header h1,
+  .course-reader .course-lesson-article > h2 {
+    animation: none !important;
+  }
+}
