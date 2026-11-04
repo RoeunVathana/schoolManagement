@@ -37,6 +37,16 @@ export function validateEnvironment(config: Record<string, unknown>) {
     throw new Error('CONTACT_RATE_LIMIT must be a positive integer');
   }
 
+  const paymentRateLimit = Number(config.PAYMENT_RATE_LIMIT ?? 30);
+  if (!Number.isInteger(paymentRateLimit) || paymentRateLimit < 5) {
+    throw new Error('PAYMENT_RATE_LIMIT must be an integer of at least 5');
+  }
+
+  const bakongApiUrl = String(config.BAKONG_API_URL ?? 'https://api-bakong.nbc.gov.kh').trim();
+  if (nodeEnv === 'production' && bakongApiUrl && !/^https:\/\//i.test(bakongApiUrl)) {
+    throw new Error('BAKONG_API_URL must use HTTPS in production');
+  }
+
   const bcryptSaltRounds = Number(config.BCRYPT_SALT_ROUNDS ?? 12);
   if (!Number.isInteger(bcryptSaltRounds) || bcryptSaltRounds < 10 || bcryptSaltRounds > 15) {
     throw new Error('BCRYPT_SALT_ROUNDS must be an integer between 10 and 15');
@@ -83,6 +93,7 @@ export function validateEnvironment(config: Record<string, unknown>) {
     RATE_LIMIT_PER_MINUTE: rateLimitPerMinute,
     AUTH_RATE_LIMIT: authRateLimit,
     CONTACT_RATE_LIMIT: contactRateLimit,
+    PAYMENT_RATE_LIMIT: paymentRateLimit,
     BCRYPT_SALT_ROUNDS: bcryptSaltRounds,
     JWT_ISSUER: String(config.JWT_ISSUER ?? 'campusflow-api'),
     JWT_AUDIENCE: String(config.JWT_AUDIENCE ?? 'campusflow-web'),

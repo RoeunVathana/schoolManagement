@@ -152,7 +152,7 @@ model User {
   sentNotifications             Notification[]         @relation("NotificationSender")
   posts                         Post[]
   postReactions                 PostReaction[]
-  postComments                  PostComment[]        @relation("PostCommentAuthor")
+  postComments                  PostComment[]          @relation("PostCommentAuthor")
   postCommentReactions          PostCommentReaction[]
   stories                       Story[]
   sentFriendRequests            FriendRequest[]        @relation("FriendRequestSender")
@@ -222,13 +222,13 @@ model Post {
 }
 
 model PostMedia {
-  id         String    @id @default(cuid())
-  postId     String
-  url        String
-  mediaType  MediaType
-  sortOrder  Int       @default(0)
-  createdAt  DateTime  @default(now())
-  post       Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id        String    @id @default(cuid())
+  postId    String
+  url       String
+  mediaType MediaType
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId, sortOrder])
   @@map("post_media")
@@ -249,17 +249,17 @@ model PostReaction {
 }
 
 model PostComment {
-  id        String   @id @default(cuid())
+  id        String                @id @default(cuid())
   postId    String
   authorId  String
   parentId  String?
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author    User     @relation("PostCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
-  parent    PostComment?  @relation("PostCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   PostComment[]  @relation("PostCommentReplies")
+  content   String                @db.Text
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  post      Post                  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User                  @relation("PostCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  parent    PostComment?          @relation("PostCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   PostComment[]         @relation("PostCommentReplies")
   reactions PostCommentReaction[]
 
   @@index([postId, createdAt])
@@ -269,13 +269,13 @@ model PostComment {
 }
 
 model PostCommentReaction {
-  id        String      @id @default(cuid())
+  id        String           @id @default(cuid())
   commentId String
   userId    String
   type      PostReactionType @default(LIKE)
-  createdAt DateTime    @default(now())
-  comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  comment   PostComment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([commentId, userId])
   @@index([userId, createdAt])
@@ -344,7 +344,7 @@ model CommunityGroup {
   owner         User                     @relation("CommunityGroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   members       CommunityGroupMember[]
   invites       CommunityGroupInvite[]
-  conversation  Conversation?          @relation("ConversationGroup")
+  conversation  Conversation?            @relation("ConversationGroup")
 
   @@index([ownerId])
   @@index([visibility, createdAt])
@@ -458,17 +458,17 @@ model MessageReaction {
 }
 
 model MediaArchive {
-  id                 String    @id @default(cuid())
-  originalUrl        String    @unique
+  id                 String     @id @default(cuid())
+  originalUrl        String     @unique
   sourceType         String
   sourceId           String
   fileName           String
   mediaType          MediaType?
   fileSize           BigInt?
-  telegramMessageIds String    @db.Text
+  telegramMessageIds String     @db.Text
   reason             String
-  archivedAt         DateTime  @default(now())
-  createdAt          DateTime  @default(now())
+  archivedAt         DateTime   @default(now())
+  createdAt          DateTime   @default(now())
 
   @@index([archivedAt])
   @@index([sourceType, sourceId])
@@ -496,20 +496,34 @@ model RegistrationPayment {
 
   @@index([userId, status])
   @@index([status, expiresAt])
+  @@index([transactionHash])
   @@map("registration_payments")
 }
 
+// A single cross-payment ledger prevents one Bakong transaction from being
+// accepted once for registration and again for a course purchase.
+model PaymentTransaction {
+  id              String   @id @default(cuid())
+  transactionHash String   @unique
+  paymentType     String
+  paymentId       String   @unique
+  createdAt       DateTime @default(now())
+
+  @@index([paymentType, paymentId])
+  @@map("payment_transactions")
+}
+
 model Student {
-  id             String              @id @default(cuid())
-  userId         String              @unique
-  studentCode    String              @unique
+  id             String                @id @default(cuid())
+  userId         String                @unique
+  studentCode    String                @unique
   gender         String?
   dateOfBirth    DateTime?
   address        String?
   guardianName   String?
   guardianPhone  String?
-  createdAt      DateTime            @default(now())
-  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime              @default(now())
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   enrollments    Enrollment[]
   attendance     Attendance[]
   callCooldowns  StudentCallCooldown[]
@@ -523,13 +537,13 @@ model Student {
 }
 
 model Teacher {
-  id                String              @id @default(cuid())
-  userId            String              @unique
-  teacherCode       String              @unique
+  id                String                  @id @default(cuid())
+  userId            String                  @unique
+  teacherCode       String                  @unique
   specialization    String?
   address           String?
-  createdAt         DateTime            @default(now())
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime                @default(now())
+  user              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   courses           Course[]
   assignments       Assignment[]
   grades            Grade[]
@@ -555,35 +569,35 @@ model TeacherTelegramSetting {
 }
 
 model Course {
-  id                    String              @id @default(cuid())
-  courseCode            String              @unique
+  id                    String                @id @default(cuid())
+  courseCode            String                @unique
   courseName            String
   description           String?
   category              String?
   level                 String?
-  tags                  String?             @db.Text
+  tags                  String?               @db.Text
   durationWeeks         Int?
   teacherId             String
   startDate             DateTime
   endDate               DateTime
-  status                CourseStatus        @default(ACTIVE)
-  paymentEnabled        Boolean             @default(true)
+  status                CourseStatus          @default(ACTIVE)
+  paymentEnabled        Boolean               @default(true)
   academicYearId        String?
   semesterId            String?
   imageUrl              String?
-  telegramGroupLink     String?             @db.Text
+  telegramGroupLink     String?               @db.Text
   telegramChatId        String?
-  price                 Decimal             @default(1.00) @db.Decimal(12, 2)
-  currency              String              @default("USD")
-  discountPercent       Float               @default(0)
+  price                 Decimal               @default(1.00) @db.Decimal(12, 2)
+  currency              String                @default("USD")
+  discountPercent       Float                 @default(0)
   discountStart         DateTime?
   discountEnd           DateTime?
-  monthlyPaymentEnabled Boolean             @default(false)
-  monthlyPrice          Decimal?            @db.Decimal(12, 2)
-  createdAt             DateTime            @default(now())
-  teacher               Teacher             @relation(fields: [teacherId], references: [id], onDelete: Restrict)
-  academicYear          AcademicYear?       @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
-  semester              Semester?           @relation(fields: [semesterId], references: [id], onDelete: SetNull)
+  monthlyPaymentEnabled Boolean               @default(false)
+  monthlyPrice          Decimal?              @db.Decimal(12, 2)
+  createdAt             DateTime              @default(now())
+  teacher               Teacher               @relation(fields: [teacherId], references: [id], onDelete: Restrict)
+  academicYear          AcademicYear?         @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
+  semester              Semester?             @relation(fields: [semesterId], references: [id], onDelete: SetNull)
   enrollments           Enrollment[]
   schedules             ClassSchedule[]
   attendance            Attendance[]
@@ -643,6 +657,7 @@ model CoursePayment {
   @@index([courseId, studentId, status])
   @@index([studentId, status])
   @@index([status, expiresAt])
+  @@index([transactionHash])
   @@map("course_payments")
 }
 
@@ -761,20 +776,20 @@ model StudentCallCooldown {
 }
 
 model TeacherAttendance {
-  id             String           @id @default(cuid())
-  teacherId      String
-  attendanceDate DateTime
-  checkInAt      DateTime?
-  checkOutAt     DateTime?
-  status         AttendanceStatus @default(PRESENT)
-  note           String?
-  meetingUrl     String?
-  meetingActive  Boolean  @default(false)
+  id               String           @id @default(cuid())
+  teacherId        String
+  attendanceDate   DateTime
+  checkInAt        DateTime?
+  checkOutAt       DateTime?
+  status           AttendanceStatus @default(PRESENT)
+  note             String?
+  meetingUrl       String?
+  meetingActive    Boolean          @default(false)
   meetingStartedAt DateTime?
   meetingEndedAt   DateTime?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  teacher        Teacher          @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  teacher          Teacher          @relation(fields: [teacherId], references: [id], onDelete: Cascade)
 
   @@unique([teacherId, attendanceDate])
   @@index([attendanceDate])
@@ -801,15 +816,15 @@ model Assignment {
 }
 
 model Submission {
-  id           String           @id @default(cuid())
+  id           String                 @id @default(cuid())
   assignmentId String
   studentId    String
   answerText   String?
   fileUrl      String?
-  submittedAt  DateTime         @default(now())
+  submittedAt  DateTime               @default(now())
   status       SubmissionStatus
-  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  student      Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  assignment   Assignment             @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      Student                @relation(fields: [studentId], references: [id], onDelete: Cascade)
   grade        Grade?
   attachments  SubmissionAttachment[]
 

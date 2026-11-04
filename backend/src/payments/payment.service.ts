@@ -211,40 +211,98 @@ export class PaymentService {
   }
 
   private async confirmRegistrationPayment(payment: any, transaction: any) {
-    const configuredAccount = this.config.get<string>('BAKONG_ACCOUNT_ID');
-    const amountMatches = Math.abs(Number(transaction.amount) - Number(payment.amount)) < 0.0001;
-    const currencyMatches = String(transaction.currency || '').toUpperCase() === payment.currency;
-    const accountMatches = !configuredAccount || String(transaction.toAccountId || '').toLowerCase() === configuredAccount.toLowerCase();
-    if (!amountMatches || !currencyMatches || !accountMatches) {
-      const failed = await this.prisma.registrationPayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.FAILED } });
+    const validation = this.validateBakongTransaction(payment, transaction);
+    if (validation.configurationError) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong merchant verification is not configured. Please contact admin support.' });
+    if (!validation.valid) {
+      this.logger.warn(`Rejected registration payment ${payment.invoiceNumber}: ${validation.reason}`);
+      const result = await this.prisma.registrationPayment.updateMany({ where: { id: payment.id, status: PaymentStatus.PENDING }, data: { status: PaymentStatus.FAILED } });
+      const failed = result.count ? await this.prisma.registrationPayment.findUniqueOrThrow({ where: { id: payment.id } }) : await this.prisma.registrationPayment.findUniqueOrThrow({ where: { id: payment.id } });
       return this.toPublicPayment(failed, { message: 'Payment details did not match this registration invoice.' });
     }
-    const paid = await this.prisma.$transaction(async (tx) => {
-      const updated = await tx.registrationPayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.PAID, paidAt: new Date(), transactionHash: transaction.hash, fromAccountId: transaction.fromAccountId, toAccountId: transaction.toAccountId } });
-      await tx.user.update({ where: { id: payment.userId }, data: { status: UserStatus.ACTIVE } });
-      await tx.profile.updateMany({ where: { userId: payment.userId }, data: { accountStatus: UserStatus.ACTIVE } });
-      return updated;
-    });
-    void this.notifyRegistrationPayment(paid);
-    return this.toPublicPayment(paid, { message: 'Payment confirmed. Your account is now active.' });
+    const transactionHash = validation.transactionHash;
+    if (!transactionHash) throw new BadRequestException('Bakong returned an invalid transaction hash.');
+
+    try {
+      const result = await this.prisma.$transaction(async (tx) => {
+        const current = await tx.registrationPayment.findUnique({ where: { id: payment.id } });
+        if (!current) throw new NotFoundException('Registration payment was not found.');
+        if (current.status !== PaymentStatus.PENDING) return { payment: current, newlyPaid: false };
+        await tx.paymentTransaction.create({ data: { transactionHash, paymentType: 'REGISTRATION', paymentId: current.id } });
+        const updated = await tx.registrationPayment.update({ where: { id: current.id }, data: { status: PaymentStatus.PAID, paidAt: new Date(), transactionHash, fromAccountId: validation.fromAccountId, toAccountId: validation.toAccountId } });
+        await tx.user.update({ where: { id: current.userId }, data: { status: UserStatus.ACTIVE } });
+        await tx.profile.updateMany({ where: { userId: current.userId }, data: { accountStatus: UserStatus.ACTIVE } });
+        return { payment: updated, newlyPaid: true };
+      });
+      if (!result.newlyPaid) return this.toPublicPayment(result.payment);
+      this.logger.log(`Confirmed registration payment ${result.payment.invoiceNumber} (hash …${transactionHash.slice(-8)})`);
+      void this.notifyRegistrationPayment(result.payment);
+      return this.toPublicPayment(result.payment, { message: 'Payment confirmed. Your account is now active.' });
+    } catch (error) {
+      if (this.isUniqueConstraintError(error)) throw new ConflictException('This Bakong transaction has already been used.');
+      throw error;
+    }
   }
 
   private async confirmCoursePayment(payment: any, transaction: any) {
-    const configuredAccount = this.config.get<string>('BAKONG_ACCOUNT_ID');
-    const amountMatches = Math.abs(Number(transaction.amount) - Number(payment.amount)) < 0.0001;
-    const currencyMatches = String(transaction.currency || '').toUpperCase() === payment.currency;
-    const accountMatches = !configuredAccount || String(transaction.toAccountId || '').toLowerCase() === configuredAccount.toLowerCase();
-    if (!amountMatches || !currencyMatches || !accountMatches) {
-      const failed = await this.prisma.coursePayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.FAILED }, include: { course: true, student: { select: { userId: true } } } });
+    const validation = this.validateBakongTransaction(payment, transaction);
+    if (validation.configurationError) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong merchant verification is not configured. Please contact admin support.' });
+    if (!validation.valid) {
+      this.logger.warn(`Rejected course payment ${payment.invoiceNumber}: ${validation.reason}`);
+      const result = await this.prisma.coursePayment.updateMany({ where: { id: payment.id, status: PaymentStatus.PENDING }, data: { status: PaymentStatus.FAILED } });
+      const failed = await this.prisma.coursePayment.findUniqueOrThrow({ where: { id: payment.id }, include: { course: true, student: { select: { userId: true } } } });
       return this.toPublicCoursePayment(failed, { message: 'Payment details did not match this course invoice.' });
     }
-    const paid = await this.prisma.$transaction(async (tx) => {
-      const updated = await tx.coursePayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.PAID, paidAt: new Date(), transactionHash: transaction.hash, fromAccountId: transaction.fromAccountId, toAccountId: transaction.toAccountId }, include: { course: true, student: { select: { userId: true } } } });
-      await tx.enrollment.upsert({ where: { courseId_studentId: { courseId: updated.courseId, studentId: updated.studentId } }, update: { status: 'ACTIVE', enrollmentDate: new Date() }, create: { courseId: updated.courseId, studentId: updated.studentId, status: 'ACTIVE' } });
-      return updated;
-    });
-    void this.notifyCoursePayment(paid);
-    return this.toPublicCoursePayment(paid, { message: 'Payment confirmed. The course is now unlocked.', enrolled: true });
+    const transactionHash = validation.transactionHash;
+    if (!transactionHash) throw new BadRequestException('Bakong returned an invalid transaction hash.');
+
+    try {
+      const result = await this.prisma.$transaction(async (tx) => {
+        const current = await tx.coursePayment.findUnique({ where: { id: payment.id }, include: { course: true, student: { select: { userId: true } } } });
+        if (!current) throw new NotFoundException('Course payment was not found.');
+        if (current.status !== PaymentStatus.PENDING) return { payment: current, newlyPaid: false };
+        await tx.paymentTransaction.create({ data: { transactionHash, paymentType: 'COURSE', paymentId: current.id } });
+        const updated = await tx.coursePayment.update({ where: { id: current.id }, data: { status: PaymentStatus.PAID, paidAt: new Date(), transactionHash, fromAccountId: validation.fromAccountId, toAccountId: validation.toAccountId }, include: { course: true, student: { select: { userId: true } } } });
+        await tx.enrollment.upsert({ where: { courseId_studentId: { courseId: updated.courseId, studentId: updated.studentId } }, update: { status: 'ACTIVE', enrollmentDate: new Date() }, create: { courseId: updated.courseId, studentId: updated.studentId, status: 'ACTIVE' } });
+        return { payment: updated, newlyPaid: true };
+      });
+      if (!result.newlyPaid) return this.toPublicCoursePayment(result.payment);
+      this.logger.log(`Confirmed course payment ${result.payment.invoiceNumber} (hash …${transactionHash.slice(-8)})`);
+      void this.notifyCoursePayment(result.payment);
+      return this.toPublicCoursePayment(result.payment, { message: 'Payment confirmed. The course is now unlocked.', enrolled: true });
+    } catch (error) {
+      if (this.isUniqueConstraintError(error)) throw new ConflictException('This Bakong transaction has already been used.');
+      throw error;
+    }
+  }
+
+  private validateBakongTransaction(payment: any, transaction: any) {
+    const configuredAccount = String(this.config.get<string>('BAKONG_ACCOUNT_ID') || '').trim();
+    if (!configuredAccount) return { valid: false, configurationError: true, reason: 'BAKONG_ACCOUNT_ID is not configured.' };
+
+    const transactionHash = String(transaction?.hash || '').trim();
+    const fromAccountId = String(transaction?.fromAccountId || '').trim();
+    const toAccountId = String(transaction?.toAccountId || '').trim();
+    const receivedAmount = this.normalizedAmount(transaction?.amount);
+    const expectedAmount = this.normalizedAmount(payment.amount);
+    const receivedCurrency = String(transaction?.currency || '').trim().toUpperCase();
+    const expectedCurrency = String(payment.currency || '').trim().toUpperCase();
+    const reasons: string[] = [];
+
+    if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{15,254}$/.test(transactionHash)) reasons.push('invalid transaction hash');
+    if (!fromAccountId) reasons.push('missing sender account');
+    if (!toAccountId || toAccountId.toLowerCase() !== configuredAccount.toLowerCase()) reasons.push('merchant account mismatch');
+    if (!receivedAmount || !expectedAmount || receivedAmount !== expectedAmount) reasons.push('amount mismatch');
+    if (!receivedCurrency || receivedCurrency !== expectedCurrency) reasons.push('currency mismatch');
+    return { valid: reasons.length === 0, configurationError: false, reason: reasons.join(', ') || undefined, transactionHash, fromAccountId, toAccountId };
+  }
+
+  private normalizedAmount(value: unknown) {
+    const amount = Number(value);
+    return Number.isFinite(amount) && amount >= 0 ? amount.toFixed(2) : null;
+  }
+
+  private isUniqueConstraintError(error: unknown) {
+    return Boolean(error && typeof error === 'object' && 'code' in error && (error as { code?: unknown }).code === 'P2002');
   }
 
   private async notifyRegistrationPayment(paid: any) {
@@ -299,7 +357,7 @@ export class PaymentService {
   }
 
   private toPublicPayment(payment: any, extra: Record<string, unknown> = {}) {
-    return { id: payment.id, publicToken: payment.publicToken, invoiceNumber: payment.invoiceNumber, qrString: payment.qrString, md5Hash: payment.md5Hash, amount: payment.amount.toString(), currency: payment.currency, status: payment.status, expiresAt: payment.expiresAt, paidAt: payment.paidAt, provider: 'KHQR', ...extra };
+    return { id: payment.id, publicToken: payment.publicToken, invoiceNumber: payment.invoiceNumber, qrString: payment.qrString, amount: payment.amount.toString(), currency: payment.currency, status: payment.status, expiresAt: payment.expiresAt, paidAt: payment.paidAt, provider: 'KHQR', ...extra };
   }
 
   private toPublicCoursePayment(payment: any, extra: Record<string, unknown> = {}) {

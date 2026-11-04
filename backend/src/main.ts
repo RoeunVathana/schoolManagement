@@ -143,9 +143,27 @@ async function bootstrap() {
     legacyHeaders: false,
     message: { success: false, message: 'Too many code runs. Please wait a moment before trying again.' },
   });
+  const paymentLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: getPositiveLimit(config, 'PAYMENT_RATE_LIMIT', 30),
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many payment checks. Please wait a moment before trying again.' },
+  });
+  const checkoutLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: getPositiveLimit(config, 'PAYMENT_RATE_LIMIT', 30),
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    // Course browsing is public and should not consume payment attempts.
+    skip: (request) => request.method !== 'POST' || !request.path.endsWith('/checkout'),
+    message: { success: false, message: 'Too many checkout attempts. Please wait a moment before trying again.' },
+  });
   app.use(generalLimiter);
   app.use('/contact', contactLimiter);
   app.use('/code/run', codeRunLimiter);
+  app.use('/payments', paymentLimiter);
+  app.use('/storefront/courses', checkoutLimiter);
   app.use(
     [
       '/auth/login',
