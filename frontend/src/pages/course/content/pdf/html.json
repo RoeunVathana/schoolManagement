@@ -1,0 +1,693 @@
+{
+  "slug": "html",
+  "sourceFile": "html.pdf",
+  "pageCount": 26,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-html-page-1",
+          "label": "PDF 1. 1.1 What is HTML?",
+          "heading": "1.1 What is HTML?",
+          "intro": "1. Introduction to HTML HTML (HyperText Markup Language) គឺជាភាសាសម្គាល់ដែលប្រើសម្ រាប់បង្កើតទំព័រ",
+          "bodyHeading": "Source content · html.pdf · page 1",
+          "body": "1. Introduction to HTML\nHTML (HyperText Markup Language) គឺជាភាសាសម្គាល់ដែលប្រើសម្\nរាប់បង្កើតទំព័រ\nបណ្តាញ។ វាផ្តល់នូវរចនាសម្ព័័ន្ធមូលដ្ឋានសម្\nរាប់ខ្លឹឹមសារនៅលើអ៊ីីនធឺណិត ដូចជាអត្ថបទ រូបភាព\nនិងតំណភ្ជាប់។ ផ្នែកនេះះនឹងណែនាំំអំពី HTML និងធាតុសំខាន់ៗរបស់វា។\n1.1 What is HTML?\nHTML គឺជាភាសាសម្គាល់ (markup language) ដែលត្រូូវបានប្រើដើម្បីីកំណត់រចនាសម្ព័័ន្ធនៃទំព័របណ្តាញ។ វា\nមិនមែនជាភាសាសរសេរកម្មវិធីទេ ប៉ុន្តែជាវិធីដើម្បីីប្\nរាប់កម្មវិធីរុករកគេហទំព័រពីរបៀបៀបបង្ហាញខ្លឹឹមសារ។ នេះះជា\nឧទាហរណ៍សាមញ្ញ៖\n<p>This is a paragraph in HTML.</p>\nអត្ថន័យ៖ ស្លាក <p> បង្ហាញកថាខណ្ឌមួយ។ អត្ថបទ \"This is a paragraph in HTML.\" នឹងត្រូូវបានបង្ហាញ\nនៅលើទំព័របណ្តាញជាកថាខណ្ឌធម្មតា។\n1.2 HTML Document Structure (<!DOCTYPE html>,\n<html>, <head>, <body>)\nឯកសារ HTML មានរចនាសម្ព័័ន្ធជាមូលដ្ឋានដែលរួមបញ្ចូល <!DOCTYPE html>, <html>, <head>, និង\n<body>។ នេះះជាឧទាហរណ៍៖\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome</h1>\n</body>\n</html>\nអត្ថន័យ៖",
+          "code": "<p>This is a paragraph in HTML.</p>\n<html>, <head>, <body>)\n<body>។ នេះះជាឧទាហរណ៍៖\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Welcome</h1>\n</body>\n</html>",
+          "preview": {
+            "title": "Html · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 1",
+            "1.1 What is HTML?"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-html-page-2",
+          "label": "PDF 2. 1.3 Basic HTML Tags and their Usage",
+          "heading": "1.3 Basic HTML Tags and their Usage",
+          "intro": "<!DOCTYPE html> – ប្រកាសថា៖ ឯកសារនេះះជា HTML5។ <html lang=\"en\"> – ធាតុឫស បញ្ជាក់ភាសាជាអង់គ្លេស។ <head> – ផ្ទុកទិន្ន័យមេតា ដូចជាចំណងជើង។",
+          "bodyHeading": "Source content · html.pdf · page 2",
+          "body": "<!DOCTYPE html> – ប្រកាសថា៖ ឯកសារនេះះជា HTML5។\n<html lang=\"en\"> – ធាតុឫស បញ្ជាក់ភាសាជាអង់គ្លេស។\n<head> – ផ្ទុកទិន្ន័យមេតា ដូចជាចំណងជើង។\n<body> – ផ្ទុកខ្លឹឹមសារដែលអាចមើលឃើញ។\n1.3 Basic HTML Tags and their Usage\nស្លាក HTML មូលដ្ឋានដូចជា <h1>, <p>, <a> ត្រូូវបានប្រើដើម្បីីបង្កើតខ្លឹឹមសារផ្សេងៗ។ នេះះជាឧទាហរណ៍៖\n<h1>This is a Heading</h1>\n<p>This is a paragraph.</p>\n<a href=\"https://example.com\">Click me</a>\nអត្ថន័យ៖\n<h1> – បង្ហាញចំណងជើងធំ (heading)។\n<p> – បង្ហាញកថាខណ្ឌ (paragraph)។\n<a> – បង្កើតតំណភ្ជាប់ (link) ដែលអ្នកប្រើអាចចុចទៅកាន់គេហទំព័រផ្សេង។\n1.4 Structure of an HTML Page\nទំព័រ HTML មានរចនាសម្ព័័ន្ធច្បាស់លាស់ ដែលរួមបញ្ចូលផ្នែកផ្សេងៗដើម្បីីរៀរៀបចំខ្លឹឹមសារ។ នេះះជាឧទាហរណ៍\nពេញលេញ៖\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Simple HTML Page</title>\n</head>\n<body>\n  <header>\n    <h1>My Website</h1>\n  </header>\n  <main>\n    <p>Welcome to my page!</p>\n  </main>\n  <footer>\n    <p>© 2025</p>\n  </footer>",
+          "code": "<h1>This is a Heading</h1>\n<p>This is a paragraph.</p>\n<a href=\"https://example.com\">Click me</a>\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Simple HTML Page</title>\n</head>\n<body>\n  <header>\n    <h1>My Website</h1>\n  </header>\n  <main>\n    <p>Welcome to my page!</p>\n  </main>\n  <footer>\n    <p>© 2025</p>\n  </footer>",
+          "preview": {
+            "title": "Html · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 2",
+            "1.3 Basic HTML Tags and their Usage"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-html-page-3",
+          "label": "PDF 3. 1.5 HTML Elements and Attributes",
+          "heading": "1.5 HTML Elements and Attributes",
+          "intro": "</body> </html> អត្ថន័យ៖ ទំព័រនេះះមាន <header> (ផ្នែកខាងលើ), <main> (ខ្លឹឹមសារសំខាន់), និង <footer> (ផ្នែកខាង",
+          "bodyHeading": "Source content · html.pdf · page 3",
+          "body": "</body>\n</html>\nអត្ថន័យ៖ ទំព័រនេះះមាន <header> (ផ្នែកខាងលើ), <main> (ខ្លឹឹមសារសំខាន់), និង <footer> (ផ្នែកខាង\nក្រោម) ដើម្បីីរៀរៀបចំខ្លឹឹមសារឱ្យមានសណ្តាប់ធ្នាប់។\n1.5 HTML Elements and Attributes\nធាតុ HTML (elements) គឺជាស្លាកដែលបង្កើតខ្លឹឹមសារ ហើយគុណលក្ខណៈ (attributes) ផ្តល់ព័ត៌មានបន្ថែម\nដល់ធាតុទាំំងនោះ។ នេះះជាឧទាហរណ៍៖\n<a href=\"https://example.com\" target=\"_blank\">Visit Example</a>\n<img src=\"image.jpg\" alt=\"A sample image\">\nអត្ថន័យ៖\n<a> – ធាតុតំណភ្ជាប់ ជាមួយគុណលក្ខណៈ href (ទីតាំំងតំណ) និង target=\"_blank\" (បើកនៅផ្ទាំំង\nថ្មីី)។\n<img> – ធាតុរូបភាព ជាមួយ src (ទីតាំំងរូបភាព) និង alt (អត្ថបទជំនួស)។\n2. Basic HTML Tags\nស្លាក HTML មូលដ្ឋានគឺជាស្លាកដែលត្រូូវបានប្រើញឹកញាប់បំផុតក្នុងការបង្កើតទំព័របណ្តាញ។ ផ្នែកនេះះ\nនឹងណែនាំំអ្នកអំពីស្លាកទាំំងនេះះ និងរបៀបៀបប្រើវាឱ្យបានត្រឹឹមត្រូូវ។\n2.1 Text Formatting Tags\nស្លាកដើម្បីីរៀរៀបចំអត្ថបទឱ្យមានរូបរាងល្អ និងអានយល់បានងាយ។\n2.1.1 <h1> to <h6> (Headings)\nស្លាកចំណងជើងពី h1 ដល់ h6 ត្រូូវបានប្រើសម្\nរាប់បង្ហាញចំណងជើងនៃផ្នែកផ្សេងៗ។ h1 ជាចំណងជើងធំបំផុត រីឯ\nh6 តូចបំផុត។\n<h1>Heading 1</h1>\n<h2>Heading 2</h2>\n<h3>Heading 3</h3>\n<h4>Heading 4</h4>",
+          "code": "</body>\n</html>\n<a href=\"https://example.com\" target=\"_blank\">Visit Example</a>\n<img src=\"image.jpg\" alt=\"A sample image\">\n<h1>Heading 1</h1>\n<h2>Heading 2</h2>\n<h3>Heading 3</h3>\n<h4>Heading 4</h4>",
+          "preview": {
+            "title": "Html · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 3",
+            "1.5 HTML Elements and Attributes"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-html-page-4",
+          "label": "PDF 4. 2.1.2 <p> (Paragraph)",
+          "heading": "2.1.2 <p> (Paragraph)",
+          "intro": "  <h5>Heading 5</h5>",
+          "bodyHeading": "Source content · html.pdf · page 4",
+          "body": "\n\n<h5>Heading 5</h5>\n<h6>Heading 6</h6>\nគន្លឹះ៖ គួរប្រើ h1 តែមួយក្នុងមួយទំព័រ ដើម្បីី SEO ល្អ។\n2.1.2 <p> (Paragraph)\nស្លាកសម្\nរាប់បង្កើតកថាខណ្ឌធម្មតា។\n<p>នេ\nះ\nះជាកថាខណ្ឌមួយ។</p>\n<p>នេ\nះ\nះជាកថាខណ្ឌមួយទៀត។</p>\n2.1.3 <br> (Line Break)\nស្លាកដែលបង្កើតការបំបែកបន្ទាត់ដោយមិនចាំំបាច់បិទស្លាក។\n<p>បន្ទាត់ទីមួយ<br>បន្ទាត់ទីពីរ</p>\n2.1.4 <hr> (Horizontal Rule)\nស្លាកដែលបង្កើតបន្ទាត់ផ្តេកសម្\nរាប់បែងចែកផ្នែក។\n<p>ផ្នែកខាងលើ</p>\n<hr>\n<p>ផ្នែកខាងក្រោម</p>\n2.1.5 <strong>, <em> (Text emphasis)\nស្លាកសម្\nរាប់ធ្វើឱ្យអត្ថបទមានភាពច្បាស់លាស់។\n<p><strong>អត្ថបទដែលមានទម្ងន់</strong> និង <em>អត្ថបទដែលមានការបន្លឺឺ</em><\n<strong> - បង្ហាញថាអត្ថបទមានសារៈសំខាន់ (ធានាភាពជាអក្សរដិត)\n<em> - បង្ហាញការបន្លឺឺ (ធានាភាពជាអក្សរទ្រេត)\n2.1.6 <u>, <mark>, <del> (Text style)\nស្លាកសម្\nរាប់ដាក់រចនាបថអត្ថបទ។",
+          "code": "<h5>Heading 5</h5>\n<h6>Heading 6</h6>\n<p>នេ\n<p>នេ\n<p>បន្ទាត់ទីមួយ<br>បន្ទាត់ទីពីរ</p>\n<p>ផ្នែកខាងលើ</p>\n<hr>\n<p>ផ្នែកខាងក្រោម</p>\n<p><strong>អត្ថបទដែលមានទម្ងន់</strong> និង <em>អត្ថបទដែលមានការបន្លឺឺ</em><\n<strong> - បង្ហាញថាអត្ថបទមានសារៈសំខាន់ (ធានាភាពជាអក្សរដិត)\n<em> - បង្ហាញការបន្លឺឺ (ធានាភាពជាអក្សរទ្រេត)",
+          "preview": {
+            "title": "Html · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 4",
+            "2.1.2 <p> (Paragraph)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-html-page-5",
+          "label": "PDF 5. 2.1.7 <b>, <i>, <small> (Font styling)",
+          "heading": "2.1.7 <b>, <i>, <small> (Font styling)",
+          "intro": "<p> <u>អត្ថបទដែលមានបន្ទាត់ក្រោម</u>, <mark>អត្ថបទដែលបានគូសពណ៌</mark>,",
+          "bodyHeading": "Source content · html.pdf · page 5",
+          "body": "<p>\n  <u>អត្ថបទដែលមានបន្ទាត់ក្រោម</u>, \n  <mark>អត្ថបទដែលបានគូសពណ៌</mark>, \n  <del>អត្ថបទដែលត្\nរូវបានលុប</del>\n</p>\n2.1.7 <b>, <i>, <small> (Font styling)\nស្លាកសម្\nរាប់ផ្លាស់ប្តូររូបរាងអក្សរ។\n<p>\n  <b>អក្សរដិត</b>, \n  <i>អក្សរទ្រេត</i>, \n  <small>អក្សរតូច</small>\n</p>\nចំណាំំ៖ <b> និង <i> គឺសម្\nរាប់រូបរាងប៉ុណ្\nណោះ ខុសពី <strong> និង <em> ដែលមានន័យសំខាន់។\n2.2 Text Containers\nស្លាកដែលប្រើសម្\nរាប់ផ្ទុកអត្ថបទ ឬធាតុផ្សេងៗ ដើម្បីីរៀរៀបចំប្លង់ និងរចនាបថ។\n2.2.1 <span> (Inline element)\nស្លាក <span> គឺជាធាតុ inline ដែលត្រូូវបានប្រើសម្\nរាប់ប្លង់តូចៗ ឬការដាក់រចនាបថតាម CSS។\n<p>នេ\nះ\nះជាអត្ថបទ <span style=\"color: red;\">ដែលមានពណ៌ក្រ\nហម</span></p>\n2.2.2 <div> (Block-level element)\nស្លាក <div> ជាធាតុ block-level ដែលត្រូូវបានប្រើសម្\nរាប់បំបែកផ្នែកនៃទំព័រ និងសម្\nរាប់រៀរៀបចំ layout។\n<div style=\"background-color: #f0f0f0; padding: 10px;\">\n  <p>នេ\nះ\nះជាផ្នែកមួយដែលប្រើ &lt;div&gt;</p>\n</div>\n2.2.3 <pre> (Preformatted text)\nស្លាក <pre> បង្ហាញអត្ថបទដោយរក្សាទ្រង់ទ្\nរាយដើមរបស់វា (space និងline breaks)។",
+          "code": "<p>\n  <u>អត្ថបទដែលមានបន្ទាត់ក្រោម</u>,\n  <mark>អត្ថបទដែលបានគូសពណ៌</mark>,\n  <del>អត្ថបទដែលត្\n</p>\n<p>\n  <b>អក្សរដិត</b>,\n  <i>អក្សរទ្រេត</i>,\n  <small>អក្សរតូច</small>\n</p>\n<p>នេ\n<div style=\"background-color: #f0f0f0; padding: 10px;\">\n  <p>នេ\n</div>",
+          "preview": {
+            "title": "Html · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 5",
+            "2.1.7 <b>, <i>, <small> (Font styling)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-html-page-6",
+          "label": "PDF 6. 3.1 Unordered Lists",
+          "heading": "3.1 Unordered Lists",
+          "intro": "<pre> នេ ះ",
+          "bodyHeading": "Source content · html.pdf · page 6",
+          "body": "<pre>\nនេ\nះ\nះជាអត្ថបទ\n    ដែលមានការរៀបចំ\n        ដូចដែលវាមាននៅក្នុងកូដ។\n</pre>\n3. Lists in HTML\nស្លាកបញ្ជីីត្រូូវបានប្រើសម្\nរាប់រាយបញ្ជីីធាតុជាចំណាត់ថ្នាក់។ HTML មានបីប្រភេទនៃបញ្ជីី៖\nunordered, ordered និង definition list។\n3.1 Unordered Lists\nបញ្ជីីដែលមានសញ្ញា bullet មិនតាមលំដាប់ជាលេខ។\n3.1.1 <ul>, <li> (List items)\n<ul> ជាស្លាកបញ្ជីីមិនមានលំដាប់ និង <li> ជាស្លាកធាតុបញ្ជីី។\n<ul>\n  <li>ផ្លែប៉ោ\nម</li>\n  <li>ផ្លែលីម</li>\n  <li>ផ្លែក្\nរូច</li>\n</ul>\n3.2 Ordered Lists\nបញ្ជីីដែលមានលំដាប់ជាលេខ (១, ២, ៣...) ឬអក្សរ (a, b, c...)។\n3.2.1 <ol>, <li> (Numbered list)\n<ol> ជាស្លាកបញ្ជីីមានលំដាប់ និង <li> សម្\nរាប់ធាតុនីមួយៗ។\n<ol>\n  <li>រៀន HTML</li>\n  <li>រៀន CSS</li>",
+          "code": "<pre>\n</pre>\n<ul> ជាស្លាកបញ្ជីីមិនមានលំដាប់ និង <li> ជាស្លាកធាតុបញ្ជីី។\n<ul>\n  <li>ផ្លែប៉ោ\n  <li>ផ្លែលីម</li>\n  <li>ផ្លែក្\n</ul>\n<ol> ជាស្លាកបញ្ជីីមានលំដាប់ និង <li> សម្\n<ol>\n  <li>រៀន HTML</li>\n  <li>រៀន CSS</li>",
+          "preview": {
+            "title": "Html · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 6",
+            "3.1 Unordered Lists"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-html-page-7",
+          "label": "PDF 7. 3.3 Definition Lists",
+          "heading": "3.3 Definition Lists",
+          "intro": "<li>រៀន JavaScript</li> </ol> បញ្ជីីដែលបង្ហាញពាក្យនិងនិយមន័យរបស់ពាក្យនោះ។",
+          "bodyHeading": "Source content · html.pdf · page 7",
+          "body": "<li>រៀន JavaScript</li>\n</ol>\n3.3 Definition Lists\nបញ្ជីីដែលបង្ហាញពាក្យនិងនិយមន័យរបស់ពាក្យនោះ។\n3.3.1 <dl>, <dt>, <dd> (Definition Term, Definition Description)\n<dl> ជាស្លាកបញ្ជីីនិយមន័យ។ <dt> សម្\nរាប់ពាក្យ និង <dd> សម្\nរាប់និយមន័យ។\n<dl>\n  <dt>HTML</dt>\n  <dd>ភាសាសម្រាា\nប់បង្កើតទំព័របណ្តាញ។</dd>\n  <dt>CSS</dt>\n  <dd>ភាសាសម្រាា\nប់រចនាបថនៃទំព័របណ្តាញ។</dd>\n</dl>\n4. Links and Navigation\nស្លាកសម្\nរាប់បង្កើតតំណភ្ជាប់ទៅកាន់ទំព័រផ្សេងៗ ឬមុខងារផ្សេងៗនៅក្នុងគេហទំព័រ។\n4.1 Anchor Tag\nស្លាកសម្\nរាប់បង្កើតតំណភ្ជាប់ (hyperlink)។\n4.1.1 <a> (Creating hyperlinks)\nស្លាក <a> ត្រូូវបានប្រើសម្\nរាប់បង្កើតតំណភ្ជាប់ទៅកាន់ URL ឬផ្នែកផ្សេងៗក្នុងទំព័រ។\n<a href=\"https://www.example.com\">ចូលទៅកាន់ Example</a>\n4.1.2 Attributes: href, target, title",
+          "code": "<li>រៀន JavaScript</li>\n</ol>\n<dl> ជាស្លាកបញ្ជីីនិយមន័យ។ <dt> សម្\n<dl>\n  <dt>HTML</dt>\n  <dd>ភាសាសម្រាា\n  <dt>CSS</dt>\n  <dd>ភាសាសម្រាា\n</dl>\n<a href=\"https://www.example.com\">ចូលទៅកាន់ Example</a>",
+          "preview": {
+            "title": "Html · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 7",
+            "3.3 Definition Lists"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-html-page-8",
+          "label": "PDF 8. 4.2 Navigation",
+          "heading": "4.2 Navigation",
+          "intro": "  href - បញ្ជាក់ URL",
+          "bodyHeading": "Source content · html.pdf · page 8",
+          "body": "\n\nhref - បញ្ជាក់ URL\ntarget - បញ្ជាក់របៀបៀបបើកតំណ (ex: _blank សម្\nរាប់បើកក្នុង tab ថ្មីី)\ntitle - បង្ហាញពាក្យពន្យល់ពេលយក mouse hover\n<a href=\"https://www.google.com\" target=\"_blank\" title=\"ចូល Google\">ចូល\n4.2 Navigation\nស្លាកសម្\nរាប់កំណត់ផ្នែកនៃទំព័រដែលជារចនាសម្ព័័ន្ធនៃការរុករក។\n4.2.1 <nav> (Navigation section)\nស្លាក <nav> ត្រូូវបានប្រើសម្\nរាប់បញ្ជាក់ផ្នែក navigational links។\n<nav>\n  <ul>\n    <li><a href=\"#home\">ទំព័រដើម</a></li>\n    <li><a href=\"#about\">អំពីយើង</a></li>\n    <li><a href=\"#contact\">ទំនាក់ទំនង</a></li>\n  </ul>\n</nav>\n5. Images and Media\nHTML មានសមត្ថភាពបញ្ចូលរូបភាព អូឌីយ៉ូ និងវីដេអូ ដើម្បីីធ្វើឲ្យគេហទំព័រមានភាពស៊ីីជម្រៅនិង\nទាក់ទាញ។\n5.1 Images\nសម្\nរាប់បញ្ចូលរូបភាពទៅក្នុងគេហទំព័រ។\n5.1.1 <img> (Embedding images)\nស្លាក <img> ត្រូូវបានប្រើសម្\nរាប់បញ្ចូលរូបភាព។ វាជាស្លាក self-closing។",
+          "code": "<a href=\"https://www.google.com\" target=\"_blank\" title=\"ចូល Google\">ចូល\n<nav>\n  <ul>\n    <li><a href=\"#home\">ទំព័រដើម</a></li>\n    <li><a href=\"#about\">អំពីយើង</a></li>\n    <li><a href=\"#contact\">ទំនាក់ទំនង</a></li>\n  </ul>\n</nav>",
+          "preview": {
+            "title": "Html · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 8",
+            "4.2 Navigation"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-html-page-9",
+          "label": "PDF 9. 5.1.2 Attributes: src, alt, width, height",
+          "heading": "5.1.2 Attributes: src, alt, width, height",
+          "intro": "<img src=\"cat.jpg\" alt=\"រូបកូនឆ្មា\" /> src - ទីតាំំងរូបភាព alt - អត្ថបទជំនួសពេលរូបភាពមិនអាចបង្ហាញបាន",
+          "bodyHeading": "Source content · html.pdf · page 9",
+          "body": "<img src=\"cat.jpg\" alt=\"រូបកូនឆ្មា\" />\n5.1.2 Attributes: src, alt, width, height\nsrc - ទីតាំំងរូបភាព\nalt - អត្ថបទជំនួសពេលរូបភាពមិនអាចបង្ហាញបាន\nwidth និង height - បញ្ជាក់ទំហំរូបភាព\n<img src=\"dog.jpg\" alt=\"រូបឆ្កែ\" width=\"300\" height=\"200\" />\n5.2 Audio and Video\nបញ្ចូលអូឌីយ៉ូនិងវីដេអូទៅក្នុងទំព័រ។\n5.2.1 <audio>, <video> (Embedding audio and video)\nស្លាកទាំំងនេះះប្រើសម្\nរាប់បញ្ចូលបណ្ដាញសម្លេងនិងវីដេអូ។ អ្នកអាចដាក់ controls ដើម្បីីអោយអ្នកប្រើបញ្ជា។\n<audio controls>\n  <source src=\"sound.mp3\" type=\"audio/mpeg\" />\n  Browser មិនគ\nាំំ\nទ្រ audio tag។\n</audio>\n<video width=\"320\" height=\"240\" controls>\n  <source src=\"movie.mp4\" type=\"video/mp4\" />\n  Browser មិនគ\nាំំ\nទ្រ video tag។\n</video>\n5.2.2 Attributes: controls, src, autoplay, loop\ncontrols - បង្ហាញប៊ូតុងលេង\nsrc - ទីតាំំងឯកសារ\nautoplay - លេងដោយស្វ័័យប្រវត្តិិ\nloop - លេងសារឡើងវិញ\n<audio src=\"bg-music.mp3\" autoplay loop controls></audio>\n5.3 Multimedia Source Elements",
+          "code": "<img src=\"cat.jpg\" alt=\"រូបកូនឆ្មា\" />\n<img src=\"dog.jpg\" alt=\"រូបឆ្កែ\" width=\"300\" height=\"200\" />\n<audio controls>\n  <source src=\"sound.mp3\" type=\"audio/mpeg\" />\n</audio>\n<video width=\"320\" height=\"240\" controls>\n  <source src=\"movie.mp4\" type=\"video/mp4\" />\n</video>\n<audio src=\"bg-music.mp3\" autoplay loop controls></audio>",
+          "preview": {
+            "title": "Html · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 9",
+            "5.1.2 Attributes: src, alt, width, height"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-html-page-10",
+          "label": "PDF 10. 5.3.1 <source>, <track>",
+          "heading": "5.3.1 <source>, <track>",
+          "intro": "  ស្លាក <source> និង <track> ជួយផ្តល់ភាពតំណកសម្",
+          "bodyHeading": "Source content · html.pdf · page 10",
+          "body": "\n\nស្លាក <source> និង <track> ជួយផ្តល់ភាពតំណកសម្\nរាប់ media elements។\n5.3.1 <source>, <track>\n<source> ប្រើសម្\nរាប់បញ្ជាក់ប្រភព media\n<track> ប្រើសម្\nរាប់បញ្ជាក់អក្សររត់ (subtitles, captions)\n<video controls>\n  <source src=\"video.mp4\" type=\"video/mp4\" />\n  <source src=\"video.ogg\" type=\"video/ogg\" />\n  <track src=\"subtitles.vtt\" kind=\"subtitles\" srclang=\"en\" label=\"Englis\n</video>\n6. Tables\nតារាង (Tables) ត្រូូវបានប្រើដើម្បីីបង្ហាញទិន្ន័យជាស៊ុម និងជួរ ដូចជាតារាងព័ត៌ព័ត៌មាន ឬកាល\nវិភាគ។\n6.1 Table Structure\nសមាសភាគគ្រប់គ្រងរបស់តារាង HTML។\n6.1.1 <table>, <tr>, <th>, <td> (Table rows and cells)\n<table> - ស្លាកសម្\nរាប់បង្កើតតារាង\n<tr> - ជួរដេកមួយ\n<th> - ក្បាលជួរដេក\n<td> - ក្រឡាធម្មតា\n<table border=\"1\">\n  <tr>\n    <th>ឈ្\nមោះះ</th>\n    <th>អាយុ</th>\n  </tr>\n  <tr>\n    <td>សុភា</td>\n    <td>២៥</td>",
+          "code": "<source> ប្រើសម្\n<track> ប្រើសម្\n<video controls>\n  <source src=\"video.mp4\" type=\"video/mp4\" />\n  <source src=\"video.ogg\" type=\"video/ogg\" />\n</video>\n<table> - ស្លាកសម្\n<tr> - ជួរដេកមួយ\n<th> - ក្បាលជួរដេក\n<td> - ក្រឡាធម្មតា\n<table border=\"1\">\n  <tr>\n    <th>ឈ្\n    <th>អាយុ</th>\n  </tr>\n  <tr>\n    <td>សុភា</td>\n    <td>២៥</td>",
+          "preview": {
+            "title": "Html · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 10",
+            "5.3.1 <source>, <track>"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-html-page-11",
+          "label": "PDF 11. 6.1.2 <caption> (Table caption)",
+          "heading": "6.1.2 <caption> (Table caption)",
+          "intro": "</tr> <tr> <td>ចាន់ថន</td>",
+          "bodyHeading": "Source content · html.pdf · page 11",
+          "body": "</tr>\n  <tr>\n    <td>ចាន់ថន</td>\n    <td>២២</td>\n  </tr>\n</table>\n6.1.2 <caption> (Table caption)\n<caption> ត្រូូវបានប្រើដើម្បីីបន្ថែមចំណងជើងសម្\nរាប់តារាង។\n<table border=\"1\">\n  <caption>បញ្ជីីសិស្ស</caption>\n  <tr>\n    <th>ឈ្\nមោះះ</th>\n    <th>ថ្នាក់</th>\n  </tr>\n  <tr>\n    <td>រឿន</td>\n    <td>១១A</td>\n  </tr>\n</table>\n6.1.3 <thead>, <tbody>, <tfoot> (Table sections)\n<thead> - ផ្នែកក្បាល\n<tbody> - ផ្នែកខ្លឹឹមសារ\n<tfoot> - ផ្នែកបាត\n<table border=\"1\">\n  <thead>\n    <tr>\n      <th>ផលិតផល</th>\n      <th>តម្លៃ</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>កាហ្វេ</td>\n      <td>$2</td>",
+          "code": "</tr>\n  <tr>\n    <td>ចាន់ថន</td>\n    <td>២២</td>\n  </tr>\n</table>\n<caption> ត្រូូវបានប្រើដើម្បីីបន្ថែមចំណងជើងសម្\n<table border=\"1\">\n  <caption>បញ្ជីីសិស្ស</caption>\n  <tr>\n    <th>ឈ្\n    <th>ថ្នាក់</th>\n  </tr>\n  <tr>\n    <td>រឿន</td>\n    <td>១១A</td>\n  </tr>\n</table>\n<thead> - ផ្នែកក្បាល\n<tbody> - ផ្នែកខ្លឹឹមសារ\n<tfoot> - ផ្នែកបាត\n<table border=\"1\">\n  <thead>\n    <tr>",
+          "preview": {
+            "title": "Html · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 11",
+            "6.1.2 <caption> (Table caption)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-html-page-12",
+          "label": "PDF 12. 7.1 Creating Forms",
+          "heading": "7.1 Creating Forms",
+          "intro": "</tr> <tr> <td>ស៊ុប</td>",
+          "bodyHeading": "Source content · html.pdf · page 12",
+          "body": "</tr>\n    <tr>\n      <td>ស៊ុប</td>\n      <td>$3</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <td colspan=\"2\">បញ្ចប់តារាង</td>\n    </tr>\n  </tfoot>\n</table>\n/* Section 7: Forms and Input */\n7. Forms and Input\nសំណុំបែបបទ (Forms) ត្រូូវបានប្រើសម្\nរាប់ប្រមូលព័ត៌មានពីអ្នកប្រើប្\nរាស់ ដូចជា username,\nemail, feedback និងផ្សេងៗ។\n7.1 Creating Forms\n7.1.1 <form> (Form tag)\n<form> ត្រូូវបានប្រើដើម្បីីបង្កើតសំណុំបែបបទ។\n<form>\n  <!-- Input fields go here -->\n</form>\n7.1.2 Form attributes: action, method\naction បញ្ជាក់ URL ដោយបញ្ជូនទិន្ន័យ\nmethod ជាវិធីសាស្\nរ្តសម្\nរាប់បញ្ជូន (GET ឬ POST)\n<form action=\"/submit\" method=\"post\">\n  ...",
+          "code": "</tr>\n    <tr>\n      <td>ស៊ុប</td>\n      <td>$3</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <td colspan=\"2\">បញ្ចប់តារាង</td>\n    </tr>\n  </tfoot>\n</table>\n<form> ត្រូូវបានប្រើដើម្បីីបង្កើតសំណុំបែបបទ។\n<form>\n</form>\n<form action=\"/submit\" method=\"post\">",
+          "preview": {
+            "title": "Html · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 12",
+            "7.1 Creating Forms"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-html-page-13",
+          "label": "PDF 13. 7.2 Input Elements",
+          "heading": "7.2 Input Elements",
+          "intro": "</form> 7.2.1 <input>, <textarea>, <select>, <option>, <button> ស្លាកសំខាន់ៗក្នុងសំណុំបែបបទ៖",
+          "bodyHeading": "Source content · html.pdf · page 13",
+          "body": "</form>\n7.2 Input Elements\n7.2.1 <input>, <textarea>, <select>, <option>, <button>\nស្លាកសំខាន់ៗក្នុងសំណុំបែបបទ៖\n<input type=\"text\" placeholder=\"ឈ្\nមោះះ\" />\n<textarea placeholder=\"សាររបស់អ្នក\"></textarea>\n<select>\n  <option>ជ្រើសរើសមួយ</option>\n  <option>ជម្រើសទី១</option>\n</select>\n<button type=\"submit\">បញ្ជូន</button>\n7.3 Form Grouping\n7.3.1 <fieldset>, <legend>\n<fieldset> ប្រើដើម្បីីដាក់ input ទាំំងអស់នៅក្នុងក្រុុម\n<legend> ជាចំណងជើងសម្\nរាប់ក្រុុមនោះ។\n<fieldset>\n  <legend>ព័ត៌មានផ្ទាល់ខ្លួន</legend>\n  <input type=\"text\" placeholder=\"ឈ្\nមោះះ\" />\n</fieldset>\n7.4 Labels and Accessibility\n7.4.1 <label> (Associating input with labels)\n<label> ជួយបញ្ជាក់ថា input ត្រូូវបានបញ្ជាក់ដោយអ្វីី។ ប្រើ for ដើម្បីីភ្ជាប់ label ជាមួយ input។\n<label for=\"name\">ឈ្\nមោះះ:</label>\n<input type=\"text\" id=\"name\" name=\"name\" />",
+          "code": "</form>\n<textarea placeholder=\"សាររបស់អ្នក\"></textarea>\n<select>\n  <option>ជ្រើសរើសមួយ</option>\n  <option>ជម្រើសទី១</option>\n</select>\n<button type=\"submit\">បញ្ជូន</button>\n<fieldset> ប្រើដើម្បីីដាក់ input ទាំំងអស់នៅក្នុងក្រុុម\n<legend> ជាចំណងជើងសម្\n<fieldset>\n  <legend>ព័ត៌មានផ្ទាល់ខ្លួន</legend>\n</fieldset>\n<label> ជួយបញ្ជាក់ថា input ត្រូូវបានបញ្ជាក់ដោយអ្វីី។ ប្រើ for ដើម្បីីភ្ជាប់ label ជាមួយ input។\n<label for=\"name\">ឈ្\n<input type=\"text\" id=\"name\" name=\"name\" />",
+          "preview": {
+            "title": "Html · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 13",
+            "7.2 Input Elements"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-html-page-14",
+          "label": "PDF 14. Form Example",
+          "heading": "Form Example",
+          "intro": "  ឧទាហរណ៍ខាងក្រោមបង្ហាញពីការប្រើប្",
+          "bodyHeading": "Source content · html.pdf · page 14",
+          "body": "\n\nForm Example\nឧទាហរណ៍ខាងក្រោមបង្ហាញពីការប្រើប្\nរាស់ form ទាំំងស្រុុ\nងដែលរួមបញ្ចូល input, textarea, select, និង\nbutton។\n<form action=\"/submit\" method=\"post\">\n  <fieldset>\n    <legend>ព័ត៌មានផ្ទាល់ខ្លួន (Personal Info)</legend>\n    <label for=\"name\">ឈ្\nមោះះ (Name):</label>\n    <input type=\"text\" id=\"name\" name=\"name\" placeholder=\"ឈ្\nមោះះ\" />\n    <br /><br />\n    <label for=\"message\">សារ (Message):</label><br />\n    <textarea id=\"message\" name=\"message\" placeholder=\"សាររបស់អ្នក\"></\n    <br /><br />\n    <label for=\"options\">ជម្រើស (Options):</label>\n    <select id=\"options\" name=\"options\">\n      <option>ជ្រើសរើសមួយ</option>\n      <option>ជម្រើសទី១</option>\n      <option>ជម្រើសទី២</option>\n    </select>\n  </fieldset>\n  <br />\n  <button type=\"submit\">បញ្ជូន (Submit)</button>\n</form>\n8. Semantic HTML",
+          "code": "<form action=\"/submit\" method=\"post\">\n  <fieldset>\n    <legend>ព័ត៌មានផ្ទាល់ខ្លួន (Personal Info)</legend>\n    <label for=\"name\">ឈ្\n    <br /><br />\n    <label for=\"message\">សារ (Message):</label><br />\n    <textarea id=\"message\" name=\"message\" placeholder=\"សាររបស់អ្នក\"></\n    <br /><br />\n    <label for=\"options\">ជម្រើស (Options):</label>\n    <select id=\"options\" name=\"options\">\n      <option>ជ្រើសរើសមួយ</option>\n      <option>ជម្រើសទី១</option>\n      <option>ជម្រើសទី២</option>\n    </select>\n  </fieldset>\n  <br />\n  <button type=\"submit\">បញ្ជូន (Submit)</button>\n</form>",
+          "preview": {
+            "title": "Html · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 14",
+            "Form Example"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-html-page-15",
+          "label": "PDF 15. 8.1 Understanding Semantic Tags",
+          "heading": "8.1 Understanding Semantic Tags",
+          "intro": "Semantic HTML ជាការប្រើប្ រាស់ស្លាក (tags) ដែលមានអត្ថន័យបញ្ជាក់ពីមាតិកាផ្ទៃក្នុង។ វាជួយ ឲ្យ browser និង search engines ដឹងពីមាតិការបស់គេហទំព័ររបស់អ្នកបានច្បាស់។",
+          "bodyHeading": "Source content · html.pdf · page 15",
+          "body": "Semantic HTML ជាការប្រើប្\nរាស់ស្លាក (tags) ដែលមានអត្ថន័យបញ្ជាក់ពីមាតិកាផ្ទៃក្នុង។ វាជួយ\nឲ្យ browser និង search engines ដឹងពីមាតិការបស់គេហទំព័ររបស់អ្នកបានច្បាស់។\n8.1 Understanding Semantic Tags\n8.1.1 <header>, <footer>, <main>, <section>, <article>, <aside>,\n<nav>\nស្លាក semantic ជួយឲ្យ HTML មានរចនាសម្ព័័ន្ធច្បាស់សម្\nរាប់មាតិកាផ្សេងៗ។\n<header>ក្បាលទំព័រ</header>\n<nav>រុករក</nav>\n<main>\n  <section>\n    <article>\n      <h2>ចំណងជើងអត្ថបទ</h2>\n      <p>អត្ថបទ...</p>\n    </article>\n  </section>\n  <aside>ព័ត៌មានបន្ថែម</aside>\n</main>\n<footer>បាតទំព័រ</footer>\n8.2 Accessibility and SEO Benefits of Semantic HTML\n- ✅ **Accessibility**: ស្លាក semantic ជួយឲ្យ screen readers អាចយល់នូវរចនាសម្ព័័ន្ធមាតិកា។\n- 🚀 **SEO**: Search engines អាចយល់ context និងសារៈសំខាន់របស់មាតិកាបានកាន់តែងាយ។\n9. Embedded Content\nEmbedded content ត្រូូវបានប្រើដើម្បីីបញ្ចូលមាតិកាពីបណ្តាញផ្សេងទៀទៀត ឬបង្កើតក្\nរាហ្វិិកនិង\nវីដេអូក្នុងគេហទំព័រ។\n9.1 Embedding External Content",
+          "code": "<nav>\n<header>ក្បាលទំព័រ</header>\n<nav>រុករក</nav>\n<main>\n  <section>\n    <article>\n      <h2>ចំណងជើងអត្ថបទ</h2>\n      <p>អត្ថបទ...</p>\n    </article>\n  </section>\n  <aside>ព័ត៌មានបន្ថែម</aside>\n</main>\n<footer>បាតទំព័រ</footer>",
+          "preview": {
+            "title": "Html · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 15",
+            "8.1 Understanding Semantic Tags"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-html-page-16",
+          "label": "PDF 16. 9.2 SVG and Canvas",
+          "heading": "9.2 SVG and Canvas",
+          "intro": "  ",
+          "bodyHeading": "Source content · html.pdf · page 16",
+          "body": "\n\n\n\n<iframe> (Embedding other web pages)\n<iframe> ប្រើសម្\nរាប់បញ្ចូលទំព័របណ្តាញផ្សេងទៀទៀតនៅក្នុងទំព័ររបស់អ្នក។\n<iframe src=\"https://example.com\" width=\"600\" height=\"400\"></iframe>\n<object>, <embed> (Embedding multimedia content)\n<object> និង <embed> ប្រើសម្\nរាប់បញ្ចូលវីដេអូ, PDF ឬ Flash។\n<object data=\"file.pdf\" type=\"application/pdf\" width=\"600\" height=\"400\">\n<embed src=\"video.mp4\" width=\"600\" height=\"400\">\n9.2 SVG and Canvas\n<svg> (Scalable Vector Graphics)\n<svg> អាចបង្កើតក្\nរាហ្វិិកដែលអាចពង្រីីកដោយគ្មានបាត់គុណភាព។\n<svg width=\"100\" height=\"100\">\n  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"y\n</svg>\n<canvas> (Drawing graphics with JavaScript)\n<canvas> ប្រើសម្\nរាប់គូរផ្ទាំំងក្\nរាហ្វិិកដោយប្រើ JavaScript។\n<canvas id=\"myCanvas\" width=\"200\" height=\"100\" style=\"border:1px solid #\n<script>\n  const c = document.getElementById(\"myCanvas\");\n  const ctx = c.getContext(\"2d\");\n  ctx.fillStyle = \"blue\";",
+          "code": "<iframe> (Embedding other web pages)\n<iframe> ប្រើសម្\n<iframe src=\"https://example.com\" width=\"600\" height=\"400\"></iframe>\n<object>, <embed> (Embedding multimedia content)\n<object> និង <embed> ប្រើសម្\n<object data=\"file.pdf\" type=\"application/pdf\" width=\"600\" height=\"400\">\n<embed src=\"video.mp4\" width=\"600\" height=\"400\">\n<svg> (Scalable Vector Graphics)\n<svg> អាចបង្កើតក្\n<svg width=\"100\" height=\"100\">\n</svg>\n<canvas> (Drawing graphics with JavaScript)\n<canvas> ប្រើសម្\n<script>\n  const c = document.getElementById(\"myCanvas\");\n  const ctx = c.getContext(\"2d\");",
+          "preview": {
+            "title": "Html · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 16",
+            "9.2 SVG and Canvas"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-html-page-17",
+          "label": "PDF 17. 10.1 Common Attributes",
+          "heading": "10.1 Common Attributes",
+          "intro": "ctx.fillRect(10, 10, 150, 75); </script> 10. HTML Attributes",
+          "bodyHeading": "Source content · html.pdf · page 17",
+          "body": "ctx.fillRect(10, 10, 150, 75);\n</script>\n10. HTML Attributes\nAttribute គឺជាគុណលក្ខណៈសម្\nរាប់បន្ថែមព័ត៌មានបន្ថែមទៅលើ elements។ ឧទាហរណ៍៖ id,\nclass, style, data-*។\n10.1 Common Attributes\n10.1.1 id, class, style, src, href, alt, title, target\nAttribute ទាំំងនេះះគេប្រើជារឿរឿយៗក្នុង HTML:\n<div id=\"header\" class=\"main-header\" style=\"color: red;\">\n  សួស្តីី!\n</div>\n<img src=\"image.jpg\" alt=\"រូបភាព\" title=\"Hover title\" />\n<a href=\"https://example.com\" target=\"_blank\">Visit Site</a>\nid & class: សម្គាល់និងដាក់ស្លាក\nstyle: ដាក់រចនាប័ទ្ម CSS\nsrc: ប្រភពរូបភាព ឬឯកសារ\nhref: តំណភ្ជាប់ URL\nalt: អត្ថបទជំនួសរូបភាព\ntitle: Tooltip នៅពេល hover\ntarget=\"_blank\": បើកតំណថ្មីីនៅក្នុង tab ថ្មីី\n10.2 Data Attributes\n10.2.1 data-* (Custom data attributes)\ndata-* គឺជាគន្លងសម្\nរាប់រក្សាទិន្ន័យផ្ទាល់ខ្លួនក្នុង HTML ដែលអាចយកទៅប្រើជាមួយ JavaScript។",
+          "code": "</script>\nclass, style, data-*។\n<div id=\"header\" class=\"main-header\" style=\"color: red;\">\n</div>\n<img src=\"image.jpg\" alt=\"រូបភាព\" title=\"Hover title\" />\n<a href=\"https://example.com\" target=\"_blank\">Visit Site</a>",
+          "preview": {
+            "title": "Html · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 17",
+            "10.1 Common Attributes"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-html-page-18",
+          "label": "PDF 18. 11.1 Input Types",
+          "heading": "11.1 Input Types",
+          "intro": "<button data-user-id=\"123\" data-role=\"admin\"> ព័ត៌មានអ្នកប្រើ </button>",
+          "bodyHeading": "Source content · html.pdf · page 18",
+          "body": "<button data-user-id=\"123\" data-role=\"admin\">\n  ព័ត៌មានអ្នកប្រើ\n</button>\nអ្នកអាចយកទិន្ន័យនេះះជាមួយ JavaScript៖\nelement.dataset.userId & element.dataset.role\n11. HTML Forms Advanced Concepts\nForm ជាផ្នែកសំខាន់ក្នុងការបញ្ចូលទិន្ន័យពីអ្នកប្រើ។ ចំណេ\nះ\nះដឹងជាក់លាក់អំពីប្រភេទ input និងការ\nផ្ទៀងផ្ទាត់ទិន្ន័យជួយឲ្យអ្នកអភិវឌ្ឍបានប្រសើរជាងមុន។\n11.1 Input Types\n11.1.1 Text, Email, Password, Number, Date, etc.\nប្រភេទនៃ input ជាច្រើន មានសមត្ថភាពបញ្ជាក់រូបរាងនៃទិន្ន័យដែលអ្នកប្រើអាចបញ្ចូល។\n<input type=\"text\" placeholder=\"ឈ្\nមោះះ\" />\n<input type=\"email\" placeholder=\"Email\" />\n<input type=\"password\" placeholder=\"លេខសម្ងាត់\" />\n<input type=\"number\" placeholder=\"អាយុ\" />\n<input type=\"date\" />\n11.1.2 <input type=\"checkbox\">, <input type=\"radio\">, <input\ntype=\"submit\">\nប្រភេទសំខាន់ផ្សេងទៀទៀត៖\n<label>\n  <input type=\"checkbox\" /> ចូលរួមសកម្មភាព\n</label>\n<label>\n  <input type=\"radio\" name=\"gender\" value=\"male\" /> ប្\nរុស\n</label>",
+          "code": "<button data-user-id=\"123\" data-role=\"admin\">\n</button>\n<input type=\"email\" placeholder=\"Email\" />\n<input type=\"password\" placeholder=\"លេខសម្ងាត់\" />\n<input type=\"number\" placeholder=\"អាយុ\" />\n<input type=\"date\" />\n<label>\n  <input type=\"checkbox\" /> ចូលរួមសកម្មភាព\n</label>\n<label>\n  <input type=\"radio\" name=\"gender\" value=\"male\" /> ប្\n</label>",
+          "preview": {
+            "title": "Html · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 18",
+            "11.1 Input Types"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-html-page-19",
+          "label": "PDF 19. 11.2 Form Validation",
+          "heading": "11.2 Form Validation",
+          "intro": "<label> <input type=\"radio\" name=\"gender\" value=\"female\" /> ស្រីី </label>",
+          "bodyHeading": "Source content · html.pdf · page 19",
+          "body": "<label>\n  <input type=\"radio\" name=\"gender\" value=\"female\" /> ស្រីី\n</label>\n<input type=\"submit\" value=\"បញ្ជូន\" />\n11.2 Form Validation\n11.2.1 required, pattern, min, max, etc.\nHTML ផ្ដល់ attribute ដូចជា required, pattern, min, max ដើម្បីីផ្ទៀងផ្ទាត់ទិន្ន័យ។\n<input type=\"text\" required placeholder=\"ឈ្\nមោះះ\" />\n<input type=\"email\" pattern=\"[^@]+@[^\\.]+\\..+\" placeholder=\"Email\" />\n<input type=\"number\" min=\"1\" max=\"100\" placeholder=\"អាយុ\" />\n11.3 Form Controls\n11.3.1 <select>, <option>, <optgroup>\nការជ្រើសជម្រើសជាគ្\nរាប់ប៊ូតុងជ្រើសតែមួយ ឬជាក្រុុមជាជម្រើសអាចប្រើជាមួយ <select>។\n<select>\n  <optgroup label=\"ប្រ\nភេទការអប់រំ\">\n    <option value=\"primary\">បឋមសិក្សា</option>\n    <option value=\"secondary\">មធ្យមសិក្សា</option>\n  </optgroup>\n</select>\n12. HTML5 New Features\nHTML5 បាននាំំមកនូវលក្ខណៈពិសេសថ្មីីៗដើម្បីីធ្វើឲ្យការអភិវឌ្ឍវេបសាយកាន់តែងាយស្រួួ\nល និងមាន\nប្រសិទ្ធភាព។ វាចូលរួមជាមួយ tag ថ្មីីៗ, input type, និង API ផ្សេងៗ។",
+          "code": "<label>\n  <input type=\"radio\" name=\"gender\" value=\"female\" /> ស្រីី\n</label>\n<input type=\"submit\" value=\"បញ្ជូន\" />\n<input type=\"email\" pattern=\"[^@]+@[^\\.]+\\..+\" placeholder=\"Email\" />\n<input type=\"number\" min=\"1\" max=\"100\" placeholder=\"អាយុ\" />\n<select>\n    <option value=\"primary\">បឋមសិក្សា</option>\n    <option value=\"secondary\">មធ្យមសិក្សា</option>\n  </optgroup>\n</select>",
+          "preview": {
+            "title": "Html · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 19",
+            "11.2 Form Validation"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-html-page-20",
+          "label": "PDF 20. 12.1 HTML5 Structural Tags",
+          "heading": "12.1 HTML5 Structural Tags",
+          "intro": "12.1.1 <header>, <footer>, <article>, <section> Structural tags ជួយឲ្យ HTML មានរចនាសម្ព័័ន្ធច្បាស់លាស់ និងមានអត្ថន័យ (semantic) សម្ រាប់ SEO",
+          "bodyHeading": "Source content · html.pdf · page 20",
+          "body": "12.1 HTML5 Structural Tags\n12.1.1 <header>, <footer>, <article>, <section>\nStructural tags ជួយឲ្យ HTML មានរចនាសម្ព័័ន្ធច្បាស់លាស់ និងមានអត្ថន័យ (semantic) សម្\nរាប់ SEO\nនិង accessibility។\n<header>\n  <h1>ស្វាគមន៍មកកាន់គេហទំព័រ</h1>\n</header>\n<section>\n  <article>\n    <h2>អត្ថបទថ្មីីបំផុត</h2>\n    <p>...</p>\n  </article>\n</section>\n<footer>\n  <p>រក្សាសិទ្ធិិ © 2025</p>\n</footer>\n12.2 HTML5 Input Types\n12.2.1 Date, Color, Range, Email, and others\nHTML5 ផ្ដល់ប្រភេទ input ថ្មីីៗដើម្បីីបង្កើនសមត្ថភាពសំណុំបែបបទ។\n<input type=\"date\" />\n<input type=\"color\" />\n<input type=\"range\" min=\"0\" max=\"100\" />\n<input type=\"email\" placeholder=\"example@gmail.com\" />\n12.3 HTML5 APIs\n12.3.1 Local Storage, Geolocation, Canvas, Web Workers\nHTML5 APIs ផ្ដល់នូវភាពអាចធ្វើបានខ្ពស់ដូចជា៖ ការរកទីតាំំង, រក្សាទិន្ន័យក្នុង browser, គូរអក្សរឬក្\nរាហ្វិិក,\nនិងប្រើ Worker ផ្នែកក្រៅ។",
+          "code": "<header>\n  <h1>ស្វាគមន៍មកកាន់គេហទំព័រ</h1>\n</header>\n<section>\n  <article>\n    <h2>អត្ថបទថ្មីីបំផុត</h2>\n    <p>...</p>\n  </article>\n</section>\n<footer>\n  <p>រក្សាសិទ្ធិិ © 2025</p>\n</footer>\n<input type=\"date\" />\n<input type=\"color\" />\n<input type=\"range\" min=\"0\" max=\"100\" />\n<input type=\"email\" placeholder=\"example@gmail.com\" />",
+          "preview": {
+            "title": "Html · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 20",
+            "12.1 HTML5 Structural Tags"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-html-page-21",
+          "label": "PDF 21. 13.1 ARIA (Accessible Rich Internet Applications)",
+          "heading": "13.1 ARIA (Accessible Rich Internet Applications)",
+          "intro": "// Local Storage localStorage.setItem(\"username\", \"user1\"); // Geolocation",
+          "bodyHeading": "Source content · html.pdf · page 21",
+          "body": "// Local Storage\nlocalStorage.setItem(\"username\", \"user1\");\n// Geolocation\nnavigator.geolocation.getCurrentPosition(function(position) {\n  console.log(position.coords.latitude, position.coords.longitude);\n});\n// Canvas\n<canvas id=\"myCanvas\" width=\"200\" height=\"100\"></canvas>\n// Web Worker\nconst worker = new Worker(\"worker.js\");\n13. HTML Accessibility Best Practices\nការធ្វើឲ្យវេបសាយអាចចូលប្រើបានសម្\nរាប់មនុស្សគ្រប់រូប ជាផ្នែកសំខាន់ក្នុងការរចនាយ៉ាងទូលំ\nទូលាយ។ HTML ផ្ដល់ឧបករណ៍ដូចជា ARIA និង semantic tags សម្\nរាប់ជួយដល់\naccessibility។\n13.1 ARIA (Accessible Rich Internet Applications)\nARIA ជាឧបករណ៍សម្\nរាប់បន្ថែមព័ត៌មានលម្អិិតអំពី UI ទៅឧបករណ៍ assistive ដូចជា screen readers។\n13.1.1 Role and State Attributes\nrole បញ្ជាក់តួនាទីនៃធាតុ។\naria-* ជា attributes សម្\nរាប់បញ្ជាក់ state (ស្ថានភាព) ឬ properties (លក្ខណៈ)។\n<div role=\"alert\" aria-live=\"assertive\">\n  មានបញ្ហាខ្លះះបង្ហាញ។\n</div>\n<button aria-pressed=\"false\">Like</button>",
+          "code": "});\n<canvas id=\"myCanvas\" width=\"200\" height=\"100\"></canvas>\nconst worker = new Worker(\"worker.js\");\n<div role=\"alert\" aria-live=\"assertive\">\n</div>\n<button aria-pressed=\"false\">Like</button>",
+          "preview": {
+            "title": "Html · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 21",
+            "13.1 ARIA (Accessible Rich Internet Applications)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-html-page-22",
+          "label": "PDF 22. 13.2 Semantic HTML for Screen Readers",
+          "heading": "13.2 Semantic HTML for Screen Readers",
+          "intro": "ប្រើ tag ដែលមានអត្ថន័យដូចជា <nav>, <main>, <article> ជួយឲ្យ screen readers អាចយល់នឹង រចនាសម្ព័័ន្ធ។ <nav>",
+          "bodyHeading": "Source content · html.pdf · page 22",
+          "body": "13.2 Semantic HTML for Screen Readers\nប្រើ tag ដែលមានអត្ថន័យដូចជា <nav>, <main>, <article> ជួយឲ្យ screen readers អាចយល់នឹង\nរចនាសម្ព័័ន្ធ។\n<nav>\n  <ul>\n    <li><a href=\"#home\">ទំព័រដើម</a></li>\n    <li><a href=\"#contact\">ទំនាក់ទំនង</a></li>\n  </ul>\n</nav>\n13.3 Keyboard Navigation Support\nត្រូូវប្\nរាកដថាវេបសាយអាចប្រើបានដោយគ្\nរាប់ចុច៖\n• ប្រើ tabindex ដើម្បីីកំណត់លំដាប់នៃការចុច Tab\n• ប្រើ accesskey បន្ថែម shortcut\n<button tabindex=\"0\" accesskey=\"s\">រក្សាទុក (Alt+S)</button>\n<input type=\"text\" tabindex=\"1\" />\n14. HTML Styling and CSS Introduction\nCSS (Cascading Style Sheets) ត្រូូវបានប្រើសម្\nរាប់រៀរៀបចំរចនាបថនៃទំព័របណ្ដាញ។ វាអាច\nបញ្ចូលដោយរបៀបៀបផ្សេងៗគ្នាដូចជា Internal, External និង Inline។\n14.1 Internal vs External CSS\nInternal CSS ត្រូូវបានដាក់នៅក្នុង <style> tag ខាងក្នុង HTML។ External CSS ត្រូូវបានភ្ជាប់តាម\n<link> tag ទៅកាន់ឯកសារ .css។\n<!-- Internal CSS -->\n<style>\n  body {\n    background-color: #f0f0f0;\n  }",
+          "code": "<nav>\n  <ul>\n    <li><a href=\"#home\">ទំព័រដើម</a></li>\n    <li><a href=\"#contact\">ទំនាក់ទំនង</a></li>\n  </ul>\n</nav>\n<button tabindex=\"0\" accesskey=\"s\">រក្សាទុក (Alt+S)</button>\n<input type=\"text\" tabindex=\"1\" />\n<link> tag ទៅកាន់ឯកសារ .css។\n<style>\n  }",
+          "preview": {
+            "title": "Html · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 22",
+            "13.2 Semantic HTML for Screen Readers"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-html-page-23",
+          "label": "PDF 23. 14.2 <style> tag vs <link> tag",
+          "heading": "14.2 <style> tag vs <link> tag",
+          "intro": "</style> <!-- External CSS --> <link rel=\"stylesheet\" href=\"styles.css\">",
+          "bodyHeading": "Source content · html.pdf · page 23",
+          "body": "</style>\n<!-- External CSS -->\n<link rel=\"stylesheet\" href=\"styles.css\">\n14.2 <style> tag vs <link> tag\n<style> ត្រូូវបានប្រើសម្\nរាប់ Internal CSS, ខណៈដែល <link> ប្រើសម្\nរាប់ភ្ជាប់ External CSS។\nExternal CSS អាច reuse និងធ្វើការផ្លាស់ប្តូរជារួសរាន់ជាង។\n14.3 Basic Styling with CSS\nCSS អាចប្រើសម្\nរាប់ដាក់ style លើអត្ថបទ, ពណ៌, margins និង padding ជាដើម។\n14.3.1 Styling text, colors, margins, and padding\nh1 {\n  color: blue;\n  margin-top: 20px;\n  padding: 10px;\n  font-family: Arial, sans-serif;\n}\np {\n  color: #333;\n  margin: 0 0 10px 0;\n  padding: 5px;\n}\n15. Advanced Topics (Optional for Deep\nLearning)\nចំណេ\nះ\nះដឹងជាច្រើនទៀទៀតអាចជួយពង្រឹឹងសមត្ថភាពក្នុងការបង្កើតគេហទំព័រដែលមានប្រសិទ្ធភាពលើគ្រប់\nឧបករណ៍ និងមានសុវត្ថិិភាពក្នុងការបញ្ចូនទិន្ន័យ។",
+          "code": "</style>\n<link rel=\"stylesheet\" href=\"styles.css\">\n<style> ត្រូូវបានប្រើសម្\n}\n}",
+          "preview": {
+            "title": "Html · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 23",
+            "14.2 <style> tag vs <link> tag"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-html-page-24",
+          "label": "PDF 24. 15.1 Responsive Design",
+          "heading": "15.1 Responsive Design",
+          "intro": "  Responsive design អនុញ្ញាតឲ្យគេហទំព័រត្រូូវបានបង្ហាញបានល្អលើទំហំអេក្រង់ផ្សេងៗគ្នា។",
+          "bodyHeading": "Source content · html.pdf · page 24",
+          "body": "\n\n15.1 Responsive Design\nResponsive design អនុញ្ញាតឲ្យគេហទំព័រត្រូូវបានបង្ហាញបានល្អលើទំហំអេក្រង់ផ្សេងៗគ្នា។\n15.1.1 Viewport meta tag\nViewport tag ជាចំណុចសំខាន់សម្\nរាប់ mobile responsiveness។\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n15.1.2 Media queries\nMedia queries អាចកំណត់ style ផ្សេងៗសម្\nរាប់ទំហំអេក្រង់ខុសៗគ្នា។\n@media (max-width: 600px) {\n  body {\n    background-color: lightblue;\n  }\n}\n15.2 HTML Forms in Depth\n15.2.1 Form submission methods (GET, POST)\nGET និង POST ជាវិធីសាស្\nរ្តសំរាប់បញ្ជូនទិន្ន័យពី Form ទៅ Server។\nGET: បញ្ជូនទិន្ន័យតាម URL (មើលឃើញបាន)\nPOST: បញ្ជូនទិន្ន័យនៅក្នុង request body (សុវត្ថិិភាពជាង)\n<form method=\"get\" action=\"/search\">\n  <input type=\"text\" name=\"query\">\n  <button type=\"submit\">Search</button>\n</form>\n<form method=\"post\" action=\"/submit\">\n  <input type=\"text\" name=\"name\">\n  <button type=\"submit\">Submit</button>\n</form>",
+          "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  }\n}\n<form method=\"get\" action=\"/search\">\n  <input type=\"text\" name=\"query\">\n  <button type=\"submit\">Search</button>\n</form>\n<form method=\"post\" action=\"/submit\">\n  <input type=\"text\" name=\"name\">\n  <button type=\"submit\">Submit</button>\n</form>",
+          "preview": {
+            "title": "Html · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 24",
+            "15.1 Responsive Design"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-html-page-25",
+          "label": "PDF 25. 15.2.2 Input Validation using HTML5",
+          "heading": "15.2.2 Input Validation using HTML5",
+          "intro": "HTML5 មាន attributes ដូចជា required, pattern, min, និង max សម្ រាប់ធ្វើ validation ទិន្ន័យ។ <form>",
+          "bodyHeading": "Source content · html.pdf · page 25",
+          "body": "15.2.2 Input Validation using HTML5\nHTML5 មាន attributes ដូចជា required, pattern, min, និង max សម្\nរាប់ធ្វើ validation ទិន្ន័យ។\n<form>\n  <input type=\"text\" name=\"username\" required>\n  <input type=\"email\" name=\"email\" required>\n  <input type=\"number\" name=\"age\" min=\"18\" max=\"100\">\n  <button type=\"submit\">Submit</button>\n</form>\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n",
+          "code": "<form>\n  <input type=\"text\" name=\"username\" required>\n  <input type=\"email\" name=\"email\" required>\n  <input type=\"number\" name=\"age\" min=\"18\" max=\"100\">\n  <button type=\"submit\">Submit</button>\n</form>",
+          "preview": {
+            "title": "Html · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 25",
+            "15.2.2 Input Validation using HTML5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-26",
+      "items": [
+        {
+          "id": "pdf-html-page-26",
+          "label": "PDF 26. Source lesson page 26",
+          "heading": "Source lesson page 26",
+          "intro": "© 2025 CodeKhmerLearning. All rights reserved.",
+          "bodyHeading": "Source content · html.pdf · page 26",
+          "body": "© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "<h1>CampusFlow lesson</h1>\n<p>Read the source page, then practice the idea.</p>",
+          "preview": {
+            "title": "Html · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Html",
+            "PDF page 26",
+            "Source lesson page 26"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "html.pdf",
+          "sourcePage": 26
+        }
+      ]
+    }
+  ]
+}

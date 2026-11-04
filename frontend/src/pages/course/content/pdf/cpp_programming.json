@@ -1,0 +1,1660 @@
+{
+  "slug": "cpp_programming",
+  "sourceFile": "cpp_programming.pdf",
+  "pageCount": 63,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-1",
+          "label": "PDF 1. C++ គឺជាភាសាសរសេរកម្មវិធីដ៏ខ្លាំំង និងមានអត្ថន័យខ្ពស់ ដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយសម្",
+          "heading": "C++ គឺជាភាសាសរសេរកម្មវិធីដ៏ខ្លាំំង និងមានអត្ថន័យខ្ពស់ ដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយសម្",
+          "intro": "1. ការណែនាំំអំពី C++ រាប់ ការអភិវឌ្ឍប្រព័ន្ធ/កម្មវិធី, ការអភិវឌ្ឍហ្",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 1",
+          "body": "1. ការណែនាំំអំពី C++\nC++ គឺជាភាសាសរសេរកម្មវិធីដ៏ខ្លាំំង និងមានអត្ថន័យខ្ពស់ ដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយសម្\nរាប់\nការអភិវឌ្ឍប្រព័ន្ធ/កម្មវិធី, ការអភិវឌ្ឍហ្\nគេម, និងកម្មវិធីដែលទាមទារដល់អត្ថន័យខ្ពស់។ វាគឺជាការពង្រីីក\nនៃភាសា C ជាមួយនឹងលក្ខណៈពិសេសបន្ថែមដូចជាការសរសេរកម្មវិធីបែបវត្ថុ (OOP)។ ផ្នែកនេះះ\nណែនាំំអំពី C++, ការរៀរៀបចំបរិស្ថាន, និងវាក្យសម្ព័័ន្ធមូលដ្ឋាន។\n1.1. ទិដ្ឋភាពទូទៅនៃ C++\nC++ គឺជាភាសាសរសេរកម្មវិធីទូទៅ ដែលត្រូូវបានបង្កើតឡើងដោយ Bjarne Stroustrup ក្នុងឆ្នាំំ 1985។ វាផ្សំំ\nភាពរបស់ការសរសេរកម្មវិធីកម្រិិតទាបដែលមានអត្ថន័យខ្ពស់ ជាមួយនឹងភាពអាចបត់បែននៃការសរសេរកម្មវិធីកម្រិិត\nខ្ពស់ ដែលធ្វើឱ្យវាសមស្រ\nបសម្\nរាប់កម្មវិធីជាច្រើនប្រភេទ។\nលក្ខណៈពិសេសរបស់ C++៖\nគាំំទ្រការសរសេរកម្មវិធីបែបវត្ថុ (OOP) ជាមួយថ្នាក់ និងវត្ថុ។\nផ្តល់នូវការគ្រប់គ្រងអង្គចងចាំំកម្រិិតទាបដោយប្រើ pointer។\nមានអត្ថន័យខ្ពស់ និងលឿលឿន ជាញឹកញាប់ត្រូូវបានប្រើក្នុងកម្មវិធីដែលទាមទារដល់អត្ថន័យខ្ពស់។\nបណ្ណាល័យស្តង់ដារធំទូលាយ (STL) សម្\nរាប់រចនាសម្ព័័ន្ធទិន្ន័យ និងក្បួនដោះស្\nរាយ។\nអាចដំណើរការបានលើវេទិកាផ្សេងៗ (Windows, macOS, Linux)។\n1.2. ការរៀរៀបចំបរិស្ថានអភិវឌ្ឍន៍ (IDE & Compiler)\nដើម្បីីចាប់ផ្តើមសរសេរកម្មវិធី C++ អ្នកត្រូូវការបរិស្ថានអភិវឌ្ឍន៍ដែលរួមបញ្ចូល compiler និងកម្មវិធីអភិវឌ្ឍន៍\nដែលបញ្ចូលគ្នា (IDE)។\nជំហានដើម្បីីរៀរៀបចំបរិស្ថាន៖\n1. ទាញយក compiler ដូចជា GCC (សម្\nរាប់ Linux/macOS) ឬ MinGW (សម្\nរាប់ Windows)។\n2. ជ្រើសរើស IDE ដូចជា Code::Blocks, Visual Studio, ឬ CLion។\n3. ដំឡើង compiler និង IDE តាមការណែនាំំ។\n4. ធានាថា compiler ត្រូូវបានភ្ជាប់ជាមួយ IDE របស់អ្នក។\nឧទាហរណ៍នៃការដំឡើង GCC លើ Linux៖\nsudo apt-get install g++\n1.3. ការសរសេរ និងការចងក្រងកម្មវិធី C++ សាមញ្ញ",
+          "code": "#include <iostream>\n\nint main() {\n  std::cout << \"CampusFlow lesson\\n\";\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 1",
+            "C++ គឺជាភាសាសរសេរកម្មវិធីដ៏ខ្លាំំង និងមានអត្ថន័យខ្ពស់ ដែលត្រូូវបានប្រើយ៉ាងទូលំទូ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-cpp_programming-page-2",
+          "label": "PDF 2. C++ ប្រើវាក្យសម្ព័័ន្ធដែលស្រ",
+          "heading": "C++ ប្រើវាក្យសម្ព័័ន្ធដែលស្រ",
+          "intro": "កម្មវិធី C++ ដំបូងរបស់អ្នកអាចត្រូូវបានសរសេរនៅក្នុងឯកសារ .cpp ហើយចងក្រងដោយប្រើ compiler។ ឧទាហរណ៍កម្មវិធី \"Hello, World!\"៖ #include <iostream>",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 2",
+          "body": "កម្មវិធី C++ ដំបូងរបស់អ្នកអាចត្រូូវបានសរសេរនៅក្នុងឯកសារ .cpp ហើយចងក្រងដោយប្រើ compiler។\nឧទាហរណ៍កម្មវិធី \"Hello, World!\"៖\n#include <iostream>\nusing namespace std;\nint main() {\n    cout << \"Hello, World!\" << endl;\n    return 0;\n}\nជំហានដើម្បីីចងក្រង និងដំណើរការ៖\n1. រក្សាទុកកូដនៅក្នុងឯកសារ hello.cpp។\n2. បើក terminal ហើយចងក្រងដោយប្រើពាក្យបញ្ជា៖\ng++ hello.cpp -o hello\n3. ដំណើរការកម្មវិធី៖\n./hello\nលទ្ធផល៖\nHello, World!\n1.4. វាក្យសម្ព័័ន្ធមូលដ្ឋាន\nC++ ប្រើវាក្យសម្ព័័ន្ធដែលស្រ\nដៀដៀងនឹង C ប៉ុន្តែមានលក្ខណៈពិសេសបន្ថែមដូចជា classes និង objects។\nគន្លឹះវាក្យសម្ព័័ន្ធ៖\nរាល់កម្មវិធី C++ ត្រូូវតែមានអនុគមន៍ main() ជាចំណុចចាប់ផ្តើម។\nប្រើ #include ដើម្បីីភ្ជាប់បណ្ណាល័យ។\nប្រើ cout ដើម្បីីបង្ហាញអត្ថបទទៅកាន់ console។\nប្រើ ; ដើម្បីីបញ្ចប់សេចក្តីីថ្លែងការណ៍។\n2. អថេរ និងប្រភេទទិន្ន័យ",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    cout << \"Hello, World!\" << endl;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 2",
+            "C++ ប្រើវាក្យសម្ព័័ន្ធដែលស្រ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-cpp_programming-page-3",
+          "label": "PDF 3. C++ គាំំទ្រប្រភេទទិន្ន័យជាច្រើន ដែលអាចប្រើសម្",
+          "heading": "C++ គាំំទ្រប្រភេទទិន្ន័យជាច្រើន ដែលអាចប្រើសម្",
+          "intro": "  អថេរត្រូូវបានប្រើដើម្បីីផ្ទុកទិន្ន័យក្នុងកម្មវិធី ហើយប្រភេទទិន្ន័យកំណត់ពីប្រភេទទិន្ន័យដែលអថេរ",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 3",
+          "body": "\n\nអថេរត្រូូវបានប្រើដើម្បីីផ្ទុកទិន្ន័យក្នុងកម្មវិធី ហើយប្រភេទទិន្ន័យកំណត់ពីប្រភេទទិន្ន័យដែលអថេរ\nអាចផ្ទុកបាន។ ផ្នែកនេះះគ្របដណ្តប់អំពីរបៀបៀបប្រកាសអថេរ, ប្រភេទទិន្ន័យផ្សេងៗក្នុង C++, ថេរ,\nការកែប្រែប្រភេទ, និងប្រតិបត្តិិការបញ្ចូល/ចេញមូលដ្ឋាន។\n2.1. ការប្រកាសអថេរ\nអថេរត្រូូវបានប្រកាសដោយបញ្ជាក់ប្រភេទទិន្ន័យ និងឈ្\nមោះរបស់វា។ អថេរអាចត្រូូវបានចាប់ផ្តើមជាមួយតម្លៃឬគ្មាន\nតម្លៃ។\nឧទាហរណ៍៖\nint age;          // ប្រ\nកាសអថេរ 'age' ជាមួយប្រ\nភេទ int\ndouble salary = 1200.50; // ប្រ\nកាសអថេរ 'salary' ជាមួយប្រ\nភេទ double និងតៃ\nchar grade = 'A';     // ប្រ\nកាសអថេរ 'grade' ជាមួយប្រ\nភេទ char និងតម្លៃដំបូង\n2.2. ប្រភេទទិន្ន័យ (int, float, char, string, bool)\nC++ គាំំទ្រប្រភេទទិន្ន័យជាច្រើន ដែលអាចប្រើសម្\nរាប់ការផ្ទុកទិន្ន័យប្រភេទផ្សេងៗ។\nប្រភេទទិន្ន័យសំខាន់ៗ៖\nint - ចំនួនគត់ (ឧទាហរណ៍៖ int age = 25;)\nfloat - ចំនួនគត់ដែលមានចំនុចទសភាគ (ឧទាហរណ៍៖ float pi = 3.14;)\ndouble - ចំនួនគត់ដែលមានចំនុចទសភាគច្រើនខ្ទង់ (ឧទាហរណ៍៖ double salary = 1200.50;)\nchar - តួអក្សរតែមួយ (ឧទាហរណ៍៖ char grade = 'A';)\nstring - ខ្សែអក្សរ (ឧទាហរណ៍៖ string name = \"John\";)\nbool - តម្លៃពិត ឬមិនពិត (ឧទាហរណ៍៖ bool isStudent = true;)\n2.3. ថេរ និងការកែប្រែប្រភេទ\nថេរគឺជាអថេរដែលមិនអាចផ្លាស់ប្តូរតម្លៃបាន។ ការកែប្រែប្រភេទអាចផ្លាស់ប្តូរទំហំ ឬលក្ខណៈនៃប្រភេទទិន្ន័យ។\nឧទាហរណ៍ថេរ៖\nconst double PI = 3.14159; // ថេរ PI មិនអាចផ្លាស់ប្តូរតម្លៃបាន\nឧទាហរណ៍ការកែប្រែប្រភេទ៖\nunsigned int positiveNumber = 100; // ចំនួនគត់វិជ្ជមាន\nlong bigNumber = 1000000; // ចំនួនគត់ធំ",
+          "code": "#include <iostream>\n\nint main() {\n  std::cout << \"CampusFlow lesson\\n\";\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 3",
+            "C++ គាំំទ្រប្រភេទទិន្ន័យជាច្រើន ដែលអាចប្រើសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-cpp_programming-page-4",
+          "label": "PDF 4. C++ ប្រើ cin ដើម្បីីទទួលទិន្ន័យពីអ្នកប្រើប្",
+          "heading": "C++ ប្រើ cin ដើម្បីីទទួលទិន្ន័យពីអ្នកប្រើប្",
+          "intro": "  2.4. បញ្ចូល និងចេញ (cin និង cout)",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 4",
+          "body": "\n\n2.4. បញ្ចូល និងចេញ (cin និង cout)\nC++ ប្រើ cin ដើម្បីីទទួលទិន្ន័យពីអ្នកប្រើប្\nរាស់ និង cout ដើម្បីីបង្ហាញទិន្ន័យទៅកាន់ console។\nឧទាហរណ៍៖\n#include <iostream>\nusing namespace std;\nint main() {\n    int age;\n    cout << \"Enter your age: \"; // បង្ហាញសារ\n    cin >> age;                 // ទទួលទិន្ន័\nយពីអ្នកប្រើប្រាា\nស់\n    cout << \"You are \" << age << \" years old.\" << endl; // បង្ហាញលទ្ធផល\n    return 0;\n}\nលទ្ធផល៖\nEnter your age: 25\nYou are 25 years old.\n3. ប្រមាណវិធី និងកន្សោម\nប្រមាណវិធីគឺជានិមិត្តសញ្ញាដែលត្រូូវបានប្រើដើម្បីីអនុវត្តប្រតិបត្តិិការលើអថេរ និងតម្លៃ។ កន្សោមគឺជា\nការផ្សំំរវាងអថេរ, ថេរ និងប្រមាណវិធីដែលផលិតលទ្ធផល។ ផ្នែកនេះះគ្របដណ្តប់អំពីប្រភេទប្រមាណវិធី\nផ្សេងៗ និងរបៀបៀបប្រើវាក្នុង C++។\n3.1. ប្រមាណវិធីនព្វន្ធ\nប្រមាណវិធីនព្វន្ធត្រូូវបានប្រើដើម្បីីអនុវត្តការគណនាគណិតវិទ្យាមូលដ្ឋាន។\nប្រមាណវិធីនព្វន្ធសំខាន់ៗ៖\n+ - បូក (ឧទាហរណ៍៖ 5 + 3 ផ្តល់លទ្ធផល 8)\n- - ដក (ឧទាហរណ៍៖ 5 - 3 ផ្តល់លទ្ធផល 2)\n* - គុណ (ឧទាហរណ៍៖ 5 * 3 ផ្តល់លទ្ធផល 15)\n/ - ចែក (ឧទាហរណ៍៖ 10 / 2 ផ្តល់លទ្ធផល 5)",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int age;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 4",
+            "C++ ប្រើ cin ដើម្បីីទទួលទិន្ន័យពីអ្នកប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-cpp_programming-page-5",
+          "label": "PDF 5. Source lesson page 5",
+          "heading": "Source lesson page 5",
+          "intro": "% - នៅសល់ (ឧទាហរណ៍៖ 10 % 3 ផ្តល់លទ្ធផល 1) 3.2. ប្រមាណវិធីទាក់ទង និងតក្កវិជ្ជា ប្រមាណវិធីទាក់ទងត្រូូវបានប្រើដើម្បីីប្រៀៀបធៀធៀបតម្លៃ ហើយប្រមាណវិធីតក្កវិជ្ជាត្រូូវបានប្រើដើម្បីីផ្សំំលក្ខណ្ឌ។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 5",
+          "body": "% - នៅសល់ (ឧទាហរណ៍៖ 10 % 3 ផ្តល់លទ្ធផល 1)\n3.2. ប្រមាណវិធីទាក់ទង និងតក្កវិជ្ជា\nប្រមាណវិធីទាក់ទងត្រូូវបានប្រើដើម្បីីប្រៀៀបធៀធៀបតម្លៃ ហើយប្រមាណវិធីតក្កវិជ្ជាត្រូូវបានប្រើដើម្បីីផ្សំំលក្ខណ្ឌ។\nប្រមាណវិធីទាក់ទង៖\n== - ស្\nមើ (ឧទាហរណ៍៖ 5 == 3 ផ្តល់លទ្ធផល false)\n!= - មិនស្\nមើ (ឧទាហរណ៍៖ 5 != 3 ផ្តល់លទ្ធផល true)\n> - ធំជាង (ឧទាហរណ៍៖ 5 > 3 ផ្តល់លទ្ធផល true)\n< - តូចជាង (ឧទាហរណ៍៖ 5 < 3 ផ្តល់លទ្ធផល false)\n>= - ធំជាង ឬស្\nមើ (ឧទាហរណ៍៖ 5 >= 5 ផ្តល់លទ្ធផល true)\n<= - តូចជាង ឬស្\nមើ (ឧទាហរណ៍៖ 5 <= 3 ផ្តល់លទ្ធផល false)\nប្រមាណវិធីតក្កវិជ្ជា៖\n&& - AND (ឧទាហរណ៍៖ true && false ផ្តល់លទ្ធផល false)\n|| - OR (ឧទាហរណ៍៖ true || false ផ្តល់លទ្ធផល true)\n! - NOT (ឧទាហរណ៍៖ !true ផ្តល់លទ្ធផល false)\n3.3. ប្រមាណវិធីប៊ីត\nប្រមាណវិធីប៊ីតធ្វើការលើប៊ីតនៃតម្លៃគោលពីរ។\nប្រមាណវិធីប៊ីតសំខាន់ៗ៖\n& - AND (ឧទាហរណ៍៖ 5 & 3 ផ្តល់លទ្ធផល 1)\n| - OR (ឧទាហរណ៍៖ 5 | 3 ផ្តល់លទ្ធផល 7)\n^ - XOR (ឧទាហរណ៍៖ 5 ^ 3 ផ្តល់លទ្ធផល 6)\n~ - NOT (ឧទាហរណ៍៖ ~5 ផ្តល់លទ្ធផល -6)\n<< - ប្តូរឆ្វេង (ឧទាហរណ៍៖ 5 << 1 ផ្តល់លទ្ធផល 10)\n>> - ប្តូរស្តាំំ (ឧទាហរណ៍៖ 5 >> 1 ផ្តល់លទ្ធផល 2)\n3.4. ប្រមាណវិធីការចាត់តាំំង និងការចាត់តាំំងផ្សំំ\nប្រមាណវិធីការចាត់តាំំងត្រូូវបានប្រើដើម្បីីផ្តល់តម្លៃដល់អថេរ ហើយប្រមាណវិធីការចាត់តាំំងផ្សំំធ្វើប្រតិបត្តិិការនិងផ្តល់\nតម្លៃក្នុងពេលតែមួយ។\nឧទាហរណ៍៖\nint x = 5;  // ផ្តល់តម្លៃ 5 ដល់ x\nx += 3;    // ដូចគ្នានឹង x = x + 3\nx -= 2;    // ដូចគ្នានឹង x = x - 2",
+          "code": "#include <iostream>\n\nint main() {\n  std::cout << \"CampusFlow lesson\\n\";\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 5",
+            "Source lesson page 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-6",
+          "label": "PDF 6. Source lesson page 6",
+          "heading": "Source lesson page 6",
+          "intro": "x *= 4;    // ដូចគ្នានឹង x = x * 4 x /= 2;    // ដូចគ្នានឹង x = x / 2 3.5. ប្រមាណវិធីបង្កើន និងបន្ថយ",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 6",
+          "body": "x *= 4;    // ដូចគ្នានឹង x = x * 4\nx /= 2;    // ដូចគ្នានឹង x = x / 2\n3.5. ប្រមាណវិធីបង្កើន និងបន្ថយ\nប្រមាណវិធីបង្កើន (++) និងបន្ថយ (--) ត្រូូវបានប្រើដើម្បីីបង្កើន ឬបន្ថយតម្លៃអថេរដោយ 1។\nឧទាហរណ៍៖\nint x = 5;\nx++;  // x ឥឡូវនេ\nះ\nះគឺ 6\nx--;  // x ឥឡូវនេ\nះ\nះគឺ 5\n4. សេចក្តីីថ្លែងការណ៍គ្រប់គ្រងលំហូរ\nសេចក្តីីថ្លែងការណ៍គ្រប់គ្រងលំហូរត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងលំហូរការប្រតិបត្តិិនៃកម្មវិធីដោយផ្អែកលើ\nលក្ខណ្ឌ ឬរង្វិិលជុំ។ ផ្នែកនេះះគ្របដណ្តប់អំពីសេចក្តីីថ្លែងការណ៍លក្ខណ្ឌ, សេចក្តីីថ្លែងការណ៍រង្វិិលជុំ,\nនិងសេចក្តីីថ្លែងការណ៍លោត។\n4.1. សេចក្តីីថ្លែងការណ៍លក្ខណ្ឌ (if, if-else, if-elseif-else,\nswitch)\nសេចក្តីីថ្លែងការណ៍លក្ខណ្ឌអនុញ្ញាតឱ្យកម្មវិធីធ្វើការសម្រេចចិត្តដោយផ្អែកលើលក្ខណ្ឌ។\nឧទាហរណ៍ if៖\nif សាមញ្ញត្រូូវបានប្រើនៅពេលអ្នកចង់ប្រតិបត្តិិកូដតែនៅពេលលក្ខណ្ឌមួយពិត (true)។ ប្រសិនបើលក្ខណ្ឌមិន\nពិត កូដនៅក្នុង if នឹងត្រូូវរំលង។\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    if (x > 5) {",
+          "code": "int x = 5;\nswitch)\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    if (x > 5) {",
+          "preview": {
+            "title": "Cpp Programming · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 6",
+            "Source lesson page 6"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-cpp_programming-page-7",
+          "label": "PDF 7. Source lesson page 7",
+          "heading": "Source lesson page 7",
+          "intro": "cout << \"x is greater than 5\" << endl; } return 0;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 7",
+          "body": "cout << \"x is greater than 5\" << endl;\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ x។\n- ប្រសិនបើ x ធំជាង 5, វានឹងបង្ហាញ \"x is greater than 5\"។\nលទ្ធផល៖\nx is greater than 5\nឧទាហរណ៍ if-else៖\nif else បន្ថែមផ្នែក else ដើម្បីីប្រតិបត្តិិកូដនៅពេលលក្ខណ្ឌរបស់ if មិនពិត (false)។ វាផ្តល់ជម្រើសពីរ\nផ្លូវ៖ មួយសម្\nរាប់លក្ខណ្ឌពិត និងមួយទៀទៀតសម្\nរាប់លក្ខណ្ឌមិនពិត។\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 3;\n    if (x > 5) {\n        cout << \"x is greater than 5\" << endl;\n    } else {\n        cout << \"x is less than or equal to 5\" << endl;\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ x។\n- ប្រសិនបើ x ធំជាង 5, វានឹងបង្ហាញ \"x is greater than 5\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"x is less than or equal to 5\"។\nលទ្ធផល៖",
+          "code": "cout << \"x is greater than 5\" << endl;\n    }\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 3;\n    if (x > 5) {\n        cout << \"x is greater than 5\" << endl;\n    } else {\n        cout << \"x is less than or equal to 5\" << endl;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 7",
+            "Source lesson page 7"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-cpp_programming-page-8",
+          "label": "PDF 8. Source lesson page 8",
+          "heading": "Source lesson page 8",
+          "intro": "x is less than or equal to 5 ឧទាហរណ៍ if-elseif-else៖ if else if else អនុញ្ញាតឱ្យពិនិត្យលក្ខណ្ឌច្រើនជាងមួយ។ វាប្រើ else if ដើម្បីីបន្ថែមលក្ខណ្ឌបន្ទាប់",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 8",
+          "body": "x is less than or equal to 5\nឧទាហរណ៍ if-elseif-else៖\nif else if else អនុញ្ញាតឱ្យពិនិត្យលក្ខណ្ឌច្រើនជាងមួយ។ វាប្រើ else if ដើម្បីីបន្ថែមលក្ខណ្ឌបន្ទាប់\nនិង else សម្\nរាប់ករណីដែលគ្មានលក្ខណ្ឌណាពិត។ នេះះជួយគ្រប់គ្រងស្ថានភាពស្មុគស្មាញដែលមានជម្រើស\nច្រើន។\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    if (x > 10) {\n        cout << \"x is greater than 10\" << endl;\n    } else if (x == 10) {\n        cout << \"x is equal to 10\" << endl;\n    } else {\n        cout << \"x is less than 10\" << endl;\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ x។\n- ប្រសិនបើ x ធំជាង 10, វានឹងបង្ហាញ \"x is greater than 10\"។\n- ប្រសិនបើ x ស្\nមើនឹង 10, វានឹងបង្ហាញ \"x is equal to 10\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"x is less than 10\"។\nលទ្ធផល៖\nx is equal to 10\nឧទាហរណ៍ switch៖\nសេចក្តីីបញ្ជា switch អនុញ្ញាតឱ្យជ្រើសរើសប្លុកកូដមួយក្នុងចំណោមប្លុកជាច្រើន ដោយផ្អែកលើតម្លៃនៃកន្សោម។\nវាប្រៀៀបធៀធៀបតម្លៃមួយជាមួយ case ផ្សេងៗ ហើយប្រតិបត្តិិកូដនៅក្នុង case ដែលផ្គូផ្គង។ break ត្រូូវបានប្រើ\nដើម្បីីបញ្ឈប់ការប្រតិបត្តិិ និងចាកចេញពី switch។ បើគ្មាន case ណាផ្គូផ្គងទេ default នឹងត្រូូវប្រតិបត្តិិ (បើ\nមាន)។ នៅទីនេះះ យើងប្រើ switch ដើម្បីីកំណត់និទ្ទេសសិស្ស ស្រ\nដៀដៀងនឹង if else if else។",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    if (x > 10) {\n        cout << \"x is greater than 10\" << endl;\n    } else if (x == 10) {\n        cout << \"x is equal to 10\" << endl;\n    } else {\n        cout << \"x is less than 10\" << endl;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 8",
+            "Source lesson page 8"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-cpp_programming-page-9",
+          "label": "PDF 9. Source lesson page 9",
+          "heading": "Source lesson page 9",
+          "intro": "#include <iostream> using namespace std; int main() {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 9",
+          "body": "#include <iostream>\nusing namespace std;\nint main() {\n    int day = 3;\n    switch (day) {\n        case 1:\n            cout << \"Monday\" << endl;\n            break;\n        case 2:\n            cout << \"Tuesday\" << endl;\n            break;\n        case 3:\n            cout << \"Wednesday\" << endl;\n            break;\n        case 4:\n            cout << \"Thursday\" << endl;\n            break;\n        case 5:\n            cout << \"Friday\" << endl;\n            break;\n        default:\n            cout << \"Weekend or invalid day\" << endl;\n            break;\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើសេចក្តីីថ្លែងការណ៍ switch ដើម្បីីពិនិត្យតម្លៃរបស់អថេរ day។\n- ប្រសិនបើ day ស្\nមើនឹង 1, វានឹងបង្ហាញ \"Monday\"។\n- ប្រសិនបើ day ស្\nមើនឹង 3, វានឹងបង្ហាញ \"Wednesday\"។\n- ប្រសិនបើតម្លៃមិនត្រូូវនឹង case ណាមួយ, វានឹងបង្ហាញ \"Weekend or invalid day\" (តាម default)។\n- break ត្រូូវបានប្រើដើម្បីីបញ្ឈប់ការប្រតិបត្តិិបន្ទាប់ពី case ត្រូូវគ្នា។\nលទ្ធផល៖\nWednesday",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int day = 3;\n    switch (day) {\n            cout << \"Monday\" << endl;\n            break;\n            cout << \"Tuesday\" << endl;\n            break;\n            cout << \"Wednesday\" << endl;\n            break;\n            cout << \"Thursday\" << endl;\n            break;\n            cout << \"Friday\" << endl;\n            break;\n            cout << \"Weekend or invalid day\" << endl;\n            break;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 9",
+            "Source lesson page 9"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-cpp_programming-page-10",
+          "label": "PDF 10. 0 1 2 3 4",
+          "heading": "0 1 2 3 4",
+          "intro": "4.2. សេចក្តីីថ្លែងការណ៍រង្វិិលជុំ (for, while, do-while) សេចក្តីីថ្លែងការណ៍រង្វិិលជុំអនុញ្ញាតឱ្យកម្មវិធីធ្វើការម្តងហើយម្តងទៀទៀតដោយផ្អែកលើលក្ខណ្ឌ។ ឧទាហរណ៍ for៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 10",
+          "body": "4.2. សេចក្តីីថ្លែងការណ៍រង្វិិលជុំ (for, while, do-while)\nសេចក្តីីថ្លែងការណ៍រង្វិិលជុំអនុញ្ញាតឱ្យកម្មវិធីធ្វើការម្តងហើយម្តងទៀទៀតដោយផ្អែកលើលក្ខណ្ឌ។\nឧទាហរណ៍ for៖\nfor ប្រើសម្\nរាប់រង្វិិលជុំដែលមានចំនួនជាក់លាក់ ដោយប្រើអថេររាប់។\n#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 5; i++) {\n        cout << i << \" \";\n    }\n    cout << endl;\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើរង្វិិលជុំ for ដើម្បីីបង្ហាញតម្លៃរបស់អថេរ i ពី 0 ដល់ 4។\n- រង្វិិលជុំនេះះដំណើរការដល់ពេល i តូចជាង 5។\nលទ្ធផល៖\n0 1 2 3 4\nឧទាហរណ៍ while៖\nwhile ប្រតិបត្តិិកូដដរាបណាលក្ខណ្ឌនៅតែពិត។\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    while (i < 5) {\n        cout << i << \" \";\n        i++;\n    }\n    cout << endl;",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 5; i++) {\n        cout << i << \" \";\n    }\n    cout << endl;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    while (i < 5) {\n        cout << i << \" \";\n        i++;\n    }\n    cout << endl;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 10",
+            "0 1 2 3 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-11",
+          "label": "PDF 11. 0 1 2 3 4",
+          "heading": "0 1 2 3 4",
+          "intro": "return 0; } ការពន្យល់៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 11",
+          "body": "return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើរង្វិិលជុំ while ដើម្បីីបង្ហាញតម្លៃរបស់អថេរ i ពី 0 ដល់ 4។\n- រង្វិិលជុំនេះះដំណើរការដល់ពេល i តូចជាង 5។\nលទ្ធផល៖\n0 1 2 3 4\nឧទាហរណ៍ do-while៖\ndo...while ប្រតិបត្តិិកូដយ៉ាងហោចម្តង មុននឹងពិនិត្យលក្ខណ្ឌ។\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    do {\n        cout << i << \" \";\n        i++;\n    } while (i < 5);\n    cout << endl;\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើរង្វិិលជុំ do-while ដើម្បីីបង្ហាញតម្លៃរបស់អថេរ i ពី 0 ដល់ 4។\n- រង្វិិលជុំនេះះដំណើរការយ៉ាងហោចណាស់ម្តង ហើយបន្តដល់ពេល i តូចជាង 5។\nលទ្ធផល៖\n0 1 2 3 4\n4.3. សេចក្តីីថ្លែងការណ៍លោត (break, continue, goto)",
+          "code": "return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    do {\n        cout << i << \" \";\n        i++;\n    } while (i < 5);\n    cout << endl;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 11",
+            "0 1 2 3 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-cpp_programming-page-12",
+          "label": "PDF 12. 0 1 2 3 4",
+          "heading": "0 1 2 3 4",
+          "intro": "សេចក្តីីថ្លែងការណ៍លោតអនុញ្ញាតឱ្យកម្មវិធីផ្លាស់ប្តូរលំហូរនៃការដំណើរការ ដែលជាធម្មតាប្រើក្នុងរង្វិិលជុំ ឬប្លុកលក្ខ ខណ្ឌ។ ឧទាហរណ៍ break៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 12",
+          "body": "សេចក្តីីថ្លែងការណ៍លោតអនុញ្ញាតឱ្យកម្មវិធីផ្លាស់ប្តូរលំហូរនៃការដំណើរការ ដែលជាធម្មតាប្រើក្នុងរង្វិិលជុំ ឬប្លុកលក្ខ\nខណ្ឌ។\nឧទាហរណ៍ break៖\nbreak ត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងឥរិយាបថនៃរង្វិិលជុំ។ break បញ្ចប់រង្វិិលជុំទាំំងមូល។\n#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 10; i++) {\n        if (i == 5) {\n            break;\n        }\n        cout << i << \" \";\n    }\n    cout << endl;\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើរង្វិិលជុំ for ដើម្បីីបង្ហាញតម្លៃរបស់អថេរ i ពី 0 ដល់ 9។\n- នៅពេល i ស្\nមើ 5 សេចក្តីីថ្លែងការណ៍ break បញ្ឈប់រង្វិិលជុំភ្លាមៗ។\nលទ្ធផល៖\n0 1 2 3 4\nឧទាហរណ៍ continue៖\ncontinue ត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងឥរិយាបថនៃរង្វិិលជុំ។ continue រំលងទៅវដ្តបន្ទាប់។\n#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 5; i++) {\n        if (i == 2) {\n            continue;\n        }\n        cout << i << \" \";",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 10; i++) {\n        if (i == 5) {\n            break;\n        }\n        cout << i << \" \";\n    }\n    cout << endl;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0; i < 5; i++) {\n        if (i == 2) {\n            continue;\n        }\n        cout << i << \" \";",
+          "preview": {
+            "title": "Cpp Programming · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 12",
+            "0 1 2 3 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-cpp_programming-page-13",
+          "label": "PDF 13. 0 1 3 4",
+          "heading": "0 1 3 4",
+          "intro": "} cout << endl; return 0;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 13",
+          "body": "}\n    cout << endl;\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើរង្វិិលជុំ For ដើម្បីីបង្ហាញតម្លៃរបស់អថេរ i ពី 0 ដល់ 4។\n- នៅពេល i ស្\nមើ 2 សេចក្តីីថ្លែងការណ៍ continue រំលងការបោះពុម្ព ហើយបន្តទៅវដ្តបន្ទាប់។\nលទ្ធផល៖\n0 1 3 4\nឧទាហរណ៍ goto៖\ngoto ដើម្បីីលោតទៅស្លាក start។\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    start:\n    if (i < 5) {\n        cout << i << \" \";\n        i++;\n        goto start;\n    }\n    cout << endl;\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើសេចក្តីីថ្លែងការណ៍ goto ដើម្បីីលោតទៅស្លាក start។\n- វាបង្ហាញតម្លៃរបស់ i ពី 0 ដល់ 4 ហើយបញ្ឈប់នៅពេល i ស្\nមើ 5។\nលទ្ធផល៖\n0 1 2 3 4",
+          "code": "}\n    cout << endl;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    int i = 0;\n    if (i < 5) {\n        cout << i << \" \";\n        i++;\n        goto start;\n    }\n    cout << endl;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 13",
+            "0 1 3 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-cpp_programming-page-14",
+          "label": "PDF 14. Source lesson page 14",
+          "heading": "Source lesson page 14",
+          "intro": "5. អនុគមន៍ក្នុង C++ អនុគមន៍គឺជាប្លុកនៃកូដដែលអនុវត្តកិច្ចការជាក់លាក់មួយ។ វាជួយឱ្យកម្មវិធីមានភាពស្ថានភាព និងងាយ ស្រួួ",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 14",
+          "body": "5. អនុគមន៍ក្នុង C++\nអនុគមន៍គឺជាប្លុកនៃកូដដែលអនុវត្តកិច្ចការជាក់លាក់មួយ។ វាជួយឱ្យកម្មវិធីមានភាពស្ថានភាព និងងាយ\nស្រួួ\nលក្នុងការថែទាំំ។ ផ្នែកនេះះគ្របដណ្តប់អំពីផ្នែកផ្សេងៗនៃអនុគមន៍ក្នុង C++ រួមទាំំងការប្រកាស ការ\nកំណត់ ការផ្ទុកហួស និងលក្ខណៈពិសេសកម្រិិតខ្ពស់ដូចជា អនុគមន៍ Lambda\nនិងកូដចង្អុលអនុគមន៍។\n5.1. ការប្រកាស និងការកំណត់អនុគមន៍\nអនុគមន៍ត្រូូវបានប្រកាសដោយបញ្ជាក់ឈ្\nមោះរបស់វា ប៉ារ៉ាម៉ែត្រ និងប្រភេទតម្លៃត្រឡប់។ ការកំណត់រួមបញ្ចូលកូ\nដដែលត្រូូវអនុវត្ត។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ប្រ\nកាសអនុគមន៍\nint add(int a, int b);\nint main() {\n    int result = add(3, 5); // ហៅអនុគមន៍\n    cout << \"លទ្ធផល: \" << result << endl; // បង្ហាញលទ្ធផល\n    return 0;\n}\n// កំណត់អនុគមន៍\nint add(int a, int b) {\n    return a + b;\n}\nលទ្ធផល៖\nលទ្ធផល: 8",
+          "code": "#include <iostream>\nusing namespace std;\nint add(int a, int b);\nint main() {\n    return 0;\n}\nint add(int a, int b) {\n    return a + b;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 14",
+            "Source lesson page 14"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-cpp_programming-page-15",
+          "label": "PDF 15. Source lesson page 15",
+          "heading": "Source lesson page 15",
+          "intro": "5.2. ប៉ារ៉ាម៉ែត្រ និងប្រភេទតម្លៃត្រឡប់របស់អនុគមន៍ អនុគមន៍អាចទទួលប៉ារ៉ាម៉ែត្រ និងត្រឡប់តម្លៃនៃប្រភេទជាក់លាក់។ ឧទាហរណ៍កូដ៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 15",
+          "body": "5.2. ប៉ារ៉ាម៉ែត្រ និងប្រភេទតម្លៃត្រឡប់របស់អនុគមន៍\nអនុគមន៍អាចទទួលប៉ារ៉ាម៉ែត្រ និងត្រឡប់តម្លៃនៃប្រភេទជាក់លាក់។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\ndouble multiply(double x, double y) {\n    return x * y;\n}\nint main() {\n    double result = multiply(2.5, 4.0); // ហៅអនុគមន៍\n    cout << \"លទ្ធផល: \" << result << endl; // បង្ហាញលទ្ធផល\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល: 10.0\n5.3. ការផ្ទុកអនុគមន៍ហួស\nការផ្ទុកអនុគមន៍ហួសអនុញ្ញាតឱ្យអ្នកកំណត់អនុគមន៍ច្រើនដែលមានឈ្\nមោះដូចគ្នា ប៉ុន្តែមានប៉ារ៉ាម៉ែត្រខុសគ្នា។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint add(int a, int b) {\n    return a + b;\n}\ndouble add(double a, double b) {\n    return a + b;\n}\nint main() {",
+          "code": "#include <iostream>\nusing namespace std;\ndouble multiply(double x, double y) {\n    return x * y;\n}\nint main() {\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint add(int a, int b) {\n    return a + b;\n}\ndouble add(double a, double b) {\n    return a + b;\n}\nint main() {",
+          "preview": {
+            "title": "Cpp Programming · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 15",
+            "Source lesson page 15"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-16",
+          "label": "PDF 16. Source lesson page 16",
+          "heading": "Source lesson page 16",
+          "intro": "int result1 = add(3, 5);       // ហៅអនុគមន៍ដែលទទួល int double result2 = add(2.5, 4.0); // ហៅអនុគមន៍ដែលទទួល double cout << \"លទ្ធផល 1: \" << result1 << endl;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 16",
+          "body": "int result1 = add(3, 5);       // ហៅអនុគមន៍ដែលទទួល int\n    double result2 = add(2.5, 4.0); // ហៅអនុគមន៍ដែលទទួល double\n    cout << \"លទ្ធផល 1: \" << result1 << endl;\n    cout << \"លទ្ធផល 2: \" << result2 << endl;\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល 1: 8\nលទ្ធផល 2: 6.5\n5.4. អនុគមន៍ខ្នាតតូច\nអនុគមន៍ខ្នាតតូចត្រូូវបានពង្រីីកដោយផ្ទាល់នៅកន្លែងដែលវាត្រូូវបានហៅ ដើម្បីីកាត់បន្ថយការចំណាយ\nលើការហៅអនុគមន៍។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\ninline int square(int x) {\n    return x * x;\n}\nint main() {\n    int result = square(5); // ហៅអនុគមន៍ខ្នាតតូច\n    cout << \"លទ្ធផល: \" << result << endl;\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល: 25\n5.5. អនុគមន៍ដែលហៅខ្លួនឯង\nអនុគមន៍ដែលហៅខ្លួនឯងគឺជាអនុគមន៍ដែលហៅខ្លួនវាផ្ទាល់ដើម្បីីដោះស្\nរាយបញ្ហាដែលអាចបែងចែកបាន។",
+          "code": "return 0;\n}\n#include <iostream>\nusing namespace std;\ninline int square(int x) {\n    return x * x;\n}\nint main() {\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 16",
+            "Source lesson page 16"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-cpp_programming-page-17",
+          "label": "PDF 17. Source lesson page 17",
+          "heading": "Source lesson page 17",
+          "intro": "ឧទាហរណ៍កូដ៖ #include <iostream> using namespace std;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 17",
+          "body": "ឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\nint main() {\n    int result = factorial(5); // ហៅអនុគមន៍ដែលហៅខ្លួនឯង\n    cout << \"លទ្ធផល: \" << result << endl;\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល: 120\n5.6. អនុគមន៍មិនត្រឡប់តម្លៃ (Void)\nអនុគមន៍មិនត្រឡប់តម្លៃគឺជាអនុគមន៍ដែលមិនត្រឡប់តម្លៃណាមួយទៅកាន់កន្លែងដែលវាត្រូូវបានហៅ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nvoid printMessage() {\n    cout << \"Hello, World!\" << endl;\n}\nint main() {\n    printMessage(); // ហៅអនុគមន៍\n    return 0;\n}\nលទ្ធផល៖",
+          "code": "#include <iostream>\nusing namespace std;\nint factorial(int n) {\n    if (n == 0) return 1;\n}\nint main() {\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nvoid printMessage() {\n    cout << \"Hello, World!\" << endl;\n}\nint main() {\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 17",
+            "Source lesson page 17"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-cpp_programming-page-18",
+          "label": "PDF 18. Source lesson page 18",
+          "heading": "Source lesson page 18",
+          "intro": "Hello, World! 5.7. អាគុយម៉ង់លំនាំំដើមក្នុងអនុគមន៍ អាគុយម៉ង់លំនាំំដើមអនុញ្ញាតឱ្យអនុគមន៍ប្រើតម្លៃដែលបានកំណត់ជាមុន ប្រសិនបើអាគុយម៉ង់មិនត្រូូវបានផ្តល់។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 18",
+          "body": "Hello, World!\n5.7. អាគុយម៉ង់លំនាំំដើមក្នុងអនុគមន៍\nអាគុយម៉ង់លំនាំំដើមអនុញ្ញាតឱ្យអនុគមន៍ប្រើតម្លៃដែលបានកំណត់ជាមុន ប្រសិនបើអាគុយម៉ង់មិនត្រូូវបានផ្តល់។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nvoid greet(string name = \"Guest\") {\n    cout << \"Hello, \" << name << \"!\" << endl;\n}\nint main() {\n    greet();        // ប្រើតម្លៃលំន\nាំំ\nដើម\n    greet(\"John\");  // ប្រើតម្លៃដែលបានផ្តល់\n    return 0;\n}\nលទ្ធផល៖\nHello, Guest!\nHello, John!\n5.8. គំរូអនុគមន៍\nគំរូអនុគមន៍អនុញ្ញាតឱ្យអ្នកសរសេរអនុគមន៍ទូទៅដែលអាចដំណើរការជាមួយប្រភេទទិន្ន័យផ្សេងៗ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\ntemplate <typename T>\nT add(T a, T b) {\n    return a + b;\n}",
+          "code": "#include <iostream>\nusing namespace std;\nvoid greet(string name = \"Guest\") {\n    cout << \"Hello, \" << name << \"!\" << endl;\n}\nint main() {\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nT add(T a, T b) {\n    return a + b;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 18",
+            "Source lesson page 18"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-cpp_programming-page-19",
+          "label": "PDF 19. Source lesson page 19",
+          "heading": "Source lesson page 19",
+          "intro": "int main() { int result1 = add(3, 5);         // ប្រើប្រ ភេទ int",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 19",
+          "body": "int main() {\n    int result1 = add(3, 5);         // ប្រើប្រ\nភេទ int\n    double result2 = add(2.5, 4.0);  // ប្រើប្រ\nភេទ double\n    cout << \"លទ្ធផល 1: \" << result1 << endl;\n    cout << \"លទ្ធផល 2: \" << result2 << endl;\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល 1: 8\nលទ្ធផល 2: 6.5\n5.9. អនុគមន៍ Lambda ក្នុង C++\nអនុគមន៍ Lambda គឺជាអនុគមន៍អនាមិកដែលអាចត្រូូវបានកំណត់នៅក្នុងកូដ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    auto sum = [](int a, int b) { return a + b; }; // កំណត់ Lambda\n    int result = sum(5, 3); // ហៅ Lambda\n    cout << \"លទ្ធផល: \" << result << endl;\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល: 8\n5.10. ការបញ្ជូនអនុគមន៍ជាអាគុយម៉ង់ (កូដចង្អុលអនុគមន៍)\nអ្នកអាចបញ្ជូនអនុគមន៍ជាអាគុយម៉ង់ទៅកាន់អនុគមន៍ផ្សេងទៀទៀតដោយប្រើកូដចង្អុលអនុគមន៍។\nឧទាហរណ៍កូដ៖",
+          "code": "int main() {\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 19",
+            "Source lesson page 19"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-cpp_programming-page-20",
+          "label": "PDF 20. Source lesson page 20",
+          "heading": "Source lesson page 20",
+          "intro": "#include <iostream> using namespace std; void execute(int (*operation)(int, int), int a, int b) {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 20",
+          "body": "#include <iostream>\nusing namespace std;\nvoid execute(int (*operation)(int, int), int a, int b) {\n    cout << \"លទ្ធផល: \" << operation(a, b) << endl;\n}\nint add(int a, int b) {\n    return a + b;\n}\nint main() {\n    execute(add, 5, 3); // បញ្ជូនអនុគមន៍ជាអាគុយម៉ង់\n    return 0;\n}\nលទ្ធផល៖\nលទ្ធផល: 8\n6. អារេ និងខ្សែអក្សរ\nអារេ និងខ្សែអក្សរគឺជារចនាសម្ព័័ន្ធទិន្ន័យមូលដ្ឋានក្នុង C++។ អារេអនុញ្ញាតឱ្យអ្នកផ្ទុកតម្លៃច្រើនដែល\nមានប្រភេទដូចគ្នា ខណៈខ្សែអក្សរត្រូូវបានប្រើដើម្បីីផ្ទុក និងដំណើរការអត្ថបទ។ ផ្នែកនេះះគ្របដណ្តប់អំពី\nអារេមួយវិមាត្រ និងច្រើនវិមាត្រ ប្រតិបត្តិិការលើអារេ និងការដំណើរការខ្សែអក្សរក្នុង C++។\n6.1. អារេមួយវិមាត្រ និងច្រើនវិមាត្រ\nអារេមួយវិមាត្រគឺជាអារេដែលមានតែជួរឈរតែមួយ ខណៈអារេច្រើនវិមាត្រគឺជាអារេដែលមានជួរឈរ និងជួរដេក\nច្រើន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;",
+          "code": "#include <iostream>\nusing namespace std;\nvoid execute(int (*operation)(int, int), int a, int b) {\n}\nint add(int a, int b) {\n    return a + b;\n}\nint main() {\n    return 0;\n}\n#include <iostream>\nusing namespace std;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 20",
+            "Source lesson page 20"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-21",
+          "label": "PDF 21. 1 2 3",
+          "heading": "1 2 3",
+          "intro": "int main() { // អារេមួយវិមាត្រ int arr1D[5] = {1, 2, 3, 4, 5};",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 21",
+          "body": "int main() {\n    // អារេមួយវិមាត្រ\n    int arr1D[5] = {1, 2, 3, 4, 5};\n    // អារេពីរវិមាត្រ\n    int arr2D[2][3] = {\n        {1, 2, 3},\n        {4, 5, 6}\n    };\n    // បង្ហាញអារេមួយវិមាត្រ\n    cout << \"អារេមួយវិមាត្រ\n: \";\n    for (int i = 0; i < 5; i++) {\n        cout << arr1D[i] << \" \";\n    }\n    cout << endl;\n    // បង្ហាញអារេពីរវិមាត្រ\n    cout << \"អារេពីរវិមាត្រ\n: \" << endl;\n    for (int i = 0; i < 2; i++) {\n        for (int j = 0; j < 3; j++) {\n            cout << arr2D[i][j] << \" \";\n        }\n        cout << endl;\n    }\n    return 0;\n}\nការពន្យល់៖\n- អារេមួយវិមាត្រ arr1D ផ្ទុកតម្លៃ 1, 2, 3, 4, 5។\n- អារេពីរវិមាត្រ arr2D ផ្ទុកតម្លៃក្នុងតារាង 2x3។\n- កម្មវិធីបង្ហាញតម្លៃរបស់អារេទាំំងពីរ។\nលទ្ធផល៖\nអារេមួយវិមាត្រ\n: 1 2 3 4 5 \nអារេពីរវិមាត្រ\n: \n1 2 3 \n4 5 6",
+          "code": "int main() {\n    int arr1D[5] = {1, 2, 3, 4, 5};\n    int arr2D[2][3] = {\n        {1, 2, 3},\n        {4, 5, 6}\n    };\n: \";\n    for (int i = 0; i < 5; i++) {\n        cout << arr1D[i] << \" \";\n    }\n    cout << endl;\n: \" << endl;\n    for (int i = 0; i < 2; i++) {\n        for (int j = 0; j < 3; j++) {\n            cout << arr2D[i][j] << \" \";\n        }\n        cout << endl;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 21",
+            "1 2 3"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-cpp_programming-page-22",
+          "label": "PDF 22. Source lesson page 22",
+          "heading": "Source lesson page 22",
+          "intro": "6.2. ប្រតិបត្តិិការលើអារេ ប្រតិបត្តិិការលើអារេរួមមានការបញ្ចូល ការបង្ហាញ ការស្ វែងរក និងការតម្រៀៀបតម្លៃ។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 22",
+          "body": "6.2. ប្រតិបត្តិិការលើអារេ\nប្រតិបត្តិិការលើអារេរួមមានការបញ្ចូល ការបង្ហាញ ការស្\nវែងរក និងការតម្រៀៀបតម្លៃ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    int arr[5] = {5, 3, 1, 4, 2};\n    // បង្ហាញអារេ\n    cout << \"អារេដើម: \";\n    for (int i = 0; i < 5; i++) {\n        cout << arr[i] << \" \";\n    }\n    cout << endl;\n    // តម្រៀបអារេ\n    for (int i = 0; i < 5; i++) {\n        for (int j = i + 1; j < 5; j++) {\n            if (arr[i] > arr[j]) {\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n            }\n        }\n    }\n    // បង្ហាញអារេដែលបានតម្រៀប\n    cout << \"អារេដែលបានតម្រៀប: \";\n    for (int i = 0; i < 5; i++) {\n        cout << arr[i] << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int arr[5] = {5, 3, 1, 4, 2};\n    for (int i = 0; i < 5; i++) {\n        cout << arr[i] << \" \";\n    }\n    cout << endl;\n    for (int i = 0; i < 5; i++) {\n        for (int j = i + 1; j < 5; j++) {\n            if (arr[i] > arr[j]) {\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n            }\n        }\n    }\n    for (int i = 0; i < 5; i++) {\n        cout << arr[i] << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 22",
+            "Source lesson page 22"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-cpp_programming-page-23",
+          "label": "PDF 23. Source lesson page 23",
+          "heading": "Source lesson page 23",
+          "intro": "ការពន្យល់៖ - អារេ arr ផ្ទុកតម្លៃ 5, 3, 1, 4, 2។ - កម្មវិធីតម្រៀៀបអារេដោយប្រើក្បួនដោះស្",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 23",
+          "body": "ការពន្យល់៖\n- អារេ arr ផ្ទុកតម្លៃ 5, 3, 1, 4, 2។\n- កម្មវិធីតម្រៀៀបអារេដោយប្រើក្បួនដោះស្\nរាយតម្រៀៀបសាមញ្ញ។\n- បង្ហាញអារេដែលបានតម្រៀៀប។\nលទ្ធផល៖\nអារេដើម: 5 3 1 4 2 \nអារេដែលបានតម្រៀប: 1 2 3 4 5\n6.3. ខ្សែអក្សរក្នុង C++ (char arrays និង string class)\nខ្សែអក្សរក្នុង C++ អាចត្រូូវបានបង្កើតដោយប្រើ char arrays ឬ string class។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    // ប្រើ char array\n    char str1[] = \"Hello, World!\";\n    // ប្រើ string class\n    string str2 = \"C++ Programming\";\n    // បង្ហាញខ្\nសែអក្សរ\n    cout << \"char array: \" << str1 << endl;\n    cout << \"string class: \" << str2 << endl;\n    return 0;\n}\nការពន្យល់៖\n- str1 គឺជាខ្សែអក្សរដែលបង្កើតដោយប្រើ char array។\n- str2 គឺជាខ្សែអក្សរដែលបង្កើតដោយប្រើ string class។\n- កម្មវិធីបង្ហាញខ្សែអក្សរទាំំងពីរ។\nលទ្ធផល៖",
+          "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    char str1[] = \"Hello, World!\";\n    string str2 = \"C++ Programming\";\n    cout << \"char array: \" << str1 << endl;\n    cout << \"string class: \" << str2 << endl;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 23",
+            "Source lesson page 23"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-cpp_programming-page-24",
+          "label": "PDF 24. C++ ផ្តល់អនុគមន៍ជាច្រើនសម្",
+          "heading": "C++ ផ្តល់អនុគមន៍ជាច្រើនសម្",
+          "intro": "char array: Hello, World! string class: C++ Programming 6.4. អនុគមន៍ដែលដំណើរការលើខ្សែអក្សរ",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 24",
+          "body": "char array: Hello, World!\nstring class: C++ Programming\n6.4. អនុគមន៍ដែលដំណើរការលើខ្សែអក្សរ\nC++ ផ្តល់អនុគមន៍ជាច្រើនសម្\nរាប់ដំណើរការលើខ្សែអក្សរ ដូចជា length(), substr(), find(), និង\nreplace()។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    string str = \"Hello, World!\";\n    // ប្រ\nវែងខ្\nសែអក្សរ\n    cout << \"ប្រ\nវែងខ្\nសែអក្សរ: \" << str.length() << endl;\n    // ស្រ\nង់ចេញផ្នែកមួយនៃខ្\nសែអក្សរ\n    cout << \"ផ្នែកខ្\nសែអក្សរ: \" << str.substr(7, 5) << endl;\n    // ស្វែងរកអក្សរក្នុងខ្\nសែអក្សរ\n    cout << \"ស្វែងរក 'World': \" << str.find(\"World\") << endl;\n    // ជំនួសផ្នែកនៃខ្\nសែអក្សរ\n    str.replace(7, 5, \"C++\");\n    cout << \"ខ្\nសែអក្សរដែលបានជំនួស: \" << str << endl;\n    return 0;\n}\nការពន្យល់៖\n- length() ប្រើដើម្បីីរកប្រវែងខ្សែអក្សរ។\n- substr() ប្រើដើម្បីីស្រ\nង់ចេញផ្នែកមួយនៃខ្សែអក្សរ។\n- find() ប្រើដើម្បីីស្\nវែងរកអក្សរក្នុងខ្សែអក្សរ។\n- replace() ប្រើដើម្បីីជំនួសផ្នែកនៃខ្សែអក្សរ។\nលទ្ធផល៖",
+          "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    string str = \"Hello, World!\";\n    str.replace(7, 5, \"C++\");\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 24",
+            "C++ ផ្តល់អនុគមន៍ជាច្រើនសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-cpp_programming-page-25",
+          "label": "PDF 25. Source lesson page 25",
+          "heading": "Source lesson page 25",
+          "intro": "ប្រ វែងខ្ សែអក្សរ: 13",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 25",
+          "body": "ប្រ\nវែងខ្\nសែអក្សរ: 13\nផ្នែកខ្\nសែអក្សរ: World\nស្វែងរក 'World': 7\nខ្\nសែអក្សរដែលបានជំនួស: Hello, C++!\n7. កូដចង្អុល និងការយោង\nកូដចង្អុល និងការយោងគឺជាលក្ខណៈពិសេសដ៏អស្ចារ្យក្នុង C++ ដែលអនុញ្ញាតឱ្យអ្នកធ្វើការដោយ\nផ្ទាល់ជាមួយអាសយដ្ឋានអង្គចងចាំំ។ កូដចង្អុលផ្ទុកអាសយដ្ឋានអង្គចងចាំំ ខណៈការយោងផ្តល់ឈ្\nមោះ\nផ្សេងទៀទៀតឱ្យអថេរដែលមានស្\nរាប់។ ផ្នែកនេះះគ្របដណ្តប់អំពីមូលដ្ឋាននៃកូដចង្អុល ការ\nគណនាកូដចង្អុល ការយោង និងការចាត់ចែងអង្គចងចាំំថាមវន្ត។\n7.1. ការណែនាំំអំពីកូដចង្អុល\nកូដចង្អុលគឺជាអថេរដែលផ្ទុកអាសយដ្ឋានអង្គចងចាំំរបស់អថេរផ្សេង។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    int *ptr = &x; // កូដចង្អុល ptr ផ្ទុកអាសយដ្ឋានរបស់ x\n    cout << \"តម្លៃរបស់ x: \" << x << endl;\n    cout << \"អាសយដ្ឋានរបស់ x: \" << &x << endl;\n    cout << \"តម្លៃរបស់ ptr: \" << ptr << endl;\n    cout << \"តម្លៃដែល ptr ចង្អុលទៅ: \" << *ptr << endl;\n    return 0;\n}\nការពន្យល់៖\n- x គឺជាអថេរធម្មតាដែលមានតម្លៃ 10។\n- ptr គឺជាកូដចង្អុលដែលផ្ទុកអាសយដ្ឋានរបស់ x។",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 25",
+            "Source lesson page 25"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-26",
+          "label": "PDF 26. Source lesson page 26",
+          "heading": "Source lesson page 26",
+          "intro": "- &x ផ្តល់អាសយដ្ឋានរបស់ x។ - *ptr ផ្តល់តម្លៃដែល ptr ចង្អុលទៅ។ លទ្ធផល៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 26",
+          "body": "- &x ផ្តល់អាសយដ្ឋានរបស់ x។\n- *ptr ផ្តល់តម្លៃដែល ptr ចង្អុលទៅ។\nលទ្ធផល៖\nតម្លៃរបស់ x: 10\nអាសយដ្ឋានរបស់ x: 0x7ffee4b5c9d4\nតម្លៃរបស់ ptr: 0x7ffee4b5c9d4\nតម្លៃដែល ptr ចង្អុលទៅ: 10\n7.2. ការគណនាកូដចង្អុល\nការគណនាកូដចង្អុលអនុញ្ញាតឱ្យអ្នកផ្លាស់ប្តូរអាសយដ្ឋានដែលកូដចង្អុលចង្អុលទៅ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    int arr[3] = {10, 20, 30};\n    int *ptr = arr; // ptr ចង្អុលទៅធាតុដំបូងនៃអារេ\n    cout << \"តម្លៃដែល ptr ចង្អុលទៅ: \" << *ptr << endl;\n    ptr++; // ផ្លាស់ទី ptr ទៅធាតុបន្ទាប់\n    cout << \"តម្លៃដែល ptr ចង្អុលទៅបន្ទាប់ពី ptr++: \" << *ptr << endl;\n    return 0;\n}\nការពន្យល់៖\n- arr គឺជាអារេដែលមានតម្លៃ 10, 20, 30។\n- ptr ចង្អុលទៅធាតុដំបូងនៃអារេ។\n- ptr++ ផ្លាស់ទីកូដចង្អុលទៅធាតុបន្ទាប់ក្នុងអារេ។\nលទ្ធផល៖\nតម្លៃដែល ptr ចង្អុលទៅ: 10\nតម្លៃដែល ptr ចង្អុលទៅបន្ទាប់ពី ptr++: 20",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int arr[3] = {10, 20, 30};\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 26",
+            "Source lesson page 26"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-cpp_programming-page-27",
+          "label": "PDF 27. Source lesson page 27",
+          "heading": "Source lesson page 27",
+          "intro": "7.3. ការយោង និងការដកយកតម្លៃ ការយោងគឺជាឈ្ មោះផ្សេងទៀទៀតឱ្យអថេរដែលមានស្",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 27",
+          "body": "7.3. ការយោង និងការដកយកតម្លៃ\nការយោងគឺជាឈ្\nមោះផ្សេងទៀទៀតឱ្យអថេរដែលមានស្\nរាប់ ហើយការដកយកតម្លៃគឺជាការប្រើកូដចង្អុលដើម្បីីចូល\nដំណើរការតម្លៃនៅអាសយដ្ឋានដែលវាចង្អុលទៅ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    int &ref = x; // ref គឺជាការយោងរបស់ x\n    cout << \"តម្លៃរបស់ x: \" << x << endl;\n    cout << \"តម្លៃរបស់ ref: \" << ref << endl;\n    ref = 20; // ផ្លាស់ប្តូរតម្លៃរបស់ x តាមរយៈ ref\n    cout << \"តម្លៃរបស់ x បន្ទាប់ពីផ្លាស់ប្តូរតាមរយៈ ref: \" << x << endl;\n    return 0;\n}\nការពន្យល់៖\n- ref គឺជាការយោងរបស់ x។\n- ការផ្លាស់ប្តូរតម្លៃរបស់ ref នឹងផ្លាស់ប្តូរតម្លៃរបស់ x។\nលទ្ធផល៖\nតម្លៃរបស់ x: 10\nតម្លៃរបស់ ref: 10\nតម្លៃរបស់ x បន្ទាប់ពីផ្លាស់ប្តូរតាមរយៈ ref: 20\n7.4. ការចាត់ចែងអង្គចងចាំំថាមវន្ត (new និង delete)\nការចាត់ចែងអង្គចងចាំំថាមវន្តអនុញ្ញាតឱ្យអ្នកចាត់ចែងអង្គចងចាំំក្នុងពេលដំណើរការកម្មវិធី។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    return 0;\n}\n#include <iostream>\nusing namespace std;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 27",
+            "Source lesson page 27"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-cpp_programming-page-28",
+          "label": "PDF 28. OOP មានគោលគំនិតសំខាន់ៗដូចជា៖",
+          "heading": "OOP មានគោលគំនិតសំខាន់ៗដូចជា៖",
+          "intro": "int main() { // ចាត់ចែងអង្គចងចាំថាមវន្តសម្រាា ប់អថេរ int",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 28",
+          "body": "int main() {\n    // ចាត់ចែងអង្គចងចាំថាមវន្តសម្រាា\nប់អថេរ int\n    int *ptr = new int;\n    *ptr = 100;\n    cout << \"តម្លៃដែល ptr ចង្អុលទៅ: \" << *ptr << endl;\n    // ដោ\nះ\nះលែងអង្គចងចាំ\n    delete ptr;\n    return 0;\n}\nការពន្យល់៖\n- new ប្រើដើម្បីីចាត់ចែងអង្គចងចាំំថាមវន្ត។\n- delete ប្រើដើម្បីីដោះលែងអង្គចងចាំំ។\nលទ្ធផល៖\nតម្លៃដែល ptr ចង្អុលទៅ: 100\n8. កម្មវិធីបង្កើតវត្ថុ (OOP)\nកម្មវិធីបង្កើតវត្ថុ (OOP) គឺជារបៀបៀបសរសេរកម្មវិធីដែលរៀរៀបចំការរចនាកម្មវិធីជុំវិញវត្ថុ និងថ្នាក់។\nវាសង្កត់ធ្ងន់លើគោលគំនិតដូចជា encapsulation, inheritance, និង polymorphism ដើម្បីី\nបង្កើតកូដដែលមានភាពម៉ូឌុល និងអាចប្រើឡើងវិញបាន។ ផ្នែកនេះះគ្របដណ្តប់អំពីមូលដ្ឋាននៃ OOP រួម\nទាំំងថ្នាក់ វត្ថុ សំណង់ ការបំផ្លាញ និងគោលគំនិតដទៃទៀទៀត។\n8.1. សេចក្តីីផ្តើមអំពីគោលគំនិត OOP\nOOP មានគោលគំនិតសំខាន់ៗដូចជា៖\nEncapsulation: ការបញ្ចូលទិន្ន័យ និងមុខងារដែលដំណើរការលើទិន្ន័យទៅក្នុងឯកតាតែមួយ (ថ្នាក់)។\nInheritance: ការបង្កើតថ្នាក់ថ្មីីពីថ្នាក់ដែលមានស្\nរាប់ ដើម្បីីលើកកម្មវិធីអោយមានភាពងាយស្រួួ\nលក្នុងការ\nប្រើប្\nរាស់ឡើងវិញ។\nPolymorphism: ការប្រើចំណុចប្រទាក់តែមួយដើម្បីីតំណាងឱ្យប្រភេទវត្ថុផ្សេងៗគ្នា។\nAbstraction: ការលាក់ព័ត៌មានស្មុគស្មាញ និងបង្ហាញតែលក្ខណៈចាំំបាច់។",
+          "code": "int main() {\n    int *ptr = new int;\n    *ptr = 100;\n    delete ptr;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 28",
+            "OOP មានគោលគំនិតសំខាន់ៗដូចជា៖"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-cpp_programming-page-29",
+          "label": "PDF 29. Car myCar;",
+          "heading": "Car myCar;",
+          "intro": "8.2. ថ្នាក់ និងវត្ថុ ថ្នាក់គឺជាគំរូសម្ រាប់បង្កើតវត្ថុ ខណៈវត្ថុគឺជាឧទាហរណ៍នៃថ្នាក់មួយ។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 29",
+          "body": "8.2. ថ្នាក់ និងវត្ថុ\nថ្នាក់គឺជាគំរូសម្\nរាប់បង្កើតវត្ថុ ខណៈវត្ថុគឺជាឧទាហរណ៍នៃថ្នាក់មួយ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// កំណត់ថ្នាក់\nclass Car {\npublic:\n    string brand;\n    void honk() {\n        cout << \"Honk! Honk!\" << endl;\n    }\n};\nint main() {\n    // បង្កើតវត្ថុពីថ្នាក់ Car\n    Car myCar;\n    myCar.brand = \"Toyota\";\n    cout << \"Brand: \" << myCar.brand << endl;\n    myCar.honk();\n    return 0;\n}\nការពន្យល់៖\n- ថ្នាក់ Car មានទិន្ន័យ brand និងមុខងារ honk()។\n- myCar គឺជាវត្ថុរបស់ថ្នាក់ Car។\n- វត្ថុចូលដំណើរការទិន្ន័យ និងមុខងារដោយប្រើផ្កាយ (.)។\nលទ្ធផល៖\nBrand: Toyota\nHonk! Honk!\n8.3. សំណង់ និងការបំផ្លាញ",
+          "code": "#include <iostream>\nusing namespace std;\nclass Car {\n    string brand;\n    void honk() {\n        cout << \"Honk! Honk!\" << endl;\n    }\n};\nint main() {\n    Car myCar;\n    myCar.brand = \"Toyota\";\n    cout << \"Brand: \" << myCar.brand << endl;\n    myCar.honk();\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 29",
+            "Car myCar;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-cpp_programming-page-30",
+          "label": "PDF 30. Book myBook(\"C++ Programming\");",
+          "heading": "Book myBook(\"C++ Programming\");",
+          "intro": "សំណង់ (Constructor) គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេលបង្កើតវត្ថុ។ ការបំផ្លាញ (Destructor) គឺជាមុខងារដែលត្រូូវបានហៅនៅពេលវត្ថុត្រូូវបានលុប។ ឧទាហរណ៍កូដ៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 30",
+          "body": "សំណង់ (Constructor) គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេលបង្កើតវត្ថុ។ ការបំផ្លាញ\n(Destructor) គឺជាមុខងារដែលត្រូូវបានហៅនៅពេលវត្ថុត្រូូវបានលុប។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nclass Book {\npublic:\n    string title;\n    // សំណង់\n    Book(string t) {\n        title = t;\n        cout << \"Book created: \" << title << endl;\n    }\n    // ការបំផ្លាញ\n    ~Book() {\n        cout << \"Book destroyed: \" << title << endl;\n    }\n};\nint main() {\n    Book myBook(\"C++ Programming\");\n    return 0;\n}\nការពន្យល់៖\n- សំណង់ Book(string t) ចាប់ផ្តើមតម្លៃ title និងបោះពុម្ពសារ។\n- ការបំផ្លាញ ~Book() ត្រូូវបានហៅនៅពេលវត្ថុត្រូូវបានលុប ហើយបោះពុម្ពសារ។\nលទ្ធផល៖\nBook created: C++ Programming\nBook destroyed: C++ Programming\n8.4. Encapsulation និង Data Hiding\nEncapsulation គឺជាការបញ្ចូលទិន្ន័យ និងមុខងារដែលដំណើរការលើទិន្ន័យទៅក្នុងឯកតាតែមួយ។ Data\nHiding គឺជាការកំណត់ការចូលដំណើរការទិន្ន័យដោយផ្ទាល់ពីខាងក្រៅ។\nឧទាហរណ៍កូដ៖",
+          "code": "#include <iostream>\nusing namespace std;\nclass Book {\n    string title;\n    Book(string t) {\n        title = t;\n        cout << \"Book created: \" << title << endl;\n    }\n    ~Book() {\n        cout << \"Book destroyed: \" << title << endl;\n    }\n};\nint main() {\n    Book myBook(\"C++ Programming\");\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 30",
+            "Book myBook(\"C++ Programming\");"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-31",
+          "label": "PDF 31. Employee emp;",
+          "heading": "Employee emp;",
+          "intro": "#include <iostream> using namespace std; class Employee {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 31",
+          "body": "#include <iostream>\nusing namespace std;\nclass Employee {\nprivate:\n    string name; // ទិន្ន័\nយឯកជន\n    int salary;\npublic:\n    // មុខងារសាធារណៈដើម្បីីចូលដំណើរការទិន្ន័\nយឯកជន\n    void setName(string n) {\n        name = n;\n    }\n    string getName() {\n        return name;\n    }\n    void setSalary(int s) {\n        salary = s;\n    }\n    int getSalary() {\n        return salary;\n    }\n};\nint main() {\n    Employee emp;\n    emp.setName(\"John Doe\");\n    emp.setSalary(5000);\n    cout << \"Name: \" << emp.getName() << endl;\n    cout << \"Salary: \" << emp.getSalary() << endl;\n    return 0;\n}\nការពន្យល់៖\n- ទិន្ន័យ name និង salary គឺជាឯកជន ហើយអាចចូលដំណើរការតាមរយៈមុខងារសាធារណៈ។\n- មុខងារ setName(), getName(), setSalary(), និង getSalary() ផ្តល់ការចូលដំណើរការទិន្ន័យ\nដែលគ្រប់គ្រង។",
+          "code": "#include <iostream>\nusing namespace std;\nclass Employee {\n    int salary;\n    void setName(string n) {\n        name = n;\n    }\n    string getName() {\n        return name;\n    }\n    void setSalary(int s) {\n        salary = s;\n    }\n    int getSalary() {\n        return salary;\n    }\n};\nint main() {\n    Employee emp;\n    emp.setName(\"John Doe\");\n    emp.setSalary(5000);\n    cout << \"Name: \" << emp.getName() << endl;\n    cout << \"Salary: \" << emp.getSalary() << endl;\n    return 0;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 31",
+            "Employee emp;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-cpp_programming-page-32",
+          "label": "PDF 32. Inheritance អនុញ្ញាតឱ្យថ្នាក់មួយទទួលយកលក្ខណៈសម្បត្តិិពីថ្នាក់មួយទៀទៀត។ Polymorphism អនុញ្ញាតឱ្យវត្ថុ",
+          "heading": "Inheritance អនុញ្ញាតឱ្យថ្នាក់មួយទទួលយកលក្ខណៈសម្បត្តិិពីថ្នាក់មួយទៀទៀត។ Polymorphism អនុញ្ញាតឱ្យវត្ថុ",
+          "intro": "លទ្ធផល៖ Name: John Doe Salary: 5000",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 32",
+          "body": "លទ្ធផល៖\nName: John Doe\nSalary: 5000\n8.5. Inheritance និង Polymorphism\nInheritance អនុញ្ញាតឱ្យថ្នាក់មួយទទួលយកលក្ខណៈសម្បត្តិិពីថ្នាក់មួយទៀទៀត។ Polymorphism អនុញ្ញាតឱ្យវត្ថុ\nត្រូូវបានចាត់ទុកជាឧទាហរណ៍នៃថ្នាក់មេរបស់វា។\n8.5.1. សេចក្តីីផ្តើមអំពី Inheritance\nInheritance អនុញ្ញាតឱ្យថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់មេ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Animal is eating...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : public Animal {\npublic:\n    void bark() {\n        cout << \"Dog is barking...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    dog.eat();  // ទទួលយកពី Animal\n    dog.bark(); // កំណត់នៅក្នុង Dog",
+          "code": "#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Animal is eating...\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void bark() {\n        cout << \"Dog is barking...\" << endl;\n    }\n};\nint main() {\n    Dog dog;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 32",
+            "Inheritance អនុញ្ញាតឱ្យថ្នាក់មួយទទួលយកលក្ខណៈសម្បត្តិិពីថ្នាក់មួយទៀទៀត។ Polymorph"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-cpp_programming-page-33",
+          "label": "PDF 33. Animal is eating...",
+          "heading": "Animal is eating...",
+          "intro": "return 0; } ការពន្យល់៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 33",
+          "body": "return 0;\n}\nការពន្យល់៖\n- ថ្នាក់ Dog ទទួលយកមុខងារ eat() ពីថ្នាក់ Animal។\n- ថ្នាក់ Dog ក៏កំណត់មុខងារផ្ទាល់ខ្លួនផងដែរ គឺ bark()។\nលទ្ធផល៖\nAnimal is eating...\nDog is barking...\n8.5.2. ប្រភេទនៃ Inheritance\nមានប្រភេទផ្សេងៗនៃ Inheritance ក្នុង C++៖\nSingle Inheritance: ថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់មេតែមួយ។\nMultiple Inheritance: ថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់មេច្រើន។\nMultilevel Inheritance: ថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់កូនមួយទៀទៀត។\nHierarchical Inheritance: ថ្នាក់កូនច្រើនទទួលយកសមាជិកពីថ្នាក់មេតែមួយ។\nHybrid Inheritance: ការផ្សំំរវាង Multiple និង Multilevel Inheritance។\n8.5.2.1. Single Inheritance\nថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់មេតែមួយ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Vehicle {\npublic:\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Car : public Vehicle {\npublic:\n    void honk() {\n        cout << \"Honk! Honk!\" << endl;",
+          "code": "return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Vehicle {\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};\nclass Car : public Vehicle {\n    void honk() {\n        cout << \"Honk! Honk!\" << endl;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 33",
+            "Animal is eating..."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-cpp_programming-page-34",
+          "label": "PDF 34. Car car;",
+          "heading": "Car car;",
+          "intro": "} }; int main() {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 34",
+          "body": "}\n};\nint main() {\n    Car car;\n    car.drive(); // ទទួលយកពី Vehicle\n    car.honk();  // កំណត់នៅក្នុង Car\n    return 0;\n}\nលទ្ធផល៖\nDriving...\nHonk! Honk!\n8.5.2.2. Multiple Inheritance\nថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់មេច្រើន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ 1\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\n// ថ្នាក់មេ 2\nclass Vehicle {\npublic:\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};",
+          "code": "}\n};\nint main() {\n    Car car;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\nclass Vehicle {\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};",
+          "preview": {
+            "title": "Cpp Programming · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 34",
+            "Car car;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-cpp_programming-page-35",
+          "label": "PDF 35. Amphibious amp;",
+          "heading": "Amphibious amp;",
+          "intro": "// ថ្នាក់កូន class Amphibious : public Animal, public Vehicle { public:",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 35",
+          "body": "// ថ្នាក់កូន\nclass Amphibious : public Animal, public Vehicle {\npublic:\n    void swim() {\n        cout << \"Swimming...\" << endl;\n    }\n};\nint main() {\n    Amphibious amp;\n    amp.eat();   // ទទួលយកពី Animal\n    amp.drive(); // ទទួលយកពី Vehicle\n    amp.swim();  // កំណត់នៅក្នុង Amphibious\n    return 0;\n}\nលទ្ធផល៖\nEating...\nDriving...\nSwimming...\n8.5.2.3. Multilevel Inheritance\nថ្នាក់កូនទទួលយកសមាជិកពីថ្នាក់កូនមួយទៀទៀត។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\n// ថ្នាក់កូន 1",
+          "code": "class Amphibious : public Animal, public Vehicle {\n    void swim() {\n        cout << \"Swimming...\" << endl;\n    }\n};\nint main() {\n    Amphibious amp;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};",
+          "preview": {
+            "title": "Cpp Programming · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 35",
+            "Amphibious amp;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-36",
+          "label": "PDF 36. Puppy pup;",
+          "heading": "Puppy pup;",
+          "intro": "class Dog : public Animal { public: void bark() {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 36",
+          "body": "class Dog : public Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\n// ថ្នាក់កូន 2\nclass Puppy : public Dog {\npublic:\n    void cry() {\n        cout << \"Crying...\" << endl;\n    }\n};\nint main() {\n    Puppy pup;\n    pup.eat();  // ទទួលយកពី Animal\n    pup.bark(); // ទទួលយកពី Dog\n    pup.cry();  // កំណត់នៅក្នុង Puppy\n    return 0;\n}\nលទ្ធផល៖\nEating...\nBarking...\nCrying...\n8.5.2.4. Hierarchical Inheritance\nថ្នាក់កូនច្រើនទទួលយកសមាជិកពីថ្នាក់មេតែមួយ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {",
+          "code": "class Dog : public Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nclass Puppy : public Dog {\n    void cry() {\n        cout << \"Crying...\" << endl;\n    }\n};\nint main() {\n    Puppy pup;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {",
+          "preview": {
+            "title": "Cpp Programming · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 36",
+            "Puppy pup;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-cpp_programming-page-37",
+          "label": "PDF 37. Dog dog;",
+          "heading": "Dog dog;",
+          "intro": "public: void eat() { cout << \"Eating...\" << endl;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 37",
+          "body": "public:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\n// ថ្នាក់កូន 1\nclass Dog : public Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\n// ថ្នាក់កូន 2\nclass Cat : public Animal {\npublic:\n    void meow() {\n        cout << \"Meowing...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    dog.eat();  // ទទួលយកពី Animal\n    dog.bark(); // កំណត់នៅក្នុង Dog\n    Cat cat;\n    cat.eat();  // ទទួលយកពី Animal\n    cat.meow(); // កំណត់នៅក្នុង Cat\n    return 0;\n}\nលទ្ធផល៖\nEating...\nBarking...\nEating...\nMeowing...",
+          "code": "void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nclass Cat : public Animal {\n    void meow() {\n        cout << \"Meowing...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    Cat cat;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 37",
+            "Dog dog;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-cpp_programming-page-38",
+          "label": "PDF 38. Source lesson page 38",
+          "heading": "Source lesson page 38",
+          "intro": "8.5.2.5. Hybrid Inheritance ការផ្សំំរវាង Multiple និង Multilevel Inheritance។ ឧទាហរណ៍កូដ៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 38",
+          "body": "8.5.2.5. Hybrid Inheritance\nការផ្សំំរវាង Multiple និង Multilevel Inheritance។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ 1\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\n// ថ្នាក់មេ 2\nclass Vehicle {\npublic:\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};\n// ថ្នាក់កូន 1\nclass Dog : public Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\n// ថ្នាក់កូន 2\nclass Amphibious : public Dog, public Vehicle {\npublic:\n    void swim() {\n        cout << \"Swimming...\" << endl;\n    }\n};\nint main() {",
+          "code": "#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\nclass Vehicle {\n    void drive() {\n        cout << \"Driving...\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nclass Amphibious : public Dog, public Vehicle {\n    void swim() {\n        cout << \"Swimming...\" << endl;\n    }\n};\nint main() {",
+          "preview": {
+            "title": "Cpp Programming · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 38",
+            "Source lesson page 38"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-cpp_programming-page-39",
+          "label": "PDF 39. Amphibious amp;",
+          "heading": "Amphibious amp;",
+          "intro": "amp.eat();   // ទទួលយកពី Animal តាមរយៈ Dog amp.bark();  // ទទួលយកពី Dog amp.drive(); // ទទួលយកពី Vehicle",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 39",
+          "body": "Amphibious amp;\n    amp.eat();   // ទទួលយកពី Animal តាមរយៈ Dog\n    amp.bark();  // ទទួលយកពី Dog\n    amp.drive(); // ទទួលយកពី Vehicle\n    amp.swim();  // កំណត់នៅក្នុង Amphibious\n    return 0;\n}\nលទ្ធផល៖\nEating...\nBarking...\nDriving...\nSwimming...\n8.5.3. Access Specifiers in Inheritance\nAccess specifiers កំណត់ពីរបៀបៀបដែលសមាជិកនៃថ្នាក់មេត្រូូវបានចូលដំណើរការនៅក្នុងថ្នាក់កូន។ មាន\nAccess specifiers ចំនួនបី៖\nPublic Inheritance: សមាជិក public និង protected នៃថ្នាក់មេនៅតែ public និង protected\nនៅក្នុងថ្នាក់កូន។\nProtected Inheritance: សមាជិក public និង protected នៃថ្នាក់មេក្លាយជា protected នៅ\nក្នុងថ្នាក់កូន។\nPrivate Inheritance: សមាជិក public និង protected នៃថ្នាក់មេក្លាយជា private នៅក្នុងថ្នាក់\nកូន។\n8.5.3.1. Public Inheritance\nសមាជិក public និង protected នៃថ្នាក់មេនៅតែ public និង protected នៅក្នុងថ្នាក់កូន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }",
+          "code": "Amphibious amp;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }",
+          "preview": {
+            "title": "Cpp Programming · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 39",
+            "Amphibious amp;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-cpp_programming-page-40",
+          "label": "PDF 40. Dog dog;",
+          "heading": "Dog dog;",
+          "intro": "protected: void sleep() { cout << \"Sleeping...\" << endl;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 40",
+          "body": "protected:\n    void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : public Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n        sleep(); // ចូលដំណើរការសមាជិក protected\n    }\n};\nint main() {\n    Dog dog;\n    dog.eat();  // ចូលដំណើរការសមាជិក public\n    dog.bark(); // ចូលដំណើរការសមាជិក public\n    return 0;\n}\nលទ្ធផល៖\nEating...\nBarking...\nSleeping...\n8.5.3.2. Protected Inheritance\nសមាជិក public និង protected នៃថ្នាក់មេក្លាយជា protected នៅក្នុងថ្នាក់កូន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:",
+          "code": "void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {",
+          "preview": {
+            "title": "Cpp Programming · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 40",
+            "Dog dog;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-45",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-41",
+          "label": "PDF 41. Dog dog;",
+          "heading": "Dog dog;",
+          "intro": "void eat() { cout << \"Eating...\" << endl; }",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 41",
+          "body": "void eat() {\n        cout << \"Eating...\" << endl;\n    }\nprotected:\n    void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : protected Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n        eat();  // ចូលដំណើរការសមាជិក public (ឥឡូវ protected)\n        sleep(); // ចូលដំណើរការសមាជិក protected\n    }\n};\nint main() {\n    Dog dog;\n    dog.bark(); // ចូលដំណើរការសមាជិក public\n    return 0;\n}\nលទ្ធផល៖\nBarking...\nEating...\nSleeping...\n8.5.3.3. Private Inheritance\nសមាជិក public និង protected នៃថ្នាក់មេក្លាយជា private នៅក្នុងថ្នាក់កូន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;",
+          "code": "void eat() {\n        cout << \"Eating...\" << endl;\n    }\n    void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\nclass Dog : protected Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    return 0;\n}\n#include <iostream>\nusing namespace std;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 41",
+            "Dog dog;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 41
+        },
+        {
+          "id": "pdf-cpp_programming-page-42",
+          "label": "PDF 42. Dog dog;",
+          "heading": "Dog dog;",
+          "intro": "// ថ្នាក់មេ class Animal { public:",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 42",
+          "body": "// ថ្នាក់មេ\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\nprotected:\n    void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : private Animal {\npublic:\n    void bark() {\n        cout << \"Barking...\" << endl;\n        eat();  // ចូលដំណើរការសមាជិក public (ឥឡូវ private)\n        sleep(); // ចូលដំណើរការសមាជិក protected (ឥឡូវ private)\n    }\n};\nint main() {\n    Dog dog;\n    dog.bark(); // ចូលដំណើរការសមាជិក public\n    return 0;\n}\nលទ្ធផល៖\nBarking...\nEating...\nSleeping...\n8.5.4. Function Overriding in Inheritance\nFunction overriding កើតឡើងនៅពេលថ្នាក់កូនកំណត់មុខងារដែលមានឈ្\nមោះ និងសញ្ញាសម្គាល់ដូចគ្នានឹង\nមុខងារនៅក្នុងថ្នាក់មេ។\nឧទាហរណ៍កូដ៖",
+          "code": "class Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n    void sleep() {\n        cout << \"Sleeping...\" << endl;\n    }\n};\nclass Dog : private Animal {\n    void bark() {\n        cout << \"Barking...\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 42",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 42",
+            "Dog dog;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 42
+        },
+        {
+          "id": "pdf-cpp_programming-page-43",
+          "label": "PDF 43. Dog dog;",
+          "heading": "Dog dog;",
+          "intro": "#include <iostream> using namespace std; // ថ្នាក់មេ",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 43",
+          "body": "#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    void speak() {\n        cout << \"Animal speaks\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : public Animal {\npublic:\n    void speak() {\n        cout << \"Dog barks\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    dog.speak(); // ហៅមុខងាររបស់ Dog\n    return 0;\n}\nលទ្ធផល៖\nDog barks\n8.5.5. Virtual Functions and Polymorphism\nVirtual functions អនុញ្ញាតឱ្យថ្នាក់កូនចម្លងមុខងារពីថ្នាក់មេ ហើយ Polymorphism អនុញ្ញាតឱ្យមានការប្រើ\nមុខងារតាមរបៀបៀបផ្សេងៗគ្នា។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ",
+          "code": "#include <iostream>\nusing namespace std;\nclass Animal {\n    void speak() {\n        cout << \"Animal speaks\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void speak() {\n        cout << \"Dog barks\" << endl;\n    }\n};\nint main() {\n    Dog dog;\n    return 0;\n}\n#include <iostream>\nusing namespace std;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 43",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 43",
+            "Dog dog;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 43
+        },
+        {
+          "id": "pdf-cpp_programming-page-44",
+          "label": "PDF 44. Animal *animal = new Dog(); // Polymorphism",
+          "heading": "Animal *animal = new Dog(); // Polymorphism",
+          "intro": "class Animal { public: virtual void speak() {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 44",
+          "body": "class Animal {\npublic:\n    virtual void speak() {\n        cout << \"Animal speaks\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Dog : public Animal {\npublic:\n    void speak() override {\n        cout << \"Dog barks\" << endl;\n    }\n};\nint main() {\n    Animal *animal = new Dog(); // Polymorphism\n    animal->speak(); // ហៅមុខងាររបស់ Dog\n    delete animal;\n    return 0;\n}\nលទ្ធផល៖\nDog barks\n8.5.6. Base Class and Derived Class Constructors\nនៅពេលវត្ថុថ្នាក់កូនត្រូូវបានបង្កើត សំណង់ថ្នាក់មេត្រូូវបានហៅជាមុន បន្ទាប់មកសំណង់ថ្នាក់កូនត្រូូវបានហៅ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    Animal() {\n        cout << \"Animal constructor\" << endl;",
+          "code": "class Animal {\n    virtual void speak() {\n        cout << \"Animal speaks\" << endl;\n    }\n};\nclass Dog : public Animal {\n    void speak() override {\n        cout << \"Dog barks\" << endl;\n    }\n};\nint main() {\n    Animal *animal = new Dog(); // Polymorphism\n    delete animal;\n    return 0;\n}\n#include <iostream>\nusing namespace std;\nclass Animal {\n    Animal() {\n        cout << \"Animal constructor\" << endl;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 44",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 44",
+            "Animal *animal = new Dog(); // Polymorphism"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 44
+        },
+        {
+          "id": "pdf-cpp_programming-page-45",
+          "label": "PDF 45. Dog dog; // ហៅសំណង់ Animal ជាមុន បន្ទាប់មក Dog",
+          "heading": "Dog dog; // ហៅសំណង់ Animal ជាមុន បន្ទាប់មក Dog",
+          "intro": "} }; // ថ្នាក់កូន",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 45",
+          "body": "}\n};\n// ថ្នាក់កូន\nclass Dog : public Animal {\npublic:\n    Dog() {\n        cout << \"Dog constructor\" << endl;\n    }\n};\nint main() {\n    Dog dog; // ហៅសំណង់ Animal ជាមុន បន្ទាប់មក Dog\n    return 0;\n}\nលទ្ធផល៖\nAnimal constructor\nDog constructor\n8.5.7. Virtual Base Classes (Solving Diamond Problem)\nVirtual base classes ត្រូូវបានប្រើដើម្បីីដោះស្\nរាយបញ្ហា Diamond Problem ក្នុង Multiple\nInheritance ដោយធានាថាមានតែឧទាហរណ៍មួយនៃថ្នាក់មេត្រូូវបានបង្កើត។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// ថ្នាក់មេ\nclass Animal {\npublic:\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};\n// ថ្នាក់កណ្តាល 1",
+          "code": "}\n};\nclass Dog : public Animal {\n    Dog() {\n        cout << \"Dog constructor\" << endl;\n    }\n};\nint main() {\n    return 0;\n}\n8.5.7. Virtual Base Classes (Solving Diamond Problem)\n#include <iostream>\nusing namespace std;\nclass Animal {\n    void eat() {\n        cout << \"Eating...\" << endl;\n    }\n};",
+          "preview": {
+            "title": "Cpp Programming · PDF page 45",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 45",
+            "Dog dog; // ហៅសំណង់ Animal ជាមុន បន្ទាប់មក Dog"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 45
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "PDF source lessons · pages 46-50",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-46",
+          "label": "PDF 46. Bat bat;",
+          "heading": "Bat bat;",
+          "intro": "class Mammal : virtual public Animal { public: void breathe() {",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 46",
+          "body": "class Mammal : virtual public Animal {\npublic:\n    void breathe() {\n        cout << \"Breathing...\" << endl;\n    }\n};\n// ថ្នាក់កណ្តាល 2\nclass WingedAnimal : virtual public Animal {\npublic:\n    void fly() {\n        cout << \"Flying...\" << endl;\n    }\n};\n// ថ្នាក់កូន\nclass Bat : public Mammal, public WingedAnimal {\npublic:\n    void display() {\n        eat(); // មានតែឧទាហរណ៍មួយនៃ Animal\n        breathe();\n        fly();\n    }\n};\nint main() {\n    Bat bat;\n    bat.display();\n    return 0;\n}\nលទ្ធផល៖\nEating...\nBreathing...\nFlying...\n8.5.8. Abstract Classes and Pure Virtual Functions",
+          "code": "class Mammal : virtual public Animal {\n    void breathe() {\n        cout << \"Breathing...\" << endl;\n    }\n};\nclass WingedAnimal : virtual public Animal {\n    void fly() {\n        cout << \"Flying...\" << endl;\n    }\n};\nclass Bat : public Mammal, public WingedAnimal {\n    void display() {\n        breathe();\n        fly();\n    }\n};\nint main() {\n    Bat bat;\n    bat.display();\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 46",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 46",
+            "Bat bat;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 46
+        },
+        {
+          "id": "pdf-cpp_programming-page-47",
+          "label": "PDF 47. Abstract classes មិនអាចបង្កើតវត្ថុបានដោយផ្ទាល់ ហើយត្រូូវបានប្រើជាថ្នាក់មេ។ ពួកវាមានយ៉ាងហោចណាស់",
+          "heading": "Abstract classes មិនអាចបង្កើតវត្ថុបានដោយផ្ទាល់ ហើយត្រូូវបានប្រើជាថ្នាក់មេ។ ពួកវាមានយ៉ាងហោចណាស់",
+          "intro": "មុខងារ Pure Virtual Function មួយ។ ឧទាហរណ៍កូដ៖ #include <iostream>",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 47",
+          "body": "Abstract classes មិនអាចបង្កើតវត្ថុបានដោយផ្ទាល់ ហើយត្រូូវបានប្រើជាថ្នាក់មេ។ ពួកវាមានយ៉ាងហោចណាស់\nមុខងារ Pure Virtual Function មួយ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\n// Abstract class\nclass Shape {\npublic:\n    virtual void draw() = 0; // Pure virtual function\n};\n// Derived class\nclass Circle : public Shape {\npublic:\n    void draw() override {\n        cout << \"Drawing a Circle\" << endl;\n    }\n};\nint main() {\n    // Shape shape; // កំហុស៖ មិនអាចបង្កើតវត្ថុពី Abstract Class បានទេ\n    Circle circle;\n    circle.draw();\n    return 0;\n}\nលទ្ធផល៖\nDrawing a Circle\n8.6. Abstract Classes and Interfaces\nAbstract classes មិនអាចបង្កើតវត្ថុបានដោយផ្ទាល់ ហើយត្រូូវបានប្រើជាថ្នាក់មេ។ Interfaces គឺស្រ\nដៀដៀងគ្នា\nប៉ុន្តែមានតែមុខងារ Pure Virtual Functions។\nឧទាហរណ៍កូដ៖",
+          "code": "#include <iostream>\nusing namespace std;\nclass Shape {\n    virtual void draw() = 0; // Pure virtual function\n};\nclass Circle : public Shape {\n    void draw() override {\n        cout << \"Drawing a Circle\" << endl;\n    }\n};\nint main() {\n    Circle circle;\n    circle.draw();\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 47",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 47",
+            "Abstract classes មិនអាចបង្កើតវត្ថុបានដោយផ្ទាល់ ហើយត្រូូវបានប្រើជាថ្នាក់មេ។ ពួកវា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 47
+        },
+        {
+          "id": "pdf-cpp_programming-page-48",
+          "label": "PDF 48. Circle circle;",
+          "heading": "Circle circle;",
+          "intro": "#include <iostream> using namespace std; // Abstract class",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 48",
+          "body": "#include <iostream>\nusing namespace std;\n// Abstract class\nclass Shape {\npublic:\n    virtual void draw() = 0; // Pure virtual function\n};\n// Derived class\nclass Circle : public Shape {\npublic:\n    void draw() override {\n        cout << \"Drawing a Circle\" << endl;\n    }\n};\nint main() {\n    // Shape shape; // កំហុស៖ មិនអាចបង្កើតវត្ថុពី Abstract Class បានទេ\n    Circle circle;\n    circle.draw();\n    return 0;\n}\nលទ្ធផល៖\nDrawing a Circle\n9. File Handling in C++\nFile handling ក្នុង C++ អនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយឯកសារនៅលើកុំព្យូទ័ររបស់អ្នក។ អ្នក\nអាចអានពីឯកសារ សរសេរទៅឯកសារ បន្ថែមទិន្ន័យ និងអនុវត្តប្រតិបត្តិិការផ្សេងៗលើឯកសារ។ ផ្នែក\nនេះះគ្របដណ្តប់អំពីមូលដ្ឋាននៃ file handling រួមទាំំង file streams, ការអាន និងសរសេរឯកសារ\nនិងប្រតិបត្តិិការលើឯកសារ។",
+          "code": "#include <iostream>\nusing namespace std;\nclass Shape {\n    virtual void draw() = 0; // Pure virtual function\n};\nclass Circle : public Shape {\n    void draw() override {\n        cout << \"Drawing a Circle\" << endl;\n    }\n};\nint main() {\n    Circle circle;\n    circle.draw();\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 48",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 48",
+            "Circle circle;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 48
+        },
+        {
+          "id": "pdf-cpp_programming-page-49",
+          "label": "PDF 49. File streams ត្រូូវបានប្រើដើម្បីីធ្វើការជាមួយឯកសារ។ C++ ផ្តល់ថ្នាក់បីសម្",
+          "heading": "File streams ត្រូូវបានប្រើដើម្បីីធ្វើការជាមួយឯកសារ។ C++ ផ្តល់ថ្នាក់បីសម្",
+          "intro": "9.1. File Streams (ifstream, ofstream, fstream) រាប់ file streams៖ ifstream: ប្រើសម្",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 49",
+          "body": "9.1. File Streams (ifstream, ofstream, fstream)\nFile streams ត្រូូវបានប្រើដើម្បីីធ្វើការជាមួយឯកសារ។ C++ ផ្តល់ថ្នាក់បីសម្\nរាប់ file streams៖\nifstream: ប្រើសម្\nរាប់អានទិន្ន័យពីឯកសារ។\nofstream: ប្រើសម្\nរាប់សរសេរទិន្ន័យទៅឯកសារ។\nfstream: ប្រើសម្\nរាប់អាន និងសរសេរទិន្ន័យទៅឯកសារ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    // បង្កើតឯកសារ និងសរសេរទិន្ន័\nយ\n    ofstream outFile(\"example.txt\");\n    outFile << \"Hello, World!\" << endl;\n    outFile.close();\n    // អានទិន្ន័\nយពីឯកសារ\n    ifstream inFile(\"example.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}\nការពន្យល់៖\n- ofstream ត្រូូវបានប្រើដើម្បីីសរសេរទិន្ន័យទៅឯកសារ example.txt។\n- ifstream ត្រូូវបានប្រើដើម្បីីអានទិន្ន័យពីឯកសារ example.txt។\n- fstream អាចប្រើសម្\nរាប់អាន និងសរសេរទិន្ន័យទៅឯកសារ។\nលទ្ធផល៖\nHello, World!\n9.2. Reading and Writing Files",
+          "code": "9.1. File Streams (ifstream, ofstream, fstream)\n#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    ofstream outFile(\"example.txt\");\n    outFile << \"Hello, World!\" << endl;\n    outFile.close();\n    ifstream inFile(\"example.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 49",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 49",
+            "File streams ត្រូូវបានប្រើដើម្បីីធ្វើការជាមួយឯកសារ។ C++ ផ្តល់ថ្នាក់បីសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 49
+        },
+        {
+          "id": "pdf-cpp_programming-page-50",
+          "label": "PDF 50. This is line 1.",
+          "heading": "This is line 1.",
+          "intro": "ការអាន និងសរសេរឯកសារគឺជាការងារសំខាន់នៅពេលធ្វើការជាមួយ file handling។ អ្នកអាចប្រើ ifstream ដើម្បីីអានទិន្ន័យ និង ofstream ដើម្បីីសរសេរទិន្ន័យទៅឯកសារ។ ឧទាហរណ៍កូដ៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 50",
+          "body": "ការអាន និងសរសេរឯកសារគឺជាការងារសំខាន់នៅពេលធ្វើការជាមួយ file handling។ អ្នកអាចប្រើ ifstream\nដើម្បីីអានទិន្ន័យ និង ofstream ដើម្បីីសរសេរទិន្ន័យទៅឯកសារ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    // សរសេរទិន្ន័\nយទៅឯកសារ\n    ofstream outFile(\"data.txt\");\n    outFile << \"This is line 1.\" << endl;\n    outFile << \"This is line 2.\" << endl;\n    outFile.close();\n    // អានទិន្ន័\nយពីឯកសារ\n    ifstream inFile(\"data.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}\nការពន្យល់៖\n- ទិន្ន័យត្រូូវបានសរសេរទៅឯកសារ data.txt ដោយប្រើ ofstream។\n- ទិន្ន័យត្រូូវបានអានពីឯកសារ data.txt ដោយប្រើ ifstream។\nលទ្ធផល៖\nThis is line 1.\nThis is line 2.\n9.3. File Operations (Appending, Closing, Seeking)\nប្រតិបត្តិិការលើឯកសាររួមមានការបន្ថែមទិន្ន័យ បិទឯកសារ និងផ្លាស់ទីទៅទីតាំំងជាក់លាក់នៅក្នុងឯកសារ។\nឧទាហរណ៍កូដ៖",
+          "code": "#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    ofstream outFile(\"data.txt\");\n    outFile << \"This is line 1.\" << endl;\n    outFile << \"This is line 2.\" << endl;\n    outFile.close();\n    ifstream inFile(\"data.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}\n9.3. File Operations (Appending, Closing, Seeking)",
+          "preview": {
+            "title": "Cpp Programming · PDF page 50",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 50",
+            "This is line 1."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 50
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "PDF source lessons · pages 51-55",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-51",
+          "label": "PDF 51. This is line 1.",
+          "heading": "This is line 1.",
+          "intro": "#include <iostream> #include <fstream> using namespace std;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 51",
+          "body": "#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    // បន្ថែមទិន្ន័\nយទៅឯកសារ\n    ofstream outFile(\"data.txt\", ios::app);\n    outFile << \"This is an appended line.\" << endl;\n    outFile.close();\n    // អានទិន្ន័\nយពីឯកសារ\n    ifstream inFile(\"data.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}\nការពន្យល់៖\n- ទិន្ន័យត្រូូវបានបន្ថែមទៅឯកសារ data.txt ដោយប្រើ ios::app។\n- ទិន្ន័យត្រូូវបានអានពីឯកសារ data.txt ដោយប្រើ ifstream។\nលទ្ធផល៖\nThis is line 1.\nThis is line 2.\nThis is an appended line.\n10. Standard Template Library (STL)\nStandard Template Library (STL) គឺជាបណ្ណាល័យនៃ template classes និង\nfunctions ដែលផ្តល់ឱ្យ C++ ជាមួយនឹង data structures និង algorithms ដ៏មានឥទ្ធិិពល។",
+          "code": "#include <iostream>\n#include <fstream>\nusing namespace std;\nint main() {\n    ofstream outFile(\"data.txt\", ios::app);\n    outFile << \"This is an appended line.\" << endl;\n    outFile.close();\n    ifstream inFile(\"data.txt\");\n    string line;\n    while (getline(inFile, line)) {\n        cout << line << endl;\n    }\n    inFile.close();\n    return 0;\n}\n10. Standard Template Library (STL)",
+          "preview": {
+            "title": "Cpp Programming · PDF page 51",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 51",
+            "This is line 1."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 51
+        },
+        {
+          "id": "pdf-cpp_programming-page-52",
+          "label": "PDF 52. 1 2 3 4 5",
+          "heading": "1 2 3 4 5",
+          "intro": "ផ្នែកនេះះគ្របដណ្តប់អំពីមូលដ្ឋាននៃ STL រួមទាំំង vectors, lists, queues, stacks, deques, maps, និង sets។ 10.1. Introduction to STL",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 52",
+          "body": "ផ្នែកនេះះគ្របដណ្តប់អំពីមូលដ្ឋាននៃ STL រួមទាំំង vectors, lists, queues, stacks, deques,\nmaps, និង sets។\n10.1. Introduction to STL\nSTL ផ្តល់ឱ្យ C++ ជាមួយនឹង data structures និង algorithms ដែលត្រៀៀមរួចជាស្រេច។ វារួមមាន៖\nContainers: រចនាសម្ព័័ន្ធទិន្ន័យដូចជា vectors, lists, queues, stacks, deques, maps, និង\nsets។\nAlgorithms: ប្រតិបត្តិិការលើទិន្ន័យដូចជា sorting, searching, និង manipulating។\nIterators: ឧបករណ៍សម្\nរាប់ចូលដំណើរការធាតុនៅក្នុង containers។\n10.2. Vectors, Lists, and Queues\nSTL ផ្តល់ containers ជាច្រើនសម្\nរាប់ការរចនាទិន្ន័យ។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃ vectors, lists,\nនិង queues។\nVectors\nVectors គឺជា dynamic arrays ដែលអាចផ្លាស់ប្តូរទំហំបាន។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    vector<int> vec = {1, 2, 3, 4, 5};\n    // បង្ហាញធាតុនៃ vector\n    for (int i : vec) {\n        cout << i << \" \";\n    }\n    return 0;\n}\nលទ្ធផល៖\n1 2 3 4 5",
+          "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    vector<int> vec = {1, 2, 3, 4, 5};\n    for (int i : vec) {\n        cout << i << \" \";\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 52",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 52",
+            "1 2 3 4 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 52
+        },
+        {
+          "id": "pdf-cpp_programming-page-53",
+          "label": "PDF 53. 1 2 3 4 5",
+          "heading": "1 2 3 4 5",
+          "intro": "Lists Lists គឺជា doubly-linked lists ដែលអនុញ្ញាតឱ្យបញ្ចូល និងលុបធាតុបានយ៉ាងមានប្រសិទ្ធភាព។ ឧទាហរណ៍កូដ៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 53",
+          "body": "Lists\nLists គឺជា doubly-linked lists ដែលអនុញ្ញាតឱ្យបញ្ចូល និងលុបធាតុបានយ៉ាងមានប្រសិទ្ធភាព។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <list>\nusing namespace std;\nint main() {\n    list<int> lst = {1, 2, 3, 4, 5};\n    // បង្ហាញធាតុនៃ list\n    for (int i : lst) {\n        cout << i << \" \";\n    }\n    return 0;\n}\nលទ្ធផល៖\n1 2 3 4 5\nQueues\nQueues គឺជា FIFO (First In, First Out) data structures។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <queue>\nusing namespace std;\nint main() {\n    queue<int> q;\n    q.push(1);\n    q.push(2);\n    q.push(3);\n    // បង្ហាញធាតុនៃ queue",
+          "code": "#include <iostream>\n#include <list>\nusing namespace std;\nint main() {\n    list<int> lst = {1, 2, 3, 4, 5};\n    for (int i : lst) {\n        cout << i << \" \";\n    }\n    return 0;\n}\n#include <iostream>\n#include <queue>\nusing namespace std;\nint main() {\n    queue<int> q;\n    q.push(1);\n    q.push(2);\n    q.push(3);",
+          "preview": {
+            "title": "Cpp Programming · PDF page 53",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 53",
+            "1 2 3 4 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 53
+        },
+        {
+          "id": "pdf-cpp_programming-page-54",
+          "label": "PDF 54. 1 2 3",
+          "heading": "1 2 3",
+          "intro": "while (!q.empty()) { cout << q.front() << \" \"; q.pop();",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 54",
+          "body": "while (!q.empty()) {\n        cout << q.front() << \" \";\n        q.pop();\n    }\n    return 0;\n}\nលទ្ធផល៖\n1 2 3\n10.3. Stack and Deque\nSTL ក៏ផ្តល់ stack និង deque containers សម្\nរាប់ការរចនាទិន្ន័យ។\nStack\nStack គឺជា LIFO (Last In, First Out) data structure។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <stack>\nusing namespace std;\nint main() {\n    stack<int> s;\n    s.push(1);\n    s.push(2);\n    s.push(3);\n    // បង្ហាញធាតុនៃ stack\n    while (!s.empty()) {\n        cout << s.top() << \" \";\n        s.pop();\n    }\n    return 0;\n}",
+          "code": "while (!q.empty()) {\n        cout << q.front() << \" \";\n        q.pop();\n    }\n    return 0;\n}\n#include <iostream>\n#include <stack>\nusing namespace std;\nint main() {\n    stack<int> s;\n    s.push(1);\n    s.push(2);\n    s.push(3);\n    while (!s.empty()) {\n        cout << s.top() << \" \";\n        s.pop();\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 54",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 54",
+            "1 2 3"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 54
+        },
+        {
+          "id": "pdf-cpp_programming-page-55",
+          "label": "PDF 55. 3 2 1",
+          "heading": "3 2 1",
+          "intro": "លទ្ធផល៖ Deque Deque (Double-Ended Queue) អនុញ្ញាតឱ្យបញ្ចូល និងលុបធាតុពីចុងទាំំងពីរ។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 55",
+          "body": "លទ្ធផល៖\n3 2 1\nDeque\nDeque (Double-Ended Queue) អនុញ្ញាតឱ្យបញ្ចូល និងលុបធាតុពីចុងទាំំងពីរ។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <deque>\nusing namespace std;\nint main() {\n    deque<int> dq = {1, 2, 3};\n    dq.push_front(0);\n    dq.push_back(4);\n    // បង្ហាញធាតុនៃ deque\n    for (int i : dq) {\n        cout << i << \" \";\n    }\n    return 0;\n}\nលទ្ធផល៖\n0 1 2 3 4\n10.4. Maps and Sets\nMaps និង sets គឺជា associative containers ដែលផ្តល់ឱ្យ C++ ជាមួយនឹង key-value pairs និង\nunique elements។\nMaps\nMaps ផ្ទុក key-value pairs ហើយធានាថា keys មានតែមួយគត់។\nឧទាហរណ៍កូដ៖",
+          "code": "#include <iostream>\n#include <deque>\nusing namespace std;\nint main() {\n    deque<int> dq = {1, 2, 3};\n    dq.push_front(0);\n    dq.push_back(4);\n    for (int i : dq) {\n        cout << i << \" \";\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 55",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 55",
+            "3 2 1"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 55
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "PDF source lessons · pages 56-60",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-56",
+          "label": "PDF 56. Sets ផ្ទុក unique elements ហើយធានាថាធាតុមិនសរសេរទៀទៀត។",
+          "heading": "Sets ផ្ទុក unique elements ហើយធានាថាធាតុមិនសរសេរទៀទៀត។",
+          "intro": "#include <iostream> #include <map> using namespace std;",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 56",
+          "body": "#include <iostream>\n#include <map>\nusing namespace std;\nint main() {\n    map<string, int> m;\n    m[\"apple\"] = 5;\n    m[\"banana\"] = 3;\n    // បង្ហាញ key-value pairs\n    for (auto& pair : m) {\n        cout << pair.first << \": \" << pair.second << endl;\n    }\n    return 0;\n}\nលទ្ធផល៖\napple: 5\nbanana: 3\nSets\nSets ផ្ទុក unique elements ហើយធានាថាធាតុមិនសរសេរទៀទៀត។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <set>\nusing namespace std;\nint main() {\n    set<int> s = {1, 2, 3, 4, 5};\n    // បង្ហាញធាតុនៃ set\n    for (int i : s) {\n        cout << i << \" \";\n    }",
+          "code": "#include <iostream>\n#include <map>\nusing namespace std;\nint main() {\n    map<string, int> m;\n    m[\"apple\"] = 5;\n    m[\"banana\"] = 3;\n    for (auto& pair : m) {\n        cout << pair.first << \": \" << pair.second << endl;\n    }\n    return 0;\n}\n#include <iostream>\n#include <set>\nusing namespace std;\nint main() {\n    set<int> s = {1, 2, 3, 4, 5};\n    for (int i : s) {\n        cout << i << \" \";\n    }",
+          "preview": {
+            "title": "Cpp Programming · PDF page 56",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 56",
+            "Sets ផ្ទុក unique elements ហើយធានាថាធាតុមិនសរសេរទៀទៀត។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 56
+        },
+        {
+          "id": "pdf-cpp_programming-page-57",
+          "label": "PDF 57. 1 2 3 4 5",
+          "heading": "1 2 3 4 5",
+          "intro": "return 0; } លទ្ធផល៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 57",
+          "body": "return 0;\n}\nលទ្ធផល៖\n1 2 3 4 5\n11. Exception Handling\nException handling នៅក្នុង C++ គឺជាមេកានិីីសម្\nរាប់គ្រប់គ្រងកំហុសដែលកើតឡើងក្នុងពេល\nរត់កម្មវិធី (runtime errors) ដើម្បីីធានាថាកម្មវិធីអាចបន្តរត់បាន ឬបញ្ចប់ដោយសុវត្ថិិភាព។ ផ្នែកនេះះ\nគ្របដណ្តប់អំពីមូលដ្ឋានគ្រឹះនៃ exception handling រួមទាំំង try, catch, and throw ការ\nគ្រប់គ្រងកំហុសច្រើន និងការបង្កើតកំហុសផ្ទាល់ខ្លួន (custom exceptions)។\n11.1. Try, Catch, and Throw\ntry block ត្រូូវបានប្រើដើម្បីីខ្ទៃកូដដែលអាចបណ្តាលឱ្យមានកំហុស (throw an exception)។ catch\nblock ត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងកំហុស ហើយ throw statement ត្រូូវបានប្រើដើម្បីីបង្កើតកំហុស។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    try {\n        int age = 15;\n        if (age < 18) {\n            throw \"You must be at least 18 years old.\";\n        }\n        cout << \"Access granted.\" << endl;\n    }\n    catch (const char* msg) {\n        cout << \"Error: \" << msg << endl;\n    }",
+          "code": "return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    try {\n        int age = 15;\n        if (age < 18) {\n            throw \"You must be at least 18 years old.\";\n        }\n        cout << \"Access granted.\" << endl;\n    }\n    catch (const char* msg) {\n        cout << \"Error: \" << msg << endl;\n    }",
+          "preview": {
+            "title": "Cpp Programming · PDF page 57",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 57",
+            "1 2 3 4 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 57
+        },
+        {
+          "id": "pdf-cpp_programming-page-58",
+          "label": "PDF 58. Source lesson page 58",
+          "heading": "Source lesson page 58",
+          "intro": "return 0; } លទ្ធផល៖",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 58",
+          "body": "return 0;\n}\nលទ្ធផល៖\nError: You must be at least 18 years old.\nអត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ ប្រសិនបើតម្លៃនៃ age តិចជាង ១៨ កម្មវិធីនឹងបង្កើតកំហុសដោយប្រើ throw។\nកំហុសនេះះនឹងត្រូូវបានគ្រប់គ្រងដោយ catch block ហើយបង្ហាញសារកំហុស។\n11.2. Handling Multiple Exceptions\nអ្នកអាចគ្រប់គ្រងកំហុសច្រើនប្រភេទដោយប្រើ catch blocks ច្រើន។ រាល់ catch block នឹងគ្រប់គ្រងកំហុស\nផ្សេងៗគ្នា។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    try {\n        int x = 10;\n        int y = 0;\n        if (y == 0) {\n            throw runtime_error(\"Division by zero is not allowed.\");\n        }\n        int result = x / y;\n        cout << \"Result: \" << result << endl;\n    }\n    catch (const runtime_error& e) {\n        cout << \"Runtime Error: \" << e.what() << endl;\n    }\n    catch (const exception& e) {\n        cout << \"Standard Exception: \" << e.what() << endl;\n    }\n    return 0;\n}\nលទ្ធផល៖",
+          "code": "return 0;\n}\n#include <iostream>\nusing namespace std;\nint main() {\n    try {\n        int x = 10;\n        int y = 0;\n        if (y == 0) {\n            throw runtime_error(\"Division by zero is not allowed.\");\n        }\n        int result = x / y;\n        cout << \"Result: \" << result << endl;\n    }\n    catch (const runtime_error& e) {\n        cout << \"Runtime Error: \" << e.what() << endl;\n    }\n    catch (const exception& e) {\n        cout << \"Standard Exception: \" << e.what() << endl;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 58",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 58",
+            "Source lesson page 58"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 58
+        },
+        {
+          "id": "pdf-cpp_programming-page-59",
+          "label": "PDF 59. Runtime Error: Division by zero is not allowed.",
+          "heading": "Runtime Error: Division by zero is not allowed.",
+          "intro": "អត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ ប្រសិនបើ y ស្ មើនឹង ០ កម្មវិធីនឹងបង្កើតកំហុស runtime_error។ កំហុសនេះះនឹង ត្រូូវបានគ្រប់គ្រងដោយ catch block ដែលត្រូូវនឹង runtime_error។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 59",
+          "body": "Runtime Error: Division by zero is not allowed.\nអត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ ប្រសិនបើ y ស្\nមើនឹង ០ កម្មវិធីនឹងបង្កើតកំហុស runtime_error។ កំហុសនេះះនឹង\nត្រូូវបានគ្រប់គ្រងដោយ catch block ដែលត្រូូវនឹង runtime_error។\n11.3. Custom Exception Handling\nអ្នកអាចបង្កើតកំហុសផ្ទាល់ខ្លួន (custom exceptions) ដោយកំណត់ class ថ្មីីដែលស្ថិិតនៅលើ\nstd::exception។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <exception>\nusing namespace std;\nclass MyException : public exception {\npublic:\n    const char* what() const throw() {\n        return \"Custom exception occurred!\";\n    }\n};\nint main() {\n    try {\n        throw MyException();\n    }\n    catch (MyException& e) {\n        cout << \"Error: \" << e.what() << endl;\n    }\n    return 0;\n}\nលទ្ធផល៖\nError: Custom exception occurred!\nអត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ យើងបានបង្កើត class MyException ដែលស្ថិិតនៅលើ std::exception។\nនៅពេលដែលកំហុសនេះះត្រូូវបានបង្កើត វានឹងត្រូូវបានគ្រប់គ្រងដោយ catch block ដែលត្រូូវនឹង",
+          "code": "#include <iostream>\n#include <exception>\nusing namespace std;\nclass MyException : public exception {\n    const char* what() const throw() {\n        return \"Custom exception occurred!\";\n    }\n};\nint main() {\n    try {\n        throw MyException();\n    }\n    catch (MyException& e) {\n        cout << \"Error: \" << e.what() << endl;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 59",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 59",
+            "Runtime Error: Division by zero is not allowed."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 59
+        },
+        {
+          "id": "pdf-cpp_programming-page-60",
+          "label": "PDF 60. Lambda expressions គឺជាមុខងារអនាមិក (anonymous functions) ដែលអាចត្រូូវបានកំណត់នៅ",
+          "heading": "Lambda expressions គឺជាមុខងារអនាមិក (anonymous functions) ដែលអាចត្រូូវបានកំណត់នៅ",
+          "intro": "MyException។ 12. Advanced Topics ផ្នែកនេះះគ្របដណ្តប់អំពីប្រធានបទកម្រិិតខ្ពស់នៅក្នុងការសរសេរកម្មវិធី C++ រួមមាន lambda",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 60",
+          "body": "MyException។\n12. Advanced Topics\nផ្នែកនេះះគ្របដណ្តប់អំពីប្រធានបទកម្រិិតខ្ពស់នៅក្នុងការសរសេរកម្មវិធី C++ រួមមាន lambda\nexpressions, smart pointers, multithreading, និង networking។ លក្ខណៈពិសេសទាំំង\nនេះះជួយឱ្យអ្នកអភិវឌ្ឍន៍សរសេរកូដដែលមានប្រសិទ្ធភាព ទាន់សម័យ និងមានមាត្រដ្ឋានធំ។\n12.1. Lambda Expressions\nLambda expressions គឺជាមុខងារអនាមិក (anonymous functions) ដែលអាចត្រូូវបានកំណត់នៅ\nក្នុងកូដ។ វាមានប្រយោជន៍សម្\nរាប់ការសរសេរកូដដែលខ្លីី និងរហ័ស។\nឧទាហរណ៍កូដ៖\n#include <iostream>\nusing namespace std;\nint main() {\n    auto greet = []() {\n        cout << \"Hello, World!\" << endl;\n    };\n    greet(); // ហៅ lambda function\n    return 0;\n}\nលទ្ធផល៖\nHello, World!\nអត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ lambda expression ត្រូូវបានប្រើដើម្បីីកំណត់មុខងារអនាមិកឈ្\nមោះ greet ដែល\nបោះពុម្ពសារប្រកាស \"Hello, World!\"។\n12.2. Smart Pointers (unique_ptr, shared_ptr)",
+          "code": "#include <iostream>\nusing namespace std;\nint main() {\n    auto greet = []() {\n        cout << \"Hello, World!\" << endl;\n    };\n    return 0;\n}\n12.2. Smart Pointers (unique_ptr, shared_ptr)",
+          "preview": {
+            "title": "Cpp Programming · PDF page 60",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 60",
+            "Lambda expressions គឺជាមុខងារអនាមិក (anonymous functions) ដែលអាចត្រូូវបានកំណត់នៅ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 60
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "title": "PDF source lessons · pages 61-63",
+      "items": [
+        {
+          "id": "pdf-cpp_programming-page-61",
+          "label": "PDF 61. Smart pointers គឺជាវិធីសាស្",
+          "heading": "Smart pointers គឺជាវិធីសាស្",
+          "intro": "រ្តសម្ រាប់គ្រប់គ្រងការចែកចាយអវកាស (memory management) ដោយ ស្វ័័យប្រវត្តិិ។ វារួមមាន unique_ptr និង shared_ptr។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 61",
+          "body": "Smart pointers គឺជាវិធីសាស្\nរ្តសម្\nរាប់គ្រប់គ្រងការចែកចាយអវកាស (memory management) ដោយ\nស្វ័័យប្រវត្តិិ។ វារួមមាន unique_ptr និង shared_ptr។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <memory>\nusing namespace std;\nint main() {\n    // unique_ptr\n    unique_ptr<int> ptr1 = make_unique<int>(10);\n    cout << \"Unique Pointer: \" << *ptr1 << endl;\n    // shared_ptr\n    shared_ptr<int> ptr2 = make_shared<int>(20);\n    cout << \"Shared Pointer: \" << *ptr2 << endl;\n    return 0;\n}\nលទ្ធផល៖\nUnique Pointer: 10\nShared Pointer: 20\nអត្ថន័យ៖unique_ptr គឺជា pointer ដែលមានម្ចាស់តែមួយ ហើយ shared_ptr អនុញ្ញាតឱ្យមានម្ចាស់\nច្រើន។ វាជួយកាត់បន្ថយការប្រើប្\nរាស់អវកាសដែលមិនចាំំបាច់។\n12.3. Multithreading in C++\nMultithreading អនុញ្ញាតឱ្យកម្មវិធីរត់ការងារច្រើនក្នុងពេលតែមួយ។ C++ ផ្តល់ std::thread សម្\nរាប់ការ\nបង្កើតឡើង និងគ្រប់គ្រង threads។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <thread>\nusing namespace std;\nvoid printMessage() {\n    cout << \"Hello from thread!\" << endl;",
+          "code": "#include <iostream>\n#include <memory>\nusing namespace std;\nint main() {\n    unique_ptr<int> ptr1 = make_unique<int>(10);\n    cout << \"Unique Pointer: \" << *ptr1 << endl;\n    shared_ptr<int> ptr2 = make_shared<int>(20);\n    cout << \"Shared Pointer: \" << *ptr2 << endl;\n    return 0;\n}\n#include <iostream>\n#include <thread>\nusing namespace std;\nvoid printMessage() {\n    cout << \"Hello from thread!\" << endl;",
+          "preview": {
+            "title": "Cpp Programming · PDF page 61",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 61",
+            "Smart pointers គឺជាវិធីសាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 61
+        },
+        {
+          "id": "pdf-cpp_programming-page-62",
+          "label": "PDF 62. Hello from thread!",
+          "heading": "Hello from thread!",
+          "intro": "} int main() { thread t(printMessage); // បង្កើត thread",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 62",
+          "body": "}\nint main() {\n    thread t(printMessage); // បង្កើត thread\n    t.join(); // រង់ចាំ thread បញ្ចប់\n    return 0;\n}\nលទ្ធផល៖\nHello from thread!\nអត្ថន័យ៖ក្នុងឧទាហរណ៍នេះះ std::thread ត្រូូវបានប្រើដើម្បីីបង្កើត thread ថ្មីីដែលរត់មុខងារ\nprintMessage។\n12.4. Networking in C++\nNetworking នៅក្នុង C++ អាចត្រូូវបានអនុវត្តដោយប្រើ libraries ដូចជា Boost.Asio ឬ POSIX\nsockets។ ខាងក្រោមគឺជាឧទាហរណ៍សាមញ្ញនៃការបង្កើត socket។\nឧទាហរណ៍កូដ៖\n#include <iostream>\n#include <sys/socket.h>\n#include <arpa/inet.h>\n#include <unistd.h>\nusing namespace std;\nint main() {\n    int sock = socket(AF_INET, SOCK_STREAM, 0);\n    if (sock == -1) {\n        cerr << \"Failed to create socket.\" << endl;\n        return 1;\n    }\n    cout << \"Socket created successfully.\" << endl;\n    close(sock);\n    return 0;\n}\nលទ្ធផល៖",
+          "code": "}\nint main() {\n    return 0;\n}\n#include <iostream>\n#include <sys/socket.h>\n#include <arpa/inet.h>\n#include <unistd.h>\nusing namespace std;\nint main() {\n    int sock = socket(AF_INET, SOCK_STREAM, 0);\n    if (sock == -1) {\n        cerr << \"Failed to create socket.\" << endl;\n        return 1;\n    }\n    cout << \"Socket created successfully.\" << endl;\n    close(sock);\n    return 0;\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 62",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 62",
+            "Hello from thread!"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 62
+        },
+        {
+          "id": "pdf-cpp_programming-page-63",
+          "label": "PDF 63. Socket created successfully.",
+          "heading": "Socket created successfully.",
+          "intro": "អត្ថន័យ៖ឧទាហរណ៍នេះះបង្ហាញពីការបង្កើត socket ដោយប្រើ POSIX sockets។ វាជាមូលដ្ឋានគ្រឹះសម្ រាប់ ការអភិវឌ្ឍកម្មវិធី networking។",
+          "bodyHeading": "Source content · cpp_programming.pdf · page 63",
+          "body": "Socket created successfully.\nអត្ថន័យ៖ឧទាហរណ៍នេះះបង្ហាញពីការបង្កើត socket ដោយប្រើ POSIX sockets។ វាជាមូលដ្ឋានគ្រឹះសម្\nរាប់\nការអភិវឌ្ឍកម្មវិធី networking។\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "#include <iostream>\n\nint main() {\n  std::cout << \"CampusFlow lesson\\n\";\n}",
+          "preview": {
+            "title": "Cpp Programming · PDF page 63",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Cpp Programming",
+            "PDF page 63",
+            "Socket created successfully."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "cpp_programming.pdf",
+          "sourcePage": 63
+        }
+      ]
+    }
+  ]
+}

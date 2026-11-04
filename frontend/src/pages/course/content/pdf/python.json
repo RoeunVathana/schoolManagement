@@ -1,0 +1,1448 @@
+{
+  "slug": "python",
+  "sourceFile": "python1.pdf",
+  "pageCount": 55,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-python-page-1",
+          "label": "PDF 1. 1.1 What is Python? - Python ជាអ្វីី?",
+          "heading": "1.1 What is Python? - Python ជាអ្វីី?",
+          "intro": "1. Introduction to Python - សេចក្តីីផ្តើមអំពី Python Python គឺជាភាសាសរសេរកម្មវិធីដែលមានភាពបត់បែនខ្ពស់ និងងាយស្រួួ",
+          "bodyHeading": "Source content · python1.pdf · page 1",
+          "body": "1. Introduction to Python - សេចក្តីីផ្តើមអំពី\nPython\nPython គឺជាភាសាសរសេរកម្មវិធីដែលមានភាពបត់បែនខ្ពស់ និងងាយស្រួួ\nលសម្\nរាប់អ្នកចាប់ផ្តើម\nរៀរៀន។ វាត្រូូវបានប្រើប្\nរាស់យ៉ាងទូលំទូលាយក្នុងការអភិវឌ្ឍគេហទំព័រ ការវិភាគទិន្ន័យ បញ្ញាសិប្បនិម្មិិត\nនិងការងារជាច្រើនផ្សេងទៀទៀត។ ផ្នែកនេះះនឹងផ្តល់នូវទិដ្ឋភាពទូទៅអំពី Python និងរបៀបៀបចាប់ផ្តើមប្រើ\nប្\nរាស់វា។\n1.1 What is Python? - Python ជាអ្វីី?\nPython គឺជាភាសាសរសេរកម្មវិធី high-level ដែលត្រូូវបានបង្កើតឡើងដោយ Guido van Rossum នៅឆ្នាំំ\n1991។ វាល្បីីល្បាញដោយសារមាន syntax សាមញ្ញ និងអាចអានបានយ៉ាងងាយស្រួួ\nល ដែលធ្វើឱ្យវាស័ក្តិិសម\nសម្\nរាប់អ្នករៀរៀនថ្មីី។\nលក្ខណៈពិសេស៖\nSyntax សាមញ្ញ និងងាយស្រួួ\nលអាន។\nគាំំទ្រទម្រង់សរសេរកម្មវិធីច្រើនដូចជា object-oriented និង functional។\nមាន libraries និង tools ជាច្រើនសម្\nរាប់ការអភិវឌ្ឍ។\n1.2 Why Learn Python? - ហេតុអ្វីីត្រូូវរៀរៀន Python?\nការរៀរៀន Python មានសារៈសំខាន់ព្រោះវាជាភាសាដែលងាយស្រួួ\nលរៀរៀន និងមានតម្រូូវការខ្ពស់នៅក្នុងទីផ្សារ\nការងារ។ វាអាចប្រើប្\nរាស់បានសម្\nរាប់ការងារផ្សេងៗដូចជា ការសរសេរកម្មវិធី ការវិភាគទិន្ន័យ និង machine\nlearning។ លើសពីនេះះ Python មានសហគមន៍អ្នកប្រើប្\nរាស់ដ៏ធំដែលផ្តល់ការគាំំទ្រ និងធនធានសិក្សាជាច្រើន។\n1.3 Installing Python (Windows, macOS, Linux) - ការ\nដំឡើង Python (Windows, macOS, Linux)\nដើម្បីីប្រើ Python អ្នកត្រូូវដំឡើងវានៅលើកុំព្យូទ័ររបស់អ្នកជាមុនសិន។ ជំហានខាងក្រោមនេះះនឹងណែនាំំពីរបៀបៀប\nដំឡើង Python នៅលើប្រព័ន្ធប្រតិបត្តិិការ Windows, macOS និង Linux។\nជំហានដំឡើង៖\n1. ចូលទៅកាន់គេហទំព័រផ្លូវការ https://www.python.org/downloads/ ហើយទាញយកកំណែចុងក្រោយ\nបំផុត។\n2. បើកឯកសារដែលបានទាញយក ហើយធ្វើតាមការណែនាំំតាមប្រព័ន្ធប្រតិបត្តិិការរបស់អ្នក។\n3. បន្ទាប់ពីដំឡើងរួច ពិនិត្យកំណែ Python ដោយប្រើពាក្យបញ្ជា៖",
+          "code": "topic = 'CampusFlow lesson'\nprint(topic)",
+          "preview": {
+            "title": "Python · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 1",
+            "1.1 What is Python? - Python ជាអ្វីី?"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-python-page-2",
+          "label": "PDF 2. 1.4 Running Python Programs (IDLE, VS Code, PyCharm)",
+          "heading": "1.4 Running Python Programs (IDLE, VS Code, PyCharm)",
+          "intro": "python --version ឧទាហរណ៍លទ្ធផល៖ Python 3.11.4 - ការដំណើរការកម្មវិធី Python (IDLE, VS Code, PyCharm)",
+          "bodyHeading": "Source content · python1.pdf · page 2",
+          "body": "python --version\nឧទាហរណ៍លទ្ធផល៖ Python 3.11.4\n1.4 Running Python Programs (IDLE, VS Code, PyCharm)\n- ការដំណើរការកម្មវិធី Python (IDLE, VS Code, PyCharm)\nបន្ទាប់ពីដំឡើង Python អ្នកអាចដំណើរការកម្មវិធី Python បានតាមវិធីផ្សេងៗដូចជា ប្រើ IDLE (ឧបករណ៍ដែល\nភ្ជាប់មកជាមួយ Python), Visual Studio Code (VS Code), ឬ PyCharm។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍មួយដោយប្រើ command line។\nឧទាហរណ៍ការដំណើរការ៖\n# បង្កើតឯកសារឈ្\nមោះះ hello.py\necho \"print('Hello, World!')\" > hello.py\n# ដំណើរការឯកសារ hello.py\npython hello.py\nការពន្យល់៖ ពាក្យបញ្ជាខាងលើបង្កើតឯកសារមួយឈ្\nមោះ hello.py ដែលមានកូដ Python សម្\nរាប់បោះពុម្ព\n\"Hello, World!\"។ បន្ទាប់មក យើងប្រើ python hello.py ដើម្បីីដំណើរការវា។\nលទ្ធផល៖\nHello, World!\nប្រសិនបើអ្នកប្រើ IDLE, VS Code, ឬ PyCharm អ្នកអាចសរសេរកូដនៅក្នុង editor របស់ពួកគេ ហើយចុច\n\"Run\" ដើម្បីីដំណើរការវាដោយផ្ទាល់។\n2. Python Basics (Syntax & Variables) -\nមូលដ្ឋានគ្រឹះ Python (Syntax និង Variables)\nផ្នែកនេះះនឹងណែនាំំអំពីមូលដ្ឋានគ្រឹះនៃ Python ដែលរួមមាន syntax និង variables។ វាជាជំហាន\nដំបូងដ៏សំខាន់សម្\nរាប់អ្នកចាប់ផ្តើមរៀរៀន Python ដើម្បីីយល់ពីរបៀបៀបសរសេរកូដឱ្យត្រឹឹមត្រូូវ។",
+          "code": "python --version\n1.4 Running Python Programs (IDLE, VS Code, PyCharm)\necho \"print('Hello, World!')\" > hello.py\npython hello.py\n2. Python Basics (Syntax & Variables) -",
+          "preview": {
+            "title": "Python · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 2",
+            "1.4 Running Python Programs (IDLE, VS Code, PyCharm)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-python-page-3",
+          "label": "PDF 3. 2.1 Python Syntax & Indentation - Syntax និង",
+          "heading": "2.1 Python Syntax & Indentation - Syntax និង",
+          "intro": "Indentation របស់ Python Python ប្រើ indentation (ការចូលបន្ទាត់) ដើម្បីីកំណត់ blocks នៃកូដ ជំនួសឱ្យការប្រើ curly braces ដូច ភាសាផ្សេងទៀទៀត។ Syntax របស់ Python ត្រូូវបានរចនាឱ្យសាមញ្ញ និងងាយយល់។",
+          "bodyHeading": "Source content · python1.pdf · page 3",
+          "body": "2.1 Python Syntax & Indentation - Syntax និង\nIndentation របស់ Python\nPython ប្រើ indentation (ការចូលបន្ទាត់) ដើម្បីីកំណត់ blocks នៃកូដ ជំនួសឱ្យការប្រើ curly braces ដូច\nភាសាផ្សេងទៀទៀត។ Syntax របស់ Python ត្រូូវបានរចនាឱ្យសាមញ្ញ និងងាយយល់។\nឧទាហរណ៍៖\n# ឧទាហរណ៍ syntax និង indentation\nif 5 > 2:\n    print(\"5 ធំជាង 2\")\nelse:\n    print(\"5 មិនធំជាង 2\")\nការពន្យល់៖ នៅក្នុងឧទាហរណ៍ខាងលើ កូដក្រោម if និង else ត្រូូវបានចូលបន្ទាត់ (indent) ដើម្បីីបង្ហាញថាវា\nជា block មួយ។ បើគ្មាន indentation ត្រឹឹមត្រូូវ Python នឹងបង្ហាញ error។\nលទ្ធផល៖\n5 ធំជាង 2\n2.2 Variables & Constants - Variables និង Constants\nVariables គឺជាទីតាំំងផ្ទុកទិន្ន័យដែលអាចផ្លាស់ប្តូរបាន ចំណែក constants គឺជាតម្លៃដែលមិនផ្លាស់ប្តូរ។ នៅ\nក្នុង Python អ្នកបង្កើត variable ដោយកំណត់ឈ្\nមោះ និងតម្លៃដោយប្រើសញ្ញា =។\nឧទាហរណ៍៖\n# Variables\nname = \"Sok\"\nage = 25\n# Constants (ជាទម្លាប់ សរសេរជាអក្សរធំ)\nPI = 3.14\nprint(name)\nprint(age)\nprint(PI)\nការពន្យល់៖ នៅទីនេះះ name និង age ជា variables ដែលអាចផ្លាស់ប្តូរតម្លៃបាន។ PI ជា constant ដែលជា\nទម្លាប់សរសេរជាអក្សរធំដើម្បីីបង្ហាញថាវាមិនគួរផ្លាស់ប្តូរ។",
+          "code": "# Variables\nname = \"Sok\"\nage = 25\nPI = 3.14\nprint(name)\nprint(age)\nprint(PI)",
+          "preview": {
+            "title": "Python · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 3",
+            "2.1 Python Syntax & Indentation - Syntax និង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-python-page-4",
+          "label": "PDF 4. 2.3 Data Types (int, float, str, bool, complex) - ប្រភេទ",
+          "heading": "2.3 Data Types (int, float, str, bool, complex) - ប្រភេទ",
+          "intro": "លទ្ធផល៖ Sok 25",
+          "bodyHeading": "Source content · python1.pdf · page 4",
+          "body": "លទ្ធផល៖\nSok\n25\n3.14\n2.3 Data Types (int, float, str, bool, complex) - ប្រភេទ\nទិន្ន័យ (int, float, str, bool, complex)\nPython មាន data types ជាច្រើនដូចជា int (ចំនួនគត់), float (ចំនួនទសភាគ), str (អក្សរ), bool\n(ត្រូូវ/ខុស), និង complex (ចំនួនស្មុគស្មាញ)។\nឧទាហរណ៍៖\n# Data types\ninteger = 10          # int\nfloating = 3.14       # float\nstring = \"Hello\"      # str\nboolean = True        # bool\ncomplex_num = 2 + 3j  # complex\nprint(type(integer))\nprint(type(floating))\nprint(type(string))\nprint(type(boolean))\nprint(type(complex_num))\nការពន្យល់៖ យើងប្រើ type() ដើម្បីីពិនិត្យប្រភេទទិន្ន័យនៃ variable នីមួយៗ។ ឧទាហរណ៍ខាងលើបង្ហាញ\ndata types ផ្សេងៗ។\nលទ្ធផល៖\n<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>\n<class 'complex'>",
+          "code": "# Data types\ninteger = 10          # int\nfloating = 3.14       # float\nstring = \"Hello\"      # str\nboolean = True        # bool\ncomplex_num = 2 + 3j  # complex\nprint(type(integer))\nprint(type(floating))\nprint(type(string))\nprint(type(boolean))\nprint(type(complex_num))\n<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>\n<class 'complex'>",
+          "preview": {
+            "title": "Python · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 4",
+            "2.3 Data Types (int, float, str, bool, complex) - ប្រភេទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-python-page-5",
+          "label": "PDF 5. 2.4 Type Casting (int(), float(), str()) - ការប្តូរប្រភេទទិន្ន័យ",
+          "heading": "2.4 Type Casting (int(), float(), str()) - ការប្តូរប្រភេទទិន្ន័យ",
+          "intro": "(int(), float(), str()) Type casting គឺជាការប្តូរប្រភេទទិន្ន័យពីមួយទៅមួយផ្សេងទៀទៀតដោយប្រើ int(), float(), ឬ str()។ ឧទាហរណ៍៖",
+          "bodyHeading": "Source content · python1.pdf · page 5",
+          "body": "2.4 Type Casting (int(), float(), str()) - ការប្តូរប្រភេទទិន្ន័យ\n(int(), float(), str())\nType casting គឺជាការប្តូរប្រភេទទិន្ន័យពីមួយទៅមួយផ្សេងទៀទៀតដោយប្រើ int(), float(), ឬ str()។\nឧទាហរណ៍៖\n# Type casting\nnum_str = \"123\"\nnum_int = int(num_str)    # ប្តូរពី str ទៅ int\nnum_float = float(num_str) # ប្តូរពី str ទៅ float\ntext = str(456)           # ប្តូរពី int ទៅ str\nprint(num_int)\nprint(num_float)\nprint(text)\nការពន្យល់៖ នៅទីនេះះ \"123\" ត្រូូវបានប្តូរទៅជា int និង float ហើយ 456 ត្រូូវបានប្តូរទៅជា str។\nលទ្ធផល៖\n123\n123.0\n456\n2.5 Taking User Input (input()) - ការទទួលយកទិន្ន័យពីអ្នកប្រើ\n(input())\nនៅក្នុង Python អ្នកអាចប្រើ input() ដើម្បីីទទួលយកទិន្ន័យពីអ្នកប្រើប្\nរាស់ ហើយរក្សាទុកវាក្នុង variable។\nឧទាហរណ៍៖\n# Taking user input\nname = input(\"បញ្ចូលឈ្\nមោះះរបស់អ្នក: \")\nage = int(input(\"បញ្ចូលអាយុរបស់អ្នក: \"))\nprint(f\"សួស្តីី {name}! អ្នកមានអាយុ {age} ឆ្នាំំ។\")\nការពន្យល់៖input() ស្\nនើសុំអ្នកប្រើបញ្ចូលទិន្ន័យ។ យើងប្រើ int() ដើម្បីីប្តូអាយុពី str ទៅ int។\nលទ្ធផល (ឧទាហរណ៍បញ្ចូល \"Sok\" និង \"25\")៖",
+          "code": "(int(), float(), str())\n# Type casting\nnum_str = \"123\"\nprint(num_int)\nprint(num_float)\nprint(text)\n(input())\n# Taking user input",
+          "preview": {
+            "title": "Python · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 5",
+            "2.4 Type Casting (int(), float(), str()) - ការប្តូរប្រភេទទិន្ន័យ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-python-page-6",
+          "label": "PDF 6. 3.1 Arithmetic Operators (+, -, *, /, //, %, **) - ប្រមាណវិធី",
+          "heading": "3.1 Arithmetic Operators (+, -, *, /, //, %, **) - ប្រមាណវិធី",
+          "intro": "បញ្ចូលឈ្ មោះះរបស់អ្នក: Sok បញ្ចូលអាយុរបស់អ្នក: 25",
+          "bodyHeading": "Source content · python1.pdf · page 6",
+          "body": "បញ្ចូលឈ្\nមោះះរបស់អ្នក: Sok\nបញ្ចូលអាយុរបស់អ្នក: 25\nសួស្តីី Sok! អ្នកមានអាយុ 25 ឆ្នាំំ។\n3. Operators in Python - ប្រមាណវិធីនៅក្នុង\nPython\nOperators គឺជានិមិត្តសញ្ញាដែលប្រើសម្\nរាប់ធ្វើប្រតិបត្តិិការលើ variables និងតម្លៃនានា។ នៅក្នុង\nPython មាន operators ជាច្រើនប្រភេទដែលជួយសម្រួួលដល់ការសរសេរកម្មវិធី ដូចជា ការ\nគណនា ការប្រៀៀបធៀធៀប និងការតភ្ជាប់តក្កៈ។\n3.1 Arithmetic Operators (+, -, *, /, //, %, **) - ប្រមាណវិធី\nគណិត (+, -, *, /, //, %, **)\nArithmetic operators ត្រូូវបានប្រើសម្\nរាប់ការគណនាគណិតសាស្\nត្រដូចជា បូក ដក គុណ និងចែក។\nឧទាហរណ៍៖\na = 10\nb = 3\nprint(a + b)  # បូក\nprint(a - b)  # ដក\nprint(a * b)  # គុណ\nprint(a / b)  # ចែក (លទ្ធផលជា float)\nprint(a // b) # ចែកយកតែផ្នែកគត់\nprint(a % b)  # យកសំណល់\nprint(a ** b) # លើកកំពស់ (គុណ b ដង)\nការពន្យល់៖+ បូក, - ដក, * គុណ, / ចែក (លទ្ធផលជា float), // ចែកយកតែផ្នែកគត់, % យកសំណល់, **\nលើកកំពស់។\nលទ្ធផល៖\n13\n7",
+          "code": "a = 10\nb = 3",
+          "preview": {
+            "title": "Python · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 6",
+            "3.1 Arithmetic Operators (+, -, *, /, //, %, **) - ប្រមាណវិធី"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-python-page-7",
+          "label": "PDF 7. 3.2 Comparison Operators (==, !=, >, <, >=, <=) - ប្រមាណ",
+          "heading": "3.2 Comparison Operators (==, !=, >, <, >=, <=) - ប្រមាណ",
+          "intro": "30 3.3333333333333335 3",
+          "bodyHeading": "Source content · python1.pdf · page 7",
+          "body": "30\n3.3333333333333335\n3\n1\n1000\n3.2 Comparison Operators (==, !=, >, <, >=, <=) - ប្រមាណ\nវិធីប្រៀៀបធៀធៀប (==, !=, >, <, >=, <=)\nComparison operators ត្រូូវបានប្រើដើម្បីីប្រៀៀបធៀធៀបតម្លៃពីរ ហើយផ្តល់លទ្ធផលជា True ឬ False។ វា\nមានប្រយោជន៍សម្\nរាប់ការសម្រេចចិត្តនៅក្នុងកម្មវិធី។\nឧទាហរណ៍៖\nx = 5\ny = 10\nprint(x == y)  # ស្មើគ្នា\nprint(x != y)  # មិនស្មើគ្នា\nprint(x > y)   # ធំជាង\nprint(x < y)   # តូចជាង\nprint(x >= y)  # ធំជាងឬស្មើ\nprint(x <= y)  # តូចជាងឬស្មើ\nការពន្យល់៖== ពិនិត្យថាតើតម្លៃស្\nមើគ្នា, != ពិនិត្យថាតើមិនស្\nមើគ្នា, ...\nលទ្ធផល៖\nFalse\nTrue\nFalse\nTrue\nFalse\nTrue\n3.3 Logical Operators (and, or, not) - ប្រមាណវិធីតក្កៈ (and,\nor, not)\nLogical operators ត្រូូវបានប្រើដើម្បីីផ្សំំលក្ខណ្ឌច្រើន ហើយផ្តល់លទ្ធផលជា True ឬ False។",
+          "code": "x = 5\ny = 10\nor, not)",
+          "preview": {
+            "title": "Python · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 7",
+            "3.2 Comparison Operators (==, !=, >, <, >=, <=) - ប្រមាណ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-python-page-8",
+          "label": "PDF 8. 3.4 Bitwise Operators (&, |, ^, ~, <<, >>) - ប្រមាណវិធីប៊ីត",
+          "heading": "3.4 Bitwise Operators (&, |, ^, ~, <<, >>) - ប្រមាណវិធីប៊ីត",
+          "intro": "ឧទាហរណ៍៖ a = True b = False",
+          "bodyHeading": "Source content · python1.pdf · page 8",
+          "body": "ឧទាហរណ៍៖\na = True\nb = False\nprint(a and b)  # ទាំងពីរត្\nរូវតែ True\nprint(a or b)   # យ៉ាងហោចណាស់មួយ True\nprint(not a)    # ប្តូរពី True ទៅ False ឬផ្ទុយមកវិញ\nការពន្យល់៖and តម្រូូវឱ្យលក្ខណ្ឌទាំំងពីរពិត, or តម្រូូវឱ្យយ៉ាងហោចណាស់មួយពិត, not ប្តូរតម្លៃតក្កៈ។\nលទ្ធផល៖\nFalse\nTrue\nFalse\n3.4 Bitwise Operators (&, |, ^, ~, <<, >>) - ប្រមាណវិធីប៊ីត\n(&, |, ^, ~, <<, >>)\nBitwise operators ធ្វើការលើ bits នៃចំនួនគត់ (binary) ដើម្បីីអនុវត្តប្រតិបត្តិិការតក្កៈនៅកម្រិិតទាប។\nឧទាហរណ៍៖\nx = 5  # binary: 0101\ny = 3  # binary: 0011\nprint(x & y)   # AND (0101 & 0011 = 0001)\nprint(x | y)   # OR (0101 | 0011 = 0111)\nprint(x ^ y)   # XOR (0101 ^ 0011 = 0110)\nprint(~x)      # NOT (~0101 = -0110)\nprint(x << 1)  # Left shift (0101 << 1 = 1010)\nprint(x >> 1)  # Right shift (0101 >> 1 = 0010)\nការពន្យល់៖& ធ្វើ AND, | ធ្វើ OR, ^ ធ្វើ XOR, ~ ប្តូរប៊ីត, << ផ្លាស់ទៅឆ្វេង, >> ផ្លាស់ទៅស្តាំំ។\nលទ្ធផល៖\n1\n7\n6",
+          "code": "a = True\nb = False\n(&, |, ^, ~, <<, >>)\nx = 5  # binary: 0101\ny = 3  # binary: 0011\nprint(x & y)   # AND (0101 & 0011 = 0001)\nprint(x | y)   # OR (0101 | 0011 = 0111)\nprint(x ^ y)   # XOR (0101 ^ 0011 = 0110)\nprint(~x)      # NOT (~0101 = -0110)\nprint(x << 1)  # Left shift (0101 << 1 = 1010)\nprint(x >> 1)  # Right shift (0101 >> 1 = 0010)",
+          "preview": {
+            "title": "Python · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 8",
+            "3.4 Bitwise Operators (&, |, ^, ~, <<, >>) - ប្រមាណវិធីប៊ីត"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-python-page-9",
+          "label": "PDF 9. 3.5 Assignment Operators (=, +=, -=, etc.) - ប្រមាណវិធី",
+          "heading": "3.5 Assignment Operators (=, +=, -=, etc.) - ប្រមាណវិធី",
+          "intro": "-6 10 2",
+          "bodyHeading": "Source content · python1.pdf · page 9",
+          "body": "-6\n10\n2\n3.5 Assignment Operators (=, +=, -=, etc.) - ប្រមាណវិធី\nកំណត់តម្លៃ (=, +=, -=, ជាដើម)\nAssignment operators ត្រូូវបានប្រើដើម្បីីកំណត់តម្លៃទៅ variables ឬធ្វើប្រតិបត្តិិការរួមជាមួយការកំណត់\nតម្លៃ។\nឧទាហរណ៍៖\nx = 10\nprint(x)\nx += 5  # x = x + 5\nprint(x)\nx -= 3  # x = x - 3\nprint(x)\nx *= 2  # x = x * 2\nprint(x)\nx /= 4  # x = x / 4\nprint(x)\nការពន្យល់៖= កំណត់តម្លៃ, += បូកហើយកំណត់, -= ដកហើយកំណត់, *= គុណហើយកំណត់, /= ចែកហើយ\nកំណត់។\nលទ្ធផល៖\n10\n15\n12\n24\n6.0",
+          "code": "x = 10\nprint(x)\nx += 5  # x = x + 5\nprint(x)\nprint(x)\nx *= 2  # x = x * 2\nprint(x)\nx /= 4  # x = x / 4\nprint(x)",
+          "preview": {
+            "title": "Python · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 9",
+            "3.5 Assignment Operators (=, +=, -=, etc.) - ប្រមាណវិធី"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-python-page-10",
+          "label": "PDF 10. 4.1 if-else Statements - សេចក្តីីបញ្ជា if-else",
+          "heading": "4.1 if-else Statements - សេចក្តីីបញ្ជា if-else",
+          "intro": "4. Control Flow (Conditions & Loops) - លំហូរ គ្រប់គ្រង (លក្ខណ្ឌ និង រង្វិិលជុំ) Control flow នៅក្នុង Python អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងលំដាប់នៃការប្រតិបត្តិិកូដដោយប្រើលក្ខ",
+          "bodyHeading": "Source content · python1.pdf · page 10",
+          "body": "4. Control Flow (Conditions & Loops) - លំហូរ\nគ្រប់គ្រង (លក្ខណ្ឌ និង រង្វិិលជុំ)\nControl flow នៅក្នុង Python អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងលំដាប់នៃការប្រតិបត្តិិកូដដោយប្រើលក្ខ\nខណ្ឌ (conditions) និងរង្វិិលជុំ (loops)។ ផ្នែកនេះះនឹងពន្យល់ពីរបៀបៀបប្រើ if, if else, if\nelseif else, for, និង while ដើម្បីីធ្វើឱ្យកម្មវិធីមានភាពបត់បែន។\n4.1 if-else Statements - សេចក្តីីបញ្ជា if-else\nif សេចក្តីីបញ្ជាត្រូូវបានប្រើដើម្បីីសម្រេចចិត្តផ្អែកលើលក្ខណ្ឌ។ វាអាចប្រើតែ if តែមួយ ឬរួមបញ្ចូលជាមួយ\nelse និង elif ដើម្បីីគ្រប់គ្រងលទ្ធផលផ្សេងៗ។ ប្រសិនបើលក្ខណ្ឌពិត (True) កូដនឹងប្រតិបត្តិិផ្នែកមួយ បើមិន\nដូច្នេះទេ វានឹងប្រតិបត្តិិផ្នែកផ្សេង។\n4.1.1 Simple if Statement - សេចក្តីីបញ្ជា if សាមញ្ញ\nif សាមញ្ញត្រូូវបានប្រើនៅពេលអ្នកចង់ប្រតិបត្តិិកូដតែនៅពេលលក្ខណ្ឌមួយពិត។\nឧទាហរណ៍៖\ntemperature = 30\nif temperature > 25:\n    print(\"អាកាសធាតុក្តៅណាស់\")\nការពន្យល់៖if temperature > 25 ពិនិត្យថាតើសីតុណ្ហភាពធំជាង 25, បើពិត បោះពុម្ព 'អាកាសធាតុក្តៅ\nណាស់', បើមិនពិត មិនធ្វើអ្វីីទេ។\nលទ្ធផល៖\nអាកាសធាតុក្តៅណាស់\n4.1.2 if-else Statement - សេចក្តីីបញ្ជា if-else\nif-else បន្ថែមផ្នែក else ដើម្បីីប្រតិបត្តិិកូដនៅពេលលក្ខណ្ឌមិនពិត (False)។\nឧទាហរណ៍៖\nage = 18\nif age >= 18:",
+          "code": "temperature = 30\nage = 18\nif age >= 18:",
+          "preview": {
+            "title": "Python · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 10",
+            "4.1 if-else Statements - សេចក្តីីបញ្ជា if-else"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-python-page-11",
+          "label": "PDF 11. 4.1.3 if-elif-else Statement - សេចក្តីីបញ្ជា if-elif-else",
+          "heading": "4.1.3 if-elif-else Statement - សេចក្តីីបញ្ជា if-elif-else",
+          "intro": "print(\"អ្នកជាមនុស្សពេញវ័យ\") else: print(\"អ្នកនៅតែជាអនីតិជន\")",
+          "bodyHeading": "Source content · python1.pdf · page 11",
+          "body": "print(\"អ្នកជាមនុស្សពេញវ័យ\")\nelse:\n    print(\"អ្នកនៅតែជាអនីតិជន\")\nការពន្យល់៖if age >= 18 ពិនិត្យថាតើអាយុធំជាងឬស្\nមើ 18, បើពិត បោះពុម្ព 'អ្នកជាមនុស្សពេញវ័យ', បើមិន\nពិត បោះពុម្ព 'អ្នកនៅតែជាអនីតិជន'។\nលទ្ធផល៖\nអ្នកជាមនុស្សពេញវ័យ\n4.1.3 if-elif-else Statement - សេចក្តីីបញ្ជា if-elif-else\nif-elif-else អនុញ្ញាតឱ្យពិនិត្យលក្ខណ្ឌច្រើន ដោយប្រើ elif (else if) សម្\nរាប់លក្ខណ្ឌបន្ថែម និង\nelse សម្\nរាប់ករណីផ្សេងទៀទៀតទាំំងអស់។\nឧទាហរណ៍៖\nscore = 75\nif score >= 90:\n    print(\"អ្នកបាននិទ្ទេស A\")\nelif score >= 80:\n    print(\"អ្នកបាននិទ្ទេស B\")\nelif score >= 70:\n    print(\"អ្នកបាននិទ្ទេស C\")\nelif score >= 60:\n    print(\"អ្នកបាននិទ្ទេស D\")\nelse:\n    print(\"អ្នកបាននិទ្ទេស F\")\nការពន្យល់៖if score >= 90 ពិនិត្យថាតើពិន្ទុធំជាងឬស្\nមើ 90, បើពិត បោះពុម្ព 'និទ្ទេស A', elif score\n>= 80 ពិនិត្យបន្ទាប់បើធំជាងឬស្\nមើ 80, បើពិត បោះពុម្ព 'និទ្ទេស B', បន្តពិនិត្យលក្ខណ្ឌបន្ទាប់ៗទៀទៀត, បើគ្មានលក្ខ\nខណ្ឌណាពិត បោះពុម្ព 'និទ្ទេស F'។\nលទ្ធផល៖\nអ្នកបាននិទ្ទេស C\n4.2 Nested if Statements - សេចក្តីីបញ្ជា if ខាងក្នុង if\nNested if គឺជា if ដែលស្ថិិតនៅក្នុង if មួយទៀទៀត ដើម្បីីពិនិត្យលក្ខណ្ឌបន្ថែម។",
+          "code": "score = 75\nif score >= 90:\nelif score >= 80:\nelif score >= 70:\nelif score >= 60:",
+          "preview": {
+            "title": "Python · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 11",
+            "4.1.3 if-elif-else Statement - សេចក្តីីបញ្ជា if-elif-else"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-python-page-12",
+          "label": "PDF 12. 4.3 for Loop & while Loop - រង្វិិលជុំ for និង while",
+          "heading": "4.3 for Loop & while Loop - រង្វិិលជុំ for និង while",
+          "intro": "ឧទាហរណ៍៖ score = 85 if score >= 60:",
+          "bodyHeading": "Source content · python1.pdf · page 12",
+          "body": "ឧទាហរណ៍៖\nscore = 85\nif score >= 60:\n    print(\"អ្នកបានជាប់\")\n    if score >= 80:\n        print(\"អបអរសាទរ! អ្នកបានពិន្ទុល្អណាស់\")\nelse:\n    print(\"អ្នកមិនបានជាប់ទេ\")\nការពន្យល់៖if score >= 60 ពិនិត្យថាតើពិន្ទុធំជាងឬស្\nមើ 60, បើពិត បោះពុម្ព 'អ្នកបានជាប់', ហើយបន្ត\nពិនិត្យ <code>if score >= 80</code> ថាតើពិន្ទុធំជាងឬស្\nមើ 80, បើពិត បោះពុម្ពសារអបអរ, បើមិនមែន\nរំលងផ្នែកខាងក្នុង។\nលទ្ធផល៖\nអ្នកបានជាប់\nអបអរសាទរ! អ្នកបានពិន្ទុល្អណាស់\n4.3 for Loop & while Loop - រង្វិិលជុំ for និង while\nfor និង while ត្រូូវបានប្រើដើម្បីីធ្វើការងារដដែលៗ។ for ប្រើសម្\nរាប់រង្វិិលជុំលើលំដាប់ (sequence)\nចំណែក while ប្រើសម្\nរាប់រង្វិិលជុំដរាបណាលក្ខណ្ឌនៅតែពិត។\nឧទាហរណ៍ (for loop)៖\nfor i in range(5):\n    print(f\"លេខ: {i}\")\nឧទាហរណ៍ (while loop)៖\ncount = 0\nwhile count < 5:\n    print(f\"ចំនួន: {count}\")\n    count += 1\nការពន្យល់៖for i in range(5) រត់ពី 0 ដល់ 4, បោះពុម្ពលេខនីមួយៗ, while count < 5 រត់\nដរាបណា count តូចជាង 5, បោះពុម្ព count ហើយបន្ថែម 1។\nលទ្ធផល (for loop)៖",
+          "code": "score = 85\nif score >= 60:\n    if score >= 80:\nfor i in range(5):\ncount = 0\n    count += 1",
+          "preview": {
+            "title": "Python · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 12",
+            "4.3 for Loop & while Loop - រង្វិិលជុំ for និង while"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-python-page-13",
+          "label": "PDF 13. 4.4 Loop Control (break, continue, pass) - ការគ្រប់គ្រង",
+          "heading": "4.4 Loop Control (break, continue, pass) - ការគ្រប់គ្រង",
+          "intro": "លេខ: 0 លេខ: 1 លេខ: 2",
+          "bodyHeading": "Source content · python1.pdf · page 13",
+          "body": "លេខ: 0\nលេខ: 1\nលេខ: 2\nលេខ: 3\nលេខ: 4\nលទ្ធផល (while loop)៖\nចំនួន: 0\nចំនួន: 1\nចំនួន: 2\nចំនួន: 3\nចំនួន: 4\n4.4 Loop Control (break, continue, pass) - ការគ្រប់គ្រង\nរង្វិិលជុំ (break, continue, pass)\nbreak, continue, និង pass ត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងឥរិយាបថនៃរង្វិិលជុំ។ break បញ្ចប់រង្វិិលជុំ,\ncontinue រំលងទៅវដ្តបន្ទាប់, និង pass មិនធ្វើអ្វីីទេ (placeholder)។\nឧទាហរណ៍៖\nfor i in range(10):\n    if i == 5:\n        break  # បញ្ចប់រង្វិលជុំនៅ i = 5\n    if i == 3:\n        continue  # រំលង i = 3\n    if i == 7:\n        pass  # មិនធ្វើអ្វីទេ\n    print(f\"លេខ: {i}\")\nការពន្យល់៖break បញ្ចប់រង្វិិលជុំនៅ i = 5, continue រំលងការបោះពុម្ពនៅ i = 3, pass មិនធ្វើអ្វីីទេនៅ i\n= 7 ប៉ុន្តែបន្តរង្វិិលជុំ។\nលទ្ធផល៖\nលេខ: 0\nលេខ: 1",
+          "code": "for i in range(10):\n    if i == 5:\n    if i == 3:\n    if i == 7:",
+          "preview": {
+            "title": "Python · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 13",
+            "4.4 Loop Control (break, continue, pass) - ការគ្រប់គ្រង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-python-page-14",
+          "label": "PDF 14. 5.1 Defining & Calling Functions - ការកំណត់ និង",
+          "heading": "5.1 Defining & Calling Functions - ការកំណត់ និង",
+          "intro": "លេខ: 2 លេខ: 4 5. Functions & Modules - អនុគមន៍ និង ម៉ូឌុល",
+          "bodyHeading": "Source content · python1.pdf · page 14",
+          "body": "លេខ: 2\nលេខ: 4\n5. Functions & Modules - អនុគមន៍ និង ម៉ូឌុល\nFunctions និង Modules ជួយរៀរៀបចំកូដឱ្យមានរបៀបៀប និងអាចប្រើឡើងវិញបាន។ Functions ជា\nបណ្តុំំកូដដែលអាចហៅប្រើបានច្រើនដង ចំណែក Modules ជាឯកសារដែលផ្ទុក Functions\nនិងកូដផ្សេងទៀទៀត។\n5.1 Defining & Calling Functions - ការកំណត់ និង\nការហៅអនុគមន៍\nFunctions ត្រូូវបានកំណត់ដោយប្រើ def ហើយអាចហៅប្រើបានដោយឈ្\nមោះរបស់វា។\nឧទាហរណ៍៖\ndef greet():\n    print(\"សួស្តីី! ស្វាគមន៍មកកាន់ Python\")\ngreet()\nការពន្យល់៖def greet() កំណត់អនុគមន៍ឈ្\nមោះ greet, នៅពេលហៅ <code>greet()</code> វា\nបោះពុម្ពសារ 'សួស្តីី! ស្វាគមន៍មកកាន់ Python'។\nលទ្ធផល៖\nសួស្តីី! ស្វាគមន៍មកកាន់ Python\n5.2 Function Parameters (Positional, Default, Keyword,\n*args, **kwargs) - ប៉ារ៉ាម៉ែត្រអនុគមន៍\nFunctions អាចទទួល parameters ដើម្បីីធ្វើការជាមួយទិន្ន័យផ្សេងៗ។ មានប្រភេទ parameters ជាច្រើន៖\nឧទាហរណ៍ (Positional Parameters)៖\ndef add(a, b):\n    return a + b",
+          "code": "def greet():\ngreet()\n5.2 Function Parameters (Positional, Default, Keyword,\ndef add(a, b):\n    return a + b",
+          "preview": {
+            "title": "Python · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 14",
+            "5.1 Defining & Calling Functions - ការកំណត់ និង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-python-page-15",
+          "label": "PDF 15. Source lesson page 15",
+          "heading": "Source lesson page 15",
+          "intro": "print(add(3, 5)) ឧទាហរណ៍ (Default Parameters)៖ def greet(name=\"ភ្",
+          "bodyHeading": "Source content · python1.pdf · page 15",
+          "body": "print(add(3, 5))\nឧទាហរណ៍ (Default Parameters)៖\ndef greet(name=\"ភ្\nញៀវ\"):\n    print(f\"សួស្តីី {name}\")\ngreet()\ngreet(\"សុខា\")\nឧទាហរណ៍ (Keyword Parameters)៖\ndef introduce(name, age):\n    print(f\"ខ្ញុំំឈ្\nមោះះ {name} អាយុ {age} ឆ្នាំំ\")\nintroduce(age=25, name=\"សុភី\")\nឧទាហរណ៍ (*args)៖\ndef sum_all(*args):\n    return sum(args)\nprint(sum_all(1, 2, 3, 4))\nឧទាហរណ៍ (**kwargs)៖\ndef info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")\ninfo(name=\"សុធា\", age=30, city=\"ភ្នំំពេញ\")\nការពន្យល់៖\n- Positional ទទួលតម្លៃតាមលំដាប់ (a, b),\n- Default ប្រើតម្លៃលំនាំំដើមបើមិនបញ្ជាក់ (name='ភ្ញៀវ'),\n- Keyword អនុញ្ញាតឱ្យបញ្ជាក់តម្លៃដោយឈ្\nមោះ (age=25),\n- *args ទទួលចំនួនតម្លៃមិនកំណត់ជា tuple,\n- **kwargs ទទួលចំនួនតម្លៃមិនកំណត់ជា dictionary។\nលទ្ធផល៖",
+          "code": "print(add(3, 5))\ngreet()\ndef introduce(name, age):\ndef sum_all(*args):\n    return sum(args)\nprint(sum_all(1, 2, 3, 4))\ndef info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")",
+          "preview": {
+            "title": "Python · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 15",
+            "Source lesson page 15"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-python-page-16",
+          "label": "PDF 16. 5.3 Lambda Functions - អនុគមន៍ Lambda",
+          "heading": "5.3 Lambda Functions - អនុគមន៍ Lambda",
+          "intro": "8 សួស្តីី ភ្ ញៀវ",
+          "bodyHeading": "Source content · python1.pdf · page 16",
+          "body": "8\nសួស្តីី ភ្\nញៀវ\nសួស្តីី សុខា\nខ្ញុំំឈ្\nមោះះ សុភី អាយុ 25 ឆ្នាំំ\n10\nname: សុធា\nage: 30\ncity: ភ្នំំពេញ\n5.3 Lambda Functions - អនុគមន៍ Lambda\nlambda ជាអនុគមន៍អនាមិក (anonymous) ដែលកំណត់ក្នុងមួយជួរសម្\nរាប់ការងារសាមញ្ញ។\nឧទាហរណ៍៖\nsquare = lambda x: x ** 2\nprint(square(5))\nការពន្យល់៖lambda x: x ** 2 បង្កើតអនុគមន៍ដែលលើកកំពស់ x ទៅជាការ៉េ, ហៅ <code>square(5)\n</code> ដើម្បីីគណនា 5²។\nលទ្ធផល៖\n25\n5.4 Importing Modules (Built-in & Custom) - ការនាំំ\nចូលម៉ូឌុល\nModules អនុញ្ញាតឱ្យប្រើ functions និងកូដពីឯកសារផ្សេងទៀទៀត។ មាន built-in modules (ភ្ជាប់មក\nជាមួយ Python) និង custom modules (បង្កើតដោយអ្នក)។\nឧទាហរណ៍ (Built-in Module)៖\nimport math\nprint(math.sqrt(16))\nឧទាហរណ៍ (Custom Module)៖ សន្មត់ថាមានឯកសារ <code>my_module.py</code> ដែល\nមានកូដ៖",
+          "code": "square = lambda x: x ** 2\nprint(square(5))\nimport math\nprint(math.sqrt(16))",
+          "preview": {
+            "title": "Python · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 16",
+            "5.3 Lambda Functions - អនុគមន៍ Lambda"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-python-page-17",
+          "label": "PDF 17. 6.1 Lists (Dynamic Arrays) - បញ្ជីី (អារេថាមវន្ត)",
+          "heading": "6.1 Lists (Dynamic Arrays) - បញ្ជីី (អារេថាមវន្ត)",
+          "intro": "# my_module.py def say_hello(): print(\"ជម្រាា",
+          "bodyHeading": "Source content · python1.pdf · page 17",
+          "body": "# my_module.py\ndef say_hello():\n    print(\"ជម្រាា\nបសួរ!\")\nហៅប្រើវា៖\nimport my_module\nmy_module.say_hello()\nការពន្យល់៖import math នាំំចូលម៉ូឌុល math ដែលភ្ជាប់មកជាមួយ, math.sqrt(16) គណនាឫសការ៉េ\nនៃ 16, import my_module នាំំចូលម៉ូឌុលផ្ទាល់ខ្លួន, my_module.say_hello() ហៅអនុគមន៍ពីម៉ូឌុល។\nលទ្ធផល៖\n4.0\nជម្រាា\nបសួរ!\n6. Data Structures - រចនាសម្ព័័ន្ធទិន្ន័យ\nData Structures នៅក្នុង Python ជាវិធីសាស្\nត្រសម្\nរាប់រៀរៀបចំ និង រក្សាទុកទិន្ន័យ។ មានប្រភេទ\nជាច្រើនដូចជា Lists, Tuples, Sets, និង Dictionaries ដែលប្រើសម្\nរាប់គោលបំណងផ្សេងៗ\nគ្នា។\n6.1 Lists (Dynamic Arrays) - បញ្ជីី (អារេថាមវន្ត)\nLists ជាបញ្ជីីដែលអាចផ្លាស់ប្តូរបាន (mutable) និងអាចផ្ទុកទិន្ន័យច្រើនប្រភេទ។\nឧទាហរណ៍៖\nfruits = [\"ផ្លែប៉ោ\nម\", \"ផ្លែចេក\", \"ផ្លែឪឡឹក\"]\nfruits.append(\"ផ្លែស្ត្របឺរី\")\nprint(fruits)\nfruits[1] = \"ផ្លែត្រ\nសក់\"\nprint(fruits)",
+          "code": "# my_module.py\ndef say_hello():\nimport my_module\nmy_module.say_hello()\nprint(fruits)\nprint(fruits)",
+          "preview": {
+            "title": "Python · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 17",
+            "6.1 Lists (Dynamic Arrays) - បញ្ជីី (អារេថាមវន្ត)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-python-page-18",
+          "label": "PDF 18. 6.2 Tuples (Immutable Lists) - ទុប័ល (បញ្ជីីមិនអាចផ្លាស់ប្តូរ)",
+          "heading": "6.2 Tuples (Immutable Lists) - ទុប័ល (បញ្ជីីមិនអាចផ្លាស់ប្តូរ)",
+          "intro": "ការពន្យល់៖fruits = [\"ផ្លែប៉ោ ម\", ...] បង្កើតបញ្ជីី, append() បន្ថែម 'ផ្លែស្ ត្របឺរី' ទៅចុងបញ្ជីី,",
+          "bodyHeading": "Source content · python1.pdf · page 18",
+          "body": "ការពន្យល់៖fruits = [\"ផ្លែប៉ោ\nម\", ...] បង្កើតបញ្ជីី, append() បន្ថែម 'ផ្លែស្\nត្របឺរី' ទៅចុងបញ្ជីី,\nfruits[1] = \"ផ្លែត្រ\nសក់\" ផ្លាស់ប្តូរធាតុទី 1 (index 1)។\nលទ្ធផល៖\n['ផ្លែប៉ោ\nម', 'ផ្លែចេក', 'ផ្លែឪឡឹក', 'ផ្លែស្ត្របឺរី']\n['ផ្លែប៉ោ\nម', 'ផ្លែត្រ\nសក់', 'ផ្លែឪឡឹក', 'ផ្លែស្ត្របឺរី']\n6.2 Tuples (Immutable Lists) - ទុប័ល (បញ្ជីីមិនអាចផ្លាស់ប្តូរ)\nTuples ស្រ\nដៀដៀងនឹង Lists ប៉ុន្តែមិនអាចផ្លាស់ប្តូរបាន (immutable) បន្ទាប់ពីកំណត់។\nឧទាហរណ៍៖\ncolors = (\"ក្រ\nហម\", \"ខៀវ\", \"លឿង\")\nprint(colors[0])\n# colors[0] = \"បៃតង\" # នឹងបណ្តាលឱ្យមានកំហុស\nការពន្យល់៖colors = (\"ក្រ\nហម\", ...) បង្កើតទុប័ល, colors[0] ចូលប្រើធាតុទី 0, មិនអាចផ្លាស់ប្តូរ\nធាតុបាន ព្រោះវា immutable។\nលទ្ធផល៖\nក្រ\nហម\n6.3 Sets (Unique Collections) - សំណុំ (ការប្រមូលផ្ដុំំតែមួយគត់)\nSets ជាការប្រមូលផ្តុំំធាតុតែមួយគត់ (unique) ដែលមិនមានលំដាប់ និងអាចផ្លាស់ប្តូរបាន (mutable)។\nឧទាហរណ៍៖\nnumbers = {1, 2, 3, 3, 4}\nnumbers.add(5)\nprint(numbers)\nការពន្យល់៖4 បង្កើតសំណុំ ដោយ 3 ស្ទួនត្រូូវបានលុបចោល, add(5) បន្ថែម 5 ទៅសំណុំ។\nលទ្ធផល៖\n{1, 2, 3, 4, 5}",
+          "code": "print(colors[0])\nnumbers = {1, 2, 3, 3, 4}\nnumbers.add(5)\nprint(numbers)\n{1, 2, 3, 4, 5}",
+          "preview": {
+            "title": "Python · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 18",
+            "6.2 Tuples (Immutable Lists) - ទុប័ល (បញ្ជីីមិនអាចផ្លាស់ប្តូរ)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-python-page-19",
+          "label": "PDF 19. 6.4 Dictionaries (Key-Value Pairs) - វចនានុក្រម (គូសោ-តម្លៃ)",
+          "heading": "6.4 Dictionaries (Key-Value Pairs) - វចនានុក្រម (គូសោ-តម្លៃ)",
+          "intro": "  Dictionaries ជាការប្រមូលផ្តុំំគូសោ-តម្លៃ (key-value pairs) ដែលអាចផ្លាស់ប្តូរបាន (mutable)។",
+          "bodyHeading": "Source content · python1.pdf · page 19",
+          "body": "\n\n6.4 Dictionaries (Key-Value Pairs) - វចនានុក្រម (គូសោ-តម្លៃ)\nDictionaries ជាការប្រមូលផ្តុំំគូសោ-តម្លៃ (key-value pairs) ដែលអាចផ្លាស់ប្តូរបាន (mutable)។\nឧទាហរណ៍៖\nstudent = {\"ឈ្\nមោះះ\": \"សុខា\", \"អាយុ\": 20, \"ជំនាញ\": \"សរសេរកម្មវិធី\"}\nstudent[\"អាយុ\"] = 21\nstudent[\"សាលា\"] = \"សាកលវិទ្យាល័យ\"\nprint(student)\nការពន្យល់៖ឈ្\nមោះ: សុខា, ... បង្កើតវចនានុក្រម, student[\"អាយុ\"] = 21 កែតម្លៃនៃសោ 'អាយុ',\nstudent[\"សាលា\"] = \"សាកលវិទ្យាល័យ\" បន្ថែមគូសោ-តម្លៃថ្មីី។\nលទ្ធផល៖\n{'ឈ្\nមោះះ': 'សុខា', 'អាយុ': 21, 'ជំនាញ': 'សរសេរកម្មវិធី', 'សាលា': 'សាកលវិទ្យាល័\n7. String Manipulation - ការរៀរៀបចំអក្សរ\nString Manipulation នៅក្នុង Python ជាវិធីសាស្\nត្រសម្\nរាប់ធ្វើការជាមួយអក្សរ (strings)\nដូចជា ការធ្វើទ្រង់ទ្\nរាយ ការផ្លាស់ប្តូរ និងការវិភាគ។ ផ្នែកនេះះនឹងបង្ហាញពីវិធីផ្សេងៗដើម្បីីគ្រប់គ្រង\nអក្សរ។\n7.1 String Formatting (f-strings, .format()) - ការធ្វើទ្រង់ទ្\nរាយ\nអក្សរ\nString formatting អនុញ្ញាតឱ្យបញ្ចូលតម្លៃអថេរ (variables) ទៅក្នុងអក្សរ។ វិធីទូទៅគឺ f-strings និង\n.format()។\nឧទាហរណ៍ (f-strings)៖\nname = \"សុខា\"\nage = 25\nprint(f\"ខ្ញុំំឈ្\nមោះះ {name} អាយុ {age} ឆ្នាំំ\")\nឧទាហរណ៍ (.format())៖",
+          "code": "print(student)\nage = 25",
+          "preview": {
+            "title": "Python · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 19",
+            "6.4 Dictionaries (Key-Value Pairs) - វចនានុក្រម (គូសោ-តម្លៃ)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-python-page-20",
+          "label": "PDF 20. 7.2 String Methods (upper(), lower(), replace(), split()) -",
+          "heading": "7.2 String Methods (upper(), lower(), replace(), split()) -",
+          "intro": "name = \"សុភី\" age = 30 print(\"ខ្ញុំំឈ្",
+          "bodyHeading": "Source content · python1.pdf · page 20",
+          "body": "name = \"សុភី\"\nage = 30\nprint(\"ខ្ញុំំឈ្\nមោះះ {} អាយុ {} ឆ្នាំំ\".format(name, age))\nការពន្យល់៖f\"...\" ប្រើ f-strings ដើម្បីីបញ្ចូលតម្លៃដោយផ្ទាល់នៅក្នុងអក្សរ, .format() បញ្ចូលតម្លៃតាម\nលំដាប់ទៅក្នុង {}។\nលទ្ធផល៖\nខ្ញុំំឈ្\nមោះះ សុខា អាយុ 25 ឆ្នាំំ\nខ្ញុំំឈ្\nមោះះ សុភី អាយុ 30 ឆ្នាំំ\n7.2 String Methods (upper(), lower(), replace(), split()) -\nវិធីសាស្\nត្រអក្សរ\nString methods ជាមុខងារដែលភ្ជាប់មកជាមួយសម្\nរាប់ផ្លាស់ប្តូរ ឬវិភាគអក្សរ។\nឧទាហរណ៍៖\ntext = \"សួស្តីី Python\"\nprint(text.upper())\nprint(text.lower())\nprint(text.replace(\"Python\", \"អ្នកសិក្សា\"))\nprint(text.split(\" \"))\nការពន្យល់៖upper() ប្តូរទៅអក្សរធំទាំំងអស់, lower() ប្តូរទៅអក្សរតូចទាំំងអស់, replace() ជំនួសអក្សរ\nមួយដោយអក្សរមួយទៀទៀត, split() បំបែកអក្សរទៅជាបញ្ជីីដោយប្រើគម្លាត។\nលទ្ធផល៖\nសួស្តីី PYTHON\nសួស្តីី python\nសួស្តីី អ្នកសិក្សា\n['សួស្តីី', 'Python']\n7.3 Regular Expressions (re module) - កន្សោមធម្មតា (ម៉ូឌុល\nre)\nre module អនុញ្ញាតឱ្យប្រើ regular expressions (regex) ដើម្បីីស្\nវែងរក ឬផ្គូផ្គងលំនាំំនៅក្នុងអក្សរ។",
+          "code": "age = 30\n7.2 String Methods (upper(), lower(), replace(), split()) -\nprint(text.upper())\nprint(text.lower())\nprint(text.split(\" \"))\nre)",
+          "preview": {
+            "title": "Python · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 20",
+            "7.2 String Methods (upper(), lower(), replace(), split()) -"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-python-page-21",
+          "label": "PDF 21. 8.1 Reading & Writing Files (open(), .read(), .write()) -",
+          "heading": "8.1 Reading & Writing Files (open(), .read(), .write()) -",
+          "intro": "ឧទាហរណ៍៖ import re text = \"ទូរស័ព្ទ: 012-345-6789, អ៊ីីមែល: example@email.com\"",
+          "bodyHeading": "Source content · python1.pdf · page 21",
+          "body": "ឧទាហរណ៍៖\nimport re\ntext = \"ទូរស័ព្ទ: 012-345-6789, អ៊ីីមែល: example@email.com\"\nphone = re.search(r\"\\d{3}-\\d{3}-\\d{4}\", text)\nemail = re.search(r\"[a-z]+@[a-z]+\\.[a-z]+\", text)\nprint(phone.group())\nprint(email.group())\nការពន្យល់៖import re នាំំចូលម៉ូឌុល re, re.search() ស្\nវែងរកលំនាំំដំបូងដែលផ្គូផ្គង, r\"\\\\d3-\\\\d3-\n\\\\d4\" លំនាំំសម្\nរាប់លេខទូរស័ព្ទ (xxx-xxx-xxxx), r\"[a-z]+@[a-z]+\\\\.[a-z]+\" លំនាំំសម្\nរាប់\nអ៊ីីមែល, group() ទាញតម្លៃដែលផ្គូផ្គង។\nលទ្ធផល៖\n012-345-6789\nexample@email.com\n8. File Handling - ការគ្រប់គ្រងឯកសារ\nFile Handling នៅក្នុង Python អនុញ្ញាតឱ្យអាន សរសេរ និងគ្រប់គ្រងឯកសារនៅលើប្រព័ន្ធ។\nផ្នែកនេះះនឹងបង្ហាញពីវិធីធ្វើការជាមួយឯកសារអត្ថបទ CSV និង JSON។\n8.1 Reading & Writing Files (open(), .read(), .write()) -\nការអាន និង សរសេរឯកសារ\nការអាន និងសរសេរឯកសារប្រើ open() ដើម្បីីចូលប្រើឯកសារ .read() ដើម្បីីអាន និង .write() ដើម្បីី\nសរសេរ។\nឧទាហរណ៍ (សរសេរ)៖\n# សរសេរទៅឯកសារ\nwith open(\"example.txt\", \"w\", encoding=\"utf-8\") as file:\n    file.write(\"សួស្តីី ពិភពលោក!\n\")",
+          "code": "import re\nphone = re.search(r\"\\d{3}-\\d{3}-\\d{4}\", text)\nemail = re.search(r\"[a-z]+@[a-z]+\\.[a-z]+\", text)\nprint(phone.group())\nprint(email.group())\n8.1 Reading & Writing Files (open(), .read(), .write()) -\nwith open(\"example.txt\", \"w\", encoding=\"utf-8\") as file:\n\")",
+          "preview": {
+            "title": "Python · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 21",
+            "8.1 Reading & Writing Files (open(), .read(), .write()) -"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-python-page-22",
+          "label": "PDF 22. 8.2 Handling CSV (csv module) - ការគ្រប់គ្រង CSV",
+          "heading": "8.2 Handling CSV (csv module) - ការគ្រប់គ្រង CSV",
+          "intro": "ឧទាហរណ៍ (អាន)៖ # អានពីឯកសារ with open(\"example.txt\", \"r\", encoding=\"utf-8\") as file:",
+          "bodyHeading": "Source content · python1.pdf · page 22",
+          "body": "ឧទាហរណ៍ (អាន)៖\n# អានពីឯកសារ\nwith open(\"example.txt\", \"r\", encoding=\"utf-8\") as file:\n    content = file.read()\nprint(content)\nការពន្យល់៖open(\"example.txt\", \"w\") បើកឯកសារសម្\nរាប់សរសេរ (w = write),\nfile.write() សរសេរអត្ថបទទៅឯកសារ, open(\"example.txt\", \"r\") បើកឯកសារសម្\nរាប់អាន (r\n= read), file.read() អានខ្លឹឹមសារទាំំងមូល, ប្រើ <code>with</code> ដើម្បីីបិទឯកសារដោយ\nស្វ័័យប្រវត្តិិ។\nលទ្ធផល៖\nសួស្តីី ពិភពលោក!\n8.2 Handling CSV (csv module) - ការគ្រប់គ្រង CSV\ncsv module ជួយអាន និងសរសេរទិន្ន័យទៅឯកសារ CSV (Comma-Separated Values)។\nឧទាហរណ៍ (សរសេរ CSV)៖\nimport csv\n# សរសេរទៅឯកសារ CSV\nwith open(\"students.csv\", \"w\", newline=\"\", encoding=\"utf-8\") as file:\n    writer = csv.writer(file)\n    writer.writerow([\"ឈ្\nមោះះ\", \"អាយុ\", \"ជំនាញ\"])\n    writer.writerow([\"សុខា\", 25, \"សរសេរកម្មវិធី\"])\nឧទាហរណ៍ (អាន CSV)៖\nimport csv\n# អានពីឯកសារ CSV\nwith open(\"students.csv\", \"r\", encoding=\"utf-8\") as file:\n    reader = csv.reader(file)\n    for row in reader:\n        print(row)",
+          "code": "with open(\"example.txt\", \"r\", encoding=\"utf-8\") as file:\n    content = file.read()\nprint(content)\nimport csv\nwith open(\"students.csv\", \"w\", newline=\"\", encoding=\"utf-8\") as file:\n    writer = csv.writer(file)\nimport csv\nwith open(\"students.csv\", \"r\", encoding=\"utf-8\") as file:\n    reader = csv.reader(file)\n        print(row)",
+          "preview": {
+            "title": "Python · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 22",
+            "8.2 Handling CSV (csv module) - ការគ្រប់គ្រង CSV"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-python-page-23",
+          "label": "PDF 23. 8.3 Handling JSON (json module) - ការគ្រប់គ្រង JSON",
+          "heading": "8.3 Handling JSON (json module) - ការគ្រប់គ្រង JSON",
+          "intro": "ការពន្យល់៖import csv នាំំចូលម៉ូឌុល csv, csv.writer() បង្កើតអ្នកសរសេរ CSV, writer.writerow() សរសេរជួរមួយទៅឯកសារ, csv.reader() អានជួរនីមួយៗជាបញ្ជីី, <code>newline=''` ការពារបន្ថែមជួរទទេនៅ Windows។",
+          "bodyHeading": "Source content · python1.pdf · page 23",
+          "body": "ការពន្យល់៖import csv នាំំចូលម៉ូឌុល csv, csv.writer() បង្កើតអ្នកសរសេរ CSV,\nwriter.writerow() សរសេរជួរមួយទៅឯកសារ, csv.reader() អានជួរនីមួយៗជាបញ្ជីី,\n<code>newline=''` ការពារបន្ថែមជួរទទេនៅ Windows។\nលទ្ធផល៖\n['ឈ្\nមោះះ', 'អាយុ', 'ជំនាញ']\n['សុខា', '25', 'សរសេរកម្មវិធី']\n8.3 Handling JSON (json module) - ការគ្រប់គ្រង JSON\njson module ជួយអាន និងសរសេរទិន្ន័យជាទម្រង់ JSON (JavaScript Object Notation)។\nឧទាហរណ៍ (សរសេរ JSON)៖\nimport json\ndata = {\"ឈ្\nមោះះ\": \"សុភី\", \"អាយុ\": 30, \"ទីកន្លែង\": \"ភ្នំំពេញ\"}\nwith open(\"data.json\", \"w\", encoding=\"utf-8\") as file:\n    json.dump(data, file, ensure_ascii=False, indent=4)\nឧទាហរណ៍ (អាន JSON)៖\nimport json\nwith open(\"data.json\", \"r\", encoding=\"utf-8\") as file:\n    loaded_data = json.load(file)\nprint(loaded_data)\nការពន្យល់៖import json នាំំចូលម៉ូឌុល json, json.dump() សរសេរទិន្ន័យទៅឯកសារ JSON,\nensure_ascii=False អនុញ្ញាតឱ្យប្រើអក្សរមិនមែន ASCII (ដូចជាខ្មែរ), indent=4 ធ្វើឱ្យទិន្ន័យមាន\nទម្រង់ស្អាត, json.load() អានទិន្ន័យ JSON ទៅជា dictionary។\nលទ្ធផល៖\n{'ឈ្\nមោះះ': 'សុភី', 'អាយុ': 30, 'ទីកន្លែង': 'ភ្នំំពេញ'}",
+          "code": "import json\nwith open(\"data.json\", \"w\", encoding=\"utf-8\") as file:\n    json.dump(data, file, ensure_ascii=False, indent=4)\nimport json\nwith open(\"data.json\", \"r\", encoding=\"utf-8\") as file:\n    loaded_data = json.load(file)\nprint(loaded_data)",
+          "preview": {
+            "title": "Python · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 23",
+            "8.3 Handling JSON (json module) - ការគ្រប់គ្រង JSON"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-python-page-24",
+          "label": "PDF 24. 9.1 Classes & Objects - ថ្នាក់ និង វត្ថុ",
+          "heading": "9.1 Classes & Objects - ថ្នាក់ និង វត្ថុ",
+          "intro": "9. Object-Oriented Programming (OOP) - ការ សរសេរកម្មវិធីតម្រង់ទិសវត្ថុ Object-Oriented Programming (OOP) ជាវិធីសាស្",
+          "bodyHeading": "Source content · python1.pdf · page 24",
+          "body": "9. Object-Oriented Programming (OOP) - ការ\nសរសេរកម្មវិធីតម្រង់ទិសវត្ថុ\nObject-Oriented Programming (OOP) ជាវិធីសាស្\nត្រសរសេរកម្មវិធីដែលប្រើ classes និង\nobjects ដើម្បីីរៀរៀបចំកូដឱ្យមានរបៀបៀប និងអាចប្រើឡើងវិញបាន។ ផ្នែកនេះះនឹងពន្យល់ពីគោលគំនិត\nសំខាន់ៗនៃ OOP នៅក្នុង Python។\n9.1 Classes & Objects - ថ្នាក់ និង វត្ថុ\nClasses ជាប្លង់ (blueprint) សម្\nរាប់បង្កើត objects ដែលជាការកើតឡើងជាក់ស្\nតែងនៃថ្នាក់។\nឧទាហរណ៍៖\nclass Dog:\n    def bark(self):\n        print(\"វ៉ុុហ្វ! វ៉ុុហ្វ!\")\nmy_dog = Dog()\nmy_dog.bark()\nការពន្យល់៖class Dog បង្កើតថ្នាក់ឈ្\nមោះ Dog, def bark(self) កំណត់មុខងារសម្\nរាប់វត្ថុ, my_dog =\nDog() បង្កើតវត្ថុ my_dog ពីថ្នាក់ Dog, my_dog.bark() ហៅមុខងាររបស់វត្ថុ។\nលទ្ធផល៖\nវ៉ុុហ្វ! វ៉ុុហ្វ!\n9.2 Constructors (__init__) - អ្នកសាងសង់\n__init__ ជាមុខងារពិសេស (constructor) ដែលរត់ដោយស្វ័័យប្រវត្តិិនៅពេលបង្កើតវត្ថុ ដើម្បីីកំណត់លក្ខណៈ\nដំបូង។\nឧទាហរណ៍៖\nclass Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age",
+          "code": "class Dog:\n    def bark(self):\nmy_dog = Dog()\nmy_dog.bark()\nclass Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age",
+          "preview": {
+            "title": "Python · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 24",
+            "9.1 Classes & Objects - ថ្នាក់ និង វត្ថុ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-python-page-25",
+          "label": "PDF 25. 9.3 Inheritance - ការទទួលមរតក",
+          "heading": "9.3 Inheritance - ការទទួលមរតក",
+          "intro": "def introduce(self): print(f\"ខ្ញុំំឈ្ មោះះ {self.name} អាយុ {self.age} ឆ្នាំំ\")",
+          "bodyHeading": "Source content · python1.pdf · page 25",
+          "body": "def introduce(self):\n        print(f\"ខ្ញុំំឈ្\nមោះះ {self.name} អាយុ {self.age} ឆ្នាំំ\")\nperson = Person(\"សុខា\", 25)\nperson.introduce()\nការពន្យល់៖__init__(self, name, age) កំណត់លក្ខណៈ name និង age នៅពេលបង្កើតវត្ថុ,\nself.name រក្សាទុកតម្លៃ name ទៅវត្ថុ, person = Person(\"សុខា\", 25) បង្កើតវត្ថុដោយផ្តល់តម្លៃ,\nintroduce() ប្រើលក្ខណៈរបស់វត្ថុ។\nលទ្ធផល៖\nខ្ញុំំឈ្\nមោះះ សុខា អាយុ 25 ឆ្នាំំ\n9.3 Inheritance - ការទទួលមរតក\nInheritance អនុញ្ញាតឱ្យថ្នាក់មួយទទួលយកលក្ខណៈ និងមុខងារពីថ្នាក់មួយទៀទៀត។ មានប្រភេទផ្សេងៗនៃការ\nទទួលមរតក។\n9.3.1 Single Inheritance - ការទទួលមរតកតែមួយ\nថ្នាក់កូនទទួលមរតកពីថ្នាក់មេតែមួយ។\nឧទាហរណ៍៖\nclass Animal:\n    def __init__(self, name):\n        self.name = name\nclass Cat(Animal):\n    def meow(self):\n        print(f\"{self.name} និយាយ: ម៉\nៅ! ម៉\nៅ!\")\ncat = Cat(\"មីមី\")\ncat.meow()\nការពន្យល់៖class Cat(Animal) ទទួលមរតកពី Animal, self.name មកពីថ្នាក់មេ, meow() ជា\nមុខងារថ្មីីរបស់ Cat។\nលទ្ធផល៖\nមីមី និយាយ: ម៉\nៅ! ម៉\nៅ!",
+          "code": "def introduce(self):\nperson.introduce()\nclass Animal:\n    def __init__(self, name):\n        self.name = name\nclass Cat(Animal):\n    def meow(self):\ncat.meow()",
+          "preview": {
+            "title": "Python · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 25",
+            "9.3 Inheritance - ការទទួលមរតក"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-python-page-26",
+          "label": "PDF 26. 9.3.2 Multiple Inheritance - ការទទួលមរតកច្រើន",
+          "heading": "9.3.2 Multiple Inheritance - ការទទួលមរតកច្រើន",
+          "intro": "ថ្នាក់កូនទទួលមរតកពីថ្នាក់មេច្រើនជាងមួយ។ ឧទាហរណ៍៖ class Flyer:",
+          "bodyHeading": "Source content · python1.pdf · page 26",
+          "body": "9.3.2 Multiple Inheritance - ការទទួលមរតកច្រើន\nថ្នាក់កូនទទួលមរតកពីថ្នាក់មេច្រើនជាងមួយ។\nឧទាហរណ៍៖\nclass Flyer:\n    def fly(self):\n        print(\"ហោ\nះ\nះ!\")\nclass Swimmer:\n    def swim(self):\n        print(\"ហែល!\")\nclass Duck(Flyer, Swimmer):\n    pass\nduck = Duck()\nduck.fly()\nduck.swim()\nការពន្យល់៖class Duck(Flyer, Swimmer) ទទួលមរតកពី Flyer និង Swimmer, fly() និង\n<code>swim()</code> មកពីថ្នាក់មេទាំំងពីរ។\nលទ្ធផល៖\nហោ\nះ\nះ!\nហែល!\n9.3.3 Multilevel Inheritance - ការទទួលមរតកច្រើនកម្រិិត\nថ្នាក់មួយទទួលមរតកពីថ្នាក់មេ ហើយថ្នាក់មួយទៀទៀតទទួលមរតកពីថ្នាក់នោះបន្ត។\nឧទាហរណ៍៖\nclass Animal:\n    def eat(self):\n        print(\"ញុំា!\")\nclass Dog(Animal):\n    def bark(self):\n        print(\"វ៉ុុហ្វ!\")",
+          "code": "class Flyer:\n    def fly(self):\nclass Swimmer:\n    def swim(self):\nclass Duck(Flyer, Swimmer):\nduck = Duck()\nduck.fly()\nduck.swim()\nclass Animal:\n    def eat(self):\nclass Dog(Animal):\n    def bark(self):",
+          "preview": {
+            "title": "Python · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 26",
+            "9.3.2 Multiple Inheritance - ការទទួលមរតកច្រើន"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-python-page-27",
+          "label": "PDF 27. 9.3.4 Hierarchical Inheritance - ការទទួលមរតកជាឋានានុក្រម",
+          "heading": "9.3.4 Hierarchical Inheritance - ការទទួលមរតកជាឋានានុក្រម",
+          "intro": "class Puppy(Dog): def play(self): print(\"លេង!\")",
+          "bodyHeading": "Source content · python1.pdf · page 27",
+          "body": "class Puppy(Dog):\n    def play(self):\n        print(\"លេង!\")\npuppy = Puppy()\npuppy.eat()\npuppy.bark()\npuppy.play()\nការពន្យល់៖Puppy ទទួលមរតកពី Dog, Dog ទទួលមរតកពី Animal, ដូច្នេះ Puppy អាចប្រើ\n<code>eat()</code>, <code>bark()</code>, និង <code>play()</code>។\nលទ្ធផល៖\nញុំា!\nវ៉ុុហ្វ!\nលេង!\n9.3.4 Hierarchical Inheritance - ការទទួលមរតកជាឋានានុក្រម\nថ្នាក់មេមួយត្រូូវបានទទួលមរតកដោយថ្នាក់កូនច្រើន។\nឧទាហរណ៍៖\nclass Animal:\n    def eat(self):\n        print(\"ញុំា!\")\nclass Cat(Animal):\n    def meow(self):\n        print(\"ម៉\nៅ!\")\nclass Dog(Animal):\n    def bark(self):\n        print(\"វ៉ុុហ្វ!\")\ncat = Cat()\ndog = Dog()\ncat.eat()\ncat.meow()",
+          "code": "class Puppy(Dog):\n    def play(self):\npuppy = Puppy()\npuppy.eat()\npuppy.bark()\npuppy.play()\nclass Animal:\n    def eat(self):\nclass Cat(Animal):\n    def meow(self):\nclass Dog(Animal):\n    def bark(self):\ncat = Cat()\ndog = Dog()\ncat.eat()\ncat.meow()",
+          "preview": {
+            "title": "Python · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 27",
+            "9.3.4 Hierarchical Inheritance - ការទទួលមរតកជាឋានានុក្រម"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-python-page-28",
+          "label": "PDF 28. 9.3.5 Hybrid Inheritance - ការទទួលមរតកបែបលាយ",
+          "heading": "9.3.5 Hybrid Inheritance - ការទទួលមរតកបែបលាយ",
+          "intro": "dog.eat() dog.bark() ការពន្យល់៖Cat និង <code>Dog</code> ទទួលមរតកពី Animal, eat() មាននៅក្នុងទាំំង Cat និង",
+          "bodyHeading": "Source content · python1.pdf · page 28",
+          "body": "dog.eat()\ndog.bark()\nការពន្យល់៖Cat និង <code>Dog</code> ទទួលមរតកពី Animal, eat() មាននៅក្នុងទាំំង Cat និង\nDog, ប៉ុន្តែ <code>meow()</code> និង <code>bark()</code> ជាលក្ខណៈផ្ទាល់ខ្លួន។\nលទ្ធផល៖\nញុំា!\nម៉\nៅ!\nញុំា!\nវ៉ុុហ្វ!\n9.3.5 Hybrid Inheritance - ការទទួលមរតកបែបលាយ\nការរួមបញ្ចូលគ្នានៃប្រភេទទទួលមរតកផ្សេងៗ (ឧ. multilevel និង multiple)។\nឧទាហរណ៍៖\nclass Animal:\n    def eat(self):\n        print(\"ញុំា!\")\nclass Flyer:\n    def fly(self):\n        print(\"ហោ\nះ\nះ!\")\nclass Bird(Animal):\n    def chirp(self):\n        print(\"ជីប! ជីប!\")\nclass Parrot(Bird, Flyer):\n    def talk(self):\n        print(\"ខ្ញុំំអាចនិយាយបាន!\")\nparrot = Parrot()\nparrot.eat()\nparrot.chirp()\nparrot.fly()\nparrot.talk()",
+          "code": "dog.eat()\ndog.bark()\nclass Animal:\n    def eat(self):\nclass Flyer:\n    def fly(self):\nclass Bird(Animal):\n    def chirp(self):\nclass Parrot(Bird, Flyer):\n    def talk(self):\nparrot = Parrot()\nparrot.eat()\nparrot.chirp()\nparrot.fly()\nparrot.talk()",
+          "preview": {
+            "title": "Python · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 28",
+            "9.3.5 Hybrid Inheritance - ការទទួលមរតកបែបលាយ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-python-page-29",
+          "label": "PDF 29. 9.4 Polymorphism - ពហុរូបភាព",
+          "heading": "9.4 Polymorphism - ពហុរូបភាព",
+          "intro": "ការពន្យល់៖Bird ទទួលមរតកពី Animal (single), Parrot ទទួលមរតកពី Bird (multilevel) និង Flyer (multiple), ដូច្នេះ Parrot អាច <code>eat()</code>, <code>chirp()</code>, <code>fly() </code>, និង <code>talk()</code>។",
+          "bodyHeading": "Source content · python1.pdf · page 29",
+          "body": "ការពន្យល់៖Bird ទទួលមរតកពី Animal (single), Parrot ទទួលមរតកពី Bird (multilevel) និង Flyer\n(multiple), ដូច្នេះ Parrot អាច <code>eat()</code>, <code>chirp()</code>, <code>fly()\n</code>, និង <code>talk()</code>។\nលទ្ធផល៖\nញុំា!\nជីប! ជីប!\nហោ\nះ\nះ!\nខ្ញុំំអាចនិយាយបាន!\n9.4 Polymorphism - ពហុរូបភាព\nPolymorphism អនុញ្ញាតឱ្យវត្ថុផ្សេងគ្នាឆ្លើយតបទៅនឹងមុខងារដូចគ្នាតាមវិធីផ្សេងគ្នា។\nឧទាហរណ៍៖\nclass Cat:\n    def sound(self):\n        print(\"ម៉\nៅ!\")\nclass Dog:\n    def sound(self):\n        print(\"វ៉ុុហ្វ!\")\ndef make_sound(animal):\n    animal.sound()\ncat = Cat()\ndog = Dog()\nmake_sound(cat)\nmake_sound(dog)\nការពន្យល់៖sound() ត្រូូវបានកំណត់ខុសគ្នានៅក្នុង Cat និង Dog, make_sound() អាចហៅ\n<code>sound()</code> លើវត្ថុណាមួយដែលមានមុខងារនេះះ។\nលទ្ធផល៖\nម៉\nៅ!\nវ៉ុុហ្វ!",
+          "code": "class Cat:\n    def sound(self):\nclass Dog:\n    def sound(self):\ndef make_sound(animal):\n    animal.sound()\ncat = Cat()\ndog = Dog()\nmake_sound(cat)\nmake_sound(dog)",
+          "preview": {
+            "title": "Python · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 29",
+            "9.4 Polymorphism - ពហុរូបភាព"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-python-page-30",
+          "label": "PDF 30. 9.5 Encapsulation - ការវេចខ្ចប់",
+          "heading": "9.5 Encapsulation - ការវេចខ្ចប់",
+          "intro": "Encapsulation លាក់ព័ត៌មានខាងក្នុងរបស់វត្ថុ និងអនុញ្ញាតឱ្យចូលប្រើតាមវិធីសាស្ ត្រជាក់លាក់ប៉ុណ្ ណោះ។",
+          "bodyHeading": "Source content · python1.pdf · page 30",
+          "body": "9.5 Encapsulation - ការវេចខ្ចប់\nEncapsulation លាក់ព័ត៌មានខាងក្នុងរបស់វត្ថុ និងអនុញ្ញាតឱ្យចូលប្រើតាមវិធីសាស្\nត្រជាក់លាក់ប៉ុណ្\nណោះ។\nឧទាហរណ៍៖\nclass Student:\n    def __init__(self, name):\n        self.__grade = 85  # private attribute\n    def get_grade(self):\n        return self.__grade\n    def set_grade(self, grade):\n        if 0 <= grade <= 100:\n            self.__grade = grade\nstudent = Student(\"សុភី\")\nprint(student.get_grade())\nstudent.set_grade(90)\nprint(student.get_grade())\nការពន្យល់៖__grade ជាលក្ខណៈឯកជន (private) ដែលមិនអាចចូលប្រើដោយផ្ទាល់, get_grade() ទាញ\nតម្លៃ, set_grade() កែតម្លៃដោយមានលក្ខណ្ឌ។\nលទ្ធផល៖\n85\n90\n9.6 Magic Methods (__str__, __len__, etc.) - វិធីសាស្\nត្រវេទ\nមន្ត\nMagic methods ជាមុខងារពិសេសដែលចាប់ផ្តើម និងបញ្ចប់ដោយ __ ដើម្បីីកំណត់ឥរិយាបថផ្ទាល់ខ្លួនរបស់\nវត្ថុ។\nឧទាហរណ៍៖\nclass Book:\n    def __init__(self, title, pages):\n        self.title = title\n        self.pages = pages\n    \n    def __str__(self):",
+          "code": "class Student:\n    def __init__(self, name):\n        self.__grade = 85  # private attribute\n    def get_grade(self):\n        return self.__grade\n    def set_grade(self, grade):\n        if 0 <= grade <= 100:\n            self.__grade = grade\nprint(student.get_grade())\nstudent.set_grade(90)\nprint(student.get_grade())\nclass Book:\n    def __init__(self, title, pages):\n        self.title = title\n        self.pages = pages",
+          "preview": {
+            "title": "Python · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 30",
+            "9.5 Encapsulation - ការវេចខ្ចប់"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-python-page-31",
+          "label": "PDF 31. 10.1 try-except Blocks - ប្លុក try-except",
+          "heading": "10.1 try-except Blocks - ប្លុក try-except",
+          "intro": "return f\"សៀវភៅ: {self.title}\" def __len__(self): return self.pages",
+          "bodyHeading": "Source content · python1.pdf · page 31",
+          "body": "return f\"សៀវភៅ: {self.title}\"\n    \n    def __len__(self):\n        return self.pages\nbook = Book(\"Python សម្រាា\nប់អ្នកចាប់ផ្តើម\", 300)\nprint(book)\nprint(len(book))\nការពន្យល់៖__str__ កំណត់អ្វីីដែលត្រូូវបង្ហាញនៅពេលបោះពុម្ពវត្ថុ, __len__ កំណត់ប្រវែងនៃវត្ថុនៅពេលប្រើ\n<code>len()</code>។\nលទ្ធផល៖\nសៀវភៅ: Python សម្រាា\nប់អ្នកចាប់ផ្តើម\n300\n10. Exception Handling - ការគ្រប់គ្រងករណីលើក\nលែង\nException Handling នៅក្នុង Python ជាវិធីសាស្\nត្រដើម្បីីដោះស្\nរាយកំហុស (errors) ដែល\nកើតឡើងអំឡុងពេលដំណើរការកម្មវិធី ដើម្បីីការពារកម្មវិធីពីការគាំំង។ ផ្នែកនេះះនឹងបង្ហាញពីវិធីគ្រប់គ្រង\nករណីលើកលែង។\n10.1 try-except Blocks - ប្លុក try-except\ntry-except ប្លុកប្រើដើម្បីីសាកល្បងកូដដែលអាចមានកំហុស និងចាប់យកកំហុសប្រសិនបើវាកើតឡើង។\nឧទាហរណ៍៖\ntry:\n    number = int(input(\"បញ្ចូលលេខ: \"))\n    result = 10 / number\n    print(f\"លទ្ធផល: {result}\")\nexcept ZeroDivisionError:\n    print(\"មិនអាចបែងចែកដោយ 0 បានទេ!\")",
+          "code": "def __len__(self):\n        return self.pages\nprint(book)\nprint(len(book))\n    result = 10 / number",
+          "preview": {
+            "title": "Python · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 31",
+            "10.1 try-except Blocks - ប្លុក try-except"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-python-page-32",
+          "label": "PDF 32. 10.2 Raising Exceptions (raise) - ការបង្កើតករណីលើកលែង",
+          "heading": "10.2 Raising Exceptions (raise) - ការបង្កើតករណីលើកលែង",
+          "intro": "except ValueError: print(\"សូមបញ្ចូលលេខគត់!\") ការពន្យល់៖try សាកល្បងកូដដែលអាចមានកំហុស, except ZeroDivisionError ចាប់កំហុសនៃ",
+          "bodyHeading": "Source content · python1.pdf · page 32",
+          "body": "except ValueError:\n    print(\"សូមបញ្ចូលលេខគត់!\")\nការពន្យល់៖try សាកល្បងកូដដែលអាចមានកំហុស, except ZeroDivisionError ចាប់កំហុសនៃ\nការបែងចែកដោយ 0, except ValueError ចាប់កំហុសនៃការបញ្ចូលតម្លៃមិនមែនលេខ។\nលទ្ធផល (បញ្ចូល 0)៖\nមិនអាចបែងចែកដោយ 0 បានទេ!\nលទ្ធផល (បញ្ចូល 'abc')៖\nសូមបញ្ចូលលេខគត់!\n10.2 Raising Exceptions (raise) - ការបង្កើតករណីលើកលែង\nraise ប្រើដើម្បីីបង្កើតកំហុសដោយចេតនា នៅពេលលក្ខណ្ឌមួយមិនត្រូូវបានបំពេញ។\nឧទាហរណ៍៖\ndef check_age(age):\n    if age < 0:\n        raise ValueError(\"អាយុមិនអាចតូចជាង 0 បានទេ!\")\n    print(f\"អាយុរបស់អ្នកគឺ {age} ឆ្នាំំ\")\ntry:\n    check_age(-5)\nexcept ValueError as error:\n    print(error)\nការពន្យល់៖raise ValueError បង្កើតកំហុសប្រសិនបើអាយុតូចជាង 0, except ValueError as\nerror ចាប់កំហុសនិងបង្ហាញសារ។\nលទ្ធផល៖\nអាយុមិនអាចតូចជាង 0 បានទេ!\n10.3 Custom Exceptions - ករណីលើកលែងផ្ទាល់ខ្លួន\nអ្នកអាចបង្កើត custom exceptions ដោយបង្កើតថ្នាក់ថ្មីីដែលទទួលមរតកពី Exception។\nឧទាហរណ៍៖",
+          "code": "def check_age(age):\n    check_age(-5)\n    print(error)",
+          "preview": {
+            "title": "Python · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 32",
+            "10.2 Raising Exceptions (raise) - ការបង្កើតករណីលើកលែង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-python-page-33",
+          "label": "PDF 33. 11.1 math (Mathematical Functions) - ម៉ូឌុល math (មុខងារ",
+          "heading": "11.1 math (Mathematical Functions) - ម៉ូឌុល math (មុខងារ",
+          "intro": "  class NegativeNumberError(Exception):",
+          "bodyHeading": "Source content · python1.pdf · page 33",
+          "body": "\n\nclass NegativeNumberError(Exception):\n    pass\ndef divide(a, b):\n    if b < 0:\n        raise NegativeNumberError(\"មិនអាចបែងចែកដោយលេខអវិជ្ជមានបានទេ!\n    return a / b\ntry:\n    result = divide(10, -2)\nexcept NegativeNumberError as error:\n    print(error)\nexcept ZeroDivisionError:\n    print(\"មិនអាចបែងចែកដោយ 0 បានទេ!\")\nការពន្យល់៖class NegativeNumberError(Exception) បង្កើតករណីលើកលែងផ្ទាល់ខ្លួន, raise\nNegativeNumberError បង្កើតកំហុសផ្ទាល់ខ្លួនប្រសិនបើ b អវិជ្ជមាន, except\nNegativeNumberError ចាប់កំហុសផ្ទាល់ខ្លួន។\nលទ្ធផល៖\nមិនអាចបែងចែកដោយលេខអវិជ្ជមានបានទេ!\n11. Python Modules & Standard Libraries -\nម៉ូឌុល និង បណ្ណាល័យស្តង់ដាររបស់ Python\nPython Modules និង Standard Libraries ជាសំណុំនៃមុខងារដែលមានស្\nរាប់នៅក្នុង\nPython ដើម្បីីជួយសម្រួួលការងារផ្សេងៗដូចជា គណនា គ្រប់គ្រងកាលបរិច្ឆេទ ឬធ្វើការជាមួយប្រព័ន្ធ\nប្រតិបត្តិិការ។ ផ្នែកនេះះនឹងបង្ហាញពីម៉ូឌុលសំខាន់ៗមួយចំនួន។\n11.1 math (Mathematical Functions) - ម៉ូឌុល math (មុខងារ\nគណិតវិទ្យា)\nmath module ផ្តល់មុខងារគណិតវិទ្យាដូចជា ឫសការ៉េ ស៊ីីនុស និងការប្រមូលផ្តុំំ។",
+          "code": "class NegativeNumberError(Exception):\ndef divide(a, b):\n    return a / b\n    result = divide(10, -2)\n    print(error)",
+          "preview": {
+            "title": "Python · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 33",
+            "11.1 math (Mathematical Functions) - ម៉ូឌុល math (មុខងារ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-python-page-34",
+          "label": "PDF 34. 11.2 datetime (Date & Time) - ម៉ូឌុល datetime (កាលបរិច្ឆេទ",
+          "heading": "11.2 datetime (Date & Time) - ម៉ូឌុល datetime (កាលបរិច្ឆេទ",
+          "intro": "ឧទាហរណ៍៖ import math print(math.sqrt(16))  # ឫសការ៉េ",
+          "bodyHeading": "Source content · python1.pdf · page 34",
+          "body": "ឧទាហរណ៍៖\nimport math\nprint(math.sqrt(16))  # ឫសការ៉េ\nprint(math.pi)        # តម្លៃ π\nprint(math.sin(math.pi / 2))  # ស៊ីីនុស 90 ដឺក្រេ\nការពន្យល់៖import math នាំំចូលម៉ូឌុល math, math.sqrt() គណនាឫសការ៉េ, math.pi តម្លៃថេរ π,\nmath.sin() គណនាស៊ីីនុស (តម្លៃជា radian)។\nលទ្ធផល៖\n4.0\n3.141592653589793\n1.0\n11.2 datetime (Date & Time) - ម៉ូឌុល datetime (កាលបរិច្ឆេទ\nនិង ពេលវេលា)\ndatetime module ជួយគ្រប់គ្រងកាលបរិច្ឆេទ និងពេលវេលា។\nឧទាហរណ៍៖\nfrom datetime import datetime\n# ពេលវេលាបច្ចុប្បន្ន\nnow = datetime.now()\nprint(f\"ថ្ងៃនេ\nះ\nះ: {now.strftime('%Y-%m-%d %H:%M:%S')}\")\n# កាលបរិច្ឆេទជាក់លាក់\nbirthday = datetime(2000, 5, 15)\nprint(f\"ថ្ងៃកំណើត: {birthday.strftime('%Y-%m-%d')}\")\nការពន្យល់៖from datetime import datetime នាំំចូល datetime class, datetime.now()\nទាញពេលវេលាបច្ចុប្បន្ន, strftime() ធ្វើទ្រង់ទ្\nរាយកាលបរិច្ឆេទទៅជាអក្សរ, datetime(2000, 5, 15)\nបង្កើតកាលបរិច្ឆេទជាក់លាក់។\nលទ្ធផល (ឧទាហរណ៍)៖",
+          "code": "import math\nfrom datetime import datetime\nnow = datetime.now()\nbirthday = datetime(2000, 5, 15)",
+          "preview": {
+            "title": "Python · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 34",
+            "11.2 datetime (Date & Time) - ម៉ូឌុល datetime (កាលបរិច្ឆេទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-python-page-35",
+          "label": "PDF 35. 11.3 random (Generating Random Data) - ម៉ូឌុល random",
+          "heading": "11.3 random (Generating Random Data) - ម៉ូឌុល random",
+          "intro": "ថ្ងៃនេ ះ ះ: 2025-04-10 12:00:00",
+          "bodyHeading": "Source content · python1.pdf · page 35",
+          "body": "ថ្ងៃនេ\nះ\nះ: 2025-04-10 12:00:00\nថ្ងៃកំណើត: 2000-05-15\n11.3 random (Generating Random Data) - ម៉ូឌុល random\n(បង្កើតទិន្ន័យចៃដន្យ)\nrandom module បង្កើតលេខ ឬទិន្ន័យចៃដន្យសម្\nរាប់ការប្រើប្\nរាស់ផ្សេងៗ។\nឧទាហរណ៍៖\nimport random\nprint(random.randint(1, 10))  # លេខចៃដន្យ 1-10\nprint(random.choice([\"ផ្លែប៉ោ\nម\", \"ផ្លែចេក\", \"ផ្លែឪឡឹក\"]))  # ជ្រើសរើសចៃដន្យ\nnumbers = [1, 2, 3, 4, 5]\nrandom.shuffle(numbers)  # សាប់ចៃដន្យ\nprint(numbers)\nការពន្យល់៖random.randint(1, 10) បង្កើតលេខគត់ចៃដន្យរវាង 1 និង 10, random.choice()\nជ្រើសរើសធាតុមួយចៃដន្យពីបញ្ជីី, random.shuffle() សាប់លំដាប់ធាតុក្នុងបញ្ជីី។\nលទ្ធផល (ឧទាហរណ៍)៖\n7\nផ្លែចេក\n[3, 1, 5, 2, 4]\n11.4 os (Interacting with OS) - ម៉ូឌុល os (ធ្វើអន្តរកម្មជាមួយ\nប្រព័ន្ធប្រតិបត្តិិការ)\nos module អនុញ្ញាតឱ្យធ្វើអន្តរកម្មជាមួយប្រព័ន្ធប្រតិបត្តិិការ ដូចជាគ្រប់គ្រងឯកសារ ឬថតឯកសារ។\nឧទាហរណ៍៖\nimport os\n# ទាញថតបច្ចុប្បន្ន\nprint(os.getcwd())\n# បង្កើតថតថ្មីី",
+          "code": "import random\nnumbers = [1, 2, 3, 4, 5]\nprint(numbers)\n[3, 1, 5, 2, 4]\nimport os\nprint(os.getcwd())",
+          "preview": {
+            "title": "Python · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 35",
+            "11.3 random (Generating Random Data) - ម៉ូឌុល random"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-python-page-36",
+          "label": "PDF 36. 11.5 sys (System-specific Parameters) - ម៉ូឌុល sys (ប៉ារ៉ាម៉ែ",
+          "heading": "11.5 sys (System-specific Parameters) - ម៉ូឌុល sys (ប៉ារ៉ាម៉ែ",
+          "intro": "  os.mkdir(\"test_folder\")",
+          "bodyHeading": "Source content · python1.pdf · page 36",
+          "body": "\n\nos.mkdir(\"test_folder\")\n# ប្តូរឈ្\nមោះះថត\nos.rename(\"test_folder\", \"new_folder\")\n# លុបថត\nos.rmdir(\"new_folder\")\nការពន្យល់៖os.getcwd() ទាញផ្លូវថតបច្ចុប្បន្ន, os.mkdir() បង្កើតថតថ្មីី, os.rename() ប្តូរឈ្\nមោះថត,\nos.rmdir() លុបថតទទេ។\nលទ្ធផល (ឧទាហរណ៍)៖\n/home/user/projects\n11.5 sys (System-specific Parameters) - ម៉ូឌុល sys (ប៉ារ៉ាម៉ែ\nត្រជាក់លាក់របស់ប្រព័ន្ធ)\nsys module ផ្តល់ព័ត៌មាន និងគ្រប់គ្រងប៉ារ៉ាម៉ែត្រជាក់លាក់របស់ប្រព័ន្ធ Python។\nឧទាហរណ៍៖\nimport sys\n# បង្ហាញជំនាន់ Python\nprint(sys.version)\n# ទាញអាគុយម៉ង់ពី command line\nprint(sys.argv)\n# ចាកចេញពីកម្មវិធី\n# sys.exit(0)  # បញ្ចប់ដោយជោគជ័យ (បានបញ្ចូលជា comment ដើម្បីីបង្ហាញលទ្ធផល)\nការពន្យល់៖sys.version បង្ហាញជំនាន់ Python, sys.argv ទាញបញ្ជីីអាគុយម៉ង់ពី command line,\nsys.exit() បញ្ចប់កម្មវិធី (0 = ជោគជ័យ, ផ្សេងទៀទៀត = បរាជ័យ)។\nលទ្ធផល (ឧទាហរណ៍)៖",
+          "code": "os.mkdir(\"test_folder\")\nos.rename(\"test_folder\", \"new_folder\")\nos.rmdir(\"new_folder\")\nimport sys\nprint(sys.version)\nprint(sys.argv)",
+          "preview": {
+            "title": "Python · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 36",
+            "11.5 sys (System-specific Parameters) - ម៉ូឌុល sys (ប៉ារ៉ាម៉ែ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-python-page-37",
+          "label": "PDF 37. 3.11.2 (main, Feb  7 2023, 23:15:45) [GCC 10.2.1]",
+          "heading": "3.11.2 (main, Feb  7 2023, 23:15:45) [GCC 10.2.1]",
+          "intro": "['script.py', 'arg1', 'arg2'] 12. Functional Programming - ការសរសេរកម្មវិធី បែបមុខងារ",
+          "bodyHeading": "Source content · python1.pdf · page 37",
+          "body": "3.11.2 (main, Feb  7 2023, 23:15:45) [GCC 10.2.1]\n['script.py', 'arg1', 'arg2']\n12. Functional Programming - ការសរសេរកម្មវិធី\nបែបមុខងារ\nFunctional Programming ជាវិធីសាស្\nត្រសរសេរកម្មវិធីដែលផ្តោតលើការប្រើមុខងារ\n(functions) និងជៀជៀសវាងការផ្លាស់ប្តូរស្ថានភាព (state)។ Python គាំំទ្រឧបករណ៍សម្\nរាប់ការ\nសរសេរបែបនេះះដូចជា map, filter, និង reduce។\n12.1 Map, Filter, Reduce - ម៉ែប ហ្វីីលធឺ និង រីឌុស\nmap, filter, និង reduce ជាមុខងារដែលធ្វើការជាមួយបញ្ជីីដោយបែបមុខងារ។\nឧទាហរណ៍៖\nfrom functools import reduce\n# map: អនុវត្តមុខងារលើធាតុនីមួយៗ\nnumbers = [1, 2, 3, 4]\nsquared = list(map(lambda x: x**2, numbers))\nprint(squared)\n# filter: ជ្រើសរើសធាតុតាមលក្ខ\nណ្ឌ\nevens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)\n# reduce: បញ្ចូលធាតុទាំងអស់ទៅជាតម្លៃតែមួយ\nsum_result = reduce(lambda x, y: x + y, numbers)\nprint(sum_result)\nការពន្យល់៖\n- map(lambda x: x**2, numbers) ប្តូរធាតុនីមួយៗទៅជាការ៉េ,\n- filter(lambda x: x % 2 == 0, numbers) ជ្រើសតែលេខគូ,\n- reduce(lambda x, y: x + y, numbers) បូកធាតុទាំំងអស់,",
+          "code": "3.11.2 (main, Feb  7 2023, 23:15:45) [GCC 10.2.1]\n['script.py', 'arg1', 'arg2']\nfrom functools import reduce\nnumbers = [1, 2, 3, 4]\nsquared = list(map(lambda x: x**2, numbers))\nprint(squared)\nevens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)\nsum_result = reduce(lambda x, y: x + y, numbers)\nprint(sum_result)",
+          "preview": {
+            "title": "Python · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 37",
+            "3.11.2 (main, Feb  7 2023, 23:15:45) [GCC 10.2.1]"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-python-page-38",
+          "label": "PDF 38. 12.2 List Comprehensions - ការបង្កើតបញ្ជីីបែបសង្ខេប",
+          "heading": "12.2 List Comprehensions - ការបង្កើតបញ្ជីីបែបសង្ខេប",
+          "intro": "- from functools import reduce នាំំចូល <code>reduce</code> ពី <code>functools</code>។ លទ្ធផល៖",
+          "bodyHeading": "Source content · python1.pdf · page 38",
+          "body": "- from functools import reduce នាំំចូល <code>reduce</code> ពី\n<code>functools</code>។\nលទ្ធផល៖\n[1, 4, 9, 16]\n[2, 4]\n10\n12.2 List Comprehensions - ការបង្កើតបញ្ជីីបែបសង្ខេប\nList comprehensions ជាវិធីសង្ខេបក្នុងការបង្កើតបញ្ជីីដោយប្រើនិយាយកថាខ្លីី និងមានប្រសិទ្ធភាព។\nឧទាហរណ៍៖\n# បញ្ជីីការ៉េ\nsquares = [x**2 for x in range(5)]\nprint(squares)\n# បញ្ជីីលេខគូ\nevens = [x for x in range(10) if x % 2 == 0]\nprint(evens)\nការពន្យល់៖[x**2 for x in range(5)] បង្កើតបញ្ជីីការ៉េនៃលេខ 0-4, [x for x in range(10)\nif x % 2 == 0] បង្កើតបញ្ជីីលេខគូពី 0-9។\nលទ្ធផល៖\n[0, 1, 4, 9, 16]\n[0, 2, 4, 6, 8]\n12.3 Generators & Iterators - ឧបករណ៍បង្កើត និង ឧបករណ៍រាប់\nGenerators និង Iterators ជួយគ្រប់គ្រងទិន្ន័យជាលំដាប់ដោយសន្សំំសំចៃអង្គចងចាំំ។\nឧទាហរណ៍៖\n# Generator\ndef count_up_to(n):\n    for i in range(n):\n        yield i",
+          "code": "[1, 4, 9, 16]\n[2, 4]\nsquares = [x**2 for x in range(5)]\nprint(squares)\nprint(evens)\n[0, 1, 4, 9, 16]\n[0, 2, 4, 6, 8]\n# Generator\ndef count_up_to(n):\n    for i in range(n):",
+          "preview": {
+            "title": "Python · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 38",
+            "12.2 List Comprehensions - ការបង្កើតបញ្ជីីបែបសង្ខេប"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-python-page-39",
+          "label": "PDF 39. 13.1 Threading in Python (threading module) - ការដំណើរ",
+          "heading": "13.1 Threading in Python (threading module) - ការដំណើរ",
+          "intro": "counter = count_up_to(5) print(list(counter)) # Iterator",
+          "bodyHeading": "Source content · python1.pdf · page 39",
+          "body": "counter = count_up_to(5)\nprint(list(counter))\n# Iterator\nnumbers = iter([1, 2, 3, 4])\nprint(next(numbers))\nprint(next(numbers))\nការពន្យល់៖\n- yield បង្កើត generator ដែលផ្តល់តម្លៃម្តងមួយៗ,\n- count_up_to(5) ផ្តល់លេខ 0-4 តាមលំដាប់,\n- iter() បង្កើត iterator ពីបញ្ជីី,\n- next() ទាញធាតុបន្ទាប់ពី iterator។\nលទ្ធផល៖\n[0, 1, 2, 3, 4]\n1\n2\n13. Multithreading & Multiprocessing - ការ\nដំណើរការច្រើនខ្សែ និង ច្រើនដំណើរការ\nMultithreading និង Multiprocessing ជាវិធីសាស្\nត្រដើម្បីីដំណើរការកិច្ចការច្រើនក្នុងពេល\nតែមួយនៅក្នុង Python។ threading ប្រើសម្\nរាប់ខ្សែបន្តបន្ទាប់ (threads) ក្នុងដំណើរការតែមួយ\nចំណែក multiprocessing ប្រើដំណើរការច្រើន (processes) ដើម្បីីទាញយកអត្ថប្រយោជន៍ពី\nCPU ច្រើនស្នូល។\n13.1 Threading in Python (threading module) - ការដំណើរ\nការច្រើនខ្សែ (ម៉ូឌុល threading)\nthreading module អនុញ្ញាតឱ្យដំណើរការកិច្ចការច្រើនក្នុងខ្សែបន្តបន្ទាប់ (threads) ដែលស័ក្តិិសមសម្\nរាប់\nការងារ I/O-bound (ឧ. ការអាន/សរសេរឯកសារ)។\nឧទាហរណ៍៖",
+          "code": "counter = count_up_to(5)\nprint(list(counter))\n# Iterator\nnumbers = iter([1, 2, 3, 4])\nprint(next(numbers))\nprint(next(numbers))\n[0, 1, 2, 3, 4]",
+          "preview": {
+            "title": "Python · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 39",
+            "13.1 Threading in Python (threading module) - ការដំណើរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-python-page-40",
+          "label": "PDF 40. 13.2 Parallel Processing (multiprocessing module) - ការ",
+          "heading": "13.2 Parallel Processing (multiprocessing module) - ការ",
+          "intro": "import threading import time def task(name):",
+          "bodyHeading": "Source content · python1.pdf · page 40",
+          "body": "import threading\nimport time\ndef task(name):\n    print(f\"ខ្\nសែ {name} ចាប់ផ្តើម\")\n    time.sleep(2)  # ក្លែងធ្វើការងារដែលចំណាយពេល\n    print(f\"ខ្\nសែ {name} បញ្ចប់\")\n# បង្កើតខ្\nសែ\nt1 = threading.Thread(target=task, args=(\"ទី១\",))\nt2 = threading.Thread(target=task, args=(\"ទី២\",))\n# ចាប់ផ្តើមខ្\nសែ\nt1.start()\nt2.start()\n# រង់ចាំខ្\nសែបញ្ចប់\nt1.join()\nt2.join()\nprint(\"ការងារទាំងអស់បញ្ចប់\")\nការពន្យល់៖\n- import threading នាំំចូលម៉ូឌុល threading,\n- threading.Thread(target=task, args=...) បង្កើតខ្សែថ្មីីជាមួយមុខងារ target,\n- start() ចាប់ផ្តើមខ្សែ,\n- join() រង់ចាំំខ្សែបញ្ចប់មុននឹងបន្ត។\nលទ្ធផល៖\nខ្\nសែ ទី១ ចាប់ផ្តើម\nខ្\nសែ ទី២ ចាប់ផ្តើម\n(រង់ចាំ 2 វិនាទី)\nខ្\nសែ ទី១ បញ្ចប់\nខ្\nសែ ទី២ បញ្ចប់\nការងារទាំងអស់បញ្ចប់\n13.2 Parallel Processing (multiprocessing module) - ការ\nដំណើរការស្រ\nបគ្នា (ម៉ូឌុល multiprocessing)",
+          "code": "import threading\nimport time\ndef task(name):\nt1.start()\nt2.start()\nt1.join()\nt2.join()",
+          "preview": {
+            "title": "Python · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 40",
+            "13.2 Parallel Processing (multiprocessing module) - ការ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-45",
+      "items": [
+        {
+          "id": "pdf-python-page-41",
+          "label": "PDF 41. Source lesson page 41",
+          "heading": "Source lesson page 41",
+          "intro": "  multiprocessing module ប្រើដំណើរការច្រើន (processes) ដើម្បីីដំណើរការកិច្ចការស្រ",
+          "bodyHeading": "Source content · python1.pdf · page 41",
+          "body": "\n\nmultiprocessing module ប្រើដំណើរការច្រើន (processes) ដើម្បីីដំណើរការកិច្ចការស្រ\nបគ្នា ស័ក្តិិសម\nសម្\nរាប់ការងារ CPU-bound (ឧ. ការគណនាធំៗ)។\nឧទាហរណ៍៖\nimport multiprocessing\nimport time\ndef square_number(n):\n    print(f\"ដំណើរការ {multiprocessing.current_process().name} គណនា {n}*\n    time.sleep(1)  # ក្លែងធ្វើការងារដែលចំណាយពេល\n    return n**2\nif __name__ == \"__main__\":\n    numbers = [1, 2, 3, 4]\n    \n    # បង្កើត Pool នៃដំណើរការ\n    with multiprocessing.Pool(processes=2) as pool:\n        results = pool.map(square_number, numbers)\n    \n    print(f\"លទ្ធផល: {results}\")\nការពន្យល់៖\n- import multiprocessing នាំំចូលម៉ូឌុល multiprocessing,\n- multiprocessing.Pool(processes=2) បង្កើតក្រុុមដំណើរការចំនួន 2,\n- pool.map() អនុវត្តមុខងារ square_number លើធាតុនីមួយៗស្រ\nបគ្នា,\n- if __name__ == '__main__': ចាំំបាច់សម្\nរាប់ multiprocessing នៅលើ Windows។\nលទ្ធផល៖\nដំណើរការ PoolWorker-1 គណនា 1**2\nដំណើរការ PoolWorker-2 គណនា 2**2\n(រង់ចាំ 1 វិនាទី)\nដំណើរការ PoolWorker-1 គណនា 3**2\nដំណើរការ PoolWorker-2 គណនា 4**2\n(រង់ចាំ 1 វិនាទី)\nលទ្ធផល: [1, 4, 9, 16]",
+          "code": "import multiprocessing\nimport time\ndef square_number(n):\n    return n**2\nif __name__ == \"__main__\":\n    numbers = [1, 2, 3, 4]",
+          "preview": {
+            "title": "Python · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 41",
+            "Source lesson page 41"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 41
+        },
+        {
+          "id": "pdf-python-page-42",
+          "label": "PDF 42. 14.1 SQLite (sqlite3 module) - SQLite (ម៉ូឌុល sqlite3)",
+          "heading": "14.1 SQLite (sqlite3 module) - SQLite (ម៉ូឌុល sqlite3)",
+          "intro": "  14. Database Handling - ការគ្រប់គ្រងមូលដ្ឋាន",
+          "bodyHeading": "Source content · python1.pdf · page 42",
+          "body": "\n\n14. Database Handling - ការគ្រប់គ្រងមូលដ្ឋាន\nទិន្ន័យ\nDatabase Handling នៅក្នុង Python អនុញ្ញាតឱ្យធ្វើអន្តរកម្មជាមួយមូលដ្ឋានទិន្ន័យដូចជា\nSQLite, MySQL, និង PostgreSQL ដើម្បីីរក្សាទុក និងទាញយកទិន្ន័យ។ ផ្នែកនេះះនឹងបង្ហាញ\nពីរបៀបៀបប្រើម៉ូឌុលសម្\nរាប់មូលដ្ឋានទិន្ន័យទាំំងនេះះ។\n14.1 SQLite (sqlite3 module) - SQLite (ម៉ូឌុល sqlite3)\nsqlite3 module ជាម៉ូឌុលស្តង់ដារសម្\nរាប់ធ្វើការជាមួយ SQLite ដែលជាមូលដ្ឋានទិន្ន័យទម្ងន់ស្\nរាល និង\nមិនតម្រូូវឱ្យមាន server ដាច់ដោយឡែក។\nឧទាហរណ៍៖\nimport sqlite3\n# ភ្ជាប់ទៅមូលដ្ឋានទិន្ន័\nយ\nconn = sqlite3.connect(\"students.db\")\ncursor = conn.cursor()\n# បង្កើតតារាង\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY \n# បញ្ចូលទិន្ន័\nយ\ncursor.execute(\"INSERT INTO students (name, age) VALUES (?, ?)\", (\"សុខា\"\n# ទាញទិន្ន័\nយ\ncursor.execute(\"SELECT * FROM students\")\nprint(cursor.fetchall())\n# រក្សាទុក និងបិទ\nconn.commit()\nconn.close()\nការពន្យល់៖\n- sqlite3.connect() ភ្ជាប់ទៅឯកសារ .db (បង្កើតបើមិនទាន់មាន),\n- cursor.execute() ប្រតិបត្តិិពាក្យបញ្ជា SQL,",
+          "code": "import sqlite3\nconn = sqlite3.connect(\"students.db\")\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY\ncursor.execute(\"SELECT * FROM students\")\nprint(cursor.fetchall())\nconn.commit()\nconn.close()",
+          "preview": {
+            "title": "Python · PDF page 42",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 42",
+            "14.1 SQLite (sqlite3 module) - SQLite (ម៉ូឌុល sqlite3)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 42
+        },
+        {
+          "id": "pdf-python-page-43",
+          "label": "PDF 43. 14.2 MySQL (mysql-connector) - MySQL (mysql-",
+          "heading": "14.2 MySQL (mysql-connector) - MySQL (mysql-",
+          "intro": "- INSERT INTO បញ្ចូលទិន្ន័យ, - fetchall() ទាញទិន្ន័យទាំំងអស់, - conn.commit() រក្សាទុកការផ្លាស់ប្តូរ,",
+          "bodyHeading": "Source content · python1.pdf · page 43",
+          "body": "- INSERT INTO បញ្ចូលទិន្ន័យ,\n- fetchall() ទាញទិន្ន័យទាំំងអស់,\n- conn.commit() រក្សាទុកការផ្លាស់ប្តូរ,\n- conn.close() បិទការតភ្ជាប់។\nលទ្ធផល (ឧទាហរណ៍)៖\n[(1, 'សុខា', 25)]\n14.2 MySQL (mysql-connector) - MySQL (mysql-\nconnector)\nmysql-connector-python ជាម៉ូឌុលសម្\nរាប់ភ្ជាប់ Python ទៅ MySQL server។ ត្រូូវតំឡើងវាដោយប្រើ\npip install mysql-connector-python។\nឧទាហរណ៍៖\nimport mysql.connector\n# ភ្ជាប់ទៅ MySQL server\nconn = mysql.connector.connect(\n    host=\"localhost\",\n    user=\"root\",\n    password=\"your_password\",\n    database=\"school\"\n)\ncursor = conn.cursor()\n# បង្កើតតារាង\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREME\n# បញ្ចូលទិន្ន័\nយ\ncursor.execute(\"INSERT INTO students (name, age) VALUES (%s, %s)\", (\"សុភី\n# ទាញទិន្ន័\nយ\ncursor.execute(\"SELECT * FROM students\")\nprint(cursor.fetchall())\n# រក្សាទុក និងបិទ",
+          "code": "connector)\nimport mysql.connector\nconn = mysql.connector.connect(\n    host=\"localhost\",\n    user=\"root\",\n    password=\"your_password\",\n    database=\"school\"\n)\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREME\ncursor.execute(\"SELECT * FROM students\")\nprint(cursor.fetchall())",
+          "preview": {
+            "title": "Python · PDF page 43",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 43",
+            "14.2 MySQL (mysql-connector) - MySQL (mysql-"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 43
+        },
+        {
+          "id": "pdf-python-page-44",
+          "label": "PDF 44. 14.3 PostgreSQL (psycopg2) - PostgreSQL (psycopg2)",
+          "heading": "14.3 PostgreSQL (psycopg2) - PostgreSQL (psycopg2)",
+          "intro": "  conn.commit()",
+          "bodyHeading": "Source content · python1.pdf · page 44",
+          "body": "\n\nconn.commit()\nconn.close()\nការពន្យល់៖\n- mysql.connector.connect() ភ្ជាប់ទៅ MySQL server ដោយបញ្ជាក់ host, user, password,\nនិង database,\n- cursor.execute() ប្រតិបត្តិិ SQL,\n- %s ជាកន្លែងបញ្ចូលតម្លៃដោយសុវត្ថិិភាព,\n- fetchall() ទាញលទ្ធផលទាំំងអស់។\nលទ្ធផល (ឧទាហរណ៍)៖\n[(1, 'សុភី', 30)]\n14.3 PostgreSQL (psycopg2) - PostgreSQL (psycopg2)\npsycopg2 ជាម៉ូឌុលសម្\nរាប់ភ្ជាប់ Python ទៅ PostgreSQL server។ ត្រូូវតំឡើងវាដោយប្រើ pip\ninstall psycopg2។\nឧទាហរណ៍៖\nimport psycopg2\n# ភ្ជាប់ទៅ PostgreSQL server\nconn = psycopg2.connect(\n    host=\"localhost\",\n    database=\"school\",\n    user=\"postgres\",\n    password=\"your_password\"\n)\ncursor = conn.cursor()\n# បង្កើតតារាង\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY K\n# បញ្ចូលទិន្ន័\nយ\ncursor.execute(\"INSERT INTO students (name, age) VALUES (%s, %s)\", (\"លីណា\n# ទាញទិន្ន័\nយ\ncursor.execute(\"SELECT * FROM students\")",
+          "code": "conn.commit()\nconn.close()\nimport psycopg2\nconn = psycopg2.connect(\n    host=\"localhost\",\n    database=\"school\",\n    user=\"postgres\",\n    password=\"your_password\"\n)\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY K\ncursor.execute(\"SELECT * FROM students\")",
+          "preview": {
+            "title": "Python · PDF page 44",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 44",
+            "14.3 PostgreSQL (psycopg2) - PostgreSQL (psycopg2)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 44
+        },
+        {
+          "id": "pdf-python-page-45",
+          "label": "PDF 45. 15.1 Introduction to Flask & Django - ការណែនាំំអំពី Flask",
+          "heading": "15.1 Introduction to Flask & Django - ការណែនាំំអំពី Flask",
+          "intro": "print(cursor.fetchall()) # រក្សាទុក និងបិទ conn.commit()",
+          "bodyHeading": "Source content · python1.pdf · page 45",
+          "body": "print(cursor.fetchall())\n# រក្សាទុក និងបិទ\nconn.commit()\nconn.close()\nការពន្យល់៖\n- psycopg2.connect() ភ្ជាប់ទៅ PostgreSQL server ដោយបញ្ជាក់ host, database, user,\npassword,\n- SERIAL ជាប្រភេទទិន្ន័យសម្\nរាប់ id ដែលបង្កើនដោយស្វ័័យប្រវត្តិិ,\n- cursor.execute() ប្រតិបត្តិិ SQL,\n- fetchall() ទាញទិន្ន័យទាំំងអស់។\nលទ្ធផល (ឧទាហរណ៍)៖\n[(1, 'លីណា', 22)]\n15. Web Development with Python - ការអភិវឌ្ឍ\nគេហទំព័រជាមួយ Python\nការអភិវឌ្ឍគេហទំព័រជាមួយ Python អនុញ្ញាតឱ្យអ្នកបង្កើតគេហទំព័រនិងកម្មវិធីគេហទំព័រដោយប្រើ\nភាសា Python។ ផ្នែកនេះះនឹងផ្តោតលើក្របខ័ណ្ឌពីរដ៏ពេញនិយមគឺ Flask និង Django\nដែលជួយសម្រួួលដល់ការអភិវឌ្ឍគេហទំព័រ។\n15.1 Introduction to Flask & Django - ការណែនាំំអំពី Flask\nនិង Django\nFlask ជាក្របខ័ណ្ឌទម្ងន់ស្\nរាលសម្\nរាប់បង្កើតកម្មវិធីគេហទំព័រតូចៗ ឬ API ដែលផ្តល់ភាពបត់បែនខ្ពស់។ Django\nជាក្របខ័ណ្ឌពេញលេញជាង ដែលស័ក្តិិសមសម្\nរាប់គម្រោងធំៗ ដោយមានមុខងារជាច្រើនដូចជា ORM, admin\npanel និងសុវត្ថិិភាព។ ទាំំងពីរត្រូូវតំឡើងដោយប្រើ pip install flask និង pip install django។\n15.2 Creating a Simple API with Flask - ការបង្កើត API\nសាមញ្ញជាមួយ Flask\nនេះះគឺជាឧទាហរណ៍នៃការបង្កើត API សាមញ្ញដោយប្រើ Flask ដើម្បីីឆ្លើយតបនឹងសំណើ HTTP។",
+          "code": "print(cursor.fetchall())\nconn.commit()\nconn.close()",
+          "preview": {
+            "title": "Python · PDF page 45",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 45",
+            "15.1 Introduction to Flask & Django - ការណែនាំំអំពី Flask"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 45
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "PDF source lessons · pages 46-50",
+      "items": [
+        {
+          "id": "pdf-python-page-46",
+          "label": "PDF 46. 15.3 Building Web Applications with Django - ការបង្កើត",
+          "heading": "15.3 Building Web Applications with Django - ការបង្កើត",
+          "intro": "ឧទាហរណ៍៖ from flask import Flask, jsonify app = Flask(__name__)",
+          "bodyHeading": "Source content · python1.pdf · page 46",
+          "body": "ឧទាហរណ៍៖\nfrom flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/')\ndef home():\n    return jsonify({\"message\": \"សូមស្វាគមន៍មកកាន់ Flask API!\"})\n@app.route('/api/user/<name>')\ndef get_user(name):\n    return jsonify({\"name\": name, \"age\": 25})\nif __name__ == '__main__':\n    app.run(debug=True)\nការពន្យល់៖\n- Flask(__name__) បង្កើតកម្មវិធី Flask,\n- @app.route('/') កំណត់ផ្លូវសម្\nរាប់ទំព័រដើម,\n- jsonify ប្តូរទិន្ន័យទៅជា JSON,\n- /api/user/<name> ផ្លូវដែលទទួលប៉ារ៉ាម៉ែត្រឈ្\nមោះ,\n- app.run(debug=True) ដំណើរការកម្មវិធីជាមួយរបៀបៀប debug។\nលទ្ធផល (ឧទាហរណ៍)៖ បើចូលទៅ http://localhost:5000/api/user/សុខា\n{\"name\": \"សុខា\", \"age\": 25}\n15.3 Building Web Applications with Django - ការបង្កើត\nកម្មវិធីគេហទំព័រជាមួយ Django\nDjango អនុញ្ញាតឱ្យអ្នកបង្កើតកម្មវិធីគេហទំព័រដែលមានរចនាសម្ព័័ន្ធច្បាស់លាស់។ នេះះគឺជាឧទាហរណ៍មួយ\nសាមញ្ញ។\nឧទាហរណ៍៖ (បន្ទាប់ពីបង្កើតគម្រោងជាមួយ django-admin startproject myproject និង app\nជាមួយ python manage.py startapp myapp)\n# myapp/views.py\nfrom django.http import JsonResponse\ndef home(request):",
+          "code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/')\ndef home():\n@app.route('/api/user/<name>')\ndef get_user(name):\n    return jsonify({\"name\": name, \"age\": 25})\nif __name__ == '__main__':\n    app.run(debug=True)\n# myapp/views.py\nfrom django.http import JsonResponse\ndef home(request):",
+          "preview": {
+            "title": "Python · PDF page 46",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 46",
+            "15.3 Building Web Applications with Django - ការបង្កើត"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 46
+        },
+        {
+          "id": "pdf-python-page-47",
+          "label": "PDF 47. 16.1 NumPy (Numerical Computing) - NumPy (ការគណនា",
+          "heading": "16.1 NumPy (Numerical Computing) - NumPy (ការគណនា",
+          "intro": "return JsonResponse({\"message\": \"សូមស្វាគមន៍មកកាន់ Django!\"}) # myproject/urls.py from django.urls import path",
+          "bodyHeading": "Source content · python1.pdf · page 47",
+          "body": "return JsonResponse({\"message\": \"សូមស្វាគមន៍មកកាន់ Django!\"})\n# myproject/urls.py\nfrom django.urls import path\nfrom myapp import views\nurlpatterns = [\n    path('', views.home, name='home'),\n]\n# ដំណើរការដោយ python manage.py runserver\nការពន្យល់៖\n- views.py កំណត់អនុគមន៍សម្\nរាប់ឆ្លើយតបសំណើ,\n- JsonResponse ផ្ញើទិន្ន័យជា JSON,\n- urls.py ភ្ជាប់ផ្លូវទៅនឹងអនុគមន៍,\n- runserver ចាប់ផ្តើម server នៅ localhost:8000។\nលទ្ធផល (ឧទាហរណ៍)៖ បើចូលទៅ http://localhost:8000/\n{\"message\": \"សូមស្វាគមន៍មកកាន់ Django!\"}\n16. Data Science & Machine Learning -\nវិទ្យាសាស្\nត្រទិន្ន័យ និងការរៀរៀនសូត្រដោយម៉ាស៊ីីន\nវិទ្យាសាស្\nត្រទិន្ន័យ និងការរៀរៀនសូត្រដោយម៉ាស៊ីីនជាផ្នែកសំខាន់នៃការវិភាគទិន្ន័យ និងការបង្កើតគំរូ\nដែលអាចទស្សន៍ទាយបាន។ Python ផ្តល់នូវបណ្ណាល័យដ៏មានឥទ្ធិិពលដូចជា NumPy, Pandas,\nMatplotlib, Seaborn និង Scikit-learn ដើម្បីីគ្រប់គ្រងទិន្ន័យ និងបង្កើតក្បួនដោះស្\nរាយ។\n16.1 NumPy (Numerical Computing) - NumPy (ការគណនា\nជាលេខ)\nNumPy ជាបណ្ណាល័យសម្\nរាប់ការគណនាជាលេខ ដែលផ្តល់នូវការគាំំទ្រសម្\nរាប់អារេច្រើនវិមាត្រ និងប្រតិបត្តិិការ\nគណិតវិទ្យា។ ត្រូូវតំឡើងវាដោយប្រើ pip install numpy។\nឧទាហរណ៍៖",
+          "code": "# myproject/urls.py\nfrom django.urls import path\nfrom myapp import views\nurlpatterns = [\n    path('', views.home, name='home'),\n]",
+          "preview": {
+            "title": "Python · PDF page 47",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 47",
+            "16.1 NumPy (Numerical Computing) - NumPy (ការគណនា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 47
+        },
+        {
+          "id": "pdf-python-page-48",
+          "label": "PDF 48. 16.2 Pandas (Data Analysis) - Pandas (ការវិភាគទិន្ន័យ)",
+          "heading": "16.2 Pandas (Data Analysis) - Pandas (ការវិភាគទិន្ន័យ)",
+          "intro": "import numpy as np # បង្កើតអារេ array = np.array([1, 2, 3, 4, 5])",
+          "bodyHeading": "Source content · python1.pdf · page 48",
+          "body": "import numpy as np\n# បង្កើតអារេ\narray = np.array([1, 2, 3, 4, 5])\nprint(\"អារេ:\", array)\n# ប្រ\nតិបត្តិិការគណិតវិទ្យា\nsquared = np.square(array)\nprint(\"លេខការ៉េ:\", squared)\nការពន្យល់៖\n- np.array() បង្កើតអារេ NumPy,\n- np.square() គណនាការ៉េនៃធាតុនីមួយៗក្នុងអារេ។\nលទ្ធផល (ឧទាហរណ៍)៖\nអារេ: [1 2 3 4 5]\nលេខការ៉េ: [ 1  4  9 16 25]\n16.2 Pandas (Data Analysis) - Pandas (ការវិភាគទិន្ន័យ)\nPandas ជាបណ្ណាល័យសម្\nរាប់ការវិភាគទិន្ន័យ ដែលផ្តល់នូវរចនាសម្ព័័ន្ធទិន្ន័យដូចជា Series និង\nDataFrame។ ត្រូូវតំឡើងវាដោយប្រើ pip install pandas។\nឧទាហរណ៍៖\nimport pandas as pd\n# បង្កើត DataFrame\ndata = {'ឈ្\nមោះះ': ['សុខា', 'សុភី'], 'អាយុ': [25, 30]}\ndf = pd.DataFrame(data)\nprint(\"DataFrame:\")\nprint(df)\n# ចម្រោ\nះ\nះទិន្ន័\nយ\nprint(\"អាយុលើសពី 25:\")\nprint(df[df['អាយុ'] > 25])\nការពន្យល់៖\n- pd.DataFrame() បង្កើតតារាងទិន្ន័យ,",
+          "code": "import numpy as np\narray = np.array([1, 2, 3, 4, 5])\nsquared = np.square(array)\nimport pandas as pd\ndf = pd.DataFrame(data)\nprint(\"DataFrame:\")\nprint(df)",
+          "preview": {
+            "title": "Python · PDF page 48",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 48",
+            "16.2 Pandas (Data Analysis) - Pandas (ការវិភាគទិន្ន័យ)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 48
+        },
+        {
+          "id": "pdf-python-page-49",
+          "label": "PDF 49. 0  សុខា     25",
+          "heading": "0  សុខា     25",
+          "intro": "- df['អាយុ'] > 25 ចម្រោះជួរដែលមានអាយុលើសពី 25។ លទ្ធផល (ឧទាហរណ៍)៖ DataFrame:",
+          "bodyHeading": "Source content · python1.pdf · page 49",
+          "body": "- df['អាយុ'] > 25 ចម្រោះជួរដែលមានអាយុលើសពី 25។\nលទ្ធផល (ឧទាហរណ៍)៖\nDataFrame:\n   ឈ្\nមោះះ  អាយុ\n0  សុខា     25\n1  សុភី     30\nអាយុលើសពី 25:\n   ឈ្\nមោះះ  អាយុ\n1  សុភី     30\n16.3 Matplotlib & Seaborn (Data Visualization) -\nMatplotlib និង Seaborn (ការមើលឃើញទិន្ន័យ)\nMatplotlib និង Seaborn ជាបណ្ណាល័យសម្\nរាប់បង្កើតក្\nរាបទិន្ន័យ។ Matplotlib ផ្តល់មូលដ្ឋានគ្រឹះ ខណៈ\nSeaborn ធ្វើឱ្យក្\nរាបកាន់តែស្រ\nស់ស្អាត។ ត្រូូវតំឡើងដោយ pip install matplotlib seaborn។\nឧទាហរណ៍៖\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n# ទិន្ន័\nយ\nx = [1, 2, 3, 4]\ny = [10, 20, 25, 30]\n# គូសក្រាា\nបជាមួយ Matplotlib\nplt.plot(x, y, marker='o')\nplt.title(\"ក្រាា\nបសាមញ្ញ\")\nplt.show()\n# គូសក្រាា\nបជាមួយ Seaborn\nsns.barplot(x=x, y=y)\nplt.title(\"ក្រាា\nបរបារសាមញ្ញ\")\nplt.show()\nការពន្យល់៖\n- plt.plot() គូសក្\nរាបបន្ទាត់,\n- sns.barplot() គូសក្\nរាបរបារ,\n- plt.show() បង្ហាញក្\nរាប។",
+          "code": "16.3 Matplotlib & Seaborn (Data Visualization) -\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nx = [1, 2, 3, 4]\ny = [10, 20, 25, 30]\nplt.plot(x, y, marker='o')\nplt.show()\nsns.barplot(x=x, y=y)\nplt.show()",
+          "preview": {
+            "title": "Python · PDF page 49",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 49",
+            "0  សុខា     25"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 49
+        },
+        {
+          "id": "pdf-python-page-50",
+          "label": "PDF 50. 16.4 Scikit-learn (Machine Learning) - Scikit-learn (ការ",
+          "heading": "16.4 Scikit-learn (Machine Learning) - Scikit-learn (ការ",
+          "intro": "រៀរៀនសូត្រដោយម៉ាស៊ីីន) Scikit-learn ជាបណ្ណាល័យសម្ រាប់ការរៀរៀនសូត្រដោយម៉ាស៊ីីន ដែលផ្តល់ឧបករណ៍សម្",
+          "bodyHeading": "Source content · python1.pdf · page 50",
+          "body": "16.4 Scikit-learn (Machine Learning) - Scikit-learn (ការ\nរៀរៀនសូត្រដោយម៉ាស៊ីីន)\nScikit-learn ជាបណ្ណាល័យសម្\nរាប់ការរៀរៀនសូត្រដោយម៉ាស៊ីីន ដែលផ្តល់ឧបករណ៍សម្\nរាប់ការចាត់ថ្នាក់ និងការ\nទស្សន៍ទាយ។ ត្រូូវតំឡើងដោយ pip install scikit-learn។\nឧទាហរណ៍៖\nfrom sklearn.linear_model import LinearRegression\nimport numpy as np\n# ទិន្ន័\nយ\nX = np.array([[1], [2], [3], [4]])\ny = np.array([2, 4, 5, 4])\n# បង្កើត និងហ្វឹកហាត់គំរូ\nmodel = LinearRegression()\nmodel.fit(X, y)\n# ទស្សន៍ទាយ\nprediction = model.predict(np.array([[5]]))\nprint(\"ការទស្សន៍ទាយ:\", prediction)\nការពន្យល់៖\n- LinearRegression() បង្កើតគំរូតម្រង់ជួរ,\n- model.fit() ហ្វឹឹកហាត់គំរូជាមួយទិន្ន័យ,\n- model.predict() ទស្សន៍ទាយតម្លៃថ្មីី។\nលទ្ធផល (ឧទាហរណ៍)៖\nការទស្សន៍ទាយ: [4.8]\n17. Web Scraping - ការប្រមូលទិន្ន័យពីគេហទំព័រ\nWeb Scraping គឺជាបច្ចេកទេសសម្\nរាប់ទាញយកទិន្ន័យពីគេហទំព័រដោយប្រើ Python។ ផ្នែកនេះះ\nនឹងបង្ហាញពីរបៀបៀបប្រើបណ្ណាល័យដូចជា requests, BeautifulSoup និង Selenium ដើម្បីី\nប្រមូលទិន្ន័យពីគេហទំព័រឋិតិវន្ត និងថាមវន្ត។",
+          "code": "from sklearn.linear_model import LinearRegression\nimport numpy as np\nX = np.array([[1], [2], [3], [4]])\ny = np.array([2, 4, 5, 4])\nmodel = LinearRegression()\nmodel.fit(X, y)\nprediction = model.predict(np.array([[5]]))",
+          "preview": {
+            "title": "Python · PDF page 50",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 50",
+            "16.4 Scikit-learn (Machine Learning) - Scikit-learn (ការ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 50
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "PDF source lessons · pages 51-55",
+      "items": [
+        {
+          "id": "pdf-python-page-51",
+          "label": "PDF 51. 17.1 Using requests & BeautifulSoup - ការប្រើ requests និង",
+          "heading": "17.1 Using requests & BeautifulSoup - ការប្រើ requests និង",
+          "intro": "BeautifulSoup requests និង BeautifulSoup ជាឧបករណ៍ដ៏ពេញនិយមសម្ រាប់ប្រមូលទិន្ន័យពីគេហទំព័រឋិតិវន្ត។",
+          "bodyHeading": "Source content · python1.pdf · page 51",
+          "body": "17.1 Using requests & BeautifulSoup - ការប្រើ requests និង\nBeautifulSoup\nrequests និង BeautifulSoup ជាឧបករណ៍ដ៏ពេញនិយមសម្\nរាប់ប្រមូលទិន្ន័យពីគេហទំព័រឋិតិវន្ត។\nrequests ប្រើសម្\nរាប់ទាញ HTML ហើយ BeautifulSoup ប្រើសម្\nរាប់វិភាគ និងស្\nវែងរកទិន្ន័យ។ ត្រូូវតំឡើង\nដោយ pip install requests beautifulsoup4។\nឧទាហរណ៍៖\nimport requests\nfrom bs4 import BeautifulSoup\n# ទាញទំព័រ\nurl = \"https://example.com\"\nresponse = requests.get(url)\n# វិភាគ HTML\nsoup = BeautifulSoup(response.text, 'html.parser')\n# ស្វែងរកទិន្ន័\nយ\ntitle = soup.find('h1').text\nprint(\"ចំណងជើង:\", title)\nការពន្យល់៖\n- requests.get() ទាញ HTML ពី URL,\n- BeautifulSoup() វិភាគ HTML,\n- soup.find('h1') ស្\nវែងរកធាតុ h1 ដំបូង និងទាញអត្ថបទ។\nលទ្ធផល (ឧទាហរណ៍)៖\nចំណងជើង: Example Domain\n17.2 Scraping Dynamic Websites with Selenium - ការ\nប្រមូលទិន្ន័យពីគេហទំព័រថាមវន្តជាមួយ Selenium\nSelenium ជាឧបករណ៍សម្\nរាប់ប្រមូលទិន្ន័យពីគេហទំព័រថាមវន្តដែលប្រើ JavaScript ដើម្បីីបង្កើតមាតិកា។ វា\nអនុញ្ញាតឱ្យធ្វើអន្តរកម្មជាមួយទំព័រដូចជាមនុស្ស។ ត្រូូវតំឡើងដោយ pip install selenium និងទាញយក\nWebDriver (ឧ. ChromeDriver)។\nឧទាហរណ៍៖",
+          "code": "import requests\nfrom bs4 import BeautifulSoup\nurl = \"https://example.com\"\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, 'html.parser')\ntitle = soup.find('h1').text",
+          "preview": {
+            "title": "Python · PDF page 51",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 51",
+            "17.1 Using requests & BeautifulSoup - ការប្រើ requests និង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 51
+        },
+        {
+          "id": "pdf-python-page-52",
+          "label": "PDF 52. 18.1 Hashing & Cryptography (hashlib, cryptography) -",
+          "heading": "18.1 Hashing & Cryptography (hashlib, cryptography) -",
+          "intro": "from selenium import webdriver from selenium.webdriver.common.by import By # ចាប់ផ្តើម WebDriver",
+          "bodyHeading": "Source content · python1.pdf · page 52",
+          "body": "from selenium import webdriver\nfrom selenium.webdriver.common.by import By\n# ចាប់ផ្តើម WebDriver\ndriver = webdriver.Chrome()  # ត្\nរូវបញ្ជាក់ផ្លូវទៅ ChromeDriver បើចាំបាច់\ndriver.get(\"https://example.com\")\n# ស្វែងរកទិន្ន័\nយ\ntitle = driver.find_element(By.TAG_NAME, 'h1').text\nprint(\"ចំណងជើង:\", title)\n# បិទ WebDriver\ndriver.quit()\nការពន្យល់៖\n- webdriver.Chrome() ចាប់ផ្តើមកម្មវិធីរុករក Chrome,\n- driver.get() បើក URL,\n- find_element(By.TAG_NAME, 'h1') ស្\nវែងរកធាតុ h1 និងទាញអត្ថបទ,\n- driver.quit() បិទកម្មវិធីរុករក។\nលទ្ធផល (ឧទាហរណ៍)៖\nចំណងជើង: Example Domain\n18. Cybersecurity & Ethical Hacking - សន្តិិសុខ\nបច្ចេកវិទ្យា និងការវាយលុកប្រកបដោយក្រមសីលធម៌\nCybersecurity និង Ethical Hacking ជាផ្នែកសំខាន់ក្នុងការការពារប្រព័ន្ធ និងស្\nវែងរកចំណុច\nខ្សោយដោយប្រើបច្ចេកទេសស្រ\nបច្បាប់។ Python ផ្តល់ឧបករណ៍ដូចជា hashlib, cryptography\nនិង socket module ដើម្បីីអភិវឌ្ឍកម្មវិធីសន្តិិសុខ និងសាកល្បងបណ្តាញ។\n18.1 Hashing & Cryptography (hashlib, cryptography) -\nការបម្លែងជាសញ្ញាសម្ងាត់ និងការអ៊ិិនគ្រីីប (hashlib, cryptography)",
+          "code": "from selenium import webdriver\nfrom selenium.webdriver.common.by import By\ndriver.get(\"https://example.com\")\ntitle = driver.find_element(By.TAG_NAME, 'h1').text\ndriver.quit()\n18.1 Hashing & Cryptography (hashlib, cryptography) -",
+          "preview": {
+            "title": "Python · PDF page 52",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 52",
+            "18.1 Hashing & Cryptography (hashlib, cryptography) -"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 52
+        },
+        {
+          "id": "pdf-python-page-53",
+          "label": "PDF 53. 18.2 Network Programming (socket module) - ការសរសេរ",
+          "heading": "18.2 Network Programming (socket module) - ការសរសេរ",
+          "intro": "  hashlib ជាម៉ូឌុលស្តង់ដារសម្",
+          "bodyHeading": "Source content · python1.pdf · page 53",
+          "body": "\n\nhashlib ជាម៉ូឌុលស្តង់ដារសម្\nរាប់បម្លែងទិន្ន័យជាសញ្ញាសម្ងាត់ (hashing) ដូចជា MD5 ឬ SHA-256។\ncryptography ជាបណ្ណាល័យសម្\nរាប់ការអ៊ិិនគ្រីីប និងឌិគ្រីីបទិន្ន័យ។ ត្រូូវតំឡើង cryptography ដោយ pip\ninstall cryptography។\nឧទាហរណ៍៖\nimport hashlib\nfrom cryptography.fernet import Fernet\n# Hashing ជាមួយ hashlib\npassword = \"mysecret\"\nhash_object = hashlib.sha256(password.encode())\nprint(\"SHA-256 Hash:\", hash_object.hexdigest())\n# Encryption ជាមួយ cryptography\nkey = Fernet.generate_key()\ncipher = Fernet(key)\nencrypted = cipher.encrypt(b\"សូមស្វាគមន៍!\")\nprint(\"ទិន្ន័\nយអ៊ិិនគ្រីី\nប:\", encrypted)\n# Decryption\ndecrypted = cipher.decrypt(encrypted)\nprint(\"ទិន្ន័\nយឌិគ្រីី\nប:\", decrypted.decode())\nការពន្យល់៖\n- hashlib.sha256() បម្លែងទិន្ន័យជា hash SHA-256,\n- Fernet.generate_key() បង្កើតកូនសោសម្\nរាប់អ៊ិិនគ្រីីប,\n- cipher.encrypt() អ៊ិិនគ្រីីបទិន្ន័យ,\n- cipher.decrypt() ឌិគ្រីីបទិន្ន័យ។\nលទ្ធផល (ឧទាហរណ៍)៖\nSHA-256 Hash: 91fdeb5b4f6e7f90f3a3e9d5e6e8e9e4b5e8e5e6e8e9e4b5e8e5e6e8e9\nទិន្ន័\nយអ៊ិិនគ្រីី\nប: gAAAAAB... (ខុសគ្នារាល់ដង)\nទិន្ន័\nយឌិគ្រីី\nប: សូមស្វាគមន៍!\n18.2 Network Programming (socket module) - ការសរសេរ\nកម្មវិធីបណ្តាញ (socket module)",
+          "code": "import hashlib\nfrom cryptography.fernet import Fernet\npassword = \"mysecret\"\nhash_object = hashlib.sha256(password.encode())\nprint(\"SHA-256 Hash:\", hash_object.hexdigest())\nkey = Fernet.generate_key()\ncipher = Fernet(key)\n# Decryption\ndecrypted = cipher.decrypt(encrypted)",
+          "preview": {
+            "title": "Python · PDF page 53",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 53",
+            "18.2 Network Programming (socket module) - ការសរសេរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 53
+        },
+        {
+          "id": "pdf-python-page-54",
+          "label": "PDF 54. Server កំពុងរង់ចាំ...",
+          "heading": "Server កំពុងរង់ចាំ...",
+          "intro": "socket module ជាម៉ូឌុលស្តង់ដារសម្ រាប់ការសរសេរកម្មវិធីបណ្តាញ ដែលអនុញ្ញាតឱ្យភ្ជាប់ និងផ្ញើទិន្ន័យរវាងកុំ ព្យូទ័រ។ វាអាចប្រើសម្",
+          "bodyHeading": "Source content · python1.pdf · page 54",
+          "body": "socket module ជាម៉ូឌុលស្តង់ដារសម្\nរាប់ការសរសេរកម្មវិធីបណ្តាញ ដែលអនុញ្ញាតឱ្យភ្ជាប់ និងផ្ញើទិន្ន័យរវាងកុំ\nព្យូទ័រ។ វាអាចប្រើសម្\nរាប់សាកល្បងសន្តិិសុខបណ្តាញ ឬបង្កើត server/client។\nឧទាហរណ៍៖ (Server និង Client សាមញ្ញ)\n# Server\nimport socket\nserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nserver.bind(('localhost', 12345))\nserver.listen(1)\nprint(\"Server កំពុងរង់ចាំ...\")\nconn, addr = server.accept()\nprint(\"ភ្ជាប់ពី:\", addr)\ndata = conn.recv(1024)\nprint(\"ទទួល:\", data.decode())\nconn.close()\n# Client (ដំណើរការដាច់ដោយឡែក)\nclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nclient.connect(('localhost', 12345))\nclient.send(\"សួស្តីីពី Client!\".encode())\nclient.close()\nការពន្យល់៖\n- socket.socket() បង្កើត socket សម្\nរាប់ទំនាក់ទំនង,\n- server.bind() ភ្ជាប់ server ទៅ port,\n- server.listen() រង់ចាំំការភ្ជាប់,\n- conn.recv() ទទួលទិន្ន័យ,\n- client.connect() ភ្ជាប់ទៅ server,\n- client.send() ផ្ញើទិន្ន័យ។\nលទ្ធផល (ឧទាហរណ៍)៖\nServer កំពុងរង់ចាំ...\nភ្ជាប់ពី: ('127.0.0.1', 54321)\nទទួល: សួស្តីីពី Client!",
+          "code": "# Server\nimport socket\nserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nserver.bind(('localhost', 12345))\nserver.listen(1)\nconn, addr = server.accept()\ndata = conn.recv(1024)\nconn.close()\nclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nclient.connect(('localhost', 12345))\nclient.close()",
+          "preview": {
+            "title": "Python · PDF page 54",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 54",
+            "Server កំពុងរង់ចាំ..."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 54
+        },
+        {
+          "id": "pdf-python-page-55",
+          "label": "PDF 55. CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "heading": "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "intro": "អំពីយើង ការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។ © 2025 CodeKhmerLearning. All Rights Reserved.",
+          "bodyHeading": "Source content · python1.pdf · page 55",
+          "body": "អំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "topic = 'CampusFlow lesson'\nprint(topic)",
+          "preview": {
+            "title": "Python · PDF page 55",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Python",
+            "PDF page 55",
+            "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "python1.pdf",
+          "sourcePage": 55
+        }
+      ]
+    }
+  ]
+}

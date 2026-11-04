@@ -1,0 +1,1086 @@
+{
+  "slug": "php",
+  "sourceFile": "php.pdf",
+  "pageCount": 41,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-php-page-1",
+          "label": "PDF 1. PHP គឺជាភាសាសរសេរស្",
+          "heading": "PHP គឺជាភាសាសរសេរស្",
+          "intro": "1. ការណែនាំំអំពី PHP គ្រីីបដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយសម្ រាប់ការអភិវឌ្ឍគេហទំព័រ",
+          "bodyHeading": "Source content · php.pdf · page 1",
+          "body": "1. ការណែនាំំអំពី PHP\nPHP គឺជាភាសាសរសេរស្\nគ្រីីបដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយសម្\nរាប់ការអភិវឌ្ឍគេហទំព័រ\nឌីណាមិក។ វាត្រូូវបានប្រើសម្\nរាប់បង្កើតកម្មវិធីគេហទំព័រដែលមានភាពអន្តរកម្មខ្ពស់ និងអាចភ្ជាប់ជាមួយ\nមូលដ្ឋានទិន្ន័យ។\n1.1. តើ PHP គឺជាអ្វីី?\nPHP គឺជាភាសាសរសេរស្\nគ្រីីបដែលត្រូូវបានប្រើសម្\nរាប់ការអភិវឌ្ឍគេហទំព័រឌីណាមិក។ វាត្រូូវបានបង្កើតឡើងដោយ\nRasmus Lerdorf នៅឆ្នាំំ 1994។ PHP មានន័យថា \"PHP: Hypertext Preprocessor\"។\n<?php\n  echo \"Hello, World!\";\n?>\nលទ្ធផល៖\nHello, World!\n1.2. ប្រវត្តិិនិងលក្ខណៈពិសេសនៃ PHP\nPHP ត្រូូវបានបង្កើតឡើងដោយ Rasmus Lerdorf នៅឆ្នាំំ 1994។ វាត្រូូវបានគេប្រើជាមធ្យោបាយសម្\nរាប់\nតាមដានការចូលមើលរបស់អ្នកប្រើប្\nរាស់នៅលើគេហទំព័រផ្ទាល់ខ្លួនរបស់គាត់។ ក្រោយមក PHP បានអភិវឌ្ឍជា\nភាសាសរសេរស្\nគ្រីីបពេញលេញសម្\nរាប់ការអភិវឌ្ឍគេហទំព័រ។\nលក្ខណៈពិសេសនៃ PHP:\nអាចប្រើប្\nរាស់ជាមួយ HTML បានយ៉ាងងាយស្រួួ\nល។\nគាំំទ្រការភ្ជាប់មូលដ្ឋានទិន្ន័យជាច្រើន ដូចជា MySQL, PostgreSQL, MongoDB។\nមានសហគមន៍ធំ និងឯកសារដ៏សម្បូរបែប។\n1.3. វាក្យសម្ព័័ន្ធនិងរចនាសម្ព័័ន្ធមូលដ្ឋាននៃ PHP\nPHP មានវាក្យសម្ព័័ន្ធដ៏សាមញ្ញ និងងាយស្រួួ\nលយល់។ កូដ PHP ត្រូូវបានដាក់នៅក្នុងស្លាក <?php ?>។\nឧទាហរណ៍៖",
+          "code": "echo \"Hello, World!\";",
+          "preview": {
+            "title": "Php · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 1",
+            "PHP គឺជាភាសាសរសេរស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-php-page-2",
+          "label": "PDF 2. PHP ត្រូូវបានដំណើរការនៅលើម៉ាស៊ីីនបម្រើ (Server)។ ដើម្បីីដំណើរការ PHP អ្នកត្រូូវការម៉ាស៊ីីនបម្រើដែល",
+          "heading": "PHP ត្រូូវបានដំណើរការនៅលើម៉ាស៊ីីនបម្រើ (Server)។ ដើម្បីីដំណើរការ PHP អ្នកត្រូូវការម៉ាស៊ីីនបម្រើដែល",
+          "intro": "<?php $name = \"John\"; echo \"Hello, \" . $name;",
+          "bodyHeading": "Source content · php.pdf · page 2",
+          "body": "<?php\n  $name = \"John\";\n  echo \"Hello, \" . $name;\n?>\nលទ្ធផល៖\nHello, John\n1.4. ការដំណើរការ PHP លើម៉ាស៊ីីនបម្រើ\nPHP ត្រូូវបានដំណើរការនៅលើម៉ាស៊ីីនបម្រើ (Server)។ ដើម្បីីដំណើរការ PHP អ្នកត្រូូវការម៉ាស៊ីីនបម្រើដែល\nគាំំទ្រកូដ PHP ដូចជា Apache ឬ Nginx។ អ្នកក៏អាចប្រើកម្មវិធីដូចជា XAMPP ឬ WAMP ដើម្បីីដំឡើងម៉ាស៊ីីន\nបម្រើក្នុងស្ថានីយរបស់អ្នក។\nជំហានដើម្បីីដំណើរការ PHP:\n1. ដំឡើងម៉ាស៊ីីនបម្រើដូចជា XAMPP ឬ WAMP។\n2. បង្កើតឯកសារ PHP នៅក្នុងថត htdocs (សម្\nរាប់ XAMPP)។\n3. បើកឧបករណ៍រុករក និងវាយអាសយដ្ឋាន localhost/yourfile.php។\n2. PHP Basics\nPHP គឺជាភាសាស្\nគ្រីីបដែលរត់នៅលើសឺវ័រ ដែលត្រូូវបានរចនាឡើងសម្\nរាប់ការអភិវឌ្ឍន៍គេហទំព័រ។ នៅ\nក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីគោលគំនិតមូលដ្ឋាននៃ PHP រួមមានអថេរ ប្រភេទទិន្ន័យ ថេរ ប្រមាណ\nវិធី ស្ថាបត្យកម្មគ្រប់គ្រង និងរង្វិិលជុំ។\n2.1. អថេរ និងប្រភេទទិន្ន័យ\nនៅក្នុង PHP អថេរត្រូូវបានប្រើដើម្បីីផ្ទុកទិន្ន័យ។ ពួកវាចាប់ផ្តើមដោយសញ្ញាដុល្លារ (`$`) ហើយបន្ទាប់ដោយ\nឈ្\nមោះអថេរ។ PHP គាំំទ្រប្រភេទទិន្ន័យផ្សេងៗ រួមមានឃ្លា (string) ចំនួនគត់ (integer) ចំនួនទសភាគ (float)\nតម្លៃប៊ូលីន (boolean) អារេ (array) និងវត្ថុ (object)។\n// Example: Variables and Data Types\n$name = \"John Doe\"; // String\n$age = 25; // Integer\n$height = 5.9; // Float",
+          "code": "$name = \"John\";\n  echo \"Hello, \" . $name;\n$name = \"John Doe\"; // String\n$age = 25; // Integer\n$height = 5.9; // Float",
+          "preview": {
+            "title": "Php · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 2",
+            "PHP ត្រូូវបានដំណើរការនៅលើម៉ាស៊ីីនបម្រើ (Server)។ ដើម្បីីដំណើរការ PHP អ្នកត្រូូវក"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-php-page-3",
+          "label": "PDF 3. PHP គាំំទ្រប្រមាណវិធីផ្សេងៗ រួមមានប្រមាណវិធីគណនានព្វន្ធ ប្រមាណវិធីប្រៀៀបធៀធៀប ប្រមាណវិធីតក្ក និងប្រមាណ",
+          "heading": "PHP គាំំទ្រប្រមាណវិធីផ្សេងៗ រួមមានប្រមាណវិធីគណនានព្វន្ធ ប្រមាណវិធីប្រៀៀបធៀធៀប ប្រមាណវិធីតក្ក និងប្រមាណ",
+          "intro": "$isStudent = true; // Boolean $fruits = array(\"Apple\", \"Banana\", \"Orange\"); // Array echo \"Name: $name, Age: $age, Height: $height\";",
+          "bodyHeading": "Source content · php.pdf · page 3",
+          "body": "$isStudent = true; // Boolean\n$fruits = array(\"Apple\", \"Banana\", \"Orange\"); // Array\necho \"Name: $name, Age: $age, Height: $height\";\nលទ្ធផល៖\nName: John Doe, Age: 25, Height: 5.9\n2.2. ថេរ\nថេរគឺដូចអថេរ ប៉ុន្តែតម្លៃរបស់វាមិនអាចផ្លាស់ប្តូរបាននៅពេលដែលបានកំណត់។ ពួកវាត្រូូវបានកំណត់ដោយប្រើ\nអនុគមន៍ `define()` ឬពាក្យគន្លឹះ `const`។\n// Example: Constants\ndefine(\"PI\", 3.14159);\nconst SITE_NAME = \"MyWebsite\";\necho \"PI: \" . PI . \", Site Name: \" . SITE_NAME;\nលទ្ធផល៖\nPI: 3.14159, Site Name: MyWebsite\n2.3. ប្រមាណវិធីនៅក្នុង PHP\nPHP គាំំទ្រប្រមាណវិធីផ្សេងៗ រួមមានប្រមាណវិធីគណនានព្វន្ធ ប្រមាណវិធីប្រៀៀបធៀធៀប ប្រមាណវិធីតក្ក និងប្រមាណ\nវិធីផ្សំំ។\nប្រមាណវិធីគណនានព្វន្ធ (Arithmetic Operators)\nប្រមាណវិធីគណនានព្វន្ធត្រូូវបានប្រើសម្\nរាប់ធ្វើប្រតិបត្តិិការគណនាមូលដ្ឋានដូចជា បូក ដក គុណ និងចែក។\n// Example: Arithmetic Operators\n$a = 10;\n$b = 5;\n$sum = $a + $b; // Addition\n$diff = $a - $b; // Subtraction\n$product = $a * $b; // Multiplication",
+          "code": "$isStudent = true; // Boolean\n$fruits = array(\"Apple\", \"Banana\", \"Orange\"); // Array\necho \"Name: $name, Age: $age, Height: $height\";\ndefine(\"PI\", 3.14159);\nconst SITE_NAME = \"MyWebsite\";\necho \"PI: \" . PI . \", Site Name: \" . SITE_NAME;\n$a = 10;\n$b = 5;\n$sum = $a + $b; // Addition\n$product = $a * $b; // Multiplication",
+          "preview": {
+            "title": "Php · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 3",
+            "PHP គាំំទ្រប្រមាណវិធីផ្សេងៗ រួមមានប្រមាណវិធីគណនានព្វន្ធ ប្រមាណវិធីប្រៀៀបធៀធៀប ប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-php-page-4",
+          "label": "PDF 4. Source lesson page 4",
+          "heading": "Source lesson page 4",
+          "intro": "  ",
+          "bodyHeading": "Source content · php.pdf · page 4",
+          "body": "\n\n\n\n\n\n$quotient = $a / $b; // Division\n$remainder = $a % $b; // Modulus (Remainder)\necho \"Sum: $sum, Difference: $diff, Product: $product, Quotient: $quotie\nលទ្ធផល៖\nSum: 15, Difference: 5, Product: 50, Quotient: 2, Remainder: 0\nប្រមាណវិធីប្រៀៀបធៀធៀប (Comparison Operators)\nប្រមាណវិធីប្រៀៀបធៀធៀបត្រូូវបានប្រើដើម្បីីប្រៀៀបធៀធៀបតម្លៃពីរ ហើយប្រគល់តម្លៃជា `true` ឬ `false`។\n// Example: Comparison Operators\n$a = 10;\n$b = 5;\n$isEqual = ($a == $b); // Equal to\n$isNotEqual = ($a != $b); // Not equal to\n$isGreater = ($a > $b); // Greater than\n$isLess = ($a < $b); // Less than\n$isGreaterOrEqual = ($a >= $b); // Greater than or equal to\n$isLessOrEqual = ($a <= $b); // Less than or equal to\necho \"Is Equal: $isEqual, Is Not Equal: $isNotEqual, Is Greater: $isGrea\nលទ្ធផល៖\nIs Equal: , Is Not Equal: 1, Is Greater: 1, Is Less: , Is Greater or Equ\nប្រមាណវិធីតក្ក (Logical Operators)\nប្រមាណវិធីតក្កត្រូូវបានប្រើដើម្បីីផ្សំំលក្ខណ្ឌជាច្រើន។\n// Example: Logical Operators\n$a = true;\n$b = false;\n$and = ($a && $b); // Logical AND",
+          "code": "$quotient = $a / $b; // Division\n$remainder = $a % $b; // Modulus (Remainder)\n$a = 10;\n$b = 5;\n$isEqual = ($a == $b); // Equal to\n$isNotEqual = ($a != $b); // Not equal to\n$isGreater = ($a > $b); // Greater than\n$isLess = ($a < $b); // Less than\n$isGreaterOrEqual = ($a >= $b); // Greater than or equal to\n$isLessOrEqual = ($a <= $b); // Less than or equal to\n$a = true;\n$b = false;\n$and = ($a && $b); // Logical AND",
+          "preview": {
+            "title": "Php · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 4",
+            "Source lesson page 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-php-page-5",
+          "label": "PDF 5. Value of a: 6",
+          "heading": "Value of a: 6",
+          "intro": "$or = ($a || $b); // Logical OR $not = !$a; // Logical NOT echo \"AND: $and, OR: $or, NOT: $not\";",
+          "bodyHeading": "Source content · php.pdf · page 5",
+          "body": "$or = ($a || $b); // Logical OR\n$not = !$a; // Logical NOT\necho \"AND: $and, OR: $or, NOT: $not\";\nលទ្ធផល៖\nAND: , OR: 1, NOT: \nប្រមាណវិធីផ្សំំ (Assignment Operators)\nប្រមាណវិធីផ្សំំត្រូូវបានប្រើដើម្បីីផ្តល់តម្លៃដល់អថេរ។\n// Example: Assignment Operators\n$a = 10;\n$a += 5; // $a = $a + 5\n$a -= 3; // $a = $a - 3\n$a *= 2; // $a = $a * 2\n$a /= 4; // $a = $a / 4\necho \"Value of a: $a\";\nលទ្ធផល៖\nValue of a: 6\n2.4. ស្ថាបត្យកម្មគ្រប់គ្រង (if, if-else, if-elseif-else)\nស្ថាបត្យកម្មគ្រប់គ្រងអនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងលំហូរនៃកម្មវិធីដោយផ្អែកលើលក្ខណ្ឌ។ PHP គាំំទ្រស្ថាបត្យកម្មដូចជា\n`if`, `if-else`, និង `if-elseif-else`។\nif Statement\nស្ថាបត្យកម្ម `if` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដប្រសិនបើលក្ខណ្ឌជាការពិត។\n// Example: if Statement\n$age = 20;\nif ($age >= 18) {",
+          "code": "$or = ($a || $b); // Logical OR\n$not = !$a; // Logical NOT\necho \"AND: $and, OR: $or, NOT: $not\";\n$a = 10;\n$a += 5; // $a = $a + 5\n$a *= 2; // $a = $a * 2\n$a /= 4; // $a = $a / 4\necho \"Value of a: $a\";\n$age = 20;\nif ($age >= 18) {",
+          "preview": {
+            "title": "Php · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 5",
+            "Value of a: 6"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-php-page-6",
+          "label": "PDF 6. You are an adult.",
+          "heading": "You are an adult.",
+          "intro": "echo \"You are an adult.\"; } លទ្ធផល៖",
+          "bodyHeading": "Source content · php.pdf · page 6",
+          "body": "echo \"You are an adult.\";\n}\nលទ្ធផល៖\nYou are an adult.\nif-else Statement\nស្ថាបត្យកម្ម `if-else` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដមួយប្រសិនបើលក្ខណ្ឌជាការពិត និងកូដមួយទៀទៀតប្រសិនបើ\nលក្ខណ្ឌមិនពិត។\n// Example: if-else Statement\n$age = 15;\nif ($age >= 18) {\n  echo \"You are an adult.\";\n} else {\n  echo \"You are a minor.\";\n}\nលទ្ធផល៖\nYou are a minor.\nif-elseif-else Statement\nស្ថាបត្យកម្ម `if-elseif-else` ត្រូូវបានប្រើដើម្បីីពិនិត្យលក្ខណ្ឌច្រើន។\n// Example: if-elseif-else Statement\n$score = 85;\nif ($score >= 90) {\n  echo \"Grade: A\";\n} elseif ($score >= 80) {\n  echo \"Grade: B\";\n} elseif ($score >= 70) {\n  echo \"Grade: C\";\n} else {",
+          "code": "echo \"You are an adult.\";\n}\n$age = 15;\nif ($age >= 18) {\n  echo \"You are an adult.\";\n} else {\n  echo \"You are a minor.\";\n}\n$score = 85;\nif ($score >= 90) {\n  echo \"Grade: A\";\n} elseif ($score >= 80) {\n  echo \"Grade: B\";\n} elseif ($score >= 70) {\n  echo \"Grade: C\";\n} else {",
+          "preview": {
+            "title": "Php · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 6",
+            "You are an adult."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-php-page-7",
+          "label": "PDF 7. Source lesson page 7",
+          "heading": "Source lesson page 7",
+          "intro": "echo \"Grade: D\"; } លទ្ធផល៖",
+          "bodyHeading": "Source content · php.pdf · page 7",
+          "body": "echo \"Grade: D\";\n}\nលទ្ធផល៖\nGrade: B\nswitch Statement Variations\nស្ថាបត្យកម្ម `switch` ក៏អាចប្រើសម្\nរាប់ពិនិត្យលក្ខណ្ឌដូចគ្នានេះះបានដែរ។ ខាងក្រោមជាឧទាហរណ៍ពីរបន្ថែម៖\n// Switch Example 1: Using Conditions\n$score = 85;\nswitch (true) {\n    case ($score >= 90):\n        echo \"Grade: A\";\n        break;\n    case ($score >= 80):\n        echo \"Grade: B\";\n        break;\n    case ($score >= 70):\n        echo \"Grade: C\";\n        break;\n    default:\n        echo \"Grade: D\";\n}\nលទ្ធផល៖\nGrade: B\n// Switch Example 2: Using Score Ranges\n$score = 85;\n$gradeRange = (int)($score / 10);\nswitch ($gradeRange) {\n    case 10:\n    case 9:\n        echo \"Grade: A\";",
+          "code": "echo \"Grade: D\";\n}\n$score = 85;\nswitch (true) {\n    case ($score >= 90):\n        echo \"Grade: A\";\n        break;\n    case ($score >= 80):\n        echo \"Grade: B\";\n        break;\n    case ($score >= 70):\n        echo \"Grade: C\";\n        break;\n        echo \"Grade: D\";\n}\n$score = 85;\n$gradeRange = (int)($score / 10);\nswitch ($gradeRange) {\n        echo \"Grade: A\";",
+          "preview": {
+            "title": "Php · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 7",
+            "Source lesson page 7"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-php-page-8",
+          "label": "PDF 8. Source lesson page 8",
+          "heading": "Source lesson page 8",
+          "intro": "break; case 8: echo \"Grade: B\";",
+          "bodyHeading": "Source content · php.pdf · page 8",
+          "body": "break;\n    case 8:\n        echo \"Grade: B\";\n        break;\n    case 7:\n        echo \"Grade: C\";\n        break;\n    default:\n        echo \"Grade: D\";\n}\nលទ្ធផល៖\nGrade: B\n2.5. រង្វិិលជុំ (for, while, do-while, foreach)\nរង្វិិលជុំអនុញ្ញាតឱ្យអ្នកអនុវត្តកូដដដែលៗដោយផ្អែកលើលក្ខណ្ឌ។ PHP គាំំទ្ររង្វិិលជុំដូចជា `for`, `while`,\n`do-while`, និង `foreach`។\nfor Loop\nរង្វិិលជុំ `for` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដច្រើនដង នៅពេលអ្នកដឹងចំនួនដងដែលអ្នកចង់អនុវត្ត។\n// Example: for Loop\nfor ($i = 1; $i <= 5; $i++) {\n  echo \"Number: $i\n\";\n}\nលទ្ធផល៖\nNumber: 1\nNumber: 2\nNumber: 3\nNumber: 4\nNumber: 5\nwhile Loop\nរង្វិិលជុំ `while` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដដដែលៗ ប្រសិនបើលក្ខណ្ឌជាការពិត។",
+          "code": "break;\n        echo \"Grade: B\";\n        break;\n        echo \"Grade: C\";\n        break;\n        echo \"Grade: D\";\n}\nfor ($i = 1; $i <= 5; $i++) {\n\";\n}",
+          "preview": {
+            "title": "Php · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 8",
+            "Source lesson page 8"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-php-page-9",
+          "label": "PDF 9. Source lesson page 9",
+          "heading": "Source lesson page 9",
+          "intro": "// Example: while Loop $i = 1; while ($i <= 5) {",
+          "bodyHeading": "Source content · php.pdf · page 9",
+          "body": "// Example: while Loop\n$i = 1;\nwhile ($i <= 5) {\n  echo \"Number: $i\n\";\n  $i++;\n}\nលទ្ធផល៖\nNumber: 1\nNumber: 2\nNumber: 3\nNumber: 4\nNumber: 5\ndo-while Loop\nរង្វិិលជុំ `do-while` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដយ៉ាងហោចណាស់មួយដង ហើយបន្តអនុវត្តប្រសិនបើលក្ខណ្ឌជា\nការពិត។\n// Example: do-while Loop\n$i = 1;\ndo {\n  echo \"Number: $i\n\";\n  $i++;\n} while ($i <= 5);\nលទ្ធផល៖\nNumber: 1\nNumber: 2\nNumber: 3\nNumber: 4\nNumber: 5",
+          "code": "$i = 1;\nwhile ($i <= 5) {\n\";\n  $i++;\n}\n$i = 1;\ndo {\n\";\n  $i++;\n} while ($i <= 5);",
+          "preview": {
+            "title": "Php · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 9",
+            "Source lesson page 9"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-php-page-10",
+          "label": "PDF 10. Source lesson page 10",
+          "heading": "Source lesson page 10",
+          "intro": "foreach Loop រង្វិិលជុំ `foreach` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដសម្ រាប់ធាតុនីមួយៗក្នុងអារេ។",
+          "bodyHeading": "Source content · php.pdf · page 10",
+          "body": "foreach Loop\nរង្វិិលជុំ `foreach` ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដសម្\nរាប់ធាតុនីមួយៗក្នុងអារេ។\n// Example: foreach Loop\n$fruits = array(\"Apple\", \"Banana\", \"Orange\");\nforeach ($fruits as $fruit) {\n  echo \"$fruit\n\";\n}\nលទ្ធផល៖\nApple\nBanana\nOrange\n3. Functions in PHP\nអនុគមន៍នៅក្នុង PHP គឺជាផ្នែកមួយដ៏សំខាន់នៃការសរសេរកូដ។ ពួកវាអនុញ្ញាតឱ្យអ្នករៀរៀបចំកូដជាប្លុក\nដែលអាចប្រើឡើងវិញបាន និងគ្រប់គ្រងលំហូរនៃកម្មវិធីយ៉ាងមានប្រសិទ្ធភាព។ នៅក្នុងផ្នែកនេះះ យើង\nនឹងរៀរៀនអំពីការកំណត់និងហៅអនុគមន៍ ប៉ារ៉ាម៉ែត្រនិងតម្លៃត្រឡប់ វិសាលភាពអថេរ និងអនុគមន៍ដែល\nមានស្\nរាប់នៅក្នុង PHP។\n3.1. Defining and Calling Functions\nអនុគមន៍នៅក្នុង PHP ត្រូូវបានកំណត់ដោយប្រើពាក្យគន្លឹះ `function`។ អ្នកអាចហៅអនុគមន៍នេះះនៅពេលណា\nក៏បាន ដើម្បីីអនុវត្តកូដដែលបានកំណត់នៅក្នុងអនុគមន៍។\n// ឧទាហរណ៍៖ កំណត់និងហៅអនុគមន៍\nfunction greet() {\n  echo \"Hello, World!\";\n}\ngreet(); // ហៅអនុគមន៍",
+          "code": "$fruits = array(\"Apple\", \"Banana\", \"Orange\");\nforeach ($fruits as $fruit) {\n\";\n}\nfunction greet() {\n  echo \"Hello, World!\";\n}",
+          "preview": {
+            "title": "Php · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 10",
+            "Source lesson page 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-php-page-11",
+          "label": "PDF 11. Value of x: 10",
+          "heading": "Value of x: 10",
+          "intro": "លទ្ធផល៖ Hello, World! 3.2. Function Parameters and Return Values",
+          "bodyHeading": "Source content · php.pdf · page 11",
+          "body": "លទ្ធផល៖\nHello, World!\n3.2. Function Parameters and Return Values\nអនុគមន៍អាចទទួលប៉ារ៉ាម៉ែត្រដើម្បីីធ្វើការជាមួយទិន្ន័យ និងត្រឡប់តម្លៃដោយប្រើពាក្យគន្លឹះ `return`។\n// ឧទាហរណ៍៖ ប៉ារ៉ាម៉\nែត្រ\nនិងតម្លៃត្រ\nឡប់\nfunction add($a, $b) {\n  return $a + $b;\n}\n$result = add(5, 3); // តម្លៃត្រ\nឡប់គឺ 8\necho \"Result: $result\";\nលទ្ធផល៖\nResult: 8\n3.3. Variable Scope and Global Variables\nអថេរដែលបានកំណត់នៅក្នុងអនុគមន៍មានវិសាលភាពក្នុងមុខងារនោះ។ ដើម្បីីចូលប្រើអថេរក្រៅមុខងារ អ្នកអាចប្រើ\nពាក្យគន្លឹះ `global`។\n// ឧទាហរណ៍៖ វិសាលភាពអថេរ និងអថេរសកល\n$x = 10; // អថេរសកល\nfunction test() {\n  global $x; // ចូលប្រើអថេរសកល\n  echo \"Value of x: $x\";\n}\ntest();\nលទ្ធផល៖\nValue of x: 10",
+          "code": "function add($a, $b) {\n  return $a + $b;\n}\necho \"Result: $result\";\nfunction test() {\n  echo \"Value of x: $x\";\n}\ntest();",
+          "preview": {
+            "title": "Php · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 11",
+            "Value of x: 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-php-page-12",
+          "label": "PDF 12. PHP មានអនុគមន៍ដែលមានស្",
+          "heading": "PHP មានអនុគមន៍ដែលមានស្",
+          "intro": "3.4. Built-in PHP Functions រាប់ជាច្រើន ដែលអ្នកអាចប្រើដើម្បីីអនុវត្តកិច្ចការផ្សេងៗ ដូចជាការធ្វើម៉ាស៊ីីន គិតលេខ ការគ្រប់គ្រងឃ្លា និងការងារផ្សេងៗទៀទៀត។",
+          "bodyHeading": "Source content · php.pdf · page 12",
+          "body": "3.4. Built-in PHP Functions\nPHP មានអនុគមន៍ដែលមានស្\nរាប់ជាច្រើន ដែលអ្នកអាចប្រើដើម្បីីអនុវត្តកិច្ចការផ្សេងៗ ដូចជាការធ្វើម៉ាស៊ីីន\nគិតលេខ ការគ្រប់គ្រងឃ្លា និងការងារផ្សេងៗទៀទៀត។\n// ឧទាហរណ៍៖ អនុគមន៍ដែលមានស្រាា\nប់\n$string = \"Hello, World!\";\necho \"Length: \" . strlen($string); // ប្រ\nវែងឃ្លា\necho \"Uppercase: \" . strtoupper($string); // បំប្លែងអក្សរធំ\nលទ្ធផល៖\nLength: 13\nUppercase: HELLO, WORLD!\n4. Arrays in PHP\nអារេ (Arrays) នៅក្នុង PHP គឺជាប្រភេទទិន្ន័យដែលអនុញ្ញាតឱ្យអ្នកផ្ទុកតម្លៃច្រើនក្នុងអថេរតែមួយ។\nអារេអាចមានប្រភេទផ្សេងៗ ដូចជា អារេដែលមានសន្ទស្សន៍ (Indexed Arrays) អារេដែល\nមានគោលគំនិត (Associative Arrays) និងអារេពហុវិមាត្រ (Multidimensional Arrays)។\nនៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីប្រភេទអារេទាំំងនេះះ ព្រមទាំំងមុខងារដែលផ្តល់ដោយ PHP ដើម្បីីគ្រប់\nគ្រងអារេ។\n4.1. Indexed Arrays\nអារេដែលមានសន្ទស្សន៍ (Indexed Arrays) គឺជាអារេដែលតម្លៃត្រូូវបានចងភ្ជាប់ជាមួយសន្ទស្សន៍លេខ។\nសន្ទស្សន៍ចាប់ផ្តើមពីលេខ 0។\n// ឧទាហរណ៍៖ អារេដែលមានសន្ទស្សន៍\n$fruits = array(\"Apple\", \"Banana\", \"Orange\");\necho \"First fruit: \" . $fruits[0]; // ទទួលបានតម្លៃដំបូង\nលទ្ធផល៖",
+          "code": "$string = \"Hello, World!\";\n$fruits = array(\"Apple\", \"Banana\", \"Orange\");",
+          "preview": {
+            "title": "Php · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 12",
+            "PHP មានអនុគមន៍ដែលមានស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-php-page-13",
+          "label": "PDF 13. First fruit: Apple",
+          "heading": "First fruit: Apple",
+          "intro": "  ",
+          "bodyHeading": "Source content · php.pdf · page 13",
+          "body": "\n\n\n\nFirst fruit: Apple\n4.2. Associative Arrays\nអារេដែលមានគោលគំនិត (Associative Arrays) គឺជាអារេដែលតម្លៃត្រូូវបានចងភ្ជាប់ជាមួយសន្ទស្សន៍ដែលមាន\nឈ្\nមោះ (keys)។\n// ឧទាហរណ៍៖ អារេដែលមានគោលគំនិត\n$person = array(\"name\" => \"John\", \"age\" => 25, \"city\" => \"Phnom Penh\");\necho \"Name: \" . $person[\"name\"]; // ទទួលបានតម្លៃដោយប្រើ key\nលទ្ធផល៖\nName: John\n4.3. Multidimensional Arrays\nអារេពហុវិមាត្រ (Multidimensional Arrays) គឺជាអារេដែលមានអារេផ្សេងៗនៅក្នុងវា។ វាអនុញ្ញាតឱ្យអ្នកផ្ទុក\nទិន្ន័យក្នុងទម្រង់តារាង។\n// ឧទាហរណ៍៖ អារេពហុវិមាត្រ\n$students = array(\n  array(\"name\" => \"John\", \"age\" => 20),\n  array(\"name\" => \"Jane\", \"age\" => 22),\n  array(\"name\" => \"Doe\", \"age\" => 21)\n);\necho \"First student name: \" . $students[0][\"name\"]; // ទទួលបានតម្លៃពីអារេ\nលទ្ធផល៖\nFirst student name: John\n4.4. Array Functions",
+          "code": "$person = array(\"name\" => \"John\", \"age\" => 25, \"city\" => \"Phnom Penh\");\n$students = array(\n  array(\"name\" => \"John\", \"age\" => 20),\n  array(\"name\" => \"Jane\", \"age\" => 22),\n  array(\"name\" => \"Doe\", \"age\" => 21)\n);",
+          "preview": {
+            "title": "Php · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 13",
+            "First fruit: Apple"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-php-page-14",
+          "label": "PDF 14. PHP ផ្តល់មុខងារជាច្រើនដើម្បីីគ្រប់គ្រងអារេ។ មុខងារទាំំងនេះះអនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយអារេយ៉ាងមាន",
+          "heading": "PHP ផ្តល់មុខងារជាច្រើនដើម្បីីគ្រប់គ្រងអារេ។ មុខងារទាំំងនេះះអនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយអារេយ៉ាងមាន",
+          "intro": "ប្រសិទ្ធភាព ដូចជាការបញ្ចូល ការលុប ការស្ វែងរក និងការរៀរៀបចំអារេ។ // ឧទាហរណ៍៖ មុខងារអារេ",
+          "bodyHeading": "Source content · php.pdf · page 14",
+          "body": "PHP ផ្តល់មុខងារជាច្រើនដើម្បីីគ្រប់គ្រងអារេ។ មុខងារទាំំងនេះះអនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយអារេយ៉ាងមាន\nប្រសិទ្ធភាព ដូចជាការបញ្ចូល ការលុប ការស្\nវែងរក និងការរៀរៀបចំអារេ។\n// ឧទាហរណ៍៖ មុខងារអារេ\n$fruits = array(\"Apple\", \"Banana\", \"Orange\");\n// រាប់ចំនួនធាតុក្នុងអារេ\necho \"Total fruits: \" . count($fruits);\n// បញ្ចូលធាតុថ្មីីទៅអារេ\narray_push($fruits, \"Mango\");\nprint_r($fruits);\nលទ្ធផល៖\nTotal fruits: 3\nArray\n(\n    [0] => Apple\n    [1] => Banana\n    [2] => Orange\n    [3] => Mango\n)\n5. Strings in PHP\nឃ្លា (Strings) នៅក្នុង PHP គឺជាប្រភេទទិន្ន័យដែលផ្ទុកអក្សរ ឬអត្ថបទ។ PHP ផ្តល់មុខងារជាច្រើន\nដើម្បីីធ្វើការជាមួយឃ្លា ដូចជាការបំបែក ការភ្ជាប់ ការស្\nវែងរក និងការជំនួស។ នៅក្នុងផ្នែកនេះះ យើងនឹង\nរៀរៀនអំពីមុខងារដែលពាក់ព័ន្ធនឹងឃ្លា ការភ្ជាប់ឃ្លា និងការប្រើកន្សោមធម្មតា (Regular\nExpressions)។\n5.1. String Manipulation Functions\nPHP ផ្តល់មុខងារជាច្រើនដើម្បីីធ្វើការជាមួយឃ្លា។ មុខងារទាំំងនេះះអនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយឃ្លាយ៉ាងមាន\nប្រសិទ្ធភាព ដូចជាការបំបែក ការស្\nវែងរក និងការផ្លាស់ប្តូរឃ្លា។",
+          "code": "$fruits = array(\"Apple\", \"Banana\", \"Orange\");\necho \"Total fruits: \" . count($fruits);\narray_push($fruits, \"Mango\");\nprint_r($fruits);\n(\n    [0] => Apple\n    [1] => Banana\n    [2] => Orange\n    [3] => Mango\n)",
+          "preview": {
+            "title": "Php · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 14",
+            "PHP ផ្តល់មុខងារជាច្រើនដើម្បីីគ្រប់គ្រងអារេ។ មុខងារទាំំងនេះះអនុញ្ញាតឱ្យអ្នកធ្វើកា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-php-page-15",
+          "label": "PDF 15. Full Name: John Doe",
+          "heading": "Full Name: John Doe",
+          "intro": "// ឧទាហរណ៍៖ មុខងារធ្វើការជាមួយឃ្លា $text = \"Hello, World!\"; // ប្រ",
+          "bodyHeading": "Source content · php.pdf · page 15",
+          "body": "// ឧទាហរណ៍៖ មុខងារធ្វើការជាមួយឃ្លា\n$text = \"Hello, World!\";\n// ប្រ\nវែងឃ្លា\necho \"Length: \" . strlen($text);\n// បំបែកឃ្លាជាអក្សរតូច\necho \"Lowercase: \" . strtolower($text);\n// បំបែកឃ្លាជាអក្សរធំ\necho \"Uppercase: \" . strtoupper($text);\nលទ្ធផល៖\nLength: 13\nLowercase: hello, world!\nUppercase: HELLO, WORLD!\n5.2. String Concatenation\nការភ្ជាប់ឃ្លា (String Concatenation) គឺជាការតភ្ជាប់ឃ្លាពីរ ឬច្រើនជាមួយគ្នា។ នៅក្នុង PHP អ្នកអាចប្រើ\nសញ្ញា `.` ដើម្បីីភ្ជាប់ឃ្លា។\n// ឧទាហរណ៍៖ ការភ្ជាប់ឃ្លា\n$firstName = \"John\";\n$lastName = \"Doe\";\n// ភ្ជាប់ឃ្លា\n$fullName = $firstName . \" \" . $lastName;\necho \"Full Name: \" . $fullName;\nលទ្ធផល៖\nFull Name: John Doe\n5.3. Regular Expressions in PHP",
+          "code": "$text = \"Hello, World!\";\necho \"Length: \" . strlen($text);\necho \"Lowercase: \" . strtolower($text);\necho \"Uppercase: \" . strtoupper($text);\n$firstName = \"John\";\n$lastName = \"Doe\";\n$fullName = $firstName . \" \" . $lastName;\necho \"Full Name: \" . $fullName;",
+          "preview": {
+            "title": "Php · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 15",
+            "Full Name: John Doe"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-php-page-16",
+          "label": "PDF 16. PHP គាំំទ្រកន្សោមធម្មតាតាមរយៈមុខងារ `preg_match` និង `preg_replace`។",
+          "heading": "PHP គាំំទ្រកន្សោមធម្មតាតាមរយៈមុខងារ `preg_match` និង `preg_replace`។",
+          "intro": "កន្សោមធម្មតា (Regular Expressions) គឺជាវិធីដ៏មានឥទ្ធិិពលដើម្បីីស្ វែងរក ឬផ្លាស់ប្តូរឃ្លាដោយប្រើលំនាំំ។ // ឧទាហរណ៍៖ កន្",
+          "bodyHeading": "Source content · php.pdf · page 16",
+          "body": "កន្សោមធម្មតា (Regular Expressions) គឺជាវិធីដ៏មានឥទ្ធិិពលដើម្បីីស្\nវែងរក ឬផ្លាស់ប្តូរឃ្លាដោយប្រើលំនាំំ។\nPHP គាំំទ្រកន្សោមធម្មតាតាមរយៈមុខងារ `preg_match` និង `preg_replace`។\n// ឧទាហរណ៍៖ កន្\nសោមធម្មតា\n$text = \"The quick brown fox jumps over the lazy dog.\";\n// ស្វែងរកពាក្យ \"fox\"\nif (preg_match(\"/fox/\", $text)) {\n  echo \"Found 'fox' in the text.\";\n}\n// ជំនួសពាក្យ \"dog\" ជាមួយ \"cat\"\n$newText = preg_replace(\"/dog/\", \"cat\", $text);\necho \"New Text: \" . $newText;\nលទ្ធផល៖\nFound 'fox' in the text.\nNew Text: The quick brown fox jumps over the lazy cat.\n6. Superglobals in PHP\nSuperglobals គឺជាអថេរពិសេសនៅក្នុង PHP ដែលមានភាពងាយស្រួួ\nលក្នុងការចូលប្រើពីគ្រប់ទី\nកន្លែងនៅក្នុងស្\nគ្រីីប។ ពួកវាត្រូូវបានប្រើដើម្បីីចូលប្រើទិន្ន័យពីទម្រង់ (forms) កុហក (cookies) និង\nព័ត៌មានអំពីសឺវ័រ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពី Superglobals ដូចជា `$_GET`,\n`$_POST`, `$_REQUEST`, `$_SERVER`, `$_SESSION`, និង `$_COOKIE`។\n6.1. $_GET and $_POST\n`$_GET` និង `$_POST` គឺជា Superglobals ដែលត្រូូវបានប្រើដើម្បីីចូលប្រើទិន្ន័យដែលបានផ្ញើតាមរយៈ\nទម្រង់ HTML ដោយប្រើវិធីសាស្\nត្រ GET ឬ POST។\n// ឧទាហរណ៍៖ $_GET\n// URL: http://example.com?name=John&age=25\necho \"Name: \" . $_GET['name']; // John\necho \"Age: \" . $_GET['age']; // 25",
+          "code": "$text = \"The quick brown fox jumps over the lazy dog.\";\nif (preg_match(\"/fox/\", $text)) {\n  echo \"Found 'fox' in the text.\";\n}\n$newText = preg_replace(\"/dog/\", \"cat\", $text);\necho \"New Text: \" . $newText;\n// URL: http://example.com?name=John&age=25\necho \"Name: \" . $_GET['name']; // John\necho \"Age: \" . $_GET['age']; // 25",
+          "preview": {
+            "title": "Php · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 16",
+            "PHP គាំំទ្រកន្សោមធម្មតាតាមរយៈមុខងារ `preg_match` និង `preg_replace`។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-php-page-17",
+          "label": "PDF 17. Server Name: example.com",
+          "heading": "Server Name: example.com",
+          "intro": "// ឧទាហរណ៍៖ $_POST // ទម្រ ង់ HTML ដែលប្រើ method=\"POST\"",
+          "bodyHeading": "Source content · php.pdf · page 17",
+          "body": "// ឧទាហរណ៍៖ $_POST\n// ទម្រ\nង់ HTML ដែលប្រើ method=\"POST\"\necho \"Name: \" . $_POST['name'];\necho \"Age: \" . $_POST['age'];\nលទ្ធផល៖\nName: John\nAge: 25\n6.2. $_REQUEST\n`$_REQUEST` គឺជា Superglobal ដែលផ្ទុកទិន្ន័យដែលបានផ្ញើតាមរយៈទម្រង់ HTML ដោយប្រើវិធីសាស្\nត្រ\nGET, POST, ឬ COOKIE។ វាជាការរួមបញ្ចូលនៃ `$_GET`, `$_POST`, និង `$_COOKIE`។\n// ឧទាហរណ៍៖ $_REQUEST\n// URL: http://example.com?name=John\necho \"Name: \" . $_REQUEST['name']; // John\nលទ្ធផល៖\nName: John\n6.3. $_SERVER\n`$_SERVER` គឺជា Superglobal ដែលផ្ទុកព័ត៌មានអំពីសឺវ័រ និងបរិស្ថាននៃកម្មវិធី។ វាផ្តល់ព័ត៌មានដូចជា URL\nបច្ចុប្បន្ន វិធីសាស្\nត្រស្\nនើសុំ (request method) និងព័ត៌មានផ្សេងៗទៀទៀត។\n// ឧទាហរណ៍៖ $_SERVER\necho \"Server Name: \" . $_SERVER['SERVER_NAME']; // example.com\necho \"Request Method: \" . $_SERVER['REQUEST_METHOD']; // GET or POST\necho \"Script Name: \" . $_SERVER['SCRIPT_NAME']; // /index.php\nលទ្ធផល៖\nServer Name: example.com\nRequest Method: GET",
+          "code": "echo \"Name: \" . $_POST['name'];\necho \"Age: \" . $_POST['age'];\n// URL: http://example.com?name=John\necho \"Name: \" . $_REQUEST['name']; // John\necho \"Server Name: \" . $_SERVER['SERVER_NAME']; // example.com\necho \"Request Method: \" . $_SERVER['REQUEST_METHOD']; // GET or POST\necho \"Script Name: \" . $_SERVER['SCRIPT_NAME']; // /index.php",
+          "preview": {
+            "title": "Php · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 17",
+            "Server Name: example.com"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-php-page-18",
+          "label": "PDF 18. Script Name: /index.php",
+          "heading": "Script Name: /index.php",
+          "intro": "6.4. $_SESSION and $_COOKIE `$_SESSION` និង `$_COOKIE` គឺជា Superglobals ដែលត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងសម័យ (sessions) និងកុហក (cookies)។ `$_SESSION` ផ្ទុកទិន្ន័យដែលត្រូូវបានរក្សាទុកនៅលើសឺវ័រ ខណៈពេល",
+          "bodyHeading": "Source content · php.pdf · page 18",
+          "body": "Script Name: /index.php\n6.4. $_SESSION and $_COOKIE\n`$_SESSION` និង `$_COOKIE` គឺជា Superglobals ដែលត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងសម័យ\n(sessions) និងកុហក (cookies)។ `$_SESSION` ផ្ទុកទិន្ន័យដែលត្រូូវបានរក្សាទុកនៅលើសឺវ័រ ខណៈពេល\nដែល `$_COOKIE` ផ្ទុកទិន្ន័យដែលត្រូូវបានរក្សាទុកនៅលើកុំព្យូទ័រអ្នកប្រើប្\nរាស់។\n// ឧទាហរណ៍៖ $_SESSION\nsession_start();\n$_SESSION['username'] = 'JohnDoe';\necho \"Session Username: \" . $_SESSION['username']; // JohnDoe\n// ឧទាហរណ៍៖ $_COOKIE\nsetcookie(\"user\", \"JohnDoe\", time() + 3600, \"/\");\necho \"Cookie User: \" . $_COOKIE['user']; // JohnDoe\nលទ្ធផល៖\nSession Username: JohnDoe\nCookie User: JohnDoe\n7. សំណុំបែបបទ និងការបញ្ចូលពីអ្នកប្រើ\nសំណុំបែបបទ (Forms) គឺជាផ្នែកមួយដ៏សំខាន់នៃការអភិវឌ្ឍន៍គេហទំព័រ។ ពួកវាអនុញ្ញាតឱ្យអ្នកប្រើ\nប្\nរាស់បញ្ចូលទិន្ន័យ ហើយទិន្ន័យនេះះត្រូូវបានផ្ញើទៅសឺវ័រដើម្បីីដោះស្\nរាយ។ នៅក្នុងផ្នែកនេះះ យើងនឹង\nរៀរៀនអំពីការគ្រប់គ្រងទិន្ន័យពីសំណុំបែបបទ ការធ្វើសុពលភាពទិន្ន័យ និងការការពារការវាយប្រហារ\nដូចជា SQL Injection និង XSS។\n7.1. ការគ្រប់គ្រងទិន្ន័យពីសំណុំបែបបទ\nទិន្ន័យពីសំណុំបែបបទអាចត្រូូវបានផ្ញើតាមរយៈវិធីសាស្\nត្រ GET ឬ POST។ PHP ផ្តល់ Superglobals ដូចជា\n`$_GET` និង `$_POST` ដើម្បីីចូលប្រើទិន្ន័យនេះះ។",
+          "code": "session_start();\n$_SESSION['username'] = 'JohnDoe';\necho \"Session Username: \" . $_SESSION['username']; // JohnDoe\nsetcookie(\"user\", \"JohnDoe\", time() + 3600, \"/\");\necho \"Cookie User: \" . $_COOKIE['user']; // JohnDoe",
+          "preview": {
+            "title": "Php · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 18",
+            "Script Name: /index.php"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-php-page-19",
+          "label": "PDF 19. Form submitted successfully!",
+          "heading": "Form submitted successfully!",
+          "intro": "// ឧទាហរណ៍៖ ការគ្រ ប់គ្រ ងទិន្ន័",
+          "bodyHeading": "Source content · php.pdf · page 19",
+          "body": "// ឧទាហរណ៍៖ ការគ្រ\nប់គ្រ\nងទិន្ន័\nយពីសំណុំបែបបទ\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $email = $_POST['email'];\n  echo \"Name: $name, Email: $email\";\n}\nលទ្ធផល៖\nName: John Doe, Email: john@example.com\n7.2. ការធ្វើសុពលភាពទិន្ន័យពីសំណុំបែបបទ\nការធ្វើសុពលភាពទិន្ន័យគឺជាដំណើរការនៃការធានាថាទិន្ន័យដែលបានបញ្ចូលដោយអ្នកប្រើប្\nរាស់គឺត្រឹឹមត្រូូវ និង\nសុវត្ថិិភាព។ នេះះអាចរួមបញ្ចូលការពិនិត្យថាតើអ្នកប្រើប្\nរាស់បានបញ្ចូលអ៊ីីមែលត្រឹឹមត្រូូវ ឬថាតើវាលចាំំបាច់ត្រូូវបាន\nបំពេញ។\n// ឧទាហរណ៍៖ ការធ្វើសុពលភាពទិន្ន័\nយ\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $email = $_POST['email'];\n  if (empty($name)) {\n    echo \"Name is required.\";\n  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n    echo \"Invalid email format.\";\n  } else {\n    echo \"Form submitted successfully!\";\n  }\n}\nលទ្ធផល៖\nForm submitted successfully!\n7.3. ការការពារ SQL Injection និង XSS",
+          "code": "if ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $email = $_POST['email'];\n  echo \"Name: $name, Email: $email\";\n}\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $email = $_POST['email'];\n  if (empty($name)) {\n    echo \"Name is required.\";\n  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n    echo \"Invalid email format.\";\n  } else {\n    echo \"Form submitted successfully!\";\n  }\n}",
+          "preview": {
+            "title": "Php · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 19",
+            "Form submitted successfully!"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-php-page-20",
+          "label": "PDF 20. SQL Injection និង XSS (Cross-Site Scripting) គឺជាការវាយប្រហារសុវត្ថិិភាពដែលអាចបង្កឱ្យមាន",
+          "heading": "SQL Injection និង XSS (Cross-Site Scripting) គឺជាការវាយប្រហារសុវត្ថិិភាពដែលអាចបង្កឱ្យមាន",
+          "intro": "ការខូចខាតធ្ងន់ធ្ងរដល់កម្មវិធីរបស់អ្នក។ ដើម្បីីការពារការវាយប្រហារទាំំងនេះះ អ្នកគួរតែប្រើមុខងារដូចជា `mysqli_real_escape_string` ឬ `htmlspecialchars`។ // ឧទាហរណ៍៖ ការការពារ SQL Injection",
+          "bodyHeading": "Source content · php.pdf · page 20",
+          "body": "SQL Injection និង XSS (Cross-Site Scripting) គឺជាការវាយប្រហារសុវត្ថិិភាពដែលអាចបង្កឱ្យមាន\nការខូចខាតធ្ងន់ធ្ងរដល់កម្មវិធីរបស់អ្នក។ ដើម្បីីការពារការវាយប្រហារទាំំងនេះះ អ្នកគួរតែប្រើមុខងារដូចជា\n`mysqli_real_escape_string` ឬ `htmlspecialchars`។\n// ឧទាហរណ៍៖ ការការពារ SQL Injection\n$name = mysqli_real_escape_string($conn, $_POST['name']);\n$email = mysqli_real_escape_string($conn, $_POST['email']);\n// ឧទាហរណ៍៖ ការការពារ XSS\n$name = htmlspecialchars($_POST['name']);\n$email = htmlspecialchars($_POST['email']);\nលទ្ធផល៖\nទិន្ន័\nយត្\nរូវបានការពារពី SQL Injection និង XSS។\n8. ការគ្រប់គ្រងកំហុស និងការបំបាត់កំហុស\nការគ្រប់គ្រងកំហុស និងការបំបាត់កំហុសគឺជាជំនាញសំខាន់សម្\nរាប់អ្នកអភិវឌ្ឍ JavaScript។ នៅក្នុង\nផ្នែកនេះះ យើងនឹងស្\nវែងយល់ពីវិធីសាស្\nរ្ត console, ការបំបាត់កំហុសដោយប្រើ DevTools របស់\nកម្មវិធីរុករក និងការប្រើ `try...catch` និង `throw`។\n8.1. វិធីសាស្\nរ្ត Console (console.log, console.error)\nConsole methods ដូចជា `console.log` និង `console.error` ត្រូូវបានប្រើដើម្បីីបង្ហាញព័ត៌មាននៅក្នុង\nconsole របស់កម្មវិធីរុករក។\n// ឧទាហរណ៍៖ Console Methods\nconsole.log(\"This is a log message.\"); // បង្ហាញសារធម្មតា\nconsole.error(\"This is an error message.\"); // បង្ហាញសារកំហុស\nលទ្ធផល៖\nThis is a log message.\nThis is an error message.",
+          "code": "$name = mysqli_real_escape_string($conn, $_POST['name']);\n$email = mysqli_real_escape_string($conn, $_POST['email']);\n$name = htmlspecialchars($_POST['name']);\n$email = htmlspecialchars($_POST['email']);",
+          "preview": {
+            "title": "Php · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 20",
+            "SQL Injection និង XSS (Cross-Site Scripting) គឺជាការវាយប្រហារសុវត្ថិិភាពដែលអាចបង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-php-page-21",
+          "label": "PDF 21. DevTools របស់កម្មវិធីរុករកផ្តល់ឧបករណ៍សម្",
+          "heading": "DevTools របស់កម្មវិធីរុករកផ្តល់ឧបករណ៍សម្",
+          "intro": "  8.2. ការបំបាត់កំហុសដោយប្រើ DevTools",
+          "bodyHeading": "Source content · php.pdf · page 21",
+          "body": "\n\n8.2. ការបំបាត់កំហុសដោយប្រើ DevTools\nDevTools របស់កម្មវិធីរុករកផ្តល់ឧបករណ៍សម្\nរាប់បំបាត់កំហុស ដូចជា breakpoints, step-through\ndebugging, និងការតាមដានតម្លៃអថេរ។\n// ឧទាហរណ៍៖ Debugging with DevTools\nfunction add(a, b) {\n  debugger; // Pause execution here\n  return a + b;\n}\nconsole.log(add(2, 3));\nលទ្ធផល៖\nនៅពេលដំណើរការ កូដនឹងផ្អាកនៅ `debugger` ហើយអ្នកអាចពិនិត្យតម្លៃអថេរនៅក្នុង De\n8.3. try...catch និង throw\n`try...catch` អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងកំហុសដោយមិនធ្វើឱ្យកម្មវិធីរបស់អ្នកឈប់ដំណើរការ។ `throw`\nអនុញ្ញាតឱ្យអ្នកបង្កើតកំហុសផ្ទាល់ខ្លួន។\n// ឧទាហរណ៍៖ try...catch និង throw\nfunction divide(a, b) {\n  if (b === 0) {\n    throw new Error(\"Cannot divide by zero!\");\n  }\n  return a / b;\n}\ntry {\n  console.log(divide(10, 0));\n} catch (error) {\n  console.error(error.message); // បង្ហាញសារកំហុស\n}\nលទ្ធផល៖",
+          "code": "function add(a, b) {\n  debugger; // Pause execution here\n  return a + b;\n}\nconsole.log(add(2, 3));\nfunction divide(a, b) {\n  if (b === 0) {\n    throw new Error(\"Cannot divide by zero!\");\n  }\n  return a / b;\n}\ntry {\n  console.log(divide(10, 0));\n} catch (error) {\n}",
+          "preview": {
+            "title": "Php · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 21",
+            "DevTools របស់កម្មវិធីរុករកផ្តល់ឧបករណ៍សម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-php-page-22",
+          "label": "PDF 22. Cannot divide by zero!",
+          "heading": "Cannot divide by zero!",
+          "intro": "8. Working with Files in PHP PHP ផ្តល់មុខងារជាច្រើនដើម្បីីធ្វើការជាមួយឯកសារ ដូចជាការអាន ការសរសេរ ការផ្ទុកឡើង និងការ គ្រប់គ្រងឯកសារនៅលើសឺវ័រ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការគ្រប់គ្រងឯកសារ ការផ្ទុកឡើង",
+          "bodyHeading": "Source content · php.pdf · page 22",
+          "body": "Cannot divide by zero!\n8. Working with Files in PHP\nPHP ផ្តល់មុខងារជាច្រើនដើម្បីីធ្វើការជាមួយឯកសារ ដូចជាការអាន ការសរសេរ ការផ្ទុកឡើង និងការ\nគ្រប់គ្រងឯកសារនៅលើសឺវ័រ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការគ្រប់គ្រងឯកសារ ការផ្ទុកឡើង\nឯកសារ និងការធ្វើការជាមួយឯកសារប្រភេទ CSV និង JSON។\n8.1. File Handling (Read/Write)\nPHP អនុញ្ញាតឱ្យអ្នកអាន និងសរសេរទិន្ន័យទៅកាន់ឯកសារ។ អ្នកអាចប្រើមុខងារដូចជា `fopen`, `fread`,\n`fwrite`, និង `fclose` ដើម្បីីធ្វើការជាមួយឯកសារ។\n// ឧទាហរណ៍៖ ការសរសេរទិន្ន័\nយទៅកាន់ឯកសារ\n$file = fopen(\"example.txt\", \"w\");\nfwrite($file, \"Hello, World!\");\nfclose($file);\n// ឧទាហរណ៍៖ ការអានទិន្ន័\nយពីឯកសារ\n$file = fopen(\"example.txt\", \"r\");\necho fread($file, filesize(\"example.txt\"));\nfclose($file);\nលទ្ធផល៖\nHello, World!\n8.2. Uploading Files\nPHP អនុញ្ញាតឱ្យអ្នកផ្ទុកឡើងឯកសារពីទម្រង់ HTML ទៅកាន់សឺវ័រ។ អ្នកអាចប្រើ Superglobal `$_FILES`\nដើម្បីីចូលប្រើឯកសារដែលបានផ្ទុកឡើង។\n// ឧទាហរណ៍៖ ការផ្ទុកឡើងឯកសារ\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $target_dir = \"uploads/\";",
+          "code": "8.1. File Handling (Read/Write)\n$file = fopen(\"example.txt\", \"w\");\nfwrite($file, \"Hello, World!\");\nfclose($file);\n$file = fopen(\"example.txt\", \"r\");\necho fread($file, filesize(\"example.txt\"));\nfclose($file);\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $target_dir = \"uploads/\";",
+          "preview": {
+            "title": "Php · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 22",
+            "Cannot divide by zero!"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-php-page-23",
+          "label": "PDF 23. File uploaded successfully.",
+          "heading": "File uploaded successfully.",
+          "intro": "  $target_file = $target_dir . basename($_FILES[\"fileToUpload\"][\"name\"])",
+          "bodyHeading": "Source content · php.pdf · page 23",
+          "body": "\n\n  $target_file = $target_dir . basename($_FILES[\"fileToUpload\"][\"name\"])\n  move_uploaded_file($_FILES[\"fileToUpload\"][\"tmp_name\"], $target_file);\n  echo \"File uploaded successfully.\";\n}\nលទ្ធផល៖\nFile uploaded successfully.\n8.3. Handling CSV and JSON Files\nPHP អនុញ្ញាតឱ្យអ្នកធ្វើការជាមួយឯកសារប្រភេទ CSV និង JSON។ អ្នកអាចប្រើមុខងារដូចជា `fgetcsv`\nដើម្បីីអានឯកសារ CSV និង `json_encode` និង `json_decode` ដើម្បីីធ្វើការជាមួយទិន្ន័យ JSON។\n// ឧទាហរណ៍៖ ការអានឯកសារ CSV\n$file = fopen(\"example.csv\", \"r\");\nwhile (($data = fgetcsv($file)) !== FALSE) {\n  print_r($data);\n}\nfclose($file);\n// ឧទាហរណ៍៖ ការធ្វើការជាមួយទិន្ន័\nយ JSON\n$data = array(\"name\" => \"John\", \"age\" => 25);\n$json = json_encode($data);\necho $json;\n$decoded = json_decode($json, true);\nprint_r($decoded);\nលទ្ធផល៖\nArray\n(\n    [0] => John\n    [1] => 25\n)\n{\"name\":\"John\",\"age\":25}\nArray\n(",
+          "code": "$target_file = $target_dir . basename($_FILES[\"fileToUpload\"][\"name\"])\n  move_uploaded_file($_FILES[\"fileToUpload\"][\"tmp_name\"], $target_file);\n  echo \"File uploaded successfully.\";\n}\n$file = fopen(\"example.csv\", \"r\");\nwhile (($data = fgetcsv($file)) !== FALSE) {\n  print_r($data);\n}\nfclose($file);\n$data = array(\"name\" => \"John\", \"age\" => 25);\n$json = json_encode($data);\necho $json;\n$decoded = json_decode($json, true);\nprint_r($decoded);\n(\n    [0] => John\n    [1] => 25\n)\n{\"name\":\"John\",\"age\":25}\n(",
+          "preview": {
+            "title": "Php · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 23",
+            "File uploaded successfully."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-php-page-24",
+          "label": "PDF 24. Abstract Classes, និង Traits។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីគោលគំនិតទាំំងនេះះ។",
+          "heading": "Abstract Classes, និង Traits។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីគោលគំនិតទាំំងនេះះ។",
+          "intro": "[name] => John [age] => 25 )",
+          "bodyHeading": "Source content · php.pdf · page 24",
+          "body": "[name] => John\n    [age] => 25\n)\n9. Object-Oriented Programming (OOP) in\nPHP\nការសរសេរកម្មវិធីដោយប្រើប្\nរាស់វិធីសាស្\nត្រប្រធានវត្ថុ (Object-Oriented Programming -\nOOP) គឺជាវិធីសាស្\nត្រដ៏មានប្រសិទ្ធភាពក្នុងការរៀរៀបចំកូដ។ PHP គាំំទ្រវិធីសាស្\nត្រនេះះ ដោយផ្តល់\nលក្ខណៈពិសេសដូចជា Classes, Objects, Inheritance, Polymorphism, Interfaces,\nAbstract Classes, និង Traits។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីគោលគំនិតទាំំងនេះះ។\n9.1. Classes and Objects\nClass គឺជាគំរូ (blueprint) សម្\nរាប់បង្កើត Objects។ Object គឺជាករណីជាក់លាក់នៃ Class។ នៅក្នុង\nPHP អ្នកអាចកំណត់ Class ដោយប្រើពាក្យគន្លឹះ `class` ហើយបង្កើត Object ដោយប្រើពាក្យគន្លឹះ `new`។\n// ឧទាហរណ៍៖ Class និង Object\nclass Car {\n  public $brand;\n  public $model;\n  public function displayInfo() {\n    return \"Brand: \" . $this->brand . \", Model: \" . $this->model;\n  }\n}\n$myCar = new Car();\n$myCar->brand = \"Toyota\";\n$myCar->model = \"Corolla\";\necho $myCar->displayInfo();\nលទ្ធផល៖\nBrand: Toyota, Model: Corolla",
+          "code": "[name] => John\n    [age] => 25\n)\n9. Object-Oriented Programming (OOP) in\nclass Car {\n  public $brand;\n  public $model;\n  public function displayInfo() {\n    return \"Brand: \" . $this->brand . \", Model: \" . $this->model;\n  }\n}\n$myCar = new Car();\n$myCar->brand = \"Toyota\";\n$myCar->model = \"Corolla\";\necho $myCar->displayInfo();",
+          "preview": {
+            "title": "Php · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 24",
+            "Abstract Classes, និង Traits។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីគោលគំនិតទាំំងនេះះ។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-php-page-25",
+          "label": "PDF 25. Constructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបានបង្កើត។",
+          "heading": "Constructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបានបង្កើត។",
+          "intro": "9.2. Constructors and Destructors Destructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបានបំផ្លាញ។ // ឧទាហរណ៍៖ Constructor និង Destructor",
+          "bodyHeading": "Source content · php.pdf · page 25",
+          "body": "9.2. Constructors and Destructors\nConstructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបានបង្កើត។\nDestructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបានបំផ្លាញ។\n// ឧទាហរណ៍៖ Constructor និង Destructor\nclass Car {\n  public $brand;\n  public $model;\n  public function __construct($brand, $model) {\n    $this->brand = $brand;\n    $this->model = $model;\n    echo \"Car object created.<br>\";\n  }\n  public function __destruct() {\n    echo \"Car object destroyed.<br>\";\n  }\n  public function displayInfo() {\n    return \"Brand: \" . $this->brand . \", Model: \" . $this->model;\n  }\n}\n$myCar = new Car(\"Toyota\", \"Corolla\");\necho $myCar->displayInfo();\nលទ្ធផល៖\nCar object created.\nBrand: Toyota, Model: Corolla\nCar object destroyed.\n9.3. Inheritance and Polymorphism\nInheritance គឺជាលក្ខណៈពិសេសនៃ OOP ដែលអនុញ្ញាតឱ្យ Class មួយទទួលមរតកលក្ខណៈពិសេសពី\nClass ផ្សេង។ Polymorphism គឺជាលក្ខណៈពិសេសដែលអនុញ្ញាតឱ្យមានច្រើនទម្រង់នៃមុខងារដូចគ្នា។",
+          "code": "class Car {\n  public $brand;\n  public $model;\n  public function __construct($brand, $model) {\n    $this->brand = $brand;\n    $this->model = $model;\n    echo \"Car object created.<br>\";\n  }\n  public function __destruct() {\n    echo \"Car object destroyed.<br>\";\n  }\n  public function displayInfo() {\n    return \"Brand: \" . $this->brand . \", Model: \" . $this->model;\n  }\n}\n$myCar = new Car(\"Toyota\", \"Corolla\");\necho $myCar->displayInfo();",
+          "preview": {
+            "title": "Php · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 25",
+            "Constructor គឺជាមុខងារពិសេសដែលត្រូូវបានហៅដោយស្វ័័យប្រវត្តិិនៅពេល Object ត្រូូវបា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-php-page-26",
+          "label": "PDF 26. Engine started.",
+          "heading": "Engine started.",
+          "intro": "// ឧទាហរណ៍៖ Inheritance និង Polymorphism class Vehicle { public function startEngine() {",
+          "bodyHeading": "Source content · php.pdf · page 26",
+          "body": "// ឧទាហរណ៍៖ Inheritance និង Polymorphism\nclass Vehicle {\n  public function startEngine() {\n    return \"Engine started.<br>\";\n  }\n}\nclass Car extends Vehicle {\n  public function startEngine() {\n    return \"Car engine started.<br>\";\n  }\n}\n$vehicle = new Vehicle();\n$car = new Car();\necho $vehicle->startEngine();\necho $car->startEngine();\nលទ្ធផល៖\nEngine started.\nCar engine started.\n9.4. Interfaces and Abstract Classes\nInterface គឺជាការកំណត់រចនាសម្ព័័ន្ធសម្\nរាប់ Class ដែលត្រូូវតាម។ Abstract Class គឺជា Class ដែលមិន\nអាចបង្កើត Object ដោយផ្ទាល់ ហើយត្រូូវតែត្រូូវបានពង្រីីកដោយ Class ផ្សេង។\n// ឧទាហរណ៍៖ Interface និង Abstract Class\ninterface Drivable {\n  public function drive();\n}\nabstract class Vehicle {\n  abstract public function startEngine();\n}\nclass Car extends Vehicle implements Drivable {\n  public function startEngine() {",
+          "code": "class Vehicle {\n  public function startEngine() {\n    return \"Engine started.<br>\";\n  }\n}\nclass Car extends Vehicle {\n  public function startEngine() {\n    return \"Car engine started.<br>\";\n  }\n}\n$vehicle = new Vehicle();\n$car = new Car();\necho $vehicle->startEngine();\necho $car->startEngine();\ninterface Drivable {\n  public function drive();\n}\nabstract class Vehicle {\n  abstract public function startEngine();\n}\nclass Car extends Vehicle implements Drivable {\n  public function startEngine() {",
+          "preview": {
+            "title": "Php · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 26",
+            "Engine started."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-php-page-27",
+          "label": "PDF 27. Car engine started.",
+          "heading": "Car engine started.",
+          "intro": "return \"Car engine started.<br>\"; } public function drive() {",
+          "bodyHeading": "Source content · php.pdf · page 27",
+          "body": "return \"Car engine started.<br>\";\n  }\n  public function drive() {\n    return \"Car is driving.<br>\";\n  }\n}\n$car = new Car();\necho $car->startEngine();\necho $car->drive();\nលទ្ធផល៖\nCar engine started.\nCar is driving.\n9.5. Traits in PHP\nTraits គឺជាវិធីសាស្\nត្រដើម្បីីចែករំលែកមុខងាររវាង Classes។ Traits អនុញ្ញាតឱ្យអ្នកប្រើមុខងារដូចគ្នានៅក្នុង\nClasses ច្រើនដោយមិនចាំំបាច់ពង្រីីក Class មួយ។\n// ឧទាហរណ៍៖ Traits\ntrait Loggable {\n  public function log($message) {\n    echo \"Log: \" . $message . \"<br>\";\n  }\n}\nclass Car {\n  use Loggable;\n  public function startEngine() {\n    $this->log(\"Car engine started.\");\n    return \"Engine started.<br>\";\n  }\n}",
+          "code": "return \"Car engine started.<br>\";\n  }\n  public function drive() {\n    return \"Car is driving.<br>\";\n  }\n}\n$car = new Car();\necho $car->startEngine();\necho $car->drive();\ntrait Loggable {\n  public function log($message) {\n    echo \"Log: \" . $message . \"<br>\";\n  }\n}\nclass Car {\n  use Loggable;\n  public function startEngine() {\n    $this->log(\"Car engine started.\");\n    return \"Engine started.<br>\";\n  }\n}",
+          "preview": {
+            "title": "Php · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 27",
+            "Car engine started."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-php-page-28",
+          "label": "PDF 28. Engine started.",
+          "heading": "Engine started.",
+          "intro": "$car = new Car(); echo $car->startEngine(); លទ្ធផល៖",
+          "bodyHeading": "Source content · php.pdf · page 28",
+          "body": "$car = new Car();\necho $car->startEngine();\nលទ្ធផល៖\nLog: Car engine started.\nEngine started.\n10. PHP and MySQL\nPHP និង MySQL គឺជាបច្ចេកវិទ្យាដ៏ពេញនិយមសម្\nរាប់ការអភិវឌ្ឍន៍កម្មវិធីគេហទំព័រដែលមានការ\nភ្ជាប់ទៅនឹងមូលដ្ឋានទិន្ន័យ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការភ្ជាប់ទៅមូលដ្ឋានទិន្ន័យ MySQL\nការអនុវត្តប្រតិបត្តិិការ CRUD (Create, Read, Update, Delete) ការប្រើ Prepared\nStatements ដើម្បីីការពារសុវត្ថិិភាព និងការប្រើ PDO សម្\nរាប់ការទំនាក់ទំនងជាមួយមូលដ្ឋាន\nទិន្ន័យ។\n10.1. Connecting to a Database\nដើម្បីីភ្ជាប់ទៅមូលដ្ឋានទិន្ន័យ MySQL អ្នកអាចប្រើមុខងារ `mysqli_connect` ឬ PDO។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍នៃការភ្ជាប់ទៅមូលដ្ឋានទិន្ន័យ។\n// ឧទាហរណ៍៖ ការភ្ជាប់ទៅមូលដ្ឋានទិន្ន័\nយ MySQL\n$servername = \"localhost\";\n$username = \"root\";\n$password = \"\";\n$dbname = \"myDB\";\n// បង្កើតការភ្ជាប់\n$conn = mysqli_connect($servername, $username, $password, $dbname);\n// ពិនិត្យការភ្ជាប់\nif (!$conn) {\n  die(\"Connection failed: \" . mysqli_connect_error());\n}\necho \"Connected successfully\";",
+          "code": "$car = new Car();\necho $car->startEngine();\n$servername = \"localhost\";\n$username = \"root\";\n$password = \"\";\n$dbname = \"myDB\";\n$conn = mysqli_connect($servername, $username, $password, $dbname);\nif (!$conn) {\n  die(\"Connection failed: \" . mysqli_connect_error());\n}\necho \"Connected successfully\";",
+          "preview": {
+            "title": "Php · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 28",
+            "Engine started."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-php-page-29",
+          "label": "PDF 29. Connected successfully",
+          "heading": "Connected successfully",
+          "intro": "  លទ្ធផល៖",
+          "bodyHeading": "Source content · php.pdf · page 29",
+          "body": "\n\nលទ្ធផល៖\nConnected successfully\n10.2. CRUD Operations (Create, Read, Update, Delete)\nCRUD គឺជាប្រតិបត្តិិការមូលដ្ឋានដែលត្រូូវបានប្រើក្នុងការគ្រប់គ្រងទិន្ន័យ។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃ\nប្រតិបត្តិិការ CRUD។\n// ឧទាហរណ៍៖ CRUD Operations\n// Create\n$sql = \"INSERT INTO users (name, email) VALUES ('John Doe', 'john@exampl\nif (mysqli_query($conn, $sql)) {\n  echo \"New record created successfully\";\n}\n// Read\n$sql = \"SELECT id, name, email FROM users\";\n$result = mysqli_query($conn, $sql);\nwhile ($row = mysqli_fetch_assoc($result)) {\n  echo \"ID: \" . $row[\"id\"] . \" - Name: \" . $row[\"name\"] . \" - Email: \" .\n}\n// Update\n$sql = \"UPDATE users SET email='john.doe@example.com' WHERE id=1\";\nif (mysqli_query($conn, $sql)) {\n  echo \"Record updated successfully\";\n}\n// Delete\n$sql = \"DELETE FROM users WHERE id=1\";\nif (mysqli_query($conn, $sql)) {\n  echo \"Record deleted successfully\";\n}\nលទ្ធផល៖\nNew record created successfully\nID: 1 - Name: John Doe - Email: john@example.com",
+          "code": "10.2. CRUD Operations (Create, Read, Update, Delete)\n$sql = \"INSERT INTO users (name, email) VALUES ('John Doe', 'john@exampl\nif (mysqli_query($conn, $sql)) {\n  echo \"New record created successfully\";\n}\n$sql = \"SELECT id, name, email FROM users\";\n$result = mysqli_query($conn, $sql);\nwhile ($row = mysqli_fetch_assoc($result)) {\n}\n$sql = \"UPDATE users SET email='john.doe@example.com' WHERE id=1\";\nif (mysqli_query($conn, $sql)) {\n  echo \"Record updated successfully\";\n}\n$sql = \"DELETE FROM users WHERE id=1\";\nif (mysqli_query($conn, $sql)) {\n  echo \"Record deleted successfully\";\n}",
+          "preview": {
+            "title": "Php · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 29",
+            "Connected successfully"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-php-page-30",
+          "label": "PDF 30. Record updated successfully",
+          "heading": "Record updated successfully",
+          "intro": "  Record deleted successfully",
+          "bodyHeading": "Source content · php.pdf · page 30",
+          "body": "\n\nRecord updated successfully\nRecord deleted successfully\n10.3. Prepared Statements and Security\nPrepared Statements គឺជាវិធីសាស្\nត្រដើម្បីីការពារកម្មវិធីពីការវាយប្រហារដូចជា SQL Injection។ វា\nអនុញ្ញាតឱ្យអ្នកដាក់ប៉ារ៉ាម៉ែត្រទៅក្នុងសំណួរដោយសុវត្ថិិភាព។\n// ឧទាហរណ៍៖ Prepared Statements\n$stmt = $conn->prepare(\"INSERT INTO users (name, email) VALUES (?, ?)\");\n$stmt->bind_param(\"ss\", $name, $email);\n// កំណត់តម្លៃប៉ារ៉ាម៉\nែត្រ\n និងអនុវត្ត\n$name = \"Jane Doe\";\n$email = \"jane@example.com\";\n$stmt->execute();\necho \"New record created successfully\";\nលទ្ធផល៖\nNew record created successfully\n10.4. Using PDO for Database Interaction\nPDO (PHP Data Objects) គឺជាវិធីសាស្\nត្រដ៏មានប្រសិទ្ធភាពសម្\nរាប់ការទំនាក់ទំនងជាមួយមូលដ្ឋានទិន្ន័យ។\nវាផ្តល់ភាពអាចផ្លាស់ប្តូរបានរវាងមូលដ្ឋានទិន្ន័យផ្សេងៗ និងគាំំទ្រការប្រើ Prepared Statements។\n// ឧទាហរណ៍៖ ការប្រើ PDO\ntry {\n  $conn = new PDO(\"mysql:host=$servername;dbname=$dbname\", $username, $p\n  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n  // ប្រើ Prepared Statements\n  $stmt = $conn->prepare(\"INSERT INTO users (name, email) VALUES (:name,\n  $stmt->bindParam(':name', $name);\n  $stmt->bindParam(':email', $email);",
+          "code": "$stmt = $conn->prepare(\"INSERT INTO users (name, email) VALUES (?, ?)\");\n$stmt->bind_param(\"ss\", $name, $email);\n$name = \"Jane Doe\";\n$email = \"jane@example.com\";\n$stmt->execute();\necho \"New record created successfully\";\ntry {\n  $conn = new PDO(\"mysql:host=$servername;dbname=$dbname\", $username, $p\n  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n  $stmt = $conn->prepare(\"INSERT INTO users (name, email) VALUES (:name,\n  $stmt->bindParam(':name', $name);\n  $stmt->bindParam(':email', $email);",
+          "preview": {
+            "title": "Php · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 30",
+            "Record updated successfully"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-php-page-31",
+          "label": "PDF 31. New record created successfully",
+          "heading": "New record created successfully",
+          "intro": "// កំណត់តម្លៃប៉ារ៉ាម៉ ែត្រ និងអនុវត្ត",
+          "bodyHeading": "Source content · php.pdf · page 31",
+          "body": "// កំណត់តម្លៃប៉ារ៉ាម៉\nែត្រ\n និងអនុវត្ត\n  $name = \"Alice\";\n  $email = \"alice@example.com\";\n  $stmt->execute();\n  echo \"New record created successfully\";\n} catch (PDOException $e) {\n  echo \"Error: \" . $e->getMessage();\n}\nលទ្ធផល៖\nNew record created successfully\n11. Sessions and Cookies\nSessions និង Cookies គឺជាវិធីសាស្\nត្រសម្\nរាប់គ្រប់គ្រងស្ថានភាពរបស់អ្នកប្រើប្\nរាស់នៅលើ\nគេហទំព័រ។ Sessions ត្រូូវបានរក្សាទុកនៅលើសឺវ័រ ខណៈពេលដែល Cookies ត្រូូវបានរក្សាទុកនៅ\nលើកុំព្យូទ័រអ្នកប្រើប្\nរាស់។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការគ្រប់គ្រង Sessions និងការប្រើ\nCookies សម្\nរាប់ការតាមដានអ្នកប្រើប្\nរាស់។\n11.1. Managing Sessions\nSessions ត្រូូវបានប្រើដើម្បីីរក្សាទិន្ន័យរបស់អ្នកប្រើប្\nរាស់នៅលើសឺវ័រ ហើយអាចប្រើបាននៅទូទាំំងទំព័រផ្សេងៗនៃ\nគេហទំព័រ។ ដើម្បីីប្រើ Sessions អ្នកត្រូូវចាប់ផ្តើម Session ដោយប្រើមុខងារ `session_start()`។\n// ឧទាហរណ៍៖ ការគ្រ\nប់គ្រ\nង Sessions\nsession_start();\n// កំណត់តម្លៃ Session\n$_SESSION['username'] = 'JohnDoe';\n// ទាញយកតម្លៃ Session\necho \"Username: \" . $_SESSION['username'];",
+          "code": "$name = \"Alice\";\n  $email = \"alice@example.com\";\n  $stmt->execute();\n  echo \"New record created successfully\";\n} catch (PDOException $e) {\n  echo \"Error: \" . $e->getMessage();\n}\nsession_start();\n$_SESSION['username'] = 'JohnDoe';\necho \"Username: \" . $_SESSION['username'];",
+          "preview": {
+            "title": "Php · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 31",
+            "New record created successfully"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-php-page-32",
+          "label": "PDF 32. Cookies ត្រូូវបានប្រើដើម្បីីរក្សាទិន្ន័យរបស់អ្នកប្រើប្",
+          "heading": "Cookies ត្រូូវបានប្រើដើម្បីីរក្សាទិន្ន័យរបស់អ្នកប្រើប្",
+          "intro": "  // លុប Session",
+          "bodyHeading": "Source content · php.pdf · page 32",
+          "body": "\n\n// លុប Session\nsession_unset();\nsession_destroy();\nលទ្ធផល៖\nUsername: JohnDoe\n11.2. Using Cookies for User Tracking\nCookies ត្រូូវបានប្រើដើម្បីីរក្សាទិន្ន័យរបស់អ្នកប្រើប្\nរាស់នៅលើកុំព្យូទ័ររបស់ពួកគេ។ Cookies អាចត្រូូវបានប្រើ\nដើម្បីីតាមដានអ្នកប្រើប្\nរាស់ ឬរក្សាការកំណត់របស់ពួកគេ។\n// ឧទាហរណ៍៖ ការប្រើ Cookies\n// កំណត់ Cookie\nsetcookie(\"username\", \"JohnDoe\", time() + (86400 * 30), \"/\"); // 86400 =\n// ទាញយកតម្លៃ Cookie\nif (isset($_COOKIE['username'])) {\n  echo \"Username: \" . $_COOKIE['username'];\n} else {\n  echo \"Cookie not set.\";\n}\n// លុប Cookie\nsetcookie(\"username\", \"\", time() - 3600, \"/\");\nលទ្ធផល៖\nUsername: JohnDoe\n12. PHP and AJAX\nAJAX (Asynchronous JavaScript and XML) គឺជាវិធីសាស្\nត្រដែលអនុញ្ញាតឱ្យអ្នកធ្វើការ\nស្\nនើសុំទៅកាន់សឺវ័រដោយមិនចាំំបាច់ផ្ទុកទំព័រឡើងវិញ។ PHP អាចត្រូូវបានប្រើជាមួយ AJAX ដើម្បីីធ្វើ",
+          "code": "session_unset();\nsession_destroy();\nsetcookie(\"username\", \"JohnDoe\", time() + (86400 * 30), \"/\"); // 86400 =\nif (isset($_COOKIE['username'])) {\n  echo \"Username: \" . $_COOKIE['username'];\n} else {\n  echo \"Cookie not set.\";\n}",
+          "preview": {
+            "title": "Php · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 32",
+            "Cookies ត្រូូវបានប្រើដើម្បីីរក្សាទិន្ន័យរបស់អ្នកប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-php-page-33",
+          "label": "PDF 33. AJAX អនុញ្ញាតឱ្យអ្នកធ្វើការស្",
+          "heading": "AJAX អនុញ្ញាតឱ្យអ្នកធ្វើការស្",
+          "intro": "  ការស្",
+          "bodyHeading": "Source content · php.pdf · page 33",
+          "body": "\n\nការស្\nនើសុំអសមកាល និងទទួលការឆ្លើយតបពីសឺវ័រ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការគ្រប់គ្រង\nសំណើអសមកាល និងការប្រើ Fetch API ជាមួយ PHP។\n12.1. Handling Asynchronous Requests\nAJAX អនុញ្ញាតឱ្យអ្នកធ្វើការស្\nនើសុំទៅកាន់សឺវ័រដោយមិនចាំំបាច់ផ្ទុកទំព័រឡើងវិញ។ PHP អាចដំណើរការសំណើ\nទាំំងនេះះ ហើយត្រឡប់ទិន្ន័យជាទម្រង់ JSON ឬ HTML។\n// ឧទាហរណ៍៖ ការគ្រ\nប់គ្រ\nងសំណើអសមកាល\nif ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $response = array(\"status\" => \"success\", \"message\" => \"Hello, \" . $nam\n  echo json_encode($response);\n}\nលទ្ធផល៖\n{\"status\":\"success\",\"message\":\"Hello, John\"}\n12.2. Fetch API and PHP\nFetch API គឺជាវិធីសាស្\nត្រទំនើបសម្\nរាប់ធ្វើការស្\nនើសុំ HTTP ពី JavaScript។ វាអាចត្រូូវបានប្រើជាមួយ PHP\nដើម្បីីទទួល និងដំណើរការទិន្ន័យពីសឺវ័រ។\n// ឧទាហរណ៍៖ ការប្រើ Fetch API ជាមួយ PHP\nfetch('server.php', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({ name: 'John' })\n})\n.then(response => response.json())\n.then(data => {\n  console.log(data);\n})\n.catch(error => {",
+          "code": "if ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {\n  $name = $_POST['name'];\n  $response = array(\"status\" => \"success\", \"message\" => \"Hello, \" . $nam\n  echo json_encode($response);\n}\n{\"status\":\"success\",\"message\":\"Hello, John\"}\nfetch('server.php', {\n  headers: {\n  },\n  body: JSON.stringify({ name: 'John' })\n})\n.then(response => response.json())\n.then(data => {\n  console.log(data);\n})\n.catch(error => {",
+          "preview": {
+            "title": "Php · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 33",
+            "AJAX អនុញ្ញាតឱ្យអ្នកធ្វើការស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-php-page-34",
+          "label": "PDF 34. Scripting (XSS) និងការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។",
+          "heading": "Scripting (XSS) និងការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។",
+          "intro": "console.error('Error:', error); }); លទ្ធផល៖",
+          "bodyHeading": "Source content · php.pdf · page 34",
+          "body": "console.error('Error:', error);\n});\nលទ្ធផល៖\n{\"status\":\"success\",\"message\":\"Hello, John\"}\n13. PHP Security\nសុវត្ថិិភាពគឺជាផ្នែកមួយដ៏សំខាន់នៃការអភិវឌ្ឍន៍កម្មវិធី។ PHP ផ្តល់ឧបករណ៍និងវិធីសាស្\nត្រជាច្រើនដើម្បីី\nការពារកម្មវិធីពីការវាយប្រហារផ្សេងៗ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការធ្វើសុពលភាពនិងសម្អាត\nទិន្ន័យ ការការពារការវាយប្រហារ SQL Injection ការការពារការវាយប្រហារ Cross-Site\nScripting (XSS) និងការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។\n13.1. Input Validation and Sanitization\nការធ្វើសុពលភាពនិងសម្អាតទិន្ន័យគឺជាដំណើរការនៃការធានាថាទិន្ន័យដែលបានបញ្ចូលដោយអ្នកប្រើប្\nរាស់គឺ\nត្រឹឹមត្រូូវ និងសុវត្ថិិភាព។ PHP ផ្តល់មុខងារដូចជា `filter_var` និង `htmlspecialchars` សម្\nរាប់ការសម្អាត\nទិន្ន័យ។\n// ឧទាហរណ៍៖ ការធ្វើសុពលភាពនិងសម្អាតទិន្ន័\nយ\n$email = \"john@example.com\";\n// ធ្វើសុពលភាពអ៊ីីមែល\nif (filter_var($email, FILTER_VALIDATE_EMAIL)) {\n  echo \"Email is valid.\";\n} else {\n  echo \"Invalid email format.\";\n}\n// សម្អាតទិន្ន័\nយ\n$input = \"<script>alert('XSS');</script>\";\n$cleanInput = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');\necho $cleanInput;\nលទ្ធផល៖",
+          "code": "console.error('Error:', error);\n});\n{\"status\":\"success\",\"message\":\"Hello, John\"}\n$email = \"john@example.com\";\nif (filter_var($email, FILTER_VALIDATE_EMAIL)) {\n  echo \"Email is valid.\";\n} else {\n  echo \"Invalid email format.\";\n}\n$input = \"<script>alert('XSS');</script>\";\n$cleanInput = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');\necho $cleanInput;",
+          "preview": {
+            "title": "Php · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 34",
+            "Scripting (XSS) និងការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-php-page-35",
+          "label": "PDF 35. Email is valid.",
+          "heading": "Email is valid.",
+          "intro": "&lt;script&gt;alert(&#039;XSS&#039;);&lt;/script&gt; 13.2. Protecting Against SQL Injection SQL Injection គឺជាការវាយប្រហារដែលអាចឱ្យអ្នកវាយប្រហារបញ្ចូលសំណើ SQL មិនសុវត្ថិិភាពទៅក្នុង",
+          "bodyHeading": "Source content · php.pdf · page 35",
+          "body": "Email is valid.\n&lt;script&gt;alert(&#039;XSS&#039;);&lt;/script&gt;\n13.2. Protecting Against SQL Injection\nSQL Injection គឺជាការវាយប្រហារដែលអាចឱ្យអ្នកវាយប្រហារបញ្ចូលសំណើ SQL មិនសុវត្ថិិភាពទៅក្នុង\nមូលដ្ឋានទិន្ន័យ។ ដើម្បីីការពារការវាយប្រហារនេះះ អ្នកគួរតែប្រើ Prepared Statements។\n// ឧទាហរណ៍៖ ការការពារការវាយប្រ\nហារ SQL Injection\n$stmt = $conn->prepare(\"SELECT * FROM users WHERE email = ?\");\n$stmt->bind_param(\"s\", $email);\n$email = \"john@example.com\";\n$stmt->execute();\n$result = $stmt->get_result();\nwhile ($row = $result->fetch_assoc()) {\n  echo \"Name: \" . $row['name'];\n}\nលទ្ធផល៖\nName: John Doe\n13.3. Preventing Cross-Site Scripting (XSS)\nCross-Site Scripting (XSS) គឺជាការវាយប្រហារដែលអាចឱ្យអ្នកវាយប្រហារបញ្ចូលស្\nគ្រីីបមិនសុវត្ថិិភាពទៅ\nក្នុងទំព័រ។ ដើម្បីីការពារការវាយប្រហារនេះះ អ្នកគួរតែប្រើមុខងារដូចជា `htmlspecialchars` ដើម្បីីសម្អាត\nទិន្ន័យ។\n// ឧទាហរណ៍៖ ការការពារ XSS\n$input = \"<script>alert('XSS');</script>\";\n$cleanInput = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');\necho $cleanInput;\nលទ្ធផល៖\n&lt;script&gt;alert(&#039;XSS&#039;);&lt;/script&gt;",
+          "code": "&lt;script&gt;alert(&#039;XSS&#039;);&lt;/script&gt;\n$stmt = $conn->prepare(\"SELECT * FROM users WHERE email = ?\");\n$stmt->bind_param(\"s\", $email);\n$email = \"john@example.com\";\n$stmt->execute();\n$result = $stmt->get_result();\nwhile ($row = $result->fetch_assoc()) {\n  echo \"Name: \" . $row['name'];\n}\n13.3. Preventing Cross-Site Scripting (XSS)\n$input = \"<script>alert('XSS');</script>\";\n$cleanInput = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');\necho $cleanInput;\n&lt;script&gt;alert(&#039;XSS&#039;);&lt;/script&gt;",
+          "preview": {
+            "title": "Php · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 35",
+            "Email is valid."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-php-page-36",
+          "label": "PDF 36. Hashed Password: $2y$10$examplehash",
+          "heading": "Hashed Password: $2y$10$examplehash",
+          "intro": "13.4. Password Hashing and Authentication ការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាពគឺជាផ្នែកមួយដ៏សំខាន់នៃការអភិវឌ្ឍន៍កម្មវិធី។ PHP ផ្តល់មុខងារដូចជា `password_hash` និង `password_verify` ដើម្បីីគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។",
+          "bodyHeading": "Source content · php.pdf · page 36",
+          "body": "13.4. Password Hashing and Authentication\nការគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាពគឺជាផ្នែកមួយដ៏សំខាន់នៃការអភិវឌ្ឍន៍កម្មវិធី។ PHP ផ្តល់មុខងារដូចជា\n`password_hash` និង `password_verify` ដើម្បីីគ្រប់គ្រងពាក្យសម្ងាត់ដោយសុវត្ថិិភាព។\n// ឧទាហរណ៍៖ ការគ្រ\nប់គ្រ\nងពាក្យសម្ងាត់\n$password = \"myPassword123\";\n// បង្កើត hash សម្រាា\nប់ពាក្យសម្ងាត់\n$hashedPassword = password_hash($password, PASSWORD_DEFAULT);\necho \"Hashed Password: \" . $hashedPassword;\n// ផ្ទៀងផ្ទាត់ពាក្យសម្ងាត់\nif (password_verify($password, $hashedPassword)) {\n  echo \"Password is valid!\";\n} else {\n  echo \"Invalid password!\";\n}\nលទ្ធផល៖\nHashed Password: $2y$10$examplehash\nPassword is valid!\n14. Working with APIs in PHP\nAPIs (Application Programming Interfaces) គឺជាវិធីសាស្\nត្រដែលអនុញ្ញាតឱ្យកម្មវិធីផ្សេងៗ\nទំនាក់ទំនងជាមួយគ្នា។ PHP អាចត្រូូវបានប្រើដើម្បីីទទួលទិន្ន័យពី REST APIs ឬបង្កើត RESTful\nAPIs ផ្ទាល់ខ្លួន។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការប្រើ REST APIs និងការបង្កើត RESTful\nAPIs ជាមួយ PHP។\n14.1. Consuming REST APIs\nPHP អាចត្រូូវបានប្រើដើម្បីីទទួលទិន្ន័យពី REST APIs ដោយប្រើមុខងារដូចជា `file_get_contents` ឬ\n`cURL`។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃការទទួលទិន្ន័យពី REST API។",
+          "code": "$password = \"myPassword123\";\n$hashedPassword = password_hash($password, PASSWORD_DEFAULT);\necho \"Hashed Password: \" . $hashedPassword;\nif (password_verify($password, $hashedPassword)) {\n  echo \"Password is valid!\";\n} else {\n  echo \"Invalid password!\";\n}",
+          "preview": {
+            "title": "Php · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 36",
+            "Hashed Password: $2y$10$examplehash"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-php-page-37",
+          "label": "PDF 37. PHP អាចត្រូូវបានប្រើដើម្បីីបង្កើត RESTful APIs ដែលអនុញ្ញាតឱ្យកម្មវិធីផ្សេងៗទទួលទិន្ន័យពីសឺវ័ររបស់អ្នក។",
+          "heading": "PHP អាចត្រូូវបានប្រើដើម្បីីបង្កើត RESTful APIs ដែលអនុញ្ញាតឱ្យកម្មវិធីផ្សេងៗទទួលទិន្ន័យពីសឺវ័ររបស់អ្នក។",
+          "intro": "// ឧទាហរណ៍៖ ការទទួលទិន្ន័ យពី REST API $url = \"https://api.example.com/data\";",
+          "bodyHeading": "Source content · php.pdf · page 37",
+          "body": "// ឧទាហរណ៍៖ ការទទួលទិន្ន័\nយពី REST API\n$url = \"https://api.example.com/data\";\n$response = file_get_contents($url);\n$data = json_decode($response, true);\nprint_r($data);\nលទ្ធផល៖\nArray\n(\n    [id] => 1\n    [name] => John Doe\n    [email] => john@example.com\n)\n14.2. Creating RESTful APIs with PHP\nPHP អាចត្រូូវបានប្រើដើម្បីីបង្កើត RESTful APIs ដែលអនុញ្ញាតឱ្យកម្មវិធីផ្សេងៗទទួលទិន្ន័យពីសឺវ័ររបស់អ្នក។\nខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃការបង្កើត RESTful API សាមញ្ញ។\n// ឧទាហរណ៍៖ ការបង្កើត RESTful API\nheader(\"Content-Type: application/json\");\n$method = $_SERVER['REQUEST_METHOD'];\n$request = explode(\"/\", trim($_SERVER['PATH_INFO'], '/'));\nswitch ($method) {\n  case 'GET':\n    // ទទួលទិន្ន័\nយ\n    echo json_encode(array(\"message\" => \"GET request received\"));\n    break;\n  case 'POST':\n    // បង្កើតទិន្ន័\nយ\n    $data = json_decode(file_get_contents(\"php://input\"), true);\n    echo json_encode(array(\"message\" => \"POST request received\", \"data\" \n    break;\n  default:\n    // ការស្នើសុំមិនត្រឹឹ\nមត្\nរូវ",
+          "code": "$url = \"https://api.example.com/data\";\n$response = file_get_contents($url);\n$data = json_decode($response, true);\nprint_r($data);\n(\n    [id] => 1\n    [name] => John Doe\n    [email] => john@example.com\n)\nheader(\"Content-Type: application/json\");\n$method = $_SERVER['REQUEST_METHOD'];\n$request = explode(\"/\", trim($_SERVER['PATH_INFO'], '/'));\nswitch ($method) {\n    echo json_encode(array(\"message\" => \"GET request received\"));\n    break;\n    $data = json_decode(file_get_contents(\"php://input\"), true);\n    echo json_encode(array(\"message\" => \"POST request received\", \"data\"\n    break;",
+          "preview": {
+            "title": "Php · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 37",
+            "PHP អាចត្រូូវបានប្រើដើម្បីីបង្កើត RESTful APIs ដែលអនុញ្ញាតឱ្យកម្មវិធីផ្សេងៗទទួលទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-php-page-38",
+          "label": "PDF 38. PHP Frameworks គឺជាឧបករណ៍ដែលផ្តល់នូវរចនាសម្ព័័ន្ធ និងមុខងារសម្",
+          "heading": "PHP Frameworks គឺជាឧបករណ៍ដែលផ្តល់នូវរចនាសម្ព័័ន្ធ និងមុខងារសម្",
+          "intro": "http_response_code(405); echo json_encode(array(\"message\" => \"Method not allowed\")); break;",
+          "bodyHeading": "Source content · php.pdf · page 38",
+          "body": "http_response_code(405);\n    echo json_encode(array(\"message\" => \"Method not allowed\"));\n    break;\n}\nលទ្ធផល៖\n{\"message\":\"GET request received\"}\n15. PHP Frameworks\nPHP Frameworks គឺជាឧបករណ៍ដែលផ្តល់នូវរចនាសម្ព័័ន្ធ និងមុខងារសម្\nរាប់ការអភិវឌ្ឍន៍កម្មវិធី\nយ៉ាងមានប្រសិទ្ធភាព។ ក្នុងចំណោម PHP Frameworks ដែលពេញនិយមបំផុតគឺ Laravel។ នៅ\nក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពី Laravel ដែលរួមមានការណែនាំំអំពី Laravel, Routing និង\nControllers, Blade Templates, និង Eloquent ORM។\n15.1. Introduction to Laravel\nLaravel គឺជា PHP Framework ដ៏ពេញនិយមមួយដែលផ្តល់នូវរចនាសម្ព័័ន្ធសម្\nរាប់ការអភិវឌ្ឍន៍កម្មវិធីយ៉ាង\nមានប្រសិទ្ធភាព។ វាមានមុខងារជាច្រើនដូចជា Routing, Controllers, Blade Templates, និង Eloquent\nORM។\n# ការដំឡើង Laravel\ncomposer create-project --prefer-dist laravel/laravel blog\nលទ្ធផល៖\nLaravel project created successfully.\n15.2. Routing and Controllers\nRouting គឺជាវិធីសាស្\nត្រដើម្បីីកំណត់ពីរបៀបៀបដែលកម្មវិធីឆ្លើយតបទៅនឹងសំណើ HTTP។ Controllers គឺជាផ្នែក\nមួយដែលគ្រប់គ្រងឡូជីខលនៃកម្មវិធី។",
+          "code": "http_response_code(405);\n    echo json_encode(array(\"message\" => \"Method not allowed\"));\n    break;\n}\n{\"message\":\"GET request received\"}\ncomposer create-project --prefer-dist laravel/laravel blog",
+          "preview": {
+            "title": "Php · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 38",
+            "PHP Frameworks គឺជាឧបករណ៍ដែលផ្តល់នូវរចនាសម្ព័័ន្ធ និងមុខងារសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-php-page-39",
+          "label": "PDF 39. Blade គឺជាប្រព័ន្ធគំរូ (template engine) របស់ Laravel ដែលផ្តល់នូវភាពងាយស្រួួ",
+          "heading": "Blade គឺជាប្រព័ន្ធគំរូ (template engine) របស់ Laravel ដែលផ្តល់នូវភាពងាយស្រួួ",
+          "intro": "// ឧទាហរណ៍៖ Routing និង Controllers // កំណត់ Route Route::get('/user', [UserController::class, 'index']);",
+          "bodyHeading": "Source content · php.pdf · page 39",
+          "body": "// ឧទាហរណ៍៖ Routing និង Controllers\n// កំណត់ Route\nRoute::get('/user', [UserController::class, 'index']);\n// UserController\nclass UserController extends Controller\n{\n    public function index()\n    {\n        return \"Hello, User!\";\n    }\n}\nលទ្ធផល៖\nHello, User!\n15.3. Blade Templates\nBlade គឺជាប្រព័ន្ធគំរូ (template engine) របស់ Laravel ដែលផ្តល់នូវភាពងាយស្រួួ\nលក្នុងការបង្កើតទំព័រ\nHTML។ Blade អនុញ្ញាតឱ្យអ្នកប្រើ syntax ដ៏សាមញ្ញ និងមានថាមពល។\n// ឧទាហរណ៍៖ Blade Template\n// resources/views/welcome.blade.php\n<html>\n<body>\n    <h1>Hello, {{ $name }}</h1>\n</body>\n</html>\n// Route\nRoute::get('/welcome', function () {\n    return view('welcome', ['name' => 'John Doe']);\n});\nលទ្ធផល៖\n<html>\n<body>",
+          "code": "Route::get('/user', [UserController::class, 'index']);\nclass UserController extends Controller\n{\n    public function index()\n    {\n        return \"Hello, User!\";\n    }\n}\n<html>\n<body>\n    <h1>Hello, {{ $name }}</h1>\n</body>\n</html>\nRoute::get('/welcome', function () {\n    return view('welcome', ['name' => 'John Doe']);\n});\n<html>\n<body>",
+          "preview": {
+            "title": "Php · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 39",
+            "Blade គឺជាប្រព័ន្ធគំរូ (template engine) របស់ Laravel ដែលផ្តល់នូវភាពងាយស្រួួ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-php-page-40",
+          "label": "PDF 40. Eloquent ORM គឺជាប្រព័ន្ធគ្រប់គ្រងទិន្ន័យរបស់ Laravel ដែលផ្តល់នូវវិធីសាស្",
+          "heading": "Eloquent ORM គឺជាប្រព័ន្ធគ្រប់គ្រងទិន្ន័យរបស់ Laravel ដែលផ្តល់នូវវិធីសាស្",
+          "intro": "<h1>Hello, John Doe</h1> </body> </html>",
+          "bodyHeading": "Source content · php.pdf · page 40",
+          "body": "<h1>Hello, John Doe</h1>\n</body>\n</html>\n15.4. Eloquent ORM\nEloquent ORM គឺជាប្រព័ន្ធគ្រប់គ្រងទិន្ន័យរបស់ Laravel ដែលផ្តល់នូវវិធីសាស្\nត្រដ៏សាមញ្ញ និងមានថាមពល\nសម្\nរាប់ការទំនាក់ទំនងជាមួយមូលដ្ឋានទិន្ន័យ។\n// ឧទាហរណ៍៖ Eloquent ORM\n// កំណត់ Model\nclass User extends Model\n{\n    protected $table = 'users';\n}\n// ទាញយកទិន្ន័\nយពីមូលដ្ឋានទិន្ន័\nយ\n$users = User::all();\nforeach ($users as $user) {\n    echo $user->name;\n}\nលទ្ធផល៖\nJohn Doe\nJane Doe\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.",
+          "code": "<h1>Hello, John Doe</h1>\n</body>\n</html>\nclass User extends Model\n{\n    protected $table = 'users';\n}\n$users = User::all();\nforeach ($users as $user) {\n    echo $user->name;\n}",
+          "preview": {
+            "title": "Php · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 40",
+            "Eloquent ORM គឺជាប្រព័ន្ធគ្រប់គ្រងទិន្ន័យរបស់ Laravel ដែលផ្តល់នូវវិធីសាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-41",
+      "items": [
+        {
+          "id": "pdf-php-page-41",
+          "label": "PDF 41. Source lesson page 41",
+          "heading": "Source lesson page 41",
+          "intro": "តំណភ្ជាប់រហ័ស ផ្ទាំំងដើម វគ្គសិក្សា",
+          "bodyHeading": "Source content · php.pdf · page 41",
+          "body": "តំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "<?php\necho 'CampusFlow lesson';",
+          "preview": {
+            "title": "Php · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Php",
+            "PDF page 41",
+            "Source lesson page 41"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "php.pdf",
+          "sourcePage": 41
+        }
+      ]
+    }
+  ]
+}

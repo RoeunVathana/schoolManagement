@@ -1,0 +1,693 @@
+{
+  "slug": "mysql",
+  "sourceFile": "mysql.pdf",
+  "pageCount": 26,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-mysql-page-1",
+          "label": "PDF 1. MySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្ន័យទំនាក់ទំនង (RDBMS) ដ៏ពេញនិយមបំផុតមួយនៅលើ",
+          "heading": "MySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្ន័យទំនាក់ទំនង (RDBMS) ដ៏ពេញនិយមបំផុតមួយនៅលើ",
+          "intro": "1. Introduction to MySQL ពិភពលោក។ វាត្រូូវបានគេប្រើយ៉ាងទូលំទូលាយសម្ រាប់គ្រប់គ្រង និងរៀរៀបចំទិន្ន័យនៅក្នុងកម្មវិធីវេប",
+          "bodyHeading": "Source content · mysql.pdf · page 1",
+          "body": "1. Introduction to MySQL\nMySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្ន័យទំនាក់ទំនង (RDBMS) ដ៏ពេញនិយមបំផុតមួយនៅលើ\nពិភពលោក។ វាត្រូូវបានគេប្រើយ៉ាងទូលំទូលាយសម្\nរាប់គ្រប់គ្រង និងរៀរៀបចំទិន្ន័យនៅក្នុងកម្មវិធីវេប\nឃ្លាំំងទិន្ន័យ និងច្រើនទៀទៀត។ នៅក្នុងផ្នែកនេះះ យើងនឹងស្\nវែងយល់អំពីមូលដ្ឋានគ្រឹះនៃ MySQL\nលក្ខណៈពិសេសរបស់វា ដំណើរការដំឡើង និងឧបករណ៍ដូចជា MySQL Workbench និងកម្មវិធី\nបន្ទាត់ពាក្យបញ្ជា។\n1.1. What is MySQL?\nMySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្ន័យទំនាក់ទំនង (RDBMS) ប្រភពបើកចំហ ដែលប្រើភាសា SQL\n(Structured Query Language) ដើម្បីីគ្រប់គ្រង និងរៀរៀបចំទិន្ន័យ។ វាត្រូូវបានគេស្គាល់ថាមានភាពអាច\nទុកចិត្តបាន មានស្\nថេរភាព និងងាយស្រួួ\nលប្រើ។ MySQL ត្រូូវបានប្រើជាទូទៅនៅក្នុងកម្មវិធីវេប ជាញឹកញាប់រួម\nជាមួយ PHP, Python ឬភាសាផ្សេងៗទៀទៀត។\nMySQL ត្រូូវបានអភិវឌ្ឍ ចែកចាយ និងគាំំទ្រដោយក្រុុមហ៊ុន Oracle។ វាគឺជាផ្នែកសំខាន់នៃស្\nតេក LAMP\n(Linux, Apache, MySQL, PHP/Python/Perl) ដែលត្រូូវបានប្រើយ៉ាងទូលំទូលាយក្នុងការអភិវឌ្ឍវេប។\n1.2. Features and Advantages of MySQL\nMySQL ផ្តល់នូវមុខងារជាច្រើនដែលធ្វើឱ្យវាក្លាយជាជម្រើសពេញនិយមសម្\nរាប់ការគ្រប់គ្រងមូលដ្ឋានទិន្ន័យ៖\nប្រភពបើកចំហ៖ MySQL គឺឥតគិតថ្លៃសម្\nរាប់ប្រើប្\nរាស់ និងកែប្រែ ដែលធ្វើឱ្យវាមានភាពចំណេញសម្\nរាប់\nអាជីវកម្ម និងអ្នកអភិវឌ្ឍន៍។\nមានស្\nថេរភាព និងអាចពង្រីីកបាន៖ MySQL អាចគ្រប់គ្រងទិន្ន័យច្រើនបានយ៉ាងងាយស្រួួ\nល និងមានស្\nថេរ\nភាពខ្ពស់។\nគាំំទ្រពហុអ្នកប្រើប្\nរាស់៖ MySQL អាចគាំំទ្រអ្នកប្រើប្\nរាស់ច្រើនក្នុងពេលតែមួយ ដោយមិនប៉ះពាល់ដល់ការ\nអនុវត្ត។\nភាពឆបគ្នាជាមួយប្រព័ន្ធផ្សេងៗ៖ MySQL អាចដំណើរការបានលើប្រព័ន្ធប្រតិបត្តិិការជាច្រើន ដូចជា\nWindows, Linux, និង macOS។\n1.3. Installing MySQL\nដើម្បីីដំឡើង MySQL អ្នកអាចធ្វើតាមជំហានខាងក្រោម៖\n1. ទាញយក MySQL Installer ពីគេហទំព័រផ្លូវការរបស់ MySQL។\n2. ដំឡើង MySQL ដោយធ្វើតាមការណែនាំំនៅក្នុង Installer។",
+          "code": "SELECT 'CampusFlow lesson' AS topic;",
+          "preview": {
+            "title": "Mysql · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 1",
+            "MySQL គឺជាប្រព័ន្ធគ្រប់គ្រងមូលដ្ឋានទិន្ន័យទំនាក់ទំនង (RDBMS) ដ៏ពេញនិយមបំផុតមួយនៅ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-mysql-page-2",
+          "label": "PDF 2. MySQL Workbench គឺជាឧបករណ៍ក្",
+          "heading": "MySQL Workbench គឺជាឧបករណ៍ក្",
+          "intro": "3. កំណត់រចនាសម្ព័័ន្ធការការពារ និងពាក្យសម្ងាត់សម្ រាប់អ្នកប្រើប្ រាស់ root។",
+          "bodyHeading": "Source content · mysql.pdf · page 2",
+          "body": "3. កំណត់រចនាសម្ព័័ន្ធការការពារ និងពាក្យសម្ងាត់សម្\nរាប់អ្នកប្រើប្\nរាស់ root។\n4. ចាប់ផ្តើមសេវាកម្ម MySQL និងផ្ទៀងផ្ទាត់ការដំឡើង។\n1.4. MySQL Workbench and Command-Line Interface\nMySQL Workbench គឺជាឧបករណ៍ក្\nរាហ្វិិកសម្\nរាប់គ្រប់គ្រង និងអភិវឌ្ឍមូលដ្ឋានទិន្ន័យ MySQL។ វាផ្តល់នូវ\nច្រកចូលដ៏មានឥទ្ធិិពល និងងាយស្រួួ\nលប្រើសម្\nរាប់អ្នកអភិវឌ្ឍន៍។\nកម្មវិធីបន្ទាត់ពាក្យបញ្ជា (Command-Line Interface) ក៏អាចប្រើបានសម្\nរាប់អ្នកដែលចូលចិត្តប្រើប្\nរាស់\nបន្ទាត់ពាក្យបញ្ជាដើម្បីីគ្រប់គ្រងមូលដ្ឋានទិន្ន័យ។\n2. MySQL Basics\nMySQL Basics គ្របដណ្តប់អំពីគោលគំនិតគ្រឹះនៃការធ្វើការជាមួយ MySQL រួមមានប្រភេទទិន្ន័យ\nការបង្កើត និងគ្រប់គ្រងមូលដ្ឋានទិន្ន័យ និងតារាង ការយល់ដឹងអំពីសោ និងការប្រើការដាក់កម្រិិត។\nផ្នែកនេះះនឹងជួយអ្នកចាប់ផ្តើមជាមួយ MySQL និងកសាងគ្រឹះដ៏រឹងមាំំសម្\nរាប់ការធ្វើការជាមួយមូលដ្ឋាន\nទិន្ន័យទំនាក់ទំនង។\n2.1. MySQL Data Types\nMySQL គាំំទ្រប្រភេទទិន្ន័យផ្សេងៗដើម្បីីផ្ទុកទិន្ន័យប្រភេទផ្សេងៗ។ ខាងក្រោមនេះះគឺជាប្រភេទទិន្ន័យដែលត្រូូវ\nបានប្រើជាទូទៅ៖\nINT: ប្រើសម្\nរាប់ផ្ទុកលេខគត់ (ឧទាហរណ៍ 1, 100, -5)។\nVARCHAR: ប្រើសម្\nរាប់ផ្ទុកខ្សែអក្សរដែលមានប្រវែងអថេរ (ឧទាហរណ៍ \"Hello\", \"MySQL\")។\nDATE: ប្រើសម្\nរាប់ផ្ទុកកាលបរិច្ឆេទក្នុងទ្រង់ទ្\nរាយ YYYY-MM-DD (ឧទាហរណ៍ 2023-10-05)។\nDECIMAL: ប្រើសម្\nរាប់ផ្ទុកលេខទសភាគ (ឧទាហរណ៍ 10.99, 100.50)។\nBOOLEAN: ប្រើសម្\nរាប់ផ្ទុកតម្លៃពិត ឬមិនពិត (TRUE/FALSE)។\n2.2. Creating and Managing Databases\nការបង្កើត និងគ្រប់គ្រងមូលដ្ឋានទិន្ន័យគឺជាផ្នែកសំខាន់នៃការធ្វើការជាមួយ MySQL។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍នៃការបង្កើត និងគ្រប់គ្រងមូលដ្ឋានទិន្ន័យ៖\n-- បង្កើតមូលដ្ឋានទិន្ន័\nយ\nCREATE DATABASE my_database;\n-- ប្រើមូលដ្ឋានទិន្ន័\nយ",
+          "code": "CREATE DATABASE my_database;",
+          "preview": {
+            "title": "Mysql · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 2",
+            "MySQL Workbench គឺជាឧបករណ៍ក្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-mysql-page-3",
+          "label": "PDF 3. USE my_database;",
+          "heading": "USE my_database;",
+          "intro": "-- លុបមូលដ្ឋានទិន្ន័ យ DROP DATABASE my_database;",
+          "bodyHeading": "Source content · mysql.pdf · page 3",
+          "body": "USE my_database;\n-- លុបមូលដ្ឋានទិន្ន័\nយ\nDROP DATABASE my_database;\n2.3. Creating and Managing Tables\nតារាងគឺជារចនាសម្ព័័ន្ធសំខាន់សម្\nរាប់ផ្ទុកទិន្ន័យនៅក្នុងមូលដ្ឋានទិន្ន័យ។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃការ\nបង្កើត និងគ្រប់គ្រងតារាង៖\n-- បង្កើតតារាង\nCREATE TABLE users (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  name VARCHAR(50) NOT NULL,\n  email VARCHAR(100) UNIQUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n-- បន្ថែមជួរឈរថ្មីី\nALTER TABLE users ADD COLUMN age INT;\n-- លុបតារាង\nDROP TABLE users;\n2.4. Understanding Primary Keys and Foreign Keys\nPrimary Key (សោចម្បង): ជាជួរឈរឬក្រុុមជួរឈរដែលកំណត់អត្តសញ្ញាណតែមួយគត់សម្\nរាប់ជួរនីមួយៗក្នុង\nតារាង។\nForeign Key (សោបរទេស): ជាជួរឈរដែលបង្កើតទំនាក់ទំនងរវាងតារាងពីរ ដោយយោងទៅលើ Primary\nKey របស់តារាងមួយទៀទៀត។\n-- ឧទាហរណ៍នៃ Primary Key និង Foreign Key\nCREATE TABLE orders (\n  order_id INT AUTO_INCREMENT PRIMARY KEY,\n  user_id INT,\n  order_date DATE,\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+          "code": "USE my_database;\nDROP DATABASE my_database;\nCREATE TABLE users (\n  name VARCHAR(50) NOT NULL,\n  email VARCHAR(100) UNIQUE,\n);\nALTER TABLE users ADD COLUMN age INT;\nDROP TABLE users;\nCREATE TABLE orders (\n  FOREIGN KEY (user_id) REFERENCES users(id)\n);",
+          "preview": {
+            "title": "Mysql · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 3",
+            "USE my_database;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-mysql-page-4",
+          "label": "PDF 4. Constraints គឺជាក្បួនដែលត្រូូវបានអនុវត្តលើជួរឈរដើម្បីីធានាថាទិន្ន័យមានសុពលភាព។ ខាងក្រោមនេះះគឺជា",
+          "heading": "Constraints គឺជាក្បួនដែលត្រូូវបានអនុវត្តលើជួរឈរដើម្បីីធានាថាទិន្ន័យមានសុពលភាព។ ខាងក្រោមនេះះគឺជា",
+          "intro": "2.5. MySQL Constraints (NOT NULL, UNIQUE, DEFAULT, CHECK) ឧទាហរណ៍នៃ Constraints មួយចំនួន៖",
+          "bodyHeading": "Source content · mysql.pdf · page 4",
+          "body": "2.5. MySQL Constraints (NOT NULL, UNIQUE, DEFAULT,\nCHECK)\nConstraints គឺជាក្បួនដែលត្រូូវបានអនុវត្តលើជួរឈរដើម្បីីធានាថាទិន្ន័យមានសុពលភាព។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍នៃ Constraints មួយចំនួន៖\n-- NOT NULL: ធានាថាជួរឈរមិនអាចទទេ\nCREATE TABLE employees (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  name VARCHAR(50) NOT NULL\n);\n-- UNIQUE: ធានាថាតម្លៃនៅក្នុងជួរឈរគឺតែមួយគត់\nCREATE TABLE products (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  product_code VARCHAR(10) UNIQUE\n);\n-- DEFAULT: កំណត់តម្លៃលំនាំដើមសម្រាា\nប់ជួរឈរ\nCREATE TABLE orders (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  order_date DATE DEFAULT CURRENT_DATE\n);\n-- CHECK: ធានាថាតម្លៃនៅក្នុងជួរឈរបំពេញលក្ខ\nណ្ឌជាក់លាក់\nCREATE TABLE students (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  age INT CHECK (age >= 18)\n);\n3. SQL Queries in MySQL\nSQL Queries ត្រូូវបានប្រើដើម្បីីទាក់ទងជាមួយទិន្ន័យដែលត្រូូវបានរក្សាទុកនៅក្នុងមូលដ្ឋានទិន្ន័យ\nMySQL។ ផ្នែកនេះះគ្របដណ្តប់អំពីពាក្យបញ្ជា SQL សំខាន់ៗ និងបច្ចេកទេស រួមមានការទាញយក\nទិន្ន័យដោយប្រើ SELECT statement ការច្រោះទិន្ន័យដោយប្រើ WHERE clause ការរៀរៀបចំ",
+          "code": "2.5. MySQL Constraints (NOT NULL, UNIQUE, DEFAULT,\nCHECK)\nCREATE TABLE employees (\n  name VARCHAR(50) NOT NULL\n);\nCREATE TABLE products (\n  product_code VARCHAR(10) UNIQUE\n);\nCREATE TABLE orders (\n);\nCREATE TABLE students (\n  age INT CHECK (age >= 18)\n);",
+          "preview": {
+            "title": "Mysql · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 4",
+            "Constraints គឺជាក្បួនដែលត្រូូវបានអនុវត្តលើជួរឈរដើម្បីីធានាថាទិន្ន័យមានសុពលភាព។ ខ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-mysql-page-5",
+          "label": "PDF 5. HAVING clause សម្",
+          "heading": "HAVING clause សម្",
+          "intro": "លទ្ធផលដោយប្រើ ORDER BY ការដាក់ជាក្រុុមទិន្ន័យដោយប្រើ GROUP BY និងការប្រើ រាប់ការច្រោះទិន្ន័យកម្រិិតខ្ពស់។ 3.1. SELECT Statement",
+          "bodyHeading": "Source content · mysql.pdf · page 5",
+          "body": "លទ្ធផលដោយប្រើ ORDER BY ការដាក់ជាក្រុុមទិន្ន័យដោយប្រើ GROUP BY និងការប្រើ\nHAVING clause សម្\nរាប់ការច្រោះទិន្ន័យកម្រិិតខ្ពស់។\n3.1. SELECT Statement\nSELECT statement ត្រូូវបានប្រើដើម្បីីទាញយកទិន្ន័យពីតារាងមួយ ឬច្រើននៅក្នុងមូលដ្ឋានទិន្ន័យ។ វាគឺជា\nពាក្យបញ្ជា SQL ដែលត្រូូវបានប្រើជាទូទៅបំផុត។\n-- ទាញយកជួរឈរទាំងអស់ពីតារាង\nSELECT * FROM employees;\n-- ទាញយកជួរឈរជាក់លាក់\nSELECT first_name, last_name FROM employees;\n3.2. WHERE Clause and Filtering Data\nWHERE clause ត្រូូវបានប្រើដើម្បីីច្រោះទិន្ន័យតាមលក្ខណ្ឌជាក់លាក់។ វាអនុញ្ញាតឱ្យអ្នកទាញយកជួរដែលត្រូូវ\nនឹងលក្ខណ្ឌដែលបានបញ្ជាក់។\n-- ទាញយកទិន្ន័\nយដែលត្\nរូវនឹងលក្ខ\nណ្ឌ\nSELECT * FROM employees WHERE department = 'Sales';\n-- ប្រើប្រ\nតិបត្តិិករប្រៀបធៀប\nSELECT * FROM employees WHERE salary > 50000;\n3.3. ORDER BY and Sorting Results\nORDER BY clause ត្រូូវបានប្រើដើម្បីីរៀរៀបចំលទ្ធផលតាមលំដាប់ឡើង (ASC) ឬចុះ (DESC)។\n-- រៀបចំលទ្ធផលតាមលំដាប់ឡើង\nSELECT * FROM employees ORDER BY last_name ASC;\n-- រៀបចំលទ្ធផលតាមលំដាប់ចុះ\nSELECT * FROM employees ORDER BY salary DESC;\n3.4. GROUP BY and Aggregation Functions (COUNT,\nSUM, AVG)",
+          "code": "SELECT * FROM employees;\nSELECT first_name, last_name FROM employees;\nSELECT * FROM employees WHERE department = 'Sales';\nSELECT * FROM employees WHERE salary > 50000;\nSELECT * FROM employees ORDER BY last_name ASC;\nSELECT * FROM employees ORDER BY salary DESC;\n3.4. GROUP BY and Aggregation Functions (COUNT,\nSUM, AVG)",
+          "preview": {
+            "title": "Mysql · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 5",
+            "HAVING clause សម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-mysql-page-6",
+          "label": "PDF 6. GROUP BY clause ត្រូូវបានប្រើដើម្បីីដាក់ជាក្រុុមទិន្ន័យ និងប្រើមុខងារប្រមូលផ្តុំំ (aggregation",
+          "heading": "GROUP BY clause ត្រូូវបានប្រើដើម្បីីដាក់ជាក្រុុមទិន្ន័យ និងប្រើមុខងារប្រមូលផ្តុំំ (aggregation",
+          "intro": "functions) ដូចជា COUNT, SUM, និង AVG។ -- រាប់ចំនួនអ្នកធ្វើការក្នុងផ្នែកនីមួយៗ SELECT department, COUNT(*) FROM employees GROUP BY department;",
+          "bodyHeading": "Source content · mysql.pdf · page 6",
+          "body": "GROUP BY clause ត្រូូវបានប្រើដើម្បីីដាក់ជាក្រុុមទិន្ន័យ និងប្រើមុខងារប្រមូលផ្តុំំ (aggregation\nfunctions) ដូចជា COUNT, SUM, និង AVG។\n-- រាប់ចំនួនអ្នកធ្វើការក្នុងផ្នែកនីមួយៗ\nSELECT department, COUNT(*) FROM employees GROUP BY department;\n-- គណនាប្រា\nក់ខែសរុបក្នុងផ្នែកនីមួយៗ\nSELECT department, SUM(salary) FROM employees GROUP BY department;\n-- គណនាប្រា\nក់ខែមធ្យមក្នុងផ្នែកនីមួយៗ\nSELECT department, AVG(salary) FROM employees GROUP BY department;\n3.5. HAVING Clause\nHAVING clause ត្រូូវបានប្រើដើម្បីីច្រោះទិន្ន័យដែលបានដាក់ជាក្រុុមដោយ GROUP BY។ វាស្រ\nដៀដៀងនឹង\nWHERE clause ប៉ុន្តែសម្\nរាប់ការប្រើប្\nរាស់ជាមួយមុខងារប្រមូលផ្តុំំ។\n-- ទាញយកផ្នែកដែលមានចំនួនអ្នកធ្វើការលើសពី 10\nSELECT department, COUNT(*) FROM employees \nGROUP BY department \nHAVING COUNT(*) > 10;\n4. Data Manipulation in MySQL\nData Manipulation in MySQL ពាក់ព័ន្ធនឹងការបន្ថែម កែប្រែ និងលុបទិន្ន័យនៅក្នុងតារាង\nមូលដ្ឋានទិន្ន័យ។ ផ្នែកនេះះគ្របដណ្តប់អំពីពាក្យបញ្ជា SQL សំខាន់ៗសម្\nរាប់ការធ្វើមូលដ្ឋានទិន្ន័យ\nរួមមាន INSERT, UPDATE, DELETE និងភាពខុសគ្នារវាង TRUNCATE និង DELETE។\n4.1. INSERT Statement\nINSERT statement ត្រូូវបានប្រើដើម្បីីបន្ថែមជួរទិន្ន័យថ្មីីទៅក្នុងតារាង។ អ្នកអាចបញ្ចូលទិន្ន័យទៅក្នុងជួរឈរ\nជាក់លាក់ ឬជួរឈរទាំំងអស់នៅក្នុងតារាង។\n-- បញ្ចូលទិន្ន័\nយទៅក្នុងជួរឈរជាក់លាក់\nINSERT INTO employees (first_name, last_name, department)",
+          "code": "SELECT department, COUNT(*) FROM employees GROUP BY department;\nSELECT department, SUM(salary) FROM employees GROUP BY department;\nSELECT department, AVG(salary) FROM employees GROUP BY department;\nSELECT department, COUNT(*) FROM employees\nHAVING COUNT(*) > 10;\nINSERT INTO employees (first_name, last_name, department)",
+          "preview": {
+            "title": "Mysql · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 6",
+            "GROUP BY clause ត្រូូវបានប្រើដើម្បីីដាក់ជាក្រុុមទិន្ន័យ និងប្រើមុខងារប្រមូលផ្តុំ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-mysql-page-7",
+          "label": "PDF 7. VALUES ('John', 'Doe', 'Sales');",
+          "heading": "VALUES ('John', 'Doe', 'Sales');",
+          "intro": "-- បញ្ចូលទិន្ន័ យទៅក្នុងជួរឈរទាំងអស់ INSERT INTO employees VALUES (1, 'Jane', 'Smith', 'HR', 50000);",
+          "bodyHeading": "Source content · mysql.pdf · page 7",
+          "body": "VALUES ('John', 'Doe', 'Sales');\n-- បញ្ចូលទិន្ន័\nយទៅក្នុងជួរឈរទាំងអស់\nINSERT INTO employees VALUES (1, 'Jane', 'Smith', 'HR', 50000);\n4.2. UPDATE Statement\nUPDATE statement ត្រូូវបានប្រើដើម្បីីកែប្រែទិន្ន័យដែលមានស្\nរាប់នៅក្នុងតារាង។ អ្នកអាចកែប្រែទិន្ន័យ\nតាមលក្ខណ្ឌជាក់លាក់។\n-- កែប្រែប្រា\nក់ខែរបស់អ្នកធ្វើការក្នុងផ្នែក Sales\nUPDATE employees\nSET salary = 55000\nWHERE department = 'Sales';\n-- កែប្រែឈ្\nមោះះរបស់អ្នកធ្វើការដែលមាន id = 1\nUPDATE employees\nSET first_name = 'Alice'\nWHERE id = 1;\n4.3. DELETE Statement\nDELETE statement ត្រូូវបានប្រើដើម្បីីលុបជួរទិន្ន័យពីតារាង។ អ្នកអាចលុបទិន្ន័យតាមលក្ខណ្ឌជាក់លាក់។\n-- លុបអ្នកធ្វើការដែលមាន id = 2\nDELETE FROM employees\nWHERE id = 2;\n-- លុបអ្នកធ្វើការទាំងអស់ក្នុងផ្នែក HR\nDELETE FROM employees\nWHERE department = 'HR';\n4.4. Truncate vs Delete\nTRUNCATE និង DELETE គឺជាពាក្យបញ្ជាពីរផ្សេងគ្នាសម្\nរាប់លុបទិន្ន័យពីតារាង។ ខាងក្រោមនេះះគឺជាភាព\nខុសគ្នារវាងពួកវា៖\nDELETE: លុបជួរទិន្ន័យតាមលក្ខណ្ឌជាក់លាក់ ហើយអាចត្រឡប់មកវិញបាន (rollback)។",
+          "code": "VALUES ('John', 'Doe', 'Sales');\nINSERT INTO employees VALUES (1, 'Jane', 'Smith', 'HR', 50000);\nUPDATE employees\nSET salary = 55000\nWHERE department = 'Sales';\nUPDATE employees\nSET first_name = 'Alice'\nWHERE id = 1;\nDELETE FROM employees\nWHERE id = 2;\nDELETE FROM employees\nWHERE department = 'HR';",
+          "preview": {
+            "title": "Mysql · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 7",
+            "VALUES ('John', 'Doe', 'Sales');"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-mysql-page-8",
+          "label": "PDF 8. TRUNCATE TABLE employees;",
+          "heading": "TRUNCATE TABLE employees;",
+          "intro": "TRUNCATE: លុបទិន្ន័យទាំំងអស់ពីតារាង ហើយមិនអាចត្រឡប់មកវិញបាន។ វាក៏កំណត់លេខ ID ឡើង វិញផងដែរ។ -- លុបទិន្ន័",
+          "bodyHeading": "Source content · mysql.pdf · page 8",
+          "body": "TRUNCATE: លុបទិន្ន័យទាំំងអស់ពីតារាង ហើយមិនអាចត្រឡប់មកវិញបាន។ វាក៏កំណត់លេខ ID ឡើង\nវិញផងដែរ។\n-- លុបទិន្ន័\nយទាំងអស់ពីតារាង\nTRUNCATE TABLE employees;\n5. MySQL Joins and Relationships\nMySQL Joins and Relationships ពាក់ព័ន្ធនឹងការភ្ជាប់ទិន្ន័យពីតារាងពីរ ឬច្រើនជាមួយគ្នា។\nផ្នែកនេះះគ្របដណ្តប់អំពីប្រភេទ JOIN ផ្សេងៗ ដូចជា INNER JOIN, LEFT JOIN, RIGHT\nJOIN, FULL OUTER JOIN, CROSS JOIN និង Self Join។\n5.1. Introduction to Joins\nJOIN គឺជាបច្ចេកទេសសម្\nរាប់ភ្ជាប់ទិន្ន័យពីតារាងពីរ ឬច្រើនជាមួយគ្នា ដោយផ្អែកលើទំនាក់ទំនងរវាងជួរឈររបស់\nពួកវា។ វាជាផ្នែកសំខាន់នៃការសរសេរសំណួរ SQL សម្\nរាប់ទាញយកទិន្ន័យពីតារាងច្រើន។\n5.2. INNER JOIN\nINNER JOIN ត្រូូវបានប្រើដើម្បីីទាញយកជួរដែលមានតម្លៃដែលត្រូូវគ្នានៅក្នុងតារាងទាំំងពីរ។ វាទាញយកតែជួរ\nដែលបំពេញលក្ខណ្ឌប៉ុណ្\nណោះ។\n-- ទាញយកទិន្ន័\nយពីតារាង employees និង departments\nSELECT employees.name, departments.department_name\nFROM employees\nINNER JOIN departments ON employees.department_id = departments.id;\n5.3. LEFT JOIN\nLEFT JOIN ត្រូូវបានប្រើដើម្បីីទាញយកជួរទាំំងអស់ពីតារាងខាងឆ្វេង និងជួរដែលត្រូូវគ្នាពីតារាងខាងស្តាំំ។\nប្រសិនបើគ្មានតម្លៃដែលត្រូូវគ្នា លទ្ធផលនឹងមានតម្លៃ NULL។\n-- ទាញយកទិន្ន័\nយពីតារាង employees និង departments\nSELECT employees.name, departments.department_name",
+          "code": "TRUNCATE TABLE employees;\nSELECT employees.name, departments.department_name\nFROM employees\nINNER JOIN departments ON employees.department_id = departments.id;\nSELECT employees.name, departments.department_name",
+          "preview": {
+            "title": "Mysql · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 8",
+            "TRUNCATE TABLE employees;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-mysql-page-9",
+          "label": "PDF 9. FROM employees",
+          "heading": "FROM employees",
+          "intro": "  LEFT JOIN departments ON employees.department_id = departments.id;",
+          "bodyHeading": "Source content · mysql.pdf · page 9",
+          "body": "\n\nFROM employees\nLEFT JOIN departments ON employees.department_id = departments.id;\n5.4. RIGHT JOIN\nRIGHT JOIN ត្រូូវបានប្រើដើម្បីីទាញយកជួរទាំំងអស់ពីតារាងខាងស្តាំំ និងជួរដែលត្រូូវគ្នាពីតារាងខាងឆ្វេង។\nប្រសិនបើគ្មានតម្លៃដែលត្រូូវគ្នា លទ្ធផលនឹងមានតម្លៃ NULL។\n-- ទាញយកទិន្ន័\nយពីតារាង employees និង departments\nSELECT employees.name, departments.department_name\nFROM employees\nRIGHT JOIN departments ON employees.department_id = departments.id;\n5.5. FULL OUTER JOIN\nFULL OUTER JOIN ត្រូូវបានប្រើដើម្បីីទាញយកជួរទាំំងអស់ពីតារាងទាំំងពីរ។ ប្រសិនបើគ្មានតម្លៃដែលត្រូូវគ្នា\nលទ្ធផលនឹងមានតម្លៃ NULL។\n-- ទាញយកទិន្ន័\nយពីតារាង employees និង departments\nSELECT employees.name, departments.department_name\nFROM employees\nFULL OUTER JOIN departments ON employees.department_id = departments.id;\n5.6. CROSS JOIN and Self Join\nCROSS JOIN ត្រូូវបានប្រើដើម្បីីទាញយកផលគុណ Cartesian រវាងតារាងពីរ។ វាបង្កើតជួរទាំំងអស់ដែលអាច\nធ្វើបានពីតារាងទាំំងពីរ។\nSelf Join គឺជាការភ្ជាប់តារាងមួយជាមួយខ្លួនវាផ្ទាល់។ វាមានប្រយោជន៍នៅពេលដែលទិន្ន័យក្នុងតារាងមួយមាន\nទំនាក់ទំនងជាមួយខ្លួនវា។\n-- CROSS JOIN\nSELECT employees.name, departments.department_name\nFROM employees\nCROSS JOIN departments;\n-- Self Join\nSELECT e1.name AS employee, e2.name AS manager",
+          "code": "FROM employees\nLEFT JOIN departments ON employees.department_id = departments.id;\nSELECT employees.name, departments.department_name\nFROM employees\nRIGHT JOIN departments ON employees.department_id = departments.id;\nSELECT employees.name, departments.department_name\nFROM employees\nFULL OUTER JOIN departments ON employees.department_id = departments.id;\nSELECT employees.name, departments.department_name\nFROM employees\nCROSS JOIN departments;\nSELECT e1.name AS employee, e2.name AS manager",
+          "preview": {
+            "title": "Mysql · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 9",
+            "FROM employees"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-mysql-page-10",
+          "label": "PDF 10. FROM employees e1",
+          "heading": "FROM employees e1",
+          "intro": "JOIN employees e2 ON e1.manager_id = e2.id; 6. MySQL Indexes and Performance Optimization",
+          "bodyHeading": "Source content · mysql.pdf · page 10",
+          "body": "FROM employees e1\nJOIN employees e2 ON e1.manager_id = e2.id;\n6. MySQL Indexes and Performance\nOptimization\nIndexes និងការធ្វើឱ្យប្រសើរឡើងនូវសមត្ថភាពគឺមានសារៈសំខាន់ខ្លាំំងណាស់ក្នុងការកែលម្អល្\nបឿន\nនិងប្រសិទ្ធភាពនៃការសរសេរសំណួរទាញយកទិន្ន័យ។ ផ្នែកនេះះគ្របដណ្តប់អំពីអ្វីីដែលជា Indexes\nការបង្កើត និងគ្រប់គ្រង Indexes ការប្រើ EXPLAIN សម្\nរាប់ការធ្វើឱ្យប្រសើរឡើងនូវសំណួរ និងការ\nកែលម្អសមត្ថភាពទូទៅ។\n6.1. What are Indexes?\nIndexes គឺជារចនាសម្ព័័ន្ធទិន្ន័យដែលជួយលើកកម្លាំំងសម្\nរាប់ការស្\nវែងរកទិន្ន័យនៅក្នុងតារាង។ វាដំណើរការ\nដូចជាសៀសៀវភៅមើលរហ័ស (quick lookup) ដែលអនុញ្ញាតឱ្យ MySQL ទាញយកទិន្ន័យបានលឿលឿនជាងមុន។\nការប្រើ Indexes អាចកែលម្អល្\nបឿននៃការសរសេរសំណួរ SELECT, UPDATE, DELETE និង JOIN ប៉ុន្តែវាក៏\nអាចបង្កើនពេលវេលាសម្\nរាប់ការបញ្ចូលទិន្ន័យ (INSERT) ផងដែរ។\n6.2. Creating and Managing Indexes\nអ្នកអាចបង្កើត Indexes លើជួរឈរមួយ ឬច្រើននៅក្នុងតារាង។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍នៃការបង្កើត និង\nគ្រប់គ្រង Indexes៖\n-- បង្កើត Index លើជួរឈរ name\nCREATE INDEX idx_name ON employees (name);\n-- បង្កើត Composite Index លើជួរឈរ department និង salary\nCREATE INDEX idx_department_salary ON employees (department, salary);\n-- លុប Index\nDROP INDEX idx_name ON employees;\n6.3. Using EXPLAIN for Query Optimization",
+          "code": "FROM employees e1\nJOIN employees e2 ON e1.manager_id = e2.id;\nCREATE INDEX idx_name ON employees (name);\nCREATE INDEX idx_department_salary ON employees (department, salary);\nDROP INDEX idx_name ON employees;",
+          "preview": {
+            "title": "Mysql · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 10",
+            "FROM employees e1"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-mysql-page-11",
+          "label": "PDF 11. EXPLAIN គឺជាឧបករណ៍ដ៏មានប្រសិទ្ធភាពសម្",
+          "heading": "EXPLAIN គឺជាឧបករណ៍ដ៏មានប្រសិទ្ធភាពសម្",
+          "intro": "រាប់ការវិភាគសំណួរ SQL។ វាជួយអ្នកឱ្យយល់ពីរបៀបៀបដែល MySQL ប្រតិបត្តិិការសំណួរ និងកំណត់អ្វីីដែលត្រូូវកែលម្អ។ -- ប្រើ EXPLAIN ដើម្បីីវិភាគសំណួរ",
+          "bodyHeading": "Source content · mysql.pdf · page 11",
+          "body": "EXPLAIN គឺជាឧបករណ៍ដ៏មានប្រសិទ្ធភាពសម្\nរាប់ការវិភាគសំណួរ SQL។ វាជួយអ្នកឱ្យយល់ពីរបៀបៀបដែល\nMySQL ប្រតិបត្តិិការសំណួរ និងកំណត់អ្វីីដែលត្រូូវកែលម្អ។\n-- ប្រើ EXPLAIN ដើម្បីីវិភាគសំណួរ\nEXPLAIN SELECT * FROM employees WHERE department = 'Sales';\nលទ្ធផលនៃ EXPLAIN នឹងបង្ហាញពីរបៀបៀបដែល MySQL ប្រើ Indexes និងរបៀបៀបដែលវាទាញយកទិន្ន័យ។\n6.4. Query Caching and Performance Tuning\nQuery Caching គឺជាបច្ចេកទេសដែលអនុញ្ញាតឱ្យ MySQL រក្សាទុកលទ្ធផលនៃសំណួរដែលបានអនុវត្តជាមុន\nដើម្បីីប្រើឡើងវិញនៅពេលក្រោយ។ វាអាចកែលម្អល្\nបឿននៃការទាញយកទិន្ន័យ។\nការកែលម្អសមត្ថភាពទូទៅក៏រួមមានការកែលម្អសំណួរ ការប្រើ Indexes យ៉ាងមានប្រសិទ្ធភាព និងការកំណត់រចនា\nសម្ព័័ន្ធមូលដ្ឋានទិន្ន័យឱ្យបានល្អ។\n-- បើក Query Caching\nSET GLOBAL query_cache_size = 1000000;\n-- បិទ Query Caching\nSET GLOBAL query_cache_size = 0;\n7. MySQL Views\nMySQL Views គឺជាតារាងនិម្មិិតដែលតំណាងឱ្យលទ្ធផលនៃសំណួរ SQL។ វាអនុញ្ញាតឱ្យអ្នករក្សាទុក\nសំណួរស្មុគស្មាញជាតារាងនិម្មិិត ដែលអាចប្រើប្\nរាស់ដូចជាតារាងធម្មតា។ ផ្នែកនេះះគ្របដណ្តប់អំពីអ្វីី\nដែលជា Views ការបង្កើត និងគ្រប់គ្រង Views និងការកែប្រែទិន្ន័យដោយប្រើ Views។\n7.1. What are Views?\nViews គឺជាតារាងនិម្មិិតដែលបង្កើតឡើងពីលទ្ធផលនៃសំណួរ SQL។ វាមិនផ្ទុកទិន្ន័យជាក់ស្\nតែងទេ ប៉ុន្តែវាបង្ហាញ\nទិន្ន័យពីតារាងដែលមានស្\nរាប់។ Views មានប្រយោជន៍សម្\nរាប់សម្រួួលសំណួរស្មុគស្មាញ និងការពារទិន្ន័យ\nដោយបង្ហាញតែផ្នែកដែលចាំំបាច់។\n7.2. Creating and Managing Views",
+          "code": "EXPLAIN SELECT * FROM employees WHERE department = 'Sales';\nSET GLOBAL query_cache_size = 1000000;\nSET GLOBAL query_cache_size = 0;",
+          "preview": {
+            "title": "Mysql · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 11",
+            "EXPLAIN គឺជាឧបករណ៍ដ៏មានប្រសិទ្ធភាពសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-mysql-page-12",
+          "label": "PDF 12. CREATE VIEW employee_view AS",
+          "heading": "CREATE VIEW employee_view AS",
+          "intro": "អ្នកអាចបង្កើត Views ដោយប្រើសំណួរ SQL និងគ្រប់គ្រងវាដូចជាតារាងធម្មតា។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍ នៃការបង្កើត និងគ្រប់គ្រង Views៖ -- បង្កើត View ពីតារាង employees",
+          "bodyHeading": "Source content · mysql.pdf · page 12",
+          "body": "អ្នកអាចបង្កើត Views ដោយប្រើសំណួរ SQL និងគ្រប់គ្រងវាដូចជាតារាងធម្មតា។ ខាងក្រោមនេះះគឺជាឧទាហរណ៍\nនៃការបង្កើត និងគ្រប់គ្រង Views៖\n-- បង្កើត View ពីតារាង employees\nCREATE VIEW employee_view AS\nSELECT id, name, department\nFROM employees\nWHERE department = 'Sales';\n-- ទាញយកទិន្ន័\nយពី View\nSELECT * FROM employee_view;\n-- លុប View\nDROP VIEW employee_view;\n7.3. Updating Data using Views\nអ្នកអាចកែប្រែទិន្ន័យនៅក្នុងតារាងដើមដោយប្រើ Views ប្រសិនបើ View បំពេញលក្ខណ្ឌជាក់លាក់។\nឧទាហរណ៍ វាត្រូូវតែមានតែតារាងមួយ ហើយមិនមានការប្រមូលផ្តុំំ (aggregation) ឬការដាក់ជាក្រុុម (GROUP\nBY)។\n-- កែប្រែទិន្ន័\nយតាមរយៈ View\nUPDATE employee_view\nSET department = 'Marketing'\nWHERE id = 1;\nការកែប្រែនេះះនឹងធ្វើឱ្យទិន្ន័យនៅក្នុងតារាងដើម (employees) ផ្លាស់ប្តូរផងដែរ។\n8. MySQL Stored Procedures and Functions\nStored Procedures និង Functions នៅក្នុង MySQL អនុញ្ញាតឱ្យអ្នករក្សាទុកកូដ SQL ជា\nកញ្ចប់ ដែលអាចត្រូូវបានហៅដើម្បីីប្រើប្\nរាស់ឡើងវិញ។ ផ្នែកនេះះគ្របដណ្តប់អំពីការណែនាំំអំពី Stored\nProcedures ការបង្កើត និងហៅ Stored Procedures ការបង្កើត Functions ដែលកំណត់\nដោយអ្នកប្រើប្\nរាស់ និងការប្រើអថេរ និងប៉ារ៉ាម៉ែត្រនៅក្នុង Procedures។",
+          "code": "CREATE VIEW employee_view AS\nSELECT id, name, department\nFROM employees\nWHERE department = 'Sales';\nSELECT * FROM employee_view;\nDROP VIEW employee_view;\nUPDATE employee_view\nSET department = 'Marketing'\nWHERE id = 1;",
+          "preview": {
+            "title": "Mysql · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 12",
+            "CREATE VIEW employee_view AS"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-mysql-page-13",
+          "label": "PDF 13. Stored Procedures គឺជាកញ្ចប់នៃសំណួរ SQL ដែលត្រូូវបានរក្សាទុកនៅក្នុងមូលដ្ឋានទិន្ន័យ ហើយអាចត្រូូវ",
+          "heading": "Stored Procedures គឺជាកញ្ចប់នៃសំណួរ SQL ដែលត្រូូវបានរក្សាទុកនៅក្នុងមូលដ្ឋានទិន្ន័យ ហើយអាចត្រូូវ",
+          "intro": "8.1. Introduction to Stored Procedures បានហៅដើម្បីីប្រើប្ រាស់ឡើងវិញ។ វាជួយកាត់បន្ថយការធ្វើម្តងហើយម្តងទៀទៀតនៃកូដ SQL ហើយធ្វើឱ្យការគ្រប់គ្រង",
+          "bodyHeading": "Source content · mysql.pdf · page 13",
+          "body": "8.1. Introduction to Stored Procedures\nStored Procedures គឺជាកញ្ចប់នៃសំណួរ SQL ដែលត្រូូវបានរក្សាទុកនៅក្នុងមូលដ្ឋានទិន្ន័យ ហើយអាចត្រូូវ\nបានហៅដើម្បីីប្រើប្\nរាស់ឡើងវិញ។ វាជួយកាត់បន្ថយការធ្វើម្តងហើយម្តងទៀទៀតនៃកូដ SQL ហើយធ្វើឱ្យការគ្រប់គ្រង\nមូលដ្ឋានទិន្ន័យកាន់តែងាយស្រួួ\nល។\n8.2. Creating and Calling Stored Procedures\nអ្នកអាចបង្កើត Stored Procedures ដោយប្រើសំណួរ SQL ហើយហៅវាដើម្បីីប្រើប្\nរាស់។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍នៃការបង្កើត និងហៅ Stored Procedures៖\n-- បង្កើត Stored Procedure\nDELIMITER //\nCREATE PROCEDURE GetEmployeeDetails()\nBEGIN\n  SELECT * FROM employees;\nEND //\nDELIMITER ;\n-- ហៅ Stored Procedure\nCALL GetEmployeeDetails();\n8.3. Creating User-Defined Functions\nUser-Defined Functions គឺជាមុខងារដែលអ្នកបង្កើតឡើងដោយខ្លួនឯង ដែលអាចត្រូូវបានប្រើនៅក្នុងសំណួរ\nSQL។ វាត្រូូវបានប្រើដើម្បីីធ្វើការគណនា ឬប្រតិបត្តិិការផ្សេងៗ។\n-- បង្កើត User-Defined Function\nDELIMITER //\nCREATE FUNCTION CalculateBonus(salary DECIMAL(10,2)) \nRETURNS DECIMAL(10,2)\nDETERMINISTIC\nBEGIN\n  RETURN salary * 0.1;\nEND //\nDELIMITER ;\n-- ប្រើ Function នៅក្នុងសំណួរ\nSELECT name, salary, CalculateBonus(salary) AS bonus FROM employees;",
+          "code": "CREATE PROCEDURE GetEmployeeDetails()\n  SELECT * FROM employees;\nDELIMITER ;\nCALL GetEmployeeDetails();\nCREATE FUNCTION CalculateBonus(salary DECIMAL(10,2))\nRETURNS DECIMAL(10,2)\n  RETURN salary * 0.1;\nDELIMITER ;\nSELECT name, salary, CalculateBonus(salary) AS bonus FROM employees;",
+          "preview": {
+            "title": "Mysql · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 13",
+            "Stored Procedures គឺជាកញ្ចប់នៃសំណួរ SQL ដែលត្រូូវបានរក្សាទុកនៅក្នុងមូលដ្ឋានទិន្ន"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-mysql-page-14",
+          "label": "PDF 14. DELIMITER //",
+          "heading": "DELIMITER //",
+          "intro": "8.4. Using Variables and Parameters in Procedures អ្នកអាចប្រើអថេរ និងប៉ារ៉ាម៉ែត្រនៅក្នុង Stored Procedures ដើម្បីីធ្វើឱ្យវាកាន់តែអាចបត់បែនបាន។ ខាងក្រោម នេះះគឺជាឧទាហរណ៍នៃការប្រើអថេរ និងប៉ារ៉ាម៉ែត្រ៖",
+          "bodyHeading": "Source content · mysql.pdf · page 14",
+          "body": "8.4. Using Variables and Parameters in Procedures\nអ្នកអាចប្រើអថេរ និងប៉ារ៉ាម៉ែត្រនៅក្នុង Stored Procedures ដើម្បីីធ្វើឱ្យវាកាន់តែអាចបត់បែនបាន។ ខាងក្រោម\nនេះះគឺជាឧទាហរណ៍នៃការប្រើអថេរ និងប៉ារ៉ាម៉ែត្រ៖\n-- បង្កើត Stored Procedure ជាមួយប៉ារ៉ាម៉\nែត្រ\nDELIMITER //\nCREATE PROCEDURE GetEmployeeByDepartment(IN dept_name VARCHAR(50))\nBEGIN\n  SELECT * FROM employees WHERE department = dept_name;\nEND //\nDELIMITER ;\n-- ហៅ Stored Procedure ជាមួយប៉ារ៉ាម៉\nែត្រ\nCALL GetEmployeeByDepartment('Sales');\n9. MySQL Triggers\nMySQL Triggers គឺជាវត្ថុនៅក្នុងមូលដ្ឋានទិន្ន័យដែលត្រូូវបានអនុវត្តដោយស្វ័័យប្រវត្តិិនៅពេលដែល\nព្រឹឹត្តិិការណ៍ជាក់លាក់កើតឡើងនៅក្នុងមូលដ្ឋានទិន្ន័យ។ ពួកវាមានប្រយោជន៍សម្\nរាប់ការអនុវត្តច្បាប់\nអាជីវកម្ម ការត្រួួតពិនិត្យ និងការថែរក្សាសុពលភាពនៃទិន្ន័យ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពី\ntriggers របៀបៀបបង្កើតពួកវា និងរបៀបៀបគ្រប់គ្រង ឬលុបពួកវា។\n9.1. What are Triggers?\nTrigger គឺជាកម្មវិធីដែលត្រូូវបានរក្សាទុក ហើយត្រូូវបានអនុវត្តដោយស្វ័័យប្រវត្តិិនៅពេលដែលព្រឹឹត្តិិការណ៍ជាក់លាក់\nកើតឡើងនៅក្នុងមូលដ្ឋានទិន្ន័យ។ ព្រឹឹត្តិិការណ៍ទាំំងនេះះអាចជាការបញ្ចូល (INSERT) ការធ្វើបច្ចុប្បន្នភាព\n(UPDATE) ឬការលុប (DELETE) ទិន្ន័យនៅក្នុងតារាង។ Triggers ត្រូូវបានគេប្រើជាញឹកញាប់ដើម្បីីអនុវត្ត\nច្បាប់អាជីវកម្ម ត្រួួតពិនិត្យការផ្លាស់ប្តូរ ឬថែរក្សាសុពលភាពនៃទិន្ន័យ។\nចំណុចសំខាន់៖\nTriggers ត្រូូវបានភ្ជាប់ជាមួយតារាង។\nពួកវាត្រូូវបានអនុវត្តដោយស្វ័័យប្រវត្តិិនៅពេលដែលព្រឹឹត្តិិការណ៍ជាក់លាក់កើតឡើង។\nTriggers អាចត្រូូវបានកំណត់ឱ្យអនុវត្តមុន (BEFORE) ឬក្រោយ (AFTER) ព្រឹឹត្តិិការណ៍។\n9.2. Creating Triggers (BEFORE and AFTER)",
+          "code": "CREATE PROCEDURE GetEmployeeByDepartment(IN dept_name VARCHAR(50))\n  SELECT * FROM employees WHERE department = dept_name;\nDELIMITER ;\nCALL GetEmployeeByDepartment('Sales');\n9.2. Creating Triggers (BEFORE and AFTER)",
+          "preview": {
+            "title": "Mysql · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 14",
+            "DELIMITER //"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-mysql-page-15",
+          "label": "PDF 15. Triggers អាចត្រូូវបានបង្កើតដោយប្រើសេចក្តីីថ្លែងការណ៍ CREATE TRIGGER។ អ្នកអាចបញ្ជាក់ថាតើ trigger",
+          "heading": "Triggers អាចត្រូូវបានបង្កើតដោយប្រើសេចក្តីីថ្លែងការណ៍ CREATE TRIGGER។ អ្នកអាចបញ្ជាក់ថាតើ trigger",
+          "intro": "គួរត្រូូវបានអនុវត្តមុន (BEFORE) ឬក្រោយ (AFTER) ព្រឹឹត្តិិការណ៍ (INSERT, UPDATE, ឬ DELETE)។ -- ឧទាហរណ៍៖ បង្កើត BEFORE INSERT trigger CREATE TRIGGER before_employee_insert",
+          "bodyHeading": "Source content · mysql.pdf · page 15",
+          "body": "Triggers អាចត្រូូវបានបង្កើតដោយប្រើសេចក្តីីថ្លែងការណ៍ CREATE TRIGGER។ អ្នកអាចបញ្ជាក់ថាតើ trigger\nគួរត្រូូវបានអនុវត្តមុន (BEFORE) ឬក្រោយ (AFTER) ព្រឹឹត្តិិការណ៍ (INSERT, UPDATE, ឬ DELETE)។\n-- ឧទាហរណ៍៖ បង្កើត BEFORE INSERT trigger\nCREATE TRIGGER before_employee_insert\nBEFORE INSERT ON employees\nFOR EACH ROW\nBEGIN\n  -- កំណត់កាលបរិច្ឆេទបង្កើតទៅជាពេលវេលាបច្ចុប្បន្ន\n  SET NEW.created_at = NOW();\nEND;\n-- ឧទាហរណ៍៖ បង្កើត AFTER UPDATE trigger\nCREATE TRIGGER after_employee_update\nAFTER UPDATE ON employees\nFOR EACH ROW\nBEGIN\n  -- កត់ត្រាា\nការធ្វើបច្ចុប្បន្នភាពនៅក្នុងតារាងសាកល្បង\n  INSERT INTO employee_audit (employee_id, action, updated_at)\n  VALUES (OLD.id, 'UPDATE', NOW());\nEND;\nការពន្យល់៖\nBEFORE INSERT៖ Trigger នេះះត្រូូវបានអនុវត្តមុនពេលដែលជួរថ្មីីត្រូូវបានបញ្ចូលទៅក្នុងតារាង។\nAFTER UPDATE៖ Trigger នេះះត្រូូវបានអនុវត្តក្រោយពេលដែលជួរត្រូូវបានធ្វើបច្ចុប្បន្នភាពនៅក្នុងតារាង។\nNEW៖ សំដៅលើជួរថ្មីីដែលកំពុងត្រូូវបានបញ្ចូល ឬធ្វើបច្ចុប្បន្នភាព។\nOLD៖ សំដៅលើជួរដែលមានស្\nរាប់ដែលកំពុងត្រូូវបានធ្វើបច្ចុប្បន្នភាព ឬលុប។\n9.3. Managing and Dropping Triggers\nTriggers អាចត្រូូវបានគ្រប់គ្រងដោយប្រើសេចក្តីីថ្លែងការណ៍ SQL។ អ្នកអាចមើល triggers ដែលមានស្\nរាប់\nកែសម្រួួលពួកវា ឬលុបពួកវាប្រសិនបើពួកវាមិនត្រូូវការទៀទៀត។\n-- មើល triggers ទាំងអស់នៅក្នុងមូលដ្ឋានទិន្ន័\nយ\nSHOW TRIGGERS;\n-- មើល triggers សម្រាា\nប់តារាងជាក់លាក់\nSHOW TRIGGERS LIKE 'employees';",
+          "code": "CREATE TRIGGER before_employee_insert\n  SET NEW.created_at = NOW();\nEND;\nCREATE TRIGGER after_employee_update\n  INSERT INTO employee_audit (employee_id, action, updated_at)\n  VALUES (OLD.id, 'UPDATE', NOW());\nEND;\nSHOW TRIGGERS;\nSHOW TRIGGERS LIKE 'employees';",
+          "preview": {
+            "title": "Mysql · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 15",
+            "Triggers អាចត្រូូវបានបង្កើតដោយប្រើសេចក្តីីថ្លែងការណ៍ CREATE TRIGGER។ អ្នកអាចបញ្ជ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-mysql-page-16",
+          "label": "PDF 16. DROP TRIGGER IF EXISTS before_employee_insert;",
+          "heading": "DROP TRIGGER IF EXISTS before_employee_insert;",
+          "intro": "-- លុប trigger ការពន្យល់៖ SHOW TRIGGERS៖ បង្ហាញបញ្ជីី triggers ទាំំងអស់នៅក្នុងមូលដ្ឋានទិន្ន័យ។",
+          "bodyHeading": "Source content · mysql.pdf · page 16",
+          "body": "-- លុប trigger\nDROP TRIGGER IF EXISTS before_employee_insert;\nការពន្យល់៖\nSHOW TRIGGERS៖ បង្ហាញបញ្ជីី triggers ទាំំងអស់នៅក្នុងមូលដ្ឋានទិន្ន័យ។\nDROP TRIGGER៖ លុប trigger ចេញពីមូលដ្ឋានទិន្ន័យ។\n10. MySQL Transactions and ACID Properties\nTransactions នៅក្នុង MySQL គឺជាស្វ័័យប្រវត្តិិនៃប្រតិបត្តិិការដែលត្រូូវបានអនុវត្តជាឯកតាឡូជីខល\nតែមួយ។ ពួកវាធានាភាពត្រឹឹមត្រូូវ និងស្\nថេរភាពនៃទិន្ន័យដោយធ្វើតាមលក្ខណៈ ACID (Atomicity,\nConsistency, Isolation, Durability)។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពី transactions\nរបៀបៀបប្រើ COMMIT និង ROLLBACK និងកម្រិិតដាច់ដោយឡែក (isolation levels) នៅក្នុង\nMySQL។\n10.1. What are Transactions?\nTransaction គឺជាសំណុំនៃប្រតិបត្តិិការ SQL ដែលត្រូូវបានអនុវត្តជាឯកតាតែមួយ។ ប្រសិនបើប្រតិបត្តិិការទាំំង\nអស់នៅក្នុង transaction បានជោគជ័យ ការផ្លាស់ប្តូរនឹងត្រូូវបាន commit ទៅក្នុងមូលដ្ឋានទិន្ន័យ។ ប្រសិនបើ\nប្រតិបត្តិិការណាមួយបរាជ័យ transaction ទាំំងមូលនឹងត្រូូវបាន rollback ហើយការផ្លាស់ប្តូរណាមួយនឹងមិនត្រូូវ\nបានអនុវត្តទេ។\nលក្ខណៈ ACID:\nAtomicity៖ ធានាថា transaction ទាំំងមូលត្រូូវបានអនុវត្តដូចជាឯកតាតែមួយ។ ប្រសិនបើមានប្រតិបត្តិិ\nការណាមួយបរាជ័យ រាល់ប្រតិបត្តិិការនឹងត្រូូវបានដកហូត។\nConsistency៖ ធានាថាទិន្ន័យនៅតែស្ថិិតក្នុងស្ថានភាពត្រឹឹមត្រូូវបន្ទាប់ពី transaction បានបញ្ចប់។\nIsolation៖ ធានាថា transaction មួយមិនជ្រៀៀតជ្រែកទៅលើ transaction ផ្សេងទៀទៀត។\nDurability៖ ធានាថាការផ្លាស់ប្តូរដែលបាន commit នឹងនៅជាអចិន្ត្រៃយ។\n10.2. COMMIT and ROLLBACK\nCOMMIT និង ROLLBACK គឺជាសេចក្តីីថ្លែងការណ៍ SQL ដែលត្រូូវបានប្រើដើម្បីីគ្រប់គ្រង transactions។\nCOMMIT រក្សាទុកការផ្លាស់ប្តូរទៅក្នុងមូលដ្ឋានទិន្ន័យ ខណៈពេលដែល ROLLBACK លុបការផ្លាស់ប្តូរទាំំងអស់\nនិងប្រគល់មូលដ្ឋានទិន្ន័យទៅស្ថានភាពមុន។\n-- ឧទាហរណ៍៖ ប្រើ COMMIT និង ROLLBACK\nSTART TRANSACTION;",
+          "code": "DROP TRIGGER IF EXISTS before_employee_insert;\nSTART TRANSACTION;",
+          "preview": {
+            "title": "Mysql · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 16",
+            "DROP TRIGGER IF EXISTS before_employee_insert;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-mysql-page-17",
+          "label": "PDF 17. UPDATE accounts SET balance = balance - 100 WHERE id = 1;",
+          "heading": "UPDATE accounts SET balance = balance - 100 WHERE id = 1;",
+          "intro": "-- ប្រ តិបត្តិិការ SQL UPDATE accounts SET balance = balance + 100 WHERE id = 2;",
+          "bodyHeading": "Source content · mysql.pdf · page 17",
+          "body": "-- ប្រ\nតិបត្តិិការ SQL\nUPDATE accounts SET balance = balance - 100 WHERE id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;\n-- Commit ការផ្លាស់ប្តូរ\nCOMMIT;\n-- ឬ Rollback ប្រ\nសិនបើមានបញ្ហា\nROLLBACK;\nការពន្យល់៖\nSTART TRANSACTION៖ ចាប់ផ្តើម transaction ថ្មីី។\nCOMMIT៖ រក្សាទុកការផ្លាស់ប្តូរទៅក្នុងមូលដ្ឋានទិន្ន័យ។\nROLLBACK៖ លុបការផ្លាស់ប្តូរទាំំងអស់ និងប្រគល់មូលដ្ឋានទិន្ន័យទៅស្ថានភាពមុន។\n10.3. Isolation Levels in MySQL\nIsolation levels កំណត់ពីរបៀបៀបដែល transactions មួយមើលឃើញការផ្លាស់ប្តូរដែលកំពុងត្រូូវបានអនុវត្ត\nដោយ transactions ផ្សេងទៀទៀត។ MySQL គាំំទ្រកម្រិិតដាច់ដោយឡែកចំនួនបួន៖\n-- កំណត់កម្រិិ\nតដាច់ដោយឡែក\nSET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;\nSET TRANSACTION ISOLATION LEVEL READ COMMITTED;\nSET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSET TRANSACTION ISOLATION LEVEL SERIALIZABLE;\nកម្រិិតដាច់ដោយឡែក៖\nREAD UNCOMMITTED៖ Transactions អាចមើលឃើញការផ្លាស់ប្តូរដែលមិនទាន់ commit ដោយ\ntransactions ផ្សេង។\nREAD COMMITTED៖ Transactions អាចមើលឃើញតែការផ្លាស់ប្តូរដែលបាន commit ប៉ុណ្\nណោះ។\nREPEATABLE READ៖ ធានាថា rows ដែលត្រូូវបានអានដោយ transaction មួយនឹងនៅតែដដែលក្នុង\nអំឡុងពេល transaction។\nSERIALIZABLE៖ កម្រិិតដាច់ដោយឡែកខ្ពស់បំផុត ដែលធានាថា transactions ដំណើរការជាលំដាប់។\n11. MySQL Security and User Management",
+          "code": "UPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT;\nROLLBACK;\nSET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;\nSET TRANSACTION ISOLATION LEVEL READ COMMITTED;\nSET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSET TRANSACTION ISOLATION LEVEL SERIALIZABLE;",
+          "preview": {
+            "title": "Mysql · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 17",
+            "UPDATE accounts SET balance = balance - 100 WHERE id = 1;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-mysql-page-18",
+          "label": "PDF 18. MySQL Security and User Management ពាក់ព័ន្ធនឹងការបង្កើត និងគ្រប់គ្រងអ្នកប្រើប្",
+          "heading": "MySQL Security and User Management ពាក់ព័ន្ធនឹងការបង្កើត និងគ្រប់គ្រងអ្នកប្រើប្",
+          "intro": "  រាស់",
+          "bodyHeading": "Source content · mysql.pdf · page 18",
+          "body": "\n\nMySQL Security and User Management ពាក់ព័ន្ធនឹងការបង្កើត និងគ្រប់គ្រងអ្នកប្រើប្\nរាស់\nការផ្តល់ និងដកសិទ្ធិិ និងការអនុវត្តការអនុវត្តល្អបំផុតដើម្បីីធានាសុវត្ថិិភាពគណនី MySQL។ នៅក្នុង\nផ្នែកនេះះ យើងនឹងរៀរៀនពីរបៀបៀបគ្រប់គ្រងអ្នកប្រើប្\nរាស់ គ្រប់គ្រងការចូលប្រើ និងធានាសុវត្ថិិភាពបរិស្ថាន\nMySQL របស់អ្នក។\n11.1. Creating and Managing Users\nMySQL អនុញ្ញាតឱ្យអ្នកបង្កើត និងគ្រប់គ្រងអ្នកប្រើប្\nរាស់ដើម្បីីគ្រប់គ្រងការចូលប្រើមូលដ្ឋានទិន្ន័យរបស់អ្នក។ អ្នក\nអាចបង្កើតអ្នកប្រើប្\nរាស់ កំណត់ពាក្យសម្ងាត់ និងគ្រប់គ្រងសិទ្ធិិរបស់ពួកគេ។\n-- ឧទាហរណ៍៖ បង្កើតអ្នកប្រើប្រា\nស់ថ្មីី\nCREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';\n-- កែសម្រួលអ្នកប្រើប្រា\nស់\nALTER USER 'new_user'@'localhost' IDENTIFIED BY 'new_password';\n-- លុបអ្នកប្រើប្រា\nស់\nDROP USER 'new_user'@'localhost';\nការពន្យល់៖\nCREATE USER៖ បង្កើតអ្នកប្រើប្\nរាស់ថ្មីីជាមួយឈ្\nមោះ និងពាក្យសម្ងាត់។\nALTER USER៖ កែសម្រួួលពាក្យសម្ងាត់ឬព័ត៌មានផ្សេងៗរបស់អ្នកប្រើប្\nរាស់។\nDROP USER៖ លុបអ្នកប្រើប្\nរាស់ចេញពីមូលដ្ឋានទិន្ន័យ។\n11.2. Granting and Revoking Permissions\nMySQL អនុញ្ញាតឱ្យអ្នកផ្តល់ ឬដកសិទ្ធិិជាក់លាក់ដល់អ្នកប្រើប្\nរាស់។ វាធានាថាអ្នកប្រើប្\nរាស់មានការចូលប្រើតែ\nមូលដ្ឋានទិន្ន័យ និងតារាងដែលពួកគេត្រូូវការប៉ុណ្\nណោះ។\n-- ឧទាហរណ៍៖ ផ្តល់សិទ្ធិិ\nGRANT SELECT, INSERT, UPDATE ON database_name.* TO 'user_name'@'localhos\n-- ដកសិទ្ធិិ\nREVOKE INSERT, UPDATE ON database_name.* FROM 'user_name'@'localhost';\n-- បង្ហាញសិទ្ធិិរបស់អ្នកប្រើប្រា\nស់\nSHOW GRANTS FOR 'user_name'@'localhost';\nការពន្យល់៖",
+          "code": "CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';\nALTER USER 'new_user'@'localhost' IDENTIFIED BY 'new_password';\nDROP USER 'new_user'@'localhost';\nREVOKE INSERT, UPDATE ON database_name.* FROM 'user_name'@'localhost';\nSHOW GRANTS FOR 'user_name'@'localhost';",
+          "preview": {
+            "title": "Mysql · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 18",
+            "MySQL Security and User Management ពាក់ព័ន្ធនឹងការបង្កើត និងគ្រប់គ្រងអ្នកប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-mysql-page-19",
+          "label": "PDF 19. SHOW GRANTS៖ បង្ហាញសិទ្ធិិដែលបានផ្តល់ដល់អ្នកប្រើប្",
+          "heading": "SHOW GRANTS៖ បង្ហាញសិទ្ធិិដែលបានផ្តល់ដល់អ្នកប្រើប្",
+          "intro": "GRANT៖ ផ្តល់សិទ្ធិិដល់អ្នកប្រើប្ រាស់សម្ រាប់ប្រតិបត្តិិការជាក់លាក់។",
+          "bodyHeading": "Source content · mysql.pdf · page 19",
+          "body": "GRANT៖ ផ្តល់សិទ្ធិិដល់អ្នកប្រើប្\nរាស់សម្\nរាប់ប្រតិបត្តិិការជាក់លាក់។\nREVOKE៖ ដកសិទ្ធិិពីអ្នកប្រើប្\nរាស់។\nSHOW GRANTS៖ បង្ហាញសិទ្ធិិដែលបានផ្តល់ដល់អ្នកប្រើប្\nរាស់។\n11.3. Securing MySQL Databases\nការធានាសុវត្ថិិភាពមូលដ្ឋានទិន្ន័យ MySQL ពាក់ព័ន្ធនឹងការអនុវត្តការអនុវត្តល្អបំផុតដើម្បីីការពារទិន្ន័យពីការ\nចូលប្រើដោយមិនមានការអនុញ្ញាត និងការគំរាមកំហែងដែលអាចកើតមាន។\nការណែនាំំសម្\nរាប់សុវត្ថិិភាព៖\nប្រើពាក្យសម្ងាត់ខ្លាំំងៗសម្\nរាប់អ្នកប្រើប្\nរាស់ និងគណនី root។\nកំណត់សិទ្ធិិត្រឹឹមតែអ្វីីដែលចាំំបាច់សម្\nរាប់អ្នកប្រើប្\nរាស់នីមួយៗ។\nប្រើ SSL ដើម្បីីអ៊ិិនគ្រីីបទិន្ន័យក្នុងពេលផ្ទេរ។\nធ្វើបច្ចុប្បន្នភាព MySQL ទៅកំណែថ្មីីបំផុតជានិច្ច។\n12. MySQL Backup and Restore\nMySQL Backup and Restore គឺជាដំណើរការសំខាន់ដើម្បីីការពារទិន្ន័យរបស់អ្នកពីការបាត់បង់\nឬខូចខាត។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនពីរបៀបៀបបង្កើតការរក្សាទុក (backup) និងស្តារមូលដ្ឋាន\nទិន្ន័យពីការរក្សាទុក។\n12.1. MySQL Dump for Backups\nMySQL Dump គឺជាឧបករណ៍ដែលត្រូូវបានប្រើដើម្បីីបង្កើតការរក្សាទុក (backup) នៃមូលដ្ឋានទិន្ន័យ។ វា\nបង្កើតឯកសារ SQL ដែលមានពាក្យបញ្ជាទាំំងអស់ដែលត្រូូវការដើម្បីីស្តារមូលដ្ឋានទិន្ន័យឡើងវិញ។\n# ឧទាហរណ៍៖ បង្កើតការរក្សាទុកមូលដ្ឋានទិន្ន័\nយ\nmysqldump -u username -p database_name > backup_file.sql\nការពន្យល់៖\nmysqldump៖ ប្រើដើម្បីីបង្កើតការរក្សាទុកមូលដ្ឋានទិន្ន័យ។\n-u username៖ កំណត់អ្នកប្រើប្\nរាស់ MySQL។\n-p៖ ស្\nនើឱ្យបញ្ចូលពាក្យសម្ងាត់។\ndatabase_name៖ ឈ្\nមោះមូលដ្ឋានទិន្ន័យដែលត្រូូវរក្សាទុក។\nbackup_file.sql៖ ឯកសាររក្សាទុកដែលត្រូូវបង្កើត។\n12.2. Restoring Databases from Backups",
+          "code": "SELECT 'CampusFlow lesson' AS topic;",
+          "preview": {
+            "title": "Mysql · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 19",
+            "SHOW GRANTS៖ បង្ហាញសិទ្ធិិដែលបានផ្តល់ដល់អ្នកប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-mysql-page-20",
+          "label": "PDF 20. Point-in-Time Recovery អនុញ្ញាតឱ្យអ្នកស្តារមូលដ្ឋានទិន្ន័យទៅកាន់ពេលវេលាជាក់លាក់មួយ។ វាត្រូូវបាន",
+          "heading": "Point-in-Time Recovery អនុញ្ញាតឱ្យអ្នកស្តារមូលដ្ឋានទិន្ន័យទៅកាន់ពេលវេលាជាក់លាក់មួយ។ វាត្រូូវបាន",
+          "intro": "  ការស្តារមូលដ្ឋានទិន្ន័យពីការរក្សាទុកគឺជាដំណើរការនៃការបង្កើតមូលដ្ឋានទិន្ន័យឡើងវិញពីឯកសាររក្សាទុក។",
+          "bodyHeading": "Source content · mysql.pdf · page 20",
+          "body": "\n\nការស្តារមូលដ្ឋានទិន្ន័យពីការរក្សាទុកគឺជាដំណើរការនៃការបង្កើតមូលដ្ឋានទិន្ន័យឡើងវិញពីឯកសាររក្សាទុក។\n# ឧទាហរណ៍៖ ស្តារមូលដ្ឋានទិន្ន័\nយពីការរក្សាទុក\nmysql -u username -p database_name < backup_file.sql\nការពន្យល់៖\nmysql៖ ប្រើដើម្បីីស្តារមូលដ្ឋានទិន្ន័យពីឯកសាររក្សាទុក។\ndatabase_name៖ ឈ្\nមោះមូលដ្ឋានទិន្ន័យដែលត្រូូវស្តារ។\nbackup_file.sql៖ ឯកសាររក្សាទុកដែលត្រូូវប្រើ។\n12.3. Point-in-Time Recovery\nPoint-in-Time Recovery អនុញ្ញាតឱ្យអ្នកស្តារមូលដ្ឋានទិន្ន័យទៅកាន់ពេលវេលាជាក់លាក់មួយ។ វាត្រូូវបាន\nប្រើនៅពេលដែលអ្នកត្រូូវការកែតម្រូូវកំហុស ឬការបាត់បង់ទិន្ន័យ។\n# ឧទាហរណ៍៖ ស្តារមូលដ្ឋានទិន្ន័\nយទៅពេលវេលាជាក់លាក់\nmysqlbinlog --start-datetime=\"YYYY-MM-DD HH:MM:SS\" --stop-datetime=\"YYYY\nការពន្យល់៖\nmysqlbinlog៖ ប្រើដើម្បីីអានឯកសារ binary log និងស្តារការផ្លាស់ប្តូរទៅពេលវេលាជាក់លាក់។\n--start-datetime៖ កំណត់ពេលវេលាចាប់ផ្តើមសម្\nរាប់ការស្តារ។\n--stop-datetime៖ កំណត់ពេលវេលាបញ្ចប់សម្\nរាប់ការស្តារ។\nbinlog_file៖ ឯកសារ binary log ដែលត្រូូវប្រើ។\n13. Advanced MySQL Features\nMySQL ផ្តល់នូវលក្ខណៈពិសេសកម្រិិតខ្ពស់ដែលជួយកែលម្អដល់ការអនុវត្ត ការពង្រីីក និងភាព\nអាចបត់បែនបាននៃមូលដ្ឋានទិន្ន័យ។ នៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាអំពីការបែងចែកតារាង\n(Partitioning) ការចម្លង និងការបង្កើតក្រុុម (Replication and Clustering) និងប្រភេទទិន្ន័យ\nJSON រួមជាមួយមុខងាររបស់វា។\n13.1. Partitioning Tables\nការបែងចែកតារាងអនុញ្ញាតឱ្យអ្នកបែងចែកតារាងធំៗទៅជាផ្នែកតូចៗដែលអាចគ្រប់គ្រងបានយ៉ាងងាយស្រួួ\nល។\nវាជួយកែលម្អដល់ការអនុវត្តសំណួរ និងសម្រួួលការគ្រប់គ្រងទិន្ន័យ។",
+          "code": "mysqlbinlog --start-datetime=\"YYYY-MM-DD HH:MM:SS\" --stop-datetime=\"YYYY",
+          "preview": {
+            "title": "Mysql · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 20",
+            "Point-in-Time Recovery អនុញ្ញាតឱ្យអ្នកស្តារមូលដ្ឋានទិន្ន័យទៅកាន់ពេលវេលាជាក់លាក់ម"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-mysql-page-21",
+          "label": "PDF 21. CREATE TABLE sales (",
+          "heading": "CREATE TABLE sales (",
+          "intro": "-- ឧទាហរណ៍៖ ការបង្កើតតារាងដែលបែងចែក sale_id INT AUTO_INCREMENT, sale_date DATE,",
+          "bodyHeading": "Source content · mysql.pdf · page 21",
+          "body": "-- ឧទាហរណ៍៖ ការបង្កើតតារាងដែលបែងចែក\nCREATE TABLE sales (\n    sale_id INT AUTO_INCREMENT,\n    sale_date DATE,\n    amount DECIMAL(10, 2),\n    PRIMARY KEY (sale_id, sale_date)\n)\nPARTITION BY RANGE (YEAR(sale_date)) (\n    PARTITION p0 VALUES LESS THAN (2020),\n    PARTITION p1 VALUES LESS THAN (2021),\n    PARTITION p2 VALUES LESS THAN (2022),\n    PARTITION p3 VALUES LESS THAN MAXVALUE\n);\nការពន្យល់៖\nតារាងនេះះត្រូូវបានបែងចែកតាមឆ្នាំំនៃជួរឈរ sale_date។\nទិន្ន័យត្រូូវបានបែងចែកទៅជាផ្នែកតាមជួរដែលបានបញ្ជាក់។\n13.2. Replication and Clustering\nការចម្លង និងការបង្កើតក្រុុមគឺជាបច្ចេកទេសដែលត្រូូវបានប្រើដើម្បីីកែលម្អភាពអាចប្រើប្\nរាស់បាន ការពង្រីីក និង\nភាពធន់នៃមូលដ្ឋានទិន្ន័យ។\n-- ឧទាហរណ៍៖ ការកំណត់ Replication\nCHANGE MASTER TO\nMASTER_HOST='master_host_name',\nMASTER_USER='replication_user',\nMASTER_PASSWORD='replication_password',\nMASTER_LOG_FILE='mysql-bin.000001',\nMASTER_LOG_POS=4;\nSTART SLAVE;\nការពន្យល់៖\nReplication អនុញ្ញាតឱ្យទិន្ន័យត្រូូវបានចម្លងពីម៉ាស៊ីីនមេ (Master) ទៅកាន់ម៉ាស៊ីីនចំលង (Slave)។\nClustering ប្រើប្\nរាស់ដើម្បីីបង្កើតក្រុុមម៉ាស៊ីីនមូលដ្ឋានទិន្ន័យដែលដំណើរការជាមួយគ្នា។\n13.3. MySQL JSON Data Type and Functions",
+          "code": "CREATE TABLE sales (\n    amount DECIMAL(10, 2),\n    PRIMARY KEY (sale_id, sale_date)\n)\nPARTITION BY RANGE (YEAR(sale_date)) (\n    PARTITION p0 VALUES LESS THAN (2020),\n    PARTITION p1 VALUES LESS THAN (2021),\n    PARTITION p2 VALUES LESS THAN (2022),\n);\nMASTER_HOST='master_host_name',\nMASTER_USER='replication_user',\nMASTER_PASSWORD='replication_password',\nMASTER_LOG_FILE='mysql-bin.000001',\nMASTER_LOG_POS=4;\nSTART SLAVE;",
+          "preview": {
+            "title": "Mysql · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 21",
+            "CREATE TABLE sales ("
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-mysql-page-22",
+          "label": "PDF 22. MySQL គាំំទ្រប្រភេទទិន្ន័យ JSON ដែលអនុញ្ញាតឱ្យអ្នកផ្ទុក និងស្",
+          "heading": "MySQL គាំំទ្រប្រភេទទិន្ន័យ JSON ដែលអនុញ្ញាតឱ្យអ្នកផ្ទុក និងស្",
+          "intro": "វែងរកឯកសារ JSON យ៉ាងមាន ប្រសិទ្ធភាព។ វាក៏ផ្តល់មុខងារសម្ រាប់ដំណើរការទិន្ន័យ JSON ផងដែរ។",
+          "bodyHeading": "Source content · mysql.pdf · page 22",
+          "body": "MySQL គាំំទ្រប្រភេទទិន្ន័យ JSON ដែលអនុញ្ញាតឱ្យអ្នកផ្ទុក និងស្\nវែងរកឯកសារ JSON យ៉ាងមាន\nប្រសិទ្ធភាព។ វាក៏ផ្តល់មុខងារសម្\nរាប់ដំណើរការទិន្ន័យ JSON ផងដែរ។\n-- ឧទាហរណ៍៖ ការប្រើប្រ\nភេទទិន្ន័\nយ JSON និងមុខងារ\nCREATE TABLE users (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    profile JSON\n);\nINSERT INTO users (profile) VALUES\n('{\"name\": \"John\", \"age\": 30, \"city\": \"New York\"}'),\n('{\"name\": \"Jane\", \"age\": 25, \"city\": \"Los Angeles\"}');\n-- ការស្វែងរកទិន្ន័\nយ JSON\nSELECT profile->\"$.name\" AS name FROM users;\nការពន្យល់៖\nប្រភេទទិន្ន័យ JSON ត្រូូវបានប្រើដើម្បីីផ្ទុកឯកសារ JSON។\nប្រតិបត្តិិករ -- ត្រូូវបានប្រើដើម្បីីដកតម្លៃពីឯកសារ JSON។\n14. MySQL and PHP Integration\nMySQL និង PHP ត្រូូវបានប្រើប្\nរាស់ជាទូទៅដើម្បីីបង្កើតកម្មវិធីគេហទំព័រដែលមានលក្ខណៈ\nឌីណាមិក។ ផ្នែកនេះះគ្របដណ្តប់អំពីរបៀបៀបតភ្ជាប់ MySQL ជាមួយ PHP អនុវត្តប្រតិបត្តិិការ CRUD\nនិងប្រើប្\nរាស់ prepared statements ដើម្បីីសុវត្ថិិភាព។\n14.1. Connecting MySQL with PHP (MySQLi and PDO)\nដើម្បីីតភ្ជាប់ទៅកាន់មូលដ្ឋានទិន្ន័យ MySQL អ្នកត្រូូវការព័ត៌មានដូចខាងក្រោម៖ hostname, username,\npassword និង database name។ ខាងក្រោមជាឧទាហរណ៍នៃព័ត៌មានតភ្ជាប់៖\nHostname: localhost\nUsername: root\nPassword: (your_password)\nDatabase Name: testdb\nការពន្យល់៖",
+          "code": "CREATE TABLE users (\n);\nINSERT INTO users (profile) VALUES\n('{\"name\": \"John\", \"age\": 30, \"city\": \"New York\"}'),\n('{\"name\": \"Jane\", \"age\": 25, \"city\": \"Los Angeles\"}');\nSELECT profile->\"$.name\" AS name FROM users;\n14.1. Connecting MySQL with PHP (MySQLi and PDO)\nPassword: (your_password)",
+          "preview": {
+            "title": "Mysql · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 22",
+            "MySQL គាំំទ្រប្រភេទទិន្ន័យ JSON ដែលអនុញ្ញាតឱ្យអ្នកផ្ទុក និងស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-mysql-page-23",
+          "label": "PDF 23. Database Name: ឈ្",
+          "heading": "Database Name: ឈ្",
+          "intro": "  Hostname: ម៉ាស៊ីីនបម្រើដែលមានមូលដ្ឋានទិន្ន័យ (ឧទាហរណ៍៖ localhost)។",
+          "bodyHeading": "Source content · mysql.pdf · page 23",
+          "body": "\n\nHostname: ម៉ាស៊ីីនបម្រើដែលមានមូលដ្ឋានទិន្ន័យ (ឧទាហរណ៍៖ localhost)។\nUsername: អ្នកប្រើប្\nរាស់មូលដ្ឋានទិន្ន័យ (ឧទាហរណ៍៖ root)។\nPassword: ពាក្យសម្ងាត់សម្\nរាប់អ្នកប្រើប្\nរាស់មូលដ្ឋានទិន្ន័យ។\nDatabase Name: ឈ្\nមោះមូលដ្ឋានទិន្ន័យដែលអ្នកចង់តភ្ជាប់។\n14.2. Performing CRUD Operations with PHP\nCRUD មានន័យថា Create, Read, Update, and Delete ដែលជាប្រតិបត្តិិការមូលដ្ឋានទាំំងបួនសម្\nរាប់\nគ្រប់គ្រងទិន្ន័យក្នុងមូលដ្ឋានទិន្ន័យ។ ខាងក្រោមជាឧទាហរណ៍ SQL សម្\nរាប់ប្រតិបត្តិិការនីមួយៗ៖\n-- Create: បញ្ចូលធាតុថ្មីីទៅក្នុងតារាង 'users'\nINSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');\n-- Read: ទាញយកទិន្ន័\nយទាំងអស់ពីតារាង 'users'\nSELECT id, name, email FROM users;\n-- Update: កែសម្រួលអ៊ីីមែលរបស់អ្នកប្រើប្រា\nស់ដែលមាន id = 1\nUPDATE users SET email = 'john.doe@example.com' WHERE id = 1;\n-- Delete: លុបអ្នកប្រើប្រា\nស់ដែលមាន id = 1\nDELETE FROM users WHERE id = 1;\nការពន្យល់៖\nCreate: ប្រើ INSERT INTO ដើម្បីីបន្ថែមធាតុថ្មីីទៅក្នុងតារាង។\nRead: ប្រើ SELECT ដើម្បីីទាញយកទិន្ន័យពីតារាង។\nUpdate: ប្រើ UPDATE ដើម្បីីកែសម្រួួលធាតុដែលមានស្\nរាប់។\nDelete: ប្រើ DELETE ដើម្បីីលុបធាតុពីតារាង។\n14.3. Using Prepared Statements for Security\nPrepared statements គឺជាលក្ខណៈពិសេសសម្\nរាប់សុវត្ថិិភាពដែលជួយការពារការវាយប្រហារ SQL\ninjection។ ពួកវាបំបែកឡូជីខល SQL ពីការបញ្ចូលរបស់អ្នកប្រើប្\nរាស់ ដែលធានាថាការបញ្ចូលអាក្រក់មិនអាច\nផ្លាស់ប្តូរសំណួរបានទេ។\n-- ឧទាហរណ៍៖ Prepared Statement ក្នុង MySQL\nPREPARE insert_user FROM 'INSERT INTO users (name, email) VALUES (?, ?)'\n-- កំណត់ប៉ារ៉ាម៉\nែត្រ\n និងអនុវត្តសំណួរ\nSET @name = 'Jane Doe';\nSET @email = 'jane@example.com';",
+          "code": "INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');\nSELECT id, name, email FROM users;\nUPDATE users SET email = 'john.doe@example.com' WHERE id = 1;\nDELETE FROM users WHERE id = 1;\nPREPARE insert_user FROM 'INSERT INTO users (name, email) VALUES (?, ?)'\nSET @name = 'Jane Doe';\nSET @email = 'jane@example.com';",
+          "preview": {
+            "title": "Mysql · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 23",
+            "Database Name: ឈ្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-mysql-page-24",
+          "label": "PDF 24. EXECUTE insert_user USING @name, @email;",
+          "heading": "EXECUTE insert_user USING @name, @email;",
+          "intro": "  -- លុប prepared statement",
+          "bodyHeading": "Source content · mysql.pdf · page 24",
+          "body": "\n\nEXECUTE insert_user USING @name, @email;\n-- លុប prepared statement\nDEALLOCATE PREPARE insert_user;\nការពន្យល់៖\nសេចក្តីីថ្លែងការណ៍ PREPARE បង្កើតគំរូសម្\nរាប់សំណួរ SQL។\nសេចក្តីីថ្លែងការណ៍ EXECUTE ដំណើរការសំណួរជាមួយប៉ារ៉ាម៉ែត្រដែលបានផ្តល់។\nវិធីសាស្\nរ្តនេះះធានាថាការបញ្ចូលរបស់អ្នកប្រើប្\nរាស់ត្រូូវបានចាត់ទុកថាជាទិន្ន័យ មិនមែនជាកូដដែលអាចអនុវត្ត\nបានទេ។\n15. MySQL Best Practices\nការអនុវត្ត\nាមគោលការណ៍ដ៏ល្អបំផុតនៃ MySQL អាចជួយកែលម្អការអនុវត្ត ការថែទាំំ និងការពង្រីីក\nមូលដ្ឋានទិន្ន័យ។ ផ្នែកនេះះគ្របដណ្តប់អំពីការធ្វើឱ្យមូលដ្ឋានទិន្ន័យមានលក្ខណៈធម្មតា\n(Normalization) ការជៀជៀសវាងបញ្ហាអនុវត្តទូទៅ និងបច្ចេកទេសធ្វើឱ្យសំណួរមានប្រសិទ្ធភាព។\n15.1. Normalization and Database Design\nការធ្វើឱ្យមូលដ្ឋានទិន្ន័យមានលក្ខណៈធម្មតា (Normalization) គឺជាដំណើរការរៀរៀបចំទិន្ន័យក្នុងមូលដ្ឋាន\nទិន្ន័យ ដើម្បីីកាត់បន្ថយការធ្វើចំលងដដែលៗ និងកែលម្អសុវត្ថិិភាពទិន្ន័យ។ វាពាក់ព័ន្ធនឹងការបែងចែកតារាងធំៗ\nទៅជាតារាងតូចៗដែលទាក់ទងគ្នា និងកំណត់ទំនាក់ទំនងរវាងពួកវា។\n-- ឧទាហរណ៍៖ ការរចនាមូលដ្ឋានទិន្ន័\nយដែលមានលក្ខណៈធម្មតា\nCREATE TABLE users (\n    user_id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    email VARCHAR(100) NOT NULL UNIQUE\n);\nCREATE TABLE orders (\n    order_id INT AUTO_INCREMENT PRIMARY KEY,\n    user_id INT,\n    order_date DATE,",
+          "code": "EXECUTE insert_user USING @name, @email;\nDEALLOCATE PREPARE insert_user;\nCREATE TABLE users (\n    username VARCHAR(50) NOT NULL,\n    email VARCHAR(100) NOT NULL UNIQUE\n);\nCREATE TABLE orders (",
+          "preview": {
+            "title": "Mysql · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 24",
+            "EXECUTE insert_user USING @name, @email;"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-mysql-page-25",
+          "label": "PDF 25. FOREIGN KEY (user_id) REFERENCES users(user_id)",
+          "heading": "FOREIGN KEY (user_id) REFERENCES users(user_id)",
+          "intro": "); ការពន្យល់៖ តារាង users ផ្ទុកព័ត៌មានអំពីអ្នកប្រើប្",
+          "bodyHeading": "Source content · mysql.pdf · page 25",
+          "body": "FOREIGN KEY (user_id) REFERENCES users(user_id)\n);\nការពន្យល់៖\nតារាង users ផ្ទុកព័ត៌មានអំពីអ្នកប្រើប្\nរាស់។\nតារាង orders ផ្ទុកព័ត៌មានអំពីការកម្មង់ និងមានទំនាក់ទំនងជាមួយតារាង users តាមរយៈ user_id។\n15.2. Avoiding Common Performance Issues\nការជៀជៀសវាងបញ្ហាអនុវត្តទូទៅអាចជួយកែលម្អប្រសិទ្ធភាពមូលដ្ឋានទិន្ន័យ។ ខាងក្រោមជាបញ្ហាទូទៅ និងវិធីដោះ\nស្\nរាយ៖\nការប្រើសន្ទស្សន៍ (Indexes): ប្រើសន្ទស្សន៍ដើម្បីីលើកកម្មវិធីស្\nវែងរកទិន្ន័យ។\nការជៀជៀសវាងសំណួរដែលមានប្រសិទ្ធភាពទាប: ជៀជៀសវាងការប្រើ SELECT * និងសំណួរដែលមាន JOIN\nច្រើនពេក។\nការបែងចែកទិន្ន័យ (Partitioning): ប្រើការបែងចែកតារាងដើម្បីីកាត់បន្ថយទំហំទិន្ន័យដែលត្រូូវដំណើរ\nការ។\n15.3. MySQL Query Optimization Techniques\nការធ្វើឱ្យសំណួរមានប្រសិទ្ធភាពគឺជាផ្នែកសំខាន់នៃការគ្រប់គ្រងមូលដ្ឋានទិន្ន័យ។ ខាងក្រោមជាបច្ចេកទេសមួយ\nចំនួន៖\n-- ឧទាហរណ៍៖ ការប្រើសន្ទស្សន៍ (Indexes)\nCREATE INDEX idx_username ON users(username);\n-- ឧទាហរណ៍៖ ការប្រើ EXPLAIN ដើម្បីីវិភាគសំណួរ\nEXPLAIN SELECT * FROM users WHERE username = 'john_doe';\nការពន្យល់៖\nសន្ទស្សន៍ (Indexes): បង្កើតសន្ទស្សន៍លើជួរឈរដែលត្រូូវបានប្រើញឹកញាប់ក្នុងសំណួរ។\nEXPLAIN: ប្រើ EXPLAIN ដើម្បីីវិភាគដំណើរការសំណួរ និងកំណត់ចំណុចដែលត្រូូវកែលម្អ។\nអំពីយើង",
+          "code": "FOREIGN KEY (user_id) REFERENCES users(user_id)\n);\nCREATE INDEX idx_username ON users(username);\nEXPLAIN SELECT * FROM users WHERE username = 'john_doe';",
+          "preview": {
+            "title": "Mysql · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 25",
+            "FOREIGN KEY (user_id) REFERENCES users(user_id)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-26",
+      "items": [
+        {
+          "id": "pdf-mysql-page-26",
+          "label": "PDF 26. CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "heading": "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "intro": "ការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។ © 2025 CodeKhmerLearning. All Rights Reserved. តំណភ្ជាប់រហ័ស",
+          "bodyHeading": "Source content · mysql.pdf · page 26",
+          "body": "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "SELECT 'CampusFlow lesson' AS topic;",
+          "preview": {
+            "title": "Mysql · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Mysql",
+            "PDF page 26",
+            "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "mysql.pdf",
+          "sourcePage": 26
+        }
+      ]
+    }
+  ]
+}

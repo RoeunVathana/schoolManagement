@@ -10,6 +10,7 @@ import PublicNavIcon from "../../components/PublicNavIcon";
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../hooks/useAuth";
 import api, { unwrap } from "../../api/axios";
+import pdfCourseContent from "./content/pdfCourseContent";
 
 const technologies = [
   ["HTML", "#f16529"],
@@ -636,6 +637,12 @@ const getKhmerLesson = (courseTitle, lesson) => {
   const number = (lesson.label.match(/^\d+(?:\.\d+)*/) || [""])[0];
   const label = `${number}${number ? ". " : ""}${khmerTopic}`;
   const khmerCourseTitle = getKhmerCourseTitle(courseTitle);
+  // PDF-backed lessons keep the complete supplied source text in both
+  // language modes. The surrounding reader chrome can be Khmer while the
+  // imported reference remains exact and traceable to its source page.
+  if (lesson.sourceFile) {
+    return { ...lesson, label: lesson.label };
+  }
   return {
     ...lesson,
     label,
@@ -2106,6 +2113,33 @@ Object.entries(expertCourseUnits).forEach(([slug, sections]) => {
   course.lessons = [...course.lessons, ...generated.lessons];
 });
 
+// The supplied course PDFs are the source-of-truth extension for the matching
+// subjects. Keep every extracted page as a navigable lesson so no source
+// explanation is hidden behind a hand-written summary. The reader switches
+// these large, PDF-backed subjects to a selected-lesson view for performance,
+// while the outline still exposes every imported page.
+Object.entries(pdfCourseContent).forEach(([slug, pdfCourse]) => {
+  const course = courseCatalog[slug];
+  if (!course || !Array.isArray(pdfCourse?.sections)) return;
+
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const importedSections = pdfCourse.sections.map((section, index) => ({
+    ...section,
+    number: highestNumber + index + 1,
+    title: `${section.title} · ${pdfCourse.sourceFile}`,
+    items: section.items.map((lesson) => ({
+      ...lesson,
+      sourceFile: pdfCourse.sourceFile,
+    })),
+  }));
+
+  course.pdfSource = {
+    fileName: pdfCourse.sourceFile,
+    pageCount: pdfCourse.pageCount,
+  };
+  course.lessons = [...course.lessons, ...importedSections];
+});
+
 // Baseline requirements are applied to every reader. This avoids a course
 // having a shallow outline just because it started with a smaller source
 // syllabus. Code subjects receive a dedicated operator unit; every other
@@ -2563,7 +2597,7 @@ export default function CourseReader() {
   // objectives, a matched example and a practice preview. Keeping the mode
   // consistent means learners can browse the complete subject on one page,
   // while the outline and preview drawers still jump to the selected lesson.
-  const isReferenceCourse = Boolean(sourceCourse?.lessons?.length);
+  const isReferenceCourse = Boolean(sourceCourse?.lessons?.length) && !sourceCourse?.pdfSource;
   const courseSections = course.lessons;
   const courseLessons = useMemo(() => courseSections.flatMap((section) => section.items), [courseSections]);
   const [access, setAccess] = useState("checking");
@@ -2822,14 +2856,18 @@ export default function CourseReader() {
           ) : (
           <article className={`course-lesson-article ${lessonTransition.id === selectedLesson.id ? `is-lesson-changing ${lessonTransition.direction}` : ""}`}>
             <div className="course-breadcrumb"><Link to="/courses">{copy.courses}</Link><span>/</span><span>{course.title}</span><span>/</span><strong>{selectedLesson.label}</strong></div>
-            <div className="course-lesson-meta"><span>{copy.lessonProgress(selectedIndex + 1, courseLessons.length)}</span><span>⌁ {copy.beginner}</span></div>
+            <div className="course-lesson-meta">
+              <span>{copy.lessonProgress(selectedIndex + 1, courseLessons.length)}</span>
+              <span>⌁ {copy.beginner}</span>
+              {selectedLesson.sourceFile && <span className="course-source-meta">{language === "km" ? `ប្រភព ${selectedLesson.sourceFile} · ទំព័រ ${selectedLesson.sourcePage}` : `Source ${selectedLesson.sourceFile} · page ${selectedLesson.sourcePage}`}</span>}
+            </div>
             <h2>{selectedLesson.heading}</h2>
             <p className="course-lesson-lead">{selectedLesson.intro}</p>
             <LessonStudyGuide lesson={selectedLesson} language={language} />
 
             <section className="course-lesson-section">
               <h3>{selectedLesson.bodyHeading}</h3>
-              <p>{selectedLesson.body}</p>
+              <p className={selectedLesson.sourceFile ? "course-source-text" : ""} style={selectedLesson.sourceFile ? { whiteSpace: "pre-line" } : undefined}>{selectedLesson.body}</p>
               <div className="course-code-wrap">
                 <div className="course-code-toolbar"><span><i /> <i /> <i /></span><span>{course.codeLabel}</span><div className="course-code-toolbar-actions"><button type="button" className="course-code-run-button" onClick={() => openLessonRunner(selectedLesson)}>{copy.runTest}</button><button type="button" onClick={copyCode}>{copied === selectedLesson.id ? copy.copied : copy.copy}</button></div></div>
                 <pre><code>{selectedLesson.code}</code></pre>

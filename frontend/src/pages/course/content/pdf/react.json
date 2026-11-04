@@ -1,0 +1,1086 @@
+{
+  "slug": "react",
+  "sourceFile": "reactjs.pdf",
+  "pageCount": 41,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-react-page-1",
+          "label": "PDF 1. 1.1 What is React?",
+          "heading": "1.1 What is React?",
+          "intro": "1. React Introduction React គឺជា library JavaScript ដ៏ខ្លាំំងក្លាសម្ រាប់ការបង្កើតចំណុចប្រទាក់អ្នកប្រើប្",
+          "bodyHeading": "Source content · reactjs.pdf · page 1",
+          "body": "1. React Introduction\nReact គឺជា library JavaScript ដ៏ខ្លាំំងក្លាសម្\nរាប់ការបង្កើតចំណុចប្រទាក់អ្នកប្រើប្\nរាស់។ វាត្រូូវ\nបានគេប្រើយ៉ាងទូលំទូលាយសម្\nរាប់ការបង្កើតកម្មវិធីគេហទំព័រដែលមានលក្ខណៈឌីណាមិក, លឿលឿន, និង\nមានស្ថានភាពអាចពង្រីីកបាន។ ផ្នែកនេះះផ្តល់នូវទិដ្ឋភាពទូទៅអំពី React, លក្ខណៈពិសេសរបស់វា, និង\nរបៀបៀបចាប់ផ្តើមប្រើវា។\nអត្ថន័យ៖ React គឺជា library មួយសម្\nរាប់បង្កើតចំណុចប្រទាក់អ្នកប្រើប្\nរាស់នៅលើគេហទំព័រ។\n1.1 What is React?\nReact គឺជា JavaScript library សម្\nរាប់ការបង្កើតចំណុចប្រទាក់អ្នកប្រើប្\nរាស់, ជាពិសេសសម្\nរាប់កម្មវិធី\nគេហទំព័រដែលមានទំព័រតែមួយ (SPA)។ វាត្រូូវបានអភិវឌ្ឍន៍ដោយ Facebook (ឥឡូវ Meta) ហើយត្រូូវបានប្រើ\nយ៉ាងទូលំទូលាយសម្\nរាប់ការបង្កើតកម្មវិធីគេហទំព័រដែលមានលក្ខណៈឌីណាមិក, លឿលឿន, និងអាចពង្រីីកបាន។\nReact អនុញ្ញាតឱ្យអ្នកអភិវឌ្ឍន៍បង្កើត component UI ដែលអាចប្រើឡើងវិញ និងធ្វើបច្ចុប្បន្នភាព UI ដោយ\nប្រសិទ្ធភាពនៅពេលទិន្ន័យផ្លាស់ប្តូរ។\nអត្ថន័យ៖ React គឺជា library សម្\nរាប់បង្កើតចំណុចប្រទាក់អ្នកប្រើប្\nរាស់នៅលើគេហទំព័រ។\nចំណុចសំខាន់៖\nReact គឺជា library, មិនមែនជា framework ពេញលេញទេ។\nវាប្រើ component-based architecture។\nReact ធ្វើតាម declarative approach, ធ្វើឱ្យវាងាយស្រួួ\nលក្នុងការសាកល្បង និងយល់។\n1.2 Why Use React?\nReact មានប្រយោជន៍ជាច្រើនសម្\nរាប់ការអភិវឌ្ឍន៍គេហទំព័រ។ ខាងក្រោមនេះះគឺជាហេតុផលមួយចំនួនដែលអ្នកគួរ\nប្រើ React៖\nអត្ថន័យ៖ ហេតុអ្វីីប្រើ React?\nReusable Components: React អនុញ្ញាតឱ្យអ្នកបង្កើត component ដែលអាចប្រើឡើងវិញបាន,\nដែលធ្វើឱ្យការអភិវឌ្ឍន៍កាន់តែរហ័ស និងងាយស្រួួ\nល។\nVirtual DOM: React ប្រើ Virtual DOM ដើម្បីីធ្វើបច្ចុប្បន្នភាព UI ដោយប្រសិទ្ធភាព, ធ្វើឱ្យកម្មវិធីរបស់\nអ្នកលឿលឿនជាងមុន។\nStrong Community: React មានសហគមន៍ធំដែលគាំំទ្រនិងផ្តល់នូវធនធានជាច្រើនសម្\nរាប់អ្នក\nអភិវឌ្ឍន៍។\n1.3 React Features",
+          "code": "function LessonCard() {\n  return <article>CampusFlow lesson</article>;\n}",
+          "preview": {
+            "title": "React · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 1",
+            "1.1 What is React?"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-react-page-2",
+          "label": "PDF 2. 1.4 Setting Up React (Vite & CRA)",
+          "heading": "1.4 Setting Up React (Vite & CRA)",
+          "intro": "React មានលក្ខណៈពិសេសជាច្រើនដែលធ្វើឱ្យវាក្លាយជាឧបករណ៍ដ៏ពេញនិយមសម្ រាប់ការអភិវឌ្ឍន៍គេហទំព័រ។ ខាងក្រោមនេះះគឺជាលក្ខណៈពិសេសសំខាន់ៗរបស់ React៖",
+          "bodyHeading": "Source content · reactjs.pdf · page 2",
+          "body": "React មានលក្ខណៈពិសេសជាច្រើនដែលធ្វើឱ្យវាក្លាយជាឧបករណ៍ដ៏ពេញនិយមសម្\nរាប់ការអភិវឌ្ឍន៍គេហទំព័រ។\nខាងក្រោមនេះះគឺជាលក្ខណៈពិសេសសំខាន់ៗរបស់ React៖\nអត្ថន័យ៖ លក្ខណៈពិសេសរបស់ React។\nJSX: JSX គឺជាស៊ាំំភ្លេចនៃ JavaScript និង HTML ដែលធ្វើឱ្យការសរសេរកូដកាន់តែងាយស្រួួ\nល។\nComponent-Based: React ប្រើ component-based architecture ដែលធ្វើឱ្យកូដអាចប្រើឡើង\nវិញបាន។\nUnidirectional Data Flow: React ប្រើ unidirectional data flow ដែលធ្វើឱ្យការគ្រប់គ្រង\nstate កាន់តែងាយស្រួួ\nល។\n1.4 Setting Up React (Vite & CRA)\nដើម្បីីចាប់ផ្តើមប្រើ React, អ្នកត្រូូវការរៀរៀបចំបរិស្ថានអភិវឌ្ឍន៍។ មានឧបករណ៍ជាច្រើនដែលអាចជួយអ្នកក្នុងការ\nបង្កើតកម្មវិធី React, រួមមាន Vite និង Create React App (CRA)។\nអត្ថន័យ៖ របៀបៀបរៀរៀបចំបរិស្ថានអភិវឌ្ឍន៍សម្\nរាប់ React។\nជំហានដើម្បីីរៀរៀបចំបរិស្ថាន៖\n1. Install Node.js: ទាញយកនិងដំឡើង Node.js ពីគេហទំព័រផ្លូវការ។\n# Check Node.js version\nnode -v\n2. Create a React App with Vite:\nnpm create vite@latest my-react-app --template react\n3. Create a React App with CRA:\nnpx create-react-app my-react-app\n4. Run the Development Server:\ncd my-react-app\nnpm start\nអត្ថន័យ៖ Vite និង CRA គឺជាឧបករណ៍ដែលជួយអ្នកបង្កើតកម្មវិធី React យ៉ាងរហ័ស។\n1.5 Writing First React App\nបន្ទាប់ពីរៀរៀបចំបរិស្ថានអភិវឌ្ឍន៍រួច, អ្នកអាចចាប់ផ្តើមសរសេរកម្មវិធី React ដំបូងរបស់អ្នក។ ខាងក្រោមនេះះគឺជា\nឧទាហរណ៍សាមញ្ញនៃកម្មវិធី React ដែលបង្ហាញអត្ថបទ \"Hello, React!\"។",
+          "code": "1.4 Setting Up React (Vite & CRA)\n# Check Node.js version\nnpm create vite@latest my-react-app --template react\nnpm start",
+          "preview": {
+            "title": "React · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 2",
+            "1.4 Setting Up React (Vite & CRA)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-react-page-3",
+          "label": "PDF 3. React Basics គ្របដណ្តប់អំពីគោលគំនិតជាមូលដ្ឋាននៃ React, រួមមាន JSX, ការ render",
+          "heading": "React Basics គ្របដណ្តប់អំពីគោលគំនិតជាមូលដ្ឋាននៃ React, រួមមាន JSX, ការ render",
+          "intro": "អត្ថន័យ៖ របៀបៀបសរសេរកម្មវិធី React ដំបូង។ ឧទាហរណ៍កូដ៖ // App.js",
+          "bodyHeading": "Source content · reactjs.pdf · page 3",
+          "body": "អត្ថន័យ៖ របៀបៀបសរសេរកម្មវិធី React ដំបូង។\nឧទាហរណ៍កូដ៖\n// App.js\nimport React from 'react';\nfunction App() {\n  return (\n    <div>\n      <h1>Hello, React!</h1>\n    </div>\n  );\n}\nexport default App;\nជំហានដើម្បីីដំណើរការ៖\n1. បើកឯកសារ App.js នៅក្នុងថតរង្វង់របស់អ្នក។\n2. ជំនួសកូដដែលមានដោយឧទាហរណ៍ខាងលើ។\n3. រត់សឺវ័រអភិវឌ្ឍន៍៖\nnpm start\n4. បើក browser ហើយចូលទៅ http://localhost:3000 ដើម្បីីមើលលទ្ធផល។\nលទ្ធផល៖\nHello, React!\n2. React Basics\nReact Basics គ្របដណ្តប់អំពីគោលគំនិតជាមូលដ្ឋាននៃ React, រួមមាន JSX, ការ render\nelements, components, props, state, lifecycle, និងការគ្រប់គ្រង events។ ផ្នែកនេះះ\nផ្តល់នូវគ្រឹះដ៏រឹងមាំំសម្\nរាប់ការបង្កើតកម្មវិធី React។\nអត្ថន័យ៖ ផ្នែកនេះះរៀរៀនអំពីគោលគំនិតជាមូលដ្ឋាននៃ React។",
+          "code": "import React from 'react';\nfunction App() {\n  return (\n    <div>\n      <h1>Hello, React!</h1>\n    </div>\n  );\n}\nexport default App;\nnpm start",
+          "preview": {
+            "title": "React · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 3",
+            "React Basics គ្របដណ្តប់អំពីគោលគំនិតជាមូលដ្ឋាននៃ React, រួមមាន JSX, ការ render"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-react-page-4",
+          "label": "PDF 4. 2.1 JSX (JavaScript XML)",
+          "heading": "2.1 JSX (JavaScript XML)",
+          "intro": "JSX គឺជាស៊ាំំភ្លេចនៃ JavaScript និង HTML ដែលអនុញ្ញាតឱ្យអ្នកសរសេរកូដ HTML នៅក្នុង JavaScript។ វាធ្វើឱ្យការសរសេរ UI កាន់តែងាយស្រួួ ល និងអាចអានបាន។",
+          "bodyHeading": "Source content · reactjs.pdf · page 4",
+          "body": "2.1 JSX (JavaScript XML)\nJSX គឺជាស៊ាំំភ្លេចនៃ JavaScript និង HTML ដែលអនុញ្ញាតឱ្យអ្នកសរសេរកូដ HTML នៅក្នុង JavaScript។\nវាធ្វើឱ្យការសរសេរ UI កាន់តែងាយស្រួួ\nល និងអាចអានបាន។\nអត្ថន័យ៖ JSX គឺជាវិធីសរសេរ HTML នៅក្នុង JavaScript។\nឧទាហរណ៍ JSX៖\nconst element = <h1>Hello, JSX!</h1>;\nចំណាំំ៖ JSX មិនមែនជា JavaScript សុទ្ធនោះទេ ហេតុនេះះវាត្រូូវបាន compile ទៅជា JavaScript ដោយ\nBabel។\n2.2 Rendering Elements\nRendering elements គឺជាដំណើរការនៃការបង្ហាញ UI នៅលើអេក្រង់។ នៅក្នុង React, អ្នកអាច render\nelements ដោយប្រើ ReactDOM.render()។\nអត្ថន័យ៖ របៀបៀបបង្ហាញ UI នៅលើអេក្រង់។\nឧទាហរណ៍ Rendering៖\nconst element = <h1>Hello, React!</h1>;\nReactDOM.render(element, document.getElementById('root'));\nចំណាំំ៖ReactDOM.render() ត្រូូវបានប្រើដើម្បីីបង្ហាញ element នៅក្នុង DOM។\n2.3 Components & Props\nComponents គឺជាផ្នែកដែលអាចប្រើឡើងវិញនៃ UI។ អ្នកអាចបង្កើត components ដោយប្រើ functions\nឬ classes។ Props គឺជាទិន្ន័យដែលត្រូូវបានបញ្ជូនទៅ components។\nអត្ថន័យ៖ Components គឺជាផ្នែកនៃ UI ដែលអាចប្រើឡើងវិញ។\nឧទាហរណ៍ Function Component៖\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nឧទាហរណ៍ Class Component៖\nclass Welcome extends React.Component {\n  render() {",
+          "code": "2.1 JSX (JavaScript XML)\nconst element = <h1>Hello, JSX!</h1>;\nconst element = <h1>Hello, React!</h1>;\nReactDOM.render(element, document.getElementById('root'));\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nclass Welcome extends React.Component {\n  render() {",
+          "preview": {
+            "title": "React · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 4",
+            "2.1 JSX (JavaScript XML)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-react-page-5",
+          "label": "PDF 5. 2.4 State & Lifecycle",
+          "heading": "2.4 State & Lifecycle",
+          "intro": "return <h1>Hello, {this.props.name}!</h1>; } }",
+          "bodyHeading": "Source content · reactjs.pdf · page 5",
+          "body": "return <h1>Hello, {this.props.name}!</h1>;\n  }\n}\n2.4 State & Lifecycle\nState គឺជាទិន្ន័យផ្ទាល់ខ្លួនរបស់ component ដែលអាចផ្លាស់ប្តូរបាន។ Lifecycle methods គឺជាវិធី\nសាស្\nរ្តដែលត្រូូវបានហៅនៅពេល component ត្រូូវបានបង្កើត, ធ្វើបច្ចុប្បន្នភាព, ឬលុបចោល។\nអត្ថន័យ៖ State គឺជាទិន្ន័យផ្ទាល់ខ្លួនរបស់ component, ហើយ lifecycle methods គឺជាវិធីសាស្\nរ្តដែល\nត្រូូវបានហៅនៅពេល component ផ្លាស់ប្តូរ។\nឧទាហរណ៍ State៖\nclass Clock extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { date: new Date() };\n  }\n  render() {\n    return <h1>It is {this.state.date.toLocaleTimeString()}.</h1>;\n  }\n}\n2.5 Handling Events\nHandling events គឺជាការគ្រប់គ្រង events ដូចជា clicks, input changes, និងផ្សេងៗទៀទៀតនៅក្នុង\nReact។ អ្នកអាចប្រើ event handlers ដើម្បីីឆ្លើយតបទៅនឹង events។\nអត្ថន័យ៖ របៀបៀបគ្រប់គ្រង events នៅក្នុង React។\nឧទាហរណ៍ Event Handling៖\nfunction Button() {\n  function handleClick() {\n    alert('Button clicked!');\n  }",
+          "code": "return <h1>Hello, {this.props.name}!</h1>;\n  }\n}\nclass Clock extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { date: new Date() };\n  }\n  render() {\n    return <h1>It is {this.state.date.toLocaleTimeString()}.</h1>;\n  }\n}\nfunction Button() {\n  function handleClick() {\n    alert('Button clicked!');\n  }",
+          "preview": {
+            "title": "React · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 5",
+            "2.4 State & Lifecycle"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-react-page-6",
+          "label": "PDF 6. 3.1 Functional Components",
+          "heading": "3.1 Functional Components",
+          "intro": "return <button onClick={handleClick}>Click Me</button>; } 3. React Components",
+          "bodyHeading": "Source content · reactjs.pdf · page 6",
+          "body": "return <button onClick={handleClick}>Click Me</button>;\n}\n3. React Components\nReact Components គឺជាផ្នែកសំខាន់នៃកម្មវិធី React។ ពួកវាអនុញ្ញាតឱ្យអ្នកបែងចែក UI ជា\nផ្នែកតូចៗដែលអាចប្រើឡើងវិញបាន។ ផ្នែកនេះះគ្របដណ្តប់អំពី Functional Components,\nClass Components, ការបញ្ជូន Props, State នៅក្នុង Components, និង Lifecycle\nMethods។\nអត្ថន័យ៖ React Components គឺជាផ្នែកសំខាន់នៃកម្មវិធី React ដែលអាចប្រើឡើងវិញបាន។\n3.1 Functional Components\nFunctional Components គឺជាមុខងារសាមញ្ញដែលទទួល props ហើយ return JSX។ ពួកវាត្រូូវបានប្រើ\nយ៉ាងទូលំទូលាយនៅក្នុង React ដោយសារភាពសាមញ្ញ និងភាពងាយស្រួួ\nលនៃការប្រើប្\nរាស់។\nអត្ថន័យ៖ Functional Components គឺជាមុខងារសាមញ្ញសម្\nរាប់បង្កើត UI។\nឧទាហរណ៍ Functional Component៖\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nចំណាំំ៖ Functional Components ត្រូូវបានគេប្រើញឹកញាប់ជាង Class Components នៅក្នុង React\nសម័យទំនើប។\n3.2 Class Components\nClass Components គឺជា components ដែលត្រូូវបានបង្កើតឡើងដោយប្រើ class នៅក្នុង\nJavaScript។ ពួកវាអាចមាន state និង lifecycle methods។\nអត្ថន័យ៖ Class Components គឺជា components ដែលប្រើ class សម្\nរាប់ការបង្កើត UI។\nឧទាហរណ៍ Class Component៖\nclass Welcome extends React.Component {\n  render() {",
+          "code": "return <button onClick={handleClick}>Click Me</button>;\n}\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nclass Welcome extends React.Component {\n  render() {",
+          "preview": {
+            "title": "React · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 6",
+            "3.1 Functional Components"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-react-page-7",
+          "label": "PDF 7. 3.3 Passing Props",
+          "heading": "3.3 Passing Props",
+          "intro": "return <h1>Hello, {this.props.name}!</h1>; } }",
+          "bodyHeading": "Source content · reactjs.pdf · page 7",
+          "body": "return <h1>Hello, {this.props.name}!</h1>;\n  }\n}\nចំណាំំ៖ Class Components ត្រូូវបានប្រើក្នុងករណីដែលត្រូូវការ state ឬ lifecycle methods។\n3.3 Passing Props\nProps គឺជាទិន្ន័យដែលត្រូូវបានបញ្ជូនពី parent component ទៅ child component។ ពួកវាជាវិធី\nសម្\nរាប់ចែករំលែកទិន្ន័យនៅក្នុង React។\nអត្ថន័យ៖ Props គឺជាទិន្ន័យដែលត្រូូវបានបញ្ជូនពី component មួយទៅ component មួយទៀទៀត។\nឧទាហរណ៍ Passing Props៖\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nfunction App() {\n  return <Welcome name=\"Alice\" />;\n}\n3.4 State in Components\nState គឺជាទិន្ន័យផ្ទាល់ខ្លួនរបស់ component ដែលអាចផ្លាស់ប្តូរបាន។ វាត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងទិន្ន័យ\nដែលផ្លាស់ប្តូរនៅក្នុង component។\nអត្ថន័យ៖ State គឺជាទិន្ន័យផ្ទាល់ខ្លួនរបស់ component។\nឧទាហរណ៍ State៖\nclass Counter extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { count: 0 };\n  }\n  render() {\n    return <h1>Count: {this.state.count}</h1>;\n  }\n}",
+          "code": "return <h1>Hello, {this.props.name}!</h1>;\n  }\n}\nfunction Welcome(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\nfunction App() {\n  return <Welcome name=\"Alice\" />;\n}\nclass Counter extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { count: 0 };\n  }\n  render() {\n    return <h1>Count: {this.state.count}</h1>;\n  }\n}",
+          "preview": {
+            "title": "React · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 7",
+            "3.3 Passing Props"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-react-page-8",
+          "label": "PDF 8. 3.5 Component Lifecycle Methods",
+          "heading": "3.5 Component Lifecycle Methods",
+          "intro": "Lifecycle Methods គឺជាវិធីសាស្ រ្តដែលត្រូូវបានហៅនៅពេល component ត្រូូវបានបង្កើត, ធ្វើបច្ចុប្បន្នភាព, ឬលុបចោល។ ពួកវាអនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងការធ្វើការនៅពេលជាក់លាក់នៅក្នុងអាយុជីវិតរបស់ component។",
+          "bodyHeading": "Source content · reactjs.pdf · page 8",
+          "body": "3.5 Component Lifecycle Methods\nLifecycle Methods គឺជាវិធីសាស្\nរ្តដែលត្រូូវបានហៅនៅពេល component ត្រូូវបានបង្កើត, ធ្វើបច្ចុប្បន្នភាព,\nឬលុបចោល។ ពួកវាអនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងការធ្វើការនៅពេលជាក់លាក់នៅក្នុងអាយុជីវិតរបស់ component។\nអត្ថន័យ៖ Lifecycle Methods គឺជាវិធីសាស្\nរ្តដែលត្រូូវបានហៅនៅពេល component ផ្លាស់ប្តូរ។\nឧទាហរណ៍ Lifecycle Methods៖\nclass Clock extends React.Component {\n  componentDidMount() {\n    this.timerID = setInterval(() => this.tick(), 1000);\n  }\n  componentWillUnmount() {\n    clearInterval(this.timerID);\n  }\n  tick() {\n    this.setState({ date: new Date() });\n  }\n  render() {\n    return <h1>It is {this.state.date.toLocaleTimeString()}.</h1>;\n  }\n}\n4. React Hooks\nReact Hooks គឺជាមុខងារដែលអនុញ្ញាតឱ្យអ្នកប្រើ state និងលក្ខណៈពិសេសផ្សេងៗរបស់ React\nនៅក្នុង functional components។ ពួកវាត្រូូវបានណែនាំំនៅក្នុង React 16.8 ដើម្បីីធ្វើឱ្យការ\nសរសេរកូដកាន់តែងាយស្រួួ\nល និងអាចអានបាន។\nអត្ថន័យ៖ React Hooks គឺជាមុខងារសម្\nរាប់ប្រើ state និងលក្ខណៈពិសេសផ្សេងៗនៅក្នុង functional\ncomponents។\n4.1 useState Hook",
+          "code": "class Clock extends React.Component {\n  componentDidMount() {\n    this.timerID = setInterval(() => this.tick(), 1000);\n  }\n  componentWillUnmount() {\n    clearInterval(this.timerID);\n  }\n  tick() {\n    this.setState({ date: new Date() });\n  }\n  render() {\n    return <h1>It is {this.state.date.toLocaleTimeString()}.</h1>;\n  }\n}",
+          "preview": {
+            "title": "React · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 8",
+            "3.5 Component Lifecycle Methods"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-react-page-9",
+          "label": "PDF 9. 4.2 useEffect Hook",
+          "heading": "4.2 useEffect Hook",
+          "intro": "useState គឺជា Hook ដែលអនុញ្ញាតឱ្យអ្នកបន្ថែម state ទៅក្នុង functional components។ វាត្រូូវបាន ប្រើយ៉ាងទូលំទូលាយសម្ រាប់ការគ្រប់គ្រងទិន្ន័យដែលផ្លាស់ប្តូរនៅក្នុង component។",
+          "bodyHeading": "Source content · reactjs.pdf · page 9",
+          "body": "useState គឺជា Hook ដែលអនុញ្ញាតឱ្យអ្នកបន្ថែម state ទៅក្នុង functional components។ វាត្រូូវបាន\nប្រើយ៉ាងទូលំទូលាយសម្\nរាប់ការគ្រប់គ្រងទិន្ន័យដែលផ្លាស់ប្តូរនៅក្នុង component។\nអត្ថន័យ៖ useState គឺជា Hook សម្\nរាប់ប្រើ state នៅក្នុង functional components។\nឧទាហរណ៍ useState៖\nimport React, { useState } from 'react';\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>Click me</button>\n    </div>\n  );\n}\n4.2 useEffect Hook\nuseEffect គឺជា Hook ដែលអនុញ្ញាតឱ្យអ្នកអនុវត្ត side effects នៅក្នុង functional components។ វា\nត្រូូវបានប្រើសម្\nរាប់ការធ្វើការងារដូចជា fetching data, ការកំណត់ subscriptions, ឬធ្វើបច្ចុប្បន្នភាព\nDOM។\nអត្ថន័យ៖ useEffect គឺជា Hook សម្\nរាប់អនុវត្ត side effects នៅក្នុង functional components។\nឧទាហរណ៍ useEffect៖\nimport React, { useState, useEffect } from 'react';\nfunction Timer() {\n  const [seconds, setSeconds] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => {\n      setSeconds(seconds => seconds + 1);\n    }, 1000);\n    return () => clearInterval(interval);\n  }, []);",
+          "code": "import React, { useState } from 'react';\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>Click me</button>\n    </div>\n  );\n}\nimport React, { useState, useEffect } from 'react';\nfunction Timer() {\n  const [seconds, setSeconds] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => {\n      setSeconds(seconds => seconds + 1);\n    }, 1000);\n    return () => clearInterval(interval);\n  }, []);",
+          "preview": {
+            "title": "React · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 9",
+            "4.2 useEffect Hook"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-react-page-10",
+          "label": "PDF 10. 4.3 useContext Hook",
+          "heading": "4.3 useContext Hook",
+          "intro": "  return <p>Seconds: {seconds}</p>;",
+          "bodyHeading": "Source content · reactjs.pdf · page 10",
+          "body": "\n\n  return <p>Seconds: {seconds}</p>;\n}\n4.3 useContext Hook\nuseContext គឺជា Hook ដែលអនុញ្ញាតឱ្យអ្នកប្រើ context នៅក្នុង functional components។ វាជាវិធី\nសាមញ្ញសម្\nរាប់ចែករំលែកទិន្ន័យរវាង components ដោយមិនចាំំបាច់បញ្ជូន props តាមដំណាក់កាល។\nអត្ថន័យ៖ useContext គឺជា Hook សម្\nរាប់ប្រើ context នៅក្នុង functional components។\nឧទាហរណ៍ useContext៖\nimport React, { useContext } from 'react';\nconst ThemeContext = React.createContext('light');\nfunction ThemedButton() {\n  const theme = useContext(ThemeContext);\n  return <button style={{ background: theme === 'dark' ? 'black' : 'whit\n}\n4.4 useRef Hook\nuseRef គឺជា Hook ដែលអនុញ្ញាតឱ្យអ្នកបង្កើត reference ទៅកាន់ DOM elements ឬរក្សាទុកតម្លៃដែល\nមិនផ្លាស់ប្តូរនៅពេល component ធ្វើបច្ចុប្បន្នភាព។\nអត្ថន័យ៖ useRef គឺជា Hook សម្\nរាប់បង្កើត reference ទៅកាន់ DOM elements ឬរក្សាទុកតម្លៃដែលមិន\nផ្លាស់ប្តូរ។\nឧទាហរណ៍ useRef៖\nimport React, { useRef } from 'react';\nfunction TextInput() {\n  const inputRef = useRef(null);\n  const focusInput = () => {\n    inputRef.current.focus();\n  };",
+          "code": "return <p>Seconds: {seconds}</p>;\n}\nimport React, { useContext } from 'react';\nconst ThemeContext = React.createContext('light');\nfunction ThemedButton() {\n  const theme = useContext(ThemeContext);\n  return <button style={{ background: theme === 'dark' ? 'black' : 'whit\n}\nimport React, { useRef } from 'react';\nfunction TextInput() {\n  const inputRef = useRef(null);\n  const focusInput = () => {\n    inputRef.current.focus();\n  };",
+          "preview": {
+            "title": "React · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 10",
+            "4.3 useContext Hook"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-react-page-11",
+          "label": "PDF 11. 4.5 Custom Hooks",
+          "heading": "4.5 Custom Hooks",
+          "intro": "return ( <div> <input ref={inputRef} type=\"text\" />",
+          "bodyHeading": "Source content · reactjs.pdf · page 11",
+          "body": "return (\n    <div>\n      <input ref={inputRef} type=\"text\" />\n      <button onClick={focusInput}>Focus Input</button>\n    </div>\n  );\n}\n4.5 Custom Hooks\nCustom Hooks គឺជាមុខងារដែលអ្នកបង្កើតឡើងដោយខ្លួនឯង ដើម្បីីចែករំលែក logic រវាង components។\nពួកវាជាវិធីដ៏មានឥទ្ធិិពលដើម្បីីធ្វើឱ្យកូដអាចប្រើឡើងវិញបាន។\nអត្ថន័យ៖ Custom Hooks គឺជាមុខងារដែលអ្នកបង្កើតឡើងដោយខ្លួនឯងសម្\nរាប់ចែករំលែក logic។\nឧទាហរណ៍ Custom Hook៖\nimport { useState, useEffect } from 'react';\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    fetch(url)\n      .then(response => response.json())\n      .then(data => setData(data));\n  }, [url]);\n  return data;\n}\n5. React Forms\nReact Forms ត្រូូវបានប្រើសម្\nរាប់គ្រប់គ្រងការបញ្ចូលពីអ្នកប្រើប្\nរាស់នៅក្នុងកម្មវិធី React។ ផ្នែក\nនេះះគ្របដណ្តប់អំពី Controlled Components, Uncontrolled Components, ការគ្រប់គ្រង\nForms, និងការធ្វើ Validation។",
+          "code": "return (\n    <div>\n      <input ref={inputRef} type=\"text\" />\n      <button onClick={focusInput}>Focus Input</button>\n    </div>\n  );\n}\nimport { useState, useEffect } from 'react';\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    fetch(url)\n      .then(response => response.json())\n      .then(data => setData(data));\n  }, [url]);\n  return data;\n}",
+          "preview": {
+            "title": "React · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 11",
+            "4.5 Custom Hooks"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-react-page-12",
+          "label": "PDF 12. 5.1 Controlled Components",
+          "heading": "5.1 Controlled Components",
+          "intro": "អត្ថន័យ៖ React Forms គឺជាវិធីសម្ រាប់គ្រប់គ្រងការបញ្ចូលពីអ្នកប្រើប្ រាស់។",
+          "bodyHeading": "Source content · reactjs.pdf · page 12",
+          "body": "អត្ថន័យ៖ React Forms គឺជាវិធីសម្\nរាប់គ្រប់គ្រងការបញ្ចូលពីអ្នកប្រើប្\nរាស់។\n5.1 Controlled Components\nControlled Components គឺជា components ដែលត្រូូវបានគ្រប់គ្រងដោយ state របស់ React។ តម្លៃ\nនៃ input ត្រូូវបានគ្រប់គ្រងដោយ state, ហើយការផ្លាស់ប្តូរតម្លៃនៃ input ត្រូូវបានគ្រប់គ្រងដោយ event\nhandlers។\nអត្ថន័យ៖ Controlled Components គឺជា components ដែលត្រូូវបានគ្រប់គ្រងដោយ state របស់\nReact។\nឧទាហរណ៍ Controlled Component៖\nfunction ControlledInput() {\n  const [value, setValue] = useState('');\n  const handleChange = (event) => {\n    setValue(event.target.value);\n  };\n  return (\n    <input type=\"text\" value={value} onChange={handleChange} />\n  );\n}\n5.2 Uncontrolled Components\nUncontrolled Components គឺជា components ដែលតម្លៃ input ត្រូូវបានគ្រប់គ្រងដោយ DOM\nជំនួសឱ្យ state របស់ React។ អ្នកអាចចូលប្រើតម្លៃ input ដោយប្រើ ref។\nអត្ថន័យ៖ Uncontrolled Components គឺជា components ដែលតម្លៃ input ត្រូូវបានគ្រប់គ្រងដោយ\nDOM។\nឧទាហរណ៍ Uncontrolled Component៖\nfunction UncontrolledInput() {\n  const inputRef = useRef(null);\n  const handleSubmit = () => {\n    alert('Input value: ' + inputRef.current.value);\n  };",
+          "code": "function ControlledInput() {\n  const [value, setValue] = useState('');\n  const handleChange = (event) => {\n    setValue(event.target.value);\n  };\n  return (\n    <input type=\"text\" value={value} onChange={handleChange} />\n  );\n}\nfunction UncontrolledInput() {\n  const inputRef = useRef(null);\n  const handleSubmit = () => {\n    alert('Input value: ' + inputRef.current.value);\n  };",
+          "preview": {
+            "title": "React · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 12",
+            "5.1 Controlled Components"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-react-page-13",
+          "label": "PDF 13. 5.3 Form Handling",
+          "heading": "5.3 Form Handling",
+          "intro": "return ( <div> <input type=\"text\" ref={inputRef} />",
+          "bodyHeading": "Source content · reactjs.pdf · page 13",
+          "body": "return (\n    <div>\n      <input type=\"text\" ref={inputRef} />\n      <button onClick={handleSubmit}>Submit</button>\n    </div>\n  );\n}\n5.3 Form Handling\nForm Handling គឺជាដំណើរការនៃការគ្រប់គ្រងការបញ្ចូលពីអ្នកប្រើប្\nរាស់នៅក្នុង form។ នៅក្នុង React, អ្នក\nអាចគ្រប់គ្រង form ដោយប្រើ Controlled Components ឬ Uncontrolled Components។\nអត្ថន័យ៖ Form Handling គឺជាការគ្រប់គ្រងការបញ្ចូលពីអ្នកប្រើប្\nរាស់នៅក្នុង form។\nឧទាហរណ៍ Form Handling៖\nfunction LoginForm() {\n  const [username, setUsername] = useState('');\n  const [password, setPassword] = useState('');\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    alert(`Username: ${username}, Password: ${password}`);\n  };\n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        type=\"text\"\n        placeholder=\"Username\"\n        value={username}\n        onChange={(e) => setUsername(e.target.value)}\n      />\n      <input\n        type=\"password\"\n        placeholder=\"Password\"\n        value={password}\n        onChange={(e) => setPassword(e.target.value)}\n      />\n      <button type=\"submit\">Login</button>",
+          "code": "return (\n    <div>\n      <input type=\"text\" ref={inputRef} />\n      <button onClick={handleSubmit}>Submit</button>\n    </div>\n  );\n}\nfunction LoginForm() {\n  const [username, setUsername] = useState('');\n  const [password, setPassword] = useState('');\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    alert(`Username: ${username}, Password: ${password}`);\n  };\n  return (\n    <form onSubmit={handleSubmit}>\n        type=\"text\"\n        placeholder=\"Username\"\n        value={username}\n        onChange={(e) => setUsername(e.target.value)}\n        type=\"password\"\n        placeholder=\"Password\"\n        value={password}\n        onChange={(e) => setPassword(e.target.value)}",
+          "preview": {
+            "title": "React · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 13",
+            "5.3 Form Handling"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-react-page-14",
+          "label": "PDF 14. 5.4 Validation in Forms",
+          "heading": "5.4 Validation in Forms",
+          "intro": "</form> ); }",
+          "bodyHeading": "Source content · reactjs.pdf · page 14",
+          "body": "</form>\n  );\n}\n5.4 Validation in Forms\nValidation គឺជាដំណើរការនៃការពិនិត្យថាតើទិន្ន័យដែលបញ្ចូលដោយអ្នកប្រើប្\nរាស់ត្រឹឹមត្រូូវឬអត់។ នៅក្នុង\nReact, អ្នកអាចធ្វើ validation ដោយប្រើ state និង conditional rendering។\nអត្ថន័យ៖ Validation គឺជាការពិនិត្យទិន្ន័យដែលបញ្ចូលដោយអ្នកប្រើប្\nរាស់។\nឧទាហរណ៍ Validation៖\nfunction ValidationForm() {\n  const [email, setEmail] = useState('');\n  const [error, setError] = useState('');\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    if (!email.includes('@')) {\n      setError('Invalid email address');\n    } else {\n      setError('');\n      alert('Form submitted successfully!');\n    }\n  };\n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        type=\"email\"\n        placeholder=\"Email\"\n        value={email}\n        onChange={(e) => setEmail(e.target.value)}\n      />\n      {error && <p style={{ color: 'red' }}>{error}</p>}\n      <button type=\"submit\">Submit</button>\n    </form>",
+          "code": "</form>\n  );\n}\nfunction ValidationForm() {\n  const [email, setEmail] = useState('');\n  const [error, setError] = useState('');\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    if (!email.includes('@')) {\n      setError('Invalid email address');\n    } else {\n      setError('');\n      alert('Form submitted successfully!');\n    }\n  };\n  return (\n    <form onSubmit={handleSubmit}>\n        type=\"email\"\n        placeholder=\"Email\"\n        value={email}\n        onChange={(e) => setEmail(e.target.value)}\n      {error && <p style={{ color: 'red' }}>{error}</p>}\n      <button type=\"submit\">Submit</button>\n    </form>",
+          "preview": {
+            "title": "React · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 14",
+            "5.4 Validation in Forms"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-react-page-15",
+          "label": "PDF 15. 6.1 Installing React Router",
+          "heading": "6.1 Installing React Router",
+          "intro": "); } 6. React Router (Navigation)",
+          "bodyHeading": "Source content · reactjs.pdf · page 15",
+          "body": ");\n}\n6. React Router (Navigation)\nReact Router គឺជាបណ្ណាល័យដ៏ខ្លាំំងក្លាសម្\nរាប់គ្រប់គ្រងការរុករកនិង routing នៅក្នុងកម្មវិធី\nReact។ វាអនុញ្ញាតឱ្យអ្នកបង្កើតកម្មវិធី single-page applications (SPAs) ដែលមានទិដ្ឋភាព\nច្រើននិង routing ឌីណាមិក។ ផ្នែកនេះះគ្របដណ្តប់អំពីរបៀបៀបដំឡើង React Router, ការកំណត់\nrouting មូលដ្ឋាន, ការធ្វើការជាមួយ route parameters, និងការអនុវត្ត private routes។\nអត្ថន័យ៖ React Router គឺជាបណ្ណាល័យសម្\nរាប់គ្រប់គ្រងការរុករកនិង routing នៅក្នុងកម្មវិធី React។\n6.1 Installing React Router\nដើម្បីីប្រើ React Router នៅក្នុងកម្មវិធី React របស់អ្នក, អ្នកត្រូូវតែដំឡើងវាជាមុនសិន។ អ្នកអាចដំឡើង\nReact Router ដោយប្រើ npm ឬ yarn។\nអត្ថន័យ៖ របៀបៀបដំឡើង React Router។\nឧទាហរណ៍ដំឡើង React Router៖\nnpm install react-router-dom\nឬប្រើ yarn៖\nyarn add react-router-dom\n6.2 Basic Routing (Route, Link, Navigate)\nReact Router ផ្តល់នូវ components ដូចជា Route, Link, និង Navigate សម្\nរាប់ការកំណត់ routing\nមូលដ្ឋាននៅក្នុងកម្មវិធី React។\nអត្ថន័យ៖ របៀបៀបកំណត់ routing មូលដ្ឋានដោយប្រើ Route, Link, និង Navigate។\nឧទាហរណ៍ Basic Routing៖\nimport { BrowserRouter as Router, Route, Routes, Link } from 'react-rout\nfunction App() {",
+          "code": ");\n}\n6. React Router (Navigation)\nnpm install react-router-dom\n6.2 Basic Routing (Route, Link, Navigate)\nimport { BrowserRouter as Router, Route, Routes, Link } from 'react-rout\nfunction App() {",
+          "preview": {
+            "title": "React · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 15",
+            "6.1 Installing React Router"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-react-page-16",
+          "label": "PDF 16. 6.3 Route Parameters (useParams)",
+          "heading": "6.3 Route Parameters (useParams)",
+          "intro": "  return (",
+          "bodyHeading": "Source content · reactjs.pdf · page 16",
+          "body": "\n\n  return (\n    <Router>\n      <nav>\n        <Link to=\"/\">Home</Link>\n        <Link to=\"/about\">About</Link>\n      </nav>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </Router>\n  );\n}\nfunction Home() {\n  return <h1>Home Page</h1>;\n}\nfunction About() {\n  return <h1>About Page</h1>;\n}\n6.3 Route Parameters (useParams)\nReact Router អនុញ្ញាតឱ្យអ្នកប្រើ route parameters ដើម្បីីបង្កើត dynamic routes។ អ្នកអាចចូលប្រើ\nroute parameters ដោយប្រើ hook useParams។\nអត្ថន័យ៖ របៀបៀបប្រើ route parameters ដើម្បីីបង្កើត dynamic routes។\nឧទាហរណ៍ Route Parameters៖\nimport { BrowserRouter as Router, Route, Routes, useParams } from 'react\nfunction App() {\n  return (\n    <Router>\n      <Routes>\n        <Route path=\"/user/:id\" element={<User />} />\n      </Routes>\n    </Router>",
+          "code": "return (\n    <Router>\n      <nav>\n        <Link to=\"/\">Home</Link>\n        <Link to=\"/about\">About</Link>\n      </nav>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </Router>\n  );\n}\nfunction Home() {\n  return <h1>Home Page</h1>;\n}\nfunction About() {\n  return <h1>About Page</h1>;\n}\n6.3 Route Parameters (useParams)\nimport { BrowserRouter as Router, Route, Routes, useParams } from 'react\nfunction App() {\n  return (\n    <Router>",
+          "preview": {
+            "title": "React · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 16",
+            "6.3 Route Parameters (useParams)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-react-page-17",
+          "label": "PDF 17. 6.4 Private Routes & Redirects",
+          "heading": "6.4 Private Routes & Redirects",
+          "intro": "  );",
+          "bodyHeading": "Source content · reactjs.pdf · page 17",
+          "body": "\n\n  );\n}\nfunction User() {\n  const { id } = useParams();\n  return <h1>User ID: {id}</h1>;\n}\n6.4 Private Routes & Redirects\nPrivate routes គឺជា routes ដែលតម្រូូវឱ្យអ្នកប្រើប្\nរាស់ចូលប្រើបានតែនៅពេលពួកគេបានចូលប្រើប្\nរាស់។\nអ្នកអាចបង្កើត private routes ដោយប្រើ Navigate និង conditional rendering។\nអត្ថន័យ៖ របៀបៀបបង្កើត private routes និង redirects។\nឧទាហរណ៍ Private Routes៖\nimport { BrowserRouter as Router, Route, Routes, Navigate } from 'react-\nfunction App() {\n  const isAuthenticated = true; // Replace with actual authentication lo\n  return (\n    <Router>\n      <Routes>\n        <Route\n          path=\"/dashboard\"\n          element={isAuthenticated ? <Dashboard /> : <Navigate to=\"/logi\n        />\n        <Route path=\"/login\" element={<Login />} />\n      </Routes>\n    </Router>\n  );\n}\nfunction Dashboard() {\n  return <h1>Dashboard</h1>;\n}\nfunction Login() {",
+          "code": ");\n}\nfunction User() {\n  const { id } = useParams();\n  return <h1>User ID: {id}</h1>;\n}\nimport { BrowserRouter as Router, Route, Routes, Navigate } from 'react-\nfunction App() {\n  const isAuthenticated = true; // Replace with actual authentication lo\n  return (\n    <Router>\n      <Routes>\n          path=\"/dashboard\"\n          element={isAuthenticated ? <Dashboard /> : <Navigate to=\"/logi\n        <Route path=\"/login\" element={<Login />} />\n      </Routes>\n    </Router>\n  );\n}\nfunction Dashboard() {\n  return <h1>Dashboard</h1>;\n}\nfunction Login() {",
+          "preview": {
+            "title": "React · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 17",
+            "6.4 Private Routes & Redirects"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-react-page-18",
+          "label": "PDF 18. 7.1 Inline CSS",
+          "heading": "7.1 Inline CSS",
+          "intro": "return <h1>Login Page</h1>; } 7. React Styling",
+          "bodyHeading": "Source content · reactjs.pdf · page 18",
+          "body": "return <h1>Login Page</h1>;\n}\n7. React Styling\nReact ផ្តល់វិធីជាច្រើនដើម្បីី style components របស់អ្នក, រួមមាន Inline CSS, CSS\nModules, Styled Components, និង frameworks utility-first ដូចជា Tailwind\nCSS។ ផ្នែកនេះះគ្របដណ្តប់អំពីវិធីសាស្\nរ្តផ្សេងៗក្នុងការ style components នៅក្នុង React។\nអត្ថន័យ៖ React ផ្តល់វិធីជាច្រើនដើម្បីី style components របស់អ្នក, រួមមាន Inline CSS, CSS\nModules, Styled Components, និង frameworks utility-first ដូចជា Tailwind CSS។\n7.1 Inline CSS\nInline CSS អនុញ្ញាតឱ្យអ្នកអនុវត្ត styles ដោយផ្ទាល់ទៅលើ JSX elements ដោយប្រើ attribute\nstyle។ Styles ត្រូូវបានសរសេរជា JavaScript objects ជាមួយនឹង property names ជា\ncamelCase។\nអត្ថន័យ៖ Inline CSS អនុញ្ញាតឱ្យអ្នកអនុវត្ត styles ដោយផ្ទាល់ទៅលើ JSX elements ដោយប្រើ\nattribute style។\nឧទាហរណ៍ Inline CSS៖\nfunction InlineStyleExample() {\n  const styles = {\n    color: 'blue',\n    fontSize: '20px',\n    backgroundColor: 'lightgray',\n  };\n  return <div style={styles}>This is an inline-styled div.</div>;\n}\n7.2 CSS Modules\nCSS Modules អនុញ្ញាតឱ្យអ្នកសរសេរ CSS នៅក្នុងឯកសារដាច់ដោយឡែក និងចង្អុល styles ទៅកាន់\ncomponents ជាក់លាក់។ វាជួយការពារកុំឱ្យ styles មានការប៉ះទង្គិិចគ្នានៅក្នុងកម្មវិធីធំៗ។",
+          "code": "return <h1>Login Page</h1>;\n}\nfunction InlineStyleExample() {\n  const styles = {\n  };\n  return <div style={styles}>This is an inline-styled div.</div>;\n}",
+          "preview": {
+            "title": "React · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 18",
+            "7.1 Inline CSS"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-react-page-19",
+          "label": "PDF 19. 7.3 Styled Components",
+          "heading": "7.3 Styled Components",
+          "intro": "  អត្ថន័យ៖ CSS Modules អនុញ្ញាតឱ្យអ្នកសរសេរ CSS នៅក្នុងឯកសារដាច់ដោយឡែក និងចង្អុល styles ទៅ",
+          "bodyHeading": "Source content · reactjs.pdf · page 19",
+          "body": "\n\nអត្ថន័យ៖ CSS Modules អនុញ្ញាតឱ្យអ្នកសរសេរ CSS នៅក្នុងឯកសារដាច់ដោយឡែក និងចង្អុល styles ទៅ\nកាន់ components ជាក់លាក់។\nឧទាហរណ៍ CSS Modules៖\nimport styles from './MyComponent.module.css';\nfunction MyComponent() {\n  return <div className={styles.myClass}>This is styled with CSS Modules\n}\nឯកសារ MyComponent.module.css៖\n.myClass {\n  color: red;\n  font-size: 18px;\n}\n7.3 Styled Components\nStyled Components គឺជា library មួយដែលអនុញ្ញាតឱ្យអ្នកសរសេរ CSS នៅក្នុង JavaScript។ វាប្រើ\ntagged template literals ដើម្បីីបង្កើត components ដែលមាន styles ភ្ជាប់ជាមួយ។\nអត្ថន័យ៖ Styled Components គឺជា library សម្\nរាប់សរសេរ CSS នៅក្នុង JavaScript។\nឧទាហរណ៍ Styled Components៖\nimport styled from 'styled-components';\nconst StyledDiv = styled.div`\n  color: green;\n  font-size: 20px;\n  background-color: lightyellow;\n`;\nfunction StyledComponentExample() {\n  return <StyledDiv>This is a styled component.</StyledDiv>;\n}\n7.4 Tailwind CSS",
+          "code": "import styles from './MyComponent.module.css';\nfunction MyComponent() {\n  return <div className={styles.myClass}>This is styled with CSS Modules\n}\n.myClass {\n  color: red;\n  font-size: 18px;\n}\nimport styled from 'styled-components';\nconst StyledDiv = styled.div`\n  color: green;\n  font-size: 20px;\n  background-color: lightyellow;\n`;\nfunction StyledComponentExample() {\n  return <StyledDiv>This is a styled component.</StyledDiv>;\n}",
+          "preview": {
+            "title": "React · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 19",
+            "7.3 Styled Components"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-react-page-20",
+          "label": "PDF 20. 8.1 Fetching Data with Fetch API",
+          "heading": "8.1 Fetching Data with Fetch API",
+          "intro": "Tailwind CSS គឺជា utility-first CSS framework ដែលផ្តល់នូវ classes ជាច្រើនសម្ រាប់ style components ដោយផ្ទាល់នៅក្នុង JSX។ វាធ្វើឱ្យការសរសេរ CSS កាន់តែងាយស្រួួ",
+          "bodyHeading": "Source content · reactjs.pdf · page 20",
+          "body": "Tailwind CSS គឺជា utility-first CSS framework ដែលផ្តល់នូវ classes ជាច្រើនសម្\nរាប់ style\ncomponents ដោយផ្ទាល់នៅក្នុង JSX។ វាធ្វើឱ្យការសរសេរ CSS កាន់តែងាយស្រួួ\nល និងរហ័ស។\nអត្ថន័យ៖ Tailwind CSS គឺជា utility-first CSS framework សម្\nរាប់ style components ដោយ\nផ្ទាល់នៅក្នុង JSX។\nឧទាហរណ៍ Tailwind CSS៖\nfunction TailwindExample() {\n  return (\n    <div className=\"text-blue-500 text-xl bg-gray-100 p-4\">\n      This is styled with Tailwind CSS.\n    </div>\n  );\n}\n8. React API Calls\nកម្មវិធី React ជាញឹកញាប់ត្រូូវការទាញយកទិន្ន័យពី APIs ដើម្បីីបង្ហាញខ្លឹឹមសារឌីណាមិក។ ផ្នែកនេះះ\nគ្របដណ្តប់អំពីរបៀបៀបធ្វើ API calls ដោយប្រើ Fetch API និង Axios, ការគ្រប់គ្រង loading និង\nerror states, និងការអនុវត្ត pagination និង infinite scrolling។\nអត្ថន័យ៖ React API Calls គឺជាការទាញយកទិន្ន័យពី APIs ដើម្បីីបង្ហាញខ្លឹឹមសារឌីណាមិកនៅក្នុងកម្មវិធី\nReact។\n8.1 Fetching Data with Fetch API\nFetch API គឺជា built-in method នៅក្នុង JavaScript សម្\nរាប់ធ្វើ HTTP requests។ វាងាយស្រួួ\nលប្រើ\nនិងមិនត្រូូវការ library បន្ថែម។\nអត្ថន័យ៖ Fetch API គឺជា method ដែលមានស្\nរាប់នៅក្នុង JavaScript សម្\nរាប់ធ្វើ HTTP requests។\nឧទាហរណ៍ Fetch API៖\nimport React, { useEffect, useState } from 'react';\nfunction FetchDataExample() {\n  const [data, setData] = useState(null);",
+          "code": "function TailwindExample() {\n  return (\n    <div className=\"text-blue-500 text-xl bg-gray-100 p-4\">\n    </div>\n  );\n}\nimport React, { useEffect, useState } from 'react';\nfunction FetchDataExample() {\n  const [data, setData] = useState(null);",
+          "preview": {
+            "title": "React · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 20",
+            "8.1 Fetching Data with Fetch API"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-react-page-21",
+          "label": "PDF 21. 8.2 Fetching Data with Axios",
+          "heading": "8.2 Fetching Data with Axios",
+          "intro": "useEffect(() => { fetch('https://jsonplaceholder.typicode.com/posts') .then(response => response.json())",
+          "bodyHeading": "Source content · reactjs.pdf · page 21",
+          "body": "useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/posts')\n      .then(response => response.json())\n      .then(data => setData(data))\n      .catch(error => console.error('Error fetching data:', error));\n  }, []);\n  return (\n    <div>\n      {data ? (\n        <ul>\n          {data.map(item => (\n            <li key={item.id}>{item.title}</li>\n          ))}\n        </ul>\n      ) : (\n        <p>Loading...</p>\n      )}\n    </div>\n  );\n}\n8.2 Fetching Data with Axios\nAxios គឺជា library ប្រព័ន្ធទូទៅសម្\nរាប់ធ្វើ HTTP requests។ វាផ្តល់នូវ features ជាច្រើនដូចជា\nautomatic JSON parsing, request cancellation, និង error handling។\nអត្ថន័យ៖ Axios គឺជា library សម្\nរាប់ធ្វើ HTTP requests ដែលមាន features ជាច្រើន។\nឧទាហរណ៍ Axios៖\nimport React, { useEffect, useState } from 'react';\nimport axios from 'axios';\nfunction AxiosExample() {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    axios.get('https://jsonplaceholder.typicode.com/posts')\n      .then(response => setData(response.data))\n      .catch(error => console.error('Error fetching data:', error));",
+          "code": "useEffect(() => {\n    fetch('https://jsonplaceholder.typicode.com/posts')\n      .then(response => response.json())\n      .then(data => setData(data))\n      .catch(error => console.error('Error fetching data:', error));\n  }, []);\n  return (\n    <div>\n      {data ? (\n        <ul>\n          {data.map(item => (\n            <li key={item.id}>{item.title}</li>\n          ))}\n        </ul>\n      ) : (\n        <p>Loading...</p>\n      )}\n    </div>\n  );\n}\nimport React, { useEffect, useState } from 'react';\nimport axios from 'axios';\nfunction AxiosExample() {\n  const [data, setData] = useState(null);",
+          "preview": {
+            "title": "React · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 21",
+            "8.2 Fetching Data with Axios"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-react-page-22",
+          "label": "PDF 22. 8.3 Handling Loading & Errors",
+          "heading": "8.3 Handling Loading & Errors",
+          "intro": "}, []); return ( <div>",
+          "bodyHeading": "Source content · reactjs.pdf · page 22",
+          "body": "}, []);\n  return (\n    <div>\n      {data ? (\n        <ul>\n          {data.map(item => (\n            <li key={item.id}>{item.title}</li>\n          ))}\n        </ul>\n      ) : (\n        <p>Loading...</p>\n      )}\n    </div>\n  );\n}\n8.3 Handling Loading & Errors\nនៅពេលធ្វើ API calls, វាសំខាន់ណាស់ក្នុងការគ្រប់គ្រង loading states និង error states។ នេះះជួយឱ្យអ្នក\nប្រើប្\nរាស់ដឹងថាទិន្ន័យកំពុងត្រូូវបានទាញយក ឬមានបញ្ហាកើតឡើង។\nអត្ថន័យ៖ ការគ្រប់គ្រង loading និង error states នៅពេលធ្វើ API calls។\nឧទាហរណ៍ Handling Loading & Errors៖\nimport React, { useEffect, useState } from 'react';\nimport axios from 'axios';\nfunction LoadingErrorExample() {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n  useEffect(() => {\n    axios.get('https://jsonplaceholder.typicode.com/posts')\n      .then(response => {\n        setData(response.data);\n        setLoading(false);\n      })\n      .catch(error => {",
+          "code": "}, []);\n  return (\n    <div>\n      {data ? (\n        <ul>\n          {data.map(item => (\n            <li key={item.id}>{item.title}</li>\n          ))}\n        </ul>\n      ) : (\n        <p>Loading...</p>\n      )}\n    </div>\n  );\n}\nimport React, { useEffect, useState } from 'react';\nimport axios from 'axios';\nfunction LoadingErrorExample() {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n  useEffect(() => {\n    axios.get('https://jsonplaceholder.typicode.com/posts')\n      .then(response => {",
+          "preview": {
+            "title": "React · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 22",
+            "8.3 Handling Loading & Errors"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-react-page-23",
+          "label": "PDF 23. 8.4 Pagination & Infinite Scrolling",
+          "heading": "8.4 Pagination & Infinite Scrolling",
+          "intro": "setError(error); setLoading(false); });",
+          "bodyHeading": "Source content · reactjs.pdf · page 23",
+          "body": "setError(error);\n        setLoading(false);\n      });\n  }, []);\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error.message}</p>;\n  return (\n    <ul>\n      {data.map(item => (\n        <li key={item.id}>{item.title}</li>\n      ))}\n    </ul>\n  );\n}\n8.4 Pagination & Infinite Scrolling\nPagination និង Infinite Scrolling គឺជាវិធីសាស្\nរ្តពីរយ៉ាងដើម្បីីគ្រប់គ្រងការបង្ហាញទិន្ន័យច្រើន។\nPagination បែងចែកទិន្ន័យជាទំព័រផ្សេងៗ, រីឯ Infinite Scrolling ទាញយកទិន្ន័យថ្មីីនៅពេលអ្នកប្រើប្\nរាស់\nរំកិលទៅផ្នែកខាងក្រោម។\nអត្ថន័យ៖ Pagination និង Infinite Scrolling គឺជាវិធីសាស្\nរ្តពីរយ៉ាងដើម្បីីគ្រប់គ្រងការបង្ហាញទិន្ន័យច្រើន។\nឧទាហរណ៍ Pagination៖\nimport React, { useState, useEffect } from 'react';\nimport axios from 'axios';\nfunction PaginationExample() {\n  const [data, setData] = useState([]);\n  const [page, setPage] = useState(1);\n  useEffect(() => {\n    axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${page}&\n      .then(response => setData(response.data))\n      .catch(error => console.error('Error fetching data:', error));\n  }, [page]);\n  return (",
+          "code": "setError(error);\n        setLoading(false);\n      });\n  }, []);\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error.message}</p>;\n  return (\n    <ul>\n      {data.map(item => (\n        <li key={item.id}>{item.title}</li>\n      ))}\n    </ul>\n  );\n}\nimport React, { useState, useEffect } from 'react';\nimport axios from 'axios';\nfunction PaginationExample() {\n  const [data, setData] = useState([]);\n  const [page, setPage] = useState(1);\n  useEffect(() => {\n    axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${page}&\n      .then(response => setData(response.data))\n      .catch(error => console.error('Error fetching data:', error));\n  }, [page]);",
+          "preview": {
+            "title": "React · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 23",
+            "8.4 Pagination & Infinite Scrolling"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-react-page-24",
+          "label": "PDF 24. Source lesson page 24",
+          "heading": "Source lesson page 24",
+          "intro": "  <div>",
+          "bodyHeading": "Source content · reactjs.pdf · page 24",
+          "body": "\n\n    <div>\n      <ul>\n        {data.map(item => (\n          <li key={item.id}>{item.title}</li>\n        ))}\n      </ul>\n      <button onClick={() => setPage(page + 1)}>Next Page</button>\n    </div>\n  );\n}\nឧទាហរណ៍ Infinite Scrolling៖\nimport React, { useState, useEffect } from 'react';\nimport axios from 'axios';\nfunction InfiniteScrollExample() {\n  const [data, setData] = useState([]);\n  const [page, setPage] = useState(1);\n  useEffect(() => {\n    axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${page}&\n      .then(response => setData(prevData => [...prevData, ...response.da\n      .catch(error => console.error('Error fetching data:', error));\n  }, [page]);\n  useEffect(() => {\n    const handleScroll = () => {\n      if (window.innerHeight + document.documentElement.scrollTop === do\n        setPage(prevPage => prevPage + 1);\n      }\n    };\n    window.addEventListener('scroll', handleScroll);\n    return () => window.removeEventListener('scroll', handleScroll);\n  }, []);\n  return (\n    <ul>\n      {data.map(item => (",
+          "code": "<div>\n      <ul>\n        {data.map(item => (\n          <li key={item.id}>{item.title}</li>\n        ))}\n      </ul>\n      <button onClick={() => setPage(page + 1)}>Next Page</button>\n    </div>\n  );\n}\nimport React, { useState, useEffect } from 'react';\nimport axios from 'axios';\nfunction InfiniteScrollExample() {\n  const [data, setData] = useState([]);\n  const [page, setPage] = useState(1);\n  useEffect(() => {\n    axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${page}&\n      .then(response => setData(prevData => [...prevData, ...response.da\n      .catch(error => console.error('Error fetching data:', error));\n  }, [page]);\n  useEffect(() => {\n    const handleScroll = () => {\n      if (window.innerHeight + document.documentElement.scrollTop === do\n        setPage(prevPage => prevPage + 1);",
+          "preview": {
+            "title": "React · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 24",
+            "Source lesson page 24"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-react-page-25",
+          "label": "PDF 25. 9.1 useReducer Hook",
+          "heading": "9.1 useReducer Hook",
+          "intro": "<li key={item.id}>{item.title}</li> ))} </ul>",
+          "bodyHeading": "Source content · reactjs.pdf · page 25",
+          "body": "<li key={item.id}>{item.title}</li>\n      ))}\n    </ul>\n  );\n}\n9. React State Management\nState management គឺជាផ្នែកសំខាន់នៃការបង្កើតកម្មវិធី React ដែលមានស្ថានភាពអាចពង្រីីក\nបាន និងងាយស្រួួ\nលថែទាំំ។ ផ្នែកនេះះគ្របដណ្តប់អំពីបច្ចេកទេសគ្រប់គ្រង state ផ្សេងៗ, រួមមាន\nuseReducer hook, Context API, Redux Toolkit, និង libraries ទំនើបដូចជា Zustand\nនិង Recoil។\nអត្ថន័យ៖ State management គឺជាផ្នែកសំខាន់នៃការបង្កើតកម្មវិធី React ដែលមានស្ថានភាពអាចពង្រីីកបាន\nនិងងាយស្រួួ\nលថែទាំំ។\n9.1 useReducer Hook\nuseReducer គឺជា hook ជំនួសឱ្យ useState សម្\nរាប់គ្រប់គ្រង state logic ស្មុគស្មាញ។ វាមាន\nប្រយោជន៍ជាពិសេសនៅពេល state transitions ពឹងផ្អែកលើ state មុន ឬពាក់ព័ន្ធនឹងតម្លៃរងច្រើន។\nអត្ថន័យ៖ useReducer គឺជា hook សម្\nរាប់គ្រប់គ្រង state logic ស្មុគស្មាញ។\nឧទាហរណ៍ useReducer៖\nimport React, { useReducer } from 'react';\nconst initialState = { count: 0 };\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      throw new Error();",
+          "code": "<li key={item.id}>{item.title}</li>\n      ))}\n    </ul>\n  );\n}\nimport React, { useReducer } from 'react';\nconst initialState = { count: 0 };\nfunction reducer(state, action) {\n  switch (action.type) {\n      return { count: state.count + 1 };\n      throw new Error();",
+          "preview": {
+            "title": "React · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 25",
+            "9.1 useReducer Hook"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-react-page-26",
+          "label": "PDF 26. 9.2 Context API",
+          "heading": "9.2 Context API",
+          "intro": "  }",
+          "bodyHeading": "Source content · reactjs.pdf · page 26",
+          "body": "\n\n  }\n}\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, initialState);\n  return (\n    <div>\n      <p>Count: {state.count}</p>\n      <button onClick={() => dispatch({ type: 'increment' })}>Increment<\n      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement<\n    </div>\n  );\n}\n9.2 Context API\nContext API គឺជាវិធីសាស្\nរ្តមួយដើម្បីីចែករំលែក state រវាង components ដោយមិនចាំំបាច់បញ្ជូន\nprops តាមដំណាក់កាល។ វាមានប្រយោជន៍សម្\nរាប់ការគ្រប់គ្រង global state។\nអត្ថន័យ៖ Context API គឺជាវិធីសាស្\nរ្តចែករំលែក state រវាង components ដោយមិនចាំំបាច់បញ្ជូន\nprops។\nឧទាហរណ៍ Context API៖\nimport React, { createContext, useContext } from 'react';\nconst ThemeContext = createContext();\nfunction App() {\n  return (\n    <ThemeContext.Provider value=\"dark\">\n      <Toolbar />\n    </ThemeContext.Provider>\n  );\n}\nfunction Toolbar() {\n  return <ThemedButton />;\n}",
+          "code": "}\n}\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, initialState);\n  return (\n    <div>\n      <p>Count: {state.count}</p>\n      <button onClick={() => dispatch({ type: 'increment' })}>Increment<\n      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement<\n    </div>\n  );\n}\nimport React, { createContext, useContext } from 'react';\nconst ThemeContext = createContext();\nfunction App() {\n  return (\n    <ThemeContext.Provider value=\"dark\">\n      <Toolbar />\n    </ThemeContext.Provider>\n  );\n}\nfunction Toolbar() {\n  return <ThemedButton />;\n}",
+          "preview": {
+            "title": "React · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 26",
+            "9.2 Context API"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-react-page-27",
+          "label": "PDF 27. 9.3 Redux Toolkit",
+          "heading": "9.3 Redux Toolkit",
+          "intro": "  function ThemedButton() {",
+          "bodyHeading": "Source content · reactjs.pdf · page 27",
+          "body": "\n\nfunction ThemedButton() {\n  const theme = useContext(ThemeContext);\n  return <button style={{ background: theme === 'dark' ? 'black' : 'whit\n}\n9.3 Redux Toolkit\nRedux Toolkit គឺជា library ដែលសម្រួួលការប្រើ Redux ដោយផ្តល់នូវ tools និង abstractions ដើម្បីី\nធ្វើឱ្យការគ្រប់គ្រង state កាន់តែងាយស្រួួ\nល។\nអត្ថន័យ៖ Redux Toolkit គឺជា library សម្\nរាប់សម្រួួលការប្រើ Redux។\nឧទាហរណ៍ Redux Toolkit៖\nimport { configureStore, createSlice } from '@reduxjs/toolkit';\nimport { Provider, useSelector, useDispatch } from 'react-redux';\nconst counterSlice = createSlice({\n  name: 'counter',\n  initialState: { value: 0 },\n  reducers: {\n    increment: state => {\n      state.value += 1;\n    },\n    decrement: state => {\n      state.value -= 1;\n    },\n  },\n});\nconst store = configureStore({\n  reducer: counterSlice.reducer,\n});\nfunction Counter() {\n  const count = useSelector(state => state.value);\n  const dispatch = useDispatch();\n  return (",
+          "code": "function ThemedButton() {\n  const theme = useContext(ThemeContext);\n  return <button style={{ background: theme === 'dark' ? 'black' : 'whit\n}\nimport { configureStore, createSlice } from '@reduxjs/toolkit';\nimport { Provider, useSelector, useDispatch } from 'react-redux';\nconst counterSlice = createSlice({\n  initialState: { value: 0 },\n  reducers: {\n    increment: state => {\n      state.value += 1;\n    },\n    decrement: state => {\n      state.value -= 1;\n    },\n  },\n});\nconst store = configureStore({\n});\nfunction Counter() {\n  const count = useSelector(state => state.value);\n  const dispatch = useDispatch();\n  return (",
+          "preview": {
+            "title": "React · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 27",
+            "9.3 Redux Toolkit"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-react-page-28",
+          "label": "PDF 28. 9.4 Zustand & Recoil",
+          "heading": "9.4 Zustand & Recoil",
+          "intro": "<div> <p>Count: {count}</p> <button onClick={() => dispatch(counterSlice.actions.increment())}",
+          "bodyHeading": "Source content · reactjs.pdf · page 28",
+          "body": "<div>\n      <p>Count: {count}</p>\n      <button onClick={() => dispatch(counterSlice.actions.increment())}\n      <button onClick={() => dispatch(counterSlice.actions.decrement())}\n    </div>\n  );\n}\nfunction App() {\n  return (\n    <Provider store={store}>\n      <Counter />\n    </Provider>\n  );\n}\n9.4 Zustand & Recoil\nZustand និង Recoil គឺជា libraries ទំនើបសម្\nរាប់គ្រប់គ្រង state នៅក្នុង React។ Zustand ផ្តល់នូវ\nAPI សាមញ្ញ, រីឯ Recoil ផ្តោតលើការគ្រប់គ្រង state ដែលមានលក្ខណៈឌីណាមិក។\nអត្ថន័យ៖ Zustand និង Recoil គឺជា libraries ទំនើបសម្\nរាប់គ្រប់គ្រង state។\nឧទាហរណ៍ Zustand៖\nimport create from 'zustand';\nconst useStore = create(set => ({\n  count: 0,\n  increment: () => set(state => ({ count: state.count + 1 })),\n  decrement: () => set(state => ({ count: state.count - 1 })),\n}));\nfunction Counter() {\n  const { count, increment, decrement } = useStore();\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>Increment</button>",
+          "code": "<div>\n      <p>Count: {count}</p>\n      <button onClick={() => dispatch(counterSlice.actions.increment())}\n      <button onClick={() => dispatch(counterSlice.actions.decrement())}\n    </div>\n  );\n}\nfunction App() {\n  return (\n    <Provider store={store}>\n      <Counter />\n    </Provider>\n  );\n}\nimport create from 'zustand';\nconst useStore = create(set => ({\n  increment: () => set(state => ({ count: state.count + 1 })),\n}));\nfunction Counter() {\n  const { count, increment, decrement } = useStore();\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>Increment</button>",
+          "preview": {
+            "title": "React · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 28",
+            "9.4 Zustand & Recoil"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-react-page-29",
+          "label": "PDF 29. 10.1 React.memo()",
+          "heading": "10.1 React.memo()",
+          "intro": "<button onClick={decrement}>Decrement</button> </div> );",
+          "bodyHeading": "Source content · reactjs.pdf · page 29",
+          "body": "<button onClick={decrement}>Decrement</button>\n    </div>\n  );\n}\nឧទាហរណ៍ Recoil៖\nimport { atom, useRecoilState } from 'recoil';\nconst countState = atom({\n  key: 'countState',\n  default: 0,\n});\nfunction Counter() {\n  const [count, setCount] = useRecoilState(countState);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n      <button onClick={() => setCount(count - 1)}>Decrement</button>\n    </div>\n  );\n}\n10. React Performance Optimization\nការធ្វើឱ្យកម្មវិធី React មានស្ថានភាពលឿលឿន និងឆ្លើយតបយ៉ាងល្អ គឺជាការសំខាន់ណាស់។ ផ្នែកនេះះ\nគ្របដណ្តប់អំពីបច្ចេកទេសដូចជា React.memo(), useCallback, useMemo, និង lazy\nloading ជាមួយ Suspense ដើម្បីីកែលម្អស្ថានភាពកម្មវិធី React របស់អ្នក។\nអត្ថន័យ៖ ការធ្វើឱ្យកម្មវិធី React មានស្ថានភាពលឿលឿន និងឆ្លើយតបយ៉ាងល្អ។\n10.1 React.memo()",
+          "code": "<button onClick={decrement}>Decrement</button>\n    </div>\n  );\n}\nimport { atom, useRecoilState } from 'recoil';\nconst countState = atom({\n});\nfunction Counter() {\n  const [count, setCount] = useRecoilState(countState);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n}\n10.1 React.memo()",
+          "preview": {
+            "title": "React · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 29",
+            "10.1 React.memo()"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-react-page-30",
+          "label": "PDF 30. 10.2 useCallback Hook",
+          "heading": "10.2 useCallback Hook",
+          "intro": "React.memo() គឺជា higher-order component (HOC) ដែលជួយកាត់បន្ថយការ re-render នៃ components នៅពេល props មិនផ្លាស់ប្តូរ។ វាមានប្រយោជន៍សម្ រាប់ការបង្កើត components ដែលមាន",
+          "bodyHeading": "Source content · reactjs.pdf · page 30",
+          "body": "React.memo() គឺជា higher-order component (HOC) ដែលជួយកាត់បន្ថយការ re-render នៃ\ncomponents នៅពេល props មិនផ្លាស់ប្តូរ។ វាមានប្រយោជន៍សម្\nរាប់ការបង្កើត components ដែលមាន\nស្ថានភាពល្អ។\nអត្ថន័យ៖ React.memo() គឺជា HOC សម្\nរាប់កាត់បន្ថយការ re-render នៃ components។\nឧទាហរណ៍ React.memo()៖\nimport React, { memo } from 'react';\nconst MyComponent = memo(function MyComponent(props) {\n  return <div>{props.value}</div>;\n});\nexport default MyComponent;\n10.2 useCallback Hook\nuseCallback គឺជា hook ដែលជួយកាត់បន្ថយការ re-create functions នៅពេល components re-\nrender។ វាមានប្រយោជន៍សម្\nរាប់ការបង្កើត callback functions ដែលមានស្ថានភាពល្អ។\nអត្ថន័យ៖ useCallback គឺជា hook សម្\nរាប់កាត់បន្ថយការ re-create functions។\nឧទាហរណ៍ useCallback៖\nimport React, { useState, useCallback } from 'react';\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n  const increment = useCallback(() => {\n    setCount(prevCount => prevCount + 1);\n  }, []);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>Increment</button>\n    </div>\n  );\n}",
+          "code": "import React, { memo } from 'react';\nconst MyComponent = memo(function MyComponent(props) {\n  return <div>{props.value}</div>;\n});\nexport default MyComponent;\nimport React, { useState, useCallback } from 'react';\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n  const increment = useCallback(() => {\n    setCount(prevCount => prevCount + 1);\n  }, []);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>Increment</button>\n    </div>\n  );\n}",
+          "preview": {
+            "title": "React · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 30",
+            "10.2 useCallback Hook"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-react-page-31",
+          "label": "PDF 31. 10.3 useMemo Hook",
+          "heading": "10.3 useMemo Hook",
+          "intro": "useMemo គឺជា hook ដែលជួយកាត់បន្ថយការ re-compute values នៅពេល components re- render។ វាមានប្រយោជន៍សម្ រាប់ការគណនាតម្លៃដែលចំណាយពេលច្រើន។",
+          "bodyHeading": "Source content · reactjs.pdf · page 31",
+          "body": "10.3 useMemo Hook\nuseMemo គឺជា hook ដែលជួយកាត់បន្ថយការ re-compute values នៅពេល components re-\nrender។ វាមានប្រយោជន៍សម្\nរាប់ការគណនាតម្លៃដែលចំណាយពេលច្រើន។\nអត្ថន័យ៖ useMemo គឺជា hook សម្\nរាប់កាត់បន្ថយការ re-compute values។\nឧទាហរណ៍ useMemo៖\nimport React, { useMemo } from 'react';\nfunction MyComponent({ list }) {\n  const sortedList = useMemo(() => {\n    return list.sort((a, b) => a - b);\n  }, [list]);\n  return (\n    <ul>\n      {sortedList.map(item => (\n        <li key={item}>{item}</li>\n      ))}\n    </ul>\n  );\n}\n10.4 Lazy Loading & Suspense\nLazy Loading គឺជាបច្ចេកទេសដើម្បីី load components តែនៅពេលចាំំបាច់, ដែលជួយកាត់បន្ថយការ\nload ដំបូងនៃកម្មវិធី។ Suspense គឺជា component ដែលអនុញ្ញាតឱ្យអ្នកបង្ហាញ fallback UI នៅពេល\ncomponents កំពុងត្រូូវបាន load។\nអត្ថន័យ៖ Lazy Loading គឺជាបច្ចេកទេស load components តែនៅពេលចាំំបាច់, ហើយ Suspense\nគឺជា component សម្\nរាប់បង្ហាញ fallback UI។\nឧទាហរណ៍ Lazy Loading & Suspense៖\nimport React, { lazy, Suspense } from 'react';\nconst LazyComponent = lazy(() => import('./LazyComponent'));\nfunction MyComponent() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>",
+          "code": "import React, { useMemo } from 'react';\nfunction MyComponent({ list }) {\n  const sortedList = useMemo(() => {\n  }, [list]);\n  return (\n    <ul>\n      {sortedList.map(item => (\n        <li key={item}>{item}</li>\n      ))}\n    </ul>\n  );\n}\nimport React, { lazy, Suspense } from 'react';\nconst LazyComponent = lazy(() => import('./LazyComponent'));\nfunction MyComponent() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>",
+          "preview": {
+            "title": "React · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 31",
+            "10.3 useMemo Hook"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-react-page-32",
+          "label": "PDF 32. 11.1 Higher-Order Components (HOC)",
+          "heading": "11.1 Higher-Order Components (HOC)",
+          "intro": "<LazyComponent /> </Suspense> );",
+          "bodyHeading": "Source content · reactjs.pdf · page 32",
+          "body": "<LazyComponent />\n    </Suspense>\n  );\n}\n11. Advanced React Concepts\nAdvanced React concepts ដូចជា Higher-Order Components (HOC), Render\nProps, Error Boundaries, និង Portals អនុញ្ញាតឱ្យអ្នកបង្កើតកម្មវិធីដែលមានភាពអាចបត់បែន\nនិងរឹងមាំំ។ ផ្នែកនេះះរុករកគំនិតទាំំងនេះះយ៉ាងលម្អិិត។\nអត្ថន័យ៖ Advanced React concepts ដូចជា Higher-Order Components (HOC), Render\nProps, Error Boundaries, និង Portals អនុញ្ញាតឱ្យអ្នកបង្កើតកម្មវិធីដែលមានភាពអាចបត់បែន និងរឹងមាំំ។\n11.1 Higher-Order Components (HOC)\nHigher-Order Components (HOC) គឺជា function ដែលទទួល component មួយហើយ return\ncomponent ថ្មីីដែលមានលក្ខណៈបន្ថែម។ វាជាវិធីសាស្\nរ្តមួយដើម្បីីចែករំលែក logic រវាង components។\nអត្ថន័យ៖ Higher-Order Components (HOC) គឺជា function សម្\nរាប់បង្កើត components ថ្មីីដែល\nមានលក្ខណៈបន្ថែម។\nឧទាហរណ៍ HOC៖\nimport React from 'react';\nfunction withLoading(WrappedComponent) {\n  return function WithLoadingComponent({ isLoading, ...props }) {\n    if (isLoading) {\n      return <div>Loading...</div>;\n    }\n    return <WrappedComponent {...props} />;\n  };\n}\nfunction MyComponent({ data }) {\n  return <div>{data}</div>;\n}",
+          "code": "<LazyComponent />\n    </Suspense>\n  );\n}\n11.1 Higher-Order Components (HOC)\nimport React from 'react';\nfunction withLoading(WrappedComponent) {\n  return function WithLoadingComponent({ isLoading, ...props }) {\n    if (isLoading) {\n      return <div>Loading...</div>;\n    }\n    return <WrappedComponent {...props} />;\n  };\n}\nfunction MyComponent({ data }) {\n  return <div>{data}</div>;\n}",
+          "preview": {
+            "title": "React · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 32",
+            "11.1 Higher-Order Components (HOC)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-react-page-33",
+          "label": "PDF 33. 11.2 Render Props",
+          "heading": "11.2 Render Props",
+          "intro": "const MyComponentWithLoading = withLoading(MyComponent); Render Props គឺជាវិធីសាស្ រ្តមួយដើម្បីីចែករំលែក logic រវាង components ដោយប្រើ prop ដែលជា",
+          "bodyHeading": "Source content · reactjs.pdf · page 33",
+          "body": "const MyComponentWithLoading = withLoading(MyComponent);\n11.2 Render Props\nRender Props គឺជាវិធីសាស្\nរ្តមួយដើម្បីីចែករំលែក logic រវាង components ដោយប្រើ prop ដែលជា\nfunction។ វាអនុញ្ញាតឱ្យ components ប្រើ logic ដូចគ្នាប៉ុន្តែ render UI ផ្សេងគ្នា។\nអត្ថន័យ៖ Render Props គឺជាវិធីសាស្\nរ្តចែករំលែក logic រវាង components។\nឧទាហរណ៍ Render Props៖\nimport React from 'react';\nfunction DataProvider({ render }) {\n  const data = 'Hello, Render Props!';\n  return render(data);\n}\nfunction MyComponent() {\n  return (\n    <DataProvider render={data => <div>{data}</div>} />\n  );\n}\n11.3 Error Boundaries\nError Boundaries គឺជា components ដែលចាប់ errors នៅក្នុង child components ហើយបង្ហាញ\nfallback UI ជំនួសឱ្យការបរាជ័យទាំំងស្រុុ\nងនៃកម្មវិធី។\nអត្ថន័យ៖ Error Boundaries គឺជា components សម្\nរាប់ចាប់ errors និងបង្ហាញ fallback UI។\nឧទាហរណ៍ Error Boundaries៖\nimport React from 'react';\nclass ErrorBoundary extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false };\n  }",
+          "code": "const MyComponentWithLoading = withLoading(MyComponent);\nimport React from 'react';\nfunction DataProvider({ render }) {\n  const data = 'Hello, Render Props!';\n  return render(data);\n}\nfunction MyComponent() {\n  return (\n    <DataProvider render={data => <div>{data}</div>} />\n  );\n}\nimport React from 'react';\nclass ErrorBoundary extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false };\n  }",
+          "preview": {
+            "title": "React · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 33",
+            "11.2 Render Props"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-react-page-34",
+          "label": "PDF 34. 11.4 Portals",
+          "heading": "11.4 Portals",
+          "intro": "static getDerivedStateFromError(error) { return { hasError: true }; }",
+          "bodyHeading": "Source content · reactjs.pdf · page 34",
+          "body": "static getDerivedStateFromError(error) {\n    return { hasError: true };\n  }\n  componentDidCatch(error, errorInfo) {\n    console.error('Error:', error, errorInfo);\n  }\n  render() {\n    if (this.state.hasError) {\n      return <h1>Something went wrong.</h1>;\n    }\n    return this.props.children;\n  }\n}\nfunction MyComponent() {\n  return (\n    <ErrorBoundary>\n      <ComponentThatMayError />\n    </ErrorBoundary>\n  );\n}\n11.4 Portals\nPortals គឺជាវិធីសាស្\nរ្តមួយដើម្បីី render children ទៅក្នុង DOM node ដែលនៅខាងក្រៅ hierarchy\nរបស់ parent component។ វាមានប្រយោជន៍សម្\nរាប់ការបង្កើត modals, tooltips, និង popovers។\nអត្ថន័យ៖ Portals គឺជាវិធីសាស្\nរ្តសម្\nរាប់ render children ទៅក្នុង DOM node ដែលនៅខាងក្រៅ\nhierarchy របស់ parent component។\nឧទាហរណ៍ Portals៖\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nfunction Modal({ children }) {\n  return ReactDOM.createPortal(\n    <div className=\"modal\">\n      {children}",
+          "code": "static getDerivedStateFromError(error) {\n    return { hasError: true };\n  }\n  componentDidCatch(error, errorInfo) {\n    console.error('Error:', error, errorInfo);\n  }\n  render() {\n    if (this.state.hasError) {\n      return <h1>Something went wrong.</h1>;\n    }\n    return this.props.children;\n  }\n}\nfunction MyComponent() {\n  return (\n    <ErrorBoundary>\n      <ComponentThatMayError />\n    </ErrorBoundary>\n  );\n}\nimport React from 'react';\nimport ReactDOM from 'react-dom';\nfunction Modal({ children }) {\n  return ReactDOM.createPortal(",
+          "preview": {
+            "title": "React · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 34",
+            "11.4 Portals"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-react-page-35",
+          "label": "PDF 35. 12.1 Firebase Authentication",
+          "heading": "12.1 Firebase Authentication",
+          "intro": "</div>, document.getElementById('modal-root') );",
+          "bodyHeading": "Source content · reactjs.pdf · page 35",
+          "body": "</div>,\n    document.getElementById('modal-root')\n  );\n}\nfunction App() {\n  return (\n    <div>\n      <Modal>\n        <h1>This is a modal!</h1>\n      </Modal>\n    </div>\n  );\n}\n12. React and Firebase\nFirebase គឺជា platform backend-as-a-service ដ៏ខ្លាំំងក្លាដែលផ្តល់ features ដូចជា\nauthentication, database, និង hosting។ ផ្នែកនេះះគ្របដណ្តប់អំពីរបៀបៀបបញ្ចូល Firebase\nជាមួយ React ដើម្បីីបង្កើតកម្មវិធី full-stack។\nអត្ថន័យ៖ Firebase គឺជា platform backend-as-a-service ដ៏ខ្លាំំងក្លាដែលផ្តល់ features ដូចជា\nauthentication, database, និង hosting។\n12.1 Firebase Authentication\nFirebase Authentication គឺជា service ដែលអនុញ្ញាតឱ្យអ្នកបង្កើតការចូលប្រើប្\nរាស់ដោយប្រើ email,\nGoogle, Facebook, និង providers ផ្សេងៗទៀទៀត។ វាងាយស្រួួ\nលប្រើ និងមានសុវត្ថិិភាពខ្ពស់។\nអត្ថន័យ៖ Firebase Authentication គឺជា service សម្\nរាប់ការចូលប្រើប្\nរាស់ដោយប្រើ email, Google,\nFacebook, និង providers ផ្សេងៗទៀទៀត។\nឧទាហរណ៍ Firebase Authentication៖\nimport { getAuth, signInWithEmailAndPassword } from 'firebase/auth';\nconst auth = getAuth();",
+          "code": "</div>,\n    document.getElementById('modal-root')\n  );\n}\nfunction App() {\n  return (\n    <div>\n      <Modal>\n        <h1>This is a modal!</h1>\n      </Modal>\n    </div>\n  );\n}\nimport { getAuth, signInWithEmailAndPassword } from 'firebase/auth';\nconst auth = getAuth();",
+          "preview": {
+            "title": "React · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 35",
+            "12.1 Firebase Authentication"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-react-page-36",
+          "label": "PDF 36. 12.2 Firestore Database",
+          "heading": "12.2 Firestore Database",
+          "intro": "  function login(email, password) {",
+          "bodyHeading": "Source content · reactjs.pdf · page 36",
+          "body": "\n\nfunction login(email, password) {\n  signInWithEmailAndPassword(auth, email, password)\n    .then((userCredential) => {\n      const user = userCredential.user;\n      console.log('Logged in user:', user);\n    })\n    .catch((error) => {\n      console.error('Error logging in:', error);\n    });\n}\n12.2 Firestore Database\nFirestore Database គឺជា NoSQL database ដែលផ្តល់នូវការទុកដាក់ទិន្ន័យជាពេលជាក់លាក់ (real-\ntime)។ វាងាយស្រួួ\nលប្រើ និងមាន scalability ខ្ពស់។\nអត្ថន័យ៖ Firestore Database គឺជា NoSQL database សម្\nរាប់ទុកដាក់ទិន្ន័យជាពេលជាក់លាក់។\nឧទាហរណ៍ Firestore Database៖\nimport { getFirestore, collection, addDoc } from 'firebase/firestore';\nconst db = getFirestore();\nasync function addData() {\n  try {\n    const docRef = await addDoc(collection(db, 'users'), {\n      name: 'John Doe',\n      email: 'john@example.com',\n    });\n    console.log('Document written with ID:', docRef.id);\n  } catch (error) {\n    console.error('Error adding document:', error);\n  }\n}\n12.3 Hosting React on Firebase\nFirebase Hosting គឺជា service ដែលអនុញ្ញាតឱ្យអ្នក deploy និង host កម្មវិធី React របស់អ្នកយ៉ាង\nងាយស្រួួ\nល។ វាផ្តល់នូវ performance ខ្ពស់ និង SSL ដោយស្វ័័យប្រវត្តិិ។",
+          "code": "function login(email, password) {\n  signInWithEmailAndPassword(auth, email, password)\n    .then((userCredential) => {\n      const user = userCredential.user;\n      console.log('Logged in user:', user);\n    })\n    .catch((error) => {\n      console.error('Error logging in:', error);\n    });\n}\nimport { getFirestore, collection, addDoc } from 'firebase/firestore';\nconst db = getFirestore();\nasync function addData() {\n  try {\n    const docRef = await addDoc(collection(db, 'users'), {\n    });\n    console.log('Document written with ID:', docRef.id);\n  } catch (error) {\n    console.error('Error adding document:', error);\n  }\n}",
+          "preview": {
+            "title": "React · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 36",
+            "12.2 Firestore Database"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-react-page-37",
+          "label": "PDF 37. 13.1 Testing with Jest",
+          "heading": "13.1 Testing with Jest",
+          "intro": "អត្ថន័យ៖ Firebase Hosting គឺជា service សម្ រាប់ deploy និង host កម្មវិធី React។ ជំហានដើម្បីី Host React on Firebase៖",
+          "bodyHeading": "Source content · reactjs.pdf · page 37",
+          "body": "អត្ថន័យ៖ Firebase Hosting គឺជា service សម្\nរាប់ deploy និង host កម្មវិធី React។\nជំហានដើម្បីី Host React on Firebase៖\n1. Install Firebase CLI៖\nnpm install -g firebase-tools\n2. Login to Firebase៖\nfirebase login\n3. Initialize Firebase project៖\nfirebase init\n4. Build your React app៖\nnpm run build\n5. Deploy to Firebase៖\nfirebase deploy\n13. React Testing\nTesting គឺជាផ្នែកសំខាន់នៃការបង្កើតកម្មវិធី React ដែលអាចទុកចិត្តបាន និងងាយស្រួួ\nលថែទាំំ។\nផ្នែកនេះះគ្របដណ្តប់អំពី unit testing ជាមួយ Jest, component testing ជាមួយ React\nTesting Library, និង end-to-end testing ជាមួយ Cypress។\nអត្ថន័យ៖ Testing គឺជាផ្នែកសំខាន់នៃការបង្កើតកម្មវិធី React ដែលអាចទុកចិត្តបាន និងងាយស្រួួ\nលថែទាំំ។\n13.1 Testing with Jest\nJest គឺជា testing framework ដ៏ពេញនិយមសម្\nរាប់ unit testing នៅក្នុង JavaScript និង React។ វា\nផ្តល់នូវ tools ដើម្បីីសរសេរ tests, run tests, និងវាយតម្លៃលទ្ធផល។\nអត្ថន័យ៖ Jest គឺជា testing framework សម្\nរាប់ unit testing។\nឧទាហរណ៍ Testing with Jest៖",
+          "code": "npm install -g firebase-tools\nnpm run build",
+          "preview": {
+            "title": "React · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 37",
+            "13.1 Testing with Jest"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-react-page-38",
+          "label": "PDF 38. 13.2 React Testing Library",
+          "heading": "13.2 React Testing Library",
+          "intro": "function sum(a, b) { return a + b; }",
+          "bodyHeading": "Source content · reactjs.pdf · page 38",
+          "body": "function sum(a, b) {\n  return a + b;\n}\ntest('adds 1 + 2 to equal 3', () => {\n  expect(sum(1, 2)).toBe(3);\n});\n13.2 React Testing Library\nReact Testing Library គឺជា library សម្\nរាប់ test React components ដោយផ្តោតលើអ្វីីដែលអ្នក\nប្រើប្\nរាស់ឃើញ និងធ្វើ។ វាជួយឱ្យអ្នកសរសេរ tests ដែលជិតស្និិទ្ធនឹងការប្រើប្\nរាស់ពិត។\nអត្ថន័យ៖ React Testing Library គឺជា library សម្\nរាប់ test React components។\nឧទាហរណ៍ React Testing Library៖\nimport { render, screen } from '@testing-library/react';\nimport MyComponent from './MyComponent';\ntest('renders MyComponent', () => {\n  render(<MyComponent />);\n  const linkElement = screen.getByText(/Hello, World!/i);\n  expect(linkElement).toBeInTheDocument();\n});\n13.3 End-to-End Testing with Cypress\nCypress គឺជា tool សម្\nរាប់ end-to-end testing ដែលអនុញ្ញាតឱ្យអ្នក test កម្មវិធីរបស់អ្នកពីចាប់ផ្តើម\nដល់ចប់។ វាផ្តល់នូវ interface ដ៏ងាយស្រួួ\nល និង features ដូចជា time travel debugging។\nអត្ថន័យ៖ Cypress គឺជា tool សម្\nរាប់ end-to-end testing។\nឧទាហរណ៍ End-to-End Testing with Cypress៖\ndescribe('My First Test', () => {\n  it('Visits the app', () => {\n    cy.visit('/');\n    cy.contains('Hello, World!');",
+          "code": "function sum(a, b) {\n  return a + b;\n}\ntest('adds 1 + 2 to equal 3', () => {\n  expect(sum(1, 2)).toBe(3);\n});\nimport { render, screen } from '@testing-library/react';\nimport MyComponent from './MyComponent';\ntest('renders MyComponent', () => {\n  render(<MyComponent />);\n  const linkElement = screen.getByText(/Hello, World!/i);\n  expect(linkElement).toBeInTheDocument();\n});\ndescribe('My First Test', () => {\n  it('Visits the app', () => {\n    cy.visit('/');\n    cy.contains('Hello, World!');",
+          "preview": {
+            "title": "React · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 38",
+            "13.2 React Testing Library"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-react-page-39",
+          "label": "PDF 39. 14.1 Deploying to Vercel",
+          "heading": "14.1 Deploying to Vercel",
+          "intro": "}); }); 14. React Deployment",
+          "bodyHeading": "Source content · reactjs.pdf · page 39",
+          "body": "});\n});\n14. React Deployment\nDeploying កម្មវិធី React គឺជាជំហានចុងក្រោយដើម្បីីធ្វើឱ្យវាអាចចូលប្រើប្\nរាស់បានដោយអ្នកប្រើ\nប្\nរាស់។ ផ្នែកនេះះគ្របដណ្តប់អំពីរបៀបៀប deploy កម្មវិធី React ទៅកាន់ platforms ដូចជា Vercel\nនិង Netlify, ព្រមទាំំងរបៀបៀប build កម្មវិធីសម្\nរាប់ production។\nអត្ថន័យ៖ Deploying កម្មវិធី React គឺជាជំហានចុងក្រោយដើម្បីីធ្វើឱ្យវាអាចចូលប្រើប្\nរាស់បានដោយអ្នកប្រើ\nប្\nរាស់។\n14.1 Deploying to Vercel\nVercel គឺជា platform ដ៏ពេញនិយមសម្\nរាប់ deploy កម្មវិធី React។ វាផ្តល់នូវការធ្វើ deployment\nដោយស្វ័័យប្រវត្តិិ, performance optimization, និង scalability។\nអត្ថន័យ៖ Vercel គឺជា platform សម្\nរាប់ deploy កម្មវិធី React។\nជំហានដើម្បីី Deploy to Vercel៖\n1. Install Vercel CLI៖\nnpm install -g vercel\n2. Login to Vercel៖\nvercel login\n3. Deploy your React app៖\nvercel\n14.2 Deploying to Netlify\nNetlify គឺជា platform មួយទៀទៀតដែលល្អសម្\nរាប់ deploy កម្មវិធី React។ វាផ្តល់នូវការធ្វើ deployment\nដោយស្វ័័យប្រវត្តិិ, continuous integration, និង serverless functions។\nអត្ថន័យ៖ Netlify គឺជា platform សម្\nរាប់ deploy កម្មវិធី React។",
+          "code": "});\n});\nnpm install -g vercel",
+          "preview": {
+            "title": "React · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 39",
+            "14.1 Deploying to Vercel"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-react-page-40",
+          "label": "PDF 40. 14.3 Building for Production",
+          "heading": "14.3 Building for Production",
+          "intro": "ជំហានដើម្បីី Deploy to Netlify៖ 1. Install Netlify CLI៖ npm install -g netlify-cli",
+          "bodyHeading": "Source content · reactjs.pdf · page 40",
+          "body": "ជំហានដើម្បីី Deploy to Netlify៖\n1. Install Netlify CLI៖\nnpm install -g netlify-cli\n2. Login to Netlify៖\nnetlify login\n3. Deploy your React app៖\nnetlify deploy --prod\n14.3 Building for Production\nមុនពេល deploy កម្មវិធី React របស់អ្នក, អ្នកត្រូូវតែ build វាសម្\nរាប់ production។ នេះះជាជំហានសំខាន់\nដើម្បីីបង្កើត optimized build ដែលត្រៀៀមខ្លួនសម្\nរាប់ deployment។\nអត្ថន័យ៖ Building for production គឺជាជំហានសំខាន់មុនពេល deploy កម្មវិធី React។\nជំហានដើម្បីី Build for Production៖\nnpm run build\nបន្ទាប់ពី build, ឯកសារនឹងត្រូូវបានរក្សាទុកនៅក្នុងថត build/។ អ្នកអាច deploy ថតនេះះទៅកាន់ platform\nណាមួយដូចជា Vercel ឬ Netlify។\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស",
+          "code": "npm install -g netlify-cli\nnpm run build",
+          "preview": {
+            "title": "React · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 40",
+            "14.3 Building for Production"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-41",
+      "items": [
+        {
+          "id": "pdf-react-page-41",
+          "label": "PDF 41. Source lesson page 41",
+          "heading": "Source lesson page 41",
+          "intro": "ផ្ទាំំងដើម វគ្គសិក្សា អំពីយើង",
+          "bodyHeading": "Source content · reactjs.pdf · page 41",
+          "body": "ផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "function LessonCard() {\n  return <article>CampusFlow lesson</article>;\n}",
+          "preview": {
+            "title": "React · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "React",
+            "PDF page 41",
+            "Source lesson page 41"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "reactjs.pdf",
+          "sourcePage": 41
+        }
+      ]
+    }
+  ]
+}

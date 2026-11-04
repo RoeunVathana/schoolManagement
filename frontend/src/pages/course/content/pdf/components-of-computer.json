@@ -1,0 +1,1055 @@
+{
+  "slug": "components-of-computer",
+  "sourceFile": "component_computer.pdf",
+  "pageCount": 40,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-1",
+          "label": "PDF 1. Central Processing Unit (CPU) ឬ អង្គភាពដំណើរការកណ្តាល គឺជាសមាសធាតុសំខាន់នៃ",
+          "heading": "Central Processing Unit (CPU) ឬ អង្គភាពដំណើរការកណ្តាល គឺជាសមាសធាតុសំខាន់នៃ",
+          "intro": "1. Central Processing Unit (CPU) - អង្គភាព ដំណើរការកណ្តាល ឧបករណ៍កុំព្យូទ័រណាមួយ។ វាត្រូូវបានគេហៅថាជា \"ខួរក្បាល\" នៃកុំព្យូទ័រ ដែលទទួលខុសត្រូូវក្នុងការ",
+          "bodyHeading": "Source content · component_computer.pdf · page 1",
+          "body": "1. Central Processing Unit (CPU) - អង្គភាព\nដំណើរការកណ្តាល\nCentral Processing Unit (CPU) ឬ អង្គភាពដំណើរការកណ្តាល គឺជាសមាសធាតុសំខាន់នៃ\nឧបករណ៍កុំព្យូទ័រណាមួយ។ វាត្រូូវបានគេហៅថាជា \"ខួរក្បាល\" នៃកុំព្យូទ័រ ដែលទទួលខុសត្រូូវក្នុងការ\nប្រតិបត្តិិការណែនាំំពីកម្មវិធីដោយអនុវត្តប្រតិបត្តិិការមូលដ្ឋានដូចជា fetch, decode, និង\nexecute។ ផ្នែកនេះះណែនាំំអំពី CPU, តួនាទីរបស់វា, ឧទាហរណ៍នៃ CPU ទំនើប, និងគោលគំនិត\nសំខាន់ៗដែលពាក់ព័ន្ធ។\n1.1. ទិដ្ឋភាពទូទៅ: The \"Brain\" of the Computer - \"ខួរក្បាល\" នៃ\nកុំព្យូទ័រ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 1",
+            "Central Processing Unit (CPU) ឬ អង្គភាពដំណើរការកណ្តាល គឺជាសមាសធាតុសំខាន់នៃ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-components-of-computer-page-2",
+          "label": "PDF 2. CPU គឺជាសមាសធាតុផ្នែករឹងស្នូលដែលដំណើរការការណែនាំំពីអង្គចងចាំំរបស់កុំព្យូទ័រ។ វាបកស្",
+          "heading": "CPU គឺជាសមាសធាតុផ្នែករឹងស្នូលដែលដំណើរការការណែនាំំពីអង្គចងចាំំរបស់កុំព្យូទ័រ។ វាបកស្",
+          "intro": "រាយ និងប្រតិបត្តិិ ពាក្យបញ្ជាពីកម្មវិធី ដែលធ្វើឱ្យវាចាំំបាច់សម្ រាប់ការដំណើរការកម្មវិធី, ប្រព័ន្ធប្រតិបត្តិិការ, និងសូម្បីីតែភារកិច្ចប្រព័ន្ធ",
+          "bodyHeading": "Source content · component_computer.pdf · page 2",
+          "body": "CPU គឺជាសមាសធាតុផ្នែករឹងស្នូលដែលដំណើរការការណែនាំំពីអង្គចងចាំំរបស់កុំព្យូទ័រ។ វាបកស្\nរាយ និងប្រតិបត្តិិ\nពាក្យបញ្ជាពីកម្មវិធី ដែលធ្វើឱ្យវាចាំំបាច់សម្\nរាប់ការដំណើរការកម្មវិធី, ប្រព័ន្ធប្រតិបត្តិិការ, និងសូម្បីីតែភារកិច្ចប្រព័ន្ធ\nមូលដ្ឋាន។ CPU ដំណើរការនៅក្នុងវដ្តមួយហៅថា \"instruction cycle\" ដែលរួមបញ្ចូលការទៅយកការណែនាំំពី\nអង្គចងចាំំ, បកស្\nរាយវាទៅជាជំហានដែលអាចធ្វើសកម្មភាពបាន, និងប្រតិបត្តិិវាដើម្បីីផលិតលទ្ធផល។\nCPU ទំនើបមានអានុភាពខ្លាំំងណាស់ អាចអនុវត្តការគណនារាប់ពាន់លានក្នុងមួយវិនាទី ដោយសារការរីកចម្រើននៃ\nmicroarchitecture និងដំណើរការផលិត។\n1.2. ឧទាហរណ៍: Examples - Intel Core i9, AMD Ryzen 9",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 2",
+            "CPU គឺជាសមាសធាតុផ្នែករឹងស្នូលដែលដំណើរការការណែនាំំពីអង្គចងចាំំរបស់កុំព្យូទ័រ។ វាប"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-components-of-computer-page-3",
+          "label": "PDF 3. Intel Core i9: CPU ដ៏ខ្លាំំងមួយសម្",
+          "heading": "Intel Core i9: CPU ដ៏ខ្លាំំងមួយសម្",
+          "intro": "មាន CPU ជាច្រើនប្រភេទនៅលើទីផ្សារដែលត្រូូវបានរចនាឡើងសម្ រាប់គោលបំណងផ្សេងៗគ្នា ចាប់ពីការប្រើប្ រាស់",
+          "bodyHeading": "Source content · component_computer.pdf · page 3",
+          "body": "មាន CPU ជាច្រើនប្រភេទនៅលើទីផ្សារដែលត្រូូវបានរចនាឡើងសម្\nរាប់គោលបំណងផ្សេងៗគ្នា ចាប់ពីការប្រើប្\nរាស់\nប្រចាំំថ្ងៃរហូតដល់ការលេងហ្\nគេម និងការងារវិជ្ជាជីវៈ។ ឧទាហរណ៍ខ្លះរួមមាន:\nIntel Core i9: CPU ដ៏ខ្លាំំងមួយសម្\nរាប់ការងារដែលទាមទារអត្ថន័យខ្ពស់ ដូចជាការកែវីដេអូ និងការលេង\nហ្\nគេម។\nAMD Ryzen 9: ជម្រើសដ៏ពេញនិយមសម្\nរាប់អ្នកប្រើប្\nរាស់ដែលស្\nវែងរកតុល្យភាពនៃថាមពល និងតម្លៃ។\nCPU ទាំំងនេះះត្រូូវបានប្រើប្\nរាស់យ៉ាងទូលំទូលាយនៅក្នុងកុំព្យូទ័រលើតុ និងកុំព្យូទ័រយួរដៃទំនើប។\n1.3. ពាក្យពាក់ព័ន្ធ: Related Terms - Cores, Threads, Clock\nSpeed, Cache\nដើម្បីីយល់ពី CPU ឱ្យកាន់តែច្បាស់ វាមានសារៈសំខាន់ក្នុងការស្គាល់ពាក្យសំខាន់ៗមួយចំនួនដែលពិពណ៌នាអំពី\nអត្ថន័យ និងរចនាសម្ព័័ន្ធរបស់វា:\nCores: ចំនួននៃអង្គភាពដំណើរការឯករាជ្យនៅក្នុង CPU មួយ។ CPU ដែលមានច្រើន Cores អាចដំណើរ\nការភារកិច្ច្រើនក្នុងពេលតែមួយ។\nThreads: អនុញ្ញាតឱ្យ Core នីមួយៗដំណើរការភារកិច្ច្រើនជាងមួយក្នុងពេលដំណាលគ្នា ដោយប្រើ\nបច្ចេកវិទ្យា multithreading។\nClock Speed: ល្\nបឿននៃ CPU ដែលវាស់ជា GHz (gigahertz) បង្ហាញពីចំនួននៃវដ្តដែល CPU អាច\nប្រតិបត្តិិក្នុងមួយវិនាទី។\nCache: អង្គចងចាំំលឿលឿននៅក្នុង CPU ដែលរក្សាទុកទិន្ន័យដែលប្រើញឹកញាប់ ដើម្បីីកាត់បន្ថយពេលវេលា\nចូលទៅកាន់អង្គចងចាំំធំ។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 3",
+            "Intel Core i9: CPU ដ៏ខ្លាំំងមួយសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-components-of-computer-page-4",
+          "label": "PDF 4. Motherboard ឬ បន្ទះមេ គឺជាសមាសធាតុសំខាន់នៃកុំព្យូទ័រដែលភ្ជាប់គ្រប់សមាសធាតុផ្សេងទៀទៀតឱ្យ",
+          "heading": "Motherboard ឬ បន្ទះមេ គឺជាសមាសធាតុសំខាន់នៃកុំព្យូទ័រដែលភ្ជាប់គ្រប់សមាសធាតុផ្សេងទៀទៀតឱ្យ",
+          "intro": "ពាក្យទាំំងនេះះជួយកំណត់ថាតើ CPU មានប្រសិទ្ធភាពប៉ុណ្ណាក្នុងការដោះស្ រាយកម្មវិធីផ្សេងៗ។ 2. Motherboard (Mainboard) - បន្ទះមេ",
+          "bodyHeading": "Source content · component_computer.pdf · page 4",
+          "body": "ពាក្យទាំំងនេះះជួយកំណត់ថាតើ CPU មានប្រសិទ្ធភាពប៉ុណ្ណាក្នុងការដោះស្\nរាយកម្មវិធីផ្សេងៗ។\n2. Motherboard (Mainboard) - បន្ទះមេ\nMotherboard ឬ បន្ទះមេ គឺជាសមាសធាតុសំខាន់នៃកុំព្យូទ័រដែលភ្ជាប់គ្រប់សមាសធាតុផ្សេងទៀទៀតឱ្យ\nដំណើរការជាមួយគ្នា។ វាដើរតួជាឆ្អឹឹងខ្នងនៃប្រព័ន្ធ ដោយផ្តល់នូវការតភ្ជាប់អគ្គិិសនី និងទំនាក់ទំនងរវាង\nCPU, RAM, ឧបករណ៍ផ្ទុកទិន្ន័យ និងសមាសធាតុផ្សេងទៀទៀត។ ផ្នែកនេះះណែនាំំអំពី\nMotherboard, សមាសធាតុសំខាន់ៗរបស់វា, និងឧទាហរណ៍មួយចំនួន។\n2.1. ទិដ្ឋភាពទូទៅ: Overview - The Main Circuit Board\nConnecting All Components",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 4",
+            "Motherboard ឬ បន្ទះមេ គឺជាសមាសធាតុសំខាន់នៃកុំព្យូទ័រដែលភ្ជាប់គ្រប់សមាសធាតុផ្សេងទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-components-of-computer-page-5",
+          "label": "PDF 5. Motherboard គឺជាបន្ទះសៀសៀគ្វីីធំដែលភ្ជាប់គ្រប់ផ្នែកនៃកុំព្យូទ័រឱ្យដំណើរការជាមួយគ្នា។ វាមានរន្ធសម្",
+          "heading": "Motherboard គឺជាបន្ទះសៀសៀគ្វីីធំដែលភ្ជាប់គ្រប់ផ្នែកនៃកុំព្យូទ័រឱ្យដំណើរការជាមួយគ្នា។ វាមានរន្ធសម្",
+          "intro": "រាប់ដាក់ CPU, RAM, កាតក្ រាហ្វិិក, និងឧបករណ៍ផ្សេងទៀទៀត ព្រមទាំំងផ្តល់ថាមពល និងផ្លូវទំនាក់ទំនងសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 5",
+          "body": "Motherboard គឺជាបន្ទះសៀសៀគ្វីីធំដែលភ្ជាប់គ្រប់ផ្នែកនៃកុំព្យូទ័រឱ្យដំណើរការជាមួយគ្នា។ វាមានរន្ធសម្\nរាប់ដាក់\nCPU, RAM, កាតក្\nរាហ្វិិក, និងឧបករណ៍ផ្សេងទៀទៀត ព្រមទាំំងផ្តល់ថាមពល និងផ្លូវទំនាក់ទំនងសម្\nរាប់ទិន្ន័យ។ បើ\nគ្មាន Motherboard ទេ សមាសធាតុផ្សេងៗនឹងមិនអាចធ្វើការជាមួយគ្នាបានទេ។\nMotherboard ក៏មានប្រព័ន្ធដែលគ្រប់គ្រងការចាប់ផ្តើមនៃកុំព្យូទ័រ និងធានាថាគ្រប់ផ្នែកដំណើរការបានត្រឹឹមត្រូូវ។\n2.2. សមាសធាតុសំខាន់ៗ: Key Parts - CPU Socket, RAM\nSlots, PCIe Slots, Chipset, BIOS/UEFI\nMotherboard មានផ្នែកសំខាន់ៗជាច្រើនដែលធ្វើការរួមគ្នាដើម្បីីគាំំទ្រប្រព័ន្ធកុំព្យូទ័រ។ សមាសធាតុទាំំងនេះះរួមមាន:",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 5",
+            "Motherboard គឺជាបន្ទះសៀសៀគ្វីីធំដែលភ្ជាប់គ្រប់ផ្នែកនៃកុំព្យូទ័រឱ្យដំណើរការជាមួយគ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-6",
+          "label": "PDF 6. CPU Socket: រន្ធដែលដាក់ CPU និងភ្ជាប់វាទៅនឹង Motherboard។ ប្រភេទ Socket ផ្សេងគ្នាគាំំទ្រ",
+          "heading": "CPU Socket: រន្ធដែលដាក់ CPU និងភ្ជាប់វាទៅនឹង Motherboard។ ប្រភេទ Socket ផ្សេងគ្នាគាំំទ្រ",
+          "intro": "ប្រភេទ CPU ផ្សេងគ្នា។ RAM Slots: រន្ធសម្ រាប់ដាក់អង្គចងចាំំ RAM ដែលផ្តល់ទំហំផ្ទុកទិន្ន័យបណ្",
+          "bodyHeading": "Source content · component_computer.pdf · page 6",
+          "body": "CPU Socket: រន្ធដែលដាក់ CPU និងភ្ជាប់វាទៅនឹង Motherboard។ ប្រភេទ Socket ផ្សេងគ្នាគាំំទ្រ\nប្រភេទ CPU ផ្សេងគ្នា។\nRAM Slots: រន្ធសម្\nរាប់ដាក់អង្គចងចាំំ RAM ដែលផ្តល់ទំហំផ្ទុកទិន្ន័យបណ្\nតោះអាសន្នសម្\nរាប់ CPU។\nPCIe Slots: រន្ធពង្រីីកសម្\nរាប់ដាក់កាតក្\nរាហ្វិិក, កាតសំឡេង, ឬឧបករណ៍ផ្សេងទៀទៀត។\nChipset: សៀសៀគ្វីីដែលគ្រប់គ្រងទំនាក់ទំនងរវាង CPU, RAM, និងឧបករណ៍ផ្សេងទៀទៀត។\nBIOS/UEFI: កម្មវិធីបង្កប់ដែលចាប់ផ្តើមប្រព័ន្ធ និងផ្តល់ការកំណត់មូលដ្ឋានសម្\nរាប់ hardware។\nសមាសធាតុទាំំងនេះះធ្វើឱ្យ Motherboard អាចគាំំទ្រការដំណើរការនៃកុំព្យូទ័រទាំំងមូល។\n2.3. ឧទាហរណ៍: Examples - ASUS ROG, MSI, Gigabyte\nមានក្រុុមហ៊ុនផលិត Motherboard ជាច្រើនដែលផ្តល់ជម្រើសសម្\nរាប់អ្នកប្រើប្\nរាស់ផ្សេងៗគ្នា ចាប់ពីការប្រើប្\nរាស់\nធម្មតារហូតដល់ការលេងហ្\nគេម និងការងារវិជ្ជាជីវៈ។ ឧទាហរណ៍ខ្លះរួមមាន:\nASUS ROG (Republic of Gamers): Motherboard ដែលរចនាឡើងសម្\nរាប់អ្នកលេងហ្\nគេម ជាមួយ\nនឹងមុខងារពិសេស និងអត្ថន័យខ្ពស់។\nMSI: ផ្តល់ជម្រើសសម្\nរាប់ទាំំងអ្នកប្រើប្\nរាស់ធម្មតា និងអ្នកជំនាញ ជាមួយនឹងគុណភាពល្អ។\nGigabyte: ល្បីីខាងភាពជឿជឿជាក់ និងការរចនាប្រកបដោយភាពច្នៃប្រឌិត។\nMotherboard ទាំំងនេះះត្រូូវបានប្រើប្\nរាស់យ៉ាងទូលំទូលាយនៅក្នុងកុំព្យូទ័រផ្ទាល់ខ្លួន និងប្រព័ន្ធដែលបានរចនាតាម\nតម្រូូវការ។\n3. Memory (RAM - Random Access Memory)\n- អង្គចងចាំំ (RAM)",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 6",
+            "CPU Socket: រន្ធដែលដាក់ CPU និងភ្ជាប់វាទៅនឹង Motherboard។ ប្រភេទ Socket ផ្សេងគ្ន"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-components-of-computer-page-7",
+          "label": "PDF 7. Memory ឬ អង្គចងចាំំ RAM (Random Access Memory) គឺជាសមាសធាតុសំខាន់មួយនៅ",
+          "heading": "Memory ឬ អង្គចងចាំំ RAM (Random Access Memory) គឺជាសមាសធាតុសំខាន់មួយនៅ",
+          "intro": "ក្នុងកុំព្យូទ័រដែលប្រើសម្ រាប់ផ្ទុកទិន្ន័យបណ្ តោះអាសន្នៃកម្មវិធី និងទិន្ន័យដែលកំពុងដំណើរការ។ វា",
+          "bodyHeading": "Source content · component_computer.pdf · page 7",
+          "body": "Memory ឬ អង្គចងចាំំ RAM (Random Access Memory) គឺជាសមាសធាតុសំខាន់មួយនៅ\nក្នុងកុំព្យូទ័រដែលប្រើសម្\nរាប់ផ្ទុកទិន្ន័យបណ្\nតោះអាសន្នៃកម្មវិធី និងទិន្ន័យដែលកំពុងដំណើរការ។ វា\nអនុញ្ញាតឱ្យ CPU ចូលប្រើទិន្ន័យបានយ៉ាងលឿលឿន ដែលធ្វើឱ្យប្រព័ន្ធដំណើរការប្រកបដោយ\nប្រសិទ្ធភាព។ ផ្នែកនេះះណែនាំំអំពី RAM, ប្រភេទផ្សេងៗរបស់វា, និងឧទាហរណ៍មួយចំនួន។\n3.1. ទិដ្ឋភាពទូទៅ: Overview - Temporary Storage for Active\nPrograms and Data",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 7",
+            "Memory ឬ អង្គចងចាំំ RAM (Random Access Memory) គឺជាសមាសធាតុសំខាន់មួយនៅ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-components-of-computer-page-8",
+          "label": "PDF 8. RAM គឺជាអង្គចងចាំំបណ្",
+          "heading": "RAM គឺជាអង្គចងចាំំបណ្",
+          "intro": "តោះអាសន្នដែលរក្សាទុកទិន្ន័យ និងកម្មវិធីដែលកុំព្យូទ័រកំពុងប្រើប្ រាស់នៅពេលបច្ចុប្បន្ន។ វាខុសពីឧបករណ៍ផ្ទុកទិន្ន័យអចិន្ត្រៃយ៍ដូចជា HDD ឬ SSD ដោយសារទិន្ន័យនៅក្នុង RAM នឹងបាត់បង់នៅ",
+          "bodyHeading": "Source content · component_computer.pdf · page 8",
+          "body": "RAM គឺជាអង្គចងចាំំបណ្\nតោះអាសន្នដែលរក្សាទុកទិន្ន័យ និងកម្មវិធីដែលកុំព្យូទ័រកំពុងប្រើប្\nរាស់នៅពេលបច្ចុប្បន្ន។\nវាខុសពីឧបករណ៍ផ្ទុកទិន្ន័យអចិន្ត្រៃយ៍ដូចជា HDD ឬ SSD ដោយសារទិន្ន័យនៅក្នុង RAM នឹងបាត់បង់នៅ\nពេលកុំព្យូទ័របិទ។ RAM មានល្\nបឿនលឿលឿនជាងឧបករណ៍ផ្ទុកផ្សេងទៀទៀត ដែលធ្វើឱ្យវាចាំំបាច់សម្\nរាប់ការដំណើរការ\nរលូន។\nចំនួន RAM នៅក្នុងកុំព្យូទ័រមួយប៉ះពាល់ដល់សមត្ថភាពក្នុងការដំណើរការកម្មវិធីច្រើនក្នុងពេលតែមួយ\n(multitasking) និងអត្ថន័យទូទៅនៃប្រព័ន្ធ។\n3.2. ប្រភេទ: Types - DDR4, DDR5, SODIMM (for laptops)",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 8",
+            "RAM គឺជាអង្គចងចាំំបណ្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-components-of-computer-page-9",
+          "label": "PDF 9. RAM មានប្រភេទផ្សេងៗគ្នាដែលត្រូូវបានរចនាឡើងសម្",
+          "heading": "RAM មានប្រភេទផ្សេងៗគ្នាដែលត្រូូវបានរចនាឡើងសម្",
+          "intro": "រាប់ឧបករណ៍ និងតម្រូូវការផ្សេងៗគ្នា។ ប្រភេទទូទៅមួយ ចំនួនរួមមាន: DDR4: ប្រភេទ RAM ដែលប្រើយ៉ាងទូលំទូលាយនៅក្នុងកុំព្យូទ័រទំនើប មានល្",
+          "bodyHeading": "Source content · component_computer.pdf · page 9",
+          "body": "RAM មានប្រភេទផ្សេងៗគ្នាដែលត្រូូវបានរចនាឡើងសម្\nរាប់ឧបករណ៍ និងតម្រូូវការផ្សេងៗគ្នា។ ប្រភេទទូទៅមួយ\nចំនួនរួមមាន:\nDDR4: ប្រភេទ RAM ដែលប្រើយ៉ាងទូលំទូលាយនៅក្នុងកុំព្យូទ័រទំនើប មានល្\nបឿនលឿលឿន និងប្រសិទ្ធភាព\nថាមពលល្អ។\nDDR5: ជំនាន់ថ្មីីបំផុតនៃ RAM ដែលផ្តល់ល្\nបឿនកាន់តែខ្ពស់ និងប្រសិទ្ធភាពសម្\nរាប់ប្រព័ន្ធទំនើប។\nSODIMM: RAM ទំហំតូចដែលប្រើក្នុងកុំព្យូទ័រយួរដៃ និងឧបករណ៍ចល័ត ដែលត្រូូវគ្នានឹង DDR4 ឬ\nDDR5។\nការជ្រើសរើសប្រភេទ RAM ត្រឹឹមត្រូូវអាស្រ័័\nយលើ Motherboard និងតម្រូូវការនៃការប្រើប្\nរាស់របស់អ្នក។\n3.3. ឧទាហរណ៍: Examples - Corsair Vengeance, Kingston\nHyperX",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 9",
+            "RAM មានប្រភេទផ្សេងៗគ្នាដែលត្រូូវបានរចនាឡើងសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-components-of-computer-page-10",
+          "label": "PDF 10. Corsair Vengeance: RAM ដែលល្បីីខាងអត្ថន័យខ្ពស់ និងការរចនាសម្",
+          "heading": "Corsair Vengeance: RAM ដែលល្បីីខាងអត្ថន័យខ្ពស់ និងការរចនាសម្",
+          "intro": "មានម៉ាក RAM ជាច្រើននៅលើទីផ្សារដែលផ្តល់ជម្រើសសម្ រាប់អ្នកប្រើប្ រាស់ផ្សេងៗគ្នា ចាប់ពីការងារធម្មតារហូត",
+          "bodyHeading": "Source content · component_computer.pdf · page 10",
+          "body": "មានម៉ាក RAM ជាច្រើននៅលើទីផ្សារដែលផ្តល់ជម្រើសសម្\nរាប់អ្នកប្រើប្\nរាស់ផ្សេងៗគ្នា ចាប់ពីការងារធម្មតារហូត\nដល់ការលេងហ្\nគេម និងការងារវិជ្ជាជីវៈ។ ឧទាហរណ៍ខ្លះរួមមាន:\nCorsair Vengeance: RAM ដែលល្បីីខាងអត្ថន័យខ្ពស់ និងការរចនាសម្\nរាប់អ្នកលេងហ្\nគេម និងអ្នកប្រើ\nប្\nរាស់ខ្លាំំង។\nKingston HyperX: ជម្រើសដ៏ពេញនិយមសម្\nរាប់ភាពជឿជឿជាក់ និងអត្ថន័យល្អក្នុងតម្លៃសមរម្យ។\nRAM ទាំំងនេះះត្រូូវបានប្រើប្\nរាស់ជាទូទៅនៅក្នុងកុំព្យូទ័រលើតុ និងកុំព្យូទ័រយួរដៃដើម្បីីបង្កើនប្រសិទ្ធភាពប្រព័ន្ធ។\n4. Storage Devices - ឧបករណ៍ផ្ទុកទិន្ន័យ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 10",
+            "Corsair Vengeance: RAM ដែលល្បីីខាងអត្ថន័យខ្ពស់ និងការរចនាសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-11",
+          "label": "PDF 11. Storage Devices ឬ ឧបករណ៍ផ្ទុកទិន្ន័យ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលប្រើសម្",
+          "heading": "Storage Devices ឬ ឧបករណ៍ផ្ទុកទិន្ន័យ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលប្រើសម្",
+          "intro": "រាប់ រក្សាទុកទិន្ន័យជាអចិន្ត្រៃយ៍ ឬបណ្ តោះអាសន្ន។ វាអនុញ្ញាតឱ្យអ្នករក្សាទុកឯកសារ, កម្មវិធី, និងប្រព័ន្ធ",
+          "bodyHeading": "Source content · component_computer.pdf · page 11",
+          "body": "Storage Devices ឬ ឧបករណ៍ផ្ទុកទិន្ន័យ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលប្រើសម្\nរាប់\nរក្សាទុកទិន្ន័យជាអចិន្ត្រៃយ៍ ឬបណ្\nតោះអាសន្ន។ វាអនុញ្ញាតឱ្យអ្នករក្សាទុកឯកសារ, កម្មវិធី, និងប្រព័ន្ធ\nប្រតិបត្តិិការ សូម្បីីតែនៅពេលកុំព្យូទ័របិទ។ ផ្នែកនេះះណែនាំំអំពីប្រភេទផ្សេងៗនៃឧបករណ៍ផ្ទុកទិន្ន័យ និង\nលក្ខណៈពិសេសរបស់វា។\n4.1. HDD (Hard Disk Drive) - ការផ្ទុកបែបម៉ាញេទិក: Magnetic\nStorage (Slow, High Capacity)",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 11",
+            "Storage Devices ឬ ឧបករណ៍ផ្ទុកទិន្ន័យ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលប្រើស"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-components-of-computer-page-12",
+          "label": "PDF 12. HDD (Hard Disk Drive) គឺជាឧបករណ៍ផ្ទុកទិន្ន័យបែបបុរាណដែលប្រើបន្ទះម៉ាញេទិកវិលដើម្បីីរក្សាទុក",
+          "heading": "HDD (Hard Disk Drive) គឺជាឧបករណ៍ផ្ទុកទិន្ន័យបែបបុរាណដែលប្រើបន្ទះម៉ាញេទិកវិលដើម្បីីរក្សាទុក",
+          "intro": "ទិន្ន័យ។ វាមានល្ បឿនយឺតជាងប្រភេទផ្សេងទៀទៀត ប៉ុន្តែផ្តល់នូវទំហំផ្ទុកធំក្នុងតម្លៃសមរម្យ។ HDD ត្រូូវបានប្រើជា ទូទៅសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 12",
+          "body": "HDD (Hard Disk Drive) គឺជាឧបករណ៍ផ្ទុកទិន្ន័យបែបបុរាណដែលប្រើបន្ទះម៉ាញេទិកវិលដើម្បីីរក្សាទុក\nទិន្ន័យ។ វាមានល្\nបឿនយឺតជាងប្រភេទផ្សេងទៀទៀត ប៉ុន្តែផ្តល់នូវទំហំផ្ទុកធំក្នុងតម្លៃសមរម្យ។ HDD ត្រូូវបានប្រើជា\nទូទៅសម្\nរាប់រក្សាទុកឯកសារធំៗ ដូចជាវីដេអូ និងរូបភាព។\nទោះបីជាវាមានល្\nបឿនទាបក៏ដោយ HDD នៅតែជាជម្រើសដ៏ល្អសម្\nរាប់អ្នកដែលត្រូូវការទំហំផ្ទុកច្រើនក្នុងថវិកាតិច។\n4.2. SSD (Solid State Drive) - ការផ្ទុកបែប Flash លឿលឿនជាង:\nFaster Flash Storage (SATA, NVMe)\nSSD (Solid State Drive) គឺជាឧបករណ៍ផ្ទុកទិន្ន័យទំនើបដែលប្រើបច្ចេកវិទ្យា Flash Memory ដើម្បីីរក្សា\nទុកទិន្ន័យ។ វាមានល្\nបឿនលឿលឿនជាង HDD ច្រើន ដែលធ្វើឱ្យការចាប់ផ្តើមប្រព័ន្ធ និងការផ្ទុកកម្មវិធីកាន់តែរហ័ស។\nSSD មានពីរប្រភេទសំខាន់:\nSATA SSD: ប្រើចំណុចប្រទាក់ SATA ដែលមានល្\nបឿនលឿលឿនជាង HDD ប៉ុន្តែមិនលឿលឿនបំផុត។\nNVMe SSD: ប្រើបច្ចេកវិទ្យា NVMe ដែលផ្តល់ល្\nបឿនខ្ពស់ជាង SATA សម្\nរាប់ការងារដែលទាមទារអត្ថន័យ\nខ្ពស់។\nSSD ត្រូូវបានប្រើយ៉ាងទូលំទូលាយនៅក្នុងកុំព្យូទ័រទំនើបដើម្បីីបង្កើនអត្ថន័យ។\n4.3. M.2 NVMe SSD - ការផ្ទុកលឿលឿនបំផុត: Ultra-Fast Storage\n(PCIe-based)",
+          "code": "(PCIe-based)",
+          "preview": {
+            "title": "Components Of Computer · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 12",
+            "HDD (Hard Disk Drive) គឺជាឧបករណ៍ផ្ទុកទិន្ន័យបែបបុរាណដែលប្រើបន្ទះម៉ាញេទិកវិលដើម្ប"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-components-of-computer-page-13",
+          "label": "PDF 13. Component Interconnect Express) ដើម្បីីផ្តល់ល្",
+          "heading": "Component Interconnect Express) ដើម្បីីផ្តល់ល្",
+          "intro": "M.2 NVMe SSD គឺជាប្រភេទ SSD ដែលមានទំហំតូច និងប្រើចំណុចប្រទាក់ PCIe (Peripheral បឿនលឿលឿនបំផុតក្នុងចំណោមឧបករណ៍ផ្ទុកទិន្ន័យ។ វា ត្រូូវបានរចនាឡើងសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 13",
+          "body": "M.2 NVMe SSD គឺជាប្រភេទ SSD ដែលមានទំហំតូច និងប្រើចំណុចប្រទាក់ PCIe (Peripheral\nComponent Interconnect Express) ដើម្បីីផ្តល់ល្\nបឿនលឿលឿនបំផុតក្នុងចំណោមឧបករណ៍ផ្ទុកទិន្ន័យ។ វា\nត្រូូវបានរចនាឡើងសម្\nរាប់កុំព្យូទ័រលើតុ និងកុំព្យូទ័រយួរដៃទំនើប ដែលត្រូូវការការចូលប្រើទិន្ន័យយ៉ាងរហ័ស។\nដោយសារល្\nបឿនខ្ពស់របស់វា M.2 NVMe SSD ត្រូូវបានប្រើសម្\nរាប់ការលេងហ្\nគេម, ការកែវីដេអូ, និងកម្មវិធីដែល\nទាមទារអត្ថន័យខ្ពស់។\n4.4. ឧបករណ៍ផ្ទុកខាងក្រៅ: External Storage - USB Drives,\nExternal HDD/SSD\nឧបករណ៍ផ្ទុកខាងក្រៅគឺជាឧបករណ៍ចល័តដែលភ្ជាប់ទៅកុំព្យូទ័រតាមរយៈ USB ឬចំណុចប្រទាក់ផ្សេងទៀទៀត។ វាត្រូូវ\nបានប្រើសម្\nរាប់ផ្ទុកទិន្ន័យបម្រុុងទុក ឬផ្ទេរទិន្ន័យរវាងឧបករណ៍។ ប្រភេទទូទៅរួមមាន:\nUSB Drives: ឧបករណ៍ផ្ទុកទំហំតូច ងាយស្រួួ\nលយកតាមខ្លួន សម្\nរាប់ឯកសារតូចៗ។\nExternal HDD: HDD ខាងក្រៅដែលផ្តល់ទំហំធំសម្\nរាប់ការបម្រុុងទុកទិន្ន័យ។\nExternal SSD: SSD ខាងក្រៅដែលផ្តល់ល្\nបឿនលឿលឿនជាង External HDD។\nឧបករណ៍ផ្ទុកខាងក្រៅទាំំងនេះះផ្តល់ភាពងាយស្រួួ\nលសម្\nរាប់អ្នកប្រើប្\nរាស់ដែលត្រូូវការផ្ទុកទិន្ន័យចល័ត។\n5. Graphics Processing Unit (GPU) - អង្គភាព\nដំណើរការក្\nរាហ្វិិក",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 13",
+            "Component Interconnect Express) ដើម្បីីផ្តល់ល្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-components-of-computer-page-14",
+          "label": "PDF 14. Graphics Processing Unit (GPU) ឬ អង្គភាពដំណើរការក្",
+          "heading": "Graphics Processing Unit (GPU) ឬ អង្គភាពដំណើរការក្",
+          "intro": "រាហ្វិិក គឺជាសមាសធាតុសំខាន់នៅ ក្នុងកុំព្យូទ័រដែលទទួលខុសត្រូូវលើការបង្កើតរូបភាព, វីដេអូ, និងក្ រាហ្វិិកសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 14",
+          "body": "Graphics Processing Unit (GPU) ឬ អង្គភាពដំណើរការក្\nរាហ្វិិក គឺជាសមាសធាតុសំខាន់នៅ\nក្នុងកុំព្យូទ័រដែលទទួលខុសត្រូូវលើការបង្កើតរូបភាព, វីដេអូ, និងក្\nរាហ្វិិកសម្\nរាប់ហ្\nគេម។ វាជួយបង្កើន\nគុណភាពនៃការបង្ហាញ និងផ្តល់អត្ថន័យខ្ពស់សម្\nរាប់កម្មវិធីដែលទាមទារការដំណើរការក្\nរាហ្វិិក។ ផ្នែក\nនេះះណែនាំំអំពី GPU, ប្រភេទរបស់វា, និងឧទាហរណ៍មួយចំនួន។\n5.1. ទិដ្ឋភាពទូទៅ: Overview - Handles Rendering Images,\nVideos, and Gaming Graphics\nGPU គឺជាអង្គភាពដំណើរការឯកទេសដែលត្រូូវបានរចនាឡើងដើម្បីីគ្រប់គ្រងការបង្កើត (rendering) រូបភាព,\nវីដេអូ, និងក្\nរាហ្វិិក 3D។ វាខុសពី CPU ដោយសារវាមានស្នូលជាច្រើនដែលធ្វើការដំណាលគ្នា ដើម្បីីដំណើរការ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 14",
+            "Graphics Processing Unit (GPU) ឬ អង្គភាពដំណើរការក្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-components-of-computer-page-15",
+          "label": "PDF 15. Intel HD Graphics",
+          "heading": "Intel HD Graphics",
+          "intro": "ទិន្ន័យក្ រាហ្វិិកយ៉ាងលឿលឿន។ GPU មានសារៈសំខាន់សម្ រាប់ការលេងហ្",
+          "bodyHeading": "Source content · component_computer.pdf · page 15",
+          "body": "ទិន្ន័យក្\nរាហ្វិិកយ៉ាងលឿលឿន។ GPU មានសារៈសំខាន់សម្\nរាប់ការលេងហ្\nគេម, ការកែវីដេអូ, និងកម្មវិធីក្\nរាហ្វិិកវិជ្ជា\nជីវៈ។\nបើគ្មាន GPU ដ៏ខ្លាំំងទេ កុំព្យូទ័រនឹងមានការលំបាកក្នុងការបង្ហាញក្\nរាហ្វិិកស្មុគស្មាញ ឬដំណើរការកម្មវិធីទំនើប។\n5.2. GPU បញ្ចូលក្នុង: Integrated GPU - Inside CPU, e.g.,\nIntel HD Graphics\nIntegrated GPU គឺជា GPU ដែលត្រូូវបានបញ្ចូលនៅក្នុង CPU ជាផ្នែកមួយនៃបន្ទះឈីបតែមួយ។ វាមិនមានអង្គ\nចងចាំំផ្ទាល់ខ្លួនទេ ហើយប្រើ RAM របស់ប្រព័ន្ធដើម្បីីដំណើរការ។ Integrated GPU ត្រូូវបានរចនាសម្\nរាប់ការប្រើ\nប្\nរាស់ធម្មតា ដូចជាការមើលវីដេអូ, ការងារការិយាល័យ, និងហ្\nគេមស្\nរាលៗ។\nឧទាហរណ៍មួយគឺ Intel HD Graphics ដែលមាននៅក្នុង CPU របស់ Intel ជាច្រើន ផ្តល់អត្ថន័យគ្រប់គ្\nរាន់\nសម្\nរាប់អ្នកប្រើប្\nរាស់មូលដ្ឋាន។\n5.3. GPU ឯកទេស: Dedicated GPU - Discrete Card, e.g.,\nNVIDIA RTX 4090, AMD RX 7900 XT",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 15",
+            "Intel HD Graphics"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-16",
+          "label": "PDF 16. Dedicated GPU គឺជា GPU ដាច់ដោយឡែកដែលមានជាកាតក្",
+          "heading": "Dedicated GPU គឺជា GPU ដាច់ដោយឡែកដែលមានជាកាតក្",
+          "intro": "រាហ្វិិកផ្ទាល់ខ្លួន និងមានអង្គចងចាំំឯកទេស (VRAM)។ វាមានអានុភាពខ្លាំំងជាង Integrated GPU ច្រើន និងត្រូូវបានរចនាសម្ រាប់ការងារដែលទាមទារ",
+          "bodyHeading": "Source content · component_computer.pdf · page 16",
+          "body": "Dedicated GPU គឺជា GPU ដាច់ដោយឡែកដែលមានជាកាតក្\nរាហ្វិិកផ្ទាល់ខ្លួន និងមានអង្គចងចាំំឯកទេស\n(VRAM)។ វាមានអានុភាពខ្លាំំងជាង Integrated GPU ច្រើន និងត្រូូវបានរចនាសម្\nរាប់ការងារដែលទាមទារ\nក្\nរាហ្វិិកខ្ពស់ ដូចជាការលេងហ្\nគេមទំនើប, ការបង្កើតមាតិកា, និងការរៀរៀនម៉ាស៊ីីន។\nNVIDIA RTX 4090: GPU ដ៏ខ្លាំំងបំផុតមួយពី NVIDIA សម្\nរាប់ការលេងហ្\nគេម 4K និងការងារវិជ្ជាជីវៈ។\nAMD RX 7900 XT: GPU ដ៏មានអានុភាពពី AMD ដែលផ្តល់តុល្យ೦ Wrote: 5.3. GPU ឯកទេស:\nDedicated GPU - Discrete Card, e.g., NVIDIA RTX 4090, AMD RX 7900 XT ភាពនៃ\nអត្ថន័យ និងតម្លៃ។\nDedicated GPU ត្រូូវបានប្រើនៅក្នុងកុំព្យូទ័រលើតុ និងកុំព្យូទ័រយួរដៃសម្\nរាប់អ្នកដែលត្រូូវការអត្ថន័យក្\nរាហ្វិិកខ្ពស់\nបំផុត។\n6. Power Supply Unit (PSU) - អង្គភាពផ្គត់ផ្គង់\nថាមពល",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 16",
+            "Dedicated GPU គឺជា GPU ដាច់ដោយឡែកដែលមានជាកាតក្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-components-of-computer-page-17",
+          "label": "PDF 17. Power Supply Unit (PSU) ឬ អង្គភាពផ្គត់ផ្គង់ថាមពល គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រ",
+          "heading": "Power Supply Unit (PSU) ឬ អង្គភាពផ្គត់ផ្គង់ថាមពល គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រ",
+          "intro": "ដែលផ្តល់ថាមពលអគ្គិិសនីទៅកាន់គ្រប់សមាសធាតុផ្សេងទៀទៀត។ វាបម្លែងចរន្តអគ្គិិសនីពីប្រភពខាងក្រៅ (ដូចជាព្រីីភ្លើង) ទៅជាវ៉ុុលដែលសមស្រ បសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 17",
+          "body": "Power Supply Unit (PSU) ឬ អង្គភាពផ្គត់ផ្គង់ថាមពល គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រ\nដែលផ្តល់ថាមពលអគ្គិិសនីទៅកាន់គ្រប់សមាសធាតុផ្សេងទៀទៀត។ វាបម្លែងចរន្តអគ្គិិសនីពីប្រភពខាងក្រៅ\n(ដូចជាព្រីីភ្លើង) ទៅជាវ៉ុុលដែលសមស្រ\nបសម្\nរាប់ CPU, GPU, Motherboard និងឧបករណ៍ផ្សេង\nទៀទៀត។ ផ្នែកនេះះណែនាំំអំពី PSU, ការវាស់វ៉ាត់របស់វា, និងប្រភេទផ្សេងៗ។\n6.1. ទិដ្ឋភាពទូទៅ: Overview - Provides Power to All\nComponents",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 17",
+            "Power Supply Unit (PSU) ឬ អង្គភាពផ្គត់ផ្គង់ថាមពល គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-components-of-computer-page-18",
+          "label": "PDF 18. PSU គឺជាបេះះដូងនៃប្រព័ន្ធអគ្គិិសនីនៅក្នុងកុំព្យូទ័រ ដែលផ្តល់ថាមពលទៅឱ្យគ្រប់ផ្នែកដូចជា CPU, GPU, RAM,",
+          "heading": "PSU គឺជាបេះះដូងនៃប្រព័ន្ធអគ្គិិសនីនៅក្នុងកុំព្យូទ័រ ដែលផ្តល់ថាមពលទៅឱ្យគ្រប់ផ្នែកដូចជា CPU, GPU, RAM,",
+          "intro": "និងឧបករណ៍ផ្ទុកទិន្ន័យ។ វាទទួលចរន្ត AC (Alternating Current) ពីប្រភពខាងក្រៅ ហើយបម្លែងទៅជា DC (Direct Current) ដែលកុំព្យូទ័រអាចប្រើប្ រាស់បាន។ បើគ្មាន PSU ដែលមានគុណភាពល្អទេ សមាសធាតុផ្សេងៗ",
+          "bodyHeading": "Source content · component_computer.pdf · page 18",
+          "body": "PSU គឺជាបេះះដូងនៃប្រព័ន្ធអគ្គិិសនីនៅក្នុងកុំព្យូទ័រ ដែលផ្តល់ថាមពលទៅឱ្យគ្រប់ផ្នែកដូចជា CPU, GPU, RAM,\nនិងឧបករណ៍ផ្ទុកទិន្ន័យ។ វាទទួលចរន្ត AC (Alternating Current) ពីប្រភពខាងក្រៅ ហើយបម្លែងទៅជា DC\n(Direct Current) ដែលកុំព្យូទ័រអាចប្រើប្\nរាស់បាន។ បើគ្មាន PSU ដែលមានគុណភាពល្អទេ សមាសធាតុផ្សេងៗ\nអាចនឹងខូច ឬមិនដំណើរការត្រឹឹមត្រូូវ។\nPSU ដ៏ល្អមួយគួរតែផ្តល់ថាមពលគ្រប់គ្\nរាន់ និងមានស្\nថេរភាពដើម្បីីគាំំទ្រការដំណើរការនៃប្រព័ន្ធទាំំងមូល។\n6.2. ការវាស់ជា Watts (W): Measured in Watts - e.g.,\n500W, 850W\nថាមពលរបស់ PSU ត្រូូវបានវាស់ជា Watts (W) ដែលបង្ហាញពីចំនួនថាមពលអគ្គិិសនីដែលវាអាចផ្គត់ផ្គង់បាន។\nការជ្រើសរើស PSU ដែលមាន Watts សមស្រ\nបអាស្រ័័\nយលើតម្រូូវការថាមពលនៃសមាសធាតុកុំព្យូទ័ររបស់អ្នក។\nឧទាហរណ៍:\n500W: គ្រប់គ្\nរាន់សម្\nរាប់កុំព្យូទ័រមូលដ្ឋាន ឬការិយាល័យដែលមាន GPU ទាប ឬ Integrated GPU។\n850W: សមស្រ\nបសម្\nរាប់កុំព្យូទ័រលេងហ្\nគេមទំនើប ឬប្រព័ន្ធដែលមាន Dedicated GPU ដ៏ខ្លាំំង។\nការជ្រើសរើស PSU ដែលមាន Watts ខ្ពស់ជាងតម្រូូវការអាចជួយឱ្យប្រព័ន្ធមានភាពបត់បែនសម្\nរាប់ការធ្វើឱ្យ\nប្រសើរនាពេលអនាគត។\n6.3. ប្រភេទ: Types - Modular, Semi-Modular, Non-\nModular",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 18",
+            "PSU គឺជាបេះះដូងនៃប្រព័ន្ធអគ្គិិសនីនៅក្នុងកុំព្យូទ័រ ដែលផ្តល់ថាមពលទៅឱ្យគ្រប់ផ្នែក"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-components-of-computer-page-19",
+          "label": "PDF 19. PSU មានប្រភេទផ្សេងៗគ្នាដែលខុសគ្នាតាមរបៀបៀបគ្រប់គ្រងខ្សែភ្លើងរបស់វា ដែលប៉ះពាល់ដល់ការរៀរៀបចំខាងក្នុងកុំ",
+          "heading": "PSU មានប្រភេទផ្សេងៗគ្នាដែលខុសគ្នាតាមរបៀបៀបគ្រប់គ្រងខ្សែភ្លើងរបស់វា ដែលប៉ះពាល់ដល់ការរៀរៀបចំខាងក្នុងកុំ",
+          "intro": "ព្យូទ័រ និងលំហូរខ្យល់។ ប្រភេទទូទៅរួមមាន: Modular: ខ្សែភ្លើងអាចដោះចេញបានទាំំងស្រុុ ង ដែលអនុញ្ញាតឱ្យអ្នកប្រើតែខ្សែដែលត្រូូវការ ជួយកាត់បន្ថយ",
+          "bodyHeading": "Source content · component_computer.pdf · page 19",
+          "body": "PSU មានប្រភេទផ្សេងៗគ្នាដែលខុសគ្នាតាមរបៀបៀបគ្រប់គ្រងខ្សែភ្លើងរបស់វា ដែលប៉ះពាល់ដល់ការរៀរៀបចំខាងក្នុងកុំ\nព្យូទ័រ និងលំហូរខ្យល់។ ប្រភេទទូទៅរួមមាន:\nModular: ខ្សែភ្លើងអាចដោះចេញបានទាំំងស្រុុ\nង ដែលអនុញ្ញាតឱ្យអ្នកប្រើតែខ្សែដែលត្រូូវការ ជួយកាត់បន្ថយ\nភាពរញ៉\nេរញ៉\nៃ។\nSemi-Modular: ខ្សែសំខាន់ៗត្រូូវបានភ្ជាប់ជាប់ ប៉ុន្តែខ្សែបន្ថែមអាចដោះចេញបាន ជាតុល្យភាពរវាងភាព\nងាយស្រួួ\nល និងតម្លៃ។\nNon-Modular: ខ្សែទាំំងអស់ត្រូូវបានភ្ជាប់ជាប់ ដែលធ្វើឱ្យមានតម្លៃថោកជាង ប៉ុន្តែអាចបង្កើតភាពរញ៉\nេរញ៉\nៃ\nនៅក្នុងករណី។\nប្រភេទ PSU ដែលអ្នកជ្រើសរើសអាស្រ័័\nយលើតម្រូូវការនៃការរៀរៀបចំខ្សែ និងថវិការបស់អ្នក។\n7. Cooling Systems - ប្រព័ន្ធត្រជាក់",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 19",
+            "PSU មានប្រភេទផ្សេងៗគ្នាដែលខុសគ្នាតាមរបៀបៀបគ្រប់គ្រងខ្សែភ្លើងរបស់វា ដែលប៉ះពាល់ដល់"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-components-of-computer-page-20",
+          "label": "PDF 20. Cooling Systems ឬ ប្រព័ន្ធត្រជាក់ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលជួយរក្សា",
+          "heading": "Cooling Systems ឬ ប្រព័ន្ធត្រជាក់ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលជួយរក្សា",
+          "intro": "សីតុណ្ហភាពនៃសមាសធាតុផ្សេងៗ ដូចជា CPU និង GPU ឱ្យនៅកម្រិិតសមស្រ ប។ ប្រព័ន្ធត្រជាក់ ការពារការឡើងកម្តៅ (overheating) ដែលអាចបណ្តាលឱ្យខូចខាត hardware ឬកាត់បន្ថយ",
+          "bodyHeading": "Source content · component_computer.pdf · page 20",
+          "body": "Cooling Systems ឬ ប្រព័ន្ធត្រជាក់ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលជួយរក្សា\nសីតុណ្ហភាពនៃសមាសធាតុផ្សេងៗ ដូចជា CPU និង GPU ឱ្យនៅកម្រិិតសមស្រ\nប។ ប្រព័ន្ធត្រជាក់\nការពារការឡើងកម្តៅ (overheating) ដែលអាចបណ្តាលឱ្យខូចខាត hardware ឬកាត់បន្ថយ\nអត្ថន័យ។ ផ្នែកនេះះណែនាំំអំពីប្រភេទនៃប្រព័ន្ធត្រជាក់ និងសម្ភារៈពាក់ព័ន្ធ។\n7.1. ការត្រជាក់ដោយខ្យល់: Air Cooling - CPU Coolers, Case\nFans\nAir Cooling គឺជាវិធីសាស្\nត្រត្រជាក់ទូទៅបំផុតដែលប្រើខ្យល់ដើម្បីីបញ្\nចេញកម្តៅចេញពីសមាសធាតុកុំព្យូទ័រ។ វាពឹង\nផ្អែកលើឧបករណ៍ដូចជា CPU Coolers និង Case Fans ដើម្បីីរក្សាលំហូរខ្យល់ និងកាត់បន្ថយសីតុណ្ហភាព។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 20",
+            "Cooling Systems ឬ ប្រព័ន្ធត្រជាក់ គឺជាសមាសធាតុសំខាន់នៅក្នុងកុំព្យូទ័រដែលជួយរក្សា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-21",
+          "label": "PDF 21. CPU Coolers: ឧបករណ៍ដែលភ្ជាប់នឹង CPU ដើម្បីីបញ្",
+          "heading": "CPU Coolers: ឧបករណ៍ដែលភ្ជាប់នឹង CPU ដើម្បីីបញ្",
+          "intro": "ចេញកម្តៅ ជាធម្មតាមាន heatsink និងកង្ហារ។ Case Fans: កង្ហារដែលដំឡើងនៅក្នុងករណីកុំព្យូទ័រដើម្បីីបង្កើនលំហូរខ្យល់ទូទៅ។ Air Cooling មានតម្លៃសមរម្យ និងងាយស្រួួ",
+          "bodyHeading": "Source content · component_computer.pdf · page 21",
+          "body": "CPU Coolers: ឧបករណ៍ដែលភ្ជាប់នឹង CPU ដើម្បីីបញ្\nចេញកម្តៅ ជាធម្មតាមាន heatsink និងកង្ហារ។\nCase Fans: កង្ហារដែលដំឡើងនៅក្នុងករណីកុំព្យូទ័រដើម្បីីបង្កើនលំហូរខ្យល់ទូទៅ។\nAir Cooling មានតម្លៃសមរម្យ និងងាយស្រួួ\nលដំឡើង ដែលធ្វើឱ្យវាសមស្រ\nបសម្\nរាប់កុំព្យូទ័រភាគច្រើន។\n7.2. ការត្រជាក់ដោយរាវ: Liquid Cooling - AIO Coolers,\nCustom Water Cooling\nLiquid Cooling គឺជាវិធីសាស្\nត្រត្រជាក់កម្រិិតខ្ពស់ដែលប្រើរាវ (ជាធម្មតាទឹក ឬទឹកលាយសារធាតុ) ដើម្បីីផ្ទេរកម្តៅ\nចេញពីសមាសធាតុ។ វាមានប្រសិទ្ធភាពជាង Air Cooling និងត្រូូវបានប្រើសម្\nរាប់ប្រព័ន្ធដែលមានអត្ថន័យខ្ពស់។\nប្រភេទសំខាន់ៗរួមមាន:\nAIO Coolers: All-in-One Coolers ជាប្រព័ន្ធត្រជាក់រាវដែលផលិតរួចជាស្រេច មាន radiator និង\npump សម្\nរាប់ CPU។\nCustom Water Cooling: ប្រព័ន្ធត្រជាក់រាវដែលអ្នកប្រើអាចរចនាផ្ទាល់ខ្លួន ដោយប្រើបំពង់, pump, និង\nradiator សម្\nរាប់ CPU និង GPU។\nLiquid Cooling ផ្តល់នូវការត្រជាក់ប្រសើរជាង និងសំឡេងស្ងាត់ជាង ប៉ុន្តែមានតម្លៃថ្លៃ និងតម្រូូវការថែទាំំច្រើន\nជាង Air Cooling។\n7.3. ក្រែមផ្ទេរកម្តៅ: Thermal Paste - Improves Heat\nTransfer Between CPU and Cooler",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 21",
+            "CPU Coolers: ឧបករណ៍ដែលភ្ជាប់នឹង CPU ដើម្បីីបញ្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-components-of-computer-page-22",
+          "label": "PDF 22. Thermal Paste គឺជាសារធាតុដែលត្រូូវបានលាបរវាង CPU (ឬ GPU) និងឧបករណ៍ត្រជាក់ ដើម្បីីបង្កើនការផ្ទេរ",
+          "heading": "Thermal Paste គឺជាសារធាតុដែលត្រូូវបានលាបរវាង CPU (ឬ GPU) និងឧបករណ៍ត្រជាក់ ដើម្បីីបង្កើនការផ្ទេរ",
+          "intro": "កម្តៅ។ វាបំពេញចន្លោះតូចៗនៅលើផ្ទៃរវាង CPU និង heatsink ដែលជួយឱ្យកម្តៅផ្ទេរបានប្រសើរជាងមុន។ ការប្រើ Thermal Paste ដែលមានគុណភាពល្អ ាចកាត់បន្ថយសីតុណ្ហភាព CPU បានច្រើន និងបង្កើនអាយុ",
+          "bodyHeading": "Source content · component_computer.pdf · page 22",
+          "body": "Thermal Paste គឺជាសារធាតុដែលត្រូូវបានលាបរវាង CPU (ឬ GPU) និងឧបករណ៍ត្រជាក់ ដើម្បីីបង្កើនការផ្ទេរ\nកម្តៅ។ វាបំពេញចន្លោះតូចៗនៅលើផ្ទៃរវាង CPU និង heatsink ដែលជួយឱ្យកម្តៅផ្ទេរបានប្រសើរជាងមុន។\nការប្រើ Thermal Paste ដែលមានគុណភាពល្អ\nាចកាត់បន្ថយសីតុណ្ហភាព CPU បានច្រើន និងបង្កើនអាយុ\nកាលនៃសមាសធាតុ។ វាត្រូូវបានប្រើទាំំងនៅក្នុង Air Cooling និង Liquid Cooling ដើម្បីីធានាប្រសិទ្ធភាព\nត្រជាក់អតិបរមា។\n8. Case (Chassis) - ស៊ុមកុំព្យូទ័រ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 22",
+            "Thermal Paste គឺជាសារធាតុដែលត្រូូវបានលាបរវាង CPU (ឬ GPU) និងឧបករណ៍ត្រជាក់ ដើម្បី"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-components-of-computer-page-23",
+          "label": "PDF 23. Case ឬ ស៊ុមកុំព្យូទ័រ (Chassis) គឺជារចនាសម្ព័័ន្ធដែលផ្ទុក និងការពារគ្រប់សមាសធាតុផ្នែករឹងនៃកុំ",
+          "heading": "Case ឬ ស៊ុមកុំព្យូទ័រ (Chassis) គឺជារចនាសម្ព័័ន្ធដែលផ្ទុក និងការពារគ្រប់សមាសធាតុផ្នែករឹងនៃកុំ",
+          "intro": "ព្យូទ័រដូចជា Motherboard, CPU, GPU, PSU និងឧបករណ៍ផ្ទុកទិន្ន័យ។ វាមិនត្រឹឹមតែផ្តល់ការ ការពារប៉ុណ្ ណោះទេ ថែមទាំំងជួយរៀរៀបចំខ្សែ និងបង្កើនលំហូរខ្យល់សម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 23",
+          "body": "Case ឬ ស៊ុមកុំព្យូទ័រ (Chassis) គឺជារចនាសម្ព័័ន្ធដែលផ្ទុក និងការពារគ្រប់សមាសធាតុផ្នែករឹងនៃកុំ\nព្យូទ័រដូចជា Motherboard, CPU, GPU, PSU និងឧបករណ៍ផ្ទុកទិន្ន័យ។ វាមិនត្រឹឹមតែផ្តល់ការ\nការពារប៉ុណ្\nណោះទេ ថែមទាំំងជួយរៀរៀបចំខ្សែ និងបង្កើនលំហូរខ្យល់សម្\nរាប់ប្រព័ន្ធត្រជាក់។ ផ្នែកនេះះណែនាំំ\nអំពី Case, ប្រភេទរបស់វា, និងមុខងារពិសេស។\n8.1. ទិដ្ឋភាពទូទៅ: Overview - Houses All Components",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 23",
+            "Case ឬ ស៊ុមកុំព្យូទ័រ (Chassis) គឺជារចនាសម្ព័័ន្ធដែលផ្ទុក និងការពារគ្រប់សមាសធាតុ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-components-of-computer-page-24",
+          "label": "PDF 24. Case គឺជាសំបកខាងក្រៅនៃកុំព្យូទ័រដែលផ្ទុកគ្រប់សមាសធាតុផ្នែករឹងនៅក្នុងទីតាំំងសុវត្ថិិភាពមួយ។ វាការពារ",
+          "heading": "Case គឺជាសំបកខាងក្រៅនៃកុំព្យូទ័រដែលផ្ទុកគ្រប់សមាសធាតុផ្នែករឹងនៅក្នុងទីតាំំងសុវត្ថិិភាពមួយ។ វាការពារ",
+          "intro": "សមាសធាតុពីធូលី, ការប៉ះទង្គិិច, និងការរំខានខាងក្រៅ ព្រមទាំំងផ្តល់កន្លែងសម្ រាប់ដំឡើងកង្ហារ ឬប្រព័ន្ធត្រជាក់។ Case ក៏ជួយរៀរៀបចំខ្សែភ្លើងឱ្យមានសណ្តាប់ធ្នាប់ និងបង្កើនសោភ័ណភាពនៃកុំព្យូទ័រ។",
+          "bodyHeading": "Source content · component_computer.pdf · page 24",
+          "body": "Case គឺជាសំបកខាងក្រៅនៃកុំព្យូទ័រដែលផ្ទុកគ្រប់សមាសធាតុផ្នែករឹងនៅក្នុងទីតាំំងសុវត្ថិិភាពមួយ។ វាការពារ\nសមាសធាតុពីធូលី, ការប៉ះទង្គិិច, និងការរំខានខាងក្រៅ ព្រមទាំំងផ្តល់កន្លែងសម្\nរាប់ដំឡើងកង្ហារ ឬប្រព័ន្ធត្រជាក់។\nCase ក៏ជួយរៀរៀបចំខ្សែភ្លើងឱ្យមានសណ្តាប់ធ្នាប់ និងបង្កើនសោភ័ណភាពនៃកុំព្យូទ័រ។\nការជ្រើសរើស Case ដ៏ល្អមួយអាចប៉ះពាល់ដល់ភាពងាយស្រួួ\nលនៃការដំឡើង និងប្រសិទ្ធភាពនៃការត្រជាក់។\n8.2. ប្រភេទ: Types - ATX, Micro-ATX, Mini-ITX",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 24",
+            "Case គឺជាសំបកខាងក្រៅនៃកុំព្យូទ័រដែលផ្ទុកគ្រប់សមាសធាតុផ្នែករឹងនៅក្នុងទីតាំំងសុវត្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-components-of-computer-page-25",
+          "label": "PDF 25. Case មានទំហំ និងប្រភេទផ្សេងៗគ្នាដែលត្រូូវគ្នានឹងទំហំរបស់ Motherboard។ ប្រភេទទូទៅរួមមាន:",
+          "heading": "Case មានទំហំ និងប្រភេទផ្សេងៗគ្នាដែលត្រូូវគ្នានឹងទំហំរបស់ Motherboard។ ប្រភេទទូទៅរួមមាន:",
+          "intro": "ATX: Case ទំហំធំបំផុត សមស្រ បសម្ រាប់ Motherboard ATX និងប្រព័ន្ធដែលមានសមាសធាតុច្រើន។",
+          "bodyHeading": "Source content · component_computer.pdf · page 25",
+          "body": "Case មានទំហំ និងប្រភេទផ្សេងៗគ្នាដែលត្រូូវគ្នានឹងទំហំរបស់ Motherboard។ ប្រភេទទូទៅរួមមាន:\nATX: Case ទំហំធំបំផុត សមស្រ\nបសម្\nរាប់ Motherboard ATX និងប្រព័ន្ធដែលមានសមាសធាតុច្រើន។\nMicro-ATX: Case ទំហំមធ្យម សម្\nរាប់ Motherboard Micro-ATX ដែលតូចជាង ATX ប៉ុន្តែនៅតែ\nមានកន្លែងគ្រប់គ្\nរាន់។\nMini-ITX: Case ទំហំតូចបំផុត សម្\nរាប់ Motherboard Mini-ITX ដែលសមស្រ\nបសម្\nរាប់កុំព្យូទ័រតូច ឬ\nចល័ត។\nការជ្រើសរើសប្រភេទ Case អាស្រ័័\nយលើទំហំ Motherboard និងគោលបំណងនៃការប្រើប្\nរាស់កុំព្យូទ័រ។\n8.3. មុខងារពិសេស: Features - Fans, RGB Lighting, Dust\nFilters\nCase ទំនើបៗជាច្រើនភ្ជាប់មកជាមួយមុខងារបន្ថែមដើម្បីីបង្កើនអត្ថន័យ និងសោភ័ណភាព។ មុខងារទូទៅរួមមាន:\nFans: កង្ហារដែលដំឡើងជាមួយ Case ដើម្បីីជួយបញ្\nចេញកម្តៅ និងបង្កើនលំហូរខ្យល់។\nRGB Lighting: ភ្លើងបំភ្លឺឺពណ៌ចម្រុះដែលអាចប្ដូរតាមបំណង ដើម្បីីបង្កើនសោភ័ណភាពនៃកុំព្យូទ័រ។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 25",
+            "Case មានទំហំ និងប្រភេទផ្សេងៗគ្នាដែលត្រូូវគ្នានឹងទំហំរបស់ Motherboard។ ប្រភេទទូទៅ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-26",
+          "label": "PDF 26. Dust Filters: តម្រងធូលីដែលការពារធូលីចូលទៅក្នុង Case និងរក្សាសមាសធាតុឱ្យស្អាត។",
+          "heading": "Dust Filters: តម្រងធូលីដែលការពារធូលីចូលទៅក្នុង Case និងរក្សាសមាសធាតុឱ្យស្អាត។",
+          "intro": "មុខងារទាំំងនេះះធ្វើឱ្យ Case មានប្រយោជន៍មិនត្រឹឹមតែសម្ រាប់ការការពារប៉ុណ្ ណោះទេ ថែមទាំំងបង្កើនភាពងាយស្រួួ",
+          "bodyHeading": "Source content · component_computer.pdf · page 26",
+          "body": "Dust Filters: តម្រងធូលីដែលការពារធូលីចូលទៅក្នុង Case និងរក្សាសមាសធាតុឱ្យស្អាត។\nមុខងារទាំំងនេះះធ្វើឱ្យ Case មានប្រយោជន៍មិនត្រឹឹមតែសម្\nរាប់ការការពារប៉ុណ្\nណោះទេ ថែមទាំំងបង្កើនភាពងាយស្រួួ\nល\nនិងរូបរាងទាន់សម័យ។\n9. Input & Output (I/O) Devices - ឧបករណ៍\nបញ្ចូល និងបញ្\nចេញ\nInput & Output (I/O) Devices ឬ ឧបករណ៍បញ្ចូល និងបញ្\nចេញ គឺជាឧបករណ៍ដែលអនុញ្ញាតឱ្យ\nអ្នកប្រើប្\nរាស់ធ្វើអន្តរកម្មជាមួយកុំព្យូទ័រ។ ឧបករណ៍បញ្ចូលជួយផ្ញើទិន្ន័យទៅកុំព្យូទ័រ ចំណែកឧបករណ៍\nបញ្\nចេញបង្ហាញ ឬបញ្ជូនលទ្ធផលពីកុំព្យូទ័រទៅអ្នកប្រើប្\nរាស់។ ផ្នែកនេះះណែនាំំអំពីប្រភេទនៃឧបករណ៍\nបញ្ចូល និងបញ្\nចេញដែលប្រើជាទូទៅ។\n9.1. ឧបករណ៍បញ្ចូល: Input Devices - Keyboard, Mouse,\nWebcam, Microphone",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 26",
+            "Dust Filters: តម្រងធូលីដែលការពារធូលីចូលទៅក្នុង Case និងរក្សាសមាសធាតុឱ្យស្អាត។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-components-of-computer-page-27",
+          "label": "PDF 27. Source lesson page 27",
+          "heading": "Source lesson page 27",
+          "intro": "ឧបករណ៍បញ្ចូលគឺជាឧបករណ៍ដែលអនុញ្ញាតឱ្យអ្នកបញ្ជូនព័ត៌មាន ឬពាក្យបញ្ជាទៅកាន់កុំព្យូទ័រ។ វាមានសារៈសំខាន់ សម្ រាប់ការប្រើប្",
+          "bodyHeading": "Source content · component_computer.pdf · page 27",
+          "body": "ឧបករណ៍បញ្ចូលគឺជាឧបករណ៍ដែលអនុញ្ញាតឱ្យអ្នកបញ្ជូនព័ត៌មាន ឬពាក្យបញ្ជាទៅកាន់កុំព្យូទ័រ។ វាមានសារៈសំខាន់\nសម្\nរាប់ការប្រើប្\nរាស់ប្រចាំំថ្ងៃ ដូចជាការវាយអក្សរ ការចុច ឬការថតសំឡេង។ ឧទាហរណ៍ទូទៅរួមមាន:\nKeyboard: ឧបករណ៍សម្\nរាប់វាយអក្សរ និងបញ្ចូលទិន្ន័យអត្ថបទទៅក្នុងកុំព្យូទ័រ។\nMouse: ឧបករណ៍ចង្អុលដែលប្រើសម្\nរាប់ចុច និងគ្រប់គ្រងចំណុចប្រទាក់នៅលើអេក្រង់។\nWebcam: កាមេរ៉ាដែលថតរូបភាព ឬវីដេអូសម្\nរាប់ការហៅជាវីដេអូ ឬការផ្សាយផ្ទាល់។\nMicrophone: ឧបករណ៍សម្\nរាប់ថតសំឡេង ឬបញ្ចូលសំឡេងទៅក្នុងកុំព្យូទ័រ។\nឧបករណ៍ទាំំងនេះះជួយឱ្យអ្នកធ្វើការជាមួយកុំព្យូទ័រ និងធ្វើអន្តរកម្មជាមួយកម្មវិធីបានយ៉ាងងាយស្រួួ\nល។\n9.2. ឧបករណ៍បញ្\nចេញ: Output Devices - Monitor, Printer,\nSpeakers, Headphones",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 27",
+            "Source lesson page 27"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-components-of-computer-page-28",
+          "label": "PDF 28. Expansion Cards ឬ កាតពង្រីីក គឺជាសមាសធាតុផ្នែករឹងដែលបន្ថែមមុខងារបន្ថែមទៅកុំព្យូទ័រ។",
+          "heading": "Expansion Cards ឬ កាតពង្រីីក គឺជាសមាសធាតុផ្នែករឹងដែលបន្ថែមមុខងារបន្ថែមទៅកុំព្យូទ័រ។",
+          "intro": "ឧបករណ៍បញ្ ចេញគឺជាឧបករណ៍ដែលទទួលទិន្ន័យពីកុំព្យូទ័រ ហើយបង្ហាញ ឬបញ្ជូនវាទៅអ្នកប្រើប្ រាស់ក្នុងទម្រង់",
+          "bodyHeading": "Source content · component_computer.pdf · page 28",
+          "body": "ឧបករណ៍បញ្\nចេញគឺជាឧបករណ៍ដែលទទួលទិន្ន័យពីកុំព្យូទ័រ ហើយបង្ហាញ ឬបញ្ជូនវាទៅអ្នកប្រើប្\nរាស់ក្នុងទម្រង់\nដែលអាចយល់បាន ដូចជារូបភាព, សំឡេង, ឬឯកសារបោះពុម្ព។ ឧទាហរណ៍ទូទៅរួមមាន:\nMonitor: អេក្រង់ដែលបង្ហាញរូបភាព និងវីដេអូពីកុំព្យូទ័រ ដែលជាឧបករណ៍បញ្\nចេញចម្បង។\nPrinter: ឧបករណ៍ដែលបោះពុម្ពឯកសារ ឬរូបភាពទៅលើក្រដាស។\nSpeakers: ឧបករណ៍បញ្\nចេញសំឡេងសម្\nរាប់ការស្តាប់តន្ត្រីី ឬសំឡេងពីកម្មវិធី។\nHeadphones: ឧបករណ៍ស្តាប់សំឡេងផ្ទាល់ខ្លួនដែលភ្ជាប់ទៅកុំព្យូទ័រ។\nឧបករណ៍ទាំំងនេះះធ្វើឱ្យអ្នកអាចមើលឃើញ ឬស្តាប់លទ្ធផលនៃការងាររបស់កុំព្យូទ័រ ដែលជួយបំពេញបទពិសោធន៍នៃ\nការប្រើប្\nរាស់។\n10. Expansion Cards - កាតពង្រីីក\nExpansion Cards ឬ កាតពង្រីីក គឺជាសមាសធាតុផ្នែករឹងដែលបន្ថែមមុខងារបន្ថែមទៅកុំព្យូទ័រ។\nកាតទាំំងនេះះត្រូូវបានដោតចូលទៅក្នុងរន្ធពង្រីីក (expansion slots) នៅលើមេនបូដ\n(motherboard) ដើម្បីីបង្កើនសមត្ថភាពដូចជា សំឡេង បណ្តាញ ឬការថតវីដេអូ។ ផ្នែកនេះះនឹង\nណែនាំំអំពីប្រភេទនៃកាតពង្រីីកដែលប្រើជាទូទៅ។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 28",
+            "Expansion Cards ឬ កាតពង្រីីក គឺជាសមាសធាតុផ្នែករឹងដែលបន្ថែមមុខងារបន្ថែមទៅកុំព្យូទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-components-of-computer-page-29",
+          "label": "PDF 29. Sound Card ឬ កាតសំឡេង គឺជាកាតពង្រីីកដែលធ្វើអោយគុណភាពសំឡេងរបស់កុំព្យូទ័រប្រសើរឡើង។ វាត្រូូវ",
+          "heading": "Sound Card ឬ កាតសំឡេង គឺជាកាតពង្រីីកដែលធ្វើអោយគុណភាពសំឡេងរបស់កុំព្យូទ័រប្រសើរឡើង។ វាត្រូូវ",
+          "intro": "10.1. Sound Card: Enhances audio quality - កាតសំឡេង: បង្កើនគុណភាពសំឡេង បានប្រើសម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 29",
+          "body": "10.1. Sound Card: Enhances audio quality - កាតសំឡេង:\nបង្កើនគុណភាពសំឡេង\nSound Card ឬ កាតសំឡេង គឺជាកាតពង្រីីកដែលធ្វើអោយគុណភាពសំឡេងរបស់កុំព្យូទ័រប្រសើរឡើង។ វាត្រូូវ\nបានប្រើសម្\nរាប់ការលេងហ្\nគេម ការស្តាប់តន្ត្រីី ឬការផលិតសំឡេងដែលមានគុណភាពខ្ពស់។ កាតសំឡេងអាចភ្ជាប់\nជាមួយឧបករណ៍ដូចជា កាសស្តាប់ ឬប្រព័ន្ធសំឡេងខាងក្រៅ។\nឧទាហរណ៍ កាតសំឡេងដែលមានគុណភាពខ្ពស់អាចផ្តល់នូវបទពិសោធន៍សំឡេងជុំវិញ (surround sound)\nដែលធ្វើអោយអ្នកមានអារម្មណ៍ដូចជានៅក្នុងហ្\nគេម ឬភាពយន្ត។\n10.2. Network Interface Card (NIC): For wired/wireless\ninternet - កាតចំណុចប្រទាក់បណ្តាញ: សម្\nរាប់អ៊ីីនធឺណិតខ្សែ/ឥតខ្សែ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 29",
+            "Sound Card ឬ កាតសំឡេង គឺជាកាតពង្រីីកដែលធ្វើអោយគុណភាពសំឡេងរបស់កុំព្យូទ័រប្រសើរឡើង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-components-of-computer-page-30",
+          "label": "PDF 30. Network Interface Card (NIC) ឬ កាតចំណុចប្រទាក់បណ្តាញ គឺជាកាតពង្រីីកដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់",
+          "heading": "Network Interface Card (NIC) ឬ កាតចំណុចប្រទាក់បណ្តាញ គឺជាកាតពង្រីីកដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់",
+          "intro": "ទៅបណ្តាញអ៊ីីនធឺណិត ឬបណ្តាញក្នុងតំបន់ (LAN)។ វាអាចជាប្រភេទខ្សែ (wired) ដែលប្រើខ្សែ Ethernet ឬ ប្រភេទឥតខ្សែ (wireless) ដែលប្រើ Wi-Fi។ NIC មានសារៈសំខាន់សម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 30",
+          "body": "Network Interface Card (NIC) ឬ កាតចំណុចប្រទាក់បណ្តាញ គឺជាកាតពង្រីីកដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់\nទៅបណ្តាញអ៊ីីនធឺណិត ឬបណ្តាញក្នុងតំបន់ (LAN)។ វាអាចជាប្រភេទខ្សែ (wired) ដែលប្រើខ្សែ Ethernet ឬ\nប្រភេទឥតខ្សែ (wireless) ដែលប្រើ Wi-Fi។\nNIC មានសារៈសំខាន់សម្\nរាប់ការភ្ជាប់អ៊ីីនធឺណិតល្\nបឿនលឿលឿន និងស្ថិិរភាព ជាពិសេសសម្\nរាប់ការងារដែលត្រូូវការ\nទិន្ន័យច្រើនដូចជា ការផ្សាយផ្ទាល់ ឬការលេងហ្\nគេមអនឡាញ។\n10.3. Capture Card: For video recording/streaming - កាត\nចាប់យក: សម្\nរាប់ការថត/ផ្សាយវីដេអូ\nCapture Card ឬ កាតចាប់យក គឺជាកាតពង្រីីកដែលប្រើសម្\nរាប់ថត ឬផ្សាយវីដេអូពីឧបករណ៍ផ្សេងទៀទៀតទៅកុំ\nព្យូទ័រ។ វាត្រូូវបានប្រើជាទូទៅដោយអ្នកបង្កើតមាតិកា (content creators) ឬអ្នកលេងហ្\nគេមដែលចង់\nចែករំលែកអេក្រង់របស់ពួកគេ។\nឧទាហរណ៍ កាតចាប់យកអាចភ្ជាប់ទៅកុងសូលហ្\nគេម (game console) ដូចជា PlayStation ឬ Xbox\nដើម្បីីថតការលេងហ្\nគេម ឬផ្សាយផ្ទាល់ទៅកាន់វេទិកាដូចជា YouTube ឬ Twitch។\n11. Optical Drives (Legacy/Optional) -\nដ្\nរាយអុបទិក (បច្ចេកវិទ្យាចាស់/ជាជម្រើស)",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 30",
+            "Network Interface Card (NIC) ឬ កាតចំណុចប្រទាក់បណ្តាញ គឺជាកាតពង្រីីកដែលអនុញ្ញាតឱ្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-31",
+          "label": "PDF 31. Optical Drives ឬ ដ្",
+          "heading": "Optical Drives ឬ ដ្",
+          "intro": "រាយអុបទិក គឺជាឧបករណ៍ផ្នែករឹងដែលប្រើសម្ រាប់អាន និងសរសេរទិន្ន័យ ទៅលើឌីសអុបទិកដូចជា CD, DVD ឬ Blu-ray។ ទោះបីជាបច្ចុប្បន្នេះះវាត្រូូវបានចាត់ទុកជា",
+          "bodyHeading": "Source content · component_computer.pdf · page 31",
+          "body": "Optical Drives ឬ ដ្\nរាយអុបទិក គឺជាឧបករណ៍ផ្នែករឹងដែលប្រើសម្\nរាប់អាន និងសរសេរទិន្ន័យ\nទៅលើឌីសអុបទិកដូចជា CD, DVD ឬ Blu-ray។ ទោះបីជាបច្ចុប្បន្នេះះវាត្រូូវបានចាត់ទុកជា\nបច្ចេកវិទ្យាចាស់ (legacy) និងជាជម្រើសបន្ថែមក៏ដោយ វានៅតែមានប្រយោជន៍សម្\nរាប់ការងារមួយ\nចំនួនដូចជា ការដំឡើងកម្មវិធី ឬការចម្លងទិន្ន័យ។ ផ្នែកនេះះនឹងណែនាំំអំពីប្រភេទនៃដ្\nរាយអុបទិក។\n11.1. CD/DVD/Blu-ray Drives: For reading/writing discs -\nដ្\nរាយ CD/DVD/Blu-ray: សម្\nរាប់អាន/សរសេរឌីស",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 31",
+            "Optical Drives ឬ ដ្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-components-of-computer-page-32",
+          "label": "PDF 32. DVD Drives: អាន និងសរសេរ Digital Versatile Discs (DVDs) ដែលអាចផ្ទុកទិន្ន័យបានច្រើនជាង",
+          "heading": "DVD Drives: អាន និងសរសេរ Digital Versatile Discs (DVDs) ដែលអាចផ្ទុកទិន្ន័យបានច្រើនជាង",
+          "intro": "CD/DVD/Blu-ray Drives គឺជាប្រភេទនៃដ្ រាយអុបទិកដែលអនុញ្ញាតឱ្យអ្នកអានទិន្ន័យពីឌីស ឬសរសេរ ទិន្ន័យទៅលើឌីសទាំំងនេះះ។ ដ្",
+          "bodyHeading": "Source content · component_computer.pdf · page 32",
+          "body": "CD/DVD/Blu-ray Drives គឺជាប្រភេទនៃដ្\nរាយអុបទិកដែលអនុញ្ញាតឱ្យអ្នកអានទិន្ន័យពីឌីស ឬសរសេរ\nទិន្ន័យទៅលើឌីសទាំំងនេះះ។ ដ្\nរាយទាំំងនេះះប្រើបច្ចេកវិទ្យាឡាស៊\nែរដើម្បីីអាន និងសរសេរទិន្ន័យ ហើយមានសមត្ថ\nភាពខុសៗគ្នាអាស្រ័័\nយលើប្រភេទឌីស។\nCD Drives: អាន និងសរសេរ Compact Discs (CDs) ដែលអាចផ្ទុកទិន្ន័យបានប្រហែល 700 MB។\nDVD Drives: អាន និងសរសេរ Digital Versatile Discs (DVDs) ដែលអាចផ្ទុកទិន្ន័យបានច្រើនជាង\nCD ប្រហែល 4.7 GB ឬច្រើនជាងនេះះ។\nBlu-ray Drives: អាន និងសរសេរ Blu-ray Discs ដែលមានសមត្ថភាពផ្ទុកទិន្ន័យខ្ពស់ជាង (25 GB\nឬ 50 GB) និងគាំំទ្រវីដេអូគុណភាព HD។\nទោះបីជាការប្រើប្\nរាស់ USB drives និងការទាញយកឌីជីថលកាន់តែមានប្រជាប្រិិយភាព ដ្\nរាយអុបទិកនៅតែត្រូូវ\nបានប្រើសម្\nរាប់ការងារដូចជា ការមើលភាពយន្តចាស់ៗ ឬការបម្រុុងទុកទិន្ន័យ (backup) នៅលើឌីស។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 32",
+            "DVD Drives: អាន និងសរសេរ Digital Versatile Discs (DVDs) ដែលអាចផ្ទុកទិន្ន័យបានច្រ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-components-of-computer-page-33",
+          "label": "PDF 33. Networking Components ឬ សមាសធាតុបណ្តាញ គឺជាឧបករណ៍ ឬផ្នែករឹងដែលប្រើសម្",
+          "heading": "Networking Components ឬ សមាសធាតុបណ្តាញ គឺជាឧបករណ៍ ឬផ្នែករឹងដែលប្រើសម្",
+          "intro": "12. Networking Components - សមាសធាតុ បណ្តាញ រាប់",
+          "bodyHeading": "Source content · component_computer.pdf · page 33",
+          "body": "12. Networking Components - សមាសធាតុ\nបណ្តាញ\nNetworking Components ឬ សមាសធាតុបណ្តាញ គឺជាឧបករណ៍ ឬផ្នែករឹងដែលប្រើសម្\nរាប់\nភ្ជាប់កុំព្យូទ័រទៅបណ្តាញអ៊ីីនធឺណិត ឬបណ្តាញក្នុងតំបន់ (LAN)។ សមាសធាតុទាំំងនេះះជួយឱ្យអ្នកអាច\nផ្ទេរទិន្ន័យ ចែករំលែកធនធាន និងចូលប្រើអ៊ីីនធឺណិតបាន។ ផ្នែកនេះះនឹងណែនាំំអំពីសមាសធាតុ\nបណ្តាញសំខាន់ៗដែលប្រើជាទូទៅ។\n12.1. Wi-Fi Card: For wireless connectivity - កាត Wi-Fi:\nសម្\nរាប់ការតភ្ជាប់ឥតខ្សែ",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 33",
+            "Networking Components ឬ សមាសធាតុបណ្តាញ គឺជាឧបករណ៍ ឬផ្នែករឹងដែលប្រើសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-components-of-computer-page-34",
+          "label": "PDF 34. Wi-Fi Card ឬ កាត Wi-Fi គឺជាសមាសធាតុបណ្តាញដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់ទៅបណ្តាញអ៊ីីនធឺណិតដោយ",
+          "heading": "Wi-Fi Card ឬ កាត Wi-Fi គឺជាសមាសធាតុបណ្តាញដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់ទៅបណ្តាញអ៊ីីនធឺណិតដោយ",
+          "intro": "ឥតខ្សែ។ វាត្រូូវបានដំឡើងនៅក្នុងកុំព្យូទ័រ (ជាកាតពង្រីីក ឬ USB) និងប្រើសញ្ញាវិទ្យុដើម្បីីទំនាក់ទំនងជាមួយរ៉ោតទ័រ (router)។ កាត Wi-Fi មានសារៈសំខាន់សម្",
+          "bodyHeading": "Source content · component_computer.pdf · page 34",
+          "body": "Wi-Fi Card ឬ កាត Wi-Fi គឺជាសមាសធាតុបណ្តាញដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់ទៅបណ្តាញអ៊ីីនធឺណិតដោយ\nឥតខ្សែ។ វាត្រូូវបានដំឡើងនៅក្នុងកុំព្យូទ័រ (ជាកាតពង្រីីក ឬ USB) និងប្រើសញ្ញាវិទ្យុដើម្បីីទំនាក់ទំនងជាមួយរ៉ោតទ័រ\n(router)។\nកាត Wi-Fi មានសារៈសំខាន់សម្\nរាប់ឧបករណ៍ចល័តដូចជា កុំព្យូទ័រយួរដៃ ឬកុំព្យូទ័រដែលមិនមានខ្សែភ្ជាប់។\nឧទាហរណ៍ វាអនុញ្ញាតឱ្យអ្នកប្រើអ៊ីីនធឺណិតនៅហាងកាហ្\nវេ ឬកន្លែងសាធារណៈដែលមាន Wi-Fi។\n12.2. Ethernet Cable: Wired internet connection - ខ្សែ\nEthernet: ការតភ្ជាប់អ៊ីីនធឺណិតខ្សែ\nEthernet Cable ឬ ខ្សែ Ethernet គឺជាខ្សែបណ្តាញដែលប្រើសម្\nរាប់ភ្ជាប់កុំព្យូទ័រទៅរ៉ោតទ័រ ឬម៉ូដឹម\n(modem) ដើម្បីីចូលប្រើអ៊ីីនធឺណិតតាមរយៈការតភ្ជាប់ខ្សែ។ វាផ្តល់នូវការតភ្ជាប់ដែលមានស្ថិិរភាព និងល្\nបឿនលឿលឿន\nជាង Wi-Fi ជាទូទៅ។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 34",
+            "Wi-Fi Card ឬ កាត Wi-Fi គឺជាសមាសធាតុបណ្តាញដែលអនុញ្ញាតឱ្យកុំព្យូទ័រភ្ជាប់ទៅបណ្តាញអ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-components-of-computer-page-35",
+          "label": "PDF 35. Router និង Modem ឬ រ៉ោតទ័រ និងម៉ូដឹម គឺជាឧបករណ៍សំខាន់សម្",
+          "heading": "Router និង Modem ឬ រ៉ោតទ័រ និងម៉ូដឹម គឺជាឧបករណ៍សំខាន់សម្",
+          "intro": "ខ្សែ Ethernet ត្រូូវបានប្រើជាញឹកញាប់សម្ រាប់ការងារដែលត្រូូវការអ៊ីីនធឺណិតគួរឱ្យទុកចិត្ត ដូចជា ការលេង ហ្",
+          "bodyHeading": "Source content · component_computer.pdf · page 35",
+          "body": "ខ្សែ Ethernet ត្រូូវបានប្រើជាញឹកញាប់សម្\nរាប់ការងារដែលត្រូូវការអ៊ីីនធឺណិតគួរឱ្យទុកចិត្ត ដូចជា ការលេង\nហ្\nគេមអនឡាញ ឬការផ្ទេរឯកសារធំៗ។ ប្រភេទខ្សែទូទៅរួមមាន Cat5, Cat6 និង Cat7 ដែលមានល្\nបឿន និងគុណ\nភាពខុសៗគ្នា។\n12.3. Router/Modem: For internet access - រ៉ោតទ័រ/ម៉ូដឹម:\nសម្\nរាប់ចូលប្រើអ៊ីីនធឺណិត\nRouter និង Modem ឬ រ៉ោតទ័រ និងម៉ូដឹម គឺជាឧបករណ៍សំខាន់សម្\nរាប់ភ្ជាប់បណ្តាញអ៊ីីនធឺណិត។ Modem\nបម្លែងសញ្ញាពីអ្នកផ្តល់សេវាអ៊ីីនធឺណិត (ISP) ទៅជាទម្រង់ដែលកុំព្យូទ័រអាចប្រើបាន ចំណែក Router ចែកចាយ\nសញ្ញានោះទៅឧបករណ៍ជាច្រើនតាមរយៈ Wi-Fi ឬខ្សែ Ethernet។\nឧទាហរណ៍ នៅក្នុងផ្ទះមួយ ម៉ូដឹមភ្ជាប់ទៅខ្សែអ៊ីីនធឺណិតពី ISP ហើយរ៉ោតទ័រផ្តល់អ៊ីីនធឺណិតទៅទូរស័ព្ទ កុំព្យូទ័រ និង\nឧបករណ៍ផ្សេងទៀទៀត។ ឧបករណ៍ទាំំងនេះះច្រើនតែរួមបញ្ចូលគ្នាជាឯកតាតែមួយ (modem-router combo)\nសម្\nរាប់ភាពងាយស្រួួ\nល។\n13. BIOS/UEFI Firmware - កម្មវិធីបង្កប់\nBIOS/UEFI",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 35",
+            "Router និង Modem ឬ រ៉ោតទ័រ និងម៉ូដឹម គឺជាឧបករណ៍សំខាន់សម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-components-of-computer-page-36",
+          "label": "PDF 36. Source lesson page 36",
+          "heading": "Source lesson page 36",
+          "intro": "BIOS/UEFI Firmware ឬ កម្មវិធីបង្កប់ BIOS/UEFI គឺជាកម្មវិធីកម្រិិតទាប (low-level software) ដែលដំណើរការនៅលើកុំព្យូទ័រដើម្បីីចាប់ផ្តើម (boot) និងគ្រប់គ្រងផ្នែករឹងមុនពេលប្រព័ន្ធ ប្រតិបត្តិិការ (operating system) ចាប់ផ្តើម។ វាដើរតួនាទីសំខាន់ក្នុងការតភ្ជាប់រវាងផ្នែករឹង និង",
+          "bodyHeading": "Source content · component_computer.pdf · page 36",
+          "body": "BIOS/UEFI Firmware ឬ កម្មវិធីបង្កប់ BIOS/UEFI គឺជាកម្មវិធីកម្រិិតទាប (low-level\nsoftware) ដែលដំណើរការនៅលើកុំព្យូទ័រដើម្បីីចាប់ផ្តើម (boot) និងគ្រប់គ្រងផ្នែករឹងមុនពេលប្រព័ន្ធ\nប្រតិបត្តិិការ (operating system) ចាប់ផ្តើម។ វាដើរតួនាទីសំខាន់ក្នុងការតភ្ជាប់រវាងផ្នែករឹង និង\nកម្មវិធី។ ផ្នែកនេះះនឹងណែនាំំអំពី BIOS និង UEFI ដែលជាបច្ចេកវិទ្យាទំនើបជំនាន់ថ្មីី។\n13.1. Overview: Low: Low-level software that initializes\nhardware during boot - ទិដ្ឋភាពទូទៅ: កម្មវិធីកម្រិិតទាបដែលចាប់\nផ្តើមផ្នែករឹងអំឡុងពេលបើកម៉ាស៊ីីន",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 36",
+            "Source lesson page 36"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-components-of-computer-page-37",
+          "label": "PDF 37. BIOS (Basic Input/Output System) និង UEFI (Unified Extensible Firmware Interface)",
+          "heading": "BIOS (Basic Input/Output System) និង UEFI (Unified Extensible Firmware Interface)",
+          "intro": "គឺជាកម្មវិធីបង្កប់ដែលរក្សាទុកនៅលើបន្ទះឈីបនៅលើមេនបូដ (motherboard)។ នៅពេលអ្នកបើកកុំព្យូទ័រ កម្មវិធី នេះះនឹងចាប់ផ្តើមផ្នែករឹងដូចជា CPU, RAM, និងឧបករណ៍ផ្ទុកទិន្ន័យ ហើយបន្ទាប់មកបញ្ជូនការគ្រប់គ្រងទៅប្រព័ន្ធ ប្រតិបត្តិិការ។",
+          "bodyHeading": "Source content · component_computer.pdf · page 37",
+          "body": "BIOS (Basic Input/Output System) និង UEFI (Unified Extensible Firmware Interface)\nគឺជាកម្មវិធីបង្កប់ដែលរក្សាទុកនៅលើបន្ទះឈីបនៅលើមេនបូដ (motherboard)។ នៅពេលអ្នកបើកកុំព្យូទ័រ កម្មវិធី\nនេះះនឹងចាប់ផ្តើមផ្នែករឹងដូចជា CPU, RAM, និងឧបករណ៍ផ្ទុកទិន្ន័យ ហើយបន្ទាប់មកបញ្ជូនការគ្រប់គ្រងទៅប្រព័ន្ធ\nប្រតិបត្តិិការ។\nBIOS ជាបច្ចេកវិទ្យាចាស់ដែលមានដែនកំណត់ ចំណែក UEFI ជាកំណែទំនើបដែលគាំំទ្រមុខងារបន្ថែមដូចជា ការ\nចាប់ផ្តើមលឿលឿនជាងមុន ចំណុចប្រទាក់ក្\nរាហ្វិិក និងសុវត្ថិិភាពកាន់តែប្រសើរ។ ឧទាហរណ៍ UEFI អាចគាំំទ្រដ្\nរាយផ្ទុក\nទំហំធំជាង 2TB ដែល BIOS មិនអាចធ្វើបាន។\n14. Cables & Connectors - ខ្សែ និងឧបករណ៍ភ្ជាប់\nCables & Connectors ឬ ខ្សែ និងឧបករណ៍ភ្ជាប់ គឺជាសមាសធាតុសំខាន់ដែលប្រើសម្\nរាប់ភ្ជាប់\nផ្នែករឹងនានារបស់កុំព្យូទ័រ ដើម្បីីផ្គត់ផ្គង់ថាមពល ឬផ្ទេរទិន្ន័យ។ ខ្សែទាំំងនេះះមានតួនាទីផ្សេងៗគ្នា ដូចជា\nការផ្តល់ថាមពលអគ្គិិសនី ឬការតភ្ជាប់ទៅឧបករណ៍បញ្\nចេញដូចជាម៉ូនីទ័រ។ ផ្នែកនេះះនឹងណែនាំំអំពីប្រភេទ\nខ្សែ និងឧបករណ៍ភ្ជាប់ដែលប្រើជាទូទៅ។\n14.1. Power Cables: 24-pin ATX, 8-pin CPU, PCIe - ខ្សែ\nថាមពល: 24-pin ATX, 8-pin CPU, PCIe",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 37",
+            "BIOS (Basic Input/Output System) និង UEFI (Unified Extensible Firmware Interface"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-components-of-computer-page-38",
+          "label": "PDF 38. Power Cables ឬ ខ្សែថាមពល គឺជាខ្សែដែលប្រើសម្",
+          "heading": "Power Cables ឬ ខ្សែថាមពល គឺជាខ្សែដែលប្រើសម្",
+          "intro": "រាប់ផ្គត់ផ្គង់ថាមពលអគ្គិិសនីពីប្រភពថាមពល (power supply) ទៅកាន់សមាសធាតុផ្នែករឹងផ្សេងៗនៅក្នុងកុំព្យូទ័រ។ ខ្សែទាំំងនេះះមានប្រភេទផ្សេងៗគ្នាអាស្រ័័ យលើ",
+          "bodyHeading": "Source content · component_computer.pdf · page 38",
+          "body": "Power Cables ឬ ខ្សែថាមពល គឺជាខ្សែដែលប្រើសម្\nរាប់ផ្គត់ផ្គង់ថាមពលអគ្គិិសនីពីប្រភពថាមពល (power\nsupply) ទៅកាន់សមាសធាតុផ្នែករឹងផ្សេងៗនៅក្នុងកុំព្យូទ័រ។ ខ្សែទាំំងនេះះមានប្រភេទផ្សេងៗគ្នាអាស្រ័័\nយលើ\nឧបករណ៍ដែលត្រូូវភ្ជាប់។\n24-pin ATX: ខ្សែថាមពលសំខាន់ដែលភ្ជាប់ប្រភពថាមពលទៅមេនបូដ (motherboard) ដើម្បីីផ្តល់\nថាមពលដល់ប្រព័ន្ធទាំំងមូល។\n8-pin CPU: ខ្សែដែលផ្តល់ថាមពលដោយផ្ទាល់ទៅកាន់ខួរក្បាល (CPU) ដើម្បីីធានាថាវាដំណើរការបានល្អ។\nPCIe: ខ្សែថាមពលសម្\nរាប់កាតក្\nរាហ្វិិក (graphics card) ដែលត្រូូវការថាមពលបន្ថែម ជាពិសេសសម្\nរាប់\nការលេងហ្\nគេម ឬការងារក្\nរាហ្វិិកធ្ងន់។\nខ្សែទាំំងនេះះធានាថាសមាសធាតុសំខាន់ៗទទួលបានថាមពលគ្រប់គ្\nរាន់សម្\nរាប់ដំណើរការ។\n14.2. Data Cables: SATA, USB, HDMI, DisplayPort - ខ្សែ\nទិន្ន័យ: SATA, USB, HDMI, DisplayPort",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 38",
+            "Power Cables ឬ ខ្សែថាមពល គឺជាខ្សែដែលប្រើសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-components-of-computer-page-39",
+          "label": "PDF 39. Data Cables ឬ ខ្សែទិន្ន័យ គឺជាខ្សែដែលប្រើសម្",
+          "heading": "Data Cables ឬ ខ្សែទិន្ន័យ គឺជាខ្សែដែលប្រើសម្",
+          "intro": "រាប់ផ្ទេរទិន្ន័យរវាងសមាសធាតុផ្នែករឹង ឬភ្ជាប់កុំព្យូទ័រទៅ ឧបករណ៍ខាងក្រៅដូចជា ម៉ូនីទ័រ ឬឧបករណ៍ផ្ទុកទិន្ន័យ។ ខ្សែទាំំងនេះះមានប្រភេទផ្សេងៗគ្នាអាស្រ័័ យលើ",
+          "bodyHeading": "Source content · component_computer.pdf · page 39",
+          "body": "Data Cables ឬ ខ្សែទិន្ន័យ គឺជាខ្សែដែលប្រើសម្\nរាប់ផ្ទេរទិន្ន័យរវាងសមាសធាតុផ្នែករឹង ឬភ្ជាប់កុំព្យូទ័រទៅ\nឧបករណ៍ខាងក្រៅដូចជា ម៉ូនីទ័រ ឬឧបករណ៍ផ្ទុកទិន្ន័យ។ ខ្សែទាំំងនេះះមានប្រភេទផ្សេងៗគ្នាអាស្រ័័\nយលើ\nគោលបំណង។\nSATA: ខ្សែដែលភ្ជាប់ឧបករណ៍ផ្ទុកទិន្ន័យដូចជា HDD ឬ SSD ទៅមេនបូដ សម្\nរាប់ផ្ទេរទិន្ន័យលឿលឿន។\nUSB: ខ្សែសម្\nរាប់ភ្ជាប់ឧបករណ៍ខាងក្រៅដូចជា ក្តារចុច កណ្តុរ ឬដ្\nរាយ USB ដែលប្រើប្\nរាស់យ៉ាងទូលំ\nទូលាយ។\nHDMI: ខ្សែដែលផ្ទេរវីដេអូ និងសំឡេងគុណភាពខ្ពស់ទៅម៉ូនីទ័រ ឬទូរទស្សន៍ សម្\nរាប់ការមើលភាពយន្ត ឬលេង\nហ្\nគេម។\nDisplayPort: ខ្សែសម្\nរាប់ផ្ទេរវីដេអូគុណភាពខ្ពស់ទៅម៉ូនីទ័រ ដែលគាំំទ្រកម្រិិតបង្ហាញខ្ពស់ជាង HDMI ក្នុង\nករណីខ្លះ។\nខ្សែទាំំងនេះះជួយឱ្យកុំព្យូទ័រទំនាក់ទំនងជាមួយឧបករណ៍ផ្សេងៗ និងបង្ហាញលទ្ធផលដល់អ្នកប្រើប្\nរាស់។\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 39",
+            "Data Cables ឬ ខ្សែទិន្ន័យ គឺជាខ្សែដែលប្រើសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-components-of-computer-page-40",
+          "label": "PDF 40. Source lesson page 40",
+          "heading": "Source lesson page 40",
+          "intro": "© 2025 CodeKhmerLearning. All Rights Reserved. តំណភ្ជាប់រហ័ស ផ្ទាំំងដើម",
+          "bodyHeading": "Source content · component_computer.pdf · page 40",
+          "body": "© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "Computer system\n|- Input\n|- Processing\n\\- Output",
+          "preview": {
+            "title": "Components Of Computer · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Components Of Computer",
+            "PDF page 40",
+            "Source lesson page 40"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "component_computer.pdf",
+          "sourcePage": 40
+        }
+      ]
+    }
+  ]
+}

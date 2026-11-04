@@ -1,0 +1,1504 @@
+{
+  "slug": "css",
+  "sourceFile": "css.pdf",
+  "pageCount": 57,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-css-page-1",
+          "label": "PDF 1. 1.1 CSS Syntax - វាក្យសម្ព័័ន្ធ CSS",
+          "heading": "1.1 CSS Syntax - វាក្យសម្ព័័ន្ធ CSS",
+          "intro": "1. CSS Syntax and Selectors - វាក្យសម្ព័័ន្ធ CSS និងការជ្រើសរើស CSS (Cascading Style Sheets) ត្រូូវបានប្រើដើម្បីីកំណត់រចនាប័ទ្ម និងប្លង់នៃទំព័រគេហទំព័រ។",
+          "bodyHeading": "Source content · css.pdf · page 1",
+          "body": "1. CSS Syntax and Selectors - វាក្យសម្ព័័ន្ធ CSS\nនិងការជ្រើសរើស\nCSS (Cascading Style Sheets) ត្រូូវបានប្រើដើម្បីីកំណត់រចនាប័ទ្ម និងប្លង់នៃទំព័រគេហទំព័រ។\nផ្នែកនេះះនឹងណែនាំំអំពីវាក្យសម្ព័័ន្ធមូលដ្ឋានរបស់ CSS និងប្រភេទនៃការជ្រើសរើស (selectors) ដែល\nប្រើដើម្បីីកំណត់គោលដៅធាតុ HTML។\n1.1 CSS Syntax - វាក្យសម្ព័័ន្ធ CSS\nវាក្យសម្ព័័ន្ធ CSS មានការជ្រើសរើស (selector) និងប្លុកប្រកាស (declaration block) ដែលមាន\nលក្ខណៈសម្បត្តិិ (property) និងតម្លៃ (value)។\nឧទាហរណ៍ HTML:\n<p>នេ\nះ\nះគឺជាអត្ថបទគំរូ។</p>\nឧទាហរណ៍ CSS:\np {\n  color: blue;\n  font-size: 16px;\n}\nការពន្យល់៖\n- p ជាការជ្រើសរើសដែលកំណត់គោលដៅធាតុ paragraph,\n- color: blue; កំណត់ពណ៌អក្សរជាខៀខៀវ,\n- font-size: 16px; កំណត់ទំហំអក្សរជា 16 ភីកសែល។\n1.2 Types of Selectors - ប្រភេទនៃការជ្រើសរើស\nCSS មានប្រភេទការជ្រើសរើសផ្សេងៗគ្នាដើម្បីីកំណត់គោលដៅធាតុ HTML យ៉ាងជាក់លាក់។\n1.2.1 Element Selector - ការជ្រើសរើសធាតុ\nការជ្រើសរើសធាតុប្រើឈ្\nមោះធាតុ HTML ដើម្បីីអនុវត្តរចនាប័ទ្មទៅលើធាតុទាំំងអស់នៃប្រភេទនោះ។\nឧទាហរណ៍ HTML:",
+          "code": "}",
+          "preview": {
+            "title": "Css · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 1",
+            "1.1 CSS Syntax - វាក្យសម្ព័័ន្ធ CSS"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-css-page-2",
+          "label": "PDF 2. 1.2.2 Class Selector - ការជ្រើសរើសតាមថ្នាក់",
+          "heading": "1.2.2 Class Selector - ការជ្រើសរើសតាមថ្នាក់",
+          "intro": "<h1>ចំណងជើងធំ</h1> ឧទាហរណ៍ CSS: h1 {",
+          "bodyHeading": "Source content · css.pdf · page 2",
+          "body": "<h1>ចំណងជើងធំ</h1>\nឧទាហរណ៍ CSS:\nh1 {\n  color: red;\n}\nការពន្យល់៖កំណត់ពណ៌ក្រហមទៅធាតុ h1 ទាំំងអស់។\n1.2.2 Class Selector - ការជ្រើសរើសតាមថ្នាក់\nការជ្រើសរើសតាមថ្នាក់ប្រើចំណុច (.) ដើម្បីីកំណត់គោលដៅធាតុដែលមានថ្នាក់ជាក់លាក់។\nឧទាហរណ៍ HTML:\n<p class=\"highlight\">អត្ថបទនេ\nះ\nះត្\nរូវបានរំលេច។</p>\nឧទាហរណ៍ CSS:\n.highlight {\n  background-color: yellow;\n}\nការពន្យល់៖កំណត់ផ្ទៃខាងក្រោយជាពណ៌លឿលឿងសម្\nរាប់ធាតុដែលមានថ្នាក់ 'highlight'។\n1.2.3 ID Selector - ការជ្រើសរើសតាម ID\nការជ្រើសរើសតាម ID ប្រើសញ្ញា (#) ដើម្បីីកំណត់គោលដៅធាតុតែមួយដែលមាន ID ជាក់លាក់។\nឧទាហរណ៍ HTML:\n<div id=\"header\">ផ្នែកក្បាលទំព័រ</div>\nឧទាហរណ៍ CSS:\n#header {\n  font-weight: bold;\n}\nការពន្យល់៖កំណត់អក្សរដិតសម្\nរាប់ធាតុដែលមាន ID 'header'។",
+          "code": "}\n}\n#header {\n}",
+          "preview": {
+            "title": "Css · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 2",
+            "1.2.2 Class Selector - ការជ្រើសរើសតាមថ្នាក់"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-css-page-3",
+          "label": "PDF 3. 1.2.4 Universal Selector - ការជ្រើសរើសទូទៅ",
+          "heading": "1.2.4 Universal Selector - ការជ្រើសរើសទូទៅ",
+          "intro": "ការជ្រើសរើសទូទៅប្រើសញ្ញា (*) ដើម្បីីអនុវត្តរចនាប័ទ្មទៅលើធាតុទាំំងអស់។ ឧទាហរណ៍ HTML: <h1>ចំណងជើង</h1>",
+          "bodyHeading": "Source content · css.pdf · page 3",
+          "body": "1.2.4 Universal Selector - ការជ្រើសរើសទូទៅ\nការជ្រើសរើសទូទៅប្រើសញ្ញា (*) ដើម្បីីអនុវត្តរចនាប័ទ្មទៅលើធាតុទាំំងអស់។\nឧទាហរណ៍ HTML:\n<h1>ចំណងជើង</h1>\n<p>អត្ថបទ</p>\nឧទាហរណ៍ CSS:\n* {\n  margin: 0;\n}\nការពន្យល់៖កំណត់គម្លាតខាងក្រៅ (margin) ជា 0 សម្\nរាប់ធាតុទាំំងអស់។\n1.2.5 Attribute Selector - ការជ្រើសរើសតាមគុណលក្ខណៈ\nការជ្រើសរើសតាមគុណលក្ខណៈប្រើតង្កៀបការ៉េ ([ ]) ដើម្បីីកំណត់គោលដៅធាតុដែលមានគុណលក្ខណៈជាក់លាក់។\nឧទាហរណ៍ HTML:\n<input type=\"text\" placeholder=\"បញ្ចូលអត្ថបទ\">\nឧទាហរណ៍ CSS:\n[type=\"text\"] {\n  border: 1px solid black;\n}\nការពន្យល់៖កំណត់ស៊ុម 1px ពណ៌ខ្មៅសម្\nរាប់ធាតុដែលមានគុណលក្ខណៈ type='text'។\n1.2.6 Pseudo-class Selectors - ការជ្រើសរើសតាមថ្នាក់ក្លែងក្លាយ\nការជ្រើសរើសតាមថ្នាក់ក្លែងក្លាយប្រើសញ្ញាកូឡុង (:) ដើម្បីីកំណត់គោលដៅស្ថានភាពជាក់លាក់នៃធាតុ។\nឧទាហរណ៍ HTML:\n<a href=\"#\">ចុចខ្ញុំំ</a>\nឧទាហរណ៍ CSS:",
+          "code": "}\n[type=\"text\"] {\n}",
+          "preview": {
+            "title": "Css · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 3",
+            "1.2.4 Universal Selector - ការជ្រើសរើសទូទៅ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-css-page-4",
+          "label": "PDF 4. 1.2.7 Pseudo-element Selectors - ការជ្រើសរើសតាមធាតុក្លែងក្លាយ",
+          "heading": "1.2.7 Pseudo-element Selectors - ការជ្រើសរើសតាមធាតុក្លែងក្លាយ",
+          "intro": "a:hover { color: green; }",
+          "bodyHeading": "Source content · css.pdf · page 4",
+          "body": "a:hover {\n  color: green;\n}\nការពន្យល់៖ផ្លាស់ប្តូរពណ៌ទៅជាបៃតងនៅពេលចង្អុលលើតំណភ្ជាប់ (link)។\n1.2.7 Pseudo-element Selectors - ការជ្រើសរើសតាមធាតុក្លែងក្លាយ\nការជ្រើសរើសតាមធាតុក្លែងក្លាយប្រើសញ្ញាកូឡុងពីរ (::) ដើម្បីីកំណត់គោលដៅផ្នែកជាក់លាក់នៃធាតុ។\nឧទាហរណ៍ HTML:\n<p>នេ\nះ\nះគឺជាបន្ទាត់ដំបូង។ នេ\nះ\nះជាបន្ទាត់ទីពីរ។</p>\nឧទាហរណ៍ CSS:\np::first-line {\n  font-weight: bold;\n}\nការពន្យល់៖កំណត់អក្សរដិតសម្\nរាប់បន្ទាត់ដំបូងនៃធាតុ paragraph។\n2. CSS Colors and Backgrounds - ពណ៌ CSS\nនិងផ្ទៃខាងក្រោយ\nCSS អនុញ្ញាតឱ្យអ្នកកំណត់ពណ៌ និងផ្ទៃខាងក្រោយសម្\nរាប់ធាតុ HTML។ ផ្នែកនេះះនឹងបង្ហាញពីវិធី\nកំណត់ពណ៌ផ្សេងៗ និងរបៀបៀបប្រើលក្ខណៈសម្បត្តិិផ្ទៃខាងក្រោយ។\n2.1 Color Values - តម្លៃពណ៌\nCSS ផ្តល់ជម្រើសជាច្រើនសម្\nរាប់កំណត់ពណ៌ ដូចជា Hexadecimal, RGB, RGBA, HSL និង HSLA។\n2.1.1 Hexadecimal - ពណ៌ជាលេខគោលដប់ប្\nរាំំមួយ\nពណ៌ Hexadecimal ប្រើកូដ 6 ខ្ទង់ដែលចាប់ផ្តើមដោយ # ដើម្បីីកំណត់ពណ៌។\nឧទាហរណ៍ HTML:",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 4",
+            "1.2.7 Pseudo-element Selectors - ការជ្រើសរើសតាមធាតុក្លែងក្លាយ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-css-page-5",
+          "label": "PDF 5. 2.1.2 RGB - ពណ៌ RGB",
+          "heading": "2.1.2 RGB - ពណ៌ RGB",
+          "intro": "<p>អត្ថបទនេ ះ ះមានពណ៌ខៀវ។</p>",
+          "bodyHeading": "Source content · css.pdf · page 5",
+          "body": "<p>អត្ថបទនេ\nះ\nះមានពណ៌ខៀវ។</p>\nឧទាហរណ៍ CSS:\np {\n  color: #0000FF;\n}\nការពន្យល់៖#0000FF ជាកូដ Hexadecimal សម្\nរាប់ពណ៌ខៀខៀវ។\n2.1.2 RGB - ពណ៌ RGB\nRGB ប្រើតម្លៃក្រហម បៃតង និងខៀខៀវ (0-255) ដើម្បីីបង្កើតពណ៌។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានពណ៌ក្រ\nហម។</p>\nឧទាហរណ៍ CSS:\np {\n  color: rgb(255, 0, 0);\n}\nការពន្យល់៖rgb(255, 0, 0) ជាពណ៌ក្រហម។\n2.1.3 RGBA - ពណ៌ RGBA\nRGBA បន្ថែមតម្លៃថ្លា (alpha) ទៅ RGB ដែលមានចន្លោះពី 0 (ថ្លា) ទៅ 1 (ស្រ\nអាប់)។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានពណ៌ខៀវថ្លា។</p>\nឧទាហរណ៍ CSS:\np {\n  color: rgba(0, 0, 255, 0.5);\n}\nការពន្យល់៖rgba(0, 0, 255, 0.5) ជាពណ៌ខៀខៀវដែលថ្លាពាក់កណ្តាល។",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 5",
+            "2.1.2 RGB - ពណ៌ RGB"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-css-page-6",
+          "label": "PDF 6. 2.1.4 HSL - ពណ៌ HSL",
+          "heading": "2.1.4 HSL - ពណ៌ HSL",
+          "intro": "HSL ប្រើ Hue (ពណ៌), Saturation (ឆ្អែត), និង Lightness (ភ្លឺឺ) ដើម្បីីកំណត់ពណ៌។ ឧទាហរណ៍ HTML: <p>អត្ថបទនេ",
+          "bodyHeading": "Source content · css.pdf · page 6",
+          "body": "2.1.4 HSL - ពណ៌ HSL\nHSL ប្រើ Hue (ពណ៌), Saturation (ឆ្អែត), និង Lightness (ភ្លឺឺ) ដើម្បីីកំណត់ពណ៌។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានពណ៌បៃតង។</p>\nឧទាហរណ៍ CSS:\np {\n  color: hsl(120, 100%, 50%);\n}\nការពន្យល់៖hsl(120, 100%, 50%) ជាពណ៌បៃតងសុទ្ធ។\n2.1.5 HSLA - ពណ៌ HSLA\nHSLA បន្ថែមតម្លៃថ្លា (alpha) ទៅ HSL ដើម្បីីគ្រប់គ្រងភាពថ្លា។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានពណ៌បៃតងថ្លា។</p>\nឧទាហរណ៍ CSS:\np {\n  color: hsla(120, 100%, 50%, 0.7);\n}\nការពន្យល់៖hsla(120, 100%, 50%, 0.7) ជាពណ៌បៃតងដែលថ្លាបន្តិិច។\n2.2 Backgrounds - ផ្ទៃខាងក្រោយ\nCSS ផ្តល់លក្ខណៈសម្បត្តិិផ្សេងៗដើម្បីីគ្រប់គ្រងផ្ទៃខាងក្រោយ ដូចជាពណ៌ រូបភាព ទីតាំំង និងទំហំ។\n2.2.1 background-color - ពណ៌ផ្ទៃខាងក្រោយ\nកំណត់ពណ៌ផ្ទៃខាងក្រោយរបស់ធាតុ។\nឧទាហរណ៍ HTML:\n<div>ផ្នែកនេ\nះ\nះមានផ្ទៃខាងក្រោយពណ៌លឿង។</div>",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 6",
+            "2.1.4 HSL - ពណ៌ HSL"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-css-page-7",
+          "label": "PDF 7. 2.2.2 background-image - រូបភាពផ្ទៃខាងក្រោយ",
+          "heading": "2.2.2 background-image - រូបភាពផ្ទៃខាងក្រោយ",
+          "intro": "  ",
+          "bodyHeading": "Source content · css.pdf · page 7",
+          "body": "\n\n\n\nឧទាហរណ៍ CSS:\ndiv {\n  background-color: yellow;\n}\nការពន្យល់៖កំណត់ផ្ទៃខាងក្រោយជាពណ៌លឿលឿង។\n2.2.2 background-image - រូបភាពផ្ទៃខាងក្រោយ\nប្រើរូបភាពជាផ្ទៃខាងក្រោយរបស់ធាតុ។\nឧទាហរណ៍ HTML:\n<div>ផ្នែកនេ\nះ\nះមានរូបភាពផ្ទៃខាងក្រោយ។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  background-image: url('https://i.pinimg.com/736x/1b/fc/e9/1bfce97a85ae\n  height: 100px;\n}\nការពន្យល់៖បន្ថែមរូបភាពជាផ្ទៃខាងក្រោយ និងកំណត់កម្ពស់ 100px ដើម្បីីឃើញផ្ទៃខាងក្រោយ។\n2.2.3 background-position - ទីតាំំងផ្ទៃខាងក្រោយ\nកំណត់ទីតាំំងរបស់រូបភាពផ្ទៃខាងក្រោយ។\nឧទាហរណ៍ HTML:\n<div>រូបភាពនៅខាងស្តាំំក្រោម។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  background-image: url('https://i.pinimg.com/736x/1b/fc/e9/1bfce97a85ae\n  background-position: right bottom;\n  height: 100px;\n}",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 7",
+            "2.2.2 background-image - រូបភាពផ្ទៃខាងក្រោយ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-css-page-8",
+          "label": "PDF 8. 2.2.4 background-repeat - ការធ្វើម្តងទៀទៀតនៃផ្ទៃខាងក្រោយ",
+          "heading": "2.2.4 background-repeat - ការធ្វើម្តងទៀទៀតនៃផ្ទៃខាងក្រោយ",
+          "intro": "  ",
+          "bodyHeading": "Source content · css.pdf · page 8",
+          "body": "\n\n\n\nការពន្យល់៖កំណត់ទីតាំំងរូបភាពផ្ទៃខាងក្រោយនៅខាងស្តាំំផ្នែកខាងក្រោម។\n2.2.4 background-repeat - ការធ្វើម្តងទៀទៀតនៃផ្ទៃខាងក្រោយ\nគ្រប់គ្រងថាតើរូបភាពផ្ទៃខាងក្រោយត្រូូវធ្វើម្តងទៀទៀតឬអត់។\nឧទាហរណ៍ HTML:\n<div>រូបភាពមិនធ្វើម្តងទៀតទេ។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  background-image: url('https://i.pinimg.com/736x/1b/fc/e9/1bfce97a85ae\n  background-repeat: no-repeat;\n  height: 100px;\n}\nការពន្យល់៖កំណត់ឱ្យរូបភាពផ្ទៃខាងក្រោយមិនធ្វើម្តងទៀទៀត។\n2.2.5 background-size - ទំហំផ្ទៃខាងក្រោយ\nកំណត់ទំហំរបស់រូបភាពផ្ទៃខាងក្រោយ។\nឧទាហរណ៍ HTML:\n<div>រូបភាពគ្រ\nបដណ្តប់ផ្ទៃខាងក្រោយទ\nាំំ\nងមូល។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  background-image: url('https://i.pinimg.com/736x/1b/fc/e9/1bfce97a85ae\n  background-size: cover;\n  height: 100px;\n}\nការពន្យល់៖កំណត់ទំហំរូបភាពផ្ទៃខាងក្រោយឱ្យគ្របដណ្តប់ទាំំងមូល។",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 8",
+            "2.2.4 background-repeat - ការធ្វើម្តងទៀទៀតនៃផ្ទៃខាងក្រោយ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-css-page-9",
+          "label": "PDF 9. 3.1 Box Model Areas - ផ្នែកនៃគំរូប្រអប់",
+          "heading": "3.1 Box Model Areas - ផ្នែកនៃគំរូប្រអប់",
+          "intro": "3. CSS Box Model - គំរូប្រអប់ CSS CSS Box Model ពន្យល់ពីរបៀបៀបដែលធាតុ HTML ត្រូូវបានបង្ហាញជាប្រអប់ ដែលមានផ្នែកផ្សេងៗ ដូចជាមាតិកា គម្លាតខាងក្នុង ស៊ុម និងគម្លាតខាងក្រៅ។ ផ្នែកនេះះនឹងរៀរៀបរាប់លម្អិិតអំពីផ្នែកទាំំងនេះះ និង",
+          "bodyHeading": "Source content · css.pdf · page 9",
+          "body": "3. CSS Box Model - គំរូប្រអប់ CSS\nCSS Box Model ពន្យល់ពីរបៀបៀបដែលធាតុ HTML ត្រូូវបានបង្ហាញជាប្រអប់ ដែលមានផ្នែកផ្សេងៗ\nដូចជាមាតិកា គម្លាតខាងក្នុង ស៊ុម និងគម្លាតខាងក្រៅ។ ផ្នែកនេះះនឹងរៀរៀបរាប់លម្អិិតអំពីផ្នែកទាំំងនេះះ និង\nការប្រើ box-sizing។\n3.1 Box Model Areas - ផ្នែកនៃគំរូប្រអប់\nគំរូប្រអប់មាន 4 ផ្នែកសំខាន់៖ មាតិកា (Content), គម្លាតខាងក្នុង (Padding), ស៊ុម (Border), និងគម្លាតខាង\nក្រៅ (Margin)។\n3.1.1 Content - មាតិកា\nមាតិកាជាផ្នែកខាងក្នុងបំផុតនៃប្រអប់ ដែលមានអត្ថបទ ឬរូបភាព និងត្រូូវបានកំណត់ដោយទទឹង (width) និង\nកម្ពស់ (height)។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះគឺជាមាតិកា។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  width: 200px;\n  height: 100px;\n  background-color: lightblue;\n}\nការពន្យល់៖កំណត់ទទឹង 200px និងកម្ពស់ 100px សម្\nរាប់មាតិកា ជាមួយផ្ទៃខាងក្រោយពណ៌ខៀខៀវស្\nរាល។\n3.1.2 Padding - គម្លាតខាងក្នុង\nគម្លាតខាងក្នុងជាចន្លោះរវាងមាតិកា និងស៊ុម ដែលបន្ថែមទំហំនៅខាងក្នុងធាតុ។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះគឺជាមាតិកាជាមួយគម្លាតខាងក្នុង។</div>\nឧទាហរណ៍ CSS:",
+          "code": "}",
+          "preview": {
+            "title": "Css · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 9",
+            "3.1 Box Model Areas - ផ្នែកនៃគំរូប្រអប់"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-css-page-10",
+          "label": "PDF 10. 3.1.3 Border - ស៊ុម",
+          "heading": "3.1.3 Border - ស៊ុម",
+          "intro": "div { width: 200px; height: 100px;",
+          "bodyHeading": "Source content · css.pdf · page 10",
+          "body": "div {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  background-color: lightgreen;\n}\nការពន្យល់៖បន្ថែមគម្លាតខាងក្នុង 20px ជុំវិញមាតិកា ជាមួយផ្ទៃខាងក្រោយពណ៌បៃតងស្\nរាល។\n3.1.3 Border - ស៊ុម\nស៊ុមជាស្រ\nទាប់នៅជុំវិញគម្លាតខាងក្នុង ដែលអាចកំណត់ទំហំ រចនាប័ទ្ម និងពណ៌។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះគឺជាមាតិកាជាមួយស៊ុម។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  border: 2px solid black;\n  background-color: lightyellow;\n}\nការពន្យល់៖បន្ថែមស៊ុម 2px ពណ៌ខ្មៅជុំវិញគម្លាតខាងក្នុង ជាមួយផ្ទៃខាងក្រោយពណ៌លឿលឿងស្\nរាល។\n3.1.4 Margin - គម្លាតខាងក្រៅ\nគម្លាតខាងក្រៅជាចន្លោះនៅខាងក្រៅស៊ុម ដែលបំបែកធាតុមួយពីធាតុផ្សេងទៀទៀត។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះគឺជាមាតិកាជាមួយគម្លាតខាងក្រៅ។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  width: 200px;\n  height: 100px;",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 10",
+            "3.1.3 Border - ស៊ុម"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-css-page-11",
+          "label": "PDF 11. 3.2 box-sizing - ការកំណត់ទំហំប្រអប់",
+          "heading": "3.2 box-sizing - ការកំណត់ទំហំប្រអប់",
+          "intro": "padding: 20px; border: 2px solid black; margin: 30px;",
+          "bodyHeading": "Source content · css.pdf · page 11",
+          "body": "padding: 20px;\n  border: 2px solid black;\n  margin: 30px;\n  background-color: lightpink;\n}\nការពន្យល់៖បន្ថែមគម្លាតខាងក្រៅ 30px ជុំវិញស៊ុម ជាមួយផ្ទៃខាងក្រោយពណ៌ផ្កាឈូកស្\nរាល។\n3.2 box-sizing - ការកំណត់ទំហំប្រអប់\nbox-sizing កំណត់ថាតើទំហំសរុបនៃធាតុរួមបញ្ចូលគម្លាតខាងក្នុង និងស៊ុមឬអត់។ តម្លៃទូទៅគឺ content-box\n(លំនាំំដើម) និង border-box។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះគឺជាមាតិកាជាមួយ box-sizing។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  width: 200px;\n  height: 100px;\n  padding: 20px;\n  border: 2px solid black;\n  box-sizing: border-box;\n  background-color: lightcoral;\n}\nការពន្យល់៖\n- box-sizing: border-box; ធ្វើឱ្យទទឹង និងកម្ពស់ 200px x 100px រួមបញ្ចូលគម្លាតខាងក្នុង និងស៊ុម,\n- ផ្ទៃខាងក្រោយជាពណ៌ផ្កាថ្មស្\nរាល។\n4. CSS Typography - ការកំណត់អក្សរ CSS\nCSS Typography គ្រប់គ្រងរូបរាង និងការរៀរៀបចំអក្សរនៅលើទំព័រគេហទំព័រ។ ផ្នែកនេះះនឹងបង្ហាញពី\nលក្ខណៈសម្បត្តិិសម្\nរាប់កំណត់ពុម្ពអក្សរ ទំហំ ការតម្រឹឹម និងការតុបតែងអក្សរ។",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 11",
+            "3.2 box-sizing - ការកំណត់ទំហំប្រអប់"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-css-page-12",
+          "label": "PDF 12. 4.1 Font Properties - លក្ខណៈសម្បត្តិិពុម្ពអក្សរ",
+          "heading": "4.1 Font Properties - លក្ខណៈសម្បត្តិិពុម្ពអក្សរ",
+          "intro": "លក្ខណៈសម្បត្តិិពុម្ពអក្សរអនុញ្ញាតឱ្យអ្នកកំណត់ប្រភេទ ទំហំ ទម្ងន់ រចនាប័ទ្ម និងគម្លាតបន្ទាត់នៃអក្សរ។ 4.1.1 font-family - ប្រភេទពុម្ពអក្សរ font-family កំណត់ប្រភេទពុម្ពអក្សរដែលប្រើសម្",
+          "bodyHeading": "Source content · css.pdf · page 12",
+          "body": "4.1 Font Properties - លក្ខណៈសម្បត្តិិពុម្ពអក្សរ\nលក្ខណៈសម្បត្តិិពុម្ពអក្សរអនុញ្ញាតឱ្យអ្នកកំណត់ប្រភេទ ទំហំ ទម្ងន់ រចនាប័ទ្ម និងគម្លាតបន្ទាត់នៃអក្សរ។\n4.1.1 font-family - ប្រភេទពុម្ពអក្សរ\nfont-family កំណត់ប្រភេទពុម្ពអក្សរដែលប្រើសម្\nរាប់អក្សរ ដោយអាចបញ្ជាក់ជម្រើសជំនួសបាន។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះប្រើពុម្ពអក្សរ Arial។</p>\nឧទាហរណ៍ CSS:\np {\n  font-family: Arial, sans-serif;\n}\nការពន្យល់៖ប្រើពុម្ពអក្សរ Arial ឬ sans-serif ជាជម្រើសជំនួសបើ Arial មិនមាន។\n4.1.2 font-size - ទំហំអក្សរ\nfont-size កំណត់ទំហំនៃអក្សរ ដែលអាចប្រើឯកតាដូចជា px, em, ឬ rem។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានទំហំ 20px។</p>\nឧទាហរណ៍ CSS:\np {\n  font-size: 20px;\n}\nការពន្យល់៖កំណត់ទំហំអក្សរជា 20 ភីកសែល។\n4.1.3 font-weight - ទម្ងន់អក្សរ\nfont-weight កំណត់ភាពដិតនៃអក្សរ ដែលអាចជាតម្លៃដូចជា normal, bold, ឬលេខ (100-900)។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានអក្សរដិត។</p>",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 12",
+            "4.1 Font Properties - លក្ខណៈសម្បត្តិិពុម្ពអក្សរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-css-page-13",
+          "label": "PDF 13. 4.1.4 font-style - រចនាប័ទ្មអក្សរ",
+          "heading": "4.1.4 font-style - រចនាប័ទ្មអក្សរ",
+          "intro": "ឧទាហរណ៍ CSS: p { font-weight: bold;",
+          "bodyHeading": "Source content · css.pdf · page 13",
+          "body": "ឧទាហរណ៍ CSS:\np {\n  font-weight: bold;\n}\nការពន្យល់៖កំណត់អក្សរឱ្យដិត។\n4.1.4 font-style - រចនាប័ទ្មអក្សរ\nfont-style កំណត់រចនាប័ទ្មអក្សរ ដូចជា normal, italic, ឬ oblique។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានអក្សរទ្រេត។</p>\nឧទាហរណ៍ CSS:\np {\n  font-style: italic;\n}\nការពន្យល់៖កំណត់អក្សរឱ្យទ្រេត (italic)។\n4.1.5 line-height - គម្លាតបន្ទាត់\nline-height កំណត់គម្លាតរវាងបន្ទាត់នៃអត្ថបទ ដែលអាចជាលេខ ឬឯកតា (px, em)។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានគម្លាតបន្ទាត់ធំ។<br>នេ\nះ\nះជាបន្ទាត់ទីពីរ។</p>\nឧទាហរណ៍ CSS:\np {\n  line-height: 2;\n}\nការពន្យល់៖កំណត់គម្លាតបន្ទាត់ជា 2 ដងនៃទំហំអក្សរលំនាំំដើម។\n4.2 Text Alignment - ការតម្រឹឹមអត្ថបទ\ntext-align កំណត់ការតម្រឹឹមអត្ថបទផ្តេក ដូចជា left, right, center, ឬ justify។",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 13",
+            "4.1.4 font-style - រចនាប័ទ្មអក្សរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-css-page-14",
+          "label": "PDF 14. 4.3 Text Decoration - ការតុបតែងអត្ថបទ",
+          "heading": "4.3 Text Decoration - ការតុបតែងអត្ថបទ",
+          "intro": "ឧទាហរណ៍ HTML: <p>អត្ថបទនេ ះ",
+          "bodyHeading": "Source content · css.pdf · page 14",
+          "body": "ឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះតម្រឹឹ\nមកណ្តាល។</p>\nឧទាហរណ៍ CSS:\np {\n  text-align: center;\n}\nការពន្យល់៖តម្រឹឹមអត្ថបទទៅកណ្តាល។\n4.3 Text Decoration - ការតុបតែងអត្ថបទ\ntext-decoration បន្ថែមការតុបតែងដូចជា underline, overline, line-through ឬ none។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះមានបន្ទាត់ក្រោម។</p>\nឧទាហរណ៍ CSS:\np {\n  text-decoration: underline;\n}\nការពន្យល់៖បន្ថែមបន្ទាត់ក្រោមអត្ថបទ។\n4.4 Text Transform - ការបំលែងអត្ថបទ\ntext-transform ផ្លាស់ប្តូរទម្រង់អក្សរ ដូចជា uppercase, lowercase, ឬ capitalize។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះជាអក្សរធំទ\nាំំ\nងអស់។</p>\nឧទាហរណ៍ CSS:\np {\n  text-transform: uppercase;\n}",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 14",
+            "4.3 Text Decoration - ការតុបតែងអត្ថបទ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-css-page-15",
+          "label": "PDF 15. 5.1 Display Property - លក្ខណៈសម្បត្តិិ Display",
+          "heading": "5.1 Display Property - លក្ខណៈសម្បត្តិិ Display",
+          "intro": "ការពន្យល់៖បំលែងអត្ថបទទៅជាអក្សរធំទាំំងអស់។ 5. CSS Layouts - ការរៀរៀបចំប្លង់ CSS CSS Layouts ផ្តល់វិធីសាស្",
+          "bodyHeading": "Source content · css.pdf · page 15",
+          "body": "ការពន្យល់៖បំលែងអត្ថបទទៅជាអក្សរធំទាំំងអស់។\n5. CSS Layouts - ការរៀរៀបចំប្លង់ CSS\nCSS Layouts ផ្តល់វិធីសាស្\nត្រផ្សេងៗដើម្បីីរៀរៀបចំធាតុនៅលើទំព័រគេហទំព័រ។ ផ្នែកនេះះនឹងរៀរៀបរាប់អំពី\nលក្ខណៈសម្បត្តិិ display, Flexbox, CSS Grid និងការកំណត់ទីតាំំង។\n5.1 Display Property - លក្ខណៈសម្បត្តិិ Display\nលក្ខណៈសម្បត្តិិ display កំណត់របៀបៀបដែលធាតុត្រូូវបានបង្ហាញ ដូចជា block, inline, inline-block ឬ\nnone។\n5.1.1 block - ប្លុក\nធាតុប្រភេទ block យកទទឹងពេញ និងចាប់ផ្តើមនៅបន្ទាត់ថ្មីី។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះជាធាតុ block។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  display: block;\n  background-color: lightblue;\n}\nការពន្យល់៖ធាតុ div យកទទឹងពេញ និងមានផ្ទៃខាងក្រោយពណ៌ខៀខៀវស្\nរាល។\n5.1.2 inline - ក្នុងជួរ\nធាតុប្រភេទ inline យកទទឹងតាមមាតិកា និងស្ថិិតនៅក្នុងបន្ទាត់ដូចគ្នា។\nឧទាហរណ៍ HTML:\n<span>នេ\nះ\nះជាធាតុ inline។</span> <span>នេ\nះ\nះជាមួយទៀត។</span>\nឧទាហរណ៍ CSS:",
+          "code": "}",
+          "preview": {
+            "title": "Css · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 15",
+            "5.1 Display Property - លក្ខណៈសម្បត្តិិ Display"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-css-page-16",
+          "label": "PDF 16. 5.1.3 inline-block - ក្នុងជួរប្លុក",
+          "heading": "5.1.3 inline-block - ក្នុងជួរប្លុក",
+          "intro": "span { display: inline; background-color: lightgreen;",
+          "bodyHeading": "Source content · css.pdf · page 16",
+          "body": "span {\n  display: inline;\n  background-color: lightgreen;\n}\nការពន្យល់៖ធាតុ span ស្ថិិតក្នុងបន្ទាត់ដូចគ្នា និងមានផ្ទៃខាងក្រោយពណ៌បៃតងស្\nរាល។\n5.1.3 inline-block - ក្នុងជួរប្លុក\nធាតុប្រភេទ inline-block ស្ថិិតក្នុងបន្ទាត់ដូចគ្នា ប៉ុន្តែអាចកំណត់ទទឹង និងកម្ពស់បាន។\nឧទាហរណ៍ HTML:\n<div>នេ\nះ\nះជាធាតុ inline-block១</div> <div>នេ\nះ\nះជាធាតុ inline-block២</div>\nឧទាហរណ៍ CSS:\ndiv {\n  display: inline-block;\n  width: 100px;\n  height: 50px;\n  background-color: lightyellow;\n}\nការពន្យល់៖ធាតុ div ស្ថិិតក្នុងបន្ទាត់ដូចគ្នា មានទទឹង 100px និងកម្ពស់ 50px ជាមួយផ្ទៃខាងក្រោយពណ៌លឿលឿង\nស្\nរាល។\n5.1.4 none - គ្មាន\nធាតុប្រភេទ none លាក់ធាតុទាំំងស្រុុ\nង ដោយមិនបង្ហាញនៅលើទំព័រ។\nឧទាហរណ៍ HTML:\n<p>អត្ថបទនេ\nះ\nះនឹងត្\nរូវលាក់។</p>\nឧទាហរណ៍ CSS:\np {\n  display: none;\n}\nការពន្យល់៖ធាតុ p ត្រូូវបានលាក់ ហើយមិនបង្ហាញទេ។",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 16",
+            "5.1.3 inline-block - ក្នុងជួរប្លុក"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-css-page-17",
+          "label": "PDF 17. 5.2 Flexbox - ប្លង់អាចបត់បែនបាន",
+          "heading": "5.2 Flexbox - ប្លង់អាចបត់បែនបាន",
+          "intro": "Flexbox ជាប្រព័ន្ធប្លង់អាចបត់បែនបាន ដែលអនុញ្ញាតឱ្យរៀរៀបចំធាតុជាជួរដេក ឬជួរឈរ។ ឧទាហរណ៍ HTML: <div class=\"container\">",
+          "bodyHeading": "Source content · css.pdf · page 17",
+          "body": "5.2 Flexbox - ប្លង់អាចបត់បែនបាន\nFlexbox ជាប្រព័ន្ធប្លង់អាចបត់បែនបាន ដែលអនុញ្ញាតឱ្យរៀរៀបចំធាតុជាជួរដេក ឬជួរឈរ។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div>ធាតុ 1</div>\n  <div>ធាតុ 2</div>\n  <div>ធាតុ 3</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  height: 100px;\n  background-color: lightpink;\n}\n.container div {\n  background-color: lightcoral;\n  padding: 10px;\n}\nការពន្យល់៖\n- display: flex; បើក Flexbox,\n- flex-direction: row; រៀរៀបចំជាជួរដេក,\n- justify-content: space-between; ចែកគម្លាតរវាងធាតុ,\n- align-items: center; តម្រឹឹមធាតុទៅកណ្តាលបញ្ឈរ។\n5.3 CSS Grid - ក្រឡាចត្រង្គ CSS\nCSS Grid កំណត់ប្លង់ជាក្រឡាចត្រង្គពីរវិមាត្រ សម្\nរាប់រចនាសម្ព័័ន្ធស្មុគស្មាញ។\nឧទាហរណ៍ HTML:\n<div class=\"grid-container\">\n  <div>ធាតុ 1</div>\n  <div>ធាតុ 2</div>",
+          "code": "<div class=\"container\">\n</div>\n}\n}\n<div class=\"grid-container\">",
+          "preview": {
+            "title": "Css · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 17",
+            "5.2 Flexbox - ប្លង់អាចបត់បែនបាន"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-css-page-18",
+          "label": "PDF 18. 5.4 Positioning - ការកំណត់ទីតាំំង",
+          "heading": "5.4 Positioning - ការកំណត់ទីតាំំង",
+          "intro": "<div>ធាតុ 3</div> </div> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 18",
+          "body": "<div>ធាតុ 3</div>\n</div>\nឧទាហរណ៍ CSS:\n.grid-container {\n  display: grid;\n  grid-template-columns: 100px 100px 100px;\n  grid-template-rows: 50px;\n  grid-gap: 10px;\n  background-color: lightgrey;\n}\n.grid-container div {\n  background-color: lightblue;\n  padding: 10px;\n}\nការពន្យល់៖\n- display: grid; បើក Grid,\n- grid-template-columns កំណត់ 3 ជួរដេក 100px នីមួយ,\n- grid-template-rows កំណត់កម្ពស់ជួរ 50px,\n- grid-gap: 10px; បន្ថែមគម្លាត 10px រវាងធាតុ។\n5.4 Positioning - ការកំណត់ទីតាំំង\nការកំណត់ទីតាំំងគ្រប់គ្រងទីតាំំងរបស់ធាតុ ដោយប្រើតម្លៃដូចជា static, relative, absolute, fixed, និង\nsticky។\n5.4.1 Static - ឋិតិវន្ត\nStatic ជាទីតាំំងលំនាំំដើម ដែលធាតុស្ថិិតនៅក្នុងលំដាប់ធម្មតា។\nឧទាហរណ៍ HTML:\n<div>ធាតុនេ\nះ\nះជា static។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  position: static;",
+          "code": "</div>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 18",
+            "5.4 Positioning - ការកំណត់ទីតាំំង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-css-page-19",
+          "label": "PDF 19. 5.4.2 Relative - ទាក់ទង",
+          "heading": "5.4.2 Relative - ទាក់ទង",
+          "intro": "background-color: lightgreen; } ការពន្យល់៖ធាតុ div ស្ថិិតនៅទីតាំំងធម្មតា ជាមួយផ្ទៃខាងក្រោយពណ៌បៃតងស្",
+          "bodyHeading": "Source content · css.pdf · page 19",
+          "body": "background-color: lightgreen;\n}\nការពន្យល់៖ធាតុ div ស្ថិិតនៅទីតាំំងធម្មតា ជាមួយផ្ទៃខាងក្រោយពណ៌បៃតងស្\nរាល។\n5.4.2 Relative - ទាក់ទង\nRelative កំណត់ទីតាំំងទាក់ទងនឹងទីតាំំងធម្មតារបស់ធាតុ។\nឧទាហរណ៍ HTML:\n<div>ធាតុនេ\nះ\nះជា relative។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  position: relative;\n  top: 20px;\n  left: 30px;\n  background-color: lightyellow;\n}\nការពន្យល់៖ធាតុ div ផ្លាស់ទី 20px ចុះក្រោម និង 30px ទៅឆ្វេងពីទីតាំំងធម្មតា ជាមួយផ្ទៃខាង\nក្រោយពណ៌លឿលឿងស្\nរាល។\n5.4.3 Absolute - ដាច់ខាត\nAbsolute កំណត់ទីតាំំងទាក់ទងនឹងធាតុមេដែលមានទីតាំំងកំណត់។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"absolute\">ធាតុនេ\nះ\nះជា absolute។</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  position: relative;\n  height: 100px;\n  background-color: lightgrey;\n}\n.absolute {",
+          "code": "}\n}\n<div class=\"container\">\n</div>\n}",
+          "preview": {
+            "title": "Css · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 19",
+            "5.4.2 Relative - ទាក់ទង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-css-page-20",
+          "label": "PDF 20. 5.4.4 Fixed - ថេរ",
+          "heading": "5.4.4 Fixed - ថេរ",
+          "intro": "position: absolute; top: 10px; right: 10px;",
+          "bodyHeading": "Source content · css.pdf · page 20",
+          "body": "position: absolute;\n  top: 10px;\n  right: 10px;\n  background-color: lightpink;\n}\nការពន្យល់៖ធាតុ absolute ស្ថិិតនៅ 10px ពីខាងលើ និង 10px ពីខាងស្តាំំនៃធាតុមេ ជាមួយផ្ទៃខាងក្រោយពណ៌\nផ្កាឈូកស្\nរាល។\n5.4.4 Fixed - ថេរ\nFixed កំណត់ទីតាំំងទាក់ទងនឹង viewport និងនៅថេរពេលរំកិល។\nឧទាហរណ៍ HTML:\n<div>ធាតុនេ\nះ\nះជា fixed។</div>\nឧទាហរណ៍ CSS:\ndiv {\n  position: fixed;\n  top: 10px;\n  right: 10px;\n  background-color: lightcoral;\n}\nការពន្យល់៖ធាតុ div នៅថេរ 10px ពីខាងលើ និង 10px ពីខាងស្តាំំនៃ viewport ជាមួយផ្ទៃខាងក្រោយពណ៌ផ្កា\nថ្មស្\nរាល។\n5.4.5 Sticky - ស្អិិត\nSticky ធ្វើឱ្យធាតុស្អិិតនៅទីតាំំងមួយដោយផ្អែកលើការរំកិល។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"sticky\">ធាតុនេ\nះ\nះជា sticky។</div>\n  <p>អត្ថបទច្រើនៗ...</p>\n</div>\nឧទាហរណ៍ CSS:",
+          "code": "}\n}\n<div class=\"container\">\n</div>",
+          "preview": {
+            "title": "Css · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 20",
+            "5.4.4 Fixed - ថេរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-css-page-21",
+          "label": "PDF 21. 6.1 Lists - បញ្ជីី",
+          "heading": "6.1 Lists - បញ្ជីី",
+          "intro": ".container { height: 200px; overflow: auto;",
+          "bodyHeading": "Source content · css.pdf · page 21",
+          "body": ".container {\n  height: 200px;\n  overflow: auto;\n  background-color: lightgrey;\n}\n.sticky {\n  position: sticky;\n  top: 0;\n  background-color: lightblue;\n}\nការពន្យល់៖ធាតុ sticky ស្អិិតនៅផ្នែកខាងលើនៃធាតុមេពេលរំកិល ជាមួយផ្ទៃខាងក្រោយពណ៌ខៀខៀវស្\nរាល។\n6. CSS Styling Lists and Tables - ការកំណត់\nរចនាប័ទ្មបញ្ជីី និងតារាង CSS\nCSS អនុញ្ញាតឱ្យអ្នកកំណត់រចនាប័ទ្មបញ្ជីី (lists) និងតារាង (tables) ដើម្បីីធ្វើឱ្យពួកវាមើលទៅគួរឱ្យ\nទាក់ទាញ។ ផ្នែកនេះះនឹងរៀរៀបរាប់អំពីលក្ខណៈសម្បត្តិិសម្\nរាប់កំណត់រចនាប័ទ្មបញ្ជីី និងតារាង។\n6.1 Lists - បញ្ជីី\nបញ្ជីីអាចត្រូូវបានកំណត់រចនាប័ទ្មដោយប្រើលក្ខណៈសម្បត្តិិដូចជា list-style-type, list-style-position និង\nlist-style-image។\n6.1.1 list-style-type - ប្រភេទសញ្ញាសម្គាល់បញ្ជីី\nlist-style-type កំណត់ប្រភេទសញ្ញាសម្គាល់របស់ធាតុបញ្ជីី ដូចជា disc, circle, square ជាដើម។\nឧទាហរណ៍ HTML:\n<ul>\n  <li>ធាតុទី 1</li>\n  <li>ធាតុទី 2</li>\n</ul>\nឧទាហរណ៍ CSS:",
+          "code": "}\n}\n<ul>\n</ul>",
+          "preview": {
+            "title": "Css · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 21",
+            "6.1 Lists - បញ្ជីី"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-css-page-22",
+          "label": "PDF 22. 6.1.2 list-style-position - ទីតាំំងសញ្ញាសម្គាល់បញ្ជីី",
+          "heading": "6.1.2 list-style-position - ទីតាំំងសញ្ញាសម្គាល់បញ្ជីី",
+          "intro": "ul { list-style-type: square; }",
+          "bodyHeading": "Source content · css.pdf · page 22",
+          "body": "ul {\n  list-style-type: square;\n}\nការពន្យល់៖កំណត់សញ្ញាសម្គាល់បញ្ជីីជារាងការ៉េ (square)។\n6.1.2 list-style-position - ទីតាំំងសញ្ញាសម្គាល់បញ្ជីី\nlist-style-position គ្រប់គ្រងថាតើសញ្ញាសម្គាល់ស្ថិិតនៅខាងក្នុង (inside) ឬខាងក្រៅ (outside) ធាតុ\nបញ្ជីី។\nឧទាហរណ៍ HTML:\n<ul>\n  <li>ធាតុទី 1 ដែលមានអត្ថបទវែងដើម្បីីបង្ហាញភាពខុសគ្នា</li>\n  <li>ធាតុទី 2</li>\n</ul>\nឧទាហរណ៍ CSS:\nul {\n  list-style-position: inside;\n}\nការពន្យល់៖សញ្ញាសម្គាល់ស្ថិិតនៅខាងក្នុងធាតុបញ្ជីី ដែលធ្វើឱ្យអត្ថបទបន្ទាប់តម្រង់ជាមួយសញ្ញាសម្គាល់។\n6.1.3 list-style-image - រូបភាពសញ្ញាសម្គាល់បញ្ជីី\nlist-style-image ជំនួសសញ្ញាសម្គាល់លំនាំំដើមដោយរូបភាព។\nឧទាហរណ៍ HTML:\n<ul>\n  <li>ធាតុទី 1</li>\n  <li>ធាតុទី 2</li>\n</ul>\nឧទាហរណ៍ CSS:\nul {\n  list-style-image: url('https://example.com/bullet.png');",
+          "code": "}\n<ul>\n</ul>\n}\n<ul>\n</ul>",
+          "preview": {
+            "title": "Css · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 22",
+            "6.1.2 list-style-position - ទីតាំំងសញ្ញាសម្គាល់បញ្ជីី"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-css-page-23",
+          "label": "PDF 23. 6.2 Tables - តារាង",
+          "heading": "6.2 Tables - តារាង",
+          "intro": "} ការពន្យល់៖ប្រើរូបភាពពី URL ជាសញ្ញាសម្គាល់បញ្ជីី (ជំនួស 'https://example.com/bullet.png' ដោយ URL ពិតប្",
+          "bodyHeading": "Source content · css.pdf · page 23",
+          "body": "}\nការពន្យល់៖ប្រើរូបភាពពី URL ជាសញ្ញាសម្គាល់បញ្ជីី (ជំនួស 'https://example.com/bullet.png' ដោយ\nURL ពិតប្\nរាកដ)។\n6.2 Tables - តារាង\nតារាងអាចត្រូូវបានកំណត់រចនាប័ទ្មដោយប្រើលក្ខណៈសម្បត្តិិដូចជា border, border-collapse, padding,\ntext-align និង vertical-align។\n6.2.1 border - ស៊ុម\nborder បន្ថែមស៊ុមទៅកោសិកាតារាង។\nឧទាហរណ៍ HTML:\n<table>\n  <tr>\n    <td>កោសិកា 1</td>\n    <td>កោសិកា 2</td>\n  </tr>\n</table>\nឧទាហរណ៍ CSS:\ntable, td {\n  border: 1px solid black;\n}\nការពន្យល់៖បន្ថែមស៊ុម 1px ពណ៌ខ្មៅជុំវិញតារាង និងកោសិកានីមួយៗ។\n6.2.2 border-collapse - ការបញ្ចូលស៊ុម\nborder-collapse បញ្ចូលស៊ុមនៃកោសិកាដែលនៅជាប់គ្នាទៅជាស៊ុមតែមួយ។\nឧទាហរណ៍ HTML:\n<table>\n  <tr>\n    <td>កោសិកា 1</td>\n    <td>កោសិកា 2</td>",
+          "code": "}\n<table>\n  <tr>\n  </tr>\n</table>\n}\n<table>\n  <tr>",
+          "preview": {
+            "title": "Css · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 23",
+            "6.2 Tables - តារាង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-css-page-24",
+          "label": "PDF 24. 6.2.3 padding - គម្លាតខាងក្នុង",
+          "heading": "6.2.3 padding - គម្លាតខាងក្នុង",
+          "intro": "</tr> </table> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 24",
+          "body": "</tr>\n</table>\nឧទាហរណ៍ CSS:\ntable {\n  border-collapse: collapse;\n}\ntd {\n  border: 1px solid black;\n}\nការពន្យល់៖បញ្ចូលស៊ុមរវាងកោសិកាឱ្យទៅជាស៊ុមតែមួយ។\n6.2.3 padding - គម្លាតខាងក្នុង\npadding បន្ថែមចន្លោះខាងក្នុងកោសិកាតារាង។\nឧទាហរណ៍ HTML:\n<table>\n  <tr>\n    <td>កោសិកា 1</td>\n    <td>កោសិកា 2</td>\n  </tr>\n</table>\nឧទាហរណ៍ CSS:\ntable {\n  border-collapse: collapse;\n}\ntd {\n  border: 1px solid black;\n  padding: 10px;\n}\nការពន្យល់៖បន្ថែមគម្លាតខាងក្នុង 10px ក្នុងកោសិកានីមួយៗ។\n6.2.4 text-align - ការតម្រឹឹមអត្ថបទ\ntext-align តម្រឹឹមអត្ថបទក្នុងកោសិកាតាមផ្តេក (ឆ្វេង ស្តាំំ កណ្តាល)។",
+          "code": "</tr>\n</table>\n}\n}\n<table>\n  <tr>\n  </tr>\n</table>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 24",
+            "6.2.3 padding - គម្លាតខាងក្នុង"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-css-page-25",
+          "label": "PDF 25. 6.2.5 vertical-align - ការតម្រឹឹមបញ្ឈរ",
+          "heading": "6.2.5 vertical-align - ការតម្រឹឹមបញ្ឈរ",
+          "intro": "ឧទាហរណ៍ HTML: <table> <tr>",
+          "bodyHeading": "Source content · css.pdf · page 25",
+          "body": "ឧទាហរណ៍ HTML:\n<table>\n  <tr>\n    <td>កោសិកា 1</td>\n    <td>កោសិកា 2</td>\n  </tr>\n</table>\nឧទាហរណ៍ CSS:\ntable {\n  border-collapse: collapse;\n}\ntd {\n  border: 1px solid black;\n  padding: 10px;\n  text-align: center;\n}\nការពន្យល់៖តម្រឹឹមអត្ថបទក្នុងកោសិកាទៅកណ្តាល។\n6.2.5 vertical-align - ការតម្រឹឹមបញ្ឈរ\nvertical-align តម្រឹឹមមាតិកាក្នុងកោសិកាតាមបញ្ឈរ (ខាងលើ កណ្តាល ខាងក្រោម)។\nឧទាហរណ៍ HTML:\n<table>\n  <tr>\n    <td>កោសិកា 1</td>\n    <td>កោសិកា 2 ដែលមានអត្ថបទច្រើនជាង<br>ដើម្បីីបង្ហាញការតម្រឹឹ\nមបញ្ឈរ</td>\n  </tr>\n</table>\nឧទាហរណ៍ CSS:\ntable {\n  border-collapse: collapse;\n}\ntd {\n  border: 1px solid black;",
+          "code": "<table>\n  <tr>\n  </tr>\n</table>\n}\n}\n<table>\n  <tr>\n  </tr>\n</table>\n}",
+          "preview": {
+            "title": "Css · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 25",
+            "6.2.5 vertical-align - ការតម្រឹឹមបញ្ឈរ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-css-page-26",
+          "label": "PDF 26. 7.1 Pseudo-classes",
+          "heading": "7.1 Pseudo-classes",
+          "intro": "padding: 10px; height: 100px; vertical-align: middle;",
+          "bodyHeading": "Source content · css.pdf · page 26",
+          "body": "padding: 10px;\n  height: 100px;\n  vertical-align: middle;\n}\nការពន្យល់៖តម្រឹឹមមាតិកាក្នុងកោសិកាទៅកណ្តាលបញ្ឈរ ជាមួយកម្ពស់ 100px ដើម្បីីបង្ហាញភាពខុសគ្នា។\n7. CSS Pseudo-classes and Pseudo-\nelements - ការកំណត់រចនាប័ទ្ម Pseudo-classes\nនិង Pseudo-elements នៃ CSS\nCSS Pseudo-classes និង Pseudo-elements អនុញ្ញាតឱ្យអ្នកកំណត់រចនាប័ទ្មធាតុ HTML\nដោយផ្អែកលើស្ថានភាព ឬផ្នែកជាក់លាក់របស់វា។ ផ្នែកនេះះនឹងពន្យល់អំពី Pseudo-classes និង\nPseudo-elements សំខាន់ៗ ជាមួយឧទាហរណ៍ជាក់ស្\nតែង។\n7.1 Pseudo-classes\nPseudo-classes គឺជាការបញ្ជាក់ដែលកំណត់ស្ថានភាពពិសេសរបស់ធាតុ ដូចជាការសង្កត់ ការចុច ឬទីតាំំងក្នុង\nចំណោមធាតុផ្សេងទៀទៀត។\n7.1.1 :hover\n:hover ត្រូូវបានប្រើដើម្បីីកំណត់រចនាប័ទ្មនៅពេលអ្នកប្រើបង្វែរកណ្តុរលើធាតុមួយ។\nឧទាហរណ៍ HTML:\n<button>ចុចខ្ញុំំ</button>\nឧទាហរណ៍ CSS:\nbutton:hover {\n  background-color: blue;\n  color: white;\n}\nការពន្យល់៖ នៅពេលអ្នកបង្វែរកណ្តុរលើប៊ូតុង ពណ៌ផ្ទៃខាងក្រោយនឹងប្តូរទៅជាពណ៌ខៀខៀវ ហើយអត្ថបទនឹងប្តូរទៅជា\nពណ៌ស។",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 26",
+            "7.1 Pseudo-classes"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-css-page-27",
+          "label": "PDF 27. 7.1.2 :active",
+          "heading": "7.1.2 :active",
+          "intro": ":active ត្រូូវបានប្រើនៅពេលធាតុមួយត្រូូវបានចុច (ឧ. ចុចហើយកាន់)។ ឧទាហរណ៍ HTML: <a href=\"#\">តំណភ្ជាប់</a>",
+          "bodyHeading": "Source content · css.pdf · page 27",
+          "body": "7.1.2 :active\n:active ត្រូូវបានប្រើនៅពេលធាតុមួយត្រូូវបានចុច (ឧ. ចុចហើយកាន់)។\nឧទាហរណ៍ HTML:\n<a href=\"#\">តំណភ្ជាប់</a>\nឧទាហរណ៍ CSS:\na:active {\n  color: red;\n}\nការពន្យល់៖ នៅពេលអ្នកចុចលើតំណភ្ជាប់ ពណ៌អត្ថបទនឹងប្តូរទៅជាពណ៌ក្រហម។\n7.1.3 :focus\n:focus ត្រូូវបានប្រើនៅពេលធាតុទទួលបានការផ្តោតអារម្មណ៍ (ឧ. បញ្ចូលអត្ថបទក្នុងប្រអប់បញ្ចូល)។\nឧទាហរណ៍ HTML:\n<input type=\"text\" placeholder=\"បញ្ចូលអត្ថបទ\">\nឧទាហរណ៍ CSS:\ninput:focus {\n  border: 2px solid green;\n  outline: none;\n}\nការពន្យល់៖ នៅពេលអ្នកចុចក្នុងប្រអប់បញ្ចូលដើម្បីីវាយអត្ថបទ ស៊ុមនឹងប្តូរទៅជា 2px ពណ៌បៃតង ហើយលុប\noutline លំនាំំដើម។\n7.1.4 :first-child\n:first-child កំណត់គោលដៅលើធាតុដំបូងនៃឪពុករបស់វា។\nឧទាហរណ៍ HTML:\n<ul>\n  <li>ធាតុទី 1</li>\n  <li>ធាតុទី 2</li>",
+          "code": "}\n}\n<ul>",
+          "preview": {
+            "title": "Css · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 27",
+            "7.1.2 :active"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-css-page-28",
+          "label": "PDF 28. 7.1.5 :last-child",
+          "heading": "7.1.5 :last-child",
+          "intro": "<li>ធាតុទី 3</li> </ul> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 28",
+          "body": "<li>ធាតុទី 3</li>\n</ul>\nឧទាហរណ៍ CSS:\nli:first-child {\n  font-weight: bold;\n}\nការពន្យល់៖ ធាតុបញ្ជីីដំបូង (“ធាតុទី 1”) នឹងត្រូូវបានធ្វើអក្សរក្\nរាស់។\n7.1.5 :last-child\n:last-child កំណត់គោលដៅលើធាតុចុងក្រោយនៃឪពុករបស់វា។\nឧទាហរណ៍ HTML:\n<ul>\n  <li>ធាតុទី 1</li>\n  <li>ធាតុទី 2</li>\n  <li>ធាតុទី 3</li>\n</ul>\nឧទាហរណ៍ CSS:\nli:last-child {\n  color: red;\n}\nការពន្យល់៖ ធាតុបញ្ជីីចុងក្រោយ (“ធាតុទី 3”) នឹងមានពណ៌អត្ថបទជាពណ៌ក្រហម។\n7.2 Pseudo-elements\nPseudo-elements អនុញ្ញាតឱ្យអ្នកកំណត់រចនាប័ទ្មផ្នែកជាក់លាក់នៃធាតុ ដូចជាអក្សរដំបូង ឬបន្ថែមមាតិកាមុន\nឬក្រោយធាតុ។\n7.2.1 ::before\n::before បញ្ចូលមាតិកាមុនធាតុមួយ។\nឧទាហរណ៍ HTML:",
+          "code": "</ul>\n}\n<ul>\n</ul>\n}",
+          "preview": {
+            "title": "Css · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 28",
+            "7.1.5 :last-child"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-css-page-29",
+          "label": "PDF 29. 7.2.2 ::after",
+          "heading": "7.2.2 ::after",
+          "intro": "<p>នេ ះ ះជាអត្ថបទ</p>",
+          "bodyHeading": "Source content · css.pdf · page 29",
+          "body": "<p>នេ\nះ\nះជាអត្ថបទ</p>\nឧទាហរណ៍ CSS:\np::before {\n  content: \"★ \";\n  color: yellow;\n}\nការពន្យល់៖ បន្ថែមនិមិត្តសញ្ញាផ្កាយពណ៌លឿលឿងមុនអត្ថបទនៃធាតុ <p>។\n7.2.2 ::after\n::after បញ្ចូលមាតិកាក្រោយធាតុមួយ។\nឧទាហរណ៍ HTML:\n<p>នេ\nះ\nះជាអត្ថបទ</p>\nឧទាហរណ៍ CSS:\np::after {\n  content: \" ✔\";\n  color: green;\n}\nការពន្យល់៖ បន្ថែមនិមិត្តសញ្ញាសញ្ញាត្រឹឹមពណ៌បៃតងក្រោយអត្ថបទនៃធាតុ <p>។\n7.2.3 ::first-letter\n::first-letter កំណត់រចនាប័ទ្មអក្សរដំបូងនៃធាតុ។\nឧទាហរណ៍ HTML:\n<p>នេ\nះ\nះជាកថាខណ្ឌមួយ។</p>\nឧទាហរណ៍ CSS:\np::first-letter {\n  font-size: 2em;",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 29",
+            "7.2.2 ::after"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-css-page-30",
+          "label": "PDF 30. 7.2.4 ::first-line",
+          "heading": "7.2.4 ::first-line",
+          "intro": "  color: blue;",
+          "bodyHeading": "Source content · css.pdf · page 30",
+          "body": "\n\n  color: blue;\n}\nការពន្យល់៖ អក្សរដំបូងនៃកថាខណ្ឌ (“ន”) នឹងមានទំហំធំជាង 2 ដង និងមានពណ៌ខៀខៀវ។\n7.2.4 ::first-line\n::first-line កំណត់រចនាប័ទ្មបន្ទាត់ដំបូងនៃធាតុ។\nឧទាហរណ៍ HTML:\n<p>នេ\nះ\nះជាកថាខណ្ឌមួយ។ វាមានអត្ថបទជាច្រើនបន្ទាត់។ បន្ទាត់ទីពីរនឹងមិនរងផលប៉ះពាល់ទេ\nឧទាហរណ៍ CSS:\np::first-line {\n  font-weight: bold;\n  color: purple;\n}\nការពន្យល់៖ បន្ទាត់ដំបូងនៃកថាខណ្ឌនឹងត្រូូវបានធ្វើអក្សរក្\nរាស់ និងមានពណ៌ស្វាយ។\n8. CSS Transitions and Animations - ការផ្លាស់\nប្តូរ និងចលនា CSS\nCSS Transitions និង Animations អនុញ្ញាតឱ្យអ្នកបន្ថែមចលនា និងភាពរលូនទៅក្នុងធាតុ\nHTML។ ផ្នែកនេះះនឹងពន្យល់អំពីការប្រើ Transitions សម្\nរាប់ការផ្លាស់ប្តូរបន្តិិចម្តង និង\nAnimations សម្\nរាប់ចលនាស្មុគស្មាញ ជាមួយឧទាហរណ៍ជាក់ស្\nតែង។\n8.1 Transitions\nTransitions អនុញ្ញាតឱ្យអ្នកបង្កើតការផ្លាស់ប្តូរបន្តិិចម្តងរវាងស្ថានភាពពីរនៃធាតុ ដូចជាពេលប្តូរពណ៌ ឬទំហំ។\n8.1.1 Allows gradual change between two states\nTransitions អនុញ្ញាតឱ្យមានការផ្លាស់ប្តូរបន្តិិចម្តងរវាងស្ថានភាពពីរ ដើម្បីីធ្វើឱ្យចលនាមើលទៅរលូន។\nឧទាហរណ៍ HTML:",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 30",
+            "7.2.4 ::first-line"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-css-page-31",
+          "label": "PDF 31. 8.1.2 Properties: transition-property, transition-duration,",
+          "heading": "8.1.2 Properties: transition-property, transition-duration,",
+          "intro": "<div class=\"box\">សួស្តីី</div> ឧទាហរណ៍ CSS: .box {",
+          "bodyHeading": "Source content · css.pdf · page 31",
+          "body": "<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  transition: background-color 0.5s ease;\n}\n.box:hover {\n  background-color: lightcoral;\n}\nការពន្យល់៖ នៅពេលអ្នកបង្វែរកណ្តុរលើប្រអប់ ពណ៌ផ្ទៃខាងក្រោយនឹងផ្លាស់ប្តូរពី `lightblue` ទៅ\n`lightcoral` ក្នុងរយៈពេល 0.5 វិនាទី ដោយប្រើភាពរលូន `ease`។\n8.1.2 Properties: transition-property, transition-duration,\ntransition-timing-function, transition-delay\nTransitions ប្រើលក្ខណៈសម្បត្តិិដូចជា `transition-property`, `transition-duration`,\n`transition-timing-function`, និង `transition-delay` ដើម្បីីកំណត់ការផ្លាស់ប្តូរ។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  transition-property: width, background-color;\n  transition-duration: 1s, 0.5s;\n  transition-timing-function: ease-in-out;\n  transition-delay: 0.2s;\n}\n.box:hover {\n  width: 200px;",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 31",
+            "8.1.2 Properties: transition-property, transition-duration,"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-css-page-32",
+          "label": "PDF 32. 8.2 Animations",
+          "heading": "8.2 Animations",
+          "intro": "background-color: lightgreen; } ការពន្យល់៖ នៅពេលសង្កត់កណ្តុរ ទទឹងផ្លាស់ប្តូរពី 100px ទៅ 200px ក្នុង 1 វិនាទី និងពណ៌ផ្ទៃខាងក្រោយផ្លាស់",
+          "bodyHeading": "Source content · css.pdf · page 32",
+          "body": "background-color: lightgreen;\n}\nការពន្យល់៖ នៅពេលសង្កត់កណ្តុរ ទទឹងផ្លាស់ប្តូរពី 100px ទៅ 200px ក្នុង 1 វិនាទី និងពណ៌ផ្ទៃខាងក្រោយផ្លាស់\nប្តូរទៅ `lightgreen` ក្នុង 0.5 វិនាទី ដោយមានការពន្យាពេល 0.2 វិនាទី និងប្រើ `ease-in-out` សម្\nរាប់\nភាពរលូន។\n8.2 Animations\nAnimations អនុញ្ញាតឱ្យអ្នកបង្កើតចលនាស្មុគស្មាញដោយប្រើ `@keyframes` និងលក្ខណៈសម្បត្តិិ\n`animation`។\n8.2.1 @keyframes: Defines a set of steps for an animation\n`@keyframes` កំណត់ជំហាននានាសម្\nរាប់ចលនា ដោយបញ្ជាក់ស្ថានភាពនៅចំណុចផ្សេងៗ (ឧ. ចាប់ផ្តើម\nកណ្តាល បញ្ចប់)។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  animation: move 2s infinite;\n}\n@keyframes move {\n  0% { transform: translateX(0); }\n  50% { transform: translateX(100px); }\n  100% { transform: translateX(0); }\n}\nការពន្យល់៖ ប្រអប់នឹងផ្លាស់ទី 100px ទៅស្តាំំ ហើយត្រឡប់មកវិញក្នុង 2 វិនាទី ដោយធ្វើម្តងហើយម្តងទៀទៀតជារៀរៀង\nរហូត (`infinite`)។\n8.2.2 animation: Specifies animation name, duration, timing\nfunction, delay, iteration count, and direction",
+          "code": "}\n}\n}\nfunction, delay, iteration count, and direction",
+          "preview": {
+            "title": "Css · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 32",
+            "8.2 Animations"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-css-page-33",
+          "label": "PDF 33. 9.1 Media Queries",
+          "heading": "9.1 Media Queries",
+          "intro": "លក្ខណៈសម្បត្តិិ `animation` បញ្ជាក់ឈ្ មោះ រយៈពេល មុខងារពេលវេលា ការពន្យាពេល ចំនួនដងធ្វើម្តងទៀទៀត និងទិសដៅនៃចលនា។",
+          "bodyHeading": "Source content · css.pdf · page 33",
+          "body": "លក្ខណៈសម្បត្តិិ `animation` បញ្ជាក់ឈ្\nមោះ រយៈពេល មុខងារពេលវេលា ការពន្យាពេល ចំនួនដងធ្វើម្តងទៀទៀត\nនិងទិសដៅនៃចលនា។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  animation: bounce 1.5s ease-in-out 0.5s 3 alternate;\n}\n@keyframes bounce {\n  0% { transform: translateY(0); }\n  50% { transform: translateY(-50px); }\n  100% { transform: translateY(0); }\n}\nការពន្យល់៖ ប្រអប់នឹងលោតឡើង 50px ក្នុង 1.5 វិនាទី ដោយចាប់ផ្តើមបន្ទាប់ពីការពន្យាពេល 0.5 វិនាទី ធ្វើ 3\nដង និងប្តូរទិស (`alternate`) ជាមួយភាពរលូន `ease-in-out`។\n9. Responsive Design - ការរចនាឆ្លើយតប\nResponsive Design អនុញ្ញាតឱ្យគេហទំព័រប្រែប្រួួលទៅតាមទំហំអេក្រង់ផ្សេងៗ ដូចជាទូរសព្ទ\nថេប្លេត និងកុំព្យូទ័រ។ ផ្នែកនេះះនឹងពន្យល់អំពីបច្ចេកទេសសំខាន់ៗដូចជា Media Queries, Mobile-\nfirst Design, និង Responsive Units។\n9.1 Media Queries\nMedia Queries ជួយឱ្យអ្នកកំណត់រចនាប័ទ្មផ្សេងៗ ដោយផ្អែកលើលក្ខណ្ឌដូចជាទំហំអេក្រង់។\n9.1.1 Allows styles to change based on screen size\nMedia Queries អនុញ្ញាតឱ្យរចនាប័ទ្មផ្លាស់ប្តូរទៅតាមទំហំអេក្រង់ ដើម្បីីធានាថាគេហទំព័រមើលទៅល្អនៅគ្រប់\nឧបករណ៍។",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 33",
+            "9.1 Media Queries"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-css-page-34",
+          "label": "PDF 34. 9.1.2 Syntax: @media (max-width: 768px)",
+          "heading": "9.1.2 Syntax: @media (max-width: 768px)",
+          "intro": "ឧទាហរណ៍ HTML: <div class=\"box\">សួស្តីី</div> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 34",
+          "body": "ឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 100%;\n  background-color: lightblue;\n}\n@media (max-width: 768px) {\n  .box {\n    background-color: lightcoral;\n  }\n}\nការពន្យល់៖ នៅពេលទំហំអេក្រង់តូចជាង 768px (ឧ. ទូរសព្ទ ឬថេប្លេត) ពណ៌ផ្ទៃខាងក្រោយនៃប្រអប់នឹងប្តូរទៅជា\n`lightcoral` ពី `lightblue`។\n9.1.2 Syntax: @media (max-width: 768px)\nMedia Queries ប្រើវាក្យសម្ព័័ន្ធ `@media` ដើម្បីីកំណត់លក្ខណ្ឌ ដូចជា `max-width` ឬ `min-\nwidth` សម្\nរាប់ការអនុវត្តរចនាប័ទ្ម។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <p>សួស្តីី</p>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  padding: 20px;\n  font-size: 16px;\n}\n@media (max-width: 600px) {\n  .container {\n    padding: 10px;\n    font-size: 14px;\n  }\n}",
+          "code": "}\n  }\n}\n<div class=\"container\">\n</div>\n}\n  }\n}",
+          "preview": {
+            "title": "Css · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 34",
+            "9.1.2 Syntax: @media (max-width: 768px)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-css-page-35",
+          "label": "PDF 35. 9.2 Mobile-first Design",
+          "heading": "9.2 Mobile-first Design",
+          "intro": "@media (min-width: 1024px) { .container { padding: 40px;",
+          "bodyHeading": "Source content · css.pdf · page 35",
+          "body": "@media (min-width: 1024px) {\n  .container {\n    padding: 40px;\n    font-size: 18px;\n  }\n}\nការពន្យល់៖ ប្រសិនបើអេក្រង់តូចជាង 600px កម្លុងស៊ុមនឹងត្រូូវបានកាត់បន្ថយមក 10px និងទំហំអក្សរមក\n14px។ បើធំជាង 1024px កម្លុងស៊ុមនឹងកើនទៅ 40px និងអក្សរទៅ 18px។\n9.2 Mobile-first Design\nMobile-first Design គឺជាវិធីសាស្\nត្រដែលរចនាសម្\nរាប់ទូរសព្ទដៃជាមុន រួចបន្ថែមរចនាប័ទ្មសម្\nរាប់អេក្រង់\nធំជាង។\n9.2.1 Design for mobile devices first, then scale up for larger\nscreens\nការរចនាតាមវិធី Mobile-first ចាប់ផ្តើមជាមួយរចនាប័ទ្មសម្\nរាប់ទូរសព្ទដៃ ហើយបន្ទាប់មកប្រើ Media\nQueries ដើម្បីីកែសម្រួួលសម្\nរាប់អេក្រង់ធំ។\nឧទាហរណ៍ HTML:\n<div class=\"content\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.content {\n  width: 100%;\n  padding: 10px;\n  background-color: lightblue;\n}\n@media (min-width: 768px) {\n  .content {\n    width: 50%;\n    padding: 20px;\n    background-color: lightgreen;\n  }\n}",
+          "code": "}\n}\n}\n  }\n}",
+          "preview": {
+            "title": "Css · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 35",
+            "9.2 Mobile-first Design"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-css-page-36",
+          "label": "PDF 36. 9.3 Responsive Units",
+          "heading": "9.3 Responsive Units",
+          "intro": "ការពន្យល់៖ សម្ រាប់ទូរសព្ទដៃ (លំនាំំដើម) ទទឹងគឺ 100% និងកម្លុងស៊ុម 10px។ នៅពេលអេក្រង់ធំជាង 768px (ឧ. កុំព្យូទ័រ) ទទឹងកាត់បន្ថយមក 50% និងកម្លុងស៊ុមកើនទៅ 20px ជាមួយពណ៌ `lightgreen`។",
+          "bodyHeading": "Source content · css.pdf · page 36",
+          "body": "ការពន្យល់៖ សម្\nរាប់ទូរសព្ទដៃ (លំនាំំដើម) ទទឹងគឺ 100% និងកម្លុងស៊ុម 10px។ នៅពេលអេក្រង់ធំជាង 768px\n(ឧ. កុំព្យូទ័រ) ទទឹងកាត់បន្ថយមក 50% និងកម្លុងស៊ុមកើនទៅ 20px ជាមួយពណ៌ `lightgreen`។\n9.3 Responsive Units\nResponsive Units ដូចជា `vw`, `vh`, `em`, និង `rem` ជួយឱ្យទំហំធាតុប្រែប្រួួលទៅតាមអេក្រង់ ឬ\nធាតុផ្សេងទៀទៀត។\n9.3.1 vw, vh: Viewport width and height\n`vw` (viewport width) និង `vh` (viewport height) គឺជាឯកតាដែលផ្អែកលើទទឹង និងកម្ពស់នៃអេ\nក្រង់។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: 50vw;\n  height: 50vh;\n  background-color: lightblue;\n}\nការពន្យល់៖ ប្រអប់នឹងមានទទឹង 50% នៃទទឹងអេក្រង់ (`vw`) និងកម្ពស់ 50% នៃកម្ពស់អេក្រង់ (`vh`) ដែល\nធ្វើឱ្យវាសម្របទៅនឹងទំហំអេក្រង់ផ្សេងៗ។\n9.3.2 em, rem: Relative to font size of parent or root element\n`em` ផ្អែកលើទំហំអក្សរនៃធាតុមេ ចំណែក `rem` ផ្អែកលើទំហំអក្សរនៃធាតុឫស (root) ដែលជាធម្មតាជា\n<html>។\nឧទាហរណ៍ HTML:\n<div class=\"parent\">\n  <p class=\"child\">សួស្តីី</p>\n</div>\nឧទាហរណ៍ CSS:\nhtml {\n  font-size: 16px;",
+          "code": "}\n<div class=\"parent\">\n</div>",
+          "preview": {
+            "title": "Css · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 36",
+            "9.3 Responsive Units"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-css-page-37",
+          "label": "PDF 37. 10.1 Positioning",
+          "heading": "10.1 Positioning",
+          "intro": "} .parent { font-size: 20px;",
+          "bodyHeading": "Source content · css.pdf · page 37",
+          "body": "}\n.parent {\n  font-size: 20px;\n}\n.child {\n  margin: 1em; /* 20px, based on parent's font-size */\n  padding: 1rem; /* 16px, based on root's font-size */\n  background-color: lightblue;\n}\nការពន្យល់៖ `1em` នៅទីនេះះគឺ 20px ព្រោះវាផ្អែកលើទំហំអក្សររបស់ `.parent` (20px) ចំណែក `1rem`\nគឺ 16px ព្រោះវាផ្អែកលើទំហំអក្សររបស់ <html> (16px)។\n10. Positioning and Z-index - ការកំណត់ទីតាំំង\nនិង Z-index\nPositioning និង Z-index ជួយអ្នកគ្រប់គ្រងទីតាំំង និងលំដាប់ជាន់គ្នានៃធាតុនៅលើទំព័រ។ ផ្នែកនេះះ\nនឹងពន្យល់អំពីការប្រើ `position` ដើម្បីីកំណត់ទីតាំំង និង `z-index` ដើម្បីីគ្រប់គ្រងលំដាប់ជាន់។\n10.1 Positioning\nPositioning អនុញ្ញាតឱ្យអ្នកកំណត់ទីតាំំងធាតុនៅលើទំព័រដោយប្រើលក្ខណៈសម្បត្តិិដូចជា `static`,\n`relative`, `absolute`, `fixed`, និង `sticky`។\n10.1.1 Used to control where elements are placed on the page\n`position` ត្រូូវបានប្រើដើម្បីីគ្រប់គ្រងទីតាំំងធាតុ ដោយអាចផ្លាស់ទីវាទៅឆ្វេង ស្តាំំ ខាងលើ ឬខាងក្រោមទំព័រ។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"box\">សួស្តីី</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  position: relative;",
+          "code": "}\n}\n}\n<div class=\"container\">\n</div>",
+          "preview": {
+            "title": "Css · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 37",
+            "10.1 Positioning"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-css-page-38",
+          "label": "PDF 38. 10.2 Z-index",
+          "heading": "10.2 Z-index",
+          "intro": "height: 200px; background-color: lightgray; }",
+          "bodyHeading": "Source content · css.pdf · page 38",
+          "body": "height: 200px;\n  background-color: lightgray;\n}\n.box {\n  position: absolute;\n  top: 20px;\n  left: 20px;\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n}\nការពន្យល់៖ ប្រអប់ត្រូូវបានដាក់នៅចម្ងាយ 20px ពីខាងលើ និងឆ្វេងនៃ `.container` ដោយប្រើ `position:\nabsolute` ដែលធ្វើឱ្យវាផ្អែកលើធាតុមេដែលមាន `position: relative`។\n10.2 Z-index\nZ-index គ្រប់គ្រងលំដាប់ជាន់គ្នានៃធាតុដែលមាន `position` ក្រៅពី `static` ដើម្បីីកំណត់ថាធាតុណាស្ថិិត\nនៅខាងមុខ ឬខាងក្រោយ។\n10.2.1 Controls the stacking order of positioned elements\n`z-index` កំណត់លំដាប់ជាន់គ្នា ដោយធាតុដែលមានតម្លៃ `z-index` ខ្ពស់ជាងនឹងស្ថិិតនៅខាងមុខ។\nឧទាហរណ៍ HTML:\n<div class=\"box1\">ប្រ\nអប់ 1</div>\n<div class=\"box2\">ប្រ\nអប់ 2</div>\nឧទាហរណ៍ CSS:\n.box1 {\n  position: absolute;\n  top: 50px;\n  left: 50px;\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  z-index: 1;\n}\n.box2 {\n  position: absolute;",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 38",
+            "10.2 Z-index"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-css-page-39",
+          "label": "PDF 39. 10.2.2 Higher values stack in front of lower values",
+          "heading": "10.2.2 Higher values stack in front of lower values",
+          "intro": "top: 70px; left: 70px; width: 100px;",
+          "bodyHeading": "Source content · css.pdf · page 39",
+          "body": "top: 70px;\n  left: 70px;\n  width: 100px;\n  height: 100px;\n  background-color: lightcoral;\n  z-index: 2;\n}\nការពន្យល់៖ `.box2` (ពណ៌ `lightcoral`) នឹងស្ថិិតនៅខាងមុខ `.box1` (ពណ៌ `lightblue`) ព្រោះ `z-\nindex: 2` ខ្ពស់ជាង `z-index: 1`។\n10.2.2 Higher values stack in front of lower values\nតម្លៃ `z-index` ខ្ពស់ជាងនឹងធ្វើឱ្យធាតុស្ថិិតនៅខាងមុខ ចំណែកតម្លៃទាបជាងនឹងនៅខាងក្រោយ។\nឧទាហរណ៍ HTML:\n<div class=\"box1\">ប្រ\nអប់ 1</div>\n<div class=\"box2\">ប្រ\nអប់ 2</div>\n<div class=\"box3\">ប្រ\nអប់ 3</div>\nឧទាហរណ៍ CSS:\n.box1 {\n  position: absolute;\n  top: 50px;\n  left: 50px;\n  width: 100px;\n  height: 100px;\n  background-color: lightblue;\n  z-index: 10;\n}\n.box2 {\n  position: absolute;\n  top: 70px;\n  left: 70px;\n  width: 100px;\n  height: 100px;\n  background-color: lightcoral;\n  z-index: 5;\n}\n.box3 {",
+          "code": "}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 39",
+            "10.2.2 Higher values stack in front of lower values"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-css-page-40",
+          "label": "PDF 40. 11.1 CSS Variables",
+          "heading": "11.1 CSS Variables",
+          "intro": "position: absolute; top: 90px; left: 90px;",
+          "bodyHeading": "Source content · css.pdf · page 40",
+          "body": "position: absolute;\n  top: 90px;\n  left: 90px;\n  width: 100px;\n  height: 100px;\n  background-color: lightgreen;\n  z-index: 1;\n}\nការពន្យល់៖ `.box1` (`z-index: 10`) នឹងនៅខាងមុខបំផុត បន្ទាប់មក `.box2` (`z-index: 5`) និង\n`.box3` (`z-index: 1`) នឹងនៅខាងក្រោយបំផុត ទោះបីជាវាត្រួួតលើគ្នាក៏ដោយ។\n11. CSS Variables - អថេរ CSS\nCSS Variables ឬហៅថា Custom Properties អនុញ្ញាតឱ្យអ្នករក្សាទុកតម្លៃដែលអាចប្រើឡើង\nវិញបាន និងគ្រប់គ្រងរចនាប័ទ្មគេហទំព័របានយ៉ាងងាយស្រួួ\nល។ ផ្នែកនេះះនឹងពន្យល់អំពីការប្រើអថេរទាំំង\nនេះះ។\n11.1 CSS Variables\nCSS Variables ជួយសម្រួួលដល់ការប្រើតម្លៃដដែលៗ និងធ្វើឱ្យការផ្លាស់ប្តូររចនាប័ទ្មកាន់តែងាយស្រួួ\nល។\n11.1.1 Custom properties that allow reusability and easy theme\nmanagement\nអថេរទាំំងនេះះអនុញ្ញាតឱ្យអ្នកប្រើតម្លៃដូចគ្នានៅកន្លែងជាច្រើន និងគ្រប់គ្រងប្រធានបទ (theme) ដូចជាពណ៌ ឬទំហំ\nបានរហ័ស។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n:root {\n  --main-color: #3498db;\n}\n.box {",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 40",
+            "11.1 CSS Variables"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-45",
+      "items": [
+        {
+          "id": "pdf-css-page-41",
+          "label": "PDF 41. 11.2 Syntax",
+          "heading": "11.2 Syntax",
+          "intro": "background-color: var(--main-color); width: 100px; height: 100px;",
+          "bodyHeading": "Source content · css.pdf · page 41",
+          "body": "background-color: var(--main-color);\n  width: 100px;\n  height: 100px;\n}\nការពន្យល់៖ អថេរ `--main-color` ត្រូូវបានកំណត់នៅ `:root` (កម្រិិតខ្ពស់បំផុត) ហើយប្រើនៅក្នុង `.box`\nដើម្បីីកំណត់ពណ៌ផ្ទៃខាងក្រោយជា `#3498db`។\n11.2 Syntax\nវាក្យសម្ព័័ន្ធនៃ CSS Variables រួមមានការប្រកាសអថេរ និងការប្រើវាជាមួយ `var()`។\n11.2.1 --primary-color: #3498db;\nអថេរត្រូូវបានប្រកាសដោយប្រើសញ្ញា `--` នៅដើមឈ្\nមោះ ហើយជាធម្មតាដាក់នៅក្នុង `:root` ឬធាតុជាក់\nលាក់។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <p>សួស្តីី</p>\n</div>\nឧទាហរណ៍ CSS:\n:root {\n  --primary-color: #3498db;\n}\n.container {\n  --secondary-color: #2ecc71;\n}\np {\n  color: var(--primary-color);\n  background-color: var(--secondary-color);\n}\nការពន្យល់៖ `--primary-color` ត្រូូវបានកំណត់នៅ `:root` សម្\nរាប់ការប្រើជាសកល ចំណែក `--\nsecondary-color` កំណត់នៅ `.container` សម្\nរាប់ការប្រើក្នុងធាតុនោះតែប៉ុណ្\nណោះ។\n11.2.2 color: var(--primary-color);\nអថេរត្រូូវបានប្រើដោយហៅវាជាមួយ `var()` ដើម្បីីនាំំតម្លៃមកអនុវត្តនៅក្នុងរចនាប័ទ្ម។",
+          "code": "}\n<div class=\"container\">\n</div>\n}\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 41",
+            "11.2 Syntax"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 41
+        },
+        {
+          "id": "pdf-css-page-42",
+          "label": "PDF 42. 12.1 Specificity",
+          "heading": "12.1 Specificity",
+          "intro": "ឧទាហរណ៍ HTML: <div class=\"box\">សួស្តីី</div> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 42",
+          "body": "ឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n:root {\n  --text-color: #333;\n  --box-bg: #ecf0f1;\n}\n.box {\n  color: var(--text-color);\n  background-color: var(--box-bg);\n  padding: 10px;\n  width: 100px;\n  height: 100px;\n}\nការពន្យល់៖ `.box` ប្រើ `var(--text-color)` សម្\nរាប់ពណ៌អត្ថបទ (#333) និង `var(--box-bg)`\nសម្\nរាប់ពណ៌ផ្ទៃខាងក្រោយ (#ecf0f1) ដែលធ្វើឱ្យការផ្លាស់ប្តូរពណ៌ទាំំងមូលកាន់តែងាយស្រួួ\nលដោយកែតែនៅ\n`:root`។\n12. CSS Specificity and Cascade - ភាពជាក់\nលាក់ និងការដំឡើងជាន់គ្នានៃ CSS\nCSS Specificity និង Cascade គឺជាគោលការណ៍សំខាន់ដែលកំណត់ថាតើរចនាប័ទ្មណាមួយត្រូូវ\nអនុវត្តនៅពេលមានច្បាប់ច្រើនផ្ទុយគ្នា។ ផ្នែកនេះះនឹងពន្យល់អំពីរបៀបៀបដែល CSS សម្រេចចិត្តលើ\nរចនាប័ទ្ម។\n12.1 Specificity\nSpecificity កំណត់ថាច្បាប់ CSS ណាមួយត្រូូវបានអនុវត្ត នៅពេលមានច្បាប់ច្រើនកំណត់គោលដៅលើធាតុដូច\nគ្នា។\n12.1.1 Determines which rule applies when multiple rules target the\nsame element",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 42",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 42",
+            "12.1 Specificity"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 42
+        },
+        {
+          "id": "pdf-css-page-43",
+          "label": "PDF 43. 12.1.2 Inline styles > IDs > Classes > Elements",
+          "heading": "12.1.2 Inline styles > IDs > Classes > Elements",
+          "intro": "Specificity ជួយសម្រេចថាច្បាប់ណាមានអាទិភាពខ្ពស់ជាង ដោយផ្អែកលើប្រភេទនៃ selector ដែលប្រើ។ ឧទាហរណ៍ HTML: <p id=\"text\" class=\"highlight\">សួស្តីី</p>",
+          "bodyHeading": "Source content · css.pdf · page 43",
+          "body": "Specificity ជួយសម្រេចថាច្បាប់ណាមានអាទិភាពខ្ពស់ជាង ដោយផ្អែកលើប្រភេទនៃ selector ដែលប្រើ។\nឧទាហរណ៍ HTML:\n<p id=\"text\" class=\"highlight\">សួស្តីី</p>\nឧទាហរណ៍ CSS:\np {\n  color: blue;\n}\n.highlight {\n  color: green;\n}\n#text {\n  color: red;\n}\nការពន្យល់៖ អត្ថបទនឹងមានពណ៌ក្រហម ព្រោះ `#text` (ID selector) មាន specificity ខ្ពស់ជាង\n`.highlight` (class selector) និង `p` (element selector)។\n12.1.2 Inline styles > IDs > Classes > Elements\nលំដាប់អាទិភាពរបស់ specificity គឺ៖ Inline styles (ខ្ពស់បំផុត), ID selectors, Class selectors, និង\nElement selectors (ទាបបំផុត)។\nឧទាហរណ៍ HTML:\n<p id=\"text\" class=\"highlight\" style=\"color: purple;\">សួស្តីី</p>\nឧទាហរណ៍ CSS:\np {\n  color: blue;\n}\n.highlight {\n  color: green;\n}\n#text {\n  color: red;\n}",
+          "code": "}\n}\n#text {\n}\n}\n}\n#text {\n}",
+          "preview": {
+            "title": "Css · PDF page 43",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 43",
+            "12.1.2 Inline styles > IDs > Classes > Elements"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 43
+        },
+        {
+          "id": "pdf-css-page-44",
+          "label": "PDF 44. 12.2 Cascade",
+          "heading": "12.2 Cascade",
+          "intro": "ការពន្យល់៖ អត្ថបទនឹងមានពណ៌ស្វាយ ព្រោះ inline style (`style=\"color: purple;\"`) មាន specificity ខ្ពស់បំផុត លើសពី ID (`#text`), Class (`.highlight`), និង Element (`p`)។ Cascade គឺជាដំណើរការដែល CSS ប្រើដើម្បីីកំណត់រចនាប័ទ្មនៅពេលមានច្បាប់ច្រើនផ្ទុយគ្នា ដោយផ្អែកលើ",
+          "bodyHeading": "Source content · css.pdf · page 44",
+          "body": "ការពន្យល់៖ អត្ថបទនឹងមានពណ៌ស្វាយ ព្រោះ inline style (`style=\"color: purple;\"`) មាន specificity\nខ្ពស់បំផុត លើសពី ID (`#text`), Class (`.highlight`), និង Element (`p`)។\n12.2 Cascade\nCascade គឺជាដំណើរការដែល CSS ប្រើដើម្បីីកំណត់រចនាប័ទ្មនៅពេលមានច្បាប់ច្រើនផ្ទុយគ្នា ដោយផ្អែកលើ\nលំដាប់ និងប្រភព។\n12.2.1 Determines how styles are applied when multiple rules\nconflict\nCascade សម្រេចថារចនាប័ទ្មណាត្រូូវអនុវត្តដោយពិចារណាលើលំដាប់នៃច្បាប់ និងភាពជាក់លាក់ បើ\nspecificity ស្\nមើគ្នា ច្បាប់ចុងក្រោយនឹងឈ្នះ។\nឧទាហរណ៍ HTML:\n<p class=\"text\">សួស្តីី</p>\nឧទាហរណ៍ CSS:\n.text {\n  color: blue;\n}\n.text {\n  color: green;\n}\nការពន្យល់៖ អត្ថបទនឹងមានពណ៌បៃតង ព្រោះច្បាប់ .text { color: green; } មកក្រោយ ហើយមាន\nspecificity ស្\nមើគ្នាជាមួយ .text { color: blue; } ដូច្នេះច្បាប់ចុងក្រោយត្រូូវបានអនុវត្ត។\n13. CSS Functions - មុខងារ CSS\nCSS Functions គឺជាមុខងារដែលអនុញ្ញាតឱ្យអ្នកគណនា ឬគ្រប់គ្រងតម្លៃនៅក្នុងរចនាប័ទ្ម។ ផ្នែកនេះះ\nនឹងពន្យល់អំពីមុខងារ `calc()`, `var()`, និង `clamp()` ជាមួយឧទាហរណ៍។\n13.1 calc()\nមុខងារ `calc()` អនុញ្ញាតឱ្យអ្នកធ្វើការគណនានៅក្នុង CSS ដូចជាបូក ដក គុណ ឬចែក។",
+          "code": "}\n}",
+          "preview": {
+            "title": "Css · PDF page 44",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 44",
+            "12.2 Cascade"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 44
+        },
+        {
+          "id": "pdf-css-page-45",
+          "label": "PDF 45. 13.1.1 Allows you to perform calculations",
+          "heading": "13.1.1 Allows you to perform calculations",
+          "intro": "`calc()` អាចគណនាតម្លៃដោយប្រើឯកតាផ្សេងៗ (ឧ. px, %, em) ដើម្បីីកំណត់ទំហំ ឬទីតាំំងធាតុ។ ឧទាហរណ៍ HTML: <div class=\"box\">សួស្តីី</div>",
+          "bodyHeading": "Source content · css.pdf · page 45",
+          "body": "13.1.1 Allows you to perform calculations\n`calc()` អាចគណនាតម្លៃដោយប្រើឯកតាផ្សេងៗ (ឧ. px, %, em) ដើម្បីីកំណត់ទំហំ ឬទីតាំំងធាតុ។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n.box {\n  width: calc(100% - 50px);\n  height: calc(200px + 2em);\n  background-color: lightblue;\n}\nការពន្យល់៖ ទទឹងនៃប្រអប់គឺ 100% ដក 50px ហើយកម្ពស់គឺ 200px បូកជាមួយ 2em ដែលធ្វើឱ្យទំហំ\nអាចបត់បែនបាន។\n13.1.2 Example: width: calc(100% - 50px);\nឧទាហរណ៍នេះះបង្ហាញពីរបៀបៀបប្រើ `calc()` ដើម្បីីគណនាទំហំដែលសម្របទៅនឹងទំព័រ។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"box\">សួស្តីី</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  width: 100%;\n  padding: 10px;\n}\n.box {\n  width: calc(100% - 50px);\n  height: 100px;\n  background-color: lightcoral;\n}\nការពន្យល់៖ ទទឹងរបស់ `.box` គឺ 100% នៃ `.container` ដក 50px ដើម្បីីបង្កើតចន្លោះគែម ធ្វើឱ្យវាសម្រប\nទៅនឹងទំហំអេក្រង់។",
+          "code": "}\n<div class=\"container\">\n</div>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 45",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 45",
+            "13.1.1 Allows you to perform calculations"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 45
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "PDF source lessons · pages 46-50",
+      "items": [
+        {
+          "id": "pdf-css-page-46",
+          "label": "PDF 46. 13.2 var()",
+          "heading": "13.2 var()",
+          "intro": "មុខងារ `var()` ប្រើដើម្បីីបញ្ចូលតម្លៃនៃអថេរ CSS (custom properties) ទៅក្នុងរចនាប័ទ្ម។ 13.2.1 Used to insert a CSS variable's value `var()` អនុញ្ញាតឱ្យអ្នកប្រើអថេរដែលបានកំណត់ជាមុន ដើម្បីីធ្វើឱ្យការគ្រប់គ្រងរចនាប័ទ្មកាន់តែងាយស្រួួ",
+          "bodyHeading": "Source content · css.pdf · page 46",
+          "body": "13.2 var()\nមុខងារ `var()` ប្រើដើម្បីីបញ្ចូលតម្លៃនៃអថេរ CSS (custom properties) ទៅក្នុងរចនាប័ទ្ម។\n13.2.1 Used to insert a CSS variable's value\n`var()` អនុញ្ញាតឱ្យអ្នកប្រើអថេរដែលបានកំណត់ជាមុន ដើម្បីីធ្វើឱ្យការគ្រប់គ្រងរចនាប័ទ្មកាន់តែងាយស្រួួ\nល។\nឧទាហរណ៍ HTML:\n<div class=\"box\">សួស្តីី</div>\nឧទាហរណ៍ CSS:\n:root {\n  --primary-color: #3498db;\n}\n.box {\n  color: var(--primary-color);\n  background-color: lightblue;\n  padding: 10px;\n}\nការពន្យល់៖ `var(--primary-color)` បញ្ចូលតម្លៃ `#3498db` ទៅក្នុងពណ៌អត្ថបទរបស់ `.box` ដែល\nធ្វើឱ្យការផ្លាស់ប្តូរពណ៌សកលកាន់តែងាយស្រួួ\nល។\n13.2.2 Example: color: var(--primary-color);\nឧទាហរណ៍នេះះបង្ហាញពីរបៀបៀបប្រើ `var()` ជាមួយអថេរដែលកំណត់នៅ `:root`។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <p class=\"text\">សួស្តីី</p>\n</div>\nឧទាហរណ៍ CSS:\n:root {\n  --primary-color: #2ecc71;\n}\n.container {\n  background-color: var(--primary-color);",
+          "code": "}\n}\n<div class=\"container\">\n</div>\n}",
+          "preview": {
+            "title": "Css · PDF page 46",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 46",
+            "13.2 var()"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 46
+        },
+        {
+          "id": "pdf-css-page-47",
+          "label": "PDF 47. 13.3 clamp()",
+          "heading": "13.3 clamp()",
+          "intro": "padding: 10px; } .text {",
+          "bodyHeading": "Source content · css.pdf · page 47",
+          "body": "padding: 10px;\n}\n.text {\n  color: var(--primary-color);\n}\nការពន្យល់៖ ទាំំង `.container` និង `.text` ប្រើ `var(--primary-color)` ដើម្បីីទទួលតម្លៃ `#2ecc71`\nពី `:root` ដែលធ្វើឱ្យពណ៌ស៊ីីសង្វាក់គ្នា។\n13.3 clamp()\nមុខងារ `clamp()` កំណត់តម្លៃឱ្យនៅចន្លោះអប្បបរមា និងអតិបរមា ដោយជ្រើសរើសតម្លៃដែលសមស្រ\nប។\n13.3.1 Restricts a value between a range\n`clamp()` កំណត់អប្បបរមា តម្លៃចង់បាន និងអតិបរមា ដើម្បីីធានាថាតម្លៃនៅតែសមស្រ\nបទៅនឹងទំហំអេក្រង់។\nឧទាហរណ៍ HTML:\n<p class=\"text\">សួស្តីី</p>\nឧទាហរណ៍ CSS:\n.text {\n  font-size: clamp(14px, 4vw, 24px);\n  background-color: lightblue;\n  padding: 10px;\n}\nការពន្យល់៖ ទំហំអក្សរនឹងនៅចន្លោះ 14px (អប្បបរមា) និង 24px (អតិបរមា) ដោយប្រើ 4vw ជាតម្លៃចង់បាន\nដែលសម្របទៅនឹងទំហំអេក្រង់។\n13.3.2 Example: font-size: clamp(14px, 5vw, 24px);\nឧទាហរណ៍នេះះបង្ហាញពីរបៀបៀបប្រើ `clamp()` ដើម្បីីគ្រប់គ្រងទំហំអក្សរឱ្យសមស្រ\nប។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <p class=\"text\">សួស្តីី</p>\n</div>\nឧទាហរណ៍ CSS:",
+          "code": "}\n}\n}\n<div class=\"container\">\n</div>",
+          "preview": {
+            "title": "Css · PDF page 47",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 47",
+            "13.3 clamp()"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 47
+        },
+        {
+          "id": "pdf-css-page-48",
+          "label": "PDF 48. 14.1 Definition",
+          "heading": "14.1 Definition",
+          "intro": ".container { width: 100%; padding: 20px;",
+          "bodyHeading": "Source content · css.pdf · page 48",
+          "body": ".container {\n  width: 100%;\n  padding: 20px;\n}\n.text {\n  font-size: clamp(14px, 5vw, 24px);\n  color: #333;\n  background-color: lightcoral;\n}\nការពន្យល់៖ ទំហំអក្សរនៃ `.text` នឹងប្រែប្រួួលតាមទទឹងអេក្រង់ (5vw) ប៉ុន្តែមិនតូចជាង 14px ឬធំជាង 24px\nឡើយ ដែលធ្វើឱ្យវាអាចអានបានលើគ្រប់ឧបករណ៍។\n14. CSS Grid Layout - ប្លង់ក្រឡាចត្រង្គ CSS\nCSS Grid Layout គឺជាប្រព័ន្ធប្លង់ដ៏មានអានុភាពសម្\nរាប់ការរចនាគេហទំព័រស្មុគស្មាញ។ ផ្នែកនេះះ\nនឹងពន្យល់អំពីរបៀបៀបប្រើ Grid ដើម្បីីរៀរៀបចំធាតុនៅលើទំព័រ។\n14.1 Definition\nCSS Grid ផ្តល់នូវវិធីសាស្\nត្រដែលអាចបត់បែនបានសម្\nរាប់ការបង្កើតប្លង់ដែលមានជួរឈរ និងជួរដេក។\n14.1.1 A powerful layout system for creating complex designs\nGrid ជួយអ្នកបង្កើតការរចនាស្មុគស្មាញដោយគ្រប់គ្រងទីតាំំងធាតុបានយ៉ាងច្បាស់លាស់ និងងាយស្រួួ\nល។\nឧទាហរណ៍ HTML:\n<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n</div>\nឧទាហរណ៍ CSS:",
+          "code": "}\n}\n<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n</div>",
+          "preview": {
+            "title": "Css · PDF page 48",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 48",
+            "14.1 Definition"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 48
+        },
+        {
+          "id": "pdf-css-page-49",
+          "label": "PDF 49. 14.2 Grid Container",
+          "heading": "14.2 Grid Container",
+          "intro": ".grid { display: grid; grid-template-columns: 1fr 1fr 1fr;",
+          "bodyHeading": "Source content · css.pdf · page 49",
+          "body": ".grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 10px;\n}\n.item {\n  background-color: lightblue;\n  padding: 20px;\n  text-align: center;\n}\nការពន្យល់៖ `.grid` បង្កើតប្លង់ជាមួយជួរឈរបីស្\nមើគ្នា (1fr) ដែលមានចន្លោះ 10px រវាងធាតុ ធ្វើឱ្យការរៀរៀបចំ\nមើលទៅស្អាត។\n14.2 Grid Container\nGrid Container គឺជាធាតុមេដែលបង្កើតក្រឡាចត្រង្គដោយប្រើ `display: grid;`។\n14.2.1 Defines the grid using display: grid;\n`display: grid;` ប្\nរាប់ធាតុឱ្យប្រើប្លង់ក្រឡាចត្រង្គ ដែលអនុញ្ញាតឱ្យរៀរៀបចំធាតុកូនរបស់វា។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">សួស្តីី</div>\n  <div class=\"item\">លា</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: grid;\n  grid-template-columns: 100px 200px;\n}\n.item {\n  background-color: lightcoral;\n  padding: 10px;\n}",
+          "code": "}\n}\n<div class=\"container\">\n</div>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 49",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 49",
+            "14.2 Grid Container"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 49
+        },
+        {
+          "id": "pdf-css-page-50",
+          "label": "PDF 50. 14.3 Grid Items",
+          "heading": "14.3 Grid Items",
+          "intro": "ការពន្យល់៖ `.container` ប្រើ `display: grid;` ដើម្បីីបង្កើតក្រឡាចត្រង្គជាមួយជួរឈរ 100px និង 200px ដែលរៀរៀបចំធាតុកូនរបស់វា។ Grid Items គឺជាធាតុកូនដែលត្រូូវបានដាក់នៅក្នុងជួរឈរ និងជួរដេកនៃក្រឡាចត្រង្គ។",
+          "bodyHeading": "Source content · css.pdf · page 50",
+          "body": "ការពន្យល់៖ `.container` ប្រើ `display: grid;` ដើម្បីីបង្កើតក្រឡាចត្រង្គជាមួយជួរឈរ 100px និង 200px\nដែលរៀរៀបចំធាតុកូនរបស់វា។\n14.3 Grid Items\nGrid Items គឺជាធាតុកូនដែលត្រូូវបានដាក់នៅក្នុងជួរឈរ និងជួរដេកនៃក្រឡាចត្រង្គ។\n14.3.1 Placed into rows and columns\nធាតុកូននឹងត្រូូវបានរៀរៀបចំដោយស្វ័័យប្រវត្តិិទៅក្នុងជួរដេក និងជួរឈរដែលបានកំណត់នៅក្នុង container។\nឧទាហរណ៍ HTML:\n<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n  <div class=\"item\">4</div>\n</div>\nឧទាហរណ៍ CSS:\n.grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-template-rows: 100px 100px;\n}\n.item {\n  background-color: lightblue;\n  text-align: center;\n  padding: 20px;\n}\nការពន្យល់៖ ធាតុ 4 ត្រូូវបានដាក់ក្នុងក្រឡាចត្រង្គ 2x2 (2 ជួរឈរ 1fr និង 2 ជួរដេក 100px) ដែលរៀរៀបចំជា 2\nជួរដេក និង 2 ជួរឈរ។\n14.4 Grid-template-columns/rows\n`grid-template-columns` និង `grid-template-rows` កំណត់ចំនួន និងទំហំនៃជួរឈរ និងជួរដេកនៅ\nក្នុងក្រឡាចត្រង្គ។",
+          "code": "<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n  <div class=\"item\">4</div>\n</div>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 50",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 50",
+            "14.3 Grid Items"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 50
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "PDF source lessons · pages 51-55",
+      "items": [
+        {
+          "id": "pdf-css-page-51",
+          "label": "PDF 51. 14.4.1 Defines the number and size of columns and rows",
+          "heading": "14.4.1 Defines the number and size of columns and rows",
+          "intro": "លក្ខណៈសម្បត្តិិទាំំងនេះះអនុញ្ញាតឱ្យអ្នកកំណត់រចនាសម្ព័័ន្ធក្រឡាចត្រង្គដោយប្រើឯកតាដូចជា px, fr, ឬ %។ ឧទាហរណ៍ HTML: <div class=\"grid\">",
+          "bodyHeading": "Source content · css.pdf · page 51",
+          "body": "14.4.1 Defines the number and size of columns and rows\nលក្ខណៈសម្បត្តិិទាំំងនេះះអនុញ្ញាតឱ្យអ្នកកំណត់រចនាសម្ព័័ន្ធក្រឡាចត្រង្គដោយប្រើឯកតាដូចជា px, fr, ឬ %។\nឧទាហរណ៍ HTML:\n<div class=\"grid\">\n  <div class=\"item\">សួស្តីី</div>\n  <div class=\"item\">លា</div>\n  <div class=\"item\">ជម្រាា\nបសួរ</div>\n</div>\nឧទាហរណ៍ CSS:\n.grid {\n  display: grid;\n  grid-template-columns: 150px 1fr 2fr;\n  grid-template-rows: 100px;\n}\n.item {\n  background-color: lightcoral;\n  padding: 10px;\n}\nការពន្យល់៖ ក្រឡាចត្រង្គមាន 3 ជួរឈរ (150px, 1fr, 2fr) និង 1 ជួរដេក (100px) ដែលធ្វើឱ្យទំហំជួរឈរប្រែ\nប្រួួលទៅតាមសមាមាត្រ។\n14.5 Grid-gap\n`grid-gap` កំណត់ចន្លោះរវាងធាតុនៅក្នុងក្រឡាចត្រង្គ (អាចប្រើ `gap` ជំនួសបាន)។\n14.5.1 Defines the space between grid items\n`grid-gap` បង្កើតចន្លោះរវាងជួរឈរ និងជួរដេក ដើម្បីីធ្វើឱ្យប្លង់មើលទៅមានរបៀបៀប។\nឧទាហរណ៍ HTML:\n<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>",
+          "code": "<div class=\"grid\">\n</div>\n}\n}\n<div class=\"grid\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n  <div class=\"item\">3</div>",
+          "preview": {
+            "title": "Css · PDF page 51",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 51",
+            "14.4.1 Defines the number and size of columns and rows"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 51
+        },
+        {
+          "id": "pdf-css-page-52",
+          "label": "PDF 52. 15.1 Flex Container",
+          "heading": "15.1 Flex Container",
+          "intro": "<div class=\"item\">4</div> </div> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 52",
+          "body": "<div class=\"item\">4</div>\n</div>\nឧទាហរណ៍ CSS:\n.grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-gap: 20px;\n}\n.item {\n  background-color: lightblue;\n  padding: 20px;\n  text-align: center;\n}\nការពន្យល់៖ ក្រឡាចត្រង្គ 2x2 មានចន្លោះ 20px រវាងធាតុទាំំងអស់ (ទាំំងជួរឈរ និងជួរដេក) ដែលធ្វើឱ្យមាន\nគម្លាតស្អាតរវាង `.item`។\n15. CSS Flexbox Layout - ប្លង់ Flexbox របស់\nCSS\nCSS Flexbox Layout គឺជាប្រព័ន្ធប្លង់ដែលអនុញ្ញាតឱ្យរៀរៀបចំធាតុបានយ៉ាងងាយស្រួួ\nលទាំំងផ្តេក\nនិងបញ្ឈរ។ ផ្នែកនេះះនឹងពន្យល់អំពីការប្រើ Flexbox ដើម្បីីបង្កើតប្លង់ដែលអាចបត់បែនបាន។\n15.1 Flex Container\nFlex Container គឺជាធាតុមេដែលប្រើ Flexbox ដើម្បីីគ្រប់គ្រងការរៀរៀបចំធាតុកូនរបស់វា។\n15.1.1 A container with display: flex; or display: inline-flex;\n`display: flex;` ឬ `display: inline-flex;` ធ្វើឱ្យធាតុក្លាយជា Flex Container ដែលអនុញ្ញាតឱ្យរៀរៀបចំ\nធាតុកូនក្នុងទិសដៅផ្សេងៗ។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">1</div>",
+          "code": "<div class=\"item\">4</div>\n</div>\n}\n}\n<div class=\"container\">\n  <div class=\"item\">1</div>",
+          "preview": {
+            "title": "Css · PDF page 52",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 52",
+            "15.1 Flex Container"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 52
+        },
+        {
+          "id": "pdf-css-page-53",
+          "label": "PDF 53. 15.2 Flex Items",
+          "heading": "15.2 Flex Items",
+          "intro": "<div class=\"item\">2</div> <div class=\"item\">3</div> </div>",
+          "bodyHeading": "Source content · css.pdf · page 53",
+          "body": "<div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: flex;\n  background-color: lightgray;\n  padding: 10px;\n}\n.item {\n  background-color: lightblue;\n  padding: 20px;\n  margin: 5px;\n}\nការពន្យល់៖ `.container` ប្រើ `display: flex;` ដើម្បីីរៀរៀបចំធាតុកូន (`.item`) ជាជួរផ្តេក ដោយមាន\nចន្លោះ 5px រវាងគ្នា។\n15.2 Flex Items\nFlex Items គឺជាធាតុកូននៅក្នុង Flex Container ដែលត្រូូវបានរៀរៀបចំទៅតាមច្បាប់របស់ Flexbox។\n15.2.1 Items inside the container that align according to the flexbox\nmodel\nធាតុទាំំងនេះះនឹងត្រូូវបានរៀរៀបចំដោយផ្អែកលើលក្ខណៈសម្បត្តិិរបស់ Flex Container ដូចជាទិសដៅ និងការ\nតម្រឹឹម។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">សួស្តីី</div>\n  <div class=\"item\">លា</div>\n  <div class=\"item\">ជម្រាា\nបសួរ</div>\n</div>\nឧទាហរណ៍ CSS:",
+          "code": "<div class=\"item\">2</div>\n  <div class=\"item\">3</div>\n</div>\n}\n}\n<div class=\"container\">\n</div>",
+          "preview": {
+            "title": "Css · PDF page 53",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 53",
+            "15.2 Flex Items"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 53
+        },
+        {
+          "id": "pdf-css-page-54",
+          "label": "PDF 54. 15.3 Main Axis and Cross Axis",
+          "heading": "15.3 Main Axis and Cross Axis",
+          "intro": ".container { display: flex; justify-content: space-between;",
+          "bodyHeading": "Source content · css.pdf · page 54",
+          "body": ".container {\n  display: flex;\n  justify-content: space-between;\n  background-color: lightgray;\n  padding: 10px;\n}\n.item {\n  background-color: lightcoral;\n  padding: 15px;\n}\nការពន្យល់៖ ធាតុកូន (`.item`) ត្រូូវបានរៀរៀបចំជាជួរផ្តេក និងតម្រឹឹមដោយប្រើ `justify-content: space-\nbetween;` ដែលបែងចែកចន្លោះស្\nមើៗរវាងធាតុ។\n15.3 Main Axis and Cross Axis\nFlexbox ប្រើអ័ក្សពីរ (Main Axis និង Cross Axis) ដើម្បីីកំណត់ការតម្រឹឹមធាតុ។\n15.3.1 Flexbox aligns items along two axes\nMain Axis គឺជាអ័ក្សចម្បង (ផ្តេក ឬបញ្ឈរ អាស្រ័័\nយលើ `flex-direction`) និង Cross Axis គឺជាអ័ក្ស\nបន្ទាប់បន្សំំ។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: flex;\n  flex-direction: column;\n  height: 200px;\n  background-color: lightgray;\n}\n.item {\n  background-color: lightblue;\n  padding: 20px;",
+          "code": "}\n}\n<div class=\"container\">\n  <div class=\"item\">1</div>\n  <div class=\"item\">2</div>\n</div>\n}",
+          "preview": {
+            "title": "Css · PDF page 54",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 54",
+            "15.3 Main Axis and Cross Axis"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 54
+        },
+        {
+          "id": "pdf-css-page-55",
+          "label": "PDF 55. 15.3.2 Horizontally (Main Axis)",
+          "heading": "15.3.2 Horizontally (Main Axis)",
+          "intro": "margin: 5px; } ការពន្យល់៖ `flex-direction: column;` ធ្វើឱ្យ Main Axis ជាបញ្ឈរ និង Cross Axis ជាផ្តេក ដែល",
+          "bodyHeading": "Source content · css.pdf · page 55",
+          "body": "margin: 5px;\n}\nការពន្យល់៖ `flex-direction: column;` ធ្វើឱ្យ Main Axis ជាបញ្ឈរ និង Cross Axis ជាផ្តេក ដែល\nរៀរៀបចំធាតុជាជួរបញ្ឈរ។\n15.3.2 Horizontally (Main Axis)\nការតម្រឹឹមផ្តេកតាម Main Axis ត្រូូវបានគ្រប់គ្រងដោយ `justify-content` នៅពេល `flex-direction` ជា\n`row` (លំនាំំដើម)។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">សួស្តីី</div>\n  <div class=\"item\">លា</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: flex;\n  justify-content: center;\n  background-color: lightgray;\n  padding: 10px;\n}\n.item {\n  background-color: lightcoral;\n  padding: 15px;\n  margin: 5px;\n}\nការពន្យល់៖ `justify-content: center;` តម្រឹឹមធាតុទាំំងពីរនៅកណ្តាលផ្តេកតាម Main Axis (ផ្តេក ព្រោះ\n`flex-direction` ជា `row`)។\n15.3.3 Vertically (Cross Axis)\nការតម្រឹឹមបញ្ឈរតាម Cross Axis ត្រូូវបានគ្រប់គ្រងដោយ `align-items` នៅពេល Main Axis ជាផ្តេក។\nឧទាហរណ៍ HTML:\n<div class=\"container\">\n  <div class=\"item\">1</div>",
+          "code": "}\n<div class=\"container\">\n</div>\n}\n}\n<div class=\"container\">\n  <div class=\"item\">1</div>",
+          "preview": {
+            "title": "Css · PDF page 55",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 55",
+            "15.3.2 Horizontally (Main Axis)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 55
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "PDF source lessons · pages 56-57",
+      "items": [
+        {
+          "id": "pdf-css-page-56",
+          "label": "PDF 56. Main Axis ជាផ្តេក)។",
+          "heading": "Main Axis ជាផ្តេក)។",
+          "intro": "<div class=\"item\">2</div> </div> ឧទាហរណ៍ CSS:",
+          "bodyHeading": "Source content · css.pdf · page 56",
+          "body": "<div class=\"item\">2</div>\n</div>\nឧទាហរណ៍ CSS:\n.container {\n  display: flex;\n  align-items: center;\n  height: 200px;\n  background-color: lightgray;\n  padding: 10px;\n}\n.item {\n  background-color: lightblue;\n  padding: 20px;\n  margin: 5px;\n}\nការពន្យល់៖ `align-items: center;` តម្រឹឹមធាតុទាំំងពីរនៅកណ្តាលបញ្ឈរតាម Cross Axis (បញ្ឈរ ព្រោះ\nMain Axis ជាផ្តេក)។\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង",
+          "code": "<div class=\"item\">2</div>\n</div>\n}\n}",
+          "preview": {
+            "title": "Css · PDF page 56",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 56",
+            "Main Axis ជាផ្តេក)។"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 56
+        },
+        {
+          "id": "pdf-css-page-57",
+          "label": "PDF 57. Source lesson page 57",
+          "heading": "Source lesson page 57",
+          "intro": "ទំនាក់ទំនង សូមទំនាក់ទំនងមកកាន់យើងក្តីី: Email: thymuoyhak.biu@gmail.com",
+          "bodyHeading": "Source content · css.pdf · page 57",
+          "body": "ទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": ".lesson-card {\n  padding: 1rem;\n  border: 1px solid #dbe4f0;\n}",
+          "preview": {
+            "title": "Css · PDF page 57",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Css",
+            "PDF page 57",
+            "Source lesson page 57"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "css.pdf",
+          "sourcePage": 57
+        }
+      ]
+    }
+  ]
+}

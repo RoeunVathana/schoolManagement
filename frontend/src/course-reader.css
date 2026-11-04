@@ -357,6 +357,7 @@ body.course-reader-active,
 .course-breadcrumb strong { color: #566b88; font-weight: 800; }
 .course-lesson-meta { align-items: center; color: #8091a9; display: flex; flex-wrap: wrap; font-size: .7rem; font-weight: 800; gap: .8rem; margin-top: 2.4rem; }
 .course-lesson-meta span + span { border-left: 1px solid #d8e0ea; padding-left: .8rem; }
+.course-source-meta { color: #2e8f83; font-weight: 900; }
 .course-lesson-article h2 { color: var(--reader-blue); font-size: clamp(2rem, 4vw, 3.15rem); letter-spacing: -.04em; line-height: 1.08; margin: .7rem 0 1.2rem; }
 .course-lesson-lead { color: #304663; font-size: clamp(1rem, 1.7vw, 1.15rem); line-height: 1.9; margin: 0; max-width: 47rem; }
 .course-lesson-study-guide { background: linear-gradient(135deg, #f6faff, #edf5ff); border: 1px solid #d6e4f7; border-radius: .8rem; display: grid; gap: 1.1rem; grid-template-columns: minmax(0, .92fr) minmax(0, 1.35fr); margin-top: 1.35rem; max-width: 52rem; padding: 1rem 1.1rem; }
@@ -369,6 +370,7 @@ body.course-reader-active,
 .course-lesson-section { margin-top: 2.75rem; }
 .course-lesson-section h3 { color: var(--reader-blue); font-size: clamp(1.35rem, 2.2vw, 1.75rem); letter-spacing: -.02em; margin: 0 0 .65rem; }
 .course-lesson-section p { color: #3b4f6b; font-size: 1rem; line-height: 1.85; margin: 0 0 1.25rem; }
+.course-source-text { background: rgba(255,255,255,.4); border: 1px solid #d8e4f0; border-radius: .7rem; font-family: Georgia, "Noto Serif Khmer", serif; max-width: none; overflow-wrap: anywhere; padding: 1rem 1.1rem; }
 .course-code-wrap { background: #292929; border-radius: .45rem; box-shadow: 0 12px 25px rgba(22,31,48,.12); color: #f6f7fb; overflow: hidden; }
 .course-code-toolbar { align-items: center; background: #202020; color: #a8b2c2; display: flex; font: 700 .68rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; gap: .55rem; justify-content: space-between; padding: .6rem .8rem; }
 .course-code-toolbar > span:first-child { display: flex; gap: .3rem; }
@@ -468,6 +470,8 @@ body.course-reader-active,
 .dark .course-reader-nav a.course-reader-nav-academy { color: #9fffe0; }
 .dark .course-reader-nav a:hover { color: #9fffe0; }
 .dark .course-lesson-lead, .dark .course-lesson-section p { color: #c3d0e0; }
+.dark .course-source-meta { color: #8fe4c3; }
+.dark .course-source-text { background: rgba(12,28,48,.5); border-color: #2a496d; }
 .dark .course-lesson-study-guide { background: linear-gradient(135deg, #132842, #102238); border-color: #2a496d; }
 .dark .course-study-guide-label { color: #9eb4ce; }
 .dark .course-keyword-chip { background: #10233b; border-color: #31577f; color: #91d1ff; }

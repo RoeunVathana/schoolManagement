@@ -1,0 +1,562 @@
+{
+  "slug": "git",
+  "sourceFile": "git.pdf",
+  "pageCount": 21,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-git-page-1",
+          "label": "PDF 1. Git គឺជាប្រព័ន្ធគ្រប់គ្រងកំណែបែបចែកចាយ (Distributed Version Control System) ដែល",
+          "heading": "Git គឺជាប្រព័ន្ធគ្រប់គ្រងកំណែបែបចែកចាយ (Distributed Version Control System) ដែល",
+          "intro": "1. ការណែនាំំអំពី Git ត្រូូវបានរចនាឡើងដើម្បីីតាមដានការផ្លាស់ប្តូរក្នុងកូដសោសន៍កំឡុងពេលអភិវឌ្ឍន៍កម្មវិធី។ វាត្រូូវបានប្រើ ប្",
+          "bodyHeading": "Source content · git.pdf · page 1",
+          "body": "1. ការណែនាំំអំពី Git\nGit គឺជាប្រព័ន្ធគ្រប់គ្រងកំណែបែបចែកចាយ (Distributed Version Control System) ដែល\nត្រូូវបានរចនាឡើងដើម្បីីតាមដានការផ្លាស់ប្តូរក្នុងកូដសោសន៍កំឡុងពេលអភិវឌ្ឍន៍កម្មវិធី។ វាត្រូូវបានប្រើ\nប្\nរាស់យ៉ាងទូលំទូលាយសម្\nរាប់ការសហការក្នុងការអភិវឌ្ឍកម្មវិធី។\n1.1. Git គឺជាអ្វីី?\nGit គឺជាប្រព័ន្ធគ្រប់គ្រងកំណែបែបចែកចាយ ដែលអនុញ្ញាតឱ្យអ្នកអភិវឌ្ឍន៍ធ្វើការជាមួយកូដប្រភពដូចគ្នាក្នុងពេល\nតែមួយ។ វាជួយឱ្យអ្នកអភិវឌ្ឍន៍អាចរក្សាទុកប្រវត្តិិនៃការផ្លាស់ប្តូរ និងធ្វើការជាមួយម៉ាស៊ីីនមេ (Remote Server)\nឬក៏ដោយឡែក។\n# ឧទាហរណ៍៖ ពិនិត្យកំណែ Git\ngit --version\nលទ្ធផល៖\ngit version 2.37.1\n1.2. អត្ថប្រយោជន៍នៃការប្រើ Git\nGit ផ្តល់នូវអត្ថប្រយោជន៍ជាច្រើនសម្\nរាប់អ្នកអភិវឌ្ឍន៍ រួមមាន៖\nការគ្រប់គ្រងប្រវត្តិិនៃការផ្លាស់ប្តូរកូដ។\nការងាយស្រួួ\nលក្នុងការសហការជាមួយអ្នកអភិវឌ្ឍន៍ផ្សេងទៀទៀត។\nការអាចធ្វើការបានដោយឡែកពីម៉ាស៊ីីនមេ។\nការគាំំទ្រការបង្កើតសាខា (Branching) និងការបញ្ចូលគ្នា (Merging)។\n1.3. ការដំឡើង Git\nដើម្បីីដំឡើង Git អ្នកអាចធ្វើតាមជំហានខាងក្រោម៖\nសម្\nរាប់ Windows៖ ទាញយក Git ពី git-scm.com ហើយធ្វើតាមជំហានដំឡើង។\nសម្\nរាប់ macOS៖ ប្រើ Homebrew ដើម្បីីដំឡើង Git៖\nbrew install git",
+          "code": "git --version\ngit version 2.37.1",
+          "preview": {
+            "title": "Git · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 1",
+            "Git គឺជាប្រព័ន្ធគ្រប់គ្រងកំណែបែបចែកចាយ (Distributed Version Control System) ដែល"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-git-page-2",
+          "label": "PDF 2. Repository គឺជាទីតាំំងដែល Git រក្សាទុកទិន្ន័យនៃគម្រោង។ មានពីរប្រភេទ៖",
+          "heading": "Repository គឺជាទីតាំំងដែល Git រក្សាទុកទិន្ន័យនៃគម្រោង។ មានពីរប្រភេទ៖",
+          "intro": "សម្ រាប់ Linux៖ ប្រើ package manager ដូចជា `apt` ឬ `yum`៖ sudo apt install git",
+          "bodyHeading": "Source content · git.pdf · page 2",
+          "body": "សម្\nរាប់ Linux៖ ប្រើ package manager ដូចជា `apt` ឬ `yum`៖\nsudo apt install git\n1.4. ការយល់ដឹងអំពី Repository (Local & Remote)\nRepository គឺជាទីតាំំងដែល Git រក្សាទុកទិន្ន័យនៃគម្រោង។ មានពីរប្រភេទ៖\nLocal Repository៖ ទីតាំំងនៅលើម៉ាស៊ីីនរបស់អ្នក។\nRemote Repository៖ ទីតាំំងនៅលើម៉ាស៊ីីនមេ (ឧទាហរណ៍៖ GitHub, GitLab)។\n# ឧទាហរណ៍៖ បង្កើត Local Repository\ngit init\n# ឧទាហរណ៍៖ ភ្ជាប់ Remote Repository\ngit remote add origin https://github.com/username/repo.git\nលទ្ធផល៖\nInitialized empty Git repository in /path/to/repo\nRemote repository added.\n2. ពាក្យបញ្ជាមូលដ្ឋាននៃ Git\nGit ផ្តល់នូវសំណុំពាក្យបញ្ជាមូលដ្ឋានដែលចាំំបាច់សម្\nរាប់ការគ្រប់គ្រងកូដ និងការសហការជាមួយអ្នក\nដទៃ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីពាក្យបញ្ជាដែលត្រូូវបានប្រើប្\nរាស់ញឹកញាប់បំផុតក្នុង Git។\n2.1. ការចាប់ផ្តើម Repository (git init)\nពាក្យបញ្ជា git init ត្រូូវបានប្រើដើម្បីីបង្កើត Repository ថ្មីីនៅក្នុងថតដែលបានបញ្ជាក់។ វាបង្កើតថតរង\n.git ដែលរក្សាទុករាល់ទិន្ន័យនៃការផ្លាស់ប្តូរ។\n# ឧទាហរណ៍៖ បង្កើត Repository ថ្មីី\ngit init\nលទ្ធផល៖",
+          "code": "git init\ngit remote add origin https://github.com/username/repo.git\ngit init",
+          "preview": {
+            "title": "Git · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 2",
+            "Repository គឺជាទីតាំំងដែល Git រក្សាទុកទិន្ន័យនៃគម្រោង។ មានពីរប្រភេទ៖"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-git-page-3",
+          "label": "PDF 3. 1 file changed, 1 insertion(+)",
+          "heading": "1 file changed, 1 insertion(+)",
+          "intro": "Initialized empty Git repository in /path/to/repo/.git/ 2.2. ការចម្លង Repository (git clone) ពាក្យបញ្ជា git clone ត្រូូវបានប្រើដើម្បីីចម្លង Repository ពីម៉ាស៊ីីនមេ (Remote Server) មកកាន់ម៉ាស៊ីីន",
+          "bodyHeading": "Source content · git.pdf · page 3",
+          "body": "Initialized empty Git repository in /path/to/repo/.git/\n2.2. ការចម្លង Repository (git clone)\nពាក្យបញ្ជា git clone ត្រូូវបានប្រើដើម្បីីចម្លង Repository ពីម៉ាស៊ីីនមេ (Remote Server) មកកាន់ម៉ាស៊ីីន\nក្នុងស្រុុ\nក (Local Machine)។\n# ឧទាហរណ៍៖ ចម្លង Repository\ngit clone https://github.com/username/repo.git\nលទ្ធផល៖\nCloning into 'repo'...\nremote: Enumerating objects: 100, done.\nremote: Counting objects: 100% (100/100), done.\nremote: Compressing objects: 100% (80/80), done.\nReceiving objects: 100% (100/100), 10.12 MiB | 5.00 MiB/s, done.\nResolving deltas: 100% (40/40), done.\n2.3. ការរៀរៀបចំ និងការបញ្ចូលការផ្លាស់ប្តូរ (git add, git commit)\nពាក្យបញ្ជា git add ត្រូូវបានប្រើដើម្បីីរៀរៀបចំឯកសារសម្\nរាប់ការបញ្ចូល (Staging) ហើយ git commit ត្រូូវ\nបានប្រើដើម្បីីបញ្ចូលការផ្លាស់ប្តូរទៅក្នុង Repository។\n# ឧទាហរណ៍៖ រៀបចំឯកសារ\ngit add filename.txt\n# ឧទាហរណ៍៖ បញ្ចូលការផ្លាស់ប្តូរ\ngit commit -m \"Add filename.txt\"\nលទ្ធផល៖\n[main (root-commit) abc1234] Add filename.txt\n 1 file changed, 1 insertion(+)\n2.4. ការពិនិត្យស្ថានភាព Repository (git status)",
+          "code": "git clone https://github.com/username/repo.git\ngit add filename.txt\ngit commit -m \"Add filename.txt\"\n[main (root-commit) abc1234] Add filename.txt",
+          "preview": {
+            "title": "Git · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 3",
+            "1 file changed, 1 insertion(+)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-git-page-4",
+          "label": "PDF 4. On branch main",
+          "heading": "On branch main",
+          "intro": "ពាក្យបញ្ជា git status ត្រូូវបានប្រើដើម្បីីពិនិត្យស្ថានភាពនៃ Repository របស់អ្នក ដូចជាឯកសារដែលបាន ផ្លាស់ប្តូរ ឬឯកសារដែលបានរៀរៀបចំសម្ រាប់ការបញ្ចូល។",
+          "bodyHeading": "Source content · git.pdf · page 4",
+          "body": "ពាក្យបញ្ជា git status ត្រូូវបានប្រើដើម្បីីពិនិត្យស្ថានភាពនៃ Repository របស់អ្នក ដូចជាឯកសារដែលបាន\nផ្លាស់ប្តូរ ឬឯកសារដែលបានរៀរៀបចំសម្\nរាប់ការបញ្ចូល។\n# ឧទាហរណ៍៖ ពិនិត្យស្ថានភាព Repository\ngit status\nលទ្ធផល៖\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged <file>...\" to unstage)\n        new file:   filename.txt\n2.5. ការមើលប្រវត្តិិការបញ្ចូល (git log)\nពាក្យបញ្ជា git log ត្រូូវបានប្រើដើម្បីីមើលប្រវត្តិិនៃការបញ្ចូល (Commit History) ក្នុង Repository។ វា\nបង្ហាញព័ត៌មានដូចជា Commit ID អ្នកនិពន្ធ កាលបរិច្ឆេទ និងសារបញ្ចូល។\n# ឧទាហរណ៍៖ មើលប្រ\nវត្តិិការបញ្ចូល\ngit log\nលទ្ធផល៖\ncommit abc1234 (HEAD -> main)\nAuthor: John Doe <john.doe@example.com>\nDate:   Mon Oct 2 12:00:00 2023 +0700\n    Add filename.txt\n3. ការធ្វើការជាមួយសាខា\nសាខា (Branches) គឺជាផ្នែកសំខាន់នៃការគ្រប់គ្រងកូដជាមួយ Git។ វាអនុញ្ញាតឱ្យអ្នកអភិវឌ្ឍន៍ធ្វើ\nការលើមុខងារផ្សេងៗដោយឡែកពីគ្នា ហើយបញ្ចូលគ្នានៅពេលក្រោយ។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀន\nអំពីការបង្កើត ប្តូរ បញ្ចូល និងលុបសាខា។",
+          "code": "git status\n  (use \"git restore --staged <file>...\" to unstage)\ngit log",
+          "preview": {
+            "title": "Git · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 4",
+            "On branch main"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-git-page-5",
+          "label": "PDF 5. Switched to branch 'new-feature'",
+          "heading": "Switched to branch 'new-feature'",
+          "intro": "3.1. ការបង្កើត និងរាយបញ្ជីីសាខា (git branch) ពាក្យបញ្ជា git branch ត្រូូវបានប្រើដើម្បីីបង្កើតសាខាថ្មីី ឬមើលរាយបញ្ជីីសាខាទាំំងអស់នៅក្នុង Repository។ # ឧទាហរណ៍៖ បង្កើតសាខាថ្មីី",
+          "bodyHeading": "Source content · git.pdf · page 5",
+          "body": "3.1. ការបង្កើត និងរាយបញ្ជីីសាខា (git branch)\nពាក្យបញ្ជា git branch ត្រូូវបានប្រើដើម្បីីបង្កើតសាខាថ្មីី ឬមើលរាយបញ្ជីីសាខាទាំំងអស់នៅក្នុង Repository។\n# ឧទាហរណ៍៖ បង្កើតសាខាថ្មីី\ngit branch new-feature\n# ឧទាហរណ៍៖ មើលរាយបញ្ជីីសាខា\ngit branch\nលទ្ធផល៖\n  main\n* new-feature\n3.2. ការប្តូរសាខា (git checkout, git switch)\nពាក្យបញ្ជា git checkout ឬ git switch ត្រូូវបានប្រើដើម្បីីប្តូរទៅសាខាផ្សេង។\n# ឧទាហរណ៍៖ ប្តូរទៅសាខាថ្មីី\ngit checkout new-feature\n# ឬប្រើ git switch (កំណែ Git 2.23 ឡើង)\ngit switch new-feature\nលទ្ធផល៖\nSwitched to branch 'new-feature'\n3.3. ការបញ្ចូលសាខា (git merge)\nពាក្យបញ្ជា git merge ត្រូូវបានប្រើដើម្បីីបញ្ចូលការផ្លាស់ប្តូរពីសាខាមួយទៅសាខាមួយទៀទៀត។\n# ឧទាហរណ៍៖ បញ្ចូលសាខា new-feature ទៅ main\ngit checkout main\ngit merge new-feature\nលទ្ធផល៖",
+          "code": "git branch new-feature\ngit branch\ngit checkout new-feature\ngit switch new-feature\ngit checkout main\ngit merge new-feature",
+          "preview": {
+            "title": "Git · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 5",
+            "Switched to branch 'new-feature'"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-git-page-6",
+          "label": "PDF 6. 1 file changed, 1 insertion(+)",
+          "heading": "1 file changed, 1 insertion(+)",
+          "intro": "Updating abc1234..def5678 Fast-forward file.txt | 1 +",
+          "bodyHeading": "Source content · git.pdf · page 6",
+          "body": "Updating abc1234..def5678\nFast-forward\n file.txt | 1 +\n 1 file changed, 1 insertion(+)\n3.4. ការលុបសាខា (git branch -d)\nពាក្យបញ្ជា git branch -d ត្រូូវបានប្រើដើម្បីីលុបសាខាដែលមិនត្រូូវការទៀទៀត។\n# ឧទាហរណ៍៖ លុបសាខា new-feature\ngit branch -d new-feature\nលទ្ធផល៖\nDeleted branch new-feature (was def5678).\n3.5. ការដោះស្\nរាយការប៉ះទង្គិិចពេលបញ្ចូល\nនៅពេលបញ្ចូលសាខា អ្នកអាចជួបប្រទះការប៉ះទង្គិិច (Merge Conflicts) ប្រសិនបើកូដត្រូូវបានផ្លាស់ប្តូរនៅកន្លែង\nដូចគ្នានៅក្នុងសាខាពីរផ្សេងគ្នា។ Git នឹងសម្គាល់ឯកសារដែលមានបញ្ហា ហើយអ្នកត្រូូវដោះស្\nរាយវាដោយដៃ។\n# ឧទាហរណ៍៖ ដោ\nះ\nះស្រាា\nយការប៉ះទង្គិិច\n# បន្ទាប់ពីបញ្ចូល និងជួបប្រ\nទះការប៉ះទង្គិិច\n# បើកឯកសារ ហើយកែសម្រួលផ្នែកដែលមានបញ្ហា\n# បន្ទាប់មករៀបចំឯកសារ និងបញ្ចូលវាម្តងទៀត\ngit add file.txt\ngit commit -m \"Resolved merge conflict in file.txt\"\nលទ្ធផល៖\n[main 1234567] Resolved merge conflict in file.txt\n4. Remote Repositories",
+          "code": "git branch -d new-feature\ngit add file.txt\ngit commit -m \"Resolved merge conflict in file.txt\"\n[main 1234567] Resolved merge conflict in file.txt",
+          "preview": {
+            "title": "Git · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 6",
+            "1 file changed, 1 insertion(+)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-git-page-7",
+          "label": "PDF 7. Remote Repositories គឺជាទីតាំំងដែលផ្ទុកកូដនៅលើម៉ាស៊ីីនមេ (Remote Server) ដូចជា",
+          "heading": "Remote Repositories គឺជាទីតាំំងដែលផ្ទុកកូដនៅលើម៉ាស៊ីីនមេ (Remote Server) ដូចជា",
+          "intro": "GitHub, GitLab, ឬ Bitbucket។ វាអនុញ្ញាតឱ្យអ្នកអភិវឌ្ឍន៍ធ្វើការជាមួយគ្នាបានយ៉ាងងាយ ស្រួួ ល។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការធ្វើការជាមួយ Remote Repositories។",
+          "bodyHeading": "Source content · git.pdf · page 7",
+          "body": "Remote Repositories គឺជាទីតាំំងដែលផ្ទុកកូដនៅលើម៉ាស៊ីីនមេ (Remote Server) ដូចជា\nGitHub, GitLab, ឬ Bitbucket។ វាអនុញ្ញាតឱ្យអ្នកអភិវឌ្ឍន៍ធ្វើការជាមួយគ្នាបានយ៉ាងងាយ\nស្រួួ\nល។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីការធ្វើការជាមួយ Remote Repositories។\n4.1. ការបន្ថែម Remote (git remote add origin)\nពាក្យបញ្ជា git remote add ត្រូូវបានប្រើដើម្បីីបន្ថែម Remote Repository ទៅក្នុងគម្រោងរបស់អ្នក។\n# ឧទាហរណ៍៖ បន្ថែម Remote Repository\ngit remote add origin https://github.com/username/repo.git\nលទ្ធផល៖\n(No output if successful)\n4.2. ការបញ្ចូនការផ្លាស់ប្តូរ (git push)\nពាក្យបញ្ជា git push ត្រូូវបានប្រើដើម្បីីបញ្ចូនការផ្លាស់ប្តូរពី Local Repository ទៅកាន់ Remote\nRepository។\n# ឧទាហរណ៍៖ បញ្ចូនការផ្លាស់ប្តូរទៅ Remote Repository\ngit push origin main\nលទ្ធផល៖\nEnumerating objects: 5, done.\nCounting objects: 100% (5/5), done.\nWriting objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0)\nTo https://github.com/username/repo.git\n   abc1234..def5678  main -> main\n4.3. ការទាញយកការផ្លាស់ប្តូរ (git pull)\nពាក្យបញ្ជា git pull ត្រូូវបានប្រើដើម្បីីទាញយកការផ្លាស់ប្តូរពី Remote Repository មកកាន់ Local\nRepository។\n# ឧទាហរណ៍៖ ទាញយកការផ្លាស់ប្តូរ",
+          "code": "git remote add origin https://github.com/username/repo.git\n(No output if successful)\ngit push origin main",
+          "preview": {
+            "title": "Git · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 7",
+            "Remote Repositories គឺជាទីតាំំងដែលផ្ទុកកូដនៅលើម៉ាស៊ីីនមេ (Remote Server) ដូចជា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-git-page-8",
+          "label": "PDF 8. 1 file changed, 1 insertion(+)",
+          "heading": "1 file changed, 1 insertion(+)",
+          "intro": "git pull origin main លទ្ធផល៖ remote: Enumerating objects: 5, done.",
+          "bodyHeading": "Source content · git.pdf · page 8",
+          "body": "git pull origin main\nលទ្ធផល៖\nremote: Enumerating objects: 5, done.\nremote: Counting objects: 100% (5/5), done.\nUnpacking objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.\nFrom https://github.com/username/repo\n   abc1234..def5678  main       -> origin/main\nUpdating abc1234..def5678\nFast-forward\n file.txt | 1 +\n 1 file changed, 1 insertion(+)\n4.4. ការទាញយកការផ្លាស់ប្តូរដោយមិនបញ្ចូល (git fetch)\nពាក្យបញ្ជា git fetch ត្រូូវបានប្រើដើម្បីីទាញយកការផ្លាស់ប្តូរពី Remote Repository ប៉ុន្តែមិនបញ្ចូលវាទៅ\nក្នុង Local Repository ភ្លាមៗ។\n# ឧទាហរណ៍៖ ទាញយកការផ្លាស់ប្តូរ\ngit fetch origin\nលទ្ធផល៖\nremote: Enumerating objects: 5, done.\nremote: Counting objects: 100% (5/5), done.\nUnpacking objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.\nFrom https://github.com/username/repo\n   abc1234..def5678  main       -> origin/main\n4.5. ការតាមដានសាខា (git branch --track)\nពាក្យបញ្ជា git branch --track ត្រូូវបានប្រើដើម្បីីតាមដានសាខាពី Remote Repository ទៅកាន់\nLocal Repository។\n# ឧទាហរណ៍៖ តាមដានសាខា\ngit branch --track new-feature origin/new-feature\nលទ្ធផល៖",
+          "code": "git pull origin main\nFrom https://github.com/username/repo\ngit fetch origin\nFrom https://github.com/username/repo\ngit branch --track new-feature origin/new-feature",
+          "preview": {
+            "title": "Git · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 8",
+            "1 file changed, 1 insertion(+)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-git-page-9",
+          "label": "PDF 9. Branch 'new-feature' set up to track remote branch 'new-feature' from 'o",
+          "heading": "Branch 'new-feature' set up to track remote branch 'new-feature' from 'o",
+          "intro": "  5. ការលុបចោលការផ្លាស់ប្តូរ",
+          "bodyHeading": "Source content · git.pdf · page 9",
+          "body": "\n\nBranch 'new-feature' set up to track remote branch 'new-feature' from 'o\n5. ការលុបចោលការផ្លាស់ប្តូរ\nGit ផ្តល់នូវឧបករណ៍ដ៏មានឥទ្ធិិពលសម្\nរាប់លុបចោលការផ្លាស់ប្តូរដែលអ្នកមិនចង់រក្សាទុក។ នៅក្នុង\nផ្នែកនេះះ យើងនឹងរៀរៀនអំពីរបៀបៀបលុបចោលការផ្លាស់ប្តូរក្នុងដំណាក់កាលផ្សេងៗ។\n5.1. ការលុបចោលការផ្លាស់ប្តូរក្នុងស្រុុ\nក (git checkout -- file, git\nrestore)\nពាក្យបញ្ជា git checkout -- file ឬ git restore ត្រូូវបានប្រើដើម្បីីលុបចោលការផ្លាស់ប្តូរនៅក្នុង\nឯកសារមួយ ហើយស្តារវាទៅស្ថានភាពចុងក្រោយដែលបានបញ្ចូល។\n# ឧទាហរណ៍៖ លុបចោលការផ្លាស់ប្តូរក្នុងឯកសារ\ngit checkout -- file.txt\n# ឬប្រើ git restore (កំណែ Git 2.23 ឡើង)\ngit restore file.txt\nលទ្ធផល៖\n(No output if successful)\n5.2. ការលុបចោលការផ្លាស់ប្តូរដែលបានរៀរៀបចំ (git reset HEAD\nfile)\nពាក្យបញ្ជា git reset HEAD file ត្រូូវបានប្រើដើម្បីីលុបចោលការផ្លាស់ប្តូរដែលបានរៀរៀបចំ (Staged\nChanges) ហើយយកវាត្រឡប់ទៅស្ថានភាពមិនទាន់រៀរៀបចំ។\n# ឧទាហរណ៍៖ លុបចោលការផ្លាស់ប្តូរដែលបានរៀបចំ\ngit reset HEAD file.txt\nលទ្ធផល៖",
+          "code": "git checkout -- file.txt\ngit restore file.txt\n(No output if successful)\ngit reset HEAD file.txt",
+          "preview": {
+            "title": "Git · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 9",
+            "Branch 'new-feature' set up to track remote branch 'new-feature' from 'o"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-git-page-10",
+          "label": "PDF 10. 1 file changed, 1 deletion(-)",
+          "heading": "1 file changed, 1 deletion(-)",
+          "intro": "Unstaged changes after reset: M       file.txt 5.3. ការលុបចោលការបញ្ចូល (git reset --soft, git reset --",
+          "bodyHeading": "Source content · git.pdf · page 10",
+          "body": "Unstaged changes after reset:\nM       file.txt\n5.3. ការលុបចោលការបញ្ចូល (git reset --soft, git reset --\nhard)\nពាក្យបញ្ជា git reset ត្រូូវបានប្រើដើម្បីីលុបចោលការបញ្ចូល។ វាមានពីរប្រភេទ៖\ngit reset --soft៖ លុបចោលការបញ្ចូល ប៉ុន្តែរក្សាទុកការផ្លាស់ប្តូរនៅក្នុង Staging Area។\ngit reset --hard៖ លុបចោលការបញ្ចូល និងការផ្លាស់ប្តូរទាំំងអស់។\n# ឧទាហរណ៍៖ លុបចោលការបញ្ចូលចុងក្រោយ (រក្សាទុកការផ្លាស់ប្តូរ)\ngit reset --soft HEAD~1\n# ឧទាហរណ៍៖ លុបចោលការបញ្ចូលចុងក្រោយ (លុបចោលការផ្លាស់ប្តូរទាំងអស់)\ngit reset --hard HEAD~1\nលទ្ធផល៖\n(No output if successful)\n5.4. ការត្រឡប់ការបញ្ចូល (git revert)\nពាក្យបញ្ជា git revert ត្រូូវបានប្រើដើម្បីីត្រឡប់ការបញ្ចូលមួយដោយបង្កើតការបញ្ចូលថ្មីីដែលលុបចោលការ\nផ្លាស់ប្តូរពីការបញ្ចូលមុន។\n# ឧទាហរណ៍៖ ត្រ\nឡប់ការបញ្ចូលចុងក្រោយ\ngit revert HEAD\nលទ្ធផល៖\n[main abc1234] Revert \"Previous commit message\"\n 1 file changed, 1 deletion(-)",
+          "code": "git reset --soft HEAD~1\ngit reset --hard HEAD~1\n(No output if successful)\ngit revert HEAD\n[main abc1234] Revert \"Previous commit message\"",
+          "preview": {
+            "title": "Git · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 10",
+            "1 file changed, 1 deletion(-)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-git-page-11",
+          "label": "PDF 11. GitHub គឺជាវេទិកាដ៏ពេញនិយមសម្",
+          "heading": "GitHub គឺជាវេទិកាដ៏ពេញនិយមសម្",
+          "intro": "6. ការធ្វើការជាមួយ GitHub រាប់ការគ្រប់គ្រងកូដ និងសហការក្នុងការអភិវឌ្ឍកម្មវិធី។ នៅក្នុង ផ្នែកនេះះ យើងនឹងរៀរៀនអំពីរបៀបៀបប្រើ GitHub ជាមួយ Git។",
+          "bodyHeading": "Source content · git.pdf · page 11",
+          "body": "6. ការធ្វើការជាមួយ GitHub\nGitHub គឺជាវេទិកាដ៏ពេញនិយមសម្\nរាប់ការគ្រប់គ្រងកូដ និងសហការក្នុងការអភិវឌ្ឍកម្មវិធី។ នៅក្នុង\nផ្នែកនេះះ យើងនឹងរៀរៀនអំពីរបៀបៀបប្រើ GitHub ជាមួយ Git។\n6.1. ការបង្កើត Repository លើ GitHub\nដើម្បីីបង្កើត Repository ថ្មីីលើ GitHub អ្នកត្រូូវ៖\n1. ចូលទៅកាន់ GitHub ហើយចុះឈ្\nមោះគណនី (ប្រសិនបើអ្នកមិនទាន់មាន)។\n2. ចុចប៊ូតុង New នៅលើទំព័រ Repositories។\n3. បំពេញព័ត៌មានអំពី Repository របស់អ្នក (ឈ្\nមោះ ការពិពណ៌នា និងការកំណត់ភាពឯកជន)។\n4. ចុចប៊ូតុង Create Repository។\n6.2. ការបញ្ចូន Local Repository ទៅ GitHub\nដើម្បីីបញ្ចូន Local Repository ទៅ GitHub អ្នកត្រូូវ៖\n1. បន្ថែម Remote Repository ជាមួយ URL ពី GitHub៖\ngit remote add origin https://github.com/username/repo.git\n2. បញ្ចូនការផ្លាស់ប្តូរទៅ GitHub៖\ngit push -u origin main\nលទ្ធផល៖\nEnumerating objects: 5, done.\nCounting objects: 100% (5/5), done.\nWriting objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0)\nTo https://github.com/username/repo.git\n   abc1234..def5678  main -> main\n6.3. ការចម្លង Repository (Forking)\nForking គឺជាការចម្លង Repository ពីគណនី GitHub របស់អ្នកដទៃទៅកាន់គណនីរបស់អ្នក។ ដើម្បីី Fork\nRepository មួយ៖",
+          "code": "git remote add origin https://github.com/username/repo.git\ngit push -u origin main",
+          "preview": {
+            "title": "Git · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 11",
+            "GitHub គឺជាវេទិកាដ៏ពេញនិយមសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-git-page-12",
+          "label": "PDF 12. Pull Request (PR) គឺជាការស្",
+          "heading": "Pull Request (PR) គឺជាការស្",
+          "intro": "1. ចូលទៅកាន់ Repository ដែលអ្នកចង់ Fork។ 2. ចុចប៊ូតុង Fork នៅជ្រុុងខាងស្តាំំខាងលើ។ 3. ជ្រើសរើសគណនី GitHub របស់អ្នកដើម្បីីចម្លង Repository។",
+          "bodyHeading": "Source content · git.pdf · page 12",
+          "body": "1. ចូលទៅកាន់ Repository ដែលអ្នកចង់ Fork។\n2. ចុចប៊ូតុង Fork នៅជ្រុុងខាងស្តាំំខាងលើ។\n3. ជ្រើសរើសគណនី GitHub របស់អ្នកដើម្បីីចម្លង Repository។\n6.4. ការបង្កើត និងគ្រប់គ្រង Pull Requests\nPull Request (PR) គឺជាការស្\nនើសុំដើម្បីីបញ្ចូលការផ្លាស់ប្តូរពីសាខាមួយទៅសាខាមួយទៀទៀត។ ដើម្បីីបង្កើត Pull\nRequest៖\n1. ចូលទៅកាន់ Repository ដែលអ្នកបាន Fork។\n2. ចុចប៊ូតុង New Pull Request។\n3. ជ្រើសរើសសាខាដែលអ្នកចង់បញ្ចូលការផ្លាស់ប្តូរ។\n4. បំពេញព័ត៌មានអំពី Pull Request របស់អ្នក ហើយចុច Create Pull Request។\n6.5. ការបញ្ចូល Pull Requests\nដើម្បីីបញ្ចូល Pull Request មួយ៖\n1. ចូលទៅកាន់ Pull Request ដែលអ្នកចង់បញ្ចូល។\n2. ពិនិត្យការផ្លាស់ប្តូរ និងធ្វើការពិភាក្សា (ប្រសិនបើចាំំបាច់)។\n3. ចុចប៊ូតុង Merge Pull Request ហើយបញ្ជាក់ការបញ្ចូល។\n7. ពាក្យបញ្ជាកម្រិិតខ្ពស់នៃ Git\nGit ផ្តល់នូវពាក្យបញ្ជាកម្រិិតខ្ពស់ជាច្រើនដែលអនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងកូដបានកាន់តែប្រសើរ។ នៅក្នុង\nផ្នែកនេះះ យើងនឹងរៀរៀនអំពីពាក្យបញ្ជាទាំំងនេះះ។\n7.1. ការផ្ទុកការផ្លាស់ប្តូរជាបណ្\nតោះអាសន្ន (git stash, git stash pop)\nពាក្យបញ្ជា git stash ត្រូូវបានប្រើដើម្បីីផ្ទុកការផ្លាស់ប្តូរដែលមិនទាន់បានបញ្ចូលជាបណ្\nតោះអាសន្ន។ អ្នក\nអាចយកការផ្លាស់ប្តូរមកវិញដោយប្រើ git stash pop។\n# ឧទាហរណ៍៖ ផ្ទុកការផ្លាស់ប្តូរជាបណ្\nតោះះអាសន្ន\ngit stash\n# ឧទាហរណ៍៖ យកការផ្លាស់ប្តូរមកវិញ\ngit stash pop",
+          "code": "git stash\ngit stash pop",
+          "preview": {
+            "title": "Git · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 12",
+            "Pull Request (PR) គឺជាការស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-git-page-13",
+          "label": "PDF 13. 1 file changed, 1 insertion(+)",
+          "heading": "1 file changed, 1 insertion(+)",
+          "intro": "  លទ្ធផល៖",
+          "bodyHeading": "Source content · git.pdf · page 13",
+          "body": "\n\nលទ្ធផល៖\nSaved working directory and index state WIP on main: abc1234 Initial com\nDropped refs/stash@{0} (def5678)\n7.2. ការជ្រើសរើសការបញ្ចូល (git cherry-pick)\nពាក្យបញ្ជា git cherry-pick ត្រូូវបានប្រើដើម្បីីយកការបញ្ចូលជាក់លាក់មួយពីសាខាមួយទៅសាខាមួយ\nទៀទៀត។\n# ឧទាហរណ៍៖ ជ្រើសរើសការបញ្ចូលមួយ\ngit cherry-pick abc1234\nលទ្ធផល៖\n[main def5678] Commit message\n 1 file changed, 1 insertion(+)\n7.3. ការរៀរៀបចំការបញ្ចូលឡើងវិញ (git rebase)\nពាក្យបញ្ជា git rebase ត្រូូវបានប្រើដើម្បីីរៀរៀបចំការបញ្ចូលឡើងវិញនៅលើសាខាមួយ។ វាជួយឱ្យប្រវត្តិិការបញ្ចូល\nកាន់តែស្អាត និងច្បាស់លាស់។\n# ឧទាហរណ៍៖ រៀបចំការបញ្ចូលឡើងវិញ\ngit rebase main\nលទ្ធផល៖\nSuccessfully rebased and updated refs/heads/feature-branch.\n7.4. ការបញ្ចូលការបញ្ចូលជាក្រុុម (git rebase -i)\nពាក្យបញ្ជា git rebase -i ត្រូូវបានប្រើដើម្បីីបញ្ចូលការបញ្ចូលច្រើនជាក្រុុមមួយ។ វាជួយឱ្យប្រវត្តិិការបញ្ចូល\nកាន់តែសង្ខេប។\n# ឧទាហរណ៍៖ បញ្ចូលការបញ្ចូលជាក្\nរុម\ngit rebase -i HEAD~3",
+          "code": "git cherry-pick abc1234\n[main def5678] Commit message\ngit rebase main\ngit rebase -i HEAD~3",
+          "preview": {
+            "title": "Git · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 13",
+            "1 file changed, 1 insertion(+)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-git-page-14",
+          "label": "PDF 14. Successfully rebased and updated refs/heads/feature-branch.",
+          "heading": "Successfully rebased and updated refs/heads/feature-branch.",
+          "intro": "លទ្ធផល៖ 7.5. ការប្រើ git reflog ដើម្បីីរក្សាការបញ្ចូលដែលបាត់ ពាក្យបញ្ជា git reflog ត្រូូវបានប្រើដើម្បីីមើលប្រវត្តិិនៃការបញ្ចូល និងសកម្មភាពផ្សេងៗ។ វាអាចជួយឱ្យអ្នករក្សា",
+          "bodyHeading": "Source content · git.pdf · page 14",
+          "body": "លទ្ធផល៖\nSuccessfully rebased and updated refs/heads/feature-branch.\n7.5. ការប្រើ git reflog ដើម្បីីរក្សាការបញ្ចូលដែលបាត់\nពាក្យបញ្ជា git reflog ត្រូូវបានប្រើដើម្បីីមើលប្រវត្តិិនៃការបញ្ចូល និងសកម្មភាពផ្សេងៗ។ វាអាចជួយឱ្យអ្នករក្សា\nការបញ្ចូលដែលបាត់។\n# ឧទាហរណ៍៖ មើលប្រ\nវត្តិិ reflog\ngit reflog\nលទ្ធផល៖\nabc1234 HEAD@{0}: commit: Commit message\ndef5678 HEAD@{1}: checkout: moving from main to feature-branch\n8. Git Tags និង Releases\nGit Tags គឺជាវិធីដ៏មានប្រសិទ្ធភាពដើម្បីីសម្គាល់ចំណុចជាក់លាក់នៅក្នុងប្រវត្តិិការបញ្ចូល (Commit\nHistory) ដូចជាកំណែ (Versions) ឬ Releases។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីរបៀបៀបប្រើ\nGit Tags។\n8.1. ការបង្កើត Tags (git tag)\nពាក្យបញ្ជា git tag ត្រូូវបានប្រើដើម្បីីបង្កើត Tags ដើម្បីីសម្គាល់ការបញ្ចូលជាក់លាក់។\n# ឧទាហរណ៍៖ បង្កើត Tag\ngit tag v1.0.0\nលទ្ធផល៖\n(No output if successful)",
+          "code": "git reflog\ngit tag v1.0.0\n(No output if successful)",
+          "preview": {
+            "title": "Git · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 14",
+            "Successfully rebased and updated refs/heads/feature-branch."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-git-page-15",
+          "label": "PDF 15. Deleted tag 'v1.0.0' (was abc1234)",
+          "heading": "Deleted tag 'v1.0.0' (was abc1234)",
+          "intro": "8.2. ការមើលរាយបញ្ជីី Tags (git tag -l) ពាក្យបញ្ជា git tag -l ត្រូូវបានប្រើដើម្បីីមើលរាយបញ្ជីី Tags ទាំំងអស់នៅក្នុង Repository។ # ឧទាហរណ៍៖ មើលរាយបញ្ជីី Tags",
+          "bodyHeading": "Source content · git.pdf · page 15",
+          "body": "8.2. ការមើលរាយបញ្ជីី Tags (git tag -l)\nពាក្យបញ្ជា git tag -l ត្រូូវបានប្រើដើម្បីីមើលរាយបញ្ជីី Tags ទាំំងអស់នៅក្នុង Repository។\n# ឧទាហរណ៍៖ មើលរាយបញ្ជីី Tags\ngit tag -l\nលទ្ធផល៖\nv1.0.0\nv1.1.0\nv2.0.0\n8.3. ការលុប Tags (git tag -d)\nពាក្យបញ្ជា git tag -d ត្រូូវបានប្រើដើម្បីីលុប Tags ដែលមិនត្រូូវការទៀទៀត។\n# ឧទាហរណ៍៖ លុប Tag\ngit tag -d v1.0.0\nលទ្ធផល៖\nDeleted tag 'v1.0.0' (was abc1234)\n8.4. ការបញ្ចូន Tags ទៅ Remote (git push origin tagname)\nពាក្យបញ្ជា git push origin tagname ត្រូូវបានប្រើដើម្បីីបញ្ចូន Tags ទៅកាន់ Remote Repository។\n# ឧទាហរណ៍៖ បញ្ចូន Tag ទៅ Remote\ngit push origin v1.0.0\nលទ្ធផល៖\nTotal 0 (delta 0), reused 0 (delta 0)\nTo https://github.com/username/repo.git\n * [new tag]         v1.0.0 -> v1.0.0",
+          "code": "git tag -l\ngit tag -d v1.0.0\ngit push origin v1.0.0",
+          "preview": {
+            "title": "Git · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 15",
+            "Deleted tag 'v1.0.0' (was abc1234)"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-git-page-16",
+          "label": "PDF 16. Git Hooks គឺជាស្",
+          "heading": "Git Hooks គឺជាស្",
+          "intro": "  9. Git Hooks",
+          "bodyHeading": "Source content · git.pdf · page 16",
+          "body": "\n\n9. Git Hooks\nGit Hooks គឺជាស្\nគ្រីីបដែលត្រូូវបានដំណើរការដោយស្វ័័យប្រវត្តិិនៅពេលមានព្រឹឹត្តិិការណ៍ជាក់លាក់\nកើតឡើងនៅក្នុង Git ដូចជាការបញ្ចូល (Commit) ឬការទាញយក (Pull)។ នៅក្នុងផ្នែកនេះះ យើង\nនឹងរៀរៀនអំពីរបៀបៀបប្រើ Git Hooks។\n9.1. Pre-commit Hooks\nPre-commit Hooks ត្រូូវបានដំណើរការមុនពេលការបញ្ចូល (Commit) ត្រូូវបានបញ្ចប់។ វាអាចត្រូូវបានប្រើ\nដើម្បីីធ្វើការពិនិត្យដូចជា linting ឬការធ្វើតេស្ត។\n# ឧទាហរណ៍៖ Pre-commit Hook\n# បង្កើតឯកសារ .git/hooks/pre-commit\n#!/bin/sh\necho \"Running pre-commit checks...\"\nnpm run lint\nលទ្ធផល៖\nRunning pre-commit checks...\nLinting completed successfully.\n9.2. Post-commit Hooks\nPost-commit Hooks ត្រូូវបានដំណើរការបន្ទាប់ពីការបញ្ចូល (Commit) ត្រូូវបានបញ្ចប់។ វាអាចត្រូូវបានប្រើ\nដើម្បីីធ្វើការជូនដំណឹង ឬការធ្វើសមការកម្ម។\n# ឧទាហរណ៍៖ Post-commit Hook\n# បង្កើតឯកសារ .git/hooks/post-commit\n#!/bin/sh\necho \"Commit completed. Sending notification...\"\ncurl -X POST -d '{\"message\": \"New commit\"}' https://example.com/notify\nលទ្ធផល៖",
+          "code": "npm run lint",
+          "preview": {
+            "title": "Git · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 16",
+            "Git Hooks គឺជាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-git-page-17",
+          "label": "PDF 17. Commit completed. Sending notification...",
+          "heading": "Commit completed. Sending notification...",
+          "intro": "Notification sent successfully. 9.3. ការធ្វើអោយកិច្ចការដំណើរការដោយស្វ័័យប្រវត្តិិជាមួយ Hooks Git Hooks អាចត្រូូវបានប្រើដើម្បីីធ្វើអោយកិច្ចការផ្សេងៗដំណើរការដោយស្វ័័យប្រវត្តិិ ដូចជាការពិនិត្យកូដ ការធ្វើ",
+          "bodyHeading": "Source content · git.pdf · page 17",
+          "body": "Commit completed. Sending notification...\nNotification sent successfully.\n9.3. ការធ្វើអោយកិច្ចការដំណើរការដោយស្វ័័យប្រវត្តិិជាមួយ Hooks\nGit Hooks អាចត្រូូវបានប្រើដើម្បីីធ្វើអោយកិច្ចការផ្សេងៗដំណើរការដោយស្វ័័យប្រវត្តិិ ដូចជាការពិនិត្យកូដ ការធ្វើ\nតេស្ត ឬការជូនដំណឹង។\n# ឧទាហរណ៍៖ Automating Tasks with Hooks\n# បង្កើតឯកសារ .git/hooks/pre-push\n#!/bin/sh\necho \"Running pre-push checks...\"\nnpm run test\nលទ្ធផល៖\nRunning pre-push checks...\nTests completed successfully.\n10. Git Configuration និង Aliases\nGit ផ្តល់នូវឧបករណ៍ដ៏មានឥទ្ធិិពលសម្\nរាប់កំណត់រចនាសម្ព័័ន្ធ និងបង្កើតពាក្យបញ្ជាខ្លីី (Aliases)\nដើម្បីីធ្វើឱ្យការងាររបស់អ្នកកាន់តែងាយស្រួួ\nល។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពីរបៀបៀបកំណត់រចនា\nសម្ព័័ន្ធ Git និងប្រើ Aliases។\n10.1. ការកំណត់រចនាសម្ព័័ន្ធសាកល (git config --global)\nពាក្យបញ្ជា git config --global ត្រូូវបានប្រើដើម្បីីកំណត់រចនាសម្ព័័ន្ធសាកលសម្\nរាប់ Git ដូចជាការ\nកំណត់ឈ្\nមោះ អ៊ីីមែល និងជម្រើសផ្សេងៗ។\n# ឧទាហរណ៍៖ កំណត់ឈ្\nមោះះ និងអ៊ីីមែល\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@example.com\"",
+          "code": "npm run test\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@example.com\"",
+          "preview": {
+            "title": "Git · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 17",
+            "Commit completed. Sending notification..."
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-git-page-18",
+          "label": "PDF 18. Git Workflows គឺជាវិធីសាស្",
+          "heading": "Git Workflows គឺជាវិធីសាស្",
+          "intro": "# ឧទាហរណ៍៖ កំណត់អ្នកកែសម្រួលលំន ាំំ ដើម",
+          "bodyHeading": "Source content · git.pdf · page 18",
+          "body": "# ឧទាហរណ៍៖ កំណត់អ្នកកែសម្រួលលំន\nាំំ\nដើម\ngit config --global core.editor \"code --wait\"\nលទ្ធផល៖\n(No output if successful)\n10.2. ការបង្កើតពាក្យបញ្ជាខ្លីីជាមួយ Aliases (git config --global\nalias)\nពាក្យបញ្ជា git config --global alias ត្រូូវបានប្រើដើម្បីីបង្កើតពាក្យបញ្ជាខ្លីី (Aliases) សម្\nរាប់ពាក្យ\nបញ្ជាដែលអ្នកប្រើប្\nរាស់ញឹកញាប់។\n# ឧទាហរណ៍៖ បង្កើត Alias សម្រាា\nប់ git checkout\ngit config --global alias.co checkout\n# ឧទាហរណ៍៖ បង្កើត Alias សម្រាា\nប់ git status\ngit config --global alias.st status\n# ឧទាហរណ៍៖ បង្កើត Alias សម្រាា\nប់ git log ដែលបង្ហាញប្រ\nវត្តិិដ៏សម្បូរបែប\ngit config --global alias.lg \"log --oneline --graph --decorate --all\"\nលទ្ធផល៖\n(No output if successful)\nបន្ទាប់ពីបង្កើត Aliases អ្នកអាចប្រើពាក្យបញ្ជាខ្លីីដូចខាងក្រោម៖\ngit co ជំនួសឱ្យ git checkout\ngit st ជំនួសឱ្យ git status\ngit lg ជំនួសឱ្យ git log --oneline --graph --decorate --all\n11. Git Workflows\nGit Workflows គឺជាវិធីសាស្\nរ្តសម្\nរាប់រៀរៀបចំការងារជាមួយ Git ដើម្បីីធ្វើឱ្យការសហការកាន់តែ\nមានប្រសិទ្ធភាព។ នៅក្នុងផ្នែកនេះះ យើងនឹងរៀរៀនអំពី Workflows ដ៏ពេញនិយមមួយចំនួន។",
+          "code": "git config --global core.editor \"code --wait\"\n(No output if successful)\ngit config --global alias.co checkout\ngit config --global alias.st status\ngit config --global alias.lg \"log --oneline --graph --decorate --all\"\n(No output if successful)",
+          "preview": {
+            "title": "Git · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 18",
+            "Git Workflows គឺជាវិធីសាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-git-page-19",
+          "label": "PDF 19. Centralized Workflow គឺជាវិធីសាស្",
+          "heading": "Centralized Workflow គឺជាវិធីសាស្",
+          "intro": "11.1. Centralized Workflow រ្តដ៏សាមញ្ញបំផុត ដែលអ្នកអភិវឌ្ឍន៍ទាំំងអស់ធ្វើការលើសាខាមួយគត់ (ជា ធម្មតា main ឬ master)។ ការផ្លាស់ប្តូរត្រូូវបានបញ្ចូលដោយផ្ទាល់ទៅកាន់សាខានេះះ។",
+          "bodyHeading": "Source content · git.pdf · page 19",
+          "body": "11.1. Centralized Workflow\nCentralized Workflow គឺជាវិធីសាស្\nរ្តដ៏សាមញ្ញបំផុត ដែលអ្នកអភិវឌ្ឍន៍ទាំំងអស់ធ្វើការលើសាខាមួយគត់ (ជា\nធម្មតា main ឬ master)។ ការផ្លាស់ប្តូរត្រូូវបានបញ្ចូលដោយផ្ទាល់ទៅកាន់សាខានេះះ។\nគុណសម្បត្តិិ៖\nសាមញ្ញ និងងាយស្រួួ\nលក្នុងការយល់ដឹង។\nសមរម្យសម្\nរាប់ក្រុុមការងារតូចៗ។\nគុណវិបត្តិិ៖\nអាចបង្កើតបញ្ហាប្រសិនបើមានការផ្លាស់ប្តូរច្រើនក្នុងពេលតែមួយ។\n11.2. Feature Branch Workflow\nFeature Branch Workflow គឺជាវិធីសាស្\nរ្តដែលអ្នកអភិវឌ្ឍន៍បង្កើតសាខាថ្មីីសម្\nរាប់មុខងារថ្មីីៗ ហើយបញ្ចូលវា\nទៅកាន់សាខាមេនៅពេលដែលការងារត្រូូវបានបញ្ចប់។\nគុណសម្បត្តិិ៖\nការងារនីមួយៗត្រូូវបានញែកដាច់ពីគ្នា។\nកាត់បន្ថយការប៉ះទង្គិិចនៅពេលបញ្ចូលកូដ។\nគុណវិបត្តិិ៖\nតម្រូូវឱ្យមានការគ្រប់គ្រងសាខាច្រើន។\n11.3. Gitflow Workflow\nGitflow Workflow គឺជាវិធីសាស្\nរ្តដែលប្រើសាខាពិសេសសម្\nរាប់ការអភិវឌ្ឍន៍ ការចេញផ្សាយ និងការកែតម្រូូវ\nកំហុស។ វាមានសាខាចម្បងដូចជា main, develop, feature, release, និង hotfix។\nគុណសម្បត្តិិ៖\nអាចគ្រប់គ្រងការចេញផ្សាយ និងការកែតម្រូូវកំហុសបានយ៉ាងមានប្រសិទ្ធភាព។\nសមរម្យសម្\nរាប់គម្រោងធំៗ។\nគុណវិបត្តិិ៖\nស្មុគស្មាញជាង Workflows ផ្សេងៗ។\n11.4. Forking Workflow\nForking Workflow គឺជាវិធីសាស្\nរ្តដែលអ្នកអភិវឌ្ឍន៍ធ្វើការលើ Repository ផ្ទាល់ខ្លួនរបស់ពួកគេ (Fork)\nហើយដាក់ស្\nនើការផ្លាស់ប្តូរតាមរយៈ Pull Requests។\nគុណសម្បត្តិិ៖\nសុវត្ថិិភាពខ្ពស់ ព្រោះអ្នកអភិវឌ្ឍន៍មិនអាចផ្លាស់ប្តូរកូដដោយផ្ទាល់នៅលើ Repository មេ។",
+          "code": "git status\ngit log --oneline -5",
+          "preview": {
+            "title": "Git · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 19",
+            "Centralized Workflow គឺជាវិធីសាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-git-page-20",
+          "label": "PDF 20. Continuous Integration (CI) និង Continuous Deployment (CD) គឺជាការអនុវត្ត",
+          "heading": "Continuous Integration (CI) និង Continuous Deployment (CD) គឺជាការអនុវត្ត",
+          "intro": "សមរម្យសម្ រាប់គម្រោងប្រភពបើកចំហ។ គុណវិបត្តិិ៖",
+          "bodyHeading": "Source content · git.pdf · page 20",
+          "body": "សមរម្យសម្\nរាប់គម្រោងប្រភពបើកចំហ។\nគុណវិបត្តិិ៖\nតម្រូូវឱ្យមានការគ្រប់គ្រង Pull Requests ច្រើន។\n12. Git and Continuous Integration (CI/CD)\nContinuous Integration (CI) និង Continuous Deployment (CD) គឺជាការអនុវត្ត\nចាំំបាច់នៅក្នុងការអភិវឌ្ឍន៍កម្មវិធីទំនើប។ Git ក៏ដើរតួនាទីសំខាន់ក្នុងការអនុញ្ញាតឱ្យបំពង់ចែកចាយ\nCI/CD ដំណើរការបាន។\n12.1. Integrating Git with CI/CD Pipelines\nការរួមបញ្ចូល Git ជាមួយបំពង់ចែកចាយ CI/CD អនុញ្ញាតឱ្យក្រុុមអភិវឌ្ឍន៍ធ្វើតេស្ត និងចែកចាយកូដដោយ\nស្វ័័យប្រវត្តិិនៅពេលមានការផ្លាស់ប្តូរកូដ។\nគុណសម្បត្តិិ៖\nកាត់បន្ថយកំហុសដោយការធ្វើតេស្តជាបន្ត។\nបង្កើនល្\nបឿនការចែកចាយកម្មវិធី។\n12.2. Automating Deployment with Git\nការធ្វើស្វ័័យប្រវត្តិិការចែកចាយជាមួយ Git អនុញ្ញាតឱ្យក្រុុមអភិវឌ្ឍន៍ចែកចាយកូដទៅកាន់បរិស្ថានផ្សេងៗដោយ\nស្វ័័យប្រវត្តិិ នៅពេលមានការផ្លាស់ប្តូរកូដនៅលើសាខាជាក់លាក់។\nគុណសម្បត្តិិ៖\nធានាបាននូវការចែកចាយដែលមានភាពជឿជឿជាក់។\nសម្រួួលដល់ការគ្រប់គ្រងកំណែនៃកម្មវិធី។\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។",
+          "code": "git status\ngit log --oneline -5",
+          "preview": {
+            "title": "Git · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 20",
+            "Continuous Integration (CI) និង Continuous Deployment (CD) គឺជាការអនុវត្ត"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-21",
+      "items": [
+        {
+          "id": "pdf-git-page-21",
+          "label": "PDF 21. Source lesson page 21",
+          "heading": "Source lesson page 21",
+          "intro": "© 2025 CodeKhmerLearning. All Rights Reserved. តំណភ្ជាប់រហ័ស ផ្ទាំំងដើម",
+          "bodyHeading": "Source content · git.pdf · page 21",
+          "body": "© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស\nផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "git status\ngit log --oneline -5",
+          "preview": {
+            "title": "Git · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "Git",
+            "PDF page 21",
+            "Source lesson page 21"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "git.pdf",
+          "sourcePage": 21
+        }
+      ]
+    }
+  ]
+}

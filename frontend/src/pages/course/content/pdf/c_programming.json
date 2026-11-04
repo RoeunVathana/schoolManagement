@@ -1,0 +1,1348 @@
+{
+  "slug": "c_programming",
+  "sourceFile": "c_programming.pdf",
+  "pageCount": 51,
+  "sections": [
+    {
+      "number": 1,
+      "title": "PDF source lessons · pages 1-5",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-1",
+          "label": "PDF 1. Source lesson page 1",
+          "heading": "Source lesson page 1",
+          "intro": "1. ការណែនាំំអំពីការកម្មវិធី C កម្មវិធី C គឺជាភាសាកម្មវិធីទូទៅដែលមានអំណាច។ វាត្រូូវបានប្រើប្ រាស់យ៉ាងទូលំទូលាយ",
+          "bodyHeading": "Source content · c_programming.pdf · page 1",
+          "body": "1. ការណែនាំំអំពីការកម្មវិធី C\nកម្មវិធី C គឺជាភាសាកម្មវិធីទូទៅដែលមានអំណាច។ វាត្រូូវបានប្រើប្\nរាស់យ៉ាងទូលំទូលាយ\nក្នុងសoftware ប្រព័ន្ធ និងកម្មវិធីអនុគមន៍, និងទីកន្លែងផ្សេងទៀទៀតដែលការអនុវត្តមានសារសំខាន់។\n1.1. សេចក្តីីពិពណ៌នាអំពី C\nC គឺជាភាសាកម្មវិធីដែលមានភាពច្រើនប្រើ និងមានការចាប់ផ្តើមសំខាន់សម្\nរាប់ភាសាកម្មវិធីទំនើបផ្សេងៗដូចជា\nC++, Java និង Python។ ភាសានេះះមានការត្រួួតពិនិត្យលើប្រព័ន្ធនធាន។\n1.2. ប្រវត្តិិសាស្\nត្រ C\nC ត្រូូវបានបង្កើតដោយ Dennis Ritchie នៅឆ្នាំំ 1972 នៅ Bell Labs។ វាត្រូូវបានរចនាឡើងសម្\nរាប់ការ\nសរសេរប្រព័ន្ធប្រតិបត្តិិការ និងបានក្លាយជាភាសាកម្មវិធីមួយដែលមានប្រជាប្រិិយភាពខ្ពស់។\nគន្លឹះសំខាន់ក្នុងប្រវត្តិិសាស្\nត្រ C:\n1972: ការបង្កើត C នៅ Bell Labs\n1978: ការបោះពុម្ព \"The C Programming Language\" ដោយ Kernighan និង Ritchie\n1989: ការចុះបញ្ជីីស្តង់ដារអេសអេនអេស C (ANSI C)\n1.3. លក្ខណៈពិសេសរបស់ C\nC មានលក្ខណៈពិសេសមួយចំនួនដែលធ្វើឲ្យវាជាជម្រើសមួយដែលពេញនិយមសម្\nរាប់កម្មវិធីជាច្រើន៖\nការចូលប្រើការជ្រៅទៅកាន់សមត្ថភាពអង្គចងចាំំ\nវាតាមរយៈSyntax និងសំណុំរចនាបថដែលសាមញ្ញ\nអាចប្រើបានលើវេទិកានានា និងអាចដំណើរការបាននៅលើវេទិកាផ្សេងៗ\nបណ្ណាល័យសំណុំការងារដែលមានសម្បត្តិិ\nការប្រើប្\nរាស់ធនធានយ៉ាងមានប្រសិទ្ធភាព\n1.4. ការរៀរៀបចំបរិស្ថាន C\nដើម្បីីចាប់ផ្តើមការសរសេរកម្មវិធីនៅក្នុង C អ្នកត្រូូវតែចាប់ផ្តើមបរិស្ថានអភិវឌ្ឍ:\nតំឡើងកម្មវិធីចម្រោះ C (ឧ. GCC ឬ Clang)\nជ្រើសរើសប្រព័ន្ធអភិវឌ្ឍន៍ឯកសារ (IDE) ដូចជា Code::Blocks, Dev-C++ ឬ Visual Studio\nសរសេរកម្មវិធី C យ៉ាងសាមញ្ញនៅក្នុងកម្មវិធីអភិវឌ្ឍ\nចម្រោះ និងអនុវត្តកម្មវិធី",
+          "code": "#include <stdio.h>\n\nint main(void) {\n  puts(\"CampusFlow lesson\");\n  return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 1",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 1",
+            "Source lesson page 1"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 1
+        },
+        {
+          "id": "pdf-c_programming-page-2",
+          "label": "PDF 2. Source lesson page 2",
+          "heading": "Source lesson page 2",
+          "intro": "#include <stdio.h> int main() { printf(\"Hello, World!\");",
+          "bodyHeading": "Source content · c_programming.pdf · page 2",
+          "body": "#include <stdio.h>\nint main() {\n    printf(\"Hello, World!\");\n    return 0;\n}\n1.5. រចនាសម្ព័័ន្ធកម្មវិធី C\nកម្មវិធី C មួយធម្មតាមានរចនាសម្ព័័ន្ធដូចខាងក្រោម:\n#include <stdio.h>\n// ព្រឹឹ\nត្តិិការណ៍ Preprocessor\nint main() {\n    // មុខងារជាMain\n    // ការបញ្ជាក់អថេរ\n    int number = 10;\n    // អនុគមន៍\n    printf(\"Number: %d\", number);\n    return 0; // ពិពណ៌នាអត្រា\nប្រ\nតិបត្តិិការ\n}\nការពន្យល់:\nព្រឹឹត្តិិការណ៍ Preprocessor: បញ្ចូលបណ្ណាល័យដែលចាំំបាច់\nមុខងារMain: ចំណុចចាប់ផ្តើមនៃកម្មវិធី\nការបញ្ជាក់អថេរ: ការបញ្ជាក់អថេរដែលបានប្រើនៅក្នុងកម្មវិធី\nអនុគមន៍: ប្រតិបត្តិិការកម្មវិធី\nពិពណ៌នាអត្\nរាប្រតិបតិ្តការ: បញ្ចប់កម្មវិធី\n2. អថេរ និង ប្រភេទទិន្ន័យ\nផ្នែកនេះះគួរឲ្យដឹងពីមូលដ្ឋាននៃអថេរ និងប្រភេទទិន្ន័យនៅក្នុងការសរសេរប្រព័ន្ធ C ។",
+          "code": "#include <stdio.h>\nint main() {\n    printf(\"Hello, World!\");\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int number = 10;\n    printf(\"Number: %d\", number);\n}",
+          "preview": {
+            "title": "C Programming · PDF page 2",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 2",
+            "Source lesson page 2"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 2
+        },
+        {
+          "id": "pdf-c_programming-page-3",
+          "label": "PDF 3. Source lesson page 3",
+          "heading": "Source lesson page 3",
+          "intro": "2.1. ការប្រកាសអថេរ នៅក្នុង C អថេរ​ត្រូូវបានប្រើដើម្បីីផ្ទុកទិន្ន័យ។ ដើម្បីីប្រកាសអថេរ អ្នកត្រូូវតែបញ្ជាក់ប្រភេទ និងឈ្ មោះរបស់វា។",
+          "bodyHeading": "Source content · c_programming.pdf · page 3",
+          "body": "2.1. ការប្រកាសអថេរ\nនៅក្នុង C អថេរ​ត្រូូវបានប្រើដើម្បីីផ្ទុកទិន្ន័យ។ ដើម្បីីប្រកាសអថេរ អ្នកត្រូូវតែបញ្ជាក់ប្រភេទ និងឈ្\nមោះរបស់វា។\nឧទាហរណ៍៖\nint number;\nfloat pi;\nchar letter;\nនៅទីនេះះ 'int' ត្រូូវបានប្រើសម្\nរាប់ចំនួនគត់ 'float' សម្\nរាប់ចំនួនបែបភាគរយ និង 'char' សម្\nរាប់តួអក្សរ។\n2.2. ប្រភេទទិន្ន័យមូលដ្ឋាន\nC មានប្រភេទទិន្ន័យមូលដ្ឋានជាច្រើន រួមមាន៖\nint: ប្រើសម្\nរាប់ចំនួនគត់ (ឧ. 10, -50)\nfloat: ប្រើសម្\nរាប់ចំនួនបែបភាគរយ (ឧ. 3.14, -0.001)\ndouble: ប្រើសម្\nរាប់ចំនួនបែបភាគរយដែលមានភាពត្រឹឹមត្រូូវខ្ពស់ (ឧ. 3.14159265359)\nchar: ប្រើសម្\nរាប់តួអក្សរ (ឧ. 'a', 'Z')\n2.3. តម្លៃថេរ\nតម្លៃថេរនេះះគឺជាតម្លៃដែលមិនអាចផ្លាស់ប្តូរបានក្នុងការប្រតិបត្តិិការនៃកម្មវិធី។ វាត្រូូវបានកំណត់ដោយប្រើគន្លង\n#define ឬក៏ប្រើកូនសោconst៖\n#define PI 3.14159\nconst int MAX_VALUE = 100;\nឧទាហរណ៍ទីមួយកំណត់តម្លៃថេរដើម្បីីសម្គាល់ PI ហើយឧទាហរណ៍ទីពីរប្រើកូនសោconst សម្\nរាប់តម្លៃថេរ\nចំនួនគត់។\n2.4. ការបម្លែងប្រភេទ និង ការបម្លែងទិន្ន័យ\nការបម្លែងប្រភេទគឺជាដំណើរការនៃការបម្លែងប្រភេទទិន្ន័យពីមួយទៅមួយ។ នៅក្នុង C អ្នកអាចធ្វើបានទាំំងដោយ\nស្វ័័យប្រវត្តិិក្នុងករណីណាមួយ ឬដោយគ្រូូបង្រៀៀន៖\nការបម្លែងដោយស្វ័័យប្រវត្តិិ: អ្នកកុំព្យូទ័រប្រែប្រភេទដោយស្វ័័យប្រវត្តិិពេលបម្លែងពីប្រភេទតូចទៅធំជាង ដូចជា ពី\nint ទៅ float ។\nការបម្លែងដោយដៃ: អ្នកអភិវឌ្ឍន៍ធ្វើការបម្លែងដោយដៃ ដូចជា បម្លែងពី float ទៅ int ។\nint num = 10;\nfloat numFloat = num;  // ការបម្លែងដោយស្វ័យប្រ\nវត្តិិ",
+          "code": "int number;\nfloat pi;\nchar letter;\n#define PI 3.14159\nconst int MAX_VALUE = 100;\nint num = 10;",
+          "preview": {
+            "title": "C Programming · PDF page 3",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 3",
+            "Source lesson page 3"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 3
+        },
+        {
+          "id": "pdf-c_programming-page-4",
+          "label": "PDF 4. Source lesson page 4",
+          "heading": "Source lesson page 4",
+          "intro": "numFloat = 10.5; int numInt = (int) numFloat;  // ការបម្លែងដោយដៃ 2.5. ប្រភេទផ្ទុកទិន្ន័យ",
+          "bodyHeading": "Source content · c_programming.pdf · page 4",
+          "body": "numFloat = 10.5;\nint numInt = (int) numFloat;  // ការបម្លែងដោយដៃ\n2.5. ប្រភេទផ្ទុកទិន្ន័យ\nប្រភេទផ្ទុកទិន្ន័យក្នុង C គឺកំណត់ព្រមទាំំងវិស័យ ការច visibility និង អាយុរស់រវើកនៃអថេរ។ មានប្រភេទផ្ទុក\nទិន្ន័យបួនប្រភេទ៖\nauto: ប្រភេទផ្ទុកទិន្ន័យលំនាំំសម្\nរាប់អថេរមូលដ្ឋាន។ ពួកវាត្រូូវបានបង្កើតដោយស្វ័័យប្រវត្តិិនៅពេលហៅ\nមុខងារ។\nregister: ប្រើសម្\nរាប់ផ្ទុកអថេរនៅក្នុងចំណងចងក្រង CPU ជំនួសការផ្ទុកនៅក្នុង RAM ដើម្បីីចូលរួម\nបានលឿលឿន។\nstatic: ប្រើសម្\nរាប់រក្សាតម្លៃរបស់អថេរប្រសិនបើបន្តរក្សាតម្លៃនោះរហូតបន្ទាប់ពីការចាកចេញពីមុខងារ។\nextern: ប្រើសម្\nរាប់ប្រកាសអថេរដែលបានកំណត់ក្នុងឯកសារផ្សេង។\n3. OPERATORS_ នៅក្នុង C\nនៅក្នុងផ្នែកនេះះ យើងនឹងស្\nវែងយល់ពីប្រភេទនៃ OPERATOR_ ក្នុងកម្មវិធី C ។\n3.1. OPERATOR_គណិតវិទ្យា\nOPERATOR_គណិតវិទ្យាត្រូូវបានប្រើសម្\nរាប់ធ្វើការប្រតិបត្ដិិការគណិតវិទ្យា។ OPERATOR_គណិតវិទ្យាមូលដ្ឋាន\nក្នុង C មានដូចតទៅ៖\n+: បូក\n-: បន្ថយ\n*: គុណ\n/: ចែក\n%: បំបែកសល់ (បរិមាណនៅក្រោយការចែក)\nឧទាហរណ៍៖\nint a = 10, b = 5;\nint sum = a + b; // បូក\nint product = a * b; // គុណ\n3.2. OPERATOR_ប្រៀៀបធៀធៀប",
+          "code": "numFloat = 10.5;\nint a = 10, b = 5;",
+          "preview": {
+            "title": "C Programming · PDF page 4",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 4",
+            "Source lesson page 4"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 4
+        },
+        {
+          "id": "pdf-c_programming-page-5",
+          "label": "PDF 5. Source lesson page 5",
+          "heading": "Source lesson page 5",
+          "intro": "OPERATOR_ប្រៀៀបធៀធៀបត្រូូវបានប្រើសម្ រាប់ប្រៀៀបធៀធៀបតម្លៃពីរដើម្បីីទទួលបានលទ្ធផល boolean (ពិត ឬ មិន ពិត)។ OPERATOR_ទាំំងនេះះមានដូចតទៅ៖",
+          "bodyHeading": "Source content · c_programming.pdf · page 5",
+          "body": "OPERATOR_ប្រៀៀបធៀធៀបត្រូូវបានប្រើសម្\nរាប់ប្រៀៀបធៀធៀបតម្លៃពីរដើម្បីីទទួលបានលទ្ធផល boolean (ពិត ឬ មិន\nពិត)។ OPERATOR_ទាំំងនេះះមានដូចតទៅ៖\n==: ស្\nមើនឹង\n!=: មិនស្\nមើនឹង\n>: លើស\n<: តិចជាង\n>=: លើសឬស្\nមើ\n<=: តិចឬស្\nមើ\nឧទាហរណ៍៖\nint a = 10, b = 5;\nbool result = (a > b); // ពិត ពីព្រ\nោះ\nះ 10 លើស 5\n3.3. OPERATOR_តុល្យភាព\nOPERATOR_តុល្យភាពត្រូូវបានប្រើសម្\nរាប់សម្ពោធន៍បញ្ចូលនៃការបញ្ជាក់លក្ខណ្ឌ។ OPERATOR_ទាំំងនេះះមាន\nដូចតទៅ៖\n&&&: AND តុល្យភាព\n||: OR តុល្យភាព\n!: NOT តុល្យភាព\nឧទាហរណ៍៖\nint a = 10, b = 5;\nbool result = (a > b && b > 0); // ពិត ប្រ\nសិនបើលក្ខ\nណ្ឌទាំងពីរពិត\n3.4. OPERATOR_ការបញ្ជាក់តម្លៃ\nOPERATOR_ការបញ្ជាក់តម្លៃត្រូូវបានប្រើសម្\nរាប់បញ្ជាក់តម្លៃទៅអថេរ។ OPERATOR_ការបញ្ជាក់មូលដ្ឋានគឺ៖\n=: ការបញ្ជាក់តម្លៃសាមញ្ញ\n+=: បូកនិងបញ្ជាក់\n-=: បន្ថយនិងបញ្ជាក់\n*=: គុណនិងបញ្ជាក់\n/=: ចែកនិងបញ្ជាក់\n%=: បំបែកសល់និងបញ្ជាក់\nឧទាហរណ៍៖",
+          "code": "int a = 10, b = 5;\nint a = 10, b = 5;",
+          "preview": {
+            "title": "C Programming · PDF page 5",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 5",
+            "Source lesson page 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 5
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "PDF source lessons · pages 6-10",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-6",
+          "label": "PDF 6. Source lesson page 6",
+          "heading": "Source lesson page 6",
+          "intro": "int a = 10; a += 5; // a = a + 5 3.5. OPERATOR_បញ្ចូលជាតំណ",
+          "bodyHeading": "Source content · c_programming.pdf · page 6",
+          "body": "int a = 10;\na += 5; // a = a + 5\n3.5. OPERATOR_បញ្ចូលជាតំណ\nOPERATOR_បញ្ចូលជាតំណត្រូូវបានប្រើសម្\nរាប់ធ្វើប្រតិបត្ដិិការលើប៊ីតនៃតម្លៃចំនួនគត់៖\n&: AND ប៊ីត\n|: OR ប៊ីត\n^: XOR ប៊ីត\n~: NOT ប៊ីត\n<<: ការផ្លាស់ទីឆ្វេង\n>>: ការផ្លាស់ទីស្តាំំ\nឧទាហរណ៍៖\nint a = 5, b = 3;\nint result = a & b; // AND ប៊ីត\n3.6. បន្ថែម និង ការបន្ថយ\nOPERATOR_បន្ថែម និង OPERATOR_បន្ថយត្រូូវបានប្រើសម្\nរាប់បង្កើន ឬ កាត់បន្ថយតម្លៃអថេរដោយ 1៖\n++: OPERATOR_បន្ថែម (បង្កើនតម្លៃដោយ 1)\n--: OPERATOR_បន្ថយ (កាត់បន្ថយតម្លៃដោយ 1)\nឧទាហរណ៍៖\nint a = 5;\na++; // a ក្លាយជាលេខ 6\n--a; // a ក្លាយជាលេខ 5 វិញ\n3.7. OPERATOR_លក្ខណ្ឌ\nOPERATOR_លក្ខណ្ឌ (OPERATOR_ ternary) គឺជាការបង្ហាញខ្លីីសម្\nរាប់បញ្ជាក់ if-else៖\ncondition ? expr1 : expr2: ប្រសិនបើលក្ខណ្ឌពិត expr1 នឹងត្រូូវបានអនុវត្តិិ។ ប្រសិនបើមិនពិត\nexpr2 នឹងត្រូូវបានអនុវត្តិិ។\nឧទាហរណ៍៖",
+          "code": "int a = 10;\na += 5; // a = a + 5\nint a = 5, b = 3;\nint a = 5;",
+          "preview": {
+            "title": "C Programming · PDF page 6",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 6",
+            "Source lesson page 6"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 6
+        },
+        {
+          "id": "pdf-c_programming-page-7",
+          "label": "PDF 7. Source lesson page 7",
+          "heading": "Source lesson page 7",
+          "intro": "  int a = 5;",
+          "bodyHeading": "Source content · c_programming.pdf · page 7",
+          "body": "\n\nint a = 5;\nint result = (a > 3) ? 10 : 20; // result នឹងមានតម្លៃ 10 ពីព្រ\nោះ\nះលក្ខ\nណ្ឌពិត\n4. គ្រប់គ្រងប្រតិបត្តិិការនៅក្នុង C\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីប្រភេទនៃប្រតិបត្តិិការគ្រប់គ្រងនៅក្នុងភាសា C។\n4.1. ប្រកាស if\nប្រកាស if ត្រូូវបានប្រើដើម្បីីធ្វើការត្រួួតពិនិត្យលក្ខណ្ឌមួយ។ ប្រសិនបើលក្ខណ្ឌត្រឹឹមត្រូូវ វានឹងអនុវត្តកូដក្នុងរយៈ\nពេល។\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 5) {\n        printf(\"a is greater than 5\");\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ a។\n- ប្រសិនបើ a ធំជាង 5, វានឹងបង្ហាញ \"a is greater than 5\"។\n- ប្រសិនបើលក្ខណ្ឌមិនពិត, កូដនៅក្នុង if នឹងមិនត្រូូវបានអនុវត្តទេ។\nOutput: a is greater than 5\n4.2. ប្រកាស if-else\nប្រកាស if-else ត្រូូវបានប្រើដើម្បីីធ្វើការត្រួួតពិនិត្យលក្ខណ្ឌ។ ប្រសិនបើលក្ខណ្ឌត្រឹឹមត្រូូវ វានឹងអនុវត្តកូដក្នុង\nផ្នែក if។ បើមិនដូច្នេះទេ វានឹងអនុវត្តកូដក្នុងផ្នែក else។",
+          "code": "int a = 5;\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 5) {\n        printf(\"a is greater than 5\");\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 7",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 7",
+            "Source lesson page 7"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 7
+        },
+        {
+          "id": "pdf-c_programming-page-8",
+          "label": "PDF 8. Source lesson page 8",
+          "heading": "Source lesson page 8",
+          "intro": "#include <stdio.h> int main() { int a = 3;",
+          "bodyHeading": "Source content · c_programming.pdf · page 8",
+          "body": "#include <stdio.h>\nint main() {\n    int a = 3;\n    if (a > 5) {\n        printf(\"a is greater than 5\");\n    } else {\n        printf(\"a is not greater than 5\");\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ a។\n- ប្រសិនបើ a ធំជាង 5, វានឹងបង្ហាញ \"a is greater than 5\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"a is not greater than 5\"។\nOutput: a is not greater than 5\n4.3. ប្រកាស if-elseif-else\nប្រកាស if-elseif-else ត្រូូវបានប្រើដើម្បីីធ្វើការត្រួួតពិនិត្យលក្ខណ្ឌច្រើន។ វាអនុញ្ញាតឱ្យអ្នកពិនិត្យលក្ខណ្ឌ\nជាច្រើនក្នុងលំដាប់។\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 15) {\n        printf(\"a is greater than 15\");\n    } else if (a > 10) {\n        printf(\"a is greater than 10 but less than or equal to 15\");\n    } else {\n        printf(\"a is less than or equal to 10\");\n    }\n    return 0;\n}",
+          "code": "#include <stdio.h>\nint main() {\n    int a = 3;\n    if (a > 5) {\n        printf(\"a is greater than 5\");\n    } else {\n        printf(\"a is not greater than 5\");\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 15) {\n        printf(\"a is greater than 15\");\n    } else if (a > 10) {\n        printf(\"a is greater than 10 but less than or equal to 15\");\n    } else {\n        printf(\"a is less than or equal to 10\");\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 8",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 8",
+            "Source lesson page 8"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 8
+        },
+        {
+          "id": "pdf-c_programming-page-9",
+          "label": "PDF 9. Source lesson page 9",
+          "heading": "Source lesson page 9",
+          "intro": "ការពន្យល់៖ - កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ a។ - ប្រសិនបើ a ធំជាង 15, វានឹងបង្ហាញ \"a is greater than 15\"។",
+          "bodyHeading": "Source content · c_programming.pdf · page 9",
+          "body": "ការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ a។\n- ប្រសិនបើ a ធំជាង 15, វានឹងបង្ហាញ \"a is greater than 15\"។\n- ប្រសិនបើ a ធំជាង 10 ប៉ុន្តែតូចជាងឬស្\nមើ 15, វានឹងបង្ហាញ \"a is greater than 10 but less than or\nequal to 15\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"a is less than or equal to 10\"។\nOutput: a is less than or equal to 10\n4.4. ប្រកាស switch\nប្រកាស switch ត្រូូវបានប្រើដើម្បីីធ្វើការត្រួួតពិនិត្យលក្ខណ្ឌច្រើន។ វាអនុញ្ញាតឱ្យអ្នកពិនិត្យតម្លៃរបស់អថេរមួយ\nប្រឆាំំងនឹងតម្លៃជាច្រើន។\n#include <stdio.h>\nint main() {\n    int day = 3;\n    switch (day) {\n        case 1:\n            printf(\"Monday\");\n            break;\n        case 2:\n            printf(\"Tuesday\");\n            break;\n        case 3:\n            printf(\"Wednesday\");\n            break;\n        default:\n            printf(\"Invalid day\");\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះពិនិត្យតម្លៃរបស់អថេរ day។\n- ប្រសិនបើ day ស្\nមើនឹង 1, វានឹងបង្ហាញ \"Monday\"។\n- ប្រសិនបើ day ស្\nមើនឹង 2, វានឹងបង្ហាញ \"Tuesday\"។\n- ប្រសិនបើ day ស្\nមើនឹង 3, វានឹងបង្ហាញ \"Wednesday\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"Invalid day\"។",
+          "code": "#include <stdio.h>\nint main() {\n    int day = 3;\n    switch (day) {\n            printf(\"Monday\");\n            break;\n            printf(\"Tuesday\");\n            break;\n            printf(\"Wednesday\");\n            break;\n            printf(\"Invalid day\");\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 9",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 9",
+            "Source lesson page 9"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 9
+        },
+        {
+          "id": "pdf-c_programming-page-10",
+          "label": "PDF 10. Source lesson page 10",
+          "heading": "Source lesson page 10",
+          "intro": "Output: Wednesday 4.5. ប្រកាស break ប្រកាស break ត្រូូវបានប្រើដើម្បីីបញ្ចប់ការអនុវត្តនៃកូដក្នុង switch ឬ loop។",
+          "bodyHeading": "Source content · c_programming.pdf · page 10",
+          "body": "Output: Wednesday\n4.5. ប្រកាស break\nប្រកាស break ត្រូូវបានប្រើដើម្បីីបញ្ចប់ការអនុវត្តនៃកូដក្នុង switch ឬ loop។\n#include <stdio.h>\nint main() {\n    for (int i = 1; i <= 5; i++) {\n        if (i == 3) {\n            break; // បញ្ចប់ loop នៅពេល i ស្មើ 3\n        }\n        printf(\"%d\", i);\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើ break ដើម្បីីបញ្ចប់ for loop នៅពេល i ស្\nមើ 3។\n- ដូច្នេះ, វានឹងបង្ហាញតែលេខ 1 និង 2។\nOutput: 1\n2\n4.6. ប្រកាស continue\nប្រកាស continue ត្រូូវបានប្រើដើម្បីីរំលងការអនុវត្តនៃកូដក្នុង loop និងបន្តទៅការប្រតិបត្តិិការបន្ទាប់។\n#include <stdio.h>\nint main() {\n    for (int i = 1; i <= 5; i++) {\n        if (i == 3) {\n            continue; // រំលងការប្រ\nតិបត្តិិការនៅពេល i ស្មើ 3\n        }\n        printf(\"%d\", i);\n    }",
+          "code": "#include <stdio.h>\nint main() {\n    for (int i = 1; i <= 5; i++) {\n        if (i == 3) {\n        }\n        printf(\"%d\", i);\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    for (int i = 1; i <= 5; i++) {\n        if (i == 3) {\n        }\n        printf(\"%d\", i);\n    }",
+          "preview": {
+            "title": "C Programming · PDF page 10",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 10",
+            "Source lesson page 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 10
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "PDF source lessons · pages 11-15",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-11",
+          "label": "PDF 11. Source lesson page 11",
+          "heading": "Source lesson page 11",
+          "intro": "return 0; } ការពន្យល់៖",
+          "bodyHeading": "Source content · c_programming.pdf · page 11",
+          "body": "return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើ continue ដើម្បីីរំលងការប្រតិបត្តិិការនៅពេល i ស្\nមើ 3។\n- ដូច្នេះ, វានឹងបង្ហាញលេខ 1, 2, 4, និង 5។\nOutput: 1\n2\n4\n5\n4.7. ប្រកាស goto\nប្រកាស goto ត្រូូវបានប្រើដើម្បីីលោតទៅកន្លែងជាក់លាក់នៅក្នុងកូដ។\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 5) {\n        goto print_message; // លោតទៅកន្លែង print_message\n    }\n    printf(\"This will not be printed\");\n    print_message:\n        printf(\"a is greater than 5\");\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើ goto ដើម្បីីលោតទៅកន្លែង print_message នៅពេល a ធំជាង 5។\n- ដូច្នេះ, វានឹងបង្ហាញ \"a is greater than 5\"។\nOutput: a is greater than 5\n4.8. រចនាសម្ព័័ន្ធគ្រប់គ្រងដែលជាន់គ្នា\nរចនាសម្ព័័ន្ធគ្រប់គ្រងដែលជាន់គ្នាគឺជាការប្រើប្\nរាស់រចនាសម្ព័័ន្ធគ្រប់គ្រងនៅក្នុងរចនាសម្ព័័ន្ធគ្រប់គ្រងផ្សេងទៀទៀត។",
+          "code": "return 0;\n}\n#include <stdio.h>\nint main() {\n    int a = 10;\n    if (a > 5) {\n    }\n    printf(\"This will not be printed\");\n        printf(\"a is greater than 5\");\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 11",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 11",
+            "Source lesson page 11"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 11
+        },
+        {
+          "id": "pdf-c_programming-page-12",
+          "label": "PDF 12. Source lesson page 12",
+          "heading": "Source lesson page 12",
+          "intro": "#include <stdio.h> int main() { int a = 10, b = 5;",
+          "bodyHeading": "Source content · c_programming.pdf · page 12",
+          "body": "#include <stdio.h>\nint main() {\n    int a = 10, b = 5;\n    if (a > 5) {\n        if (b > 2) {\n            printf(\"Both conditions are true\");\n        } else {\n            printf(\"Only the first condition is true\");\n        }\n    } else {\n        printf(\"The first condition is false\");\n    }\n    return 0;\n}\nការពន្យល់៖\n- កម្មវិធីនេះះប្រើ if-else ដែលជាន់គ្នា។\n- ប្រសិនបើ a ធំជាង 5 និង b ធំជាង 2, វានឹងបង្ហាញ \"Both conditions are true\"។\n- ប្រសិនបើ a ធំជាង 5 ប៉ុន្តែ b មិនធំជាង 2, វានឹងបង្ហាញ \"Only the first condition is true\"។\n- បើមិនដូច្នេះទេ, វានឹងបង្ហាញ \"The first condition is false\"។\nOutput: Both conditions are true\n5. Loops in C\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីប្រភេទនៃលូបនៅក្នុងភាសា C។\n5.1. លូប for\nលូប for ត្រូូវបានប្រើដើម្បីីធ្វើការកំណត់ចំនួននៃការអនុវត្តន៍ជាក់លាក់។ វាអាចកំណត់ចំនួនកំណត់នៃការងារដែល\nត្រូូវអនុវត្ត។\n#include <stdio.h>\nint main() {",
+          "code": "#include <stdio.h>\nint main() {\n    int a = 10, b = 5;\n    if (a > 5) {\n        if (b > 2) {\n            printf(\"Both conditions are true\");\n        } else {\n            printf(\"Only the first condition is true\");\n        }\n    } else {\n        printf(\"The first condition is false\");\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {",
+          "preview": {
+            "title": "C Programming · PDF page 12",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 12",
+            "Source lesson page 12"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 12
+        },
+        {
+          "id": "pdf-c_programming-page-13",
+          "label": "PDF 13. Source lesson page 13",
+          "heading": "Source lesson page 13",
+          "intro": "for (int i = 0; i < 5; i++) { printf(\"%d\\n\", i); }",
+          "bodyHeading": "Source content · c_programming.pdf · page 13",
+          "body": "for (int i = 0; i < 5; i++) {\n        printf(\"%d\\n\", i);\n    }\n    return 0;\n}\nOutput: 0\n1\n2\n3\n4\n5.2. លូប while\nលូប while ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដឡើងវិញជាការផ្សេងៗទៅរហូតដល់លក្ខណ្ឌមួយត្រូូវបានបង្ហាញថាត្រឹឹម\nត្រូូវ។\n#include <stdio.h>\nint main() {\n    int i = 0;\n    while (i < 5) {\n        printf(\"%d\\n\", i);\n        i++;\n    }\n    return 0;\n}\nOutput: 0\n1\n2\n3\n4\n5.3. លូប do-while\nលូប do-while ត្រូូវបានប្រើដើម្បីីអនុវត្តកូដមួយដំបូងប៉ុន្តែការត្រួួតពិនិត្យលក្ខណ្ឌត្រូូវបានអនុវត្តក្រោយពីការ\nអនុវត្តចុងក្រោយ។",
+          "code": "for (int i = 0; i < 5; i++) {\n        printf(\"%d\\n\", i);\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int i = 0;\n    while (i < 5) {\n        printf(\"%d\\n\", i);\n        i++;\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 13",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 13",
+            "Source lesson page 13"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 13
+        },
+        {
+          "id": "pdf-c_programming-page-14",
+          "label": "PDF 14. Source lesson page 14",
+          "heading": "Source lesson page 14",
+          "intro": "#include <stdio.h> int main() { int i = 0;",
+          "bodyHeading": "Source content · c_programming.pdf · page 14",
+          "body": "#include <stdio.h>\nint main() {\n    int i = 0;\n    do {\n        printf(\"%d\\n\", i);\n        i++;\n    } while (i < 5);\n    return 0;\n}\nOutput: 0\n1\n2\n3\n4\n5.4. លូប Nested\nលូប Nested ត្រូូវបានប្រើដើម្បីីបញ្ចូលលូបនៅក្នុងលូប។ វា​មានប្រយោជន៍ក្នុងករណីដែលត្រូូវការត្រួួតពិនិត្យជាច្រើន\nនៅក្នុងវគ្គប្រតិបត្តិិការលូប។\n#include <stdio.h>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        for (int j = 0; j < 3; j++) {\n            printf(\"%d%d \", i, j);\n        }\n    }\n    return 0;\n}\nOutput: 00 01 02 10 11 12 20 21 22\n5.5. លូបអន្ដរក្រោយ",
+          "code": "#include <stdio.h>\nint main() {\n    int i = 0;\n    do {\n        printf(\"%d\\n\", i);\n        i++;\n    } while (i < 5);\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        for (int j = 0; j < 3; j++) {\n            printf(\"%d%d \", i, j);\n        }\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 14",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 14",
+            "Source lesson page 14"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 14
+        },
+        {
+          "id": "pdf-c_programming-page-15",
+          "label": "PDF 15. Source lesson page 15",
+          "heading": "Source lesson page 15",
+          "intro": "លូបអន្ដរក្រោយត្រូូវបានប្រើប្រសិនបើលក្ខណ្ឌមិនត្រូូវបានបញ្ចប់។ វាអាចត្រូូវបានប្រើប្ រាស់ដោយព្រមានដោយស្រ ប",
+          "bodyHeading": "Source content · c_programming.pdf · page 15",
+          "body": "លូបអន្ដរក្រោយត្រូូវបានប្រើប្រសិនបើលក្ខណ្ឌមិនត្រូូវបានបញ្ចប់។ វាអាចត្រូូវបានប្រើប្\nរាស់ដោយព្រមានដោយស្រ\nប\nតាមការប្រើប្\nរាស់break សម្\nរាប់ចាកចេញពីលូប។\n#include <stdio.h>\nint main() {\n    while (1) {\n        printf(\"This is an infinite loop\\n\");\n        break; // Exit the loop\n    }\n    return 0;\n}\nOutput: This is an infinite loop\n6. Functions in C\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីមុខងារ (Functions) នៅក្នុងភាសា C។\n6.1. ការប្\nរាប់ និងការបង្កើតមុខងារ\nមុខងារ (Function) ត្រូូវបានប្រើដើម្បីីបែងចែកការងារនៅក្នុងកម្មវិធី។ ការប្\nរាប់មុខងារមានបញ្ហាទៅក្នុងកូដមុនពី\nការអនុវត្តន៍វា។\n#include <stdio.h>\n// Function declaration\nvoid greet();\nint main() {\n    greet(); // Function call\n    return 0;\n}\n// Function definition\nvoid greet() {",
+          "code": "#include <stdio.h>\nint main() {\n    while (1) {\n        printf(\"This is an infinite loop\\n\");\n        break; // Exit the loop\n    }\n    return 0;\n}\n#include <stdio.h>\nvoid greet();\nint main() {\n    greet(); // Function call\n    return 0;\n}\nvoid greet() {",
+          "preview": {
+            "title": "C Programming · PDF page 15",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 15",
+            "Source lesson page 15"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 15
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "PDF source lessons · pages 16-20",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-16",
+          "label": "PDF 16. Recursion គឺជាការហៅមុខងារមួយដោយខ្លួនឯង ដើម្បីីដោះសោរាបញ្ហាដែលស្រ",
+          "heading": "Recursion គឺជាការហៅមុខងារមួយដោយខ្លួនឯង ដើម្បីីដោះសោរាបញ្ហាដែលស្រ",
+          "intro": "printf(\"Hello, World!\\n\"); } ការពន្យល់៖",
+          "bodyHeading": "Source content · c_programming.pdf · page 16",
+          "body": "printf(\"Hello, World!\\n\");\n}\nការពន្យល់៖\n- មុខងារ greet() ត្រូូវបានប្រកាស (declared) មុនពេលអនុវត្តន៍ (defined)។\n- ក្នុង main(), មុខងារ greet() ត្រូូវបានហៅ (called)។\n- លទ្ធផលនឹងបង្ហាញ \"Hello, World!\"។\nOutput: Hello, World!\n6.2. ប្រភេទអាគុយម៉ង់ និងប្រភេទត្រឡប់តាមមុខងារ\nមុខងារមានអាគុយម៉ង់ ដែលអាចប្រើក្នុងការទទួលយកទិន្ន័យមកក្នុងវា។ ប្រភេទត្រឡប់តាមមុខងារ ក៏អាចធ្វើការ\nត្រឡប់តម្លៃមកវិញបានផងដែរ។\n#include <stdio.h>\n// Function with arguments and return type\nint add(int a, int b) {\n    return a + b;\n}\nint main() {\n    int result = add(3, 4); // Function call with arguments\n    printf(\"The sum is: %d\\n\", result);\n    return 0;\n}\nការពន្យល់៖\n- មុខងារ add() ទទួលអាគុយម៉ង់ពីរ (a និង b) និងត្រឡប់តម្លៃផលបូក។\n- ក្នុង main(), មុខងារ add() ត្រូូវបានហៅ ដោយបញ្ជូនតម្លៃ 3 និង 4។\n- លទ្ធផលនឹងបង្ហាញ \"The sum is: 7\"។\nOutput: The sum is: 7\n6.3. ការហៅដោយខ្លួនឯង\nRecursion គឺជាការហៅមុខងារមួយដោយខ្លួនឯង ដើម្បីីដោះសោរាបញ្ហាដែលស្រ\nដៀដៀងគ្នា។",
+          "code": "printf(\"Hello, World!\\n\");\n}\n#include <stdio.h>\nint add(int a, int b) {\n    return a + b;\n}\nint main() {\n    int result = add(3, 4); // Function call with arguments\n    printf(\"The sum is: %d\\n\", result);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 16",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 16",
+            "Recursion គឺជាការហៅមុខងារមួយដោយខ្លួនឯង ដើម្បីីដោះសោរាបញ្ហាដែលស្រ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 16
+        },
+        {
+          "id": "pdf-c_programming-page-17",
+          "label": "PDF 17. Source lesson page 17",
+          "heading": "Source lesson page 17",
+          "intro": "#include <stdio.h> // Recursive function to calculate factorial int factorial(int n) {",
+          "bodyHeading": "Source content · c_programming.pdf · page 17",
+          "body": "#include <stdio.h>\n// Recursive function to calculate factorial\nint factorial(int n) {\n    if (n == 0) {\n        return 1; // Base case\n    } else {\n        return n * factorial(n - 1); // Recursive call\n    }\n}\nint main() {\n    int result = factorial(5); // Function call\n    printf(\"Factorial of 5 is: %d\\n\", result);\n    return 0;\n}\nការពន្យល់៖\n- មុខងារ factorial() ហៅខ្លួនឯងដើម្បីីគណនាហ្វាក់តូរីល។\n- លក្ខណ្ឌបញ្ចប់ (base case) គឺនៅពេល n == 0, វាត្រឡប់ 1។\n- លទ្ធផលនឹងបង្ហាញ \"Factorial of 5 is: 120\"។\nOutput: Factorial of 5 is: 120\n6.4. ការហៅតាមតម្លៃ និងការហៅតាមយោង\nការហៅតាមតម្លៃ (Call by Value) និងការហៅតាមយោង (Call by Reference) មានភាពខុសគ្នាក្នុងការ\nផ្លាស់ប្តូរទិន្ន័យនៅក្នុងមុខងារ។\n#include <stdio.h>\n// Call by Value\nvoid byValue(int a) {\n    a = 20; // Only modifies the local copy\n}\n// Call by Reference\nvoid byReference(int *a) {\n    *a = 20; // Modifies the original value",
+          "code": "#include <stdio.h>\nint factorial(int n) {\n    if (n == 0) {\n        return 1; // Base case\n    } else {\n    }\n}\nint main() {\n    int result = factorial(5); // Function call\n    printf(\"Factorial of 5 is: %d\\n\", result);\n    return 0;\n}\n#include <stdio.h>\nvoid byValue(int a) {\n    a = 20; // Only modifies the local copy\n}\nvoid byReference(int *a) {\n    *a = 20; // Modifies the original value",
+          "preview": {
+            "title": "C Programming · PDF page 17",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 17",
+            "Source lesson page 17"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 17
+        },
+        {
+          "id": "pdf-c_programming-page-18",
+          "label": "PDF 18. Value after byValue: 10",
+          "heading": "Value after byValue: 10",
+          "intro": "} int main() { int x = 10;",
+          "bodyHeading": "Source content · c_programming.pdf · page 18",
+          "body": "}\nint main() {\n    int x = 10;\n    byValue(x);\n    printf(\"Value after byValue: %d\\n\", x); // 10\n    byReference(&x);\n    printf(\"Value after byReference: %d\\n\", x); // 20\n    return 0;\n}\nការពន្យល់៖\n- byValue() មិនផ្លាស់ប្តូរតម្លៃដើមនៃអថេរ x។\n- byReference() ផ្លាស់ប្តូរតម្លៃដើមនៃអថេរ x តាមរយៈអាសយដ្ឋាន។\n- លទ្ធផលនឹងបង្ហាញ \"Value after byValue: 10\" និង \"Value after byReference: 20\"។\nOutput: \nValue after byValue: 10\nValue after byReference: 20\n6.5. ប្រភេទមុខងារ\nប្រភេទមុខងារ (Function Prototypes) ត្រូូវបានប្រើដើម្បីីស្\nនើរសុំការប្\nរាប់ពីបែបបទនៃមុខងារ មុនការ\nអនុវត្តន៍វា។\n#include <stdio.h>\n// Function prototype\nvoid greet();\nint main() {\n    greet(); // Function call\n    return 0;\n}\n// Function definition\nvoid greet() {",
+          "code": "}\nint main() {\n    int x = 10;\n    byValue(x);\n    printf(\"Value after byValue: %d\\n\", x); // 10\n    byReference(&x);\n    printf(\"Value after byReference: %d\\n\", x); // 20\n    return 0;\n}\n#include <stdio.h>\nvoid greet();\nint main() {\n    greet(); // Function call\n    return 0;\n}\nvoid greet() {",
+          "preview": {
+            "title": "C Programming · PDF page 18",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 18",
+            "Value after byValue: 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 18
+        },
+        {
+          "id": "pdf-c_programming-page-19",
+          "label": "PDF 19. Source lesson page 19",
+          "heading": "Source lesson page 19",
+          "intro": "  printf(\"Hello, World!\\n\");",
+          "bodyHeading": "Source content · c_programming.pdf · page 19",
+          "body": "\n\n    printf(\"Hello, World!\\n\");\n}\nការពន្យល់៖\n- ប្រភេទមុខងារ (prototype) void greet(); ត្រូូវបានប្រកាសមុន main()។\n- ការប្រកាសនេះះអនុញ្ញាតឱ្យកម្មវិធីដឹងពីអត្ថិិភាពនៃមុខងារ greet()។\n- លទ្ធផលនឹងបង្ហាញ \"Hello, World!\"។\nOutput: Hello, World!\n6.6. កំណត់ឯកសារ និងបណ្ណាល័យ\nឯកសារ header និងបណ្ណាល័យ (Libraries) ត្រូូវបានប្រើដើម្បីីផ្តល់សេវាកម្មនិងមុខងារផ្សេងៗដែលអាចអនុវត្ត\nបាន។\n#include <stdio.h>  // Standard library for input-output functions\n#include <math.h>   // Library for mathematical functions\nint main() {\n    printf(\"Square root of 16 is: %.2f\\n\", sqrt(16)); // sqrt() function\n    return 0;\n}\nការពន្យល់៖\n- #include <stdio.h> ប្រើសម្\nរាប់មុខងារបញ្ចូល/បញ្\nចេញ។\n- #include <math.h> ប្រើសម្\nរាប់មុខងារគណិតវិទ្យា។\n- លទ្ធផលនឹងបង្ហាញ \"Square root of 16 is: 4.00\"។\nOutput: Square root of 16 is: 4.00\n6.7. មុខងារបណ្ណាល័យស្តង់ដារ\nមុខងារបណ្ណាល័យស្តង់ដារ (Standard Library Functions) នៅក្នុងភាសា C ផ្តល់ជូននូវមុខងារដែលមាន\nប្រយោជន៍សម្\nរាប់ការងារផ្សេងៗគ្នា។\n#include <stdio.h>\n#include <string.h> // Library for string functions",
+          "code": "printf(\"Hello, World!\\n\");\n}\n#include <stdio.h>  // Standard library for input-output functions\n#include <math.h>   // Library for mathematical functions\nint main() {\n    printf(\"Square root of 16 is: %.2f\\n\", sqrt(16)); // sqrt() function\n    return 0;\n}\n#include <stdio.h>\n#include <string.h> // Library for string functions",
+          "preview": {
+            "title": "C Programming · PDF page 19",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 19",
+            "Source lesson page 19"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 19
+        },
+        {
+          "id": "pdf-c_programming-page-20",
+          "label": "PDF 20. Source lesson page 20",
+          "heading": "Source lesson page 20",
+          "intro": "  int main() {",
+          "bodyHeading": "Source content · c_programming.pdf · page 20",
+          "body": "\n\nint main() {\n    char str[] = \"Hello, World!\";\n    printf(\"Length of string: %lu\\n\", strlen(str)); // strlen() function\n    return 0;\n}\nការពន្យល់៖\n- #include <string.h> ប្រើសម្\nរាប់មុខងារដែលទាក់ទងនឹងខ្សែអក្សរ។\n- strlen() គណនាប្រវែងខ្សែអក្សរ។\n- លទ្ធផលនឹងបង្ហាញ \"Length of string: 13\"។\nOutput: Length of string: 13\n7. Arrays in C\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីអារេ (Arrays) នៅក្នុងភាសា C។\n7.1. អារេមួយវិមាត្រ\nអារេមួយវិមាត្រគឺជាការប្រមូលគ្នានៃតម្លៃដែលមានប្រភេទដូចគ្នា។ អារេមួយមិតិយ៉ាងសាមញ្ញនឹងមានកូដដូចខាង\nក្រោម។\n#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5}; // One-dimensional array\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Access elements using index\n    }\n    return 0;\n}\nការពន្យល់៖\n- អារេ arr ត្រូូវបានប្រកាសជាអារេមួយវិមាត្រដែលមានទំហំ 5។\n- តម្លៃនៃអារេត្រូូវបានចាប់ផ្តើមជា 5។",
+          "code": "int main() {\n    char str[] = \"Hello, World!\";\n    printf(\"Length of string: %lu\\n\", strlen(str)); // strlen() function\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5}; // One-dimensional array\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Access elements using index\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 20",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 20",
+            "Source lesson page 20"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 20
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "PDF source lessons · pages 21-25",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-21",
+          "label": "PDF 21. 1 2 3",
+          "heading": "1 2 3",
+          "intro": "- កូដនេះះប្រើ for loop ដើម្បីីបង្ហាញធាតុនីមួយៗនៃអារេ។ - លទ្ធផលនឹងបង្ហាញ \"1 2 3 4 5\"។ Output: 1 2 3 4 5",
+          "bodyHeading": "Source content · c_programming.pdf · page 21",
+          "body": "- កូដនេះះប្រើ for loop ដើម្បីីបង្ហាញធាតុនីមួយៗនៃអារេ។\n- លទ្ធផលនឹងបង្ហាញ \"1 2 3 4 5\"។\nOutput: 1 2 3 4 5\n7.2. អារេពហុវិមាត្រ\nអារេពហុវិមាត្រគឺជាអារេដែលមានជម្រើសតិចតួចជាច្រើន (ធម្មតាជាម៉ាត្រិិក)។ អារេនេះះអាចប្រើបានដើម្បីីផ្ទុកទិន្ន័យ\nដូចជា តារាងលេខ។\n#include <stdio.h>\nint main() {\n    int arr[2][3] = {\n        {1, 2, 3},\n        {4, 5, 6}\n    }; // 2x3 two-dimensional array\n    for (int i = 0; i < 2; i++) {\n        for (int j = 0; j < 3; j++) {\n            printf(\"%d \", arr[i][j]); // Accessing 2D array elements\n        }\n        printf(\"\\n\");\n    }\n    return 0;\n}\nការពន្យល់៖\n- អារេ arr ត្រូូវបានប្រកាសជាអារេពីរវិមាត្រដែលមានទំហំ 2x3។\n- តម្លៃនៃអារេត្រូូវបានចាប់ផ្តើមជា 3 និង 6។\n- កូដនេះះប្រើ nested for loop ដើម្បីីបង្ហាញធាតុនីមួយៗនៃអារេ។\n- លទ្ធផលនឹងបង្ហាញ \"1 2 3\" និង \"4 5 6\"។\nOutput: \n1 2 3 \n4 5 6\n7.3. ការកំណត់អារេ\nការកំណត់អារេគឺជាការបញ្ជាក់តម្លៃដំបូងសម្\nរាប់អារេ។ អ្នកអាចកំណត់តម្លៃដំបូងបានដោយប្រើសញ្ញាបញ្ជូន `{}`។",
+          "code": "#include <stdio.h>\nint main() {\n    int arr[2][3] = {\n        {1, 2, 3},\n        {4, 5, 6}\n    }; // 2x3 two-dimensional array\n    for (int i = 0; i < 2; i++) {\n        for (int j = 0; j < 3; j++) {\n            printf(\"%d \", arr[i][j]); // Accessing 2D array elements\n        }\n        printf(\"\\n\");\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 21",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 21",
+            "1 2 3"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 21
+        },
+        {
+          "id": "pdf-c_programming-page-22",
+          "label": "PDF 22. Source lesson page 22",
+          "heading": "Source lesson page 22",
+          "intro": "#include <stdio.h> int main() { int arr[5] = {1, 2, 3}; // Array initialized with partial values",
+          "bodyHeading": "Source content · c_programming.pdf · page 22",
+          "body": "#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3}; // Array initialized with partial values\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Remaining values will be set to 0\n    }\n    return 0;\n}\nការពន្យល់៖\n- អារេ arr ត្រូូវបានប្រកាសជាអារេមួយវិមាត្រដែលមានទំហំ 5។\n- តម្លៃនៃអារេត្រូូវបានចាប់ផ្តើមជា 3 ដោយតម្លៃដែលនៅសល់ត្រូូវបានកំណត់ជា 0។\n- លទ្ធផលនឹងបង្ហាញ \"1 2 3 0 0\"។\nOutput: 1 2 3 0 0\n7.4. ការផ្ទេរអារេទៅមុខងារ\nអ្នកអាចផ្ទេរអារេទៅមុខងារ ដោយផ្ទេរតែអាសយដ្ឋាននៃអារេ។\n#include <stdio.h>\nvoid printArray(int arr[], int size) {\n    for (int i = 0; i < size; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    printArray(arr, 5); // Passing array to function\n    return 0;\n}\nការពន្យល់៖\n- មុខងារ printArray() ទទួលអារេជាអាគុយម៉ង់ និងបង្ហាញធាតុនីមួយៗ។\n- ក្នុង main(), អារេ arr ត្រូូវបានផ្ទេរទៅមុខងារ printArray()។\n- លទ្ធផលនឹងបង្ហាញ \"1 2 3 4 5\"។",
+          "code": "#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3}; // Array initialized with partial values\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Remaining values will be set to 0\n    }\n    return 0;\n}\n#include <stdio.h>\nvoid printArray(int arr[], int size) {\n    for (int i = 0; i < size; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    printArray(arr, 5); // Passing array to function\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 22",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 22",
+            "Source lesson page 22"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 22
+        },
+        {
+          "id": "pdf-c_programming-page-23",
+          "label": "PDF 23. Pointer គឺជាអថេរដែលផ្ទុកអាសយដ្ឋាននៃអថេរផ្សេងទៀទៀត។ យើងប្រើPointer ដើម្បីីយកអាសយដ្ឋាននៃអថេរ",
+          "heading": "Pointer គឺជាអថេរដែលផ្ទុកអាសយដ្ឋាននៃអថេរផ្សេងទៀទៀត។ យើងប្រើPointer ដើម្បីីយកអាសយដ្ឋាននៃអថេរ",
+          "intro": "Output: 1 2 3 4 5 7.5. ការបដិសេធអារេ ការបដិសេធអារេអាចមានប្រយោជន៍ដើម្បីីកែប្រែទិន្ន័យក្នុងអារេ។ ការបដិសេធអារេអាចធ្វើការផ្លាស់ប្តូរ តម្លៃធាតុនៃ",
+          "bodyHeading": "Source content · c_programming.pdf · page 23",
+          "body": "Output: 1 2 3 4 5\n7.5. ការបដិសេធអារេ\nការបដិសេធអារេអាចមានប្រយោជន៍ដើម្បីីកែប្រែទិន្ន័យក្នុងអារេ។ ការបដិសេធអារេអាចធ្វើការផ្លាស់ប្តូរ តម្លៃធាតុនៃ\nអារេ និងគ្រប់គ្រងទិន្ន័យដោយប្រើកូដរួមផ្សំំ។\n#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    for (int i = 0; i < 5; i++) {\n        arr[i] = arr[i] * 2; // Multiply each element by 2\n    }\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Display updated array\n    }\n    return 0;\n}\nការពន្យល់៖\n- អារេ arr ត្រូូវបានប្រកាសជាអារេមួយវិមាត្រដែលមានទំហំ 5។\n- កូដនេះះប្រើ for loop ដើម្បីីគុណធាតុនីមួយៗនៃអារេដោយ 2។\n- លទ្ធផលនឹងបង្ហាញ \"2 4 6 8 10\"។\nOutput: 2 4 6 8 10\n8. Pointers in C\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីPointer (Pointers) នៅក្នុងភាសា C។\n8.1. ការណែនាំំអំពីPointer\nPointer គឺជាអថេរដែលផ្ទុកអាសយដ្ឋាននៃអថេរផ្សេងទៀទៀត។ យើងប្រើPointer ដើម្បីីយកអាសយដ្ឋាននៃអថេរ\nមួយ ហើយអាចប្រើវាដើម្បីីចូលដំណើរការទិន្ន័យក្នុងអថេរនោះ។",
+          "code": "#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    for (int i = 0; i < 5; i++) {\n        arr[i] = arr[i] * 2; // Multiply each element by 2\n    }\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", arr[i]); // Display updated array\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 23",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 23",
+            "Pointer គឺជាអថេរដែលផ្ទុកអាសយដ្ឋាននៃអថេរផ្សេងទៀទៀត។ យើងប្រើPointer ដើម្បីីយកអាសយដ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 23
+        },
+        {
+          "id": "pdf-c_programming-page-24",
+          "label": "PDF 24. Value of a: 10",
+          "heading": "Value of a: 10",
+          "intro": "  #include <stdio.h>",
+          "bodyHeading": "Source content · c_programming.pdf · page 24",
+          "body": "\n\n#include <stdio.h>\nint main() {\n    int a = 10;\n    int *ptr = &a;  // ptr is a pointer to a\n    printf(\"Value of a: %d\", a);\n    printf(\"Value through ptr: %d\", *ptr);  // Dereferencing the pointer\n    return 0;\n}\nOutput: \nValue of a: 10\nValue through ptr: 10\n8.2. ការប្រកាស និង ការបង្កើតPointer\nក្នុងភាសា C, Pointerត្រូូវបានប្រកាសដោយប្រើសញ្ញា *។ អ្នកអាចបង្កើតPointer និងកំណត់អាសយដ្ឋានឱ្យវា\nបានដោយប្រើសញ្ញា& ។\n#include <stdio.h>\nint main() {\n    int a = 5;\n    int *ptr = &a;  // Pointer initialization with address of a\n    printf(\"Address of a: %p\", (void*)ptr);  // Print address\n    return 0;\n}\nOutput: \nAddress of a: \n8.3. Pointer និង អារេ\nPointerនឹងអារេគឺជាគ្រឿឿងភ្ជាប់គ្នាដោយពិតប្\nរាកដ។ យើងអាចប្រើPointer ដើម្បីីចូលទៅកាន់ធាតុក្នុងអារេ។",
+          "code": "#include <stdio.h>\nint main() {\n    int a = 10;\n    int *ptr = &a;  // ptr is a pointer to a\n    printf(\"Value of a: %d\", a);\n    printf(\"Value through ptr: %d\", *ptr);  // Dereferencing the pointer\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int a = 5;\n    int *ptr = &a;  // Pointer initialization with address of a\n    printf(\"Address of a: %p\", (void*)ptr);  // Print address\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 24",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 24",
+            "Value of a: 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 24
+        },
+        {
+          "id": "pdf-c_programming-page-25",
+          "label": "PDF 25. Source lesson page 25",
+          "heading": "Source lesson page 25",
+          "intro": "  #include <stdio.h>",
+          "bodyHeading": "Source content · c_programming.pdf · page 25",
+          "body": "\n\n#include <stdio.h>\nint main() {\n    int arr[3] = {10, 20, 30};\n    int *ptr = arr;  // Pointer points to the first element of arr\n    for (int i = 0; i < 3; i++) {\n        printf(\"%d \", *(ptr + i));  // Dereference pointer to access arr\n    }\n    return 0;\n}\nOutput: 10 20 30\n8.4. Pointer ទៅមុខងារ\nអ្នកអាចប្រើPointer ដើម្បីីចូលទៅកាន់មុខងារ និងហៅមុខងារនោះតាមអាសយដ្ឋាន។\n#include <stdio.h>\nvoid greet() {\n    printf(\"Hello, World!\");\n}\nint main() {\n    void (*ptr)() = greet;  // Pointer to function greet\n    ptr();  // Call function using pointer\n    return 0;\n}\nOutput: \nHello, World!\n8.5. ការបញ្ជូនសម្ភារៈស្\nមើ\nការបញ្ជូនសម្ភារៈស្\nមើមានប្រយោជន៍នៅពេលដែលអ្នកត្រូូវការបង្កើតអត្ថបទមួយដែលមានទំហំមិនប្\nរាកដក្នុងរយៈពេល\nបណ្\nតោះអាសន្ន។",
+          "code": "#include <stdio.h>\nint main() {\n    int arr[3] = {10, 20, 30};\n    for (int i = 0; i < 3; i++) {\n        printf(\"%d \", *(ptr + i));  // Dereference pointer to access arr\n    }\n    return 0;\n}\n#include <stdio.h>\nvoid greet() {\n    printf(\"Hello, World!\");\n}\nint main() {\n    void (*ptr)() = greet;  // Pointer to function greet\n    ptr();  // Call function using pointer\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 25",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 25",
+            "Source lesson page 25"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 25
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "PDF source lessons · pages 26-30",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-26",
+          "label": "PDF 26. 1 2 3 4 5",
+          "heading": "1 2 3 4 5",
+          "intro": "  ",
+          "bodyHeading": "Source content · c_programming.pdf · page 26",
+          "body": "\n\n\n\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr = (int *)malloc(5 * sizeof(int));  // Allocate memory for 5\n    for (int i = 0; i < 5; i++) {\n        ptr[i] = i + 1;  // Initialize dynamically allocated memory\n    }\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", ptr[i]);  // Print dynamically allocated array\n    }\n    free(ptr);  // Free allocated memory\n    return 0;\n}\nOutput: \n1 2 3 4 5\n8.6. គណិតវិទ្យាPointer\nPointerអាចប្រើសម្\nរាប់ធ្វើការគណិតវិទ្យា (arithmetics) ដើម្បីីបញ្ជូនទៅឬបញ្\nចេញនូវអាសយដ្ឋាននៃអថេរ\nផ្សេងៗ។\n#include <stdio.h>\nint main() {\n    int arr[3] = {1, 2, 3};\n    int *ptr = arr;\n    printf(\"%d \", *(ptr + 1));  // Pointer arithmetic to access second e\n    return 0;\n}\nOutput: \n2",
+          "code": "#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr = (int *)malloc(5 * sizeof(int));  // Allocate memory for 5\n    for (int i = 0; i < 5; i++) {\n        ptr[i] = i + 1;  // Initialize dynamically allocated memory\n    }\n    for (int i = 0; i < 5; i++) {\n        printf(\"%d \", ptr[i]);  // Print dynamically allocated array\n    }\n    free(ptr);  // Free allocated memory\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    int arr[3] = {1, 2, 3};\n    int *ptr = arr;\n    printf(\"%d \", *(ptr + 1));  // Pointer arithmetic to access second e\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 26",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 26",
+            "1 2 3 4 5"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 26
+        },
+        {
+          "id": "pdf-c_programming-page-27",
+          "label": "PDF 27. Source lesson page 27",
+          "heading": "Source lesson page 27",
+          "intro": "  8.7. Pointer ទៅStructures និង អារេ",
+          "bodyHeading": "Source content · c_programming.pdf · page 27",
+          "body": "\n\n8.7. Pointer ទៅStructures និង អារេ\nអ្នកអាចប្រើPointer ដើម្បីីចូលទៅកាន់ប្រភេទទិន្ន័យស្មុគស្មាញដូចជា structures និងអារេ។\n#include <stdio.h>\nstruct Person {\n    char name[50];\n    int age;\n};\nint main() {\n    struct Person p1 = {\"John\", 30};\n    struct Person *ptr = &p1;\n    printf(\"Name: %s, Age: %d\", ptr->name, ptr->age);  // Access struct \n    return 0;\n}\nOutput: \nName: John, Age: 30\n9. Structures and Unions\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីស្រ\nទាប់ និងអង្គចងចាំំ (Structures and Unions) នៅក្នុងភាសា\nC។\n9.1. ការណែនាំំអំពីស្រ\nទាប់\nស្រ\nទាប់ (Structures) គឺជាការបញ្ចូលតម្លៃមួយចំនួនជាភាគរយ ក្នុងអង្គតម្លៃផ្សេងៗ។ អ្នកអាចប្រើស្រ\nទាប់ដើម្បីីធ្វើ\nការរួមបញ្ចូលទិន្ន័យដែលមានប្រភេទផ្សេងៗគ្នា។\n#include <stdio.h>\nstruct Person {\n    char name[50];",
+          "code": "#include <stdio.h>\nstruct Person {\n    char name[50];\n    int age;\n};\nint main() {\n    struct Person p1 = {\"John\", 30};\n    struct Person *ptr = &p1;\n    printf(\"Name: %s, Age: %d\", ptr->name, ptr->age);  // Access struct\n    return 0;\n}\n#include <stdio.h>\nstruct Person {\n    char name[50];",
+          "preview": {
+            "title": "C Programming · PDF page 27",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 27",
+            "Source lesson page 27"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 27
+        },
+        {
+          "id": "pdf-c_programming-page-28",
+          "label": "PDF 28. Roll Number: 101",
+          "heading": "Roll Number: 101",
+          "intro": "int age; }; int main() {",
+          "bodyHeading": "Source content · c_programming.pdf · page 28",
+          "body": "int age;\n};\nint main() {\n    struct Person person1 = {\"John\", 30};\n    printf(\"Name: %s\", person1.name);\n    printf(\"Age: %d\", person1.age);\n    return 0;\n}\nOutput: \nName: John\nAge: 30\n9.2. ការបញ្ចូលនិងកំណត់តម្លៃស្រ\nទាប់\nការបញ្ចូលស្រ\nទាប់ជាដើម និងការកំណត់តម្លៃប្រើរបៀបៀបដូចខាងក្រោម។\n#include <stdio.h>\nstruct Student {\n    char name[50];\n    int rollNumber;\n    float marks;\n};\nint main() {\n    struct Student student1 = {\"Alice\", 101, 90.5};\n    printf(\"Name: %s\", student1.name);\n    printf(\"Roll Number: %d\", student1.rollNumber);\n    printf(\"Marks: %.2f\", student1.marks);\n    return 0;\n}\nOutput: \nName: Alice\nRoll Number: 101\nMarks: 90.50",
+          "code": "int age;\n};\nint main() {\n    struct Person person1 = {\"John\", 30};\n    printf(\"Name: %s\", person1.name);\n    printf(\"Age: %d\", person1.age);\n    return 0;\n}\n#include <stdio.h>\nstruct Student {\n    char name[50];\n    int rollNumber;\n    float marks;\n};\nint main() {\n    struct Student student1 = {\"Alice\", 101, 90.5};\n    printf(\"Name: %s\", student1.name);\n    printf(\"Roll Number: %d\", student1.rollNumber);\n    printf(\"Marks: %.2f\", student1.marks);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 28",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 28",
+            "Roll Number: 101"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 28
+        },
+        {
+          "id": "pdf-c_programming-page-29",
+          "label": "PDF 29. Source lesson page 29",
+          "heading": "Source lesson page 29",
+          "intro": "9.3. ការចូលប្រើសមាជិកស្រ ទាប់ ដើម្បីីចូលប្រើសមាជិកស្រ",
+          "bodyHeading": "Source content · c_programming.pdf · page 29",
+          "body": "9.3. ការចូលប្រើសមាជិកស្រ\nទាប់\nដើម្បីីចូលប្រើសមាជិកស្រ\nទាប់ អ្នកត្រូូវប្រើសញ្ញាសមូហធិបតេយ្យ `.` ។\n#include <stdio.h>\nstruct Person {\n    char name[50];\n    int age;\n};\nint main() {\n    struct Person person1 = {\"John\", 30};\n    printf(\"Name: %s\", person1.name);  // Accessing structure member\n    printf(\"Age: %d\", person1.age);\n    return 0;\n}\nOutput: \nName: John\nAge: 30\n9.4. ស្រ\nទាប់ជាប់គ្នា\nអ្នកអាចប្រើស្រ\nទាប់នៅក្នុងស្រ\nទាប់ផ្សេងទៀទៀត ដើម្បីីផ្ទុកព័ត៌មានបន្ថែម។ នេះះអាចធ្វើបានតាមរយៈការបញ្ចូលរបស់\nស្រ\nទាប់ដទៃ។\n#include <stdio.h>\nstruct Date {\n    int day;\n    int month;\n    int year;\n};\nstruct Person {\n    char name[50];\n    struct Date birthDate;  // Nested structure\n};",
+          "code": "#include <stdio.h>\nstruct Person {\n    char name[50];\n    int age;\n};\nint main() {\n    struct Person person1 = {\"John\", 30};\n    printf(\"Name: %s\", person1.name);  // Accessing structure member\n    printf(\"Age: %d\", person1.age);\n    return 0;\n}\n#include <stdio.h>\nstruct Date {\n    int day;\n    int month;\n    int year;\n};\nstruct Person {\n    char name[50];\n    struct Date birthDate;  // Nested structure\n};",
+          "preview": {
+            "title": "C Programming · PDF page 29",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 29",
+            "Source lesson page 29"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 29
+        },
+        {
+          "id": "pdf-c_programming-page-30",
+          "label": "PDF 30. Birth Date: 15/5/1990",
+          "heading": "Birth Date: 15/5/1990",
+          "intro": "  int main() {",
+          "bodyHeading": "Source content · c_programming.pdf · page 30",
+          "body": "\n\nint main() {\n    struct Person person1 = {\"John\", {15, 5, 1990}};\n    printf(\"Name: %s\", person1.name);\n    printf(\"Birth Date: %d/%d/%d\", person1.birthDate.day, person1.birthD\n    return 0;\n}\nOutput: \nName: John\nBirth Date: 15/5/1990\n9.5. អង្គចងចាំំក្នុង C\nអង្គចងចាំំ (Union) គឺជា​ដំណើរការដែលអនុញ្ញាតឲ្យមានការប្រើប្\nរាស់ប្រភេទទិន្ន័យជាច្រើនក្នុងមួយផ្នែកតែម្ដង។\nតែការប្រើប្\nរាស់ទិន្ន័យជាច្រើនប្រភេទក្នុងចំណោមវា គួរតែមានទំហំតែមួយ។\n#include <stdio.h>\nunion Data {\n    int i;\n    float f;\n    char str[20];\n};\nint main() {\n    union Data data;\n    data.i = 10;\n    printf(\"Data as integer: %d\", data.i);\n    data.f = 220.5;\n    printf(\"Data as float: %.2f\", data.f);\n    return 0;\n}\nOutput: \nData as integer: 10\nData as float: 220.50",
+          "code": "int main() {\n    struct Person person1 = {\"John\", {15, 5, 1990}};\n    printf(\"Name: %s\", person1.name);\n    printf(\"Birth Date: %d/%d/%d\", person1.birthDate.day, person1.birthD\n    return 0;\n}\n#include <stdio.h>\nunion Data {\n    int i;\n    float f;\n    char str[20];\n};\nint main() {\n    union Data data;\n    data.i = 10;\n    printf(\"Data as integer: %d\", data.i);\n    data.f = 220.5;\n    printf(\"Data as float: %.2f\", data.f);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 30",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 30",
+            "Birth Date: 15/5/1990"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 30
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "PDF source lessons · pages 31-35",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-31",
+          "label": "PDF 31. File Handling គឺជាការប្រើប្",
+          "heading": "File Handling គឺជាការប្រើប្",
+          "intro": "  9.6. ការប្រៀៀបធៀធៀបរវាងស្រ",
+          "bodyHeading": "Source content · c_programming.pdf · page 31",
+          "body": "\n\n9.6. ការប្រៀៀបធៀធៀបរវាងស្រ\nទាប់ និងអង្គចងចាំំ\nមានការប្រៀៀបធៀធៀបមួយចំនួនរវាងស្រ\nទាប់ និងអង្គចងចាំំ។ ភាពខុសគ្នាដ៏សំខាន់គឺថាស្រ\nទាប់ត្រូូវបានប្រើដើម្បីីផ្ទុក\nទិន្ន័យពីប្រភេទផ្សេងៗគ្នា ហើយទាំំងអស់មានតម្លៃដែលត្រូូវបានរក្សាទុកជាដំណាក់កាល។ តែអង្គចងចាំំ គឺស្តាប់តែ\nប្រភេទទិន្ន័យមួយគត់ នៅពេលនោះ។\n10. File Handling\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីការដោះសោនិងការប្រតិបត្តិិការពីឯកសារ (File Handling) នៅក្នុង\nភាសា C។\n10.1. ការណែនាំំអំពីការដោះសោនឯកសារ\nFile Handling គឺជាការប្រើប្\nរាស់ឯកសារជាមួយភាសា C ដើម្បីីអាន បញ្ចូល ឬលុបព័ត៌មានពីឯកសារ។ ឯកសារ\nនៅក្នុង C គឺអាចសរសេរ និងអានបាន។\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"w\");  // Open a file for writing\n    if (file != NULL) {\n        fprintf(file, \"Hello, world!\");  // Write to the file\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: (Creates a file named \"file.txt\" with the content \"Hello, world!\n10.2. ប្រតិបត្តិិការនៅលើឯកសារ: fopen, fclose, fread, fwrite\nភាសា C ផ្តល់នូវមុខងារផ្សេងៗដើម្បីីអាន និងសរសេរ ទិន្ន័យទៅក្នុងឯកសារ។ ការប្រើប្\nរាស់មុខងារ fopen() និង\nfclose() សម្\nរាប់បើក និងបិទឯកសារ និង fread(), fwrite() សម្\nរាប់អាន និងសរសេរ ទិន្ន័យ។",
+          "code": "#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"w\");  // Open a file for writing\n    if (file != NULL) {\n        fprintf(file, \"Hello, world!\");  // Write to the file\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: (Creates a file named \"file.txt\" with the content \"Hello, world!",
+          "preview": {
+            "title": "C Programming · PDF page 31",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 31",
+            "File Handling គឺជាការប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 31
+        },
+        {
+          "id": "pdf-c_programming-page-32",
+          "label": "PDF 32. FILE *file = fopen(\"file.txt\", \"r\");  // Open file for reading",
+          "heading": "FILE *file = fopen(\"file.txt\", \"r\");  // Open file for reading",
+          "intro": "  #include <stdio.h>",
+          "bodyHeading": "Source content · c_programming.pdf · page 32",
+          "body": "\n\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"r\");  // Open file for reading\n    char str[100];\n    if (file != NULL) {\n        fread(str, sizeof(char), 100, file);  // Read from the file\n        printf(\"Read content: %s\", str);\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: \nRead content: Hello, world!\n10.3. អាសយដ្ឋានឯកសារ និងមូដ\nអ្នកអាចប្រើមុខងារ fopen() ដើម្បីីបើកឯកសារជាមួយមូដផ្សេងៗ។ មូដទាំំងនេះះអាចជាផ្នែកអាន ('r'), សរសេរ\n('w'), ឬបន្ថែម ('a') ទៅក្នុងឯកសារ។\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"w\");  // Open file in write mode\n    if (file != NULL) {\n        fprintf(file, \"This is a test.\");\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: (Creates or overwrites \"file.txt\" with the text \"This is a test.\n10.4. អាន និងសរសេរឯកសារប្រើអក្សរ",
+          "code": "#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"r\");  // Open file for reading\n    char str[100];\n    if (file != NULL) {\n        fread(str, sizeof(char), 100, file);  // Read from the file\n        printf(\"Read content: %s\", str);\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"w\");  // Open file in write mode\n    if (file != NULL) {\n        fprintf(file, \"This is a test.\");\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: (Creates or overwrites \"file.txt\" with the text \"This is a test.",
+          "preview": {
+            "title": "C Programming · PDF page 32",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 32",
+            "FILE *file = fopen(\"file.txt\", \"r\");  // Open file for reading"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 32
+        },
+        {
+          "id": "pdf-c_programming-page-33",
+          "label": "PDF 33. FILE *file = fopen(\"file.txt\", \"r\");  // Open file in read mode",
+          "heading": "FILE *file = fopen(\"file.txt\", \"r\");  // Open file in read mode",
+          "intro": "  ",
+          "bodyHeading": "Source content · c_programming.pdf · page 33",
+          "body": "\n\n\n\nការអាន និងសរសេរឯកសារដោយប្រើអក្សរនៅក្នុង C ត្រូូវបានធ្វើដោយប្រើមុខងារ fopen(), fwrite(), fread()\nនិង fclose()។\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"r\");  // Open file in read mode\n    char ch;\n    if (file != NULL) {\n        while ((ch = fgetc(file)) != EOF) {  // Read character by charac\n            putchar(ch);\n        }\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\nOutput: \nContent of the file displayed character by character\n10.5. ការដោះសោនកំហុសក្នុងប្រតិបត្តិិការឯកសារ\nការដោះសោនកំហុសនៅក្នុងប្រតិបត្តិិការឯកសារអាចធ្វើបានដោយប្រើមុខងារដូចជា `fopen()` ដែលត្រឡប់តែ\nបែបតាមឯកសារបើកបានឬមិនបាន និងផ្តល់ព័ត៌មានបន្ថែមពាក់ព័ន្ធក្នុងករណីមិនអាចបើកឯកសារ។\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"nonexistent.txt\", \"r\");  // Try to open a non-ex\n    if (file == NULL) {\n        printf(\"Error: Could not open file.\");\n    } else {\n        fclose(file);\n    }\n    return 0;\n}",
+          "code": "#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"file.txt\", \"r\");  // Open file in read mode\n    char ch;\n    if (file != NULL) {\n        while ((ch = fgetc(file)) != EOF) {  // Read character by charac\n            putchar(ch);\n        }\n        fclose(file);  // Close the file\n    }\n    return 0;\n}\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"nonexistent.txt\", \"r\");  // Try to open a non-ex\n    if (file == NULL) {\n        printf(\"Error: Could not open file.\");\n    } else {\n        fclose(file);\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 33",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 33",
+            "FILE *file = fopen(\"file.txt\", \"r\");  // Open file in read mode"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 33
+        },
+        {
+          "id": "pdf-c_programming-page-34",
+          "label": "PDF 34. FILE *file = fopen(\"data.bin\", \"wb\");  // Open binary file for writi",
+          "heading": "FILE *file = fopen(\"data.bin\", \"wb\");  // Open binary file for writi",
+          "intro": "  Output:",
+          "bodyHeading": "Source content · c_programming.pdf · page 34",
+          "body": "\n\nOutput: \nError: Could not open file.\n10.6. ការដោះសោនឯកសារប្រភេទបាញ់ (Binary Files)\nការប្រើប្\nរាស់ឯកសារប្រភេទបាញ់ (Binary) អាចធ្វើបានដោយប្រើមុខងារ fopen() ដោយប្រើមូដ \"wb\" សម្\nរាប់\nសរសេរ និង \"rb\" សម្\nរាប់អាន។\n#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"data.bin\", \"wb\");  // Open binary file for writi\n    int num = 1234;\n    fwrite(&num, sizeof(num), 1, file);  // Write binary data to file\n    fclose(file);  // Close the file\n    file = fopen(\"data.bin\", \"rb\");  // Open binary file for reading\n    fread(&num, sizeof(num), 1, file);  // Read binary data from file\n    printf(\"Read number: %d\", num);\n    fclose(file);\n    return 0;\n}\nOutput: \nRead number: 1234\n11. Dynamic Memory Allocation\nនៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីការបែងចែកសម្ភារៈនៅលើចន្លោះម៉ាស៊ីីនយ៉ាងឥតកំណត់ (Dynamic\nMemory Allocation) នៅក្នុងភាសា C។\n11.1. ការណែនាំំអំពីសម្ភារៈឥតកំណត់",
+          "code": "#include <stdio.h>\nint main() {\n    FILE *file = fopen(\"data.bin\", \"wb\");  // Open binary file for writi\n    int num = 1234;\n    fwrite(&num, sizeof(num), 1, file);  // Write binary data to file\n    fclose(file);  // Close the file\n    file = fopen(\"data.bin\", \"rb\");  // Open binary file for reading\n    fread(&num, sizeof(num), 1, file);  // Read binary data from file\n    printf(\"Read number: %d\", num);\n    fclose(file);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 34",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 34",
+            "FILE *file = fopen(\"data.bin\", \"wb\");  // Open binary file for writi"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 34
+        },
+        {
+          "id": "pdf-c_programming-page-35",
+          "label": "PDF 35. Dynamic Memory Allocation គឺជាការបែងចែកអង្គចិត្តនៃសម្ភារៈមួយនៅពេលកម្មវិធីកំពុងដំណើរការដោយ",
+          "heading": "Dynamic Memory Allocation គឺជាការបែងចែកអង្គចិត្តនៃសម្ភារៈមួយនៅពេលកម្មវិធីកំពុងដំណើរការដោយ",
+          "intro": "  ប្រើមុខងារ malloc(), calloc(), realloc() និង free()។",
+          "bodyHeading": "Source content · c_programming.pdf · page 35",
+          "body": "\n\nDynamic Memory Allocation គឺជាការបែងចែកអង្គចិត្តនៃសម្ភារៈមួយនៅពេលកម្មវិធីកំពុងដំណើរការដោយ\nប្រើមុខងារ malloc(), calloc(), realloc() និង free()។\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr;\n    ptr = (int*) malloc(sizeof(int));  // Allocate memory for one intege\n    if (ptr != NULL) {\n        *ptr = 100;\n        printf(\"Value: %d\", *ptr);\n        free(ptr);  // Free dynamically allocated memory\n    }\n    return 0;\n}\nOutput: \nValue: 100\n11.2. malloc(), calloc(), realloc(), and free()\nមុខងារ malloc() និង calloc() ត្រូូវបានប្រើដើម្បីីបែងចែកអង្គចិត្តម៉ាស៊ីីនសម្\nរាប់ទិន្ន័យដែលមិនបានកំណត់\nពីមុន (Dynamic Memory). realloc() ត្រូូវបានប្រើដើម្បីីបន្ថែមឬកាត់បន្ថយទំហំមាតិកាដែលបានបែងចែក។\nfree() ប្រើសម្\nរាប់ដោះលែងអង្គចិត្តដែលបានបែងចែក។\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *arr;\n    arr = (int*) malloc(5 * sizeof(int));  // Allocate memory for 5 inte\n    if (arr != NULL) {\n        for (int i = 0; i < 5; i++) {\n            arr[i] = i * 10;\n        }\n        for (int i = 0; i < 5; i++) {",
+          "code": "#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr;\n    ptr = (int*) malloc(sizeof(int));  // Allocate memory for one intege\n    if (ptr != NULL) {\n        *ptr = 100;\n        printf(\"Value: %d\", *ptr);\n        free(ptr);  // Free dynamically allocated memory\n    }\n    return 0;\n}\n11.2. malloc(), calloc(), realloc(), and free()\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *arr;\n    arr = (int*) malloc(5 * sizeof(int));  // Allocate memory for 5 inte\n    if (arr != NULL) {\n        for (int i = 0; i < 5; i++) {\n            arr[i] = i * 10;\n        }\n        for (int i = 0; i < 5; i++) {",
+          "preview": {
+            "title": "C Programming · PDF page 35",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 35",
+            "Dynamic Memory Allocation គឺជាការបែងចែកអង្គចិត្តនៃសម្ភារៈមួយនៅពេលកម្មវិធីកំពុងដំ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 35
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "PDF source lessons · pages 36-40",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-36",
+          "label": "PDF 36. 0 10 20 30 40",
+          "heading": "0 10 20 30 40",
+          "intro": "  ",
+          "bodyHeading": "Source content · c_programming.pdf · page 36",
+          "body": "\n\n\n\n            printf(\"%d \", arr[i]);  // Display elements\n        }\n        arr = (int*) realloc(arr, 10 * sizeof(int));  // Reallocate memo\n        for (int i = 5; i < 10; i++) {\n            arr[i] = i * 10;\n        }\n        printf(\" \");\n        for (int i = 0; i < 10; i++) {\n            printf(\"%d \", arr[i]);  // Display updated elements\n        }\n        free(arr);  // Free allocated memory\n    }\n    return 0;\n}\nOutput: \n0 10 20 30 40 \n0 10 20 30 40 50 60 70 80 90\n11.3. ការហួសបាត់នៃសម្ភារៈ និងការគ្រប់គ្រងសម្ភារៈ\nMemory Leaks គឺជាបញ្ហានៃការបែងចែកសម្ភារៈហើយមិនមានការដោះលែងមើលថែរប្\nរាកដ។ វាអាច\nបណ្តាលឱ្យមានបញ្ហាកំណត់ក្នុងប្រព័ន្ធ។ ការគ្រប់គ្រងសម្ភារៈប្រកបដោយការប្រើប្\nរាស់ free() និងការបង់កំណត់\nលើការបែងចែកមានសារៈសំខាន់។\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *arr = (int*) malloc(5 * sizeof(int));  // Memory allocated but \n    // Forgetting to call free() can cause a memory leak\n    // free(arr);  // Fix by freeing the allocated memory\n    return 0;\n}",
+          "code": "printf(\"%d \", arr[i]);  // Display elements\n        }\n        arr = (int*) realloc(arr, 10 * sizeof(int));  // Reallocate memo\n        for (int i = 5; i < 10; i++) {\n            arr[i] = i * 10;\n        }\n        printf(\" \");\n        for (int i = 0; i < 10; i++) {\n            printf(\"%d \", arr[i]);  // Display updated elements\n        }\n        free(arr);  // Free allocated memory\n    }\n    return 0;\n}\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *arr = (int*) malloc(5 * sizeof(int));  // Memory allocated but\n    // Forgetting to call free() can cause a memory leak\n    // free(arr);  // Fix by freeing the allocated memory\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 36",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 36",
+            "0 10 20 30 40"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 36
+        },
+        {
+          "id": "pdf-c_programming-page-37",
+          "label": "PDF 37. 0 5 10",
+          "heading": "0 5 10",
+          "intro": "  ",
+          "bodyHeading": "Source content · c_programming.pdf · page 37",
+          "body": "\n\n\n\nOutput: \n(No output, but this program has a memory leak due to not freeing the me\n11.4. ការប្រើប្\nរាស់បញ្ជូនជាមួយសម្ភារៈឥតកំណត់\nការប្រើប្\nរាស់ pointers ជាមួយនឹង dynamic memory គឺមានសារៈសំខាន់ពេលដែលអ្នកកំណត់តម្លៃឥត\nកំណត់មួយសម្\nរាប់ទិន្ន័យ។ ការប្រើប្\nរាស់ pointer អាចធ្វើឲ្យការបែងចែក memory ទៅលើអង្គចិត្តនីមួយៗ\nកាន់តែមានប្រសិទ្ធភាព។\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr;\n    ptr = (int*) malloc(3 * sizeof(int));  // Allocate memory for 3 inte\n    if (ptr != NULL) {\n        for (int i = 0; i < 3; i++) {\n            ptr[i] = i * 5;  // Assign values dynamically\n        }\n        for (int i = 0; i < 3; i++) {\n            printf(\"%d \", ptr[i]);  // Display values\n        }\n        free(ptr);  // Free allocated memory\n    }\n    return 0;\n}\nOutput: \n0 5 10\n12. Preprocessor Directives",
+          "code": "(No output, but this program has a memory leak due to not freeing the me\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *ptr;\n    ptr = (int*) malloc(3 * sizeof(int));  // Allocate memory for 3 inte\n    if (ptr != NULL) {\n        for (int i = 0; i < 3; i++) {\n            ptr[i] = i * 5;  // Assign values dynamically\n        }\n        for (int i = 0; i < 3; i++) {\n            printf(\"%d \", ptr[i]);  // Display values\n        }\n        free(ptr);  // Free allocated memory\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 37",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 37",
+            "0 5 10"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 37
+        },
+        {
+          "id": "pdf-c_programming-page-38",
+          "label": "PDF 38. Directives #define ត្រូូវបានប្រើសម្",
+          "heading": "Directives #define ត្រូូវបានប្រើសម្",
+          "intro": "នៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីការប្រើប្ រាស់បញ្ជាតម្រូូវ (Preprocessor Directives) ក្នុងភាសា C។",
+          "bodyHeading": "Source content · c_programming.pdf · page 38",
+          "body": "នៅក្នុងផ្នែកនេះះ យើងនឹងសិក្សាពីការប្រើប្\nរាស់បញ្ជាតម្រូូវ (Preprocessor Directives) ក្នុងភាសា\nC។\n12.1. #define and Constants\nDirectives #define ត្រូូវបានប្រើសម្\nរាប់ការបង្កើត constants និងកំណត់តម្លៃថេរដែលត្រូូវបានប្រើក្នុង\nកម្មវិធី។\n#include <stdio.h>\n#define PI 3.14  // Defining constant PI\nint main() {\n    float area = PI * 10 * 10;  // Using defined constant\n    printf(\"Area of circle: %.2f\", area);\n    return 0;\n}\nOutput: \nArea of circle: 314.00\n12.2. #include and Header Files\nDirective #include ត្រូូវបានប្រើដើម្បីីបញ្ចូលឯកសារ header ដែលមានប្រភេទនៃអនុបត្ថម្ភដូចជា function\ndeclarations, constants, and types។\n#include <stdio.h>  // Standard Input-Output header file\nint main() {\n    printf(\"Hello, World!\");  // Using printf from stdio.h\n    return 0;\n}\nOutput: \nHello, World!\n12.3. Conditional Compilation",
+          "code": "#include <stdio.h>\n#define PI 3.14  // Defining constant PI\nint main() {\n    float area = PI * 10 * 10;  // Using defined constant\n    printf(\"Area of circle: %.2f\", area);\n    return 0;\n}\n#include <stdio.h>  // Standard Input-Output header file\nint main() {\n    printf(\"Hello, World!\");  // Using printf from stdio.h\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 38",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 38",
+            "Directives #define ត្រូូវបានប្រើសម្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 38
+        },
+        {
+          "id": "pdf-c_programming-page-39",
+          "label": "PDF 39. Conditional Compilation គឺជាការប្រើប្",
+          "heading": "Conditional Compilation គឺជាការប្រើប្",
+          "intro": "រាស់បញ្ជាតម្រូូវ #if, #else, #elif និង #endif ដើម្បីី ជ្រើសរើសកូដមួយសម្ រាប់បរិស្ថានផ្សេងៗគ្នា។",
+          "bodyHeading": "Source content · c_programming.pdf · page 39",
+          "body": "Conditional Compilation គឺជាការប្រើប្\nរាស់បញ្ជាតម្រូូវ #if, #else, #elif និង #endif ដើម្បីី\nជ្រើសរើសកូដមួយសម្\nរាប់បរិស្ថានផ្សេងៗគ្នា។\n#include <stdio.h>\n#define DEBUG 1  // Enable debug code\nint main() {\n    #if DEBUG\n        printf(\"Debugging is enabled.\");\n    #else\n        printf(\"Debugging is disabled.\");\n    #endif\n    return 0;\n}\nOutput: \nDebugging is enabled.\n12.4. Macros and Inline Functions\nMacros ត្រូូវបានប្រើសម្\nរាប់បង្កើតកូដផ្ទៃក្នុង (code snippets) ដែលត្រូូវបានជំនួសដោយអត្ថបទមុននឹងកំណត់\nដំណើរការ។ Inline functions គឺជាមុខងារដែលត្រូូវបានកំណត់ក្នុងផ្ទាំំងមួយនៃការជួបប្រទះដោយមិនបង្កើត\nការហៅមុខងារ។\n#include <stdio.h>\n#define SQUARE(x) ((x) * (x))  // Macro for square of a number\ninline int square(int x) {\n    return x * x;  // Inline function for square of a number\n}\nint main() {\n    printf(\"Square using macro: %d\", SQUARE(4));\n    printf(\"Square using inline function: %d\", square(4));\n    return 0;\n}",
+          "code": "#include <stdio.h>\n#define DEBUG 1  // Enable debug code\nint main() {\n    #if DEBUG\n        printf(\"Debugging is enabled.\");\n    #else\n        printf(\"Debugging is disabled.\");\n    #endif\n    return 0;\n}\n#include <stdio.h>\n#define SQUARE(x) ((x) * (x))  // Macro for square of a number\ninline int square(int x) {\n    return x * x;  // Inline function for square of a number\n}\nint main() {\n    printf(\"Square using macro: %d\", SQUARE(4));\n    printf(\"Square using inline function: %d\", square(4));\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 39",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 39",
+            "Conditional Compilation គឺជាការប្រើប្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 39
+        },
+        {
+          "id": "pdf-c_programming-page-40",
+          "label": "PDF 40. Square using macro: 16",
+          "heading": "Square using macro: 16",
+          "intro": "  Output:",
+          "bodyHeading": "Source content · c_programming.pdf · page 40",
+          "body": "\n\nOutput: \nSquare using macro: 16\nSquare using inline function: 16\n12.5. File Inclusion and Guard Directives\nGuard directives (e.g., #ifndef, #define, #endif) ត្រូូវបានប្រើដើម្បីីកុះគ្នាការបញ្ចូលឯកសារតែម្ដងក្នុង\nកម្មវិធីជាមួយនឹងការជៀជៀសវាងភាពបញ្ចូលអំពីរបៀបៀបមួយ។\n// Example of header guard\n#ifndef HEADER_FILE_H\n#define HEADER_FILE_H\nvoid exampleFunction();\n#endif  // HEADER_FILE_H\nExplanation: \nThis code ensures that the header file is only included once in a projec\n13. ការដោះសោ និង ការកែចំ\nក្នុងផ្នែកនេះះយើងនឹងពិភាក្សាពីបច្ចេកទេសនៃការដោះសោ និង ការកែចំក្នុងការគ្រប់គ្រងកំហុស និងការ\nត្រួួតពិនិត្យបញ្ហាក្នុងការសរសេរកូដ C។ ការប្រើប្\nរាស់ឧបករណ៍ និងបច្ចេកទេសទាំំងនេះះជួយអ្នកដើម្បីី\nកំណត់ និងដោះសោបញ្ហាដោយឆាប់រហ័សនៅពេលដែលអ្នកកំពុងអភិវឌ្ឍកម្មវិធី។\n13.1. ការដោះសោក្នុង C\nក្នុង C ការដោះសោធម្មតាត្រូូវបានធ្វើតាមការប្រើតម្លៃត្រឡប់ `errno` និងមុខងារដោះសោដូចជា `perror()`\nនិង `strerror()`។ ឧបករណ៍ទាំំងនេះះអនុញ្ញាតឱ្យអ្នករកឃើញ និងរាយការណ៍ពីកំហុសនៅពេលដែលកម្មវិធីកំពុង\nដំណើរការ។",
+          "code": "#ifndef HEADER_FILE_H\n#define HEADER_FILE_H\nvoid exampleFunction();\n#endif  // HEADER_FILE_H",
+          "preview": {
+            "title": "C Programming · PDF page 40",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 40",
+            "Square using macro: 16"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 40
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "PDF source lessons · pages 41-45",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-41",
+          "label": "PDF 41. FILE *file = fopen(\"non_existent_file.txt\", \"r\");",
+          "heading": "FILE *file = fopen(\"non_existent_file.txt\", \"r\");",
+          "intro": "  #include <stdio.h>",
+          "bodyHeading": "Source content · c_programming.pdf · page 41",
+          "body": "\n\n#include <stdio.h>\n#include <errno.h>\nint main() {\n    FILE *file = fopen(\"non_existent_file.txt\", \"r\");\n    if (file == NULL) {\n        perror(\"កំហុសក្នុងការបើកឯកសារ\");  // បង្ហាញសារកំហុស\n        return 1;\n    }\n    fclose(file);\n    return 0;\n}\nOutput: \nកំហុសក្នុងការបើកឯកសារ: មិនមានឯកសារទេ\n13.2. ប្រើ assert() សម្\nរាប់ការកែចំ\nមុខងារ `assert()` ជាឧបករណ៍សម្\nរាប់ត្រួួតពិនិត្យលក្ខណ្ឌមួយ។ ប្រសិនបើលក្ខណ្ឌមិនត្រឹឹមត្រូូវ ប្រព័ន្ធនឹង\nបញ្ចប់ការប្រតិបត្ដិិ ដោយផ្តល់ព័ត៌មានអំពីទីតាំំងកំហុសដែលបានកើតឡើង។\n#include <stdio.h>\n#include <assert.h>\nint main() {\n    int x = 5;\n    assert(x > 0);  // នេ\nះ\nះនឹងជោគជ័យ\n    assert(x < 0);  // នេ\nះ\nះនឹងបរាជ័យ\n    return 0;\n}\nOutput: \nការបញ្ចេញអនុញ្ញាតបានបរាជ័យ: x < 0, ឯកសារអ្នកឧទាហរណ៍.c, បន្ទាត់ 6, មុខងារ ma\n13.3. ការដោះសោកំហុសនៅពេលប្រតិបត្ដិិ",
+          "code": "#include <stdio.h>\n#include <errno.h>\nint main() {\n    FILE *file = fopen(\"non_existent_file.txt\", \"r\");\n    if (file == NULL) {\n        return 1;\n    }\n    fclose(file);\n    return 0;\n}\n#include <stdio.h>\n#include <assert.h>\nint main() {\n    int x = 5;\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 41",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 41",
+            "FILE *file = fopen(\"non_existent_file.txt\", \"r\");"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 41
+        },
+        {
+          "id": "pdf-c_programming-page-42",
+          "label": "PDF 42. Pointer មិនមានតម្លៃ, មិនអាចបញ្ជូលបាន",
+          "heading": "Pointer មិនមានតម្លៃ, មិនអាចបញ្ជូលបាន",
+          "intro": "  កំហុស Runtime ក្នុងកម្មវិធី C អាចដោះសោបានតាមបច្ចេកទេសដូចជា ការត្រួួតពិនិត្យ pointer មិនមានតម្លៃ,",
+          "bodyHeading": "Source content · c_programming.pdf · page 42",
+          "body": "\n\nកំហុស Runtime ក្នុងកម្មវិធី C អាចដោះសោបានតាមបច្ចេកទេសដូចជា ការត្រួួតពិនិត្យ pointer មិនមានតម្លៃ,\nការបញ្ជាក់វាលបញ្ចូល និងការប្រើប្\nរាស់លេខកូដកំហុសដែលត្រឹឹមត្រូូវសម្\nរាប់មុខងារផ្សេងៗ។\n#include <stdio.h>\nint main() {\n    int *ptr = NULL;\n    if (ptr == NULL) {\n        printf(\"Pointer មិនមានតម្លៃ, មិនអាចបញ្ជូលបាន\");\n    }\n    return 0;\n}\nOutput: \nPointer មិនមានតម្លៃ, មិនអាចបញ្ជូលបាន\n13.4. ការកែចំជាមួយ GDB\nGDB (GNU Debugger) គឺជាឧបករណ៍ដ៏មានអំណាចសម្\nរាប់ការកែចំកម្មវិធី C។ វាអនុញ្ញាតឱ្យអ្នកអនុវត្តកម្មវិធី\nរបស់អ្នកជាការប្រតិបត្ដិិทีៗ កំណត់ breakpoints ពិនិត្យតម្លៃអថេរ និងតាមដានកំហុស។\n$ gcc -g example.c -o example   // បង្កើតការបញ្ចូលជាមួយសញ្ញារូបសំណេីីបបញ្ហា\n$ gdb ./example                // ចាប់ផ្តើម GDB\n(gdb) break main               // កំណត់ breakpoint នៅក្នុងមុខងារ main\n(gdb) run                      // ប្រ\nតិបត្ដិិកម្មវិធី\n(gdb) print x                  // ពិនិត្យតម្លៃនៃ x\nExplanation: \nGDB អនុញ្ញាតឱ្យអ្នកធ្វើការកែចំកម្មវិធីបានយ៉ាង interactive និងពិនិត្យប្រ\nភេទរបស់វា។\n13.5. បច្ចេកទេសការដោះសោបញ្ហាអាក្រក់\nបញ្ហាអាក្រក់នៅក្នុង C មិនមានការគាំំទ្រដោយតែមួយសម្\nរាប់ការដោះសោបញ្ហាបានទេ។ ទោះជាយ៉ាងណាក៏ដោយ\nអ្នកអាចប្រើប្\nរាស់បច្ចេកទេសដូចជា `setjmp()` និង `longjmp()` ដើម្បីីធ្វើការទំនាក់ទំនងដូចជា exception\nhandling នៅក្នុង C ។",
+          "code": "#include <stdio.h>\nint main() {\n    int *ptr = NULL;\n    if (ptr == NULL) {\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 42",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 42",
+            "Pointer មិនមានតម្លៃ, មិនអាចបញ្ជូលបាន"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 42
+        },
+        {
+          "id": "pdf-c_programming-page-43",
+          "label": "PDF 43. Multithreading អនុញ្ញាតឱ្យមានការអនុវត្តន៍threads ច្រើន (គ្រឿឿងប្រតិបត្តិិតូចៗនៃដំណើរការមួយ) ក្នុងពេល",
+          "heading": "Multithreading អនុញ្ញាតឱ្យមានការអនុវត្តន៍threads ច្រើន (គ្រឿឿងប្រតិបត្តិិតូចៗនៃដំណើរការមួយ) ក្នុងពេល",
+          "intro": "#include <stdio.h> #include <setjmp.h> jmp_buf env;",
+          "bodyHeading": "Source content · c_programming.pdf · page 43",
+          "body": "#include <stdio.h>\n#include <setjmp.h>\njmp_buf env;\nvoid testFunction() {\n    longjmp(env, 1);  // ការត្រ\nឡប់មកវិញទៅកាន់ setjmp\n}\nint main() {\n    if (setjmp(env) != 0) {\n        printf(\"មានកំហុសកើតឡើង!\");\n    } else {\n        testFunction();  // នេ\nះ\nះនឹងបង្ហាញ longjmp\n    }\n    return 0;\n}\nOutput: \nមានកំហុសកើតឡើង!\n14. គំនិតខុសៗទៅក្នុង C\nក្នុងផ្នែកនេះះ យើងនឹងពិភាក្សាអំពីប្រធានបទខុសៗទៀទៀតក្នុងការកម្មវិធី C ដែលសំខាន់សម្\nរាប់ការបង្កើត\nកម្មវិធីដែលមានភាពស្មុគស្មាញ និងមានប្រសិទ្ធភាព។ គំនិតទាំំងនេះះនឹងពង្រឹឹងការយល់ដឹងមូលដ្ឋាន\nរបស់អ្នក និងជួយដោះសោបញ្ហាស្មុគស្មាញ និងធ្វើឲ្យប្រសើរឡើងនូវក្រុុមការងាររបស់អ្នក។\n14.1. Multithreading ក្នុង C\nMultithreading អនុញ្ញាតឱ្យមានការអនុវត្តន៍threads ច្រើន (គ្រឿឿងប្រតិបត្តិិតូចៗនៃដំណើរការមួយ) ក្នុងពេល\nតែមួយ ដែលធ្វើអោយកម្មវិធីមានប្រសិទ្ធភាពកាន់តែខ្ពស់ក្នុងករណីដែលត្រូូវការអនុវត្តន៍ពេលតែមួយ ដូចជា កម្មវិធី\nម៉ាស៊ីីនមេ ឬកម្មវិធីដែលត្រូូវការអនុវត្តន៍ជាច្រើន។\n#include <stdio.h>\n#include <pthread.h>",
+          "code": "#include <stdio.h>\n#include <setjmp.h>\njmp_buf env;\nvoid testFunction() {\n}\nint main() {\n    if (setjmp(env) != 0) {\n    } else {\n    }\n    return 0;\n}\n#include <stdio.h>\n#include <pthread.h>",
+          "preview": {
+            "title": "C Programming · PDF page 43",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 43",
+            "Multithreading អនុញ្ញាតឱ្យមានការអនុវត្តន៍threads ច្រើន (គ្រឿឿងប្រតិបត្តិិតូចៗនៃដ"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 43
+        },
+        {
+          "id": "pdf-c_programming-page-44",
+          "label": "PDF 44. Sockets ផ្តល់នូវវិធីសាស្",
+          "heading": "Sockets ផ្តល់នូវវិធីសាស្",
+          "intro": "void* printMessage(void* ptr) { printf(\"សួស្តីីពីthread!\\n\"); return NULL;",
+          "bodyHeading": "Source content · c_programming.pdf · page 44",
+          "body": "void* printMessage(void* ptr) {\n    printf(\"សួស្តីីពីthread!\\n\");\n    return NULL;\n}\nint main() {\n    pthread_t thread1;\n    pthread_create(&thread1, NULL, printMessage, NULL);\n    pthread_join(thread1, NULL);\n    return 0;\n}\nOutput:\nសួស្តីីពីthread!\n14.2. សោនិងបណ្តាញក្នុង C\nSockets ផ្តល់នូវវិធីសាស្\nត្រដើម្បីីកម្មវិធីធ្វើការទំនាក់ទំនងតាមបណ្តាញ។ ក្នុង C ប្រើបណ្ណាល័យ\n<sys/socket.h> ដើម្បីីបង្កើតសោនិងធ្វើការទំនាក់ទំនងទាំំងពីរសម្\nរាប់គ្រឿឿងម៉ាស៊ីីនមេនិងអតិថិជន។ វាជាមុខងារ\nសំខាន់សម្\nរាប់បង្កើតកម្មវិធីដែលត្រូូវការបញ្ចូនទិន្ន័យ ដូចជា ប្រព័ន្ធប្រតិបត្តិិការទំព័របណ្ដាញ ឬហ្\nគេមអនឡាញ។\n#include <stdio.h>\n#include <sys/socket.h>\n#include <arpa/inet.h>\nint main() {\n    int sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    struct sockaddr_in server;\n    server.sin_family = AF_INET;\n    server.sin_port = htons(8080);\n    server.sin_addr.s_addr = inet_addr(\"127.0.0.1\");\n    connect(sockfd, (struct sockaddr *)&server, sizeof(server));\n    // បញ្ជូន និងទទួលទិន្ន័\nយ\n    return 0;\n}",
+          "code": "void* printMessage(void* ptr) {\n    return NULL;\n}\nint main() {\n    pthread_t thread1;\n    pthread_create(&thread1, NULL, printMessage, NULL);\n    pthread_join(thread1, NULL);\n    return 0;\n}\n#include <stdio.h>\n#include <sys/socket.h>\n#include <arpa/inet.h>\nint main() {\n    int sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    struct sockaddr_in server;\n    server.sin_family = AF_INET;\n    server.sin_port = htons(8080);\n    server.sin_addr.s_addr = inet_addr(\"127.0.0.1\");\n    connect(sockfd, (struct sockaddr *)&server, sizeof(server));\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 44",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 44",
+            "Sockets ផ្តល់នូវវិធីសាស្"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 44
+        },
+        {
+          "id": "pdf-c_programming-page-45",
+          "label": "PDF 45. Source lesson page 45",
+          "heading": "Source lesson page 45",
+          "intro": "  Explanation:",
+          "bodyHeading": "Source content · c_programming.pdf · page 45",
+          "body": "\n\nExplanation:\nនេ\nះ\nះបង្កើតគ klient TCP មួយដែលភ្ជាប់ទៅម៉ាស៊ីីនមេនៅលើ localhost នៅពេល 8080។\n14.3. C និងការកម្មវិធីមូលដ្ឋានវត្ថុ-oriented\nC មិនមែនជាភាសាកម្មវិធីមូលដ្ឋានវត្ថុទេ ប៉ុន្តែគម្រោងវត្ថុ-oriented ដូចជា encapsulation, inheritance\nនិង polymorphism អាចត្រូូវបានអនុវត្តន៍តាមរយៈស៊ិិចថួរ (structures), function pointers និង\nបច្ចេកទេសផ្សេងៗ។ នេះះអនុញ្ញាតឱ្យអ្នកសម្រួួលទិន្ន័យក្នុងរបៀបៀបដូចកម្មវិធីមូលដ្ឋានវត្ថុ។\n#include <stdio.h>\nstruct Car {\n    char model[50];\n    int year;\n    void (*displayInfo)(struct Car*);  // Function pointer\n};\nvoid displayCarInfo(struct Car* car) {\n    printf(\"ម៉ូដែល: %s\\nឆ្នាំំ: %d\\n\", car->model, car->year);\n}\nint main() {\n    struct Car myCar = {\"Toyota\", 2020, displayCarInfo};\n    myCar.displayInfo(&myCar);  // ការហៅវិធី\n    return 0;}\nOutput:\nម៉ូដែល: Toyota\nឆ្នាំំ: 2020\n14.4. រចនាសម្ព័័ន្ធទិន្ន័យខ្ពស់ (ដូចជា ដើមឈើ, សៀសៀវភៅ)\nរចនាសម្ព័័ន្ធទិន្ន័យខ្ពស់ដូចជា ដើមឈើ និង សៀសៀវភៅមានសារៈសំខាន់សម្\nរាប់ការកំណត់ទិន្ន័យស្មុគស្មាញក្នុង C។\nរចនាសម្ព័័ន្ធទាំំងនេះះអនុញ្ញាតឱ្យមានការកែប្រែទិន្ន័យយ៉ាងមានប្រសិទ្ធភាព និងដោះសោបញ្ហាក្នុងកម្មវិធីដូចជា\nឌីតាបេស, កម្មវិធីបកប្រែ និង អាល់ហ្គូរិធម៍ AI។",
+          "code": "#include <stdio.h>\nstruct Car {\n    char model[50];\n    int year;\n    void (*displayInfo)(struct Car*);  // Function pointer\n};\nvoid displayCarInfo(struct Car* car) {\n}\nint main() {\n    struct Car myCar = {\"Toyota\", 2020, displayCarInfo};\n    return 0;}",
+          "preview": {
+            "title": "C Programming · PDF page 45",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 45",
+            "Source lesson page 45"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 45
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "PDF source lessons · pages 46-50",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-46",
+          "label": "PDF 46. 5 10 15",
+          "heading": "5 10 15",
+          "intro": "#include <stdio.h> struct Node { int data;",
+          "bodyHeading": "Source content · c_programming.pdf · page 46",
+          "body": "#include <stdio.h>\nstruct Node {\n    int data;\n    struct Node* left;\n    struct Node* right;\n};\nvoid inOrderTraversal(struct Node* root) {\n    if (root != NULL) {\n        inOrderTraversal(root->left);\n        printf(\"%d \", root->data);\n        inOrderTraversal(root->right);\n    }\n}\nint main() {\n    struct Node root = {10, NULL, NULL};\n    struct Node leftChild = {5, NULL, NULL};\n    struct Node rightChild = {15, NULL, NULL};\n    root.left = &leftChild;\n    root.right = &rightChild;\n    inOrderTraversal(&root);  // Output: 5 10 15\n    return 0;}\nOutput:\n5 10 15\n14.5. បច្ចេកទេសប្រសិទ្ធភាពក្រុុមបកប្រែ\nបច្ចេកទេសប្រសិទ្ធភាពក្រុុមបកប្រែមកនឹងត្រូូវបានប្រើដើម្បីីធ្វើឲ្យកម្មវិធី C មានប្រសិទ្ធភាពខ្ពស់។ បច្ចេកទេសទាំំងនេះះ\nអាចបង្កើតឲ្យមានការកំណត់ទាំំងការចំណាយពេលវេលា ការប្រើប្\nរាស់លុបចោលកូដដែលមិនចាំំបាច់ ការកំណត់\nអនុភាពនៅក្នុងរយៈពេល និងកំណត់ការប្រើប្\nរាស់មេម៉ូរី។\n$ gcc -O2 program.c -o program  // បកប្រែជាមួយកម្រិិ\nតប្រ\nសិទ្ធភាព 2",
+          "code": "#include <stdio.h>\nstruct Node {\n    int data;\n    struct Node* left;\n    struct Node* right;\n};\nvoid inOrderTraversal(struct Node* root) {\n    if (root != NULL) {\n        inOrderTraversal(root->left);\n        printf(\"%d \", root->data);\n        inOrderTraversal(root->right);\n    }\n}\nint main() {\n    struct Node root = {10, NULL, NULL};\n    struct Node leftChild = {5, NULL, NULL};\n    struct Node rightChild = {15, NULL, NULL};\n    root.left = &leftChild;\n    root.right = &rightChild;\n    inOrderTraversal(&root);  // Output: 5 10 15\n    return 0;}",
+          "preview": {
+            "title": "C Programming · PDF page 46",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 46",
+            "5 10 15"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 46
+        },
+        {
+          "id": "pdf-c_programming-page-47",
+          "label": "PDF 47. Source lesson page 47",
+          "heading": "Source lesson page 47",
+          "intro": "  Explanation:",
+          "bodyHeading": "Source content · c_programming.pdf · page 47",
+          "body": "\n\nExplanation:\nផ្ទាំំង `-O2` អនុញ្ញាតឱ្យមានការបង្កើតប្រ\nសិទ្ធភាពដែលធ្វើឲ្យប្រ\nសើរឡើងដោយគ្មានការកំណត់\n15. បណ្ណាល័យស្តង់ដារ C\nក្នុងផ្នែកនេះះ យើងនឹងពិភាក្សាអំពីបណ្ណាល័យស្តង់ដារបស់ភាសា C ដែលផ្តល់អំពីមុខងារនិងសមត្ថភាព\nដែលអាចជួយសម្រួួលការអភិវឌ្ឍកម្មវិធីរបស់អ្នក។ វាជារបៀបៀបដ៏សំខាន់ក្នុងការបង្កើតកម្មវិធីដែលមាន\nប្រសិទ្ធភាព និងគាំំទ្រដល់ការអភិវឌ្ឍកម្មវិធីនៅក្នុងបរិស្ថាន C។\n15.1. ការបញ្ចូល/ចេញស្តង់ដារ\nបណ្ណាល័យ C ផ្តល់នូវមុខងារសំខាន់ៗសម្\nរាប់ការបញ្ចូល និងចេញទិន្ន័យ៖ `printf()` សម្\nរាប់បង្ហាញការចេញ\nនិង `scanf()` សម្\nរាប់ទទួលការបញ្ចូលពីអ្នកប្រើ។\n#include <stdio.h>\nint main() {\n    int number;\n    printf(\"បញ្ចូលលេខ: \");\n    scanf(\"%d\", &number);\n    printf(\"លេខដែលបានបញ្ចូលគឺ: %d\", number);\n    return 0;\n}\nOutput: \nបញ្ចូលលេខ: 5\nលេខដែលបានបញ្ចូលគឺ: 5\n15.2. មុខងារការគ្រប់គ្រងស្ថិិតិ\nបណ្ណាល័យ C មានមុខងារច្រើនសម្\nរាប់ការគ្រប់គ្រងស្ថិិតិដូចជា `strlen()`, `strcpy()`, `strcat()`, និង\n`strcmp()`។ មុខងារទាំំងនេះះអាចធ្វើអោយអ្នកគ្រប់គ្រងអត្ថបទបានល្អប្រសើរឡើង។",
+          "code": "#include <stdio.h>\nint main() {\n    int number;\n    scanf(\"%d\", &number);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 47",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 47",
+            "Source lesson page 47"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 47
+        },
+        {
+          "id": "pdf-c_programming-page-48",
+          "label": "PDF 48. 16 លើកកម្ពស់ 2 គឺ: 256.000000",
+          "heading": "16 លើកកម្ពស់ 2 គឺ: 256.000000",
+          "intro": "#include <stdio.h> #include <string.h> int main() {",
+          "bodyHeading": "Source content · c_programming.pdf · page 48",
+          "body": "#include <stdio.h>\n#include <string.h>\nint main() {\n    char str1[] = \"សួស្តីី\";\n    char str2[20];\n    strcpy(str2, str1);\n    printf(\"str2: %s\", str2);\n    printf(\"ប្រ\nវែងរបស់ str1: %zu\", strlen(str1));\n    return 0;\n}\nOutput: \nstr2: សួស្តីី\nប្រ\nវែងរបស់ str1: 6\n15.3. មុខងារធ្វើគណនាឧត្តម\nបណ្ណាល័យ C ផ្តល់នូវមុខងារដើម្បីីអនុវត្តន៍ការគណនាឧត្តមដូចជា `sqrt()` សម្\nរាប់ការគណនាផលដំណាក់ជា\nកំណត់ និង `pow()` សម្\nរាប់ការលើកកម្ពស់។\n#include <stdio.h>\n#include <math.h>\nint main() {\n    double number = 16.0;\n    printf(\"ការគណនាផលដំណាក់របស់ %f គឺ: %f\", number, sqrt(number));\n    printf(\"16 លើកកម្ពស់ 2 គឺ: %f\", pow(16, 2));\n    return 0;\n}\nOutput: \nការគណនាផលដំណាក់របស់ 16.000000 គឺ: 4.000000\n16 លើកកម្ពស់ 2 គឺ: 256.000000",
+          "code": "#include <stdio.h>\n#include <string.h>\nint main() {\n    char str2[20];\n    strcpy(str2, str1);\n    printf(\"str2: %s\", str2);\n    return 0;\n}\n#include <stdio.h>\n#include <math.h>\nint main() {\n    double number = 16.0;\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 48",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 48",
+            "16 លើកកម្ពស់ 2 គឺ: 256.000000"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 48
+        },
+        {
+          "id": "pdf-c_programming-page-49",
+          "label": "PDF 49. Source lesson page 49",
+          "heading": "Source lesson page 49",
+          "intro": "15.4. មុខងារគ្រប់គ្រងមេម៉ូរី ការគ្រប់គ្រងមេម៉ូរីក្នុង C គឺមានសារៈសំខាន់សម្ រាប់ការផ្ដល់ដល់កម្មវិធីការចំណាយមេម៉ូរីដែលមានប្រសិទ្ធភាព។",
+          "bodyHeading": "Source content · c_programming.pdf · page 49",
+          "body": "15.4. មុខងារគ្រប់គ្រងមេម៉ូរី\nការគ្រប់គ្រងមេម៉ូរីក្នុង C គឺមានសារៈសំខាន់សម្\nរាប់ការផ្ដល់ដល់កម្មវិធីការចំណាយមេម៉ូរីដែលមានប្រសិទ្ធភាព។\n`malloc()`, `free()`, និង `realloc()` ជាមុខងារសំខាន់សម្\nរាប់ការប្រមូលទិន្ន័យនៅលើមេម៉ូរី។\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int* ptr = (int*)malloc(sizeof(int));\n    if (ptr == NULL) {\n        printf(\"មេម៉ូរីមិនគ្រ\nប់គ្រា\nន់\");\n        return 1;\n    }\n    *ptr = 42;\n    printf(\"តម្លៃក្នុង ptr: %d\", *ptr);\n    free(ptr);  // បញ្ចប់ការប្រើប្រាា\nស់មេម៉ូរី\n    return 0;\n}\nOutput: \nតម្លៃក្នុង ptr: 42\n15.5. មុខងារពេលវេលានិងថ្ងៃ\nC ផ្តល់នូវមុខងារច្រើនសម្\nរាប់ការកំណត់ និងទទួលថ្ងៃ និងពេលវេលាដូចជា `time()`, `localtime()`, និង\n`strftime()`។ មុខងារទាំំងនេះះអាចធ្វើអោយអ្នកគ្រប់គ្រងថ្ងៃ និងពេលវេលានៅក្នុងកម្មវិធីបានល្អប្រសើរ។\n#include <stdio.h>\n#include <time.h>\nint main() {\n    time_t t;\n    time(&t);\n    struct tm *tm_info = localtime(&t);\n    printf(\"ថ្ងៃបច្ចុប្បន្ន: %s\", asctime(tm_info));\n    return 0;\n}",
+          "code": "#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int* ptr = (int*)malloc(sizeof(int));\n    if (ptr == NULL) {\n        return 1;\n    }\n    *ptr = 42;\n    return 0;\n}\n#include <stdio.h>\n#include <time.h>\nint main() {\n    time_t t;\n    time(&t);\n    struct tm *tm_info = localtime(&t);\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 49",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 49",
+            "Source lesson page 49"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 49
+        },
+        {
+          "id": "pdf-c_programming-page-50",
+          "label": "PDF 50. CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "heading": "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម",
+          "intro": "Output: ថ្ងៃបច្ចុប្បន្ន: Mon Jan 15 10:56:31 2025 15.6. មុខងារគ្រប់គ្រងតួអក្សរ",
+          "bodyHeading": "Source content · c_programming.pdf · page 50",
+          "body": "Output: \nថ្ងៃបច្ចុប្បន្ន: Mon Jan 15 10:56:31 2025\n15.6. មុខងារគ្រប់គ្រងតួអក្សរ\nC ផ្តល់នូវមុខងារគ្រប់គ្រងតួអក្សរដូចជា `isalpha()`, `isdigit()`, និង `tolower()` ដែលអាចត្រូូវបានប្រើ\nសម្\nរាប់ការត្រួួតពិនិត្យ និងផ្លាស់ប្ដូរតួអក្សរ។\n#include <stdio.h>\n#include <ctype.h>\nint main() {\n    char ch = 'A';\n    if (isalpha(ch)) {\n        printf(\"%c គឺជាតួអក្សរ\", ch);\n    }\n    printf(\"%c នៅក្នុងតួអក្សរតូចគឺ: %c\", ch, tolower(ch));\n    return 0;\n}\nOutput: \nA គឺជាតួអក្សរ\nA នៅក្នុងតួអក្សរតូចគឺ: a\nអំពីយើង\nCodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមានក្រុុម\nការងារព្រមមានជំនាញក្នុងការអភិវឌ្ឍកម្មវិធី និងវេបសាយ។\n© 2025 CodeKhmerLearning. All Rights Reserved.\nតំណភ្ជាប់រហ័ស",
+          "code": "#include <stdio.h>\n#include <ctype.h>\nint main() {\n    char ch = 'A';\n    if (isalpha(ch)) {\n    }\n    return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 50",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 50",
+            "CodeKhmerLearning ផ្តល់ឱ្យអ្នកនូវវគ្គសិក្សាពិសេសក្នុងការរៀរៀនកូដភាសាខ្មែរ។ យើងមា"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 50
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "PDF source lessons · pages 51-51",
+      "items": [
+        {
+          "id": "pdf-c_programming-page-51",
+          "label": "PDF 51. Source lesson page 51",
+          "heading": "Source lesson page 51",
+          "intro": "ផ្ទាំំងដើម វគ្គសិក្សា អំពីយើង",
+          "bodyHeading": "Source content · c_programming.pdf · page 51",
+          "body": "ផ្ទាំំងដើម\nវគ្គសិក្សា\nអំពីយើង\nទំនាក់ទំនង\nទំនាក់ទំនង\nសូមទំនាក់ទំនងមកកាន់យើងក្តីី:\nEmail: thymuoyhak.biu@gmail.com\nPhone: +855 888 052 812\n\n\n\n\n© 2025 CodeKhmerLearning. All rights reserved.",
+          "code": "#include <stdio.h>\n\nint main(void) {\n  puts(\"CampusFlow lesson\");\n  return 0;\n}",
+          "preview": {
+            "title": "C Programming · PDF page 51",
+            "body": "This lesson displays the complete extracted source page. Edit the example and run it when the language supports execution."
+          },
+          "keywords": [
+            "C Programming",
+            "PDF page 51",
+            "Source lesson page 51"
+          ],
+          "objectives": [
+            "Read the complete source page before changing the example.",
+            "Identify the main terms, rules and code shown on this page.",
+            "Run or rewrite the example and explain the result in your own words."
+          ],
+          "sourceFile": "c_programming.pdf",
+          "sourcePage": 51
+        }
+      ]
+    }
+  ]
+}
