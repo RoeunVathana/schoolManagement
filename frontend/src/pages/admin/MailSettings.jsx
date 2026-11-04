@@ -132,7 +132,6 @@ export default function MailSettings() {
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 sm:col-span-2">{t('mailFrom')}<input value={form.from} onChange={(event) => setForm({ ...form, from: event.target.value })} className="input mt-2" placeholder={settings.from || 'CampusFlow <your-email@gmail.com>'} autoComplete="off" /></label>
         </div>
 
-        {connectionFailed && <p className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-300">{t('mailSettingsTestFailed')}</p>}
         {notice.text && <p className={'mt-5 rounded-2xl px-4 py-3 text-sm font-semibold ' + noticeClass}>{notice.text}</p>}
         <div className="mt-6 flex flex-wrap gap-3"><button disabled={busy} className="rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-lg disabled:opacity-60">{busy ? t('saving') : t('saveMailSettings')}</button><button type="button" disabled={testing || !settings.configured} onClick={test} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200">{testing ? t('loading') : t('testMailSettings')}</button><button type="button" disabled={clearing} onClick={clear} className="rounded-xl border border-red-200 px-5 py-3 text-sm font-bold text-red-700 disabled:opacity-50 dark:border-red-900/60 dark:text-red-300">{clearing ? t('loading') : t('clearMailSettings')}</button></div>
       </form>
