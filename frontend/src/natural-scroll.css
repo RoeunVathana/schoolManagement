@@ -160,11 +160,33 @@ body,
 .storefront-reveal.is-visible,
 .storefront-reveal-on-load,
 .storefront-course-card,
-.storefront-course-card .storefront-course-visual {
+.storefront-course-card .storefront-course-visual,
+.storefront-3d-scene,
+.storefront-3d-card,
+.storefront-3d-surface {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
   animation: none !important;
   transition-delay: 0ms !important;
   will-change: auto !important;
+}
+
+/* Route changes, course cards and public-page reveals must never animate in
+   response to movement through the document.  Keep hover and form feedback
+   available elsewhere, but leave the browser in charge of page scrolling. */
+.app-main,
+.app-main > *,
+.storefront > main,
+.storefront > footer,
+.about-page > main,
+.about-page > footer,
+.contact-page > main,
+.contact-page > footer,
+.community-page > main,
+.public-community-page > main,
+.public-community-page > footer {
+  animation: none !important;
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
 }

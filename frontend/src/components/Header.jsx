@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 export default function Header({ eyebrow, title, description, action }) {
   const { t } = useLanguage();
 
-  return <div className="page-header animate-fade-up mb-6 flex min-w-0 flex-col justify-between gap-4 sm:mb-8 sm:gap-5 lg:flex-row lg:items-end">
+  return <div className="page-header mb-6 flex min-w-0 flex-col justify-between gap-4 sm:mb-8 sm:gap-5 lg:flex-row lg:items-end">
     <div className="min-w-0">
       <p className="mb-2 text-[10px] font-black uppercase tracking-[.24em] text-coral sm:text-xs">{t(eyebrow || 'CampusFlow')}</p>
       <h1 className="break-words text-[clamp(1.65rem,5vw,2.35rem)] font-extrabold leading-tight tracking-tight text-ink sm:text-3xl lg:text-4xl">{t(title)}</h1>
