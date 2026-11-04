@@ -139,3 +139,22 @@
     height: 1rem !important;
   }
 }
+
+/* Course-reader mobile header: give the compact flag + language code enough
+   breathing room so it does not look pressed against the theme and menu
+   buttons. */
+@media (max-width: 767px) {
+  .course-reader .language-switcher-course .language-switcher-trigger {
+    min-width: 5rem !important;
+    padding-inline: .72rem !important;
+    gap: .46rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .course-reader .language-switcher-course .language-switcher-trigger {
+    min-width: 4.8rem !important;
+    padding-inline: .64rem !important;
+    gap: .4rem !important;
+  }
+}
