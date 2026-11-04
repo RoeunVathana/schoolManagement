@@ -669,6 +669,13 @@ const localizeCourseForLanguage = (course, language) => {
 
 const getLessonGuidance = (courseTitle, topic) => {
   const lowerTopic = topic.toLowerCase();
+  if (/(assignment operator|augmented assignment|compound assignment|state update|operator precedence)/i.test(lowerTopic)) {
+    return {
+      intro: `${topic} explains how a value changes over time in ${courseTitle}. Read each update from left to right: take the current value, apply the operation, then store the new value back in the same place.`,
+      bodyHeading: "Trace every state change",
+      body: "An assignment is more than a symbol: it is a read, calculate and write step. Use = to set an initial value, then use operators such as +=, -=, *= or /= when the update is intentional. Keep expressions small enough to trace, and verify the value after each change.\n\nPractice checklist:\n- Predict the value before running the code.\n- Trace the value after each assignment.\n- Replace one operator and explain why the output changes.\n- Avoid hiding several state changes in one expression.",
+    };
+  }
   if (/(what is|introduction|overview|history|features|install|setting up|environment)/i.test(lowerTopic)) {
     return {
       intro: `${topic} gives you the context needed to use ${courseTitle} with confidence. Start with the problem it solves, learn the vocabulary, and run the smallest working example before adding more features.`,
@@ -767,6 +774,19 @@ const getGeneratedLessonCode = (courseTitle, topic) => {
   const isProgrammingCourse = /javascript|react|c programming|c\+\+|c#|java|python|php|laravel|node\.js|kotlin|dart|flutter|learn code/.test(lowerTitle);
   const isFunctionLesson = /(function|method|procedure|lambda|closure|higher-order)/.test(lowerTopic);
   const isObjectLesson = /(class|object|oop|object-oriented|inheritance|polymorphism|encapsulation|interface|constructor)/.test(lowerTopic);
+  const isAssignmentLesson = /(assignment|augmented|compound assignment|state update|operator precedence)/.test(lowerTopic);
+
+  if (isProgrammingCourse && isAssignmentLesson) {
+    if (lowerTitle === "python") return `score = 10\nscore += 5  # score is now 15\nscore *= 2  # score is now 30\nprint(score)`;
+    if (lowerTitle === "java" || lowerTitle.includes("springboot")) return `public class Main {\n    public static void main(String[] args) {\n        int score = 10;\n        score += 5;\n        score *= 2;\n        System.out.println(score);\n    }\n}`;
+    if (lowerTitle.includes("c#")) return `using System;\n\nclass Program {\n    static void Main() {\n        int score = 10;\n        score += 5;\n        score *= 2;\n        Console.WriteLine(score);\n    }\n}`;
+    if (lowerTitle === "c programming") return `#include <stdio.h>\n\nint main(void) {\n    int score = 10;\n    score += 5;\n    score *= 2;\n    printf("%d\\n", score);\n    return 0;\n}`;
+    if (lowerTitle === "c++") return `#include <iostream>\n\nint main() {\n    int score = 10;\n    score += 5;\n    score *= 2;\n    std::cout << score << "\\n";\n}`;
+    if (lowerTitle === "kotlin") return `fun main() {\n    var score = 10\n    score += 5\n    score *= 2\n    println(score)\n}`;
+    if (lowerTitle === "dart" || lowerTitle === "flutter") return `void main() {\n  var score = 10;\n  score += 5;\n  score *= 2;\n  print(score);\n}`;
+    if (lowerTitle === "php" || lowerTitle === "laravel") return `<?php\n$score = 10;\n$score += 5;\n$score *= 2;\necho $score;`;
+    return `let score = 10;\nscore += 5; // 15\nscore *= 2; // 30\nconsole.log(score);`;
+  }
 
   if (isProgrammingCourse && isFunctionLesson) {
     if (lowerTitle === "python") return `def calculate_progress(completed, total):
@@ -974,6 +994,27 @@ console.log(new CourseProgress("CampusFlow", 3).summary());`;
   return `// ${safeTopic}\n// Practice this ${courseTitle} lesson in a small example.`;
 };
 
+const getLessonKeywords = (courseTitle, topic) => {
+  const value = `${courseTitle} ${topic}`.toLowerCase();
+  if (/(assignment|augmented|compound assignment|state update|operator precedence)/.test(value)) return ["assignment", "state", "+=", "-=", "expression"];
+  if (/(function|method|procedure|lambda|closure|higher-order)/.test(value)) return ["function", "parameter", "return value", "scope", "reuse"];
+  if (/(class|object|inheritance|polymorphism|interface|encapsulation|constructor)/.test(value)) return ["class", "object", "method", "encapsulation", "composition"];
+  if (/(array|list|map|set|collection|string|iterator|generics|dictionary|tuple)/.test(value)) return ["collection", "element", "iteration", "lookup", "data type"];
+  if (/(database|sql|query|repository|entity|jpa|hibernate|crud|migration|transaction)/.test(value)) return ["schema", "query", "constraint", "transaction", "validation"];
+  if (/(api|http|request|response|rest|socket|network|websocket|fetch)/.test(value)) return ["request", "response", "validation", "status code", "API contract"];
+  if (/(security|authentication|authorization|password|token|firewall|phishing|owasp|cors|csrf|permission)/.test(value)) return ["identity", "permission", "validation", "secret", "audit"];
+  if (/(test|debug|error|exception|logging|monitoring|performance|profil|optimization)/.test(value)) return ["expected result", "reproduce", "diagnose", "verify", "regression test"];
+  return ["concept", "example", "practice", "result", "review"];
+};
+
+const getLessonObjectives = (courseTitle, topic) => {
+  return [
+    `Explain ${topic.toLowerCase()} using the lesson keywords.`,
+    `Trace the provided ${courseTitle} example and predict its result.`,
+    `Change one small part, run it again, and explain the difference.`,
+  ];
+};
+
 // The course readers use the reference sites for topic coverage, while the
 // lesson explanations and examples below are original CampusFlow content.
 // Learners can open one lesson, copy its example, mark it complete and move
@@ -1001,6 +1042,8 @@ const createReferenceCourse = ({ slug, title, description, codeLabel, tip, secti
         body: detail.body || generated.body,
         code: detail.code || getGeneratedLessonCode(title, topic),
         preview: detail.preview || { title: topic, body: `Practice output for ${title}: ${topic}.` },
+        keywords: detail.keywords || getLessonKeywords(title, topic),
+        objectives: detail.objectives || getLessonObjectives(title, topic),
       };
     }),
   })),
@@ -1730,6 +1773,64 @@ Object.entries(expertCourseUnits).forEach(([slug, sections]) => {
   course.lessons = [...course.lessons, ...generated.lessons];
 });
 
+// Baseline requirements are applied to every reader. This avoids a course
+// having a shallow outline just because it started with a smaller source
+// syllabus. Code subjects receive a dedicated operator unit; every other
+// subject receives an equivalent applied-practice unit.
+const programmingCourseSlugs = new Set([
+  "javascript", "react", "c_programming", "cpp_programming", "python", "java", "csharp",
+  "dart-programming", "springboot", "kotlin", "php", "laravel", "node", "flutter", "Learn-the-code-yourself",
+]);
+
+const learningRequirementsFor = (slug) => (programmingCourseSlugs.has(slug)
+  ? [
+      ["Assignment Operators and State Changes", ["Assignment Operators", "Compound Assignment Operators", "Operator Precedence", "Trace a State Update"]],
+      ["Lesson Vocabulary and Deliberate Practice", ["Key Terms and Definitions", "Explain the Example", "Guided Practice and Self Check", "Debug and Improve the Solution"]],
+    ]
+  : [
+      ["Applied Concepts and Decision Making", ["Key Terms and Definitions", "Inputs, Rules and Results", "Trace a Practical Example", "Review and Improve the Solution"]],
+      ["Lesson Vocabulary and Deliberate Practice", ["Explain the Example", "Guided Practice and Self Check", "Common Mistakes", "Build a Small Applied Task"]],
+    ]);
+
+Object.keys(courseCatalog).forEach((slug) => {
+  const course = courseCatalog[slug];
+  if (!course) return;
+  const highestNumber = course.lessons.reduce((max, unit) => Math.max(max, Number(unit.number) || 0), 0);
+  const sections = learningRequirementsFor(slug).map(([sectionTitle, labels], index) => [highestNumber + index + 1, sectionTitle, labels]);
+  const generated = createReferenceCourse({
+    slug: course.slug,
+    title: course.title,
+    description: course.description,
+    codeLabel: course.codeLabel,
+    tip: course.tip,
+    sections,
+  });
+  course.lessons = [...course.lessons, ...generated.lessons];
+});
+
+// Older hand-written lessons and newly generated lessons share the same
+// learning contract: a detailed explanation, a matched code example, clear
+// vocabulary, and objectives learners can check after running the example.
+Object.values(courseCatalog).forEach((course) => {
+  course.lessons = course.lessons.map((section) => ({
+    ...section,
+    items: section.items.map((lesson) => {
+      const topic = cleanLessonTopic(lesson.label || lesson.heading || section.title);
+      const generated = getLessonGuidance(course.title, topic);
+      return {
+        ...lesson,
+        intro: lesson.intro || generated.intro,
+        bodyHeading: lesson.bodyHeading || generated.bodyHeading,
+        body: lesson.body || generated.body,
+        code: lesson.code || getGeneratedLessonCode(course.title, topic),
+        preview: lesson.preview || { title: topic, body: `Practice output for ${course.title}: ${topic}.` },
+        keywords: lesson.keywords || getLessonKeywords(course.title, topic),
+        objectives: lesson.objectives || getLessonObjectives(course.title, topic),
+      };
+    }),
+  }));
+});
+
 const technologyCourseSlugs = {
   HTML: "html",
   CSS: "css",
@@ -1882,6 +1983,30 @@ function buildPlaygroundDocument(language, code) {
     body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 1rem; color: #17335b; background: #fff; }
     button { border: 0; border-radius: 10px; padding: .65rem .85rem; color: #fff; background: #2858d5; cursor: pointer; }
   </style></head><body><div id="app"><h2 id="message">JavaScript preview</h2><p id="status" role="status">Ready to run.</p><button id="run-demo" type="button">Demo action</button></div>${instrumentation}<script>${normalized}</script></body></html>`;
+}
+
+function LessonStudyGuide({ lesson, language }) {
+  const keywords = Array.isArray(lesson.keywords) ? lesson.keywords : [];
+  const objectives = Array.isArray(lesson.objectives) ? lesson.objectives : [];
+  if (!keywords.length && !objectives.length) return null;
+
+  const isKhmer = language === "km";
+  return (
+    <aside className="course-lesson-study-guide" aria-label={isKhmer ? "ពាក្យគន្លឹះ និងគោលដៅមេរៀន" : "Lesson keywords and learning goals"}>
+      <div>
+        <p className="course-study-guide-label">{isKhmer ? "ពាក្យគន្លឹះ" : "KEYWORDS"}</p>
+        <div className="course-keyword-list">
+          {keywords.map((keyword) => <span className="course-keyword-chip" key={keyword}>{keyword}</span>)}
+        </div>
+      </div>
+      <div className="course-study-objectives">
+        <p className="course-study-guide-label">{isKhmer ? "គោលដៅមេរៀន" : "LEARNING GOALS"}</p>
+        <ul>
+          {objectives.map((objective) => <li key={objective}>{objective}</li>)}
+        </ul>
+      </div>
+    </aside>
+  );
 }
 
 function CodePlayground({ course, lesson, runRequest = 0 }) {
@@ -2337,6 +2462,7 @@ export default function CourseReader() {
                   <div className="course-lesson-meta"><span>{copy.lessonProgress(index + 1, courseLessons.length)}</span><span>{copy.beginner}</span></div>
                   <h2>{lesson.heading}</h2>
                   <p className="course-lesson-lead" style={{ whiteSpace: "pre-line" }}>{lesson.intro}</p>
+                  <LessonStudyGuide lesson={lesson} language={language} />
                   <section className="course-lesson-section">
                     <h3>{lesson.bodyHeading}</h3>
                     <p style={{ whiteSpace: "pre-line" }}>{lesson.body}</p>
@@ -2357,6 +2483,7 @@ export default function CourseReader() {
             <div className="course-lesson-meta"><span>{copy.lessonProgress(selectedIndex + 1, courseLessons.length)}</span><span>⌁ {copy.beginner}</span></div>
             <h2>{selectedLesson.heading}</h2>
             <p className="course-lesson-lead">{selectedLesson.intro}</p>
+            <LessonStudyGuide lesson={selectedLesson} language={language} />
 
             <section className="course-lesson-section">
               <h3>{selectedLesson.bodyHeading}</h3>
