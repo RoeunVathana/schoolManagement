@@ -473,6 +473,30 @@
   background: #18314b !important;
 }
 
+/* Keep lesson navigation calm: only the newly selected lesson gets a short
+   focus cue. The document still uses native, instant scrolling. */
+.course-reference-lesson.is-lesson-changing,
+.course-lesson-article.is-lesson-changing {
+  --cf-lesson-shift: 8px;
+  animation: cf-lesson-focus .42s ease-out both;
+}
+
+.course-reference-lesson.is-backward,
+.course-lesson-article.is-backward {
+  --cf-lesson-shift: -8px;
+}
+
+@keyframes cf-lesson-focus {
+  from {
+    opacity: .72;
+    transform: translateY(var(--cf-lesson-shift));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Touch devices should use native scrolling without dashboard entrance,
    perspective, lift, shimmer, or background motion. Hover states can remain
    visually simple, but nothing should move after a tap or while scrolling. */

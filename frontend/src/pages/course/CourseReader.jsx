@@ -2575,9 +2575,11 @@ export default function CourseReader() {
   const [runnerRequest, setRunnerRequest] = useState(0);
   const [completed, setCompleted] = useState(() => new Set());
   const [copied, setCopied] = useState("");
+  const [lessonTransition, setLessonTransition] = useState({ id: "", direction: "" });
   const techBarRef = useRef(null);
   const leftPanelRef = useRef(null);
   const rightPanelRef = useRef(null);
+  const lessonTransitionTimer = useRef(null);
 
   useEffect(() => {
     if (authLoading) return undefined;
@@ -2602,9 +2604,15 @@ export default function CourseReader() {
   const nextLesson = courseLessons[selectedIndex + 1];
 
   useEffect(() => {
+    return () => window.clearTimeout(lessonTransitionTimer.current);
+  }, []);
+
+  useEffect(() => {
     setSelectedId(courseLessons[0].id);
     setCompleted(new Set());
     setCopied("");
+    setLessonTransition({ id: "", direction: "" });
+    window.clearTimeout(lessonTransitionTimer.current);
     // Do not carry an open drawer into another subject.  Each course should
     // start with the lesson content unobstructed and let the learner open the
     // preview only when it is needed.
@@ -2647,6 +2655,11 @@ export default function CourseReader() {
   }, []);
 
   const selectLesson = (lesson) => {
+    const targetIndex = courseLessons.findIndex((item) => item.id === lesson.id);
+    const direction = targetIndex >= selectedIndex ? "is-forward" : "is-backward";
+    setLessonTransition({ id: lesson.id, direction });
+    window.clearTimeout(lessonTransitionTimer.current);
+    lessonTransitionTimer.current = window.setTimeout(() => setLessonTransition({ id: "", direction: "" }), 420);
     setSelectedId(lesson.id);
     setCopied("");
     closeDrawers();
@@ -2796,7 +2809,7 @@ export default function CourseReader() {
               <div className="course-breadcrumb"><Link to="/courses">{copy.courses}</Link><span>/</span><strong>{course.title}</strong></div>
               <div className="course-reference-note">{copy.referenceNote}</div>
               {courseLessons.map((lesson, index) => (
-                <section className="course-reference-lesson" id={`course-lesson-${lesson.id}`} key={lesson.id}>
+                <section className={`course-reference-lesson ${lessonTransition.id === lesson.id ? `is-lesson-changing ${lessonTransition.direction}` : ""}`} id={`course-lesson-${lesson.id}`} key={lesson.id}>
                   <div className="course-lesson-meta"><span>{copy.lessonProgress(index + 1, courseLessons.length)}</span><span>{copy.beginner}</span></div>
                   <h2>{lesson.heading}</h2>
                   <p className="course-lesson-lead" style={{ whiteSpace: "pre-line" }}>{lesson.intro}</p>
@@ -2816,7 +2829,7 @@ export default function CourseReader() {
               ))}
             </article>
           ) : (
-          <article className="course-lesson-article">
+          <article className={`course-lesson-article ${lessonTransition.id === selectedLesson.id ? `is-lesson-changing ${lessonTransition.direction}` : ""}`}>
             <div className="course-breadcrumb"><Link to="/courses">{copy.courses}</Link><span>/</span><span>{course.title}</span><span>/</span><strong>{selectedLesson.label}</strong></div>
             <div className="course-lesson-meta"><span>{copy.lessonProgress(selectedIndex + 1, courseLessons.length)}</span><span>⌁ {copy.beginner}</span></div>
             <h2>{selectedLesson.heading}</h2>
