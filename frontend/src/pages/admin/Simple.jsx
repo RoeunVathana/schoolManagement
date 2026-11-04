@@ -18,7 +18,7 @@ export default function Simple() {
   const { section } = useParams();
   const { t } = useLanguage();
   const { ask } = useConfirmDialog();
-  const [unpaidStudents, setUnpaidStudents] = useState({ courseId: '', data: [], loading: false });
+  const [availableStudents, setAvailableStudents] = useState({ courseId: '', data: [], loading: false });
   const [rows, setRows] = useState(null); const [page, setPage] = useState(1); const [courses, setCourses] = useState([]); const [students, setStudents] = useState([]); const [allStudents, setAllStudents] = useState([]); const [calledStudentIds, setCalledStudentIds] = useState(new Set()); const [open, setOpen] = useState(false); const [editing, setEditing] = useState(null); const [form, setForm] = useState({ ...empty }); const [error, setError] = useState(''); const [notice, setNotice] = useState(''); const [busy, setBusy] = useState(false); const [scheduleFilters, setScheduleFilters] = useState({ from: '', to: '' });
   const info = pageInfo[section] || ['adminWorkspace', 'adminWorkspaceDesc'];
   const endpoint = useMemo(() => ({ schedules: '/schedules', attendance: '/attendance', announcements: '/announcements', enrollments: '/enrollments' }[section]), [section]);
@@ -50,15 +50,18 @@ export default function Simple() {
     if (section !== 'enrollments' || !open || editing) return;
     let active = true;
     setForm((current) => ({ ...current, studentId: '' }));
-    setUnpaidStudents({ courseId: form.courseId, data: [], loading: !!form.courseId });
-    if (form.courseId) api.get(`/enrollments/unpaid-students/${form.courseId}`)
-      .then((response) => { if (active) setUnpaidStudents({ courseId: form.courseId, data: unwrap(response) || [], loading: false }); })
-      .catch(() => { if (active) { setUnpaidStudents({ courseId: form.courseId, data: [], loading: false }); setError('Could not check course payments. Please reopen this form to try again.'); } });
+    setAvailableStudents({ courseId: form.courseId, data: [], loading: !!form.courseId });
+    if (form.courseId) api.get(`/enrollments/available-students/${form.courseId}`)
+      .then((response) => { if (active) setAvailableStudents({ courseId: form.courseId, data: unwrap(response) || [], loading: false }); })
+      .catch(() => { if (active) { setAvailableStudents({ courseId: form.courseId, data: [], loading: false }); setError('Could not load students available for this course. Please reopen this form to try again.'); } });
     return () => { active = false; };
   }, [section, open, editing, form.courseId]);
   const selectableStudents = section === 'enrollments' && !editing
-    ? (unpaidStudents.courseId === form.courseId ? unpaidStudents.data : [])
+    ? (availableStudents.courseId === form.courseId ? availableStudents.data : [])
     : students;
+  // The compact modal markup below still reads this loading state. Its data
+  // now contains only students who have never been enrolled in this course.
+  const unpaidStudents = availableStudents;
   const close = () => { setOpen(false); setEditing(null); setForm({ ...empty }); setError(''); };
   const edit = (row) => { setEditing(row); setForm(section === 'schedules' ? { courseId: row.courseId, dayOfWeek: [row.dayOfWeek], startTime: row.startTime, endTime: row.endTime, room: row.room || '', description: row.description || '' } : section === 'attendance' ? { courseId: row.courseId, studentId: row.studentId, attendanceDate: row.attendanceDate.slice(0, 10), status: row.status, note: row.note || '' } : section === 'announcements' ? { courseId: row.courseId || '', title: row.title, content: row.content } : { courseId: row.courseId, studentId: row.studentId, enrollmentStatus: row.status }); setOpen(true); };
   const save = async (event) => { event.preventDefault(); setBusy(true); setError(''); try { const payload = { ...form }; delete payload.enrollmentStatus; if (section === 'enrollments') payload.status = form.enrollmentStatus; await (editing ? api.patch(`${endpoint}/${editing.id}`, payload) : api.post(endpoint, payload)); close(); await load(page); } catch (e) { setError(e.response?.data?.message || 'Could not save record.'); } finally { setBusy(false); } };
