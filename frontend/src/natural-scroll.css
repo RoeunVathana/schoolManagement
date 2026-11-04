@@ -268,3 +268,21 @@ body,
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
 }
+
+/* The technology rail is a self-contained marquee, not page-scroll motion.
+   Keep it moving while the rest of the site uses native scrolling. */
+.technology-rail-track {
+  animation: technologyRailDrift 34s linear infinite !important;
+  will-change: transform;
+}
+
+.technology-rail-row-2 .technology-rail-track {
+  animation-name: technologyRailDriftReverse !important;
+  animation-duration: 39s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technology-rail-track {
+    animation-play-state: paused !important;
+  }
+}
