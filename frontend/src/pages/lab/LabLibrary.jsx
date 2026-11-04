@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
+import SiteFooter from "../../components/SiteFooter";
 import { LABS } from "./ProgrammingLab";
 import LabLogo from "./LabLogo";
 import "./programming-lab.css";
@@ -21,6 +22,7 @@ export default function LabLibrary() {
           {LABS.map((lab) => <Link className="lab-library-card" to={`/lab?language=${lab.id}`} key={lab.id}><span className="lab-library-logo"><LabLogo lab={lab} /></span><span className="lab-library-card-copy"><strong>{lab.label}</strong><small>{lab.kind === "server" ? "Compile & run" : (isKhmer ? "ដំណើរការក្នុង Browser" : "Run in browser")}</small></span><span className="lab-library-arrow">→</span></Link>)}
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

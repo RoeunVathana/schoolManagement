@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
 import Seo from "../../components/Seo";
 import SupportDock from "../../components/SupportDock";
+import SiteFooter from "../../components/SiteFooter";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import PublicNavIcon from "../../components/PublicNavIcon";
 import { useLanguage } from "../../context/LanguageContext";
@@ -81,6 +82,7 @@ export default function SubjectLibrary() {
           ))}
         </section>
       </main>
+      <SiteFooter />
       <SupportDock alwaysShow publicMode />
     </div>
   );

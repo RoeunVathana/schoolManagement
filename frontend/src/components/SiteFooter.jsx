@@ -12,6 +12,8 @@ const footerCopy = {
     support: "Support",
     platform: "Why CampusFlow",
     courses: "Browse courses",
+    lab: "Programming Lab",
+    labLibrary: "Language Library",
     community: "Community",
     about: "About CampusFlow",
     faq: "Frequently asked questions",
@@ -74,6 +76,8 @@ export default function SiteFooter() {
           <div className="site-footer-column">
             <h2>{copy.learn}</h2>
             <Link to="/courses#courses">{copy.courses}</Link>
+            <Link to="/lab">{language === "km" ? "មន្ទីរពិសោធន៍កូដ" : copy.lab}</Link>
+            <Link to="/lab/library">{language === "km" ? "បណ្ណាល័យភាសា" : copy.labLibrary}</Link>
             <Link to="/community">{copy.community}</Link>
             <Link to="/about">{copy.about}</Link>
             <a href="/courses#faq">{copy.faq}</a>
