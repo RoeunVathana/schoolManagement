@@ -1,0 +1,17 @@
+.lab-library-page { min-height: 100dvh; background: #f7f9fc; }
+.lab-library-main { max-width: 1180px; margin: 0 auto; padding: 72px 28px 96px; }
+.lab-library-hero { max-width: 720px; margin-bottom: 34px; }
+.lab-library-hero h1 { margin: 10px 0 12px; color: #12213a; font-size: clamp(2rem, 5vw, 4.25rem); letter-spacing: -.055em; line-height: 1.02; }
+.lab-library-hero p { margin: 0; color: #667790; font-size: 1.05rem; line-height: 1.7; }
+.lab-library-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.lab-library-card { display: flex; align-items: center; gap: 14px; min-height: 116px; padding: 18px; border: 1px solid #d9e3ef; border-radius: 16px; color: #12213a; background: rgba(255,255,255,.96); text-decoration: none; box-shadow: 0 8px 22px rgba(31,61,104,.05); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+.lab-library-card:hover { border-color: #80adf0; box-shadow: 0 14px 30px rgba(38,100,217,.14); transform: translateY(-2px); }
+.lab-library-logo { display: grid; place-items: center; width: 58px; height: 58px; flex: 0 0 58px; border: 1px solid #e3eaf3; border-radius: 15px; background: #f8fbff; }
+.lab-library-logo .lab-logo-image { width: 34px; height: 34px; object-fit: contain; }
+.lab-library-card-copy { min-width: 0; flex: 1; }
+.lab-library-card-copy strong, .lab-library-card-copy small { display: block; }
+.lab-library-card-copy strong { font-size: 15px; }
+.lab-library-card-copy small { margin-top: 6px; color: #7e8ea5; font-size: 11px; }
+.lab-library-arrow { color: #2764d9; font-size: 22px; }
+@media (max-width: 900px) { .lab-library-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 650px) { .lab-library-main { padding: 42px 16px 64px; } .lab-library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .lab-library-card { min-height: 102px; padding: 12px; gap: 9px; } .lab-library-logo { width: 45px; height: 45px; flex-basis: 45px; } .lab-library-logo .lab-logo-image { width: 27px; height: 27px; } .lab-library-card-copy strong { font-size: 13px; } .lab-library-arrow { font-size: 18px; } }

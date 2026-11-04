@@ -38,6 +38,7 @@ const Profile = lazy(() => import('../pages/profile/Profile'));
 const Storefront = lazy(() => import('../pages/storefront/Storefront'));
 const CourseReader = lazy(() => import('../pages/course/CourseReader'));
 const ProgrammingLab = lazy(() => import('../pages/lab/ProgrammingLab'));
+const LabLibrary = lazy(() => import('../pages/lab/LabLibrary'));
 const About = lazy(() => import('../pages/About'));
 const Contact = lazy(() => import('../pages/Contact'));
 const PublicProfile = lazy(() => import('../pages/community/PublicProfile'));
@@ -60,6 +61,7 @@ export default function AppRoutes() {
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/course/:slug" element={<CourseReader />} />
     <Route path="/lab" element={<ProgrammingLab />} />
+    <Route path="/lab/library" element={<LabLibrary />} />
     <Route path="/academy" element={<Storefront />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />

@@ -2,12 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/axios";
 import { useLanguage } from "../../context/LanguageContext";
+import LabLogo from "./LabLogo";
 import "./programming-lab.css";
 
 const LAB_STORAGE_PREFIX = "campusflow_programming_lab_";
 const CURRENT_LANGUAGE_KEY = `${LAB_STORAGE_PREFIX}current`;
 
-const LABS = [
+export const LABS = [
   { id: "javascript", label: "JavaScript", icon: "JS", kind: "browser", extension: "js", starter: `// JavaScript Lab - write and run JavaScript code\nconsole.log("Welcome to JavaScript Lab!");\n\nconst name = "Developer";\nconst age = 25;\nconsole.log("Name:", name);\nconsole.log("Age:", age);` },
   { id: "python", label: "Python", icon: "🐍", kind: "server", extension: "py", starter: `# Python Lab - write and run Python code\nname = "Developer"\nage = 25\nprint("Welcome to Python Lab!")\nprint("Name:", name)\nprint("Age:", age)` },
   { id: "php", label: "PHP", icon: "PHP", kind: "server", extension: "php", starter: `<?php\n$name = "Developer";\n$age = 25;\necho "Welcome to PHP Lab!\\n";\necho "Name: $name\\n";\necho "Age: $age";` },
@@ -89,7 +90,7 @@ function readRunnerOutput(result) {
 export default function ProgrammingLab() {
   const { language: uiLanguage } = useLanguage();
   const isKhmer = uiLanguage === "km";
-  const [selectedId, setSelectedId] = useState(() => localStorage.getItem(CURRENT_LANGUAGE_KEY) || "javascript");
+  const [selectedId, setSelectedId] = useState(() => new URLSearchParams(window.location.search).get("language") || localStorage.getItem(CURRENT_LANGUAGE_KEY) || "javascript");
   const [draftCode, setDraftCode] = useState("");
   const [runCode, setRunCode] = useState("");
   const [runKey, setRunKey] = useState(0);
@@ -261,6 +262,7 @@ export default function ProgrammingLab() {
           <span><strong><span>Code</span>CampusFlow</strong><small>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Programming Lab"}</small></span>
         </Link>
         <div className="lab-header-actions">
+          <Link className="lab-back-link" to="/lab/library">{isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}</Link>
           <Link className="lab-back-link" to="/academy">{isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}</Link>
           <span className="lab-current-language">{selected.label}</span>
         </div>
@@ -268,7 +270,7 @@ export default function ProgrammingLab() {
 
       <div className="lab-techbar" aria-label="Programming subjects">
         <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">‹</button>
-        {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><i>{lab.icon}</i>{lab.label}</button>)}
+        {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><LabLogo lab={lab} />{lab.label}</button>)}
         <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">›</button>
       </div>
 
@@ -276,7 +278,7 @@ export default function ProgrammingLab() {
         <aside className={`lab-sidebar ${sidebarOpen ? "is-open" : ""}`}>
           <div className="lab-sidebar-head"><div><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍" : "PROGRAMMING LABS"}</span><h2>CodeCampus</h2></div><button type="button" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">×</button></div>
           <nav className="lab-list" aria-label="Programming labs">
-            {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-selected" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><span className={`lab-list-icon lab-icon-${lab.id}`}>{lab.icon}</span><span><strong>{lab.label} Lab</strong><small>{lab.kind === "server" ? (isKhmer ? "សរសេរ និង Compile កូដ" : "Write and compile code") : (isKhmer ? "ដំណើរការក្នុង Browser" : "Run code in browser")}</small></span><b>›</b></button>)}
+            {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-selected" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><span className={`lab-list-icon lab-icon-${lab.id}`}><LabLogo lab={lab} /></span><span><strong>{lab.label} Lab</strong><small>{lab.kind === "server" ? (isKhmer ? "សរសេរ និង Compile កូដ" : "Write and compile code") : (isKhmer ? "ដំណើរការក្នុង Browser" : "Run code in browser")}</small></span><b>›</b></button>)}
           </nav>
           <button type="button" className="lab-clear-data" onClick={clearSavedData}>🗑 <span>{isKhmer ? "លុបទិន្នន័យដែលរក្សាទុក" : "Clear all saved data"}</span></button>
         </aside>
@@ -284,7 +286,7 @@ export default function ProgrammingLab() {
 
         <main className="lab-workspace">
           <div className="lab-toolbar">
-            <div className="lab-tool-title"><span className={`lab-language-badge lab-icon-${selected.id}`}>{selected.icon}</span><strong>{selected.label} Lab</strong><small>.{selected.extension}</small></div>
+            <div className="lab-tool-title"><span className={`lab-language-badge lab-icon-${selected.id}`}><LabLogo lab={selected} /></span><strong>{selected.label} Lab</strong><small>.{selected.extension}</small></div>
             <div className="lab-toolbar-group"><span>Editor:</span><button type="button" onClick={() => setEditorFontSize((size) => Math.max(12, size - 1))} aria-label="Decrease editor font size">⌕</button><span>{editorFontSize}px</span><button type="button" onClick={() => setEditorFontSize((size) => Math.min(22, size + 1))} aria-label="Increase editor font size">⌕</button></div>
             <div className="lab-toolbar-group lab-output-font"><span>Output:</span><button type="button" onClick={() => setOutputFontSize((size) => Math.max(11, size - 1))} aria-label="Decrease output font size">⌕</button><span>{outputFontSize}px</span><button type="button" onClick={() => setOutputFontSize((size) => Math.min(20, size + 1))} aria-label="Increase output font size">⌕</button></div>
             <button type="button" className={`lab-toolbar-button ${showLines ? "is-active" : ""}`} onClick={() => setShowLines((show) => !show)}>↕ <span>Line</span></button>
