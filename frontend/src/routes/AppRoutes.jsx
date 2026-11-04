@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../components/ProtectedRoute';
 import RoleRoute from '../components/RoleRoute';
-import StudentPurchaseRoute from '../components/StudentPurchaseRoute';
 import AdminLayout from '../layouts/AdminLayout';
 import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
@@ -105,16 +104,13 @@ export default function AppRoutes() {
         </Route>
       </Route>
       <Route element={<RoleRoute role={['STUDENT', 'CUSTOMER']} />}>
-        {/* Students should always be able to open their dashboard and edit their own profile. */}
+        {/* Students can open dashboard pages before purchasing a course. Course
+            content itself can still explain or enforce access where needed. */}
         <Route element={<StudentLayout />}>
           <Route path="student/profile" element={<Profile />} />
           <Route path="student/dashboard" element={<StudentDashboard />} />
-        </Route>
-        <Route element={<StudentPurchaseRoute />}>
-          <Route element={<StudentLayout />}>
-            <Route path="student/certificates" element={<StudentCertificates />} />
-            <Route path="student/:section" element={<StudentSimple />} />
-          </Route>
+          <Route path="student/certificates" element={<StudentCertificates />} />
+          <Route path="student/:section" element={<StudentSimple />} />
         </Route>
       </Route>
       <Route element={<AppShell />}>
