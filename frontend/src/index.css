@@ -6596,37 +6596,12 @@ table td {
   }
 }
 
-/* Dashboard scroll frame: keep the navigation fixed while the workspace
-   content owns the vertical scroll on desktop and mobile. */
-.app-shell:not(.app-shell-chat) {
-  height: 100dvh;
-  overflow: hidden;
-}
-
+/* Dashboard pages use the browser document as their only vertical scroll
+   owner. The previous 100dvh internal scroll frame made wheel, touch and
+   scrollbar dragging feel sticky, especially on tablets and mobile browsers. */
+.app-shell:not(.app-shell-chat),
 .app-shell:not(.app-shell-chat) .app-shell-content {
-  height: 100dvh;
-  max-height: 100dvh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  scrollbar-color: #6d9aae transparent;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-}
-
-.app-shell:not(.app-shell-chat) .app-shell-content::-webkit-scrollbar {
-  width: .55rem;
-}
-
-.app-shell:not(.app-shell-chat) .app-shell-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.app-shell:not(.app-shell-chat) .app-shell-content::-webkit-scrollbar-thumb {
-  border: 2px solid transparent;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #55798f, #8de4ca) padding-box;
+  min-height: 100dvh;
 }
 
 /* Tablet public navbar: switch to a balanced menu before the desktop links

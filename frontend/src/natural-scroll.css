@@ -269,6 +269,28 @@ body,
   scroll-snap-type: none !important;
 }
 
+/* Explicit dashboard contract: the document owns vertical scrolling. Keep
+   the fixed navbar, but never create a second scroll container for the page. */
+.app-shell:not(.app-shell-chat),
+.app-shell:not(.app-shell-chat) .app-shell-content,
+.app-shell:not(.app-shell-chat) .app-main {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  overscroll-behavior-y: auto !important;
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
+
+.app-shell:not(.app-shell-chat) .app-main {
+  animation: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  will-change: auto !important;
+}
+
 /* The technology rail is a self-contained marquee, not page-scroll motion.
    Keep it moving while the rest of the site uses native scrolling. */
 .technology-rail-track {
