@@ -78,6 +78,7 @@ export default function MailSettings() {
       setNotice({ type: 'success', text: t('mailSettingsTestSuccess') });
       await load();
     } catch (error) {
+      setSettings((current) => current ? { ...current, status: 'failed' } : current);
       setNotice({ type: 'error', text: error.response?.data?.message || t('mailSettingsTestFailed') });
     } finally {
       setTesting(false);

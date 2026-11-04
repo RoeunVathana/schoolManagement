@@ -27,7 +27,7 @@ export class MailSettingsController {
   constructor(private readonly settings: MailSettingsService, private readonly mail: MailService) {}
 
   @Get()
-  getSettings() { return this.settings.publicSettings(); }
+  getSettings() { return this.mail.configuration(); }
 
   @Patch()
   @Permissions('edit')
