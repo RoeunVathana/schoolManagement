@@ -3783,6 +3783,40 @@ a, button, input, textarea, select { max-width: 100%; }
   box-shadow: 0 8px 20px rgb(34 158 217 / .16);
 }
 
+/* Dashboard search is a compact icon on phones, but remains a usable text
+   search once opened.  The previous hidden input could receive focus without
+   being visible, which made the feature appear broken on small screens. */
+@media (max-width: 639px) {
+  .app-navbar .dashboard-search.is-open > div:first-child input[type="search"] {
+    position: absolute;
+    top: calc(100% + .55rem);
+    right: 0;
+    z-index: 56;
+    display: block !important;
+    width: min(20rem, calc(100vw - 1rem));
+    height: 2.65rem;
+    border: 1px solid rgb(148 163 184 / .55);
+    border-radius: .85rem;
+    padding: 0 .8rem 0 2.3rem;
+    color: #10243f;
+    background: #fff;
+    box-shadow: 0 14px 30px rgb(15 23 42 / .2);
+  }
+
+  .dark .app-navbar .dashboard-search.is-open > div:first-child input[type="search"] {
+    border-color: rgb(100 116 139 / .7);
+    color: #edf7ff;
+    background: #12233a;
+  }
+
+  .app-navbar .dashboard-search.is-open > div:last-child {
+    top: calc(100% + 3.75rem);
+    z-index: 55;
+    width: min(20rem, calc(100vw - 1rem));
+    max-height: min(22rem, calc(100vh - 9rem));
+  }
+}
+
 /* Sign-out control: keep the destructive action clear without letting it
    collapse into an unreadable red square on phones. */
 .app-logout-button {

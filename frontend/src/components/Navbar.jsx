@@ -215,7 +215,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
     </div>
 
     <div className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
-      <div ref={dashboardSearchRef} className="relative w-10 min-w-10 sm:w-[clamp(12rem,20vw,17rem)] sm:min-w-0">
+      <div ref={dashboardSearchRef} className={`dashboard-search relative w-10 min-w-10 sm:w-[clamp(9rem,18vw,14rem)] sm:min-w-0 lg:w-[clamp(13rem,20vw,17rem)] ${dashboardSearchOpen ? 'is-open' : ''}`}>
         <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition focus-within:border-[#229ed9] focus-within:ring-2 focus-within:ring-[#229ed9]/15 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300">
           <SearchIcon />
           <input ref={dashboardSearchInputRef} type="search" value={dashboardSearchQuery} onFocus={() => setDashboardSearchOpen(true)} onChange={(event) => { setDashboardSearchQuery(event.target.value); setDashboardSearchOpen(true); }} onKeyDown={(event) => { if (event.key === 'Enter' && filteredDashboardSearchItems[0]) selectDashboardSearchItem(filteredDashboardSearchItems[0].path); }} placeholder={language === 'km' ? 'ស្វែងរកទំព័រ...' : 'Search dashboard pages...'} aria-label={language === 'km' ? 'ស្វែងរកទំព័រផ្ទាំងគ្រប់គ្រង' : 'Search dashboard pages'} aria-expanded={dashboardSearchOpen} className="hidden min-w-0 flex-1 bg-transparent px-2 text-xs font-semibold text-ink outline-none placeholder:text-slate-400 sm:block dark:text-white" />
@@ -244,7 +244,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
 
       <LanguageSwitcher />
       <button type="button" onClick={toggleTheme} className="app-theme-button flex h-10 min-w-10 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-600 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:px-3 sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200" title={isDark ? t('light') : t('dark')} aria-label={isDark ? t('light') : t('dark')}><span aria-hidden="true" className="text-sm">{isDark ? <SunIcon /> : <MoonIcon />}</span><span className="theme-label hidden sm:inline">{isDark ? t('light') : t('dark')}</span></button>
-      <div className="dashboard-user-meta hidden text-right sm:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{translatedRole}</p></div>
+      <div className="dashboard-user-meta hidden text-right lg:block"><p className="max-w-36 truncate text-sm font-semibold text-ink">{user?.fullName}</p><p className="text-xs uppercase tracking-wider text-slate-400">{translatedRole}</p></div>
       <button type="button" className="app-logout-button flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl border border-rose-200/80 bg-white px-2 text-rose-600 transition hover:-translate-y-0.5 hover:border-rose-300 hover:bg-rose-50 sm:px-3 sm:text-sm dark:border-rose-900/60 dark:bg-slate-800 dark:text-rose-300 dark:hover:bg-rose-950/30" onClick={logout} aria-label={t('signOut')} title={t('signOut')}><span className="logout-icon sm:hidden"><LogoutIcon /></span><span className="logout-label hidden sm:inline">{t('signOut')}</span></button>
     </div>
   </header>;
