@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import BrandLogo from "../../components/BrandLogo";
 import SiteFooter from "../../components/SiteFooter";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
@@ -2554,8 +2554,7 @@ function CodePlayground({ course, lesson, runRequest = 0 }) {
 export default function CourseReader() {
   const { slug = "html" } = useParams();
   const { language } = useLanguage();
-  const { user, loading: authLoading } = useAuth();
-  const location = useLocation();
+  const { loading: authLoading } = useAuth();
   const copy = getReaderText(language);
   const sourceCourse = courseCatalog[slug] || courseCatalog.html;
   const course = useMemo(() => localizeCourseForLanguage(sourceCourse, language), [sourceCourse, language]);
@@ -2584,16 +2583,12 @@ export default function CourseReader() {
   useEffect(() => {
     if (authLoading) return undefined;
 
-    if (!user) {
-      setAccess("login");
-      return undefined;
-    }
-
-    // Lessons are available before payment. Enrollment and payment still
-    // control purchases, homework, exams and other protected student actions.
+    // Course readers are public. Authentication is still required by the
+    // dashboard and protected student actions, but visitors can open a
+    // subject from the public navigation and preview its lessons first.
     setAccess("allowed");
     return undefined;
-  }, [authLoading, user?.id, user?.role]);
+  }, [authLoading]);
 
   const selectedLesson = useMemo(
     () => courseLessons.find((lesson) => lesson.id === selectedId) || courseLessons[0],
@@ -2711,10 +2706,6 @@ export default function CourseReader() {
 
   if (authLoading || access === "checking") {
     return <Loading fullScreen label={copy.checkingAccess} />;
-  }
-
-  if (access === "login") {
-    return <Navigate to="/login/student" replace state={{ from: `${location.pathname}${location.search}`, message: copy.signInRequired }} />;
   }
 
   return (
