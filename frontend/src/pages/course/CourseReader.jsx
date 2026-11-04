@@ -973,6 +973,36 @@ public class CampusFlowApplication {
 }`;
   }
 
+  if (lowerTitle === "mysql") {
+    if (/insert|create|table|schema|migration/.test(lowerTopic)) return `CREATE TABLE lessons (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  title VARCHAR(120) NOT NULL,\n  status VARCHAR(20) NOT NULL DEFAULT 'draft'\n);`;
+    if (/update|delete|crud/.test(lowerTopic)) return `UPDATE lessons\nSET status = 'published'\nWHERE id = 1;\n\nDELETE FROM lessons\nWHERE status = 'archived';`;
+    if (/join|relationship|foreign key/.test(lowerTopic)) return `SELECT courses.title, COUNT(lessons.id) AS lesson_count\nFROM courses\nLEFT JOIN lessons ON lessons.course_id = courses.id\nGROUP BY courses.id, courses.title;`;
+    if (/index|performance|query plan|optimization/.test(lowerTopic)) return `CREATE INDEX idx_lessons_status\nON lessons(status);\n\nEXPLAIN SELECT id, title\nFROM lessons\nWHERE status = 'published';`;
+    return `SELECT id, title, status\nFROM lessons\nWHERE status = 'published'\nORDER BY title;`;
+  }
+
+  if (lowerTitle === "git") {
+    if (/branch|merge|conflict|rebase/.test(lowerTopic)) return `git switch -c feature/course-search\ngit add .\ngit commit -m "Add course search"\ngit switch main\ngit merge feature/course-search`;
+    if (/remote|clone|push|pull/.test(lowerTopic)) return `git remote add origin https://example.com/campusflow.git\ngit switch -c feature/lesson\ngit push --set-upstream origin feature/lesson`;
+    if (/review|pull request|release|tag/.test(lowerTopic)) return `git fetch origin\ngit log --oneline --decorate -5\ngit tag -a v1.0.0 -m "First release"`;
+    if (/secret|ignore|security/.test(lowerTopic)) return `# .gitignore\n.env\nnode_modules/\ndist/\n\ngit status`;
+    return `git status\ngit add .\ngit commit -m "Practice ${safeTopic}"\ngit log --oneline -3`;
+  }
+
+  if (lowerTitle.includes("cyber")) {
+    if (/password|mfa|phishing|account/.test(lowerTopic)) return `Account security checklist:\n- Use a unique password\n- Enable MFA\n- Verify the sender before opening a link\n- Report suspicious activity`;
+    if (/web|authentication|authorization|input|owasp|csrf|cors/.test(lowerTopic)) return `Web request review:\n1. Validate the input on the server.\n2. Authenticate the account.\n3. Authorize the requested action.\n4. Return a safe error without secrets.`;
+    if (/incident|monitor|logging|assessment|threat|vulnerab/.test(lowerTopic)) return `Incident response:\n1. Detect and record the event.\n2. Contain the affected account or service.\n3. Preserve evidence.\n4. Recover and review the control.`;
+    return `Security review for ${safeTopic}:\n- Identify the asset\n- Check the trust boundary\n- Apply least privilege\n- Record a safe result`;
+  }
+
+  if (lowerTitle.includes("computer")) {
+    if (/cpu|processor|performance|memory|ram/.test(lowerTopic)) return `Computer performance path\nInput -> CPU scheduling -> Memory/cache -> Process result\n\nCheck one bottleneck at a time and record the evidence.`;
+    if (/storage|ssd|hard drive|backup|raid/.test(lowerTopic)) return `Storage checklist\n- Check free capacity\n- Check drive health\n- Keep a second backup copy\n- Test restoring one file`;
+    if (/network|wifi|router|hardware/.test(lowerTopic)) return `Hardware diagnosis\n1. Check power and cables.\n2. Confirm the device is detected.\n3. Test one known-good component.\n4. Record the repair safely.`;
+    return `Computer system\n|- Input\n|- Processing\n|- Memory\n|- Storage\n\\- Output`;
+  }
+
   return null;
 };
 
