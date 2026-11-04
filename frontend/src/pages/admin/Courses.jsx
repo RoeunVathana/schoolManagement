@@ -15,7 +15,7 @@ import { isImageTooLarge } from '../../utils/fileValidation';
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
-const emptyForm = { courseCode: '', courseName: '', description: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', paymentEnabled: true, price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', telegramChatId: '', image: null };
+const emptyForm = { courseCode: '', courseName: '', description: '', category: '', level: 'Beginner', tags: '', durationWeeks: '', teacherId: '', startDate: '2026-09-01', endDate: '2027-01-31', status: 'ACTIVE', paymentEnabled: true, price: '1.00', currency: 'USD', monthlyPaymentEnabled: false, monthlyPrice: '', discountPercent: '0', discountStart: '', discountEnd: '', telegramChatId: '', image: null };
 const previewCode = (prefix) => `${prefix}-${(globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 8).toUpperCase()}`;
 const courseFormData = (values, file) => {
   const data = new FormData();
@@ -80,6 +80,7 @@ function CourseCard({ course, language, t, openEdit, remove }) {
   const price = hasDiscount ? discountedPrice(course) : Number(course.price || 0).toFixed(2);
   const statusLabel = isFuture ? 'Future course' : course.status === 'ACTIVE' ? t('active') : course.status === 'COMPLETED' ? t('completed') : t('cancelled');
   const startDate = course.startDate ? new Date(course.startDate).toLocaleDateString(language === 'km' ? 'km-KH' : 'en-US') : '-';
+  const tags = String(course.tags || '').split(',').map((tag) => tag.trim()).filter(Boolean).slice(0, 4);
 
   return <article className="group overflow-hidden rounded-[1.45rem] border border-slate-200/80 bg-white shadow-[0_12px_32px_rgba(16,36,63,.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(16,36,63,.14)] dark:border-slate-700 dark:bg-[#111c30]">
     <div className="relative aspect-[1.9/1] overflow-hidden bg-gradient-to-br from-[#dce6ef] via-[#b8c8d4] to-[#8298aa]">
@@ -94,13 +95,18 @@ function CourseCard({ course, language, t, openEdit, remove }) {
         <span className="rounded-full bg-[#10243f]/75 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-sm">{course.teacher?.user?.fullName || t('unassigned')}</span>
       </div>
     </div>
-    <div className="flex min-h-[19rem] flex-col p-5 sm:p-6">
+      <div className="flex min-h-[22rem] flex-col p-5 sm:p-6">
+       <div className="flex flex-wrap items-center gap-2">
+         {course.category && <span className="rounded-full bg-sky-100 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-sky-800 dark:bg-sky-950/50 dark:text-sky-200">{course.category}</span>}
+         {course.level && <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200">{course.level}</span>}
+       </div>
       <div className="flex items-start justify-between gap-3">
         <h2 className="min-w-0 text-xl font-extrabold leading-tight text-ink dark:text-white">{course.courseName}</h2>
         {hasDiscount && <span className="shrink-0 rounded-full bg-[#fff0eb] px-2.5 py-1 text-[10px] font-extrabold text-coral">-{Number(course.discountPercent).toFixed(0)}%</span>}
       </div>
       <p className="mt-3 min-h-[4.5rem] overflow-hidden text-sm leading-6 text-slate-500 dark:text-slate-300" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>{course.description || t('courseInformation')}</p>
-      <div className="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-slate-50/90 p-3.5 dark:bg-slate-900/70">
+       {tags.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5">{tags.map((tag) => <span key={tag} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">✓ {tag}</span>)}</div>}
+       <div className="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-slate-50/90 p-3.5 dark:bg-slate-900/70">
         <div><span className="block text-[10px] font-extrabold uppercase tracking-[.12em] text-slate-400">{t('coursePrice')}</span><span className="mt-1 block text-base font-black text-ink dark:text-white">{price} {course.currency || 'USD'}</span>{hasDiscount && <span className="text-[11px] font-semibold text-slate-400 line-through">{Number(course.price || 0).toFixed(2)} {course.currency || 'USD'}</span>}</div>
         <div className="text-right"><span className="block text-[10px] font-extrabold uppercase tracking-[.12em] text-slate-400">{t('starts')}</span><span className="mt-1 block text-sm font-bold text-slate-700 dark:text-slate-200">{startDate}</span></div>
       </div>
@@ -164,6 +170,10 @@ export default function Courses() {
       courseCode: course.courseCode,
       courseName: course.courseName,
       description: course.description || '',
+      category: course.category || '',
+      level: course.level || 'Beginner',
+      tags: course.tags || '',
+      durationWeeks: course.durationWeeks ? String(course.durationWeeks) : '',
       teacherId: course.teacherId,
       startDate: course.startDate.slice(0, 10),
       endDate: course.endDate.slice(0, 10),
@@ -302,6 +312,9 @@ export default function Courses() {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <Field label={t('courseCodeAutoLabel')} hint={editing ? t('codeReadOnly') : t('courseCodeAuto')}><input readOnly value={form.courseCode} className="input mt-2 cursor-not-allowed bg-slate-100/80 font-semibold text-slate-500" placeholder={t('autoGenerated')} /></Field>
             <Field label={t('courseNameRequired')}><input required value={form.courseName} className="input mt-2" placeholder={t('courseNameExample')} onChange={updateField('courseName')} /></Field>
+            <Field label={language === 'km' ? 'ប្រភេទវគ្គសិក្សា' : 'Course category'} hint={language === 'km' ? 'ឧ. Programming, Web Development' : 'Shown as the course category on public cards.'}><input value={form.category} className="input mt-2" placeholder={language === 'km' ? 'ឧ. Programming' : 'e.g. Programming'} onChange={updateField('category')} /></Field>
+            <Field label={language === 'km' ? 'កម្រិតសិក្សា' : 'Learning level'}><select value={form.level} className="input mt-2" onChange={updateField('level')}><option value="Beginner">{language === 'km' ? 'កម្រិតដំបូង' : 'Beginner'}</option><option value="Intermediate">{language === 'km' ? 'កម្រិតមធ្យម' : 'Intermediate'}</option><option value="Advanced">{language === 'km' ? 'កម្រិតខ្ពស់' : 'Advanced'}</option><option value="All levels">{language === 'km' ? 'គ្រប់កម្រិត' : 'All levels'}</option></select></Field>
+            <Field label={language === 'km' ? 'រយៈពេល (សប្ដាហ៍)' : 'Duration (weeks)'}><input min="1" max="260" type="number" value={form.durationWeeks} className="input mt-2" placeholder="12" onChange={updateField('durationWeeks')} /></Field>
             <Field label={t('assignedTeacher')}><select required value={form.teacherId} className="input mt-2" onChange={updateField('teacherId')}><option value="">{t('selectTeacher')}</option>{teachers.map((teacher) => <option key={teacher.id} value={teacher.id}>{teacher.user.fullName}</option>)}</select></Field>
             <Field label={t('courseStatus')}><select value={form.status} className="input mt-2" onChange={updateField('status')}><option value="ACTIVE">{t('active')}</option><option value="COMPLETED">{t('completed')}</option><option value="CANCELLED">{t('cancelled')}</option></select></Field>
             <Field label={t('coursePrice')} hint={t('paymentRequiredHint')}><input required min="0.01" step="0.01" type="number" value={form.price} className="input mt-2" onChange={updateField('price')} /></Field>
@@ -323,7 +336,8 @@ export default function Courses() {
               </div>
               <DiscountPreview form={form} t={t} />
             </div>
-            <Field label={t('description')} className="sm:col-span-2"><textarea rows="3" value={form.description} className="input mt-2" placeholder={t('courseDescriptionPlaceholder')} onChange={updateField('description')} /></Field>
+            <Field label={language === 'km' ? 'ជំនាញដែលនឹងរៀន' : 'Skills and technologies'} hint={language === 'km' ? 'បំបែកដោយសញ្ញាក្បៀស ដើម្បីបង្ហាញជាបន្ទះព័ត៌មាន។' : 'Separate tags with commas. They appear on the public course card.'} className="sm:col-span-2"><input value={form.tags} className="input mt-2" placeholder="HTML, CSS, JavaScript, React" onChange={updateField('tags')} /></Field>
+            <Field label={t('description')} className="sm:col-span-2"><textarea rows="4" value={form.description} className="input mt-2" placeholder={t('courseDescriptionPlaceholder')} onChange={updateField('description')} /></Field>
             <Field label={language === 'km' ? 'Telegram Chat ID សម្រាប់ស្វាគមន៍សិស្ស' : 'Telegram chat ID for welcome bot'} hint={language === 'km' ? 'បញ្ចូល chat ID របស់ group នេះ ដូចជា -1001234567890។' : 'Enter the group chat ID, for example -1001234567890.'} className="sm:col-span-2"><input value={form.telegramChatId} className="input mt-2" placeholder="-1001234567890" onChange={updateField('telegramChatId')} /></Field>
             <Field label="Telegram Bot Token (API key)" hint={language === 'km' ? 'យក Token ពី @BotFather។ ទុកទទេដើម្បីរក្សា Token ចាស់ ឬប្រើ Bot ទូទៅ។' : 'Get your token from @BotFather. Leave blank to keep the saved token or use the default bot.'} className="sm:col-span-2">
               <input type="password" autoComplete="new-password" spellCheck={false} value={form.telegramBotToken || ''} disabled={form.removeTelegramBotToken} className="input mt-2" placeholder={editing?.telegramBotConfigured ? 'Token saved — enter a new token to replace' : '123456789:YourBotToken'} onChange={updateField('telegramBotToken')} />

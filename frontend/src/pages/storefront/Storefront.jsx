@@ -35,6 +35,12 @@ const formatDate = (value, language) =>
 const formatPrice = (value, currency = "USD") =>
   `${Number(value || 0).toFixed(2)} ${currency}`;
 
+const courseTags = (course) => String(course?.tags || "")
+  .split(",")
+  .map((tag) => tag.trim())
+  .filter(Boolean)
+  .slice(0, 5);
+
 const formatFileSize = (bytes) => {
   const value = Number(bytes || 0);
   if (!value) return "-";
@@ -1092,17 +1098,25 @@ function CoursePrice({ course, currency, large = false }) {
 function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchased = false, paymentPlan, revealDelay = 0 }) {
   const paymentOpen = isCoursePaymentOpen(course);
   const paymentStatus = paymentStatusCopy(language);
+  const tags = courseTags(course);
+  const category = course.category || (language === "km" ? "មុខវិជ្ជា" : "Programming");
+  const level = course.level || (language === "km" ? "កម្រិតដំបូង" : "Beginner");
   return (
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
         <CourseVisual course={course} />
         <div className="p-5 pb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-[#e8f2ff] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#2563b8] dark:bg-[#173453] dark:text-[#9fc8ff]">{category}</span>
+            <span className="rounded-full bg-[#e4f8ef] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#17624e] dark:bg-[#173f42] dark:text-[#a5f1dc]">{level}</span>
+          </div>
           <div className="flex items-center justify-between gap-3">
             <span className="rounded-full bg-[#fff0eb] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.15em] text-[#ee6f59]">{course.courseCode}</span>
             <CoursePrice course={course} currency={course.currency} />
           </div>
           <h3 className="mt-4 line-clamp-2 text-xl font-black tracking-tight text-[#10243f] dark:text-white">{course.courseName}</h3>
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500 dark:text-slate-300">{course.description || t("courseInformation")}</p>
+          {tags.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5">{tags.map((tag) => <span key={tag} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">✓ {tag}</span>)}</div>}
         </div>
       </Link>
       <div className="flex items-center justify-between gap-3 px-5 pb-5 pt-2">
@@ -1126,6 +1140,7 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
         </div>
       </div>
       <div className="border-t border-slate-100 px-5 py-3 text-xs font-bold text-slate-400">{formatDate(course.startDate, language)} → {formatDate(course.endDate, language)}</div>
+      {course.durationWeeks && <div className="border-t border-slate-100 px-5 py-3 text-xs font-bold text-slate-400">{course.durationWeeks} {language === "km" ? "សប្ដាហ៍" : "weeks"}</div>}
     </article>
   );
 }
@@ -1159,12 +1174,16 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
       </section>
       <section data-scroll-reveal className="storefront-reveal mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_360px] lg:px-10 lg:py-16">
         <div className="space-y-1">
-          <div className="grid gap-4 sm:grid-cols-3">
-            <InfoCard label={t("teacher")} value={course.teacher?.user?.fullName || copy.teacherFallback} />
+           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+             <InfoCard label={t("teacher")} value={course.teacher?.user?.fullName || copy.teacherFallback} />
+             <InfoCard label={language === "km" ? "ប្រភេទ" : "Category"} value={course.category || (language === "km" ? "មុខវិជ្ជា" : "Programming")} />
+             <InfoCard label={language === "km" ? "កម្រិត" : "Level"} value={course.level || (language === "km" ? "កម្រិតដំបូង" : "Beginner")} />
+             <InfoCard label={language === "km" ? "រយៈពេល" : "Duration"} value={course.durationWeeks ? `${course.durationWeeks} ${language === "km" ? "សប្ដាហ៍" : "weeks"}` : "-"} />
             <InfoCard label={t("coursePeriodLabel")} value={`${formatDate(course.startDate, language)} – ${formatDate(course.endDate, language)}`} />
             <InfoCard label={copy.courseSchedule} value={canViewLearningContent ? `${course.schedules?.length || 0} ${copy.sessions}` : t("courseContentLocked")} />
           </div>
-          <section className="mt-10 rounded-[1.6rem] bg-[#10243f] p-6 text-white sm:p-7">
+           {courseTags(course).length > 0 && <div className="mt-5 flex flex-wrap gap-2">{courseTags(course).map((tag) => <span key={tag} className="rounded-full border border-[#8de4ca]/60 bg-[#effcf7] px-3 py-1.5 text-xs font-bold text-[#17624e] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc]">✓ {tag}</span>)}</div>}
+           <section className="mt-10 rounded-[1.6rem] bg-[#10243f] p-6 text-white sm:p-7">
             <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">{copy.whatYouGet}</p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {copy.includes.map((item) => (

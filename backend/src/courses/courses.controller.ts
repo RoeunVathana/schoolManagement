@@ -93,6 +93,30 @@ export class CoursesController {
     return data;
   }
 
+  private catalogData(body: any, partial = false) {
+    const has = (key: string) => Object.prototype.hasOwnProperty.call(body, key);
+    const text = (key: string, max: number) => {
+      if (body[key] === undefined || body[key] === null || body[key] === '') return null;
+      const value = String(body[key]).trim();
+      if (value.length > max) throw new BadRequestException(`${key} is too long.`);
+      return value || null;
+    };
+    const data: any = {};
+    if (!partial || has('category')) data.category = text('category', 100);
+    if (!partial || has('level')) data.level = text('level', 40);
+    if (!partial || has('tags')) data.tags = text('tags', 1000);
+    if (!partial || has('durationWeeks')) {
+      const raw = body.durationWeeks;
+      if (raw === undefined || raw === null || raw === '') data.durationWeeks = null;
+      else {
+        const value = Number(raw);
+        if (!Number.isInteger(value) || value < 1 || value > 260) throw new BadRequestException('Duration must be between 1 and 260 weeks.');
+        data.durationWeeks = value;
+      }
+    }
+    return data;
+  }
+
   @Get()
   async list(@Query() q: any, @CurrentUser() user: any) {
     const { page, limit, skip } = pagination(q.page, q.limit);
@@ -140,7 +164,7 @@ export class CoursesController {
     let course;
     try {
       uploaded = file ? await this.media.upload(file, 'courses') : undefined;
-      course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: uploaded?.url || b.imageUrl, telegramChatId: typeof b.telegramChatId === 'string' && b.telegramChatId.trim() ? b.telegramChatId.trim() : null, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
+      course = await this.prisma.course.create({ data: { courseCode: this.generatedCourseCode(), courseName: b.courseName, description: b.description, ...this.catalogData(b), teacherId: b.teacherId, startDate: new Date(b.startDate), endDate: new Date(b.endDate), status: b.status ?? CourseStatus.ACTIVE, academicYearId: b.academicYearId, semesterId: b.semesterId, imageUrl: uploaded?.url || b.imageUrl, telegramChatId: typeof b.telegramChatId === 'string' && b.telegramChatId.trim() ? b.telegramChatId.trim() : null, price: b.price === undefined || b.price === '' ? 1 : Number(b.price), currency: String(b.currency || 'USD').toUpperCase(), ...this.discountData(b), ...this.paymentData(b) } });
     } catch (error) {
       if (uploaded?.url) await this.media.remove(uploaded.url);
       throw error;
@@ -170,6 +194,7 @@ export class CoursesController {
       const data: any = {
         courseName: b.courseName,
         description: b.description,
+        ...this.catalogData(b, true),
         teacherId: b.teacherId,
         startDate: b.startDate ? new Date(b.startDate) : undefined,
         endDate: b.endDate ? new Date(b.endDate) : undefined,
