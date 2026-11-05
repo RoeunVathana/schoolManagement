@@ -13,6 +13,12 @@ const LAB_STORAGE_PREFIX = "campusflow_programming_lab_";
 const CURRENT_LANGUAGE_KEY = `${LAB_STORAGE_PREFIX}current`;
 
 export const LABS = [
+  { id: "node", label: "Node.js", icon: "N", kind: "server", extension: "js", starter: `const http = require("http");\n\nconst server = http.createServer((request, response) => {\n  response.end("Hello from Node.js Lab!");\n});\n\nconsole.log("Node.js server example is ready.");` },
+  { id: "laravel", label: "Laravel", icon: "L", kind: "server", extension: "php", starter: `<?php\n// Laravel route example - run as PHP syntax practice.\n$name = "Developer";\n$message = "Hello, $name from Laravel Lab!";\necho $message;` },
+  { id: "bootstrap", label: "Bootstrap", icon: "B", kind: "html", extension: "html", starter: `<!doctype html>\n<html lang="en">\n  <body>\n    <main class="container">\n      <h1 class="text-primary">Hello, Bootstrap!</h1>\n      <button class="btn btn-success">Start learning</button>\n    </main>\n  </body>\n</html>` },
+  { id: "rust", label: "Rust", icon: "R", kind: "server", extension: "rs", starter: `fn main() {\n    let name = "Developer";\n    println!("Hello, {name} from Rust Lab!");\n}` },
+  { id: "go", label: "Go", icon: "Go", kind: "server", extension: "go", starter: `package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Welcome to Go Lab!")\n}` },
+  { id: "swift", label: "Swift", icon: "Swift", kind: "server", extension: "swift", starter: `let name = "Developer"\nprint("Hello, \\(name) from Swift Lab!")` },
   { id: "javascript", label: "JavaScript", icon: "JS", kind: "browser", extension: "js", starter: `// JavaScript Lab - write and run JavaScript code\nconsole.log("Welcome to JavaScript Lab!");\n\nconst name = "Developer";\nconst age = 25;\nconsole.log("Name:", name);\nconsole.log("Age:", age);` },
   { id: "python", label: "Python", icon: "🐍", kind: "server", extension: "py", starter: `# Python Lab - write and run Python code\nname = "Developer"\nage = 25\nprint("Welcome to Python Lab!")\nprint("Name:", name)\nprint("Age:", age)` },
   { id: "php", label: "PHP", icon: "PHP", kind: "server", extension: "php", starter: `<?php\n$name = "Developer";\n$age = 25;\necho "Welcome to PHP Lab!\\n";\necho "Name: $name\\n";\necho "Age: $age";` },

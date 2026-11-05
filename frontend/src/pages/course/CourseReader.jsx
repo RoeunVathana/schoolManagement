@@ -16,6 +16,9 @@ const technologies = [
   ["HTML", "#f16529"],
   ["CSS", "#6c4ab6"],
   ["JavaScript", "#e5c747"],
+  ["Go", "#00add8"],
+  ["Rust", "#dea584"],
+  ["Swift", "#f05138"],
   ["React", "#55cbed"],
   ["PHP", "#6266a7"],
   ["Laravel", "#ef4035"],
@@ -1511,6 +1514,21 @@ const localCourseBlueprints = [
     sections: [[1, "Introduction to Node.js", ["1.1 What is Node.js?", "1.2 Installing Node.js", "1.3 npm and package.json", "1.4 Running a Node Program"]], [2, "JavaScript for Node.js", ["2.1 Modules", "2.2 Callbacks and Promises", "2.3 async and await", "2.4 Working with Events"]], [3, "Files and HTTP", ["3.1 File System Module", "3.2 Creating an HTTP Server", "3.3 URL and Query Parameters", "3.4 Streams"]], [4, "Express.js", ["4.1 Express Setup", "4.2 Routes", "4.3 Middleware", "4.4 Request and Response", "4.5 Error Handling"]], [5, "Databases and APIs", ["5.1 Connecting to a Database", "5.2 REST API Design", "5.3 Authentication", "5.4 Input Validation"]], [6, "Testing and Deployment", ["6.1 Testing APIs", "6.2 Environment Variables", "6.3 Logging", "6.4 Production Deployment"]]],
   },
   {
+    slug: "go", title: "Go", codeLabel: "main.go", tip: "Prefer small packages, explicit errors and clear interfaces.",
+    firstLabel: "1.1 What is Go?", firstHeading: "1. Introduction to Go", firstCode: "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, Go!\")\n}", firstPreview: { title: "Hello, Go!", body: "Go compiles a small program with a clear main package." },
+    sections: [[1, "Introduction to Go", ["1.1 What is Go?", "1.2 Installing Go", "1.3 Your First Go Program", "1.4 Packages and Imports"]], [2, "Go Basics", ["2.1 Variables and Constants", "2.2 Data Types", "2.3 Functions", "2.4 Control Flow"]], [3, "Structs and Interfaces", ["3.1 Structs", "3.2 Methods", "3.3 Interfaces", "3.4 Composition"]], [4, "Errors and Concurrency", ["4.1 Error Values", "4.2 Defer and Panic", "4.3 Goroutines", "4.4 Channels"]], [5, "HTTP and Projects", ["5.1 HTTP Servers", "5.2 JSON APIs", "5.3 Testing", "5.4 Build and Release"]]],
+  },
+  {
+    slug: "rust", title: "Rust", codeLabel: "main.rs", tip: "Use ownership, borrowing and Result values to make failures explicit.",
+    firstLabel: "1.1 What is Rust?", firstHeading: "1. Introduction to Rust", firstCode: "fn main() {\n    let name = \"Developer\";\n    println!(\"Hello, {name} from Rust!\");\n}", firstPreview: { title: "Hello, Rust!", body: "Rust checks ownership and types before the program runs." },
+    sections: [[1, "Introduction to Rust", ["1.1 What is Rust?", "1.2 Installing Rust", "1.3 Cargo and Projects", "1.4 Your First Rust Program"]], [2, "Rust Basics", ["2.1 Variables and Mutability", "2.2 Data Types", "2.3 Functions", "2.4 Control Flow"]], [3, "Ownership and Structs", ["3.1 Ownership", "3.2 Borrowing and References", "3.3 Structs and Enums", "3.4 Methods"]], [4, "Collections and Errors", ["4.1 Vectors and Strings", "4.2 Hash Maps", "4.3 Option and Result", "4.4 Error Propagation"]], [5, "Traits and Projects", ["5.1 Traits", "5.2 Generics", "5.3 Modules and Tests", "5.4 Build and Release"]]],
+  },
+  {
+    slug: "swift", title: "Swift", codeLabel: "main.swift", tip: "Use value types, optionals and protocols to keep Swift programs predictable.",
+    firstLabel: "1.1 What is Swift?", firstHeading: "1. Introduction to Swift", firstCode: "let name = \"Developer\"\nprint(\"Hello, \\(name) from Swift!\")", firstPreview: { title: "Hello, Swift!", body: "Swift combines type safety with concise syntax for Apple platforms." },
+    sections: [[1, "Introduction to Swift", ["1.1 What is Swift?", "1.2 Installing Swift", "1.3 Swift Package Manager", "1.4 Your First Swift Program"]], [2, "Swift Basics", ["2.1 let and var", "2.2 Types and Type Inference", "2.3 Strings and Collections", "2.4 Control Flow"]], [3, "Functions and Structures", ["3.1 Functions", "3.2 Closures", "3.3 Structures", "3.4 Enumerations"]], [4, "Optionals and Protocols", ["4.1 Optional Values", "4.2 Safe Unwrapping", "4.3 Protocols", "4.4 Extensions"]], [5, "Apps and Testing", ["5.1 SwiftUI Foundations", "5.2 State and Navigation", "5.3 Testing", "5.4 Build and Release"]]],
+  },
+  {
     slug: "kotlin", title: "Kotlin", codeLabel: "Main.kt", tip: "Use null safety and immutable values to make Kotlin code easier to maintain.",
     firstLabel: "1.1 What is Kotlin?", firstHeading: "1. Introduction to Kotlin", firstCode: "fun main() {\n    println(\"Hello, Kotlin!\")\n}", firstPreview: { title: "Hello, Kotlin!", body: "Kotlin starts from a concise main function." },
     sections: [[1, "Introduction to Kotlin", ["1.1 What is Kotlin?", "1.2 Installing Kotlin", "1.3 Your First Kotlin Program", "1.4 Kotlin and Java"]], [2, "Kotlin Basics", ["2.1 Variables and Constants", "2.2 Data Types", "2.3 Strings", "2.4 Nullable Types"]], [3, "Control Flow and Functions", ["3.1 if Expressions", "3.2 when Expressions", "3.3 Loops", "3.4 Functions and Parameters"]], [4, "Object-Oriented Kotlin", ["4.1 Classes and Objects", "4.2 Data Classes", "4.3 Inheritance", "4.4 Interfaces"]], [5, "Collections and Coroutines", ["5.1 Lists, Sets and Maps", "5.2 Lambdas", "5.3 Extension Functions", "5.4 Coroutines"]]],
@@ -1710,6 +1728,9 @@ const coreSubjectUnits = {
   c_programming: programmingCoreUnits,
   cpp_programming: programmingCoreUnits,
   python: programmingCoreUnits,
+  go: programmingCoreUnits,
+  rust: programmingCoreUnits,
+  swift: programmingCoreUnits,
   java: programmingCoreUnits,
   csharp: programmingCoreUnits,
   "dart-programming": programmingCoreUnits,
@@ -2214,6 +2235,9 @@ const technologyCourseSlugs = {
   HTML: "html",
   CSS: "css",
   JavaScript: "javascript",
+  Go: "go",
+  Rust: "rust",
+  Swift: "swift",
   React: "react",
   "Tailwind CSS": "tailwindcss",
   C: "c_programming",
@@ -2253,6 +2277,9 @@ const codeLanguageBySlug = {
   php: "php",
   laravel: "php",
   node: "javascript",
+  go: "go",
+  rust: "rust",
+  swift: "swift",
   mysql: "sql",
   sql: "sql",
   shell: "shell",
@@ -2265,7 +2292,7 @@ const codeLanguageBySlug = {
 };
 
 const browserRunnableLanguages = new Set(["html", "css", "javascript"]);
-const serverRunnableLanguages = new Set(["c", "cpp", "csharp", "dart", "java", "javascript", "kotlin", "php", "python", "shell", "sql"]);
+const serverRunnableLanguages = new Set(["c", "cpp", "csharp", "dart", "go", "java", "javascript", "kotlin", "laravel", "node", "php", "python", "rust", "shell", "sql", "swift"]);
 
 const syntaxKeywords = new Set([
   "as", "async", "await", "break", "case", "catch", "class", "const", "continue", "def", "do", "else", "export",

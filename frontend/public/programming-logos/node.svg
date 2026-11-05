@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Node.js">
+  <rect width="64" height="64" rx="14" fill="#3c873a"/>
+  <path d="M32 11 50 21v22L32 53 14 43V21z" fill="#fff" opacity=".96"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#3c873a">N</text>
+</svg>

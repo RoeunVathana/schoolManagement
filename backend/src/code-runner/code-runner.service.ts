@@ -36,13 +36,18 @@ const runtimeByLanguage: Record<CodeRunnerLanguage, Runtime> = {
   cpp: { language: 'c++', file: 'main.cpp', judge0Id: 105 },
   csharp: { language: 'csharp', file: 'Program.cs', judge0Id: 51 },
   dart: { language: 'dart', file: 'main.dart', judge0Id: 90 },
+  go: { language: 'go', file: 'main.go', judge0Id: 106 },
   java: { language: 'java', file: 'Main.java', judge0Id: 91 },
   javascript: { language: 'javascript', file: 'main.js', judge0Id: 102 },
   kotlin: { language: 'kotlin', file: 'Main.kt', judge0Id: 111 },
+  laravel: { language: 'php', file: 'main.php', judge0Id: 98 },
+  node: { language: 'javascript', file: 'main.js', judge0Id: 102 },
   php: { language: 'php', file: 'main.php', judge0Id: 98 },
   python: { language: 'python', file: 'main.py', judge0Id: 109 },
+  rust: { language: 'rust', file: 'main.rs', judge0Id: 108 },
   shell: { language: 'bash', file: 'main.sh', judge0Id: 46 },
   sql: { language: 'sqlite3', file: 'main.sql', judge0Id: 82 },
+  swift: { language: 'swift', file: 'main.swift', judge0Id: 83 },
 };
 
 const clampOutput = (value: unknown, max = 8000) => String(value ?? '').slice(0, max);
@@ -171,7 +176,7 @@ export class CodeRunnerService {
     const compile = payload?.compile as RunnerStage | undefined;
     const run = payload?.run as RunnerStage | undefined;
     return {
-      language: Object.entries(runtimeByLanguage).find(([, value]) => value === runtime)?.[0] || runtime.language,
+      language: runtime.language,
       compile: compile ? this.stage(compile) : null,
       run: run ? this.stage(run) : null,
     };
@@ -226,7 +231,7 @@ export class CodeRunnerService {
         });
 
     return {
-      language: Object.entries(runtimeByLanguage).find(([, value]) => value === runtime)?.[0] || runtime.language,
+      language: runtime.language,
       compile,
       run,
     };

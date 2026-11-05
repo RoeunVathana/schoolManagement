@@ -5,13 +5,18 @@ export const CODE_RUNNER_LANGUAGES = [
   'cpp',
   'csharp',
   'dart',
+  'go',
   'java',
   'javascript',
   'kotlin',
+  'laravel',
+  'node',
   'php',
   'python',
+  'rust',
   'shell',
   'sql',
+  'swift',
 ] as const;
 
 export type CodeRunnerLanguage = (typeof CODE_RUNNER_LANGUAGES)[number];
