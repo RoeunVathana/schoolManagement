@@ -18,7 +18,10 @@ body,
   padding-top: 0 !important;
 }
 
-@media (max-width: 1023px) {
+/* iPad landscape and foldable/tablet viewports are still too narrow for the
+   full desktop link row. Keep the compact controls until the layout has room
+   for the complete navbar. */
+@media (max-width: 1180px) {
   :root {
     --public-navbar-height: 4.75rem;
     --dashboard-navbar-height: 4rem;
