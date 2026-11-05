@@ -60,8 +60,6 @@ export default function CommunityLanding() {
   const displayName = user?.fullName?.split(' ')[0] || '';
   const joinState = !user ? { message: language === 'km' ? 'សូមចូលគណនីដើម្បីចូលរួមសហគមន៍។' : 'Sign in to join the CampusFlow community.', from: '/friends' } : undefined;
 
-  if (loading && !feed.members.length && !feed.posts.length) return <CommunityLoading />;
-
   const handleLogout = async () => {
     setMobileMenuOpen(false);
     await logout();
