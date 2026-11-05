@@ -16,6 +16,7 @@ import './natural-scroll.css';
 import './language-switcher-unified.css';
 import './dashboard-search-responsive.css';
 import './public-mobile-menu-grid.css';
+import './macbook-navbar.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
