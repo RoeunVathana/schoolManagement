@@ -1,0 +1,25 @@
+.storefront-course-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.storefront-course-card > a > .storefront-course-visual img {
+  object-fit: cover !important;
+}
+
+@media (min-width: 640px) {
+  .storefront-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .storefront-course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1440px) {
+  .storefront-course-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

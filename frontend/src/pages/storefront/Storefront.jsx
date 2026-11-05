@@ -17,6 +17,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { roleHome } from "../../utils/roles";
 import LabLogo from "../lab/LabLogo";
 import { academySubjects } from "./subjectCatalog";
+import "./course-grid.css";
 import "./subject-library.css";
 
 const API_ORIGIN = import.meta.env.VITE_API_URL || "http://localhost:3001";
@@ -781,7 +782,7 @@ export default function Storefront() {
           {loading && <LoadingState copy={copy} />}
           {!loading && !error && !courses.length && <EmptyState copy={copy} />}
           {!loading && !error && courses.length > 0 && (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="storefront-course-grid mt-10 grid gap-6">
               {courses.map((item, index) => (
                 <CourseCard
                   key={item.id}
@@ -1295,7 +1296,7 @@ function CourseVisual({ course, language = "en", large = false }) {
   const isUpcoming = isCourseUpcoming(course);
   return (
     <div className={`storefront-course-visual group/visual relative aspect-video overflow-hidden bg-gradient-to-br from-[#dff8ee] via-[#e8f2ff] to-[#fff0e9] dark:from-[#142c3c] dark:via-[#18243a] dark:to-[#2b1e2f] ${large ? "rounded-[1.75rem] border border-white/15 p-3 shadow-2xl" : "border-b border-slate-100 dark:border-slate-700"}`}>
-      {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className={`h-full w-full object-contain transition duration-700 ${large ? "max-h-[28rem] rounded-[1.35rem]" : ""}`} /> : <div className="flex h-full min-h-56 flex-col justify-between p-6 text-[#10243f] dark:text-white">
+      {course.imageUrl ? <SafeImage src={mediaUrl(course.imageUrl)} alt={course.courseName} className={`h-full w-full ${large ? "object-contain" : "object-cover"} transition duration-700 ${large ? "max-h-[28rem] rounded-[1.35rem]" : ""}`} /> : <div className="flex h-full min-h-56 flex-col justify-between p-6 text-[#10243f] dark:text-white">
         <span className="text-xs font-black uppercase tracking-[.2em] text-[#f06f5b]">{course.courseCode}</span>
         <div><p className="max-w-xs text-3xl font-black leading-tight">{course.courseName}</p><div className="mt-5 h-2 w-24 rounded-full bg-[#8de4ca]" /></div>
       </div>}
