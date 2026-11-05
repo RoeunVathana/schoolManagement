@@ -203,10 +203,10 @@
   .payment-modal-shell .payment-qr-frame { width: min(100%, 20rem); }
 }
 
-/* Give course thumbnails more visual weight in the student catalog. */
-[class~="sm:grid-cols-2"][class~="xl:grid-cols-3"] > article > div:first-child { height: 14rem; overflow: hidden; }
-[class~="sm:grid-cols-2"][class~="xl:grid-cols-3"] > article > div:first-child img { transition: transform .45s ease, filter .45s ease; }
-[class~="sm:grid-cols-2"][class~="xl:grid-cols-3"] > article:hover > div:first-child img { transform: scale(1.05); filter: saturate(1.08); }
+/* Keep every course thumbnail fully visible in the catalog. */
+.storefront-course-card > a > .storefront-course-visual { aspect-ratio: 16 / 9; height: auto; overflow: hidden; }
+.storefront-course-card > a > .storefront-course-visual img { object-fit: contain; transition: filter .45s ease; }
+.storefront-course-card:hover > a > .storefront-course-visual img { filter: saturate(1.08); }
 
 @media (min-width: 700px) {
   .payment-modal-panel { width: min(100%, 52rem) !important; max-width: 52rem !important; }
@@ -924,11 +924,11 @@ html.mobile-nav-open { overflow: hidden; }
 
 .storefront-course-card .storefront-course-visual {
   transform: translateZ(10px);
-  transition: transform .45s ease, filter .45s ease;
+  transition: filter .45s ease;
 }
 
 .storefront-course-card:hover .storefront-course-visual {
-  transform: translateZ(22px) scale(1.015);
+  transform: translateZ(10px);
   filter: saturate(1.08) contrast(1.02);
 }
 
