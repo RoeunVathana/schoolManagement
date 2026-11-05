@@ -80,7 +80,7 @@ export default function SiteFooter() {
             <Link to="/lab/library">{language === "km" ? "បណ្ណាល័យភាសា" : copy.labLibrary}</Link>
             <Link to="/community">{copy.community}</Link>
             <Link to="/about">{copy.about}</Link>
-            <a href="/courses#faq">{copy.faq}</a>
+            <Link to="/courses#faq">{copy.faq}</Link>
           </div>
 
           <div className="site-footer-column">

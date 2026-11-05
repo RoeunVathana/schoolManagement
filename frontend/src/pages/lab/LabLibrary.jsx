@@ -36,11 +36,11 @@ export default function LabLibrary() {
           <span><small className="lab-brand-kicker">Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Library"}</em></span>
         </Link>
         <nav className="lab-header-nav" aria-label="CampusFlow navigation">
-          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
-          <a href="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></a>
+          <Link className="is-active" to="/academy"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+          <Link to="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></Link>
           <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
           <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
-          <a href="/#faq"><PublicNavIcon name="faq" /><span>FAQ</span></a>
+          <Link to="/courses#faq"><PublicNavIcon name="faq" /><span>FAQ</span></Link>
           <Link to="/contact"><PublicNavIcon name="contact" /><span>{isKhmer ? "ទំនាក់ទំនង" : "Contact"}</span></Link>
         </nav>
         <div className="lab-header-actions">
@@ -54,12 +54,12 @@ export default function LabLibrary() {
         <div className="lab-library-mobile-shell">
           <button className="lab-library-mobile-backdrop" type="button" onClick={closeMobileMenu} aria-label="Close navigation" />
           <nav id="lab-library-mobile-menu" className="lab-library-mobile-menu" aria-label="CampusFlow navigation">
-            <Link className="is-active" to="/course/html" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>{isKhmer ? "CampusFlow Academy" : "Academy"}</span></Link>
-            <a href="/courses#courses" onClick={closeMobileMenu}><PublicNavIcon name="library" /><span>{isKhmer ? "Courses" : "Browse courses"}</span></a>
+            <Link className="is-active" to="/academy" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>{isKhmer ? "CampusFlow Academy" : "Academy"}</span></Link>
+            <Link to="/courses#courses" onClick={closeMobileMenu}><PublicNavIcon name="library" /><span>{isKhmer ? "Courses" : "Browse courses"}</span></Link>
             <Link to="/lab" onClick={closeMobileMenu}><PublicNavIcon name="code" /><span>{isKhmer ? "Programming Lab" : "Programming lab"}</span></Link>
             <Link to="/community" onClick={closeMobileMenu}><PublicNavIcon name="community" /><span>Community</span></Link>
             <Link to="/about" onClick={closeMobileMenu}><PublicNavIcon name="about" /><span>About</span></Link>
-            <a href="/courses#faq" onClick={closeMobileMenu}><PublicNavIcon name="faq" /><span>FAQ</span></a>
+            <Link to="/courses#faq" onClick={closeMobileMenu}><PublicNavIcon name="faq" /><span>FAQ</span></Link>
             <Link to="/contact" onClick={closeMobileMenu}><PublicNavIcon name="contact" /><span>Contact</span></Link>
             <div className="lab-library-mobile-actions">
               <Link to="/lab" onClick={closeMobileMenu}><PublicNavIcon name="code" /><span>{isKhmer ? "Open Lab" : "Open lab"}</span></Link>
