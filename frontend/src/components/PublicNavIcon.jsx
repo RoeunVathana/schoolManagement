@@ -6,6 +6,7 @@ const iconPaths = {
   contact: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4.5 7 7.5 5 7.5-5" /></>,
   code: <><path d="m8 8-4 4 4 4" /><path d="m16 8 4 4-4 4" /><path d="m14 5-4 14" /></>,
   library: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z" /><path d="M4 5.5V21" /><path d="M8 7h8M8 11h8" /></>,
+  back: <><path d="M19 12H5" /><path d="m11 18-6-6 6-6" /></>,
   search: <><circle cx="10.8" cy="10.8" r="6.3" /><path d="m16 16 4.5 4.5" /></>,
   dashboard: <><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /></>,
   chevron: <path d="m7 9 5 5 5-5" />,

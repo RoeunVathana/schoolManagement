@@ -2791,7 +2791,7 @@ export default function CourseReader() {
         </nav>
         <div className="course-reader-header-actions">
           <LanguageSwitcher variant="course" />
-          <Link className="course-reader-back" to="/courses">{copy.backToCourses}</Link>
+          <Link className="course-reader-back course-reader-icon-back" to="/courses" title={copy.backToCourses} aria-label={copy.backToCourses}><PublicNavIcon name="back" /></Link>
           <ThemeSwitch />
           <button type="button" className="course-mobile-action course-mobile-nav-action" onClick={() => setNavOpen((current) => !current)} aria-expanded={navOpen} aria-controls="course-reader-navigation" aria-label={navOpen ? copy.closeNavigation : copy.openNavigation}>{navOpen ? "×" : "☰"} <span>{copy.menu}</span></button>
           <button type="button" className="course-mobile-action" onClick={() => { setLeftOpen(false); setRightOpen((current) => !current); }} aria-expanded={rightOpen} aria-controls="course-preview-panel" aria-label={rightOpen ? copy.closePreview : copy.openPreview}>{rightOpen ? "×" : "▣"} <span>{copy.preview}</span></button>
