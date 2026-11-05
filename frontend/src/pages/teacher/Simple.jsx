@@ -142,7 +142,7 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   const [detailRecord, setDetailRecord] = useState(null);
   const [detailBusy, setDetailBusy] = useState(false);
   const [detailError, setDetailError] = useState('');
-  const [scheduleFilters, setScheduleFilters] = useState({ from: "", to: "" });
+  const [scheduleFilters, setScheduleFilters] = useState({ course: "", from: "", to: "" });
   const [page, setPage] = useState(1);
   const [now, setNow] = useState(() => Date.now());
   // Keep the learning table shared with teachers, but make admin mode
@@ -163,21 +163,22 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
       announcements: "/announcements",
     }[section] || "/announcements";
 
+  const scheduleSearch = section === "schedule" ? scheduleFilters.course.trim() : "";
   const load = useCallback((targetPage = 1) =>
     api
-      .get(endpoint, { params: { page: targetPage, limit: 10 } })
+      .get(endpoint, { params: { page: targetPage, limit: 10, ...(scheduleSearch ? { search: scheduleSearch } : {}) } })
       .then((response) => setData(unwrap(response)))
       .catch((e) => {
         setError(e.response?.data?.message || t("noRecords"));
         setData([]);
-      }), [endpoint, t]);
+      }), [endpoint, scheduleSearch, t]);
 
   useEffect(() => {
     setPage(1);
     setData(null);
     setError("");
     setNotice("");
-    setScheduleFilters({ from: "", to: "" });
+    setScheduleFilters({ course: "", from: "", to: "" });
     load(1);
     if (
       editable.includes(section) ||
@@ -228,6 +229,15 @@ export default function Simple({ adminMode = false, sectionOverride = '' }) {
   useEffect(() => {
     load(page);
   }, [page]);
+
+  useEffect(() => {
+    if (section !== "schedule") return undefined;
+    const timer = window.setTimeout(() => {
+      setPage(1);
+      load(1);
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [load, scheduleSearch, section]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 30000);

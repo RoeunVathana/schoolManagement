@@ -91,6 +91,16 @@ export class SchedulesController {
       const student = await this.prisma.student.findUniqueOrThrow({ where: { userId: user.id }, select: { id: true } });
       where.course = { enrollments: { some: { studentId: student.id, status: 'ACTIVE' } } };
     }
+    const search = String(query.search ?? '').trim();
+    if (search) {
+      where.course = {
+        ...(where.course || {}),
+        OR: [
+          { courseName: { contains: search, mode: 'insensitive' } },
+          { courseCode: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
     const paged = query.page !== undefined || query.limit !== undefined;
     const { page, limit, skip } = pagination(query.page, query.limit);
     const [data, total] = await Promise.all([
