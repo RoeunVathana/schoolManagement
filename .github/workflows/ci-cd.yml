@@ -15,7 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: 20
+  # Backend packages and the storage safety suite use the Node 22 runtime.
+  # Keep CI aligned with the development and deployment runtime.
+  NODE_VERSION: 22
   FRONTEND_URL: https://campusflowlms.xyz
   BACKEND_URL: https://schoolmanagement-production-d78b.up.railway.app
 
