@@ -64,9 +64,15 @@
     </style>
     <script>
       window.__campusflowBootReady = () => {
+        window.clearTimeout(window.__campusflowBootTimeout);
         document.documentElement.classList.add('campusflow-app-ready');
         document.getElementById('campusflow-boot')?.remove();
       };
+
+      // Never leave a public page behind an infinite first-paint spinner.
+      window.__campusflowBootTimeout = window.setTimeout(() => {
+        window.__campusflowBootReady?.();
+      }, 4000);
     </script>
     <script>
       (() => {

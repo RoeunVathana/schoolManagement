@@ -48,7 +48,7 @@ export default function CommunityLanding() {
 
   useEffect(() => {
     let active = true;
-    api.get('/api/community')
+    api.get('/api/community', { timeout: 8000 })
       .then((response) => { if (active) setFeed(unwrap(response) || { members: [], posts: [] }); })
       .catch(() => { if (active) setError(language === 'km' ? 'ការផ្ទុកសហគមន៍ចំណាយពេលបន្តិច។' : 'The community feed is taking a moment to load.'); })
       .finally(() => { if (active) setLoading(false); });

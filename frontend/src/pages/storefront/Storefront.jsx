@@ -308,7 +308,7 @@ export default function Storefront() {
       return undefined;
     }
 
-    api.get("/enrollments/me")
+    api.get("/enrollments/me", { timeout: 8000 })
       .then((response) => {
         if (!active) return;
         const enrollments = unwrap(response);
@@ -342,11 +342,11 @@ export default function Storefront() {
       setError("");
       try {
         if (id) {
-          const response = await api.get(`/storefront/courses/${id}`);
+          const response = await api.get(`/storefront/courses/${id}`, { timeout: 8000 });
           let nextCourse = unwrap(response);
           if (['STUDENT', 'CUSTOMER'].includes(user?.role)) {
             try {
-              const accessResponse = await api.get(`/storefront/courses/${id}/access`);
+              const accessResponse = await api.get(`/storefront/courses/${id}/access`, { timeout: 8000 });
               nextCourse = unwrap(accessResponse);
             } catch (accessError) {
               if (accessError.response?.status !== 403) throw accessError;
@@ -355,6 +355,7 @@ export default function Storefront() {
           if (active) setCourse(nextCourse);
         } else {
           const response = await api.get("/storefront/courses", {
+            timeout: 8000,
             params: deferredSearch.trim() ? { search: deferredSearch.trim() } : undefined,
           });
           if (active) setCourses(unwrap(response) || []);
