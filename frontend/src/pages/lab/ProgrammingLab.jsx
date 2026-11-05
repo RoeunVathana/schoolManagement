@@ -111,6 +111,7 @@ export default function ProgrammingLab() {
   const rootRef = useRef(null);
   const highlightRef = useRef(null);
   const editorRef = useRef(null);
+  const techbarRef = useRef(null);
   const resizingRef = useRef(false);
 
   const selected = useMemo(() => LABS.find((item) => item.id === selectedId) || LABS[0], [selectedId]);
@@ -167,6 +168,10 @@ export default function ProgrammingLab() {
     if (!highlightRef.current) return;
     highlightRef.current.scrollTop = event.currentTarget.scrollTop;
     highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+  };
+
+  const moveTechbar = (direction) => {
+    techbarRef.current?.scrollBy({ left: direction * Math.max(220, techbarRef.current.clientWidth * 0.72), behavior: "auto" });
   };
 
   const selectLab = (id) => {
@@ -305,10 +310,10 @@ export default function ProgrammingLab() {
         </div>
       </header>
 
-      <div className="lab-techbar" aria-label="Programming subjects">
-        <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">‹</button>
+      <div ref={techbarRef} className="lab-techbar" aria-label="Programming subjects">
+        <button type="button" onClick={() => moveTechbar(-1)} className="lab-tech-arrow" aria-label="Show previous programming languages">‹</button>
         {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><LabLogo lab={lab} />{lab.label}</button>)}
-        <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">›</button>
+        <button type="button" onClick={() => moveTechbar(1)} className="lab-tech-arrow" aria-label="Show more programming languages">›</button>
       </div>
 
       <div className="lab-layout">
