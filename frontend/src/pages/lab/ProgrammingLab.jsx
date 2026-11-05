@@ -260,7 +260,7 @@ export default function ProgrammingLab() {
   return (
     <div ref={rootRef} className={`programming-lab ${isFullscreen ? "is-fullscreen" : ""}`}>
       <header className="lab-header">
-        <button className="lab-icon-button lab-menu-button" type="button" onClick={() => setSidebarOpen(true)} aria-label="Open programming labs">☰</button>
+        <button className="lab-icon-button lab-menu-button" type="button" onClick={() => setSidebarOpen((open) => !open)} aria-expanded={sidebarOpen} aria-label={sidebarOpen ? "Close programming labs" : "Open programming labs"}>☰</button>
         <Link className="lab-brand" to="/">
           <span className="lab-brand-mark"><BrandLogo alt="" /></span>
           <span><small className="lab-brand-kicker">CampusFlow Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Programming Lab"}</em></span>
@@ -290,7 +290,7 @@ export default function ProgrammingLab() {
 
       <div className="lab-layout">
         <aside className={`lab-sidebar ${sidebarOpen ? "is-open" : ""}`}>
-          <div className="lab-sidebar-head"><div><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍" : "PROGRAMMING LABS"}</span><h2>CodeCampus</h2></div><button type="button" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">×</button></div>
+            <div className="lab-sidebar-head"><div><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍" : "PROGRAMMING LABS"}</span><h2>CodeCampus</h2></div><button type="button" onClick={() => setSidebarOpen(false)} aria-label="Close programming labs">×</button></div>
           <nav className="lab-list" aria-label="Programming labs">
             {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-selected" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><span className={`lab-list-icon lab-icon-${lab.id}`}><LabLogo lab={lab} /></span><span><strong>{lab.label} Lab</strong><small>{lab.kind === "server" ? (isKhmer ? "សរសេរ និង Compile កូដ" : "Write and compile code") : (isKhmer ? "ដំណើរការក្នុង Browser" : "Run code in browser")}</small></span><b>›</b></button>)}
           </nav>
