@@ -316,9 +316,11 @@ export default function ProgrammingLab() {
         </div>
       </header>
 
-      <div ref={techbarRef} className="lab-techbar" aria-label="Programming subjects">
+      <div className="lab-techbar" aria-label="Programming subjects">
         <button type="button" onClick={() => moveTechbar(-1)} className="lab-tech-arrow" aria-label="Show previous programming languages">‹</button>
-        {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><LabLogo lab={lab} />{lab.label}</button>)}
+        <div ref={techbarRef} className="lab-techbar-track">
+          {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><LabLogo lab={lab} />{lab.label}</button>)}
+        </div>
         <button type="button" onClick={() => moveTechbar(1)} className="lab-tech-arrow" aria-label="Show more programming languages">›</button>
       </div>
 
