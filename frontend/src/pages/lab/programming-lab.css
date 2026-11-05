@@ -42,7 +42,7 @@
 .lab-brand-kicker { display: block; margin: 0 0 2px; color: #7790b1; font-size: .61rem; font-weight: 800; letter-spacing: .13em; line-height: 1; text-transform: uppercase; }
 .lab-brand em { display: block; margin-top: 2px; color: var(--lab-muted); font-size: .76rem; font-style: normal; line-height: 1.15; }
 .lab-header-nav { display: flex; flex: 1 1 auto; align-items: center; justify-content: center; gap: clamp(.7rem, 1.35vw, 1.35rem); min-width: 0; }
-.lab-header-nav a { position: relative; display: inline-flex; align-items: center; gap: .3rem; overflow: hidden; color: #6a7d96; font-size: 13px; font-weight: 850; line-height: 1.2; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; transition: color .18s ease; }
+.lab-header-nav a { position: relative; display: inline-flex; align-items: center; gap: .3rem; overflow: hidden; color: #6a7d96; font-size: 17px; font-weight: 850; line-height: 1.2; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; transition: color .18s ease; }
 .lab-header-nav .public-nav-icon { display: inline-flex; flex: 0 0 auto; width: .9rem; height: .9rem; color: currentColor; opacity: .76; transition: opacity .18s ease, transform .18s ease; }
 .lab-header-nav .public-nav-icon svg { display: block; width: 100%; height: 100%; }
 .lab-header-nav a::after { position: absolute; right: 0; bottom: -.35rem; left: 0; height: 2px; border-radius: 999px; background: #39b8df; content: ""; transform: scaleX(0); transform-origin: center; transition: transform .18s ease; }
