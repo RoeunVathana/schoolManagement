@@ -6692,7 +6692,7 @@ table td {
 
 /* Tablet public navbar: switch to a balanced menu before the desktop links
    become crowded at iPad and small-laptop widths. */
-@media (min-width: 768px) and (max-width: 1100px) {
+@media (min-width: 768px) and (max-width: 1180px) {
   .site-public-navbar {
     min-height: 4.5rem;
   }
