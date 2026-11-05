@@ -314,6 +314,14 @@ export default function ProgrammingLab() {
       <div className="lab-layout">
         <aside id="lab-sidebar" className={`lab-sidebar ${sidebarOpen ? "is-open" : ""}`} aria-hidden={!sidebarOpen}>
             <div className="lab-sidebar-head"><div><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍" : "PROGRAMMING LABS"}</span><h2>CodeCampus</h2></div><button type="button" onClick={() => setSidebarOpen(false)} aria-label="Close programming labs">×</button></div>
+          <nav className="lab-mobile-nav" aria-label="CampusFlow navigation">
+            <Link to="/course/html" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+            <a href="/courses#courses" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Courses"}</span></a>
+            <Link to="/community" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
+            <Link to="/about" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
+            <a href="/#faq" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="faq" /><span>FAQ</span></a>
+            <Link to="/contact" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="contact" /><span>{isKhmer ? "ទំនាក់ទំនង" : "Contact"}</span></Link>
+          </nav>
           <nav className="lab-list" aria-label="Programming labs">
             {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-selected" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><span className={`lab-list-icon lab-icon-${lab.id}`}><LabLogo lab={lab} /></span><span><strong>{lab.label} Lab</strong><small>{lab.kind === "server" ? (isKhmer ? "សរសេរ និង Compile កូដ" : "Write and compile code") : (isKhmer ? "ដំណើរការក្នុង Browser" : "Run code in browser")}</small></span><b>›</b></button>)}
           </nav>

@@ -90,6 +90,7 @@
 .lab-list-icon, .lab-language-badge { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; color: #fff; background: #2563eb; font-size: 10px; font-weight: 900; }
 .lab-icon-python { background: #3776ab; } .lab-icon-php { background: #777bb4; } .lab-icon-c { background: #2f6db1; } .lab-icon-cpp { background: #285a9e; } .lab-icon-html { background: #e34f26; } .lab-icon-css { background: #1f8dd6; } .lab-icon-csharp { background: #68217a; } .lab-icon-java { background: #b07219; } .lab-icon-kotlin { background: #7f52ff; } .lab-icon-dart { background: #0175c2; } .lab-icon-sql { background: #10a5a5; } .lab-icon-shell { background: #333; }
 .lab-clear-data { display: flex; align-items: center; gap: 9px; margin-top: auto; padding: 13px 12px; border: 1px solid #ffd1d1; border-radius: 10px; color: #df4b4b; background: #fff9f9; font-size: 13px; font-weight: 700; }
+.lab-mobile-nav { display: none; }
 .lab-sidebar-backdrop { display: none; }
 
 @media (min-width: 821px) {
@@ -168,6 +169,11 @@
   .lab-sidebar-head .lab-sidebar-kicker { color: #a5f1dc; }
   .lab-sidebar-head button { width: 40px; height: 40px; border-color: rgb(141 228 202 / .5); border-radius: 12px; color: #10243f; background: #a5f1dc; box-shadow: 0 6px 16px rgb(0 0 0 / .2); font-size: 25px; }
   .lab-sidebar-head button:hover, .lab-sidebar-head button:focus-visible { border-color: #fff; color: #10243f; background: #d7fff2; }
+  .lab-mobile-nav { display: grid; gap: 5px; margin: 0 0 12px; padding: 0 0 12px; border-bottom: 1px solid rgb(141 228 202 / .24); }
+  .lab-mobile-nav a { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 7px 10px; border: 1px solid transparent; border-radius: 10px; color: #d5e7f7; font-size: 13px; font-weight: 750; text-decoration: none; }
+  .lab-mobile-nav a:hover, .lab-mobile-nav a:focus-visible { border-color: rgb(141 228 202 / .35); color: #a5f1dc; background: rgb(28 79 105 / .72); outline: none; }
+  .lab-mobile-nav .public-nav-icon { display: inline-flex; width: 17px; height: 17px; color: #8de4ca; }
+  .lab-mobile-nav .public-nav-icon svg { width: 100%; height: 100%; }
   .lab-sidebar-backdrop { position: fixed; z-index: 55; inset: 0; display: block; border: 0; background: rgba(12,27,48,.48); }
   .lab-techbar { top: 62px; }
   .lab-layout { min-height: calc(100dvh - 108px); }
