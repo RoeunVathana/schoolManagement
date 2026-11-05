@@ -1108,7 +1108,7 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
         <CourseVisual course={course} language={language} />
-        <div className="p-5 pb-3">
+        <div className="storefront-course-content flex flex-1 flex-col p-5 pb-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-[#e8f2ff] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#2563b8] dark:bg-[#173453] dark:text-[#9fc8ff]">{category}</span>
             <span className="rounded-full bg-[#e4f8ef] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#17624e] dark:bg-[#173f42] dark:text-[#a5f1dc]">{level}</span>
