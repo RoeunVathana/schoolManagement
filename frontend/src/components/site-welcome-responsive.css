@@ -1,0 +1,29 @@
+.site-welcome-panel {
+  min-width: 0;
+  max-width: calc(100vw - 2rem);
+}
+
+.site-welcome-panel h2,
+.site-welcome-panel p,
+.site-welcome-feature,
+.site-welcome-primary,
+.site-welcome-secondary {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .site-welcome-panel {
+    width: 100%;
+    max-width: calc(100vw - 1.3rem);
+  }
+
+  .site-welcome-feature-grid,
+  .site-welcome-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-welcome-feature {
+    min-height: auto;
+  }
+}
