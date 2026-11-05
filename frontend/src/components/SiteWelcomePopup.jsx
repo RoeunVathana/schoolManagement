@@ -57,6 +57,7 @@ export default function SiteWelcomePopup() {
   const isDashboardRoute = /^\/(admin|teacher|student|customer)(?:\/|$)/.test(pathname);
   const isAuthRoute = /^\/(login|register|forgot-password)(?:\/|$)/.test(pathname);
   const isCourseReaderRoute = /^\/course(?:\/|$)/.test(pathname);
+  const isCommunityRoute = /^\/community(?:\/|$)/.test(pathname);
   const dismiss = () => {
     try {
       window.sessionStorage.setItem(WELCOME_DISMISSED_KEY, "1");
@@ -75,7 +76,10 @@ export default function SiteWelcomePopup() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  if (!open || isDashboardRoute || isAuthRoute || isCourseReaderRoute) return null;
+  // The community page has its own public join flow. Do not place the global
+  // welcome dialog over it, otherwise the first click on Join is intercepted
+  // by the overlay instead of reaching the community page.
+  if (!open || isDashboardRoute || isAuthRoute || isCourseReaderRoute || isCommunityRoute) return null;
 
   return createPortal(
     <div
