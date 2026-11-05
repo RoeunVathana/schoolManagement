@@ -28,11 +28,14 @@ const revealApp = () => {
 };
 
 const revealAfterStylesLoad = () => {
-  window.requestAnimationFrame?.(() => window.requestAnimationFrame?.(revealApp));
+  const schedule = window.requestAnimationFrame;
+  if (typeof schedule === 'function') {
+    schedule(() => schedule(revealApp));
+    return;
+  }
+  window.setTimeout(revealApp, 0);
 };
 
-if (document.readyState === 'complete') {
-  revealAfterStylesLoad();
-} else {
-  window.addEventListener('load', revealAfterStylesLoad, { once: true });
-}
+// Do not wait for remote images, videos, or analytics to finish loading.
+// They must never keep the application hidden behind the first-paint loader.
+revealAfterStylesLoad();
