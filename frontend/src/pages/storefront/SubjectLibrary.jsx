@@ -70,11 +70,10 @@ export default function SubjectLibrary() {
           <Link to="/" className="subject-library-back">← {text.back}</Link>
         </div>
         <section className="subject-library-grid" aria-label={text.title}>
-          {academySubjects.map((subject, index) => (
+          {academySubjects.map((subject) => (
             <Link to={`/course/${subject.slug}`} className="subject-library-card" key={subject.slug}>
               <span className="subject-library-card-top">
-                <span className="subject-library-number">{String(index + 1).padStart(2, "0")}</span>
-                <span className="subject-library-logo"><LabLogo lab={{ id: subject.logoId, label: subject.name }} /></span>
+                <span className="subject-library-logo" aria-hidden="true"><LabLogo lab={{ id: subject.logoId, label: subject.name }} /></span>
               </span>
               <span className="subject-library-card-copy"><strong>{subject.name}</strong><small>{subject.group}</small></span>
               <span className="subject-library-card-footer"><span>{text.open}</span><span aria-hidden="true">→</span></span>

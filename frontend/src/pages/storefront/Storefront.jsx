@@ -733,21 +733,18 @@ export default function Storefront() {
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {academySubjects.map((subject, index) => (
+            {academySubjects.map((subject) => (
               <Link
                 key={subject.slug}
                 to={`/course/${subject.slug}`}
                 className="group flex min-h-24 items-center gap-4 rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-lg dark:border-slate-700 dark:bg-[#132238]/90"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#10243f] text-sm font-black text-[#a5f1dc] transition group-hover:bg-[#229ed9] group-hover:text-white">
-                  {String(index + 1).padStart(2, "0")}
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition group-hover:border-[#8de4ca] group-hover:shadow-md dark:border-slate-600 dark:bg-slate-100">
+                  <LabLogo lab={{ id: subject.logoId, label: subject.name }} className="h-8 w-8 object-contain" />
                 </span>
                 <span className="min-w-0">
                   <strong className="block truncate text-sm font-black text-[#10243f] dark:text-white">{subject.name}</strong>
                   <small className="mt-1 block text-xs font-semibold text-slate-500 dark:text-slate-300">{subject.group}</small>
-                </span>
-                <span className="storefront-subject-card-logo" aria-hidden="true">
-                  <LabLogo lab={{ id: subject.logoId, label: subject.name }} className="storefront-subject-logo-image" />
                 </span>
                 <span className="ml-auto text-lg text-[#229ed9] transition group-hover:translate-x-1" aria-hidden="true">→</span>
               </Link>
