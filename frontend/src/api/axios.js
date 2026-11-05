@@ -1,5 +1,12 @@
 import axios from 'axios'; import { clearSession, getAccessToken, getRefreshToken, saveTokens } from '../utils/storage';
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001', headers: { 'Content-Type': 'application/json' } });
+
+// Do not let a stalled browser/network connection leave a page in a loading
+// state forever. Individual requests can still provide a shorter timeout.
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
+  timeout: 12000,
+  headers: { 'Content-Type': 'application/json' },
+});
 let refreshing = null;
 
 function notifyServerBusy(error) {

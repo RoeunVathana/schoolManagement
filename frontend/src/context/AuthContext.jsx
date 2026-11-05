@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      api.get('/auth/profile')
+      api.get('/auth/profile', { timeout: 8000 })
         .then((response) => {
           const profile = normalizeUser(unwrap(response));
           setUser(profile);
