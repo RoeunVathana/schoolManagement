@@ -57,7 +57,8 @@
 .lab-back-link:hover { border-color: #a9c4ef; color: var(--lab-blue); background: #f2f7ff; transform: translateY(-1px); }
 .lab-current-language { color: var(--lab-muted); font-size: 13px; font-weight: 700; }
 .lab-icon-button { width: 36px; height: 36px; border: 1px solid var(--lab-line); border-radius: 9px; color: var(--lab-ink); background: white; }
-.lab-menu-button { display: grid; place-items: center; font-size: 20px; }
+.lab-menu-button { display: grid; place-items: center; color: var(--lab-blue); background: #eef5ff; font-size: 20px; transition: border-color .16s ease, background-color .16s ease, color .16s ease; }
+.lab-menu-button:hover, .lab-menu-button:focus-visible { border-color: #9dbcf1; color: #1858c7; background: #e0edff; }
 
 .lab-techbar { position: sticky; top: 74px; z-index: 35; display: flex; align-items: center; gap: 3px; min-height: 48px; padding: 0 14px; border-bottom: 1px solid var(--lab-line); background: rgb(255 255 255 / .92); box-shadow: 0 5px 16px rgb(18 33 58 / .05); overflow-x: auto; scrollbar-width: thin; backdrop-filter: blur(14px); }
 .lab-techbar button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 0; border-radius: 7px; color: #667790; background: transparent; font-size: 13px; font-weight: 700; white-space: nowrap; }
@@ -149,8 +150,13 @@
   .lab-header-actions .language-switcher-short { display: inline-flex !important; }
   .lab-header-actions .language-switcher-trigger { min-width: 4.4rem !important; padding-inline: .48rem !important; }
   .lab-header-actions .theme-switch { padding: .55rem .6rem; }
-  .lab-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 60; width: min(310px, 88vw); height: auto; max-height: none; transform: translateX(-105%); box-shadow: 15px 0 40px rgba(16,35,63,.2); transition: transform .18s ease; }
+  .lab-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 60; width: min(310px, 88vw); height: auto; max-height: none; padding: 0 16px 22px; transform: translateX(-105%); box-shadow: 15px 0 40px rgba(16,35,63,.2); transition: transform .18s ease; }
   .lab-sidebar.is-open { transform: translateX(0); }
+  .lab-sidebar-head { position: sticky; top: 0; z-index: 1; margin: 0 -16px 18px; padding: max(14px, env(safe-area-inset-top)) 16px 14px; border-bottom: 1px solid rgb(141 228 202 / .24); background: linear-gradient(135deg, #10243f, #163a58); }
+  .lab-sidebar-head h2 { color: #fff; }
+  .lab-sidebar-head .lab-sidebar-kicker { color: #a5f1dc; }
+  .lab-sidebar-head button { width: 40px; height: 40px; border-color: rgb(141 228 202 / .5); border-radius: 12px; color: #10243f; background: #a5f1dc; box-shadow: 0 6px 16px rgb(0 0 0 / .2); font-size: 25px; }
+  .lab-sidebar-head button:hover, .lab-sidebar-head button:focus-visible { border-color: #fff; color: #10243f; background: #d7fff2; }
   .lab-sidebar-backdrop { position: fixed; z-index: 55; inset: 0; display: block; border: 0; background: rgba(12,27,48,.48); }
   .lab-techbar { top: 62px; }
   .lab-layout { min-height: calc(100dvh - 108px); }
