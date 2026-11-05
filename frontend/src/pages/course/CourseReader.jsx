@@ -100,6 +100,7 @@ const readerText = {
     home: "CampusFlow home",
     academy: "CampusFlow Academy",
     browseCourses: "Courses",
+    lab: "Programming Lab",
     community: "Community",
     about: "About",
     faq: "FAQ",
@@ -159,6 +160,7 @@ const readerText = {
     home: "ទំព័រដើម CampusFlow",
     academy: "សាលា CampusFlow",
     browseCourses: "វគ្គសិក្សា",
+    lab: "មន្ទីរពិសោធន៍កូដ",
     community: "សហគមន៍",
     about: "អំពីយើង",
     faq: "សំណួរដែលសួរញឹកញាប់",
@@ -2781,6 +2783,7 @@ export default function CourseReader() {
         <nav id="course-reader-navigation" className={`course-reader-nav ${navOpen ? "is-open" : ""}`} aria-label="CampusFlow navigation" onClick={() => setNavOpen(false)}>
           <Link className="course-reader-nav-academy" to="/course/html"><PublicNavIcon name="academy" /><span>{copy.academy}</span></Link>
           <a href="/courses#courses"><PublicNavIcon name="academy" /><span>{copy.browseCourses}</span></a>
+           <Link to="/lab"><PublicNavIcon name="code" /><span>{copy.lab}</span></Link>
           <Link to="/community"><PublicNavIcon name="community" /><span>{copy.community}</span></Link>
           <Link to="/about"><PublicNavIcon name="about" /><span>{copy.about}</span></Link>
           <a href="/#faq"><PublicNavIcon name="faq" /><span>{copy.faq}</span></a>
