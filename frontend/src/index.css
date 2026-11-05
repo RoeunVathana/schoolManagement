@@ -3783,40 +3783,6 @@ a, button, input, textarea, select { max-width: 100%; }
   box-shadow: 0 8px 20px rgb(34 158 217 / .16);
 }
 
-/* Dashboard search is a compact icon on phones, but remains a usable text
-   search once opened.  The previous hidden input could receive focus without
-   being visible, which made the feature appear broken on small screens. */
-@media (max-width: 639px) {
-  .app-navbar .dashboard-search.is-open > div:first-child input[type="search"] {
-    position: absolute;
-    top: calc(100% + .55rem);
-    right: 0;
-    z-index: 56;
-    display: block !important;
-    width: min(20rem, calc(100vw - 1rem));
-    height: 2.65rem;
-    border: 1px solid rgb(148 163 184 / .55);
-    border-radius: .85rem;
-    padding: 0 .8rem 0 2.3rem;
-    color: #10243f;
-    background: #fff;
-    box-shadow: 0 14px 30px rgb(15 23 42 / .2);
-  }
-
-  .dark .app-navbar .dashboard-search.is-open > div:first-child input[type="search"] {
-    border-color: rgb(100 116 139 / .7);
-    color: #edf7ff;
-    background: #12233a;
-  }
-
-  .app-navbar .dashboard-search.is-open > div:last-child {
-    top: calc(100% + 3.75rem);
-    z-index: 55;
-    width: min(20rem, calc(100vw - 1rem));
-    max-height: min(22rem, calc(100vh - 9rem));
-  }
-}
-
 /* Sign-out control: keep the destructive action clear without letting it
    collapse into an unreadable red square on phones. */
 .app-logout-button {
@@ -4780,27 +4746,64 @@ a, button, input, textarea, select { max-width: 100%; }
   height: 2.35rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid #c9dbea;
   border-radius: .8rem;
-  color: #68809a;
-  background: transparent;
+  color: #3e6b8d;
+  background: #f1f7fb;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .85), 0 2px 5px rgb(16 36 63 / .06);
   cursor: pointer;
   z-index: 2;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transform: translateY(-50%);
-  transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
 .password-input-toggle svg {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.18rem;
+  height: 1.18rem;
+  stroke-width: 2.15;
 }
 
 .password-input-toggle:hover {
-  border-color: rgb(34 158 217 / .25);
-  color: #229ed9;
-  background: rgb(34 158 217 / .1);
+  border-color: rgb(34 158 217 / .5);
+  color: #087fb7;
+  background: #e1f4fd;
+  box-shadow: 0 5px 12px rgb(34 158 217 / .16);
+}
+
+.password-input-toggle[data-visible='true'] {
+  border-color: rgb(16 151 119 / .42);
+  color: #087e65;
+  background: #e3f9f1;
+}
+
+.password-input-toggle::after {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + .45rem);
+  z-index: 10;
+  width: max-content;
+  max-width: min(14rem, calc(100vw - 2rem));
+  border-radius: .45rem;
+  padding: .32rem .5rem;
+  color: #fff;
+  background: #10243f;
+  box-shadow: 0 6px 16px rgb(16 36 63 / .2);
+  content: attr(data-tooltip);
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1.25;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(.2rem);
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.password-input-toggle:hover::after,
+.password-input-toggle:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .password-input-toggle:active {
@@ -4812,8 +4815,9 @@ a, button, input, textarea, select { max-width: 100%; }
   outline-offset: 2px;
 }
 
-.dark .password-input-toggle { color: #9cb4c8; }
-.dark .password-input-toggle:hover { color: #8de4ca; background: rgb(141 228 202 / .1); }
+.dark .password-input-toggle { border-color: #31516f; color: #b4cae0; background: #172d47; box-shadow: inset 0 1px 0 rgb(255 255 255 / .06); }
+.dark .password-input-toggle:hover { border-color: rgb(141 228 202 / .55); color: #8de4ca; background: rgb(141 228 202 / .14); box-shadow: 0 5px 12px rgb(0 0 0 / .2); }
+.dark .password-input-toggle[data-visible='true'] { border-color: rgb(141 228 202 / .6); color: #a4f5de; background: rgb(25 112 96 / .34); }
 
 /* Tablet/iPad layout: keep the desktop information density without letting
    profile controls and page headers compete for the same narrow row. */
@@ -9879,7 +9883,7 @@ html::-webkit-scrollbar {
   top: max(1rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
   display: grid;
-  width: min(24rem, calc(100vw - 2rem));
+  width: min(24rem, calc(100% - 2rem));
   gap: .65rem;
   pointer-events: none;
 }
@@ -9935,7 +9939,7 @@ html::-webkit-scrollbar {
   .campusflow-toast-viewport {
     top: max(.65rem, env(safe-area-inset-top));
     right: max(.65rem, env(safe-area-inset-right));
-    width: calc(100vw - 1.3rem);
+    width: calc(100% - 1.3rem);
   }
   .campusflow-toast { border-radius: .85rem; padding: .7rem .65rem .7rem .75rem; }
 }
