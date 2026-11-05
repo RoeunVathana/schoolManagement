@@ -36,6 +36,179 @@ export const LABS = [
 
 const browserLanguages = new Set(["javascript", "html", "css"]);
 
+const AUTOCOMPLETE_SUGGESTIONS = {
+  node: [
+    ["console.log()", "console.log()", "Print a value"],
+    ["const ", "const ", "Declare a constant"],
+    ["require()", "require()", "Load a Node.js module"],
+    ["createServer()", "createServer()", "Create an HTTP server"],
+    ["async function ", "async function ", "Declare an async function"],
+    ["app.get()", "app.get()", "Define an Express GET route"],
+  ],
+  laravel: [
+    ["<?php", "<?php", "Start a PHP file"],
+    ["echo ", "echo ", "Print a value"],
+    ["$variable", "$variable", "Create a PHP variable"],
+    ["function ", "function ", "Declare a function"],
+    ["Route::get()", "Route::get()", "Define a Laravel route"],
+    ["foreach ()", "foreach ()", "Loop through a collection"],
+  ],
+  bootstrap: [
+    ["container", "<div class=\"container\"></div>", "Responsive Bootstrap container"],
+    ["row", "<div class=\"row\"></div>", "Bootstrap grid row"],
+    ["col", "<div class=\"col\"></div>", "Bootstrap grid column"],
+    ["btn", "<button class=\"btn btn-primary\">Button</button>", "Bootstrap button"],
+    ["card", "<div class=\"card\"></div>", "Bootstrap card"],
+  ],
+  rust: [
+    ["fn main()", "fn main() {\n    \n}", "Program entry point"],
+    ["let ", "let ", "Declare an immutable variable"],
+    ["let mut ", "let mut ", "Declare a mutable variable"],
+    ["println!()", "println!()", "Print a line"],
+    ["fn ", "fn ", "Declare a function"],
+    ["match ", "match ", "Match an enum or value"],
+  ],
+  go: [
+    ["package main", "package main", "Declare the main package"],
+    ["func main()", "func main() {\n\n}", "Program entry point"],
+    ["fmt.Println()", "fmt.Println()", "Print a line"],
+    ["func ", "func ", "Declare a function"],
+    ["var ", "var ", "Declare a variable"],
+    ["go ", "go ", "Start a goroutine"],
+  ],
+  swift: [
+    ["let ", "let ", "Declare a constant"],
+    ["var ", "var ", "Declare a variable"],
+    ["print()", "print()", "Print a value"],
+    ["func ", "func ", "Declare a function"],
+    ["if ", "if ", "Create a condition"],
+    ["for ", "for ", "Create a loop"],
+  ],
+  javascript: [
+    ["console.log()", "console.log()", "Print a value"],
+    ["const ", "const ", "Declare a constant"],
+    ["let ", "let ", "Declare a variable"],
+    ["function ", "function ", "Declare a function"],
+    ["document.querySelector()", "document.querySelector()", "Select an element"],
+    ["addEventListener()", "addEventListener()", "Listen for an event"],
+    ["async function ", "async function ", "Declare an async function"],
+    ["fetch()", "fetch()", "Request data from a URL"],
+  ],
+  python: [
+    ["print()", "print()", "Print a value"],
+    ["def ", "def ", "Declare a function"],
+    ["class ", "class ", "Declare a class"],
+    ["import ", "import ", "Import a module"],
+    ["from ", "from ", "Import from a module"],
+    ["if ", "if ", "Create a condition"],
+    ["for ", "for ", "Create a loop"],
+    ["len()", "len()", "Get a collection length"],
+  ],
+  php: [
+    ["<?php", "<?php", "Start a PHP file"],
+    ["echo ", "echo ", "Print a value"],
+    ["$variable", "$variable", "Create a PHP variable"],
+    ["function ", "function ", "Declare a function"],
+    ["foreach ()", "foreach ()", "Loop through an array"],
+    ["array_map()", "array_map()", "Transform an array"],
+  ],
+  c: [
+    ["#include <stdio.h>", "#include <stdio.h>", "Include standard input/output"],
+    ["int main()", "int main(void) {\n    \n}", "Program entry point"],
+    ["printf()", "printf()", "Print formatted output"],
+    ["struct ", "struct ", "Declare a structure"],
+    ["for ", "for ", "Create a loop"],
+    ["return ", "return ", "Return a value"],
+  ],
+  cpp: [
+    ["#include <iostream>", "#include <iostream>", "Include C++ input/output"],
+    ["int main()", "int main() {\n    \n}", "Program entry point"],
+    ["std::cout", "std::cout << \"Hello\" << std::endl;", "Write to standard output"],
+    ["std::vector", "std::vector<>", "Use a dynamic array"],
+    ["class ", "class ", "Declare a class"],
+    ["return ", "return ", "Return a value"],
+  ],
+  html: [
+    ["<!DOCTYPE html>", "<!doctype html>", "Declare an HTML document"],
+    ["div", "<div></div>", "Generic content container"],
+    ["section", "<section></section>", "Semantic page section"],
+    ["h1", "<h1></h1>", "Main heading"],
+    ["p", "<p></p>", "Paragraph"],
+    ["button", "<button></button>", "Interactive button"],
+  ],
+  css: [
+    ["display", "display: flex;", "Choose a layout mode"],
+    ["grid", "display: grid;", "Create a grid layout"],
+    ["color", "color: #2563eb;", "Set text color"],
+    ["background", "background: #f8fafc;", "Set background color"],
+    ["padding", "padding: 1rem;", "Add inner spacing"],
+    ["margin", "margin: 1rem;", "Add outer spacing"],
+    ["border-radius", "border-radius: 12px;", "Round corners"],
+  ],
+  csharp: [
+    ["using System;", "using System;", "Import the base .NET namespace"],
+    ["public class ", "public class ", "Declare a public class"],
+    ["static void Main()", "static void Main()\n    {\n    }", "Program entry point"],
+    ["Console.WriteLine()", "Console.WriteLine()", "Print a line"],
+    ["if (", "if (", "Create a condition"],
+    ["foreach (", "foreach (", "Loop through a collection"],
+  ],
+  java: [
+    ["public class ", "public class ", "Declare a public class"],
+    ["public static void main", "public static void main(String[] args) {\n\n}", "Program entry point"],
+    ["System.out.println()", "System.out.println()", "Print a line"],
+    ["import ", "import ", "Import a package"],
+    ["new ", "new ", "Create an object"],
+    ["for (", "for (", "Create a loop"],
+  ],
+  kotlin: [
+    ["fun main()", "fun main() {\n\n}", "Program entry point"],
+    ["println()", "println()", "Print a line"],
+    ["val ", "val ", "Declare an immutable value"],
+    ["var ", "var ", "Declare a variable"],
+    ["class ", "class ", "Declare a class"],
+    ["when ", "when ", "Match several cases"],
+  ],
+  dart: [
+    ["void main()", "void main() {\n\n}", "Program entry point"],
+    ["print()", "print()", "Print a value"],
+    ["final ", "final ", "Declare a final variable"],
+    ["var ", "var ", "Declare a variable"],
+    ["class ", "class ", "Declare a class"],
+    ["Future<void>", "Future<void>", "Declare an async result"],
+  ],
+  sql: [
+    ["SELECT ", "SELECT ", "Read rows from a table"],
+    ["INSERT INTO ", "INSERT INTO ", "Add a row to a table"],
+    ["CREATE TABLE ", "CREATE TABLE ", "Create a table"],
+    ["UPDATE ", "UPDATE ", "Change existing rows"],
+    ["DELETE FROM ", "DELETE FROM ", "Delete rows"],
+    ["WHERE ", "WHERE ", "Filter query results"],
+    ["JOIN ", "JOIN ", "Combine related tables"],
+  ],
+  shell: [
+    ["echo ", "echo ", "Print a value"],
+    ["#!/bin/sh", "#!/bin/sh", "Declare the shell interpreter"],
+    ["if ", "if ", "Create a condition"],
+    ["for ", "for ", "Create a loop"],
+    ["function ", "function ", "Declare a shell function"],
+    ["export ", "export ", "Export an environment variable"],
+  ],
+};
+
+function getAutocompleteSuggestions(language, value, cursor, showAll = false) {
+  const beforeCursor = String(value || "").slice(0, cursor);
+  const tokenMatch = beforeCursor.match(/[A-Za-z_$][\w$]*$/);
+  const token = tokenMatch?.[0] || "";
+  if (!token && !showAll) return [];
+  const entries = AUTOCOMPLETE_SUGGESTIONS[language] || [];
+  const normalizedToken = token.toLowerCase();
+  return entries
+    .map(([label, insert, detail]) => ({ label, insert, detail }))
+    .filter((entry) => !normalizedToken || entry.label.toLowerCase().startsWith(normalizedToken))
+    .slice(0, 7);
+}
+
 const syntaxKeywords = new Set([
   "as", "async", "await", "break", "case", "catch", "class", "const", "continue", "def", "else", "export", "extends", "final", "for", "from", "function", "if", "implements", "import", "in", "interface", "let", "new", "null", "private", "protected", "public", "return", "static", "struct", "switch", "this", "throw", "try", "using", "var", "void", "while", "with", "yield", "true", "false", "None", "True", "False", "print", "echo", "fun", "val", "var", "SELECT", "FROM", "WHERE", "CREATE", "TABLE", "INSERT", "INTO", "VALUES",
 ]);
@@ -114,6 +287,8 @@ export default function ProgrammingLab() {
   const [outputFontSize, setOutputFontSize] = useState(13);
   const [outputHeight, setOutputHeight] = useState(240);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
   const rootRef = useRef(null);
   const highlightRef = useRef(null);
   const editorRef = useRef(null);
@@ -128,6 +303,8 @@ export default function ProgrammingLab() {
     setRunCode(stored);
     setRuntimeMessages([]);
     setServerResult(null);
+    setSuggestions([]);
+    setActiveSuggestion(0);
     localStorage.setItem(CURRENT_LANGUAGE_KEY, selected.id);
     setRunnerStatus({ checking: selected.kind === "server", configured: false });
     if (selected.kind !== "server") return undefined;
@@ -243,7 +420,64 @@ export default function ProgrammingLab() {
     reset();
   };
 
+  const refreshSuggestions = (value, cursor, showAll = false) => {
+    const nextSuggestions = getAutocompleteSuggestions(selected.id, value, cursor, showAll);
+    setSuggestions(nextSuggestions);
+    setActiveSuggestion(0);
+  };
+
+  const acceptSuggestion = (suggestion = suggestions[activeSuggestion]) => {
+    if (!suggestion) return;
+    const target = editorRef.current;
+    const cursor = target?.selectionStart ?? draftCode.length;
+    const beforeCursor = draftCode.slice(0, cursor);
+    const tokenMatch = beforeCursor.match(/[A-Za-z_$][\w$]*$/);
+    const tokenStart = tokenMatch ? cursor - tokenMatch[0].length : cursor;
+    const nextCode = `${draftCode.slice(0, tokenStart)}${suggestion.insert}${draftCode.slice(cursor)}`;
+    const nextCursor = tokenStart + suggestion.insert.length;
+    setDraftCode(nextCode);
+    setSuggestions([]);
+    setActiveSuggestion(0);
+    requestAnimationFrame(() => {
+      editorRef.current?.focus();
+      editorRef.current?.setSelectionRange(nextCursor, nextCursor);
+    });
+  };
+
   const handleEditorKeyDown = (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      event.preventDefault();
+      setSuggestions([]);
+      void run();
+      return;
+    }
+    if ((event.ctrlKey || event.metaKey) && event.code === "Space") {
+      event.preventDefault();
+      refreshSuggestions(event.currentTarget.value, event.currentTarget.selectionStart, true);
+      return;
+    }
+    if (suggestions.length) {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActiveSuggestion((index) => (index + 1) % suggestions.length);
+        return;
+      }
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActiveSuggestion((index) => (index - 1 + suggestions.length) % suggestions.length);
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSuggestions([]);
+        return;
+      }
+      if (event.key === "Tab" || event.key === "Enter") {
+        event.preventDefault();
+        acceptSuggestion();
+        return;
+      }
+    }
     if (event.key === "Tab") {
       event.preventDefault();
       const target = event.currentTarget;
@@ -251,10 +485,6 @@ export default function ProgrammingLab() {
       const end = target.selectionEnd;
       setDraftCode(`${draftCode.slice(0, start)}  ${draftCode.slice(end)}`);
       requestAnimationFrame(() => { target.selectionStart = start + 2; target.selectionEnd = start + 2; });
-    }
-    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-      event.preventDefault();
-      void run();
     }
   };
 
@@ -364,7 +594,11 @@ export default function ProgrammingLab() {
               <div className="lab-editor-shell" style={{ "--lab-editor-size": `${editorFontSize}px` }}>
                 {showLines && <pre className="lab-line-numbers" aria-hidden="true">{draftCode.split("\n").map((_, index) => `${index + 1}\n`)}</pre>}
                 <pre ref={highlightRef} className={`lab-highlight ${showLines ? "has-lines" : ""}`} aria-hidden="true"><code dangerouslySetInnerHTML={{ __html: highlightCode(draftCode, selected.id === "html" ? "html" : selected.id) }} /></pre>
-                <textarea ref={editorRef} className={`lab-editor ${showLines ? "has-lines" : ""}`} style={{ fontSize: `${editorFontSize}px` }} value={draftCode} onChange={(event) => setDraftCode(event.target.value)} onScroll={syncScroll} onKeyDown={handleEditorKeyDown} spellCheck="false" aria-label={`${selected.label} code editor`} />
+                <textarea ref={editorRef} className={`lab-editor ${showLines ? "has-lines" : ""}`} style={{ fontSize: `${editorFontSize}px` }} value={draftCode} onChange={(event) => { const value = event.target.value; setDraftCode(value); refreshSuggestions(value, event.target.selectionStart); }} onScroll={syncScroll} onKeyDown={handleEditorKeyDown} onBlur={() => window.setTimeout(() => setSuggestions([]), 120)} spellCheck="false" aria-label={`${selected.label} code editor`} aria-autocomplete="list" aria-controls="lab-autocomplete-list" />
+                {suggestions.length > 0 && <div id="lab-autocomplete-list" className="lab-autocomplete" role="listbox" aria-label="Code suggestions">
+                  <div className="lab-autocomplete-head"><span>Code suggestions</span><small><kbd>Tab</kbd> accept <kbd>↑↓</kbd> choose</small></div>
+                  {suggestions.map((suggestion, index) => <button type="button" role="option" aria-selected={index === activeSuggestion} className={`lab-autocomplete-item ${index === activeSuggestion ? "is-active" : ""}`} key={`${suggestion.label}-${index}`} onMouseDown={(event) => event.preventDefault()} onMouseEnter={() => setActiveSuggestion(index)} onClick={() => acceptSuggestion(suggestion)}><code>{suggestion.label}</code><small>{suggestion.detail}</small></button>)}
+                </div>}
               </div>
             </section>
 
