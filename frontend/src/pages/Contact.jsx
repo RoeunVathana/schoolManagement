@@ -13,7 +13,7 @@ import api from "../api/axios";
 
 const content = {
   en: {
-    navCourses: "Browse courses", navCommunity: "Community", navAbout: "About", navContact: "Contact", navFaq: "FAQ", navLab: "Programming Lab", navLabLibrary: "Language Library",
+    navCourses: "Browse courses", navCommunity: "Community", navAbout: "About", navContact: "Contact", navFaq: "FAQ", navLab: "Lab", navLabLibrary: "Library",
     login: "Sign in", register: "Create account", dashboard: "Dashboard",
     eyebrow: "WE ARE HERE TO HELP", title: "Let's build your next step together.",
     heroBody: "Have a question about courses, payments, teacher support, or your learning path? Reach out and the CampusFlow team will point you in the right direction.",

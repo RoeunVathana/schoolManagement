@@ -14,8 +14,8 @@ const content = {
   en: {
     navCourses: "Browse courses", navContact: "Contact",
     navCommunity: "Community",
-    navLab: "Programming Lab",
-    navLabLibrary: "Language Library",
+    navLab: "Lab",
+    navLabLibrary: "Library",
     navAbout: "About",
     navFaq: "FAQ",
     login: "Sign in",
