@@ -189,6 +189,127 @@
   .lab-sidebar { transition: none; }
 }
 
+/* The shared ThemeProvider toggles .dark on <html>. Keep the Lab's custom
+   surfaces in the same theme instead of leaving its fixed light palette in
+   place when the global theme changes. */
+.dark .programming-lab {
+  --lab-ink: #e8f2ff;
+  --lab-muted: #9cb1c8;
+  --lab-line: #2c415c;
+  --lab-soft: #111d30;
+  --lab-blue: #79adff;
+  color-scheme: dark;
+  color: var(--lab-ink);
+  background:
+    radial-gradient(circle at 82% 0%, rgb(58 132 205 / .18), transparent 28rem),
+    linear-gradient(180deg, #0b1526 0%, #101c2e 100%);
+}
+.dark .programming-lab .lab-header,
+.dark .programming-lab .lab-techbar,
+.dark .programming-lab .lab-sidebar,
+.dark .programming-lab .lab-workspace,
+.dark .programming-lab .lab-toolbar,
+.dark .programming-lab .lab-editor-panel,
+.dark .programming-lab .lab-status-note {
+  border-color: var(--lab-line);
+  background: rgb(13 25 43 / .94);
+  color: var(--lab-ink);
+}
+.dark .programming-lab .lab-header,
+.dark .programming-lab .lab-techbar {
+  box-shadow: 0 8px 24px rgb(0 0 0 / .2);
+}
+.dark .programming-lab .lab-brand,
+.dark .programming-lab .lab-sidebar-head h2,
+.dark .programming-lab .lab-editor-label,
+.dark .programming-lab .lab-tool-title,
+.dark .programming-lab .lab-output-header,
+.dark .programming-lab .lab-status-note {
+  color: var(--lab-ink);
+}
+.dark .programming-lab .lab-brand em,
+.dark .programming-lab .lab-current-language,
+.dark .programming-lab .lab-toolbar-group,
+.dark .programming-lab .lab-editor-label small,
+.dark .programming-lab .lab-output-header button,
+.dark .programming-lab .lab-sidebar-kicker {
+  color: var(--lab-muted);
+}
+.dark .programming-lab .lab-header-nav a,
+.dark .programming-lab .lab-techbar button,
+.dark .programming-lab .lab-list button {
+  color: #a9bdd3;
+}
+.dark .programming-lab .lab-header-nav a:hover,
+.dark .programming-lab .lab-header-nav a.is-active,
+.dark .programming-lab .lab-techbar button:hover,
+.dark .programming-lab .lab-techbar button.is-active,
+.dark .programming-lab .lab-list button:hover,
+.dark .programming-lab .lab-list button.is-selected {
+  color: #a9f0dc;
+  background: #193653;
+}
+.dark .programming-lab .lab-icon-button,
+.dark .programming-lab .lab-back-link,
+.dark .programming-lab .lab-toolbar-group button,
+.dark .programming-lab .lab-toolbar-button,
+.dark .programming-lab .lab-header-actions .theme-switch {
+  border-color: var(--lab-line);
+  color: #d9e7f5;
+  background: #15243a;
+  box-shadow: 0 5px 14px rgb(0 0 0 / .18);
+}
+.dark .programming-lab .lab-icon-button:hover,
+.dark .programming-lab .lab-back-link:hover,
+.dark .programming-lab .lab-toolbar-button:hover,
+.dark .programming-lab .lab-toolbar-button.is-active,
+.dark .programming-lab .lab-header-actions .theme-switch:hover {
+  border-color: #5e8dc5;
+  color: #a9f0dc;
+  background: #1d3b5a;
+}
+.dark .programming-lab .lab-sidebar {
+  box-shadow: 8px 0 22px rgb(0 0 0 / .25);
+}
+.dark .programming-lab .lab-clear-data {
+  border-color: #713c4a;
+  color: #ff9fa8;
+  background: #2d1828;
+}
+.dark .programming-lab .lab-resize-bar {
+  border-color: var(--lab-line);
+  color: #8aa5c3;
+  background: #172941;
+}
+.dark .programming-lab .lab-output-panel,
+.dark .programming-lab .lab-console-text {
+  border-color: var(--lab-line);
+  background: #101b2c;
+  color: #dbeafe;
+}
+.dark .programming-lab .lab-runner-message {
+  color: #f5c96a;
+  background: #2c2616;
+}
+.dark .programming-lab .lab-runner-message p {
+  color: #c9bb91;
+}
+.dark .programming-lab .lab-runner-message.is-ready {
+  color: #8ff0c8;
+  background: #102e2b;
+}
+.dark .programming-lab .lab-runner-message.is-ready p {
+  color: #a6d9c8;
+}
+.dark .programming-lab .lab-error-text {
+  color: #ffb4bd;
+  background: #351a26;
+  border-color: #713c4a;
+}
+.dark .programming-lab .lab-sidebar-backdrop {
+  background: rgb(3 10 20 / .7);
+}
+
 .programming-lab button:focus-visible,
 .programming-lab a:focus-visible,
 .programming-lab textarea:focus-visible {
