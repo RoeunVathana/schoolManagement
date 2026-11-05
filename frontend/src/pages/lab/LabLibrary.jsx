@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
+import BrandLogo from "../../components/BrandLogo";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
+import PublicNavIcon from "../../components/PublicNavIcon";
 import SiteFooter from "../../components/SiteFooter";
+import ThemeSwitch from "../../components/ThemeSwitch";
 import { LABS } from "./ProgrammingLab";
 import LabLogo from "./LabLogo";
 import "./programming-lab.css";
@@ -13,8 +17,25 @@ export default function LabLibrary() {
   return (
     <div className="programming-lab lab-library-page">
       <header className="lab-header">
-        <Link className="lab-brand" to="/lab"><span className="lab-brand-mark">&lt;/&gt;</span><span><strong><span>Code</span>CampusFlow</strong><small>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Library"}</small></span></Link>
-        <div className="lab-header-actions"><Link className="lab-back-link" to="/lab">{isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"}</Link><Link className="lab-back-link" to="/academy">{isKhmer ? "វគ្គសិក្សា" : "Courses"}</Link></div>
+        <Link className="lab-icon-button lab-menu-button" to="/lab" aria-label={isKhmer ? "បើក Lab" : "Open programming lab"}>☰</Link>
+        <Link className="lab-brand" to="/lab">
+          <span className="lab-brand-mark"><BrandLogo alt="" /></span>
+          <span><small className="lab-brand-kicker">Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Library"}</em></span>
+        </Link>
+        <nav className="lab-header-nav" aria-label="CampusFlow navigation">
+          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+          <a href="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></a>
+          <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
+          <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
+          <a href="/#faq"><PublicNavIcon name="faq" /><span>FAQ</span></a>
+          <Link to="/contact"><PublicNavIcon name="contact" /><span>{isKhmer ? "ទំនាក់ទំនង" : "Contact"}</span></Link>
+        </nav>
+        <div className="lab-header-actions">
+          <LanguageSwitcher variant="course" />
+          <Link className="lab-back-link lab-icon-link" to="/lab" title={isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"} aria-label={isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"}><PublicNavIcon name="code" /></Link>
+          <Link className="lab-back-link lab-icon-link" to="/academy" title={isKhmer ? "វគ្គសិក្សា" : "Courses"} aria-label={isKhmer ? "វគ្គសិក្សា" : "Courses"}><PublicNavIcon name="academy" /></Link>
+          <ThemeSwitch />
+        </div>
       </header>
       <main className="lab-library-main">
         <div className="lab-library-hero"><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍ CampusFlow" : "CAMPUSFLOW PROGRAMMING LAB"}</span><h1>{isKhmer ? "បណ្ណាល័យភាសាសរសេរកូដ" : "Choose your programming language"}</h1><p>{isKhmer ? "ជ្រើសរើសភាសា ដើម្បីបើក Editor និងដំណើរការកូដ។" : "Open a focused editor with browser preview or secure compile-and-run support."}</p></div>
