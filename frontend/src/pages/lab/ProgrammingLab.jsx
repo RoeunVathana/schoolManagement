@@ -284,7 +284,7 @@ export default function ProgrammingLab() {
 
       <div className="lab-techbar" aria-label="Programming subjects">
         <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">‹</button>
-        {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)} aria-pressed={lab.id === selected.id} aria-label={`Open ${lab.label} lab`}><LabLogo lab={lab} /><span>{lab.label}</span></button>)}
+        {LABS.map((lab) => <button type="button" className={lab.id === selected.id ? "is-active" : ""} key={lab.id} onClick={() => selectLab(lab.id)}><LabLogo lab={lab} />{lab.label}</button>)}
         <button type="button" onClick={() => setSidebarOpen(true)} className="lab-tech-arrow">›</button>
       </div>
 
