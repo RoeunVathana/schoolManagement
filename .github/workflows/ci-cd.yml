@@ -1,0 +1,133 @@
+name: CampusFlow CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: campusflow-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 20
+  FRONTEND_URL: https://campusflowlms.xyz
+  BACKEND_URL: https://schoolmanagement-production-d78b.up.railway.app
+
+jobs:
+  frontend:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+  backend:
+    name: Backend checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run prisma:generate
+
+      - name: Type-check backend
+        run: npm run typecheck
+
+      - name: Build backend
+        run: npm run build
+
+      - name: Run storage safety tests
+        run: npm run test:storage
+
+  production-image:
+    name: Build production image
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build combined production image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: campusflowlms:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  production-smoke:
+    name: Verify Railway deployment
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [frontend, backend, production-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Railway and verify public routes
+        shell: bash
+        run: |
+          set -u
+
+          check_url() {
+            local url="$1"
+            local expected="$2"
+            local status
+            status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 20 "$url" || true)"
+            [ "$status" = "$expected" ]
+          }
+
+          for attempt in $(seq 1 36); do
+            if check_url "${FRONTEND_URL}/" 200 \
+              && check_url "${FRONTEND_URL}/manifest.webmanifest" 200 \
+              && check_url "${FRONTEND_URL}/favicon.ico?ci=${GITHUB_SHA}" 200 \
+              && check_url "${BACKEND_URL}/health/live" 200; then
+              echo "Production smoke checks passed on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "Deployment is not ready yet (attempt ${attempt}/36); retrying in 10 seconds."
+            sleep 10
+          done
+
+          echo "Production smoke checks failed after waiting for the Railway deployment."
+          exit 1
