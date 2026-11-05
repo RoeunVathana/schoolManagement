@@ -40,10 +40,11 @@ export class MailSettingsService {
 
   async resolve(): Promise<MailRuntimeConfig> {
     const environment = this.environmentConfig();
-    // A deployment secret is the safer source in production: it is managed by
-    // the host, survives database restores, and cannot accidentally be
-    // replaced by an old value saved in the admin UI. Administrators can opt
-    // back in to the database record with MAIL_SETTINGS_SOURCE=database.
+    // Use an explicitly saved, encrypted admin configuration when one exists.
+    // This is required for the Admin > Mail settings screen to actually manage
+    // the sender account. Railway variables remain the fallback when there is
+    // no saved record, and deployments can force environment-only behaviour
+    // with MAIL_SETTINGS_SOURCE=environment (or railway).
     if (environment.source === 'environment' && this.preferEnvironment()) return environment;
 
     const stored = await this.prisma.mailSetting.findUnique({ where: { id: 'mail' } });
@@ -149,9 +150,9 @@ export class MailSettingsService {
     const selected = (this.clean(this.config.get<string>('MAIL_SETTINGS_SOURCE')) || '').toLowerCase();
     if (['database', 'admin', 'settings'].includes(selected)) return false;
     if (['environment', 'env', 'railway'].includes(selected)) return true;
-    // Default to deployment secrets in production, while local development
-    // retains the editable database setting behaviour.
-    return (this.clean(this.config.get<string>('NODE_ENV')) || '').toLowerCase() === 'production';
+    // Default to the encrypted admin record when present. This keeps the UI
+    // editable in production without exposing the password to the frontend.
+    return false;
   }
 
   private maskEmail(value: string) {

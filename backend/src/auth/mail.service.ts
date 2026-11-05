@@ -108,8 +108,10 @@ export class MailService {
   }
 
   async configuration() {
-    const settings = await this.mailSettings.publicSettings();
     await this.reload();
+    // Reload first so the status/source returned to the admin UI belongs to
+    // the same configuration that is currently active in the transporter.
+    const settings = await this.mailSettings.publicSettings();
     return { ...settings, status: this.smtpStatus, error: this.smtpError };
   }
 
