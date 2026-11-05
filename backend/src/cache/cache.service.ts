@@ -67,7 +67,12 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
     if (!this.isReady()) return this.getLocal<T>(key);
     try {
       const value = await this.client!.get(key);
-      return value === null ? null : JSON.parse(value) as T;
+      if (value === null) return null;
+      const parsed = JSON.parse(value) as T;
+      // Keep a short-lived local copy as a hot fallback. This avoids turning a
+      // brief Redis reconnect into a database stampede or a slow page load.
+      this.setLocal(key, parsed, 30);
+      return parsed;
     } catch (error) {
       this.logUnavailable(error);
       return this.getLocal<T>(key);
@@ -81,6 +86,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
     }
     try {
       await this.client!.setEx(key, Math.max(1, ttlSeconds), JSON.stringify(value));
+      this.setLocal(key, value, ttlSeconds);
       return true;
     } catch (error) {
       this.logUnavailable(error);
