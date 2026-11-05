@@ -1,0 +1,227 @@
+/* Shared navbar polish -----------------------------------------------------
+   Keep icons crisp, labels readable, and every control easy to tap. This is
+   intentionally a small final layer so it applies consistently to the
+   dashboard, public pages, course readers, and programming lab. */
+
+.public-nav-icon {
+  display: inline-flex !important;
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  flex: 0 0 1.05rem !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
+
+.public-nav-icon svg {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.site-public-navbar nav a,
+.site-public-navbar .storefront-mobile-nav a,
+.site-public-navbar .about-mobile-menu > a,
+.site-public-navbar .public-community-mobile-menu-links a,
+.lab-header-nav a,
+.lab-mobile-nav a {
+  align-items: center;
+  gap: .45rem;
+  line-height: 1.2;
+}
+
+.site-public-navbar nav a > span:not(.public-nav-icon),
+.lab-header-nav a > span:not(.public-nav-icon),
+.lab-mobile-nav a > span:not(.public-nav-icon) {
+  min-width: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.site-public-navbar .about-nav-links,
+.site-public-navbar .public-community-nav-links,
+.site-public-navbar .storefront-main-nav,
+.lab-header-nav {
+  font-size: .86rem !important;
+  font-weight: 850 !important;
+}
+
+.site-public-navbar .about-nav-links a,
+.site-public-navbar .public-community-nav-links a,
+.site-public-navbar .storefront-main-nav a,
+.lab-header-nav a {
+  min-height: 2.5rem;
+  padding-inline: .5rem !important;
+}
+
+.site-public-navbar .about-nav-actions,
+.site-public-navbar .public-community-nav-actions,
+.site-public-navbar .storefront-mobile-header > .hidden.items-center,
+.lab-header-actions {
+  align-items: center;
+  gap: .45rem !important;
+}
+
+.site-public-navbar .theme-switch,
+.site-public-navbar .language-switcher-trigger,
+.site-public-navbar .about-nav-login,
+.site-public-navbar .about-nav-button,
+.site-public-navbar .public-community-nav-login,
+.site-public-navbar .public-community-nav-button,
+.site-public-navbar .public-community-nav-logout,
+.lab-header-actions .theme-switch,
+.lab-header-actions .lab-back-link {
+  min-height: 2.65rem !important;
+  line-height: 1.15 !important;
+  font-size: .8rem !important;
+  font-weight: 850 !important;
+}
+
+.app-navbar .app-menu-button,
+.app-navbar .app-theme-button,
+.app-navbar .app-logout-button,
+.app-navbar [data-dashboard-language] > button,
+.app-navbar > div:last-child > div > button {
+  min-height: 2.65rem !important;
+  min-width: 2.65rem !important;
+  border-radius: .8rem !important;
+  line-height: 1 !important;
+}
+
+.app-navbar .app-menu-button svg,
+.app-navbar .app-theme-button svg,
+.app-navbar .app-logout-button svg,
+.app-navbar > div:last-child > div > button > svg {
+  width: 1.12rem !important;
+  height: 1.12rem !important;
+  flex: 0 0 auto;
+}
+
+.app-navbar .dashboard-search > div:first-child {
+  min-height: 2.65rem;
+}
+
+.app-navbar .dashboard-search-icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.app-navbar [data-dashboard-language] > button {
+  width: auto !important;
+  gap: .38rem !important;
+  padding-inline: .6rem !important;
+}
+
+.app-navbar [data-dashboard-language] .language-switcher-short {
+  display: inline-flex !important;
+  align-items: center;
+  font-size: .72rem !important;
+  font-weight: 950;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+
+.app-navbar [data-dashboard-language] .language-switcher-flag {
+  width: 1.5rem !important;
+  height: 1rem !important;
+}
+
+.app-navbar .app-theme-button,
+.app-navbar .app-logout-button {
+  padding-inline: .65rem !important;
+}
+
+@media (max-width: 1023px) {
+  .site-public-navbar nav a,
+  .lab-header-nav a {
+    font-size: .84rem !important;
+  }
+
+  .site-public-navbar .about-mobile-menu > a,
+  .site-public-navbar .public-community-mobile-menu-links a,
+  .site-public-navbar #storefront-mobile-menu nav a,
+  .lab-mobile-nav a {
+    min-height: 2.85rem;
+    gap: .6rem;
+    font-size: .9rem;
+  }
+
+  .site-public-navbar .about-mobile-menu > a > .public-nav-icon,
+  .site-public-navbar .public-community-mobile-menu-links a > .public-nav-icon,
+  .site-public-navbar #storefront-mobile-menu nav a > .public-nav-icon,
+  .lab-mobile-nav a > .public-nav-icon {
+    width: 1.15rem !important;
+    height: 1.15rem !important;
+    flex-basis: 1.15rem !important;
+  }
+
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar [data-dashboard-language] > button,
+  .app-navbar > div:last-child > div > button {
+    min-height: 2.55rem !important;
+    min-width: 2.55rem !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .app-navbar {
+    gap: .35rem !important;
+  }
+
+  .app-navbar > div:last-child {
+    gap: .3rem !important;
+  }
+
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar > div:last-child > div > button {
+    min-height: 2.5rem !important;
+    min-width: 2.5rem !important;
+  }
+
+  .app-navbar [data-dashboard-language] > button {
+    min-width: 3.95rem !important;
+    min-height: 2.5rem !important;
+    padding-inline: .5rem !important;
+  }
+
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button {
+    padding-inline: 0 !important;
+  }
+
+  .app-navbar .app-theme-button > span:first-child,
+  .app-navbar .app-logout-button .logout-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-navbar .app-menu-button,
+  .app-navbar .app-theme-button,
+  .app-navbar .app-logout-button,
+  .app-navbar > div:last-child > div > button {
+    min-height: 2.35rem !important;
+    min-width: 2.35rem !important;
+  }
+
+  .app-navbar [data-dashboard-language] > button {
+    min-width: 3.7rem !important;
+    min-height: 2.35rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-nav-icon,
+  .app-navbar button,
+  .site-public-navbar a,
+  .lab-header a {
+    transition: none !important;
+  }
+}
