@@ -5,7 +5,9 @@ const LOGO_URLS = {
   c: "https://cdn.simpleicons.org/c/A8B9CC",
   cpp: "https://cdn.simpleicons.org/cplusplus/00599C",
   html: "https://cdn.simpleicons.org/html5/E34F26",
-  css: "https://cdn.simpleicons.org/css3/1572B6",
+  // Simple Icons does not expose the CSS3 slug on every CDN mirror. Devicon's
+  // hosted SVG keeps the CSS logo available in the lab rail and toolbar.
+  css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
   csharp: "https://cdn.simpleicons.org/sharp/512BD4",
   java: "https://cdn.simpleicons.org/openjdk/ED8B00",
   kotlin: "https://cdn.simpleicons.org/kotlin/7F52FF",
