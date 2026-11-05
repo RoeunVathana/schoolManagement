@@ -272,10 +272,10 @@ export default function ProgrammingLab() {
         <button className={`lab-icon-button lab-menu-button ${sidebarOpen ? "is-open" : ""}`} type="button" onClick={() => setSidebarOpen((open) => !open)} aria-expanded={sidebarOpen} aria-controls="lab-sidebar" aria-label={sidebarOpen ? "Close programming labs" : "Open programming labs"}>☰</button>
         <Link className="lab-brand" to="/">
           <span className="lab-brand-mark"><BrandLogo alt="" /></span>
-          <span><small className="lab-brand-kicker">CampusFlow Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Programming Lab"}</em></span>
+          <span><small className="lab-brand-kicker">Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Lab"}</em></span>
         </Link>
         <nav className="lab-header-nav" aria-label="CampusFlow navigation">
-          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "CampusFlow Academy"}</span></Link>
+          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
           <a href="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></a>
           <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
           <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
@@ -287,8 +287,8 @@ export default function ProgrammingLab() {
           <Link
             className="lab-back-link lab-icon-link"
             to="/lab/library"
-            title={isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}
-            aria-label={isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}
+            title={isKhmer ? "បណ្ណាល័យភាសា" : "Library"}
+            aria-label={isKhmer ? "បណ្ណាល័យភាសា" : "Library"}
           >
             <PublicNavIcon name="library" />
           </Link>

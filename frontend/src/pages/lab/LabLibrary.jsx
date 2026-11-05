@@ -13,7 +13,7 @@ export default function LabLibrary() {
   return (
     <div className="programming-lab lab-library-page">
       <header className="lab-header">
-        <Link className="lab-brand" to="/lab"><span className="lab-brand-mark">&lt;/&gt;</span><span><strong><span>Code</span>CampusFlow</strong><small>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Programming Library"}</small></span></Link>
+        <Link className="lab-brand" to="/lab"><span className="lab-brand-mark">&lt;/&gt;</span><span><strong><span>Code</span>CampusFlow</strong><small>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Library"}</small></span></Link>
         <div className="lab-header-actions"><Link className="lab-back-link" to="/lab">{isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"}</Link><Link className="lab-back-link" to="/academy">{isKhmer ? "វគ្គសិក្សា" : "Courses"}</Link></div>
       </header>
       <main className="lab-library-main">
