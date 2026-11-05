@@ -61,6 +61,7 @@
 .lab-icon-button { width: 36px; height: 36px; border: 1px solid var(--lab-line); border-radius: 9px; color: var(--lab-ink); background: white; }
 .lab-menu-button { display: grid; place-items: center; color: var(--lab-blue); background: #eef5ff; font-size: 20px; transition: border-color .16s ease, background-color .16s ease, color .16s ease; }
 .lab-menu-button:hover, .lab-menu-button:focus-visible { border-color: #9dbcf1; color: #1858c7; background: #e0edff; }
+.lab-menu-button.is-open { border-color: #9dbcf1; color: #1858c7; background: #e0edff; }
 
 .lab-techbar { position: sticky; top: 74px; z-index: 35; display: flex; align-items: center; gap: 3px; min-height: 48px; padding: 0 14px; border-bottom: 1px solid var(--lab-line); background: rgb(255 255 255 / .92); box-shadow: 0 5px 16px rgb(18 33 58 / .05); overflow-x: auto; scrollbar-width: thin; backdrop-filter: blur(14px); }
 .lab-techbar button { position: relative; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 0; border-radius: 0; color: #667790; background: transparent !important; box-shadow: none !important; font-size: 13px; font-weight: 700; white-space: nowrap; }
@@ -90,6 +91,12 @@
 .lab-icon-python { background: #3776ab; } .lab-icon-php { background: #777bb4; } .lab-icon-c { background: #2f6db1; } .lab-icon-cpp { background: #285a9e; } .lab-icon-html { background: #e34f26; } .lab-icon-css { background: #1f8dd6; } .lab-icon-csharp { background: #68217a; } .lab-icon-java { background: #b07219; } .lab-icon-kotlin { background: #7f52ff; } .lab-icon-dart { background: #0175c2; } .lab-icon-sql { background: #10a5a5; } .lab-icon-shell { background: #333; }
 .lab-clear-data { display: flex; align-items: center; gap: 9px; margin-top: auto; padding: 13px 12px; border: 1px solid #ffd1d1; border-radius: 10px; color: #df4b4b; background: #fff9f9; font-size: 13px; font-weight: 700; }
 .lab-sidebar-backdrop { display: none; }
+
+@media (min-width: 821px) {
+  .lab-sidebar { transition: width .18s ease, flex-basis .18s ease, padding .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .lab-sidebar:not(.is-open) { width: 0; flex-basis: 0; padding-inline: 0; border-right-color: transparent; box-shadow: none; }
+  .lab-sidebar:not(.is-open) > * { visibility: hidden; opacity: 0; }
+}
 
 .lab-workspace { min-width: 0; flex: 1; background: rgb(255 255 255 / .78); }
 .lab-workbench { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: stretch; min-width: 0; min-height: 0; }
