@@ -286,7 +286,7 @@ export default function ProgrammingLab() {
           <span><small className="lab-brand-kicker">Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Lab"}</em></span>
         </Link>
         <nav className="lab-header-nav" aria-label="CampusFlow navigation">
-          <Link className="is-active" to="/academy"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
           <Link to="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></Link>
           <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
           <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
@@ -305,7 +305,7 @@ export default function ProgrammingLab() {
           </Link>
           <Link
             className="lab-back-link lab-icon-link"
-            to="/academy"
+            to="/course/html"
             title={isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}
             aria-label={isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}
           >
@@ -326,7 +326,7 @@ export default function ProgrammingLab() {
         <aside id="lab-sidebar" className={`lab-sidebar ${sidebarOpen ? "is-open" : ""}`} aria-hidden={!sidebarOpen}>
             <div className="lab-sidebar-head"><div><span className="lab-sidebar-kicker">{isKhmer ? "មន្ទីរពិសោធន៍" : "PROGRAMMING LABS"}</span><h2>CodeCampus</h2></div><button type="button" onClick={() => setSidebarOpen(false)} aria-label="Close programming labs">×</button></div>
           <nav className="lab-mobile-nav" aria-label="CampusFlow navigation">
-            <Link to="/academy" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+            <Link to="/course/html" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
             <Link to="/courses#courses" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Courses"}</span></Link>
             <Link to="/community" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
             <Link to="/about" onClick={() => setSidebarOpen(false)}><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>

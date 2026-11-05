@@ -36,7 +36,7 @@ export default function LabLibrary() {
           <span><small className="lab-brand-kicker">Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "បណ្ណាល័យភាសាកូដ" : "Library"}</em></span>
         </Link>
         <nav className="lab-header-nav" aria-label="CampusFlow navigation">
-          <Link className="is-active" to="/academy"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
+          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "Academy"}</span></Link>
           <Link to="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></Link>
           <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
           <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
@@ -46,7 +46,7 @@ export default function LabLibrary() {
         <div className="lab-header-actions">
           <LanguageSwitcher variant="course" />
           <Link className="lab-back-link lab-icon-link" to="/lab" title={isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"} aria-label={isKhmer ? "ត្រឡប់ទៅ Lab" : "Back to lab"}><PublicNavIcon name="code" /></Link>
-          <Link className="lab-back-link lab-icon-link" to="/academy" title={isKhmer ? "វគ្គសិក្សា" : "Courses"} aria-label={isKhmer ? "វគ្គសិក្សា" : "Courses"}><PublicNavIcon name="academy" /></Link>
+          <Link className="lab-back-link lab-icon-link" to="/course/html" title={isKhmer ? "វគ្គសិក្សា" : "Courses"} aria-label={isKhmer ? "វគ្គសិក្សា" : "Courses"}><PublicNavIcon name="academy" /></Link>
           <ThemeSwitch />
         </div>
       </header>
@@ -54,7 +54,7 @@ export default function LabLibrary() {
         <div className="lab-library-mobile-shell">
           <button className="lab-library-mobile-backdrop" type="button" onClick={closeMobileMenu} aria-label="Close navigation" />
           <nav id="lab-library-mobile-menu" className="lab-library-mobile-menu" aria-label="CampusFlow navigation">
-            <Link className="is-active" to="/academy" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>{isKhmer ? "CampusFlow Academy" : "Academy"}</span></Link>
+            <Link className="is-active" to="/course/html" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>{isKhmer ? "CampusFlow Academy" : "Academy"}</span></Link>
             <Link to="/courses#courses" onClick={closeMobileMenu}><PublicNavIcon name="library" /><span>{isKhmer ? "Courses" : "Browse courses"}</span></Link>
             <Link to="/lab" onClick={closeMobileMenu}><PublicNavIcon name="code" /><span>{isKhmer ? "Programming Lab" : "Programming lab"}</span></Link>
             <Link to="/community" onClick={closeMobileMenu}><PublicNavIcon name="community" /><span>Community</span></Link>
@@ -63,7 +63,7 @@ export default function LabLibrary() {
             <Link to="/contact" onClick={closeMobileMenu}><PublicNavIcon name="contact" /><span>Contact</span></Link>
             <div className="lab-library-mobile-actions">
               <Link to="/lab" onClick={closeMobileMenu}><PublicNavIcon name="code" /><span>{isKhmer ? "Open Lab" : "Open lab"}</span></Link>
-              <Link to="/academy" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>Courses</span></Link>
+              <Link to="/course/html" onClick={closeMobileMenu}><PublicNavIcon name="academy" /><span>Courses</span></Link>
             </div>
           </nav>
         </div>

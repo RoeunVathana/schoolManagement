@@ -2808,7 +2808,7 @@ export default function CourseReader() {
           </div>
         </div>
         <nav id="course-reader-navigation" className={`course-reader-nav ${navOpen ? "is-open" : ""}`} aria-label="CampusFlow navigation" onClick={() => setNavOpen(false)}>
-          <Link className="course-reader-nav-academy" to="/academy"><PublicNavIcon name="academy" /><span>{copy.academy}</span></Link>
+          <Link className="course-reader-nav-academy" to="/course/html"><PublicNavIcon name="academy" /><span>{copy.academy}</span></Link>
           <Link to="/courses#courses"><PublicNavIcon name="academy" /><span>{copy.browseCourses}</span></Link>
            <Link to="/lab"><PublicNavIcon name="code" /><span>{copy.lab}</span></Link>
           <Link to="/community"><PublicNavIcon name="community" /><span>{copy.community}</span></Link>

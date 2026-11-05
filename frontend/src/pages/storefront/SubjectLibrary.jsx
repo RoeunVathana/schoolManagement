@@ -36,7 +36,7 @@ function LibraryNav({ language, setLanguage }) {
           <span><strong>Campus<span>Flow</span></strong><small>ACADEMY</small></span>
         </Link>
         <nav aria-label="Primary navigation">
-          <Link to="/academy"><PublicNavIcon name="academy" />Academy</Link>
+          <Link to="/course/html"><PublicNavIcon name="academy" />Academy</Link>
           <Link to="/lab"><PublicNavIcon name="code" />{language === "km" ? "មន្ទីរពិសោធន៍កូដ" : "Lab"}</Link>
           <Link to="/lab/library"><PublicNavIcon name="library" />{language === "km" ? "បណ្ណាល័យភាសា" : "Library"}</Link>
           <Link to="/community"><PublicNavIcon name="community" />Community</Link>

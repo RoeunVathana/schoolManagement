@@ -63,7 +63,8 @@ export default function AppRoutes() {
     <Route path="/lab" element={<ProgrammingLab />} />
     <Route path="/lab/library" element={<LabLibrary />} />
     <Route path="/subjects" element={<SubjectLibrary />} />
-    <Route path="/academy" element={<Storefront />} />
+    {/* Academy is the course reader entry point. Keep this alias for existing bookmarks. */}
+    <Route path="/academy" element={<Navigate to="/course/html" replace />} />
     <Route path="/courses" element={<Storefront />} />
     <Route path="/courses/:id" element={<Storefront />} />
     <Route path="/about" element={<About />} />
