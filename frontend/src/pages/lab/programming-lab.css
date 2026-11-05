@@ -61,8 +61,10 @@
 .lab-menu-button:hover, .lab-menu-button:focus-visible { border-color: #9dbcf1; color: #1858c7; background: #e0edff; }
 
 .lab-techbar { position: sticky; top: 74px; z-index: 35; display: flex; align-items: center; gap: 3px; min-height: 48px; padding: 0 14px; border-bottom: 1px solid var(--lab-line); background: rgb(255 255 255 / .92); box-shadow: 0 5px 16px rgb(18 33 58 / .05); overflow-x: auto; scrollbar-width: thin; backdrop-filter: blur(14px); }
-.lab-techbar button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 0; border-radius: 7px; color: #667790; background: transparent; font-size: 13px; font-weight: 700; white-space: nowrap; }
-.lab-techbar button:hover, .lab-techbar button.is-active { color: var(--lab-blue); background: #eaf2ff; box-shadow: inset 0 -2px 0 #7da8f4; }
+.lab-techbar button { position: relative; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border: 0; border-radius: 0; color: #667790; background: transparent !important; box-shadow: none !important; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.lab-techbar button:hover { color: var(--lab-blue); background: transparent !important; box-shadow: none !important; }
+.lab-techbar button.is-active { color: var(--lab-blue); background: transparent !important; box-shadow: inset 0 -2px 0 #7da8f4 !important; }
+.lab-techbar button:focus-visible { outline: 2px solid #7da8f4; outline-offset: -2px; }
 .lab-techbar i { color: #0e82c8; font-size: 10px; font-style: normal; }
 .lab-logo-image { width: 18px; height: 18px; object-fit: contain; }
 .lab-list-icon .lab-logo-image, .lab-language-badge .lab-logo-image { width: 20px; height: 20px; }
@@ -249,12 +251,18 @@
 }
 .dark .programming-lab .lab-header-nav a:hover,
 .dark .programming-lab .lab-header-nav a.is-active,
-.dark .programming-lab .lab-techbar button:hover,
-.dark .programming-lab .lab-techbar button.is-active,
 .dark .programming-lab .lab-list button:hover,
 .dark .programming-lab .lab-list button.is-selected {
   color: #a9f0dc;
   background: #193653;
+}
+.dark .programming-lab .lab-techbar button:hover,
+.dark .programming-lab .lab-techbar button.is-active {
+  color: #a9f0dc;
+  background: transparent !important;
+}
+.dark .programming-lab .lab-techbar button.is-active {
+  box-shadow: inset 0 -2px 0 #8de4ca !important;
 }
 .dark .programming-lab .lab-icon-button,
 .dark .programming-lab .lab-back-link,
