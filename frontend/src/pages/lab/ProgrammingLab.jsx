@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/axios";
+import BrandLogo from "../../components/BrandLogo";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
+import PublicNavIcon from "../../components/PublicNavIcon";
+import ThemeSwitch from "../../components/ThemeSwitch";
 import { useLanguage } from "../../context/LanguageContext";
 import LabLogo from "./LabLogo";
 import "./programming-lab.css";
@@ -258,12 +262,22 @@ export default function ProgrammingLab() {
       <header className="lab-header">
         <button className="lab-icon-button lab-menu-button" type="button" onClick={() => setSidebarOpen(true)} aria-label="Open programming labs">☰</button>
         <Link className="lab-brand" to="/">
-          <span className="lab-brand-mark">&lt;/&gt;</span>
-          <span><strong><span>Code</span>CampusFlow</strong><small>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Programming Lab"}</small></span>
+          <span className="lab-brand-mark"><BrandLogo alt="" /></span>
+          <span><small className="lab-brand-kicker">CampusFlow Academy</small><strong><span>Code</span>CampusFlow</strong><em>{isKhmer ? "មន្ទីរពិសោធន៍កូដ" : "Programming Lab"}</em></span>
         </Link>
+        <nav className="lab-header-nav" aria-label="CampusFlow navigation">
+          <Link className="is-active" to="/course/html"><PublicNavIcon name="academy" /><span>{isKhmer ? "សាលា CampusFlow" : "CampusFlow Academy"}</span></Link>
+          <a href="/courses#courses"><PublicNavIcon name="library" /><span>{isKhmer ? "វគ្គសិក្សា" : "Browse courses"}</span></a>
+          <Link to="/community"><PublicNavIcon name="community" /><span>{isKhmer ? "សហគមន៍" : "Community"}</span></Link>
+          <Link to="/about"><PublicNavIcon name="about" /><span>{isKhmer ? "អំពីយើង" : "About"}</span></Link>
+          <a href="/#faq"><PublicNavIcon name="faq" /><span>FAQ</span></a>
+          <Link to="/contact"><PublicNavIcon name="contact" /><span>{isKhmer ? "ទំនាក់ទំនង" : "Contact"}</span></Link>
+        </nav>
         <div className="lab-header-actions">
+          <LanguageSwitcher variant="course" />
           <Link className="lab-back-link" to="/lab/library">{isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}</Link>
           <Link className="lab-back-link" to="/academy">{isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}</Link>
+          <ThemeSwitch />
           <span className="lab-current-language">{selected.label}</span>
         </div>
       </header>
