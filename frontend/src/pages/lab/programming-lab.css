@@ -157,9 +157,9 @@
   .lab-header-actions .lab-back-link:last-of-type { display: none; }
   .lab-current-language { display: none; }
   .lab-header-actions .theme-switch-label,
-  .lab-header-actions .language-switcher-current { display: none; }
-  .lab-header-actions .language-switcher-short { display: inline-flex !important; }
-  .lab-header-actions .language-switcher-trigger { min-width: 4.4rem !important; padding-inline: .48rem !important; }
+  .lab-header-actions .language-switcher-current,
+  .lab-header-actions .language-switcher-short { display: none !important; }
+  .lab-header-actions .language-switcher-trigger { min-width: 3rem !important; gap: .2rem !important; padding-inline: .34rem !important; }
   .lab-header-actions .theme-switch { padding: .55rem .6rem; }
   .lab-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 60; width: min(310px, 88vw); height: auto; max-height: none; padding: 0 16px 22px; transform: translateX(-105%); box-shadow: 15px 0 40px rgba(16,35,63,.2); transition: transform .18s ease; }
   .lab-sidebar.is-open { transform: translateX(0); }
