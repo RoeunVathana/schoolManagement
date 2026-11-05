@@ -2580,7 +2580,7 @@ function CodePlayground({ course, lesson, runRequest = 0 }) {
           {runnerStatusLabel}
         </span>
       </div>
-      <div className="course-playground-toolbar">
+      <div className={`course-playground-toolbar ${canRunInBrowser ? "is-browser" : "is-server"}`}>
         <span className="course-playground-language">{language}</span>
         <div className="course-playground-actions">
           {canRunInBrowser && <label className="course-live-toggle"><input type="checkbox" checked={autoRun} onChange={(event) => setAutoRun(event.target.checked)} /> {copy.live}</label>}

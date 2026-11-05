@@ -966,22 +966,50 @@ body.course-reader-active,
   .course-playground-heading h3 { font-size: 1rem; }
   .course-playground-toolbar {
     align-items: center;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: .35rem;
+    grid-template-columns: minmax(3.25rem, auto) minmax(3.3rem, 1fr) minmax(4.2rem, auto) auto;
+    grid-template-areas: "language live syntax reset" "language live syntax run";
   }
   .course-playground-actions {
-    align-items: center;
     display: contents;
   }
+  .course-playground-toolbar.is-server {
+    grid-template-columns: minmax(3.25rem, auto) minmax(0, 1fr) auto auto;
+    grid-template-areas: "language syntax reset run";
+  }
+  .course-playground-language { grid-area: language; min-width: 0; }
+  .course-live-toggle {
+    align-items: center;
+    display: inline-flex;
+    grid-area: live;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .course-live-toggle input { flex: 0 0 auto; margin: 0 .2rem 0 0; }
+  .course-syntax-badge {
+    align-self: center;
+    grid-area: syntax;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .course-playground-actions button:first-of-type { grid-area: reset; }
+  .course-playground-actions button:last-of-type { grid-area: run; }
   .course-playground-actions button {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
     min-height: 2.25rem;
     min-width: 0;
     padding: .4rem .55rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .course-live-toggle,
-  .course-syntax-badge { white-space: nowrap; }
   .course-playground-editor-shell,
   .course-playground-highlight,
   .course-playground-editor { min-height: 13rem; }
