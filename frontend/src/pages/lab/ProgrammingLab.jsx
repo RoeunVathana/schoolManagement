@@ -314,23 +314,25 @@ export default function ProgrammingLab() {
             <button type="button" className="lab-toolbar-button lab-hide-small" onClick={() => { setRuntimeMessages([]); setServerResult(null); }}>⌫ <span>Clear output</span></button>
           </div>
 
-          <section className="lab-editor-panel" aria-label="Code editor">
-            <div className="lab-editor-label"><span>⌘ &nbsp; Editor</span><small>{isKhmer ? "ចុច Tab សម្រាប់ indent" : "Type code • Tab inserts spaces"} <em>✦ Smooth typing</em></small></div>
-            <div className="lab-editor-shell" style={{ "--lab-editor-size": `${editorFontSize}px` }}>
-              {showLines && <pre className="lab-line-numbers" aria-hidden="true">{draftCode.split("\n").map((_, index) => `${index + 1}\n`)}</pre>}
-              <pre ref={highlightRef} className={`lab-highlight ${showLines ? "has-lines" : ""}`} aria-hidden="true"><code dangerouslySetInnerHTML={{ __html: highlightCode(draftCode, selected.id === "html" ? "html" : selected.id) }} /></pre>
-              <textarea ref={editorRef} className={`lab-editor ${showLines ? "has-lines" : ""}`} style={{ fontSize: `${editorFontSize}px` }} value={draftCode} onChange={(event) => setDraftCode(event.target.value)} onScroll={syncScroll} onKeyDown={handleEditorKeyDown} spellCheck="false" aria-label={`${selected.label} code editor`} />
-            </div>
-          </section>
+          <div className="lab-workbench">
+            <section className="lab-editor-panel" aria-label="Code editor">
+              <div className="lab-editor-label"><span>⌘ &nbsp; Editor</span><small>{isKhmer ? "ចុច Tab សម្រាប់ indent" : "Type code • Tab inserts spaces"} <em>✦ Smooth typing</em></small></div>
+              <div className="lab-editor-shell" style={{ "--lab-editor-size": `${editorFontSize}px` }}>
+                {showLines && <pre className="lab-line-numbers" aria-hidden="true">{draftCode.split("\n").map((_, index) => `${index + 1}\n`)}</pre>}
+                <pre ref={highlightRef} className={`lab-highlight ${showLines ? "has-lines" : ""}`} aria-hidden="true"><code dangerouslySetInnerHTML={{ __html: highlightCode(draftCode, selected.id === "html" ? "html" : selected.id) }} /></pre>
+                <textarea ref={editorRef} className={`lab-editor ${showLines ? "has-lines" : ""}`} style={{ fontSize: `${editorFontSize}px` }} value={draftCode} onChange={(event) => setDraftCode(event.target.value)} onScroll={syncScroll} onKeyDown={handleEditorKeyDown} spellCheck="false" aria-label={`${selected.label} code editor`} />
+              </div>
+            </section>
 
-          <div className="lab-resize-bar" role="separator" aria-label="Resize output panel" onPointerDown={() => { resizingRef.current = true; }}><span>⠿</span></div>
-          <section className="lab-output-panel" style={{ minHeight: outputHeight, fontSize: `${outputFontSize}px` }} aria-label="Output">
-            <div className="lab-output-header"><strong>〉_ Console Output</strong><div><button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}>↑ Top</button><button type="button" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "auto" })}>↓ Bottom</button></div></div>
-            <div className="lab-output-body">
-              {selected.kind === "html" || selected.kind === "css" ? <iframe key={runKey} className="lab-preview-frame" title={`${selected.label} result`} sandbox="allow-scripts" srcDoc={previewDocument(selected.id, runCode)} /> : selected.kind === "browser" ? <><iframe key={runKey} className="lab-run-frame" title="JavaScript sandbox" sandbox="allow-scripts" srcDoc={previewDocument("javascript", runCode)} /><pre className="lab-console-text">{runtimeMessages.length ? runtimeMessages.map((entry) => `${entry.type === "error" ? "✖" : "›"} ${entry.message}`).join("\n") : "Click Run to execute your JavaScript code..."}</pre></> : serverResult ? <pre className="lab-console-text">{output || "Program finished without output."}</pre> : <div className={`lab-runner-message ${runnerStatus.configured ? "is-ready" : ""}`}><strong>{runnerStatus.configured ? "Ready to compile" : "Secure runner needed"}</strong><p>{runnerStatus.configured ? "Write code, then click Compile & run." : "This editor is ready, but the secure server compiler is not connected yet."}</p></div>}
-              {runtimeMessages.some((entry) => entry.type === "error") && <pre className="lab-console-text lab-error-text">{runtimeMessages.filter((entry) => entry.type === "error").map((entry) => entry.message).join("\n")}</pre>}
-            </div>
-          </section>
+            <div className="lab-resize-bar" role="separator" aria-label="Resize output panel" onPointerDown={() => { resizingRef.current = true; }}><span>⠿</span></div>
+            <section className="lab-output-panel" style={{ minHeight: outputHeight, fontSize: `${outputFontSize}px` }} aria-label="Output">
+              <div className="lab-output-header"><strong>〉_ Console Output</strong><div><button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}>↑ Top</button><button type="button" onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "auto" })}>↓ Bottom</button></div></div>
+              <div className="lab-output-body">
+                {selected.kind === "html" || selected.kind === "css" ? <iframe key={runKey} className="lab-preview-frame" title={`${selected.label} result`} sandbox="allow-scripts" srcDoc={previewDocument(selected.id, runCode)} /> : selected.kind === "browser" ? <><iframe key={runKey} className="lab-run-frame" title="JavaScript sandbox" sandbox="allow-scripts" srcDoc={previewDocument("javascript", runCode)} /><pre className="lab-console-text">{runtimeMessages.length ? runtimeMessages.map((entry) => `${entry.type === "error" ? "✖" : "›"} ${entry.message}`).join("\n") : "Click Run to execute your JavaScript code..."}</pre></> : serverResult ? <pre className="lab-console-text">{output || "Program finished without output."}</pre> : <div className={`lab-runner-message ${runnerStatus.configured ? "is-ready" : ""}`}><strong>{runnerStatus.configured ? "Ready to compile" : "Secure runner needed"}</strong><p>{runnerStatus.configured ? "Write code, then click Compile & run." : "This editor is ready, but the secure server compiler is not connected yet."}</p></div>}
+                {runtimeMessages.some((entry) => entry.type === "error") && <pre className="lab-console-text lab-error-text">{runtimeMessages.filter((entry) => entry.type === "error").map((entry) => entry.message).join("\n")}</pre>}
+              </div>
+            </section>
+          </div>
           <p className="lab-status-note">{statusLabel} · Ctrl / ⌘ + Enter to run · Code is saved on this device</p>
         </main>
       </div>
