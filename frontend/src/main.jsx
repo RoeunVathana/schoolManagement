@@ -25,6 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 
 const revealApp = () => {
+  // The inline boot helper is intentionally optional because production CSP
+  // blocks inline scripts. Reveal the React app from the trusted module entry
+  // point so a blocked helper can never leave every route behind a spinner.
+  document.documentElement.classList.add('campusflow-app-ready');
+  document.getElementById('campusflow-boot')?.remove();
   window.__campusflowBootReady?.();
 };
 
