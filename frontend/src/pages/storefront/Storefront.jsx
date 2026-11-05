@@ -1105,7 +1105,7 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
   return (
     <article data-scroll-reveal style={{ "--reveal-delay": `${revealDelay}ms` }} className="storefront-reveal storefront-course-card group overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(16,36,63,.08)] transition duration-300 hover:-translate-y-1 hover:border-[#8de4ca] hover:shadow-xl hover:shadow-[#10243f]/15 dark:border-slate-700 dark:bg-[#132238] dark:shadow-[0_18px_45px_rgba(0,0,0,.24)] dark:hover:border-[#2f8b78]">
       <Link to={`/courses/${course.id}`} className="block">
-        <CourseVisual course={course} />
+        <CourseVisual course={course} language={language} />
         <div className="p-5 pb-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-[#e8f2ff] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#2563b8] dark:bg-[#173453] dark:text-[#9fc8ff]">{category}</span>
@@ -1169,7 +1169,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
                 <span className="rounded-xl bg-white/10 px-3 py-2">{course._count?.enrollments || 0} {copy.learners}</span>
               </div>
             </div>
-            <CourseVisual course={course} large />
+            <CourseVisual course={course} language={language} large />
           </div>
         </div>
       </section>
@@ -1290,7 +1290,7 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
   );
 }
 
-function CourseVisual({ course, large = false }) {
+function CourseVisual({ course, language = "en", large = false }) {
   const isUpcoming = isCourseUpcoming(course);
   return (
     <div className={`storefront-course-visual group/visual relative overflow-hidden bg-gradient-to-br from-[#dff8ee] via-[#e8f2ff] to-[#fff0e9] dark:from-[#142c3c] dark:via-[#18243a] dark:to-[#2b1e2f] ${large ? "rounded-[1.75rem] border border-white/15 p-3 shadow-2xl" : "h-56 border-b border-slate-100 dark:border-slate-700"}`}>
