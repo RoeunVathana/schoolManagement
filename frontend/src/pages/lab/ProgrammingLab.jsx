@@ -275,8 +275,22 @@ export default function ProgrammingLab() {
         </nav>
         <div className="lab-header-actions">
           <LanguageSwitcher variant="course" />
-          <Link className="lab-back-link" to="/lab/library">{isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}</Link>
-          <Link className="lab-back-link" to="/academy">{isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}</Link>
+          <Link
+            className="lab-back-link lab-icon-link"
+            to="/lab/library"
+            title={isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}
+            aria-label={isKhmer ? "បណ្ណាល័យភាសា" : "Language library"}
+          >
+            <PublicNavIcon name="library" />
+          </Link>
+          <Link
+            className="lab-back-link lab-icon-link"
+            to="/academy"
+            title={isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}
+            aria-label={isKhmer ? "ត្រឡប់ទៅវគ្គសិក្សា" : "Back to courses"}
+          >
+            <PublicNavIcon name="academy" />
+          </Link>
           <ThemeSwitch />
           <span className="lab-current-language">{selected.label}</span>
         </div>

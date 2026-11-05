@@ -55,6 +55,8 @@
 .lab-header-actions .theme-switch:hover { border-color: #9dbcf1; color: var(--lab-blue); background: #f2f7ff; }
 .lab-back-link { padding: 10px 14px; border: 1px solid var(--lab-line); border-radius: 11px; color: #40516a; background: rgb(255 255 255 / .72); text-decoration: none; font-size: 13px; font-weight: 750; transition: border-color .16s ease, background-color .16s ease, color .16s ease, transform .16s ease; }
 .lab-back-link:hover { border-color: #a9c4ef; color: var(--lab-blue); background: #f2f7ff; transform: translateY(-1px); }
+.lab-icon-link { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; padding: 0; border-radius: 12px; }
+.lab-icon-link .public-nav-icon { width: 1.15rem; height: 1.15rem; }
 .lab-current-language { color: var(--lab-muted); font-size: 13px; font-weight: 700; }
 .lab-icon-button { width: 36px; height: 36px; border: 1px solid var(--lab-line); border-radius: 9px; color: var(--lab-ink); background: white; }
 .lab-menu-button { display: grid; place-items: center; color: var(--lab-blue); background: #eef5ff; font-size: 20px; transition: border-color .16s ease, background-color .16s ease, color .16s ease; }
