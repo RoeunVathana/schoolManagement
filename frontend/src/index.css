@@ -10070,3 +10070,47 @@ html::-webkit-scrollbar {
     font-size: .7rem;
   }
 }
+
+/* Tablet media contract: the app shell loses width to the fixed sidebar, so
+   dense desktop grids must release their minimum content widths before text
+   starts wrapping one glyph at a time. */
+@media (min-width: 721px) and (max-width: 1400px) {
+  .community-person-grid,
+  .community-search-results {
+    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+  }
+
+  .community-person-card {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .community-person-card .community-person-link {
+    width: 100%;
+  }
+
+  .community-person-card > div:last-child {
+    align-items: stretch;
+    flex-direction: row;
+  }
+
+  .community-person-card .inline-flex {
+    min-width: 0;
+    flex: 1 1 auto;
+    white-space: normal;
+  }
+
+  .community-person-name,
+  .community-person-role {
+    word-break: normal;
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1439px) {
+  .table-desktop-view { display: none; }
+  .table-mobile-view { display: grid; gap: .75rem; }
+  .table-mobile-value { word-break: normal; overflow-wrap: anywhere; }
+}

@@ -1122,12 +1122,12 @@ function CourseCard({ course, copy, language, t, user, buyBusy, onBuy, isPurchas
           {tags.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5">{tags.map((tag) => <span key={tag} className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">✓ {tag}</span>)}</div>}
         </div>
       </Link>
-      <div className="flex items-center justify-between gap-3 px-5 pb-5 pt-2">
+      <div className="storefront-course-footer flex items-center justify-between gap-3 px-5 pb-5 pt-2">
         <div className="min-w-0">
           <p className="truncate text-xs font-bold text-[#10243f] dark:text-slate-100">{course.teacher?.user?.fullName || copy.teacherFallback}</p>
           <p className="mt-1 text-[11px] text-slate-400">{course._count?.enrollments || 0} {copy.learners} · {course._count?.assignments || 0} {copy.projects}</p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="storefront-course-actions flex shrink-0 items-center gap-2">
           <Link to={`/courses/${course.id}`} className="rounded-xl px-2.5 py-2.5 text-xs font-extrabold text-[#1c4e6b] transition hover:bg-[#effcf7]">{copy.viewCourse} →</Link>
           {isPurchased && paymentPlan !== "MONTHLY" ? (
             <Link to={`/courses/${course.id}`} className="inline-flex items-center gap-1.5 rounded-xl border border-[#8de4ca]/50 bg-[#effcf7] px-3.5 py-2.5 text-xs font-extrabold text-[#17624e] transition hover:bg-[#dff8ee] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc] dark:hover:bg-[#173f42]">
