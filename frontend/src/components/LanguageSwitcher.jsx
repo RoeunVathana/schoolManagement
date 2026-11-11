@@ -34,8 +34,6 @@ export default function LanguageSwitcher({ variant = 'dashboard', onSelect }) {
   return <div className={`language-switcher language-switcher-${variant}`} data-language-switcher="" data-dashboard-language={variant === 'dashboard' ? '' : undefined}>
     <button type="button" onClick={() => setOpen((current) => !current)} className="language-switcher-trigger" aria-haspopup="menu" aria-expanded={open} aria-label={t('language')} title={t('language')}>
       <span className="language-switcher-flag" aria-hidden="true"><img src={selected.src} alt="" /></span>
-      <span className="language-switcher-current">{selected.label}</span>
-      <span className="language-switcher-short hidden" aria-hidden="true">{selected.short}</span>
       <PublicNavIcon name="chevron" className={`language-switcher-chevron ${open ? 'is-open' : ''}`} />
     </button>
     {open && <div className="language-switcher-menu" role="menu">

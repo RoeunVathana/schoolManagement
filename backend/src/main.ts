@@ -119,6 +119,12 @@ async function bootstrap() {
     limit: getPositiveLimit(config, 'RATE_LIMIT_PER_MINUTE', 240),
     standardHeaders: 'draft-7',
     legacyHeaders: false,
+    // Static media and health probes should not consume API request budget.
+    // This keeps monitoring reliable and prevents image-heavy pages from
+    // exhausting the limiter before their API calls are made.
+    skip: (request) => request.method === 'OPTIONS'
+      || request.path.startsWith('/uploads/')
+      || request.path === '/health/live',
     message: { success: false, message: 'Too many requests. Please try again shortly.' },
   });
   const authLimiter = rateLimit({
