@@ -30,6 +30,16 @@
   line-height: 1.2;
 }
 
+/* Keep Storefront drawer labels readable on tablet and phone widths. The
+   responsive menu grid centers every row by default; Storefront rows should
+   keep their icon and label anchored to the left edge instead. */
+@media (max-width: 1180px) {
+  .site-public-navbar #storefront-mobile-menu nav a {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+}
+
 .site-public-navbar nav a > span:not(.public-nav-icon),
 .lab-header-nav a > span:not(.public-nav-icon),
 .lab-mobile-nav a > span:not(.public-nav-icon) {
