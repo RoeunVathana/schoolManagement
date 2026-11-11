@@ -1,4 +1,4 @@
-FROM node:20-alpine AS backend-build
+FROM node:22-alpine AS backend-build
 
 WORKDIR /build/backend
 
@@ -14,7 +14,7 @@ COPY backend ./
 RUN npm run build
 RUN npm prune --omit=dev
 
-FROM node:20-alpine AS frontend-build
+FROM node:22-alpine AS frontend-build
 
 WORKDIR /build/frontend
 
@@ -24,7 +24,7 @@ RUN npm ci
 COPY frontend ./
 RUN npm run build
 
-FROM node:20-alpine
+FROM node:22-alpine
 
 RUN apk add --no-cache nginx openssl
 

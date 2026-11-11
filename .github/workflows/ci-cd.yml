@@ -45,6 +45,9 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      - name: Validate public SEO assets
+        run: npm run check:seo
+
   backend:
     name: Backend checks
     runs-on: ubuntu-latest
@@ -118,10 +121,21 @@ jobs:
             [ "$status" = "$expected" ]
           }
 
+          check_body_contains() {
+            local url="$1"
+            local expected="$2"
+            curl --silent --show-error --location --fail --max-time 20 "$url" | grep --fixed-strings --quiet "$expected"
+          }
+
           for attempt in $(seq 1 36); do
             if check_url "${FRONTEND_URL}/" 200 \
               && check_url "${FRONTEND_URL}/manifest.webmanifest" 200 \
               && check_url "${FRONTEND_URL}/favicon.ico?ci=${GITHUB_SHA}" 200 \
+              && check_url "${FRONTEND_URL}/campusflow-logo-square.png?ci=${GITHUB_SHA}" 200 \
+              && check_url "${FRONTEND_URL}/robots.txt?ci=${GITHUB_SHA}" 200 \
+              && check_url "${FRONTEND_URL}/sitemap.xml?ci=${GITHUB_SHA}" 200 \
+              && check_url "${FRONTEND_URL}/courses?ci=${GITHUB_SHA}" 200 \
+              && check_body_contains "${FRONTEND_URL}/courses?ci=${GITHUB_SHA}" '<title>Browse Courses | CampusFlow LMS</title>' \
               && check_url "${BACKEND_URL}/health/live" 200; then
               echo "Production smoke checks passed on attempt ${attempt}."
               exit 0

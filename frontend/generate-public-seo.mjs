@@ -93,6 +93,13 @@ function coursePage(template, course) {
     .replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${fallback}</div>`);
 }
 
+function replaceBrandImage(template, image = `${siteUrl}/campusflow-logo-square.png`) {
+  return template
+    .replace(/<meta property="og:image"[^>]*>/i, `<meta property="og:image" content="${escapeHtml(image)}" />`)
+    .replace(/<meta property="og:image:alt"[^>]*>/i, '<meta property="og:image:alt" content="CampusFlow LMS logo" />')
+    .replace(/<meta name="twitter:image"[^>]*>/i, `<meta name="twitter:image" content="${escapeHtml(image)}" />`);
+}
+
 function courseListingPage(template, courses) {
   const items = courses.map((course) => {
     const url = `/courses/${encodeURIComponent(course.id)}`;
@@ -117,7 +124,7 @@ function courseListingPage(template, courses) {
     },
   }).replace(/</g, '\\u003c');
   const fallback = `<main aria-label="CampusFlow courses"><p>CampusFlow LMS</p><h1>Practical Online Courses in Cambodia</h1><p>Browse guided courses with local teachers, assignments, exams, teacher support, and KHQR payment.</p><section><h2>Available courses</h2><ul>${items || '<li><p>New courses are being prepared. Check back soon.</p></li>'}</ul></section><nav aria-label="Course links"><a href="/community">Join the learning community</a><a href="/register">Create a student account</a></nav></main>`;
-  return template
+  return replaceBrandImage(template)
     .replace(/<title>[^<]*<\/title>/i, '<title>Browse Courses | CampusFlow LMS</title>')
     .replace(/<meta name="description"[^>]*>/i, '<meta name="description" content="Browse practical online courses in Cambodia with local teachers, assignments, exams, and KHQR payment." />')
     .replace(/<meta property="og:title"[^>]*>/i, '<meta property="og:title" content="Browse Courses | CampusFlow LMS" />')
@@ -155,7 +162,7 @@ function communityPage(template) {
     ],
   }).replace(/</g, '\\u003c');
   const fallback = `<main aria-label="CampusFlow community"><p>CampusFlow LMS learning community</p><h1>Learn together. Go further.</h1><p>${escapeHtml(description)}</p><nav aria-label="Community links"><a href="/courses">Explore practical courses</a><a href="/register">Create a student account</a><a href="/login/student">Sign in to join</a></nav><section><h2>Learn, connect, and grow</h2><p>CampusFlow brings students, teachers, and learners together with practical courses, guided support, assignments, and exams.</p></section></main>`;
-  return template
+  return replaceBrandImage(template)
     .replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`)
     .replace(/<meta name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(description)}" />`)
     .replace(/<meta property="og:title"[^>]*>/i, `<meta property="og:title" content="${escapeHtml(title)}" />`)
