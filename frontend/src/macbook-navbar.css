@@ -123,7 +123,10 @@
   }
   .programming-lab .lab-back-link .public-nav-icon { margin: 0; }
   .programming-lab .lab-techbar { top: 66px; }
-  .programming-lab .lab-sidebar { top: 114px; height: calc(100dvh - 114px); max-height: calc(100dvh - 114px); }
+  /* The lab drawer overlays the compact header on smaller laptop/tablet
+     viewports. Keep it flush with the viewport instead of leaving a
+     114px blank strip above the panel. */
+  .programming-lab .lab-sidebar { top: 0; height: 100dvh; max-height: 100dvh; }
   .programming-lab .lab-mobile-nav {
     display: grid;
     gap: 5px;
