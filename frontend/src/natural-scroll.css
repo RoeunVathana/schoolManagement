@@ -6,7 +6,6 @@ html {
   scroll-behavior: auto !important;
   overscroll-behavior-y: auto;
 }
-
 body {
   min-height: 100%;
   overflow-x: clip;
@@ -361,4 +360,56 @@ body,
   .course-reader .course-lesson-article > h2 {
     animation: none !important;
   }
+}
+
+/* Final compositor guard ---------------------------------------------------
+   The document is the only page scroll container. Fixed/sticky glass layers,
+   large blur filters, and 3D ancestors force the browser to repaint the whole
+   viewport on every wheel/touch frame, which feels like stutter on tablets and
+   lower-powered laptops. Keep the colours and borders, but use flat layers so
+   scrolling stays on the browser's fast path. */
+.app-navbar,
+.site-public-navbar,
+.site-public-navbar.about-nav,
+.site-public-navbar.public-community-nav,
+.about-nav,
+.public-community-nav,
+.subject-library-nav,
+.lab-techbar,
+.app-shell-chat .community-chat-header {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  will-change: auto !important;
+}
+
+.app-main,
+.about-page > main,
+.contact-page > main,
+.public-community-page > main,
+.course-reader,
+.storefront {
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+.storefront-ambient-background::before,
+.storefront-ambient-orb-a::after,
+.auth-background::before,
+.auth-background::after,
+.auth-form-panel::before,
+.auth-form-panel::after,
+.about-page::before,
+.contact-page::before,
+.public-community-page::before,
+.public-community-art-card::before {
+  filter: none !important;
+  will-change: auto !important;
+}
+
+.storefront-ambient-orb-a::before,
+.about-page::after,
+.contact-page::after,
+.public-community-page::after {
+  animation: none !important;
+  will-change: auto !important;
 }
