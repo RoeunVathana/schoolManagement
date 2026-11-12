@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     const password = await bcrypt.hash(input.password, this.passwordHashRounds());
-    const paymentRequired = role === Role.STUDENT && this.payments.isRegistrationPaymentRequired();
+    const paymentRequired = role === Role.STUDENT && await this.payments.isRegistrationPaymentRequired();
     const status = paymentRequired ? UserStatus.INACTIVE : UserStatus.ACTIVE;
     const firstName = input.firstName?.trim() || undefined;
     const lastName = input.lastName?.trim() || undefined;

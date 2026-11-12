@@ -22,6 +22,7 @@ const AdminSimple = lazy(() => import('../pages/admin/Simple'));
 const AdminLearningManagement = lazy(() => import('../pages/admin/LearningManagement'));
 const AdminTelegramSettings = lazy(() => import('../pages/admin/TelegramSettings'));
 const AdminMailSettings = lazy(() => import('../pages/admin/MailSettings'));
+const AdminBakongSettings = lazy(() => import('../pages/admin/BakongSettings'));
 const AdminCertificates = lazy(() => import('../pages/admin/Certificates'));
 const AdminTeacherAttendance = lazy(() => import('../pages/admin/TeacherAttendance'));
 const AdminCommunity = lazy(() => import('../pages/admin/Community'));
@@ -84,6 +85,7 @@ export default function AppRoutes() {
           <Route path="admin/users" element={<Users />} />
           <Route path="admin/telegram-settings" element={<AdminTelegramSettings />} />
           <Route path="admin/mail-settings" element={<AdminMailSettings />} />
+          <Route path="admin/bakong-settings" element={<AdminBakongSettings />} />
           <Route path="admin/certificates" element={<AdminCertificates />} />
           <Route path="admin/teacher-attendance" element={<AdminTeacherAttendance />} />
           <Route path="admin/community" element={<AdminCommunity />} />

@@ -727,6 +727,32 @@ model MailSetting {
   @@map("mail_settings")
 }
 
+model BakongSetting {
+  id                          String   @id @default("bakong")
+  registrationPaymentRequired Boolean  @default(false)
+  registrationFee             String   @default("1.00")
+  registrationCurrency        String   @default("USD")
+  paymentQrExpiresMinutes     Int      @default(10)
+  apiUrl                      String   @default("https://api-bakong.nbc.gov.kh")
+  apiTokenCiphertext          String   @default("") @db.Text
+  apiTokenIv                  String   @default("")
+  apiTokenTag                 String   @default("")
+  apiEnabled                  Boolean  @default(true)
+  accountId                   String   @default("")
+  bakongMerchantName          String   @default("")
+  bakongMerchantNameKm        String   @default("")
+  bakongMerchantCity          String   @default("")
+  bakongMerchantCityKm        String   @default("")
+  merchantName                String   @default("")
+  merchantCity                String   @default("")
+  merchantPhone               String   @default("")
+  storeLabel                  String   @default("")
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@map("bakong_settings")
+}
+
 model ClassSchedule {
   id          String    @id @default(cuid())
   courseId    String

@@ -7,6 +7,7 @@ import { getCoursePricing } from '../common/course-pricing';
 import { TelegramService } from '../telegram/telegram.service';
 import { MailService } from '../auth/mail.service';
 import { isCoursePaymentOpen } from '../common/course-availability';
+import { BakongRuntimeConfig, BakongSettingsService } from './bakong-settings.service';
 
 // The official NBC JavaScript KHQR SDK is CommonJS and does not ship TypeScript declarations.
 const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
@@ -15,19 +16,20 @@ const { BakongKHQR, khqrData, IndividualInfo } = require('bakong-khqr');
 export class PaymentService {
   private readonly logger = new Logger(PaymentService.name);
 
-  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService, private readonly telegram: TelegramService, private readonly mail: MailService) {}
+  constructor(private readonly prisma: PrismaService, private readonly config: ConfigService, private readonly telegram: TelegramService, private readonly mail: MailService, private readonly bakong: BakongSettingsService) {}
 
-  isRegistrationPaymentRequired() {
-    return this.config.get<string>('REGISTRATION_PAYMENT_REQUIRED', 'false') === 'true';
+  async isRegistrationPaymentRequired() {
+    return (await this.bakong.resolve()).registrationPaymentRequired;
   }
 
   async createRegistrationPayment(userId: string) {
-    const amount = Number(this.config.get<string>('REGISTRATION_FEE', '1.00'));
+    const settings = await this.bakong.resolve();
+    const amount = Number(settings.registrationFee);
     if (!Number.isFinite(amount) || amount <= 0) throw new BadRequestException('REGISTRATION_FEE must be a positive number.');
-    const currencyName = this.normalizedCurrency(this.config.get<string>('REGISTRATION_CURRENCY', 'USD'));
+    const currencyName = this.normalizedCurrency(settings.registrationCurrency);
     const invoiceNumber = `REG-${Date.now()}-${randomUUID().slice(0, 6).toUpperCase()}`;
-    const expiresAt = this.paymentExpiry();
-    const generated = this.generateKhqr({ amount, currencyName, invoiceNumber, expiresAt, purpose: 'Student registration', terminalLabel: 'Registration' });
+    const expiresAt = this.paymentExpiry(settings);
+    const generated = this.generateKhqr({ amount, currencyName, invoiceNumber, expiresAt, purpose: 'Student registration', terminalLabel: 'Registration' }, settings);
     const payment = await this.prisma.registrationPayment.create({
       data: { userId, invoiceNumber, publicToken: randomUUID(), qrString: generated.qr, md5Hash: generated.md5, amount, currency: currencyName, expiresAt },
     });
@@ -40,7 +42,8 @@ export class PaymentService {
     // malformed QR. Refresh only those pending records so a completed payment
     // is never invalidated by a routine page refresh.
     if (payment.status === PaymentStatus.PENDING && !this.isValidKhqr(payment.qrString)) {
-      const generated = this.generateKhqr({ amount: Number(payment.amount), currencyName: payment.currency, invoiceNumber: payment.invoiceNumber, expiresAt: payment.expiresAt, purpose: 'Student registration', terminalLabel: 'Registration' });
+      const settings = await this.bakong.resolve();
+      const generated = this.generateKhqr({ amount: Number(payment.amount), currencyName: payment.currency, invoiceNumber: payment.invoiceNumber, expiresAt: payment.expiresAt, purpose: 'Student registration', terminalLabel: 'Registration' }, settings);
       const refreshed = await this.prisma.registrationPayment.update({ where: { id: payment.id }, data: { qrString: generated.qr, md5Hash: generated.md5 } });
       return this.toPublicPayment(refreshed);
     }
@@ -54,7 +57,7 @@ export class PaymentService {
     if (!result.enabled) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet. Please contact admin support.' });
     if (result.rateLimited) return this.toPublicPayment(payment, { verification: 'rate_limited', message: result.message });
     if (result.unavailable) return this.toPublicPayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable. Please contact admin support.' });
-    if (result.data) return this.confirmRegistrationPayment(payment, result.data);
+    if (result.data) return this.confirmRegistrationPayment(payment, result.data, result.config);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
       const failed = await this.prisma.registrationPayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.FAILED } });
@@ -100,8 +103,9 @@ export class PaymentService {
     // KHQR additional-data bill numbers may be at most 25 characters.
     const compactCourseCode = course.courseCode.replace(/[^A-Za-z0-9]/g, '').slice(-6);
     const invoiceNumber = `CP-${compactCourseCode}-${Date.now().toString().slice(-8)}-${randomUUID().slice(0, 4).toUpperCase()}`;
-    const expiresAt = this.paymentExpiry();
-    const generated = this.generateKhqr({ amount, currencyName, invoiceNumber, expiresAt, purpose: `Course ${course.courseName}`, terminalLabel: 'Course purchase' });
+    const settings = await this.bakong.resolve();
+    const expiresAt = this.paymentExpiry(settings);
+    const generated = this.generateKhqr({ amount, currencyName, invoiceNumber, expiresAt, purpose: `Course ${course.courseName}`, terminalLabel: 'Course purchase' }, settings);
     const paymentData = { invoiceNumber, publicToken: randomUUID(), qrString: generated.qr, md5Hash: generated.md5, amount, currency: currencyName, paymentPlan, billingPeriod, expiresAt, status: PaymentStatus.PENDING, paidAt: null, transactionHash: null, fromAccountId: null, toAccountId: null };
 
     if (paymentPlan === CoursePaymentPlan.MONTHLY) {
@@ -133,7 +137,7 @@ export class PaymentService {
     if (!result.enabled) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong verification is not configured yet. Please contact admin support.' });
     if (result.rateLimited) return this.toPublicCoursePayment(payment, { verification: 'rate_limited', message: result.message });
     if (result.unavailable) return this.toPublicCoursePayment(payment, { verification: 'unavailable', message: result.message || 'Payment verification is temporarily unavailable. Please contact admin support.' });
-    if (result.data) return this.confirmCoursePayment(payment, result.data);
+    if (result.data) return this.confirmCoursePayment(payment, result.data, result.config);
     const message = result.message || 'Payment is still pending.';
     if (/failed/i.test(message)) {
       const failed = await this.prisma.coursePayment.update({ where: { id: payment.id }, data: { status: PaymentStatus.FAILED }, include: { course: true, student: { select: { userId: true } } } });
@@ -142,17 +146,17 @@ export class PaymentService {
     return this.toPublicCoursePayment(payment, { message });
   }
 
-  private generateKhqr(input: { amount: number; currencyName: string; invoiceNumber: string; expiresAt: Date; purpose: string; terminalLabel: string }) {
-    const accountId = this.config.get<string>('BAKONG_ACCOUNT_ID');
+  private generateKhqr(input: { amount: number; currencyName: string; invoiceNumber: string; expiresAt: Date; purpose: string; terminalLabel: string }, settings: BakongRuntimeConfig) {
+    const accountId = settings.accountId;
     if (!accountId) throw new ServiceUnavailableException('KHQR payment is not configured. Please contact admin support.');
     const currency = input.currencyName === 'KHR' ? khqrData.currency.khr : input.currencyName === 'USD' ? khqrData.currency.usd : null;
     if (!currency) throw new BadRequestException('Course currency must be USD or KHR.');
-    const merchantName = (this.config.get<string>('MERCHANT_NAME') || this.config.get<string>('BAKONG_MERCHANT_NAME') || 'CampusFlow').slice(0, 25);
-    const merchantCity = (this.config.get<string>('MERCHANT_CITY') || this.config.get<string>('BAKONG_MERCHANT_CITY') || 'Phnom Penh').slice(0, 15);
-    const alternateMerchantCity = (this.config.get<string>('BAKONG_MERCHANT_CITY_KM') || 'ភ្នំពេញ').trim().slice(0, 15);
-    const storeLabel = (this.config.get<string>('STORE_LABEL') || 'CampusFlow').slice(0, 25);
-    const mobileNumber = this.config.get<string>('MERCHANT_PHONE') || undefined;
-    const alternateName = this.config.get<string>('BAKONG_MERCHANT_NAME_KM', merchantName).slice(0, 25);
+    const merchantName = (settings.merchantName || settings.bakongMerchantName || 'CampusFlow').slice(0, 25);
+    const merchantCity = (settings.merchantCity || settings.bakongMerchantCity || 'Phnom Penh').slice(0, 15);
+    const alternateMerchantCity = (settings.bakongMerchantCityKm || 'ភ្នំពេញ').trim().slice(0, 15);
+    const storeLabel = (settings.storeLabel || 'CampusFlow').slice(0, 25);
+    const mobileNumber = settings.merchantPhone || undefined;
+    const alternateName = (settings.bakongMerchantNameKm || merchantName).slice(0, 25);
     const info = new IndividualInfo(accountId, merchantName, merchantCity, {
       currency,
       amount: input.amount,
@@ -185,11 +189,12 @@ export class PaymentService {
     }
   }
 
-  private async checkBakong(md5: string): Promise<{ enabled: boolean; unavailable?: boolean; rateLimited?: boolean; data?: any; message?: string }> {
-    const enabled = this.config.get<string>('BAKONG_API_ENABLED', 'true') === 'true';
-    const accessToken = this.config.get<string>('BAKONG_API_TOKEN') || this.config.get<string>('BAKONG_ACCESS_TOKEN');
-    if (!enabled || !accessToken) return { enabled: false };
-    const apiUrl = (this.config.get<string>('BAKONG_API_URL', 'https://api-bakong.nbc.gov.kh') || '').replace(/\/$/, '');
+  private async checkBakong(md5: string): Promise<{ enabled: boolean; unavailable?: boolean; rateLimited?: boolean; data?: any; message?: string; config: BakongRuntimeConfig }> {
+    const settings = await this.bakong.resolve();
+    const enabled = settings.apiEnabled;
+    const accessToken = settings.apiToken;
+    if (!enabled || !accessToken) return { enabled: false, config: settings };
+    const apiUrl = settings.apiUrl.replace(/\/$/, '');
     const timeoutMs = Math.min(Math.max(Number(this.config.get<string>('BAKONG_CHECK_TIMEOUT_MS', '8000')), 3000), 15000);
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -198,20 +203,20 @@ export class PaymentService {
       const result: any = await response.json();
       const message = String(result.responseMessage || '');
       if (response.status === 429 || result.errorCode === 17 || /daily request limit|request limit.*exceeded/i.test(message)) {
-        return { enabled: true, rateLimited: true, message: 'Bakong verification has reached its daily request limit. Please try again tomorrow or contact admin support to configure a fresh Bakong API token.' };
+        return { enabled: true, rateLimited: true, message: 'Bakong verification has reached its daily request limit. Please try again tomorrow or contact admin support to configure a fresh Bakong API token.', config: settings };
       }
-      if (result.responseCode === 0 && result.data) return { enabled: true, data: result.data };
-      return { enabled: true, message: message || 'Payment is still pending.' };
+      if (result.responseCode === 0 && result.data) return { enabled: true, data: result.data, config: settings };
+      return { enabled: true, message: message || 'Payment is still pending.', config: settings };
     } catch (error) {
       this.logger.warn(`Bakong payment check failed: ${error instanceof Error ? error.message : 'unknown error'}`);
-      return { enabled: true, unavailable: true };
+      return { enabled: true, unavailable: true, config: settings };
     } finally {
       clearTimeout(timeout);
     }
   }
 
-  private async confirmRegistrationPayment(payment: any, transaction: any) {
-    const validation = this.validateBakongTransaction(payment, transaction);
+  private async confirmRegistrationPayment(payment: any, transaction: any, settings: BakongRuntimeConfig) {
+    const validation = this.validateBakongTransaction(payment, transaction, settings);
     if (validation.configurationError) return this.toPublicPayment(payment, { verification: 'not_configured', message: 'Bakong merchant verification is not configured. Please contact admin support.' });
     if (!validation.valid) {
       this.logger.warn(`Rejected registration payment ${payment.invoiceNumber}: ${validation.reason}`);
@@ -243,8 +248,8 @@ export class PaymentService {
     }
   }
 
-  private async confirmCoursePayment(payment: any, transaction: any) {
-    const validation = this.validateBakongTransaction(payment, transaction);
+  private async confirmCoursePayment(payment: any, transaction: any, settings: BakongRuntimeConfig) {
+    const validation = this.validateBakongTransaction(payment, transaction, settings);
     if (validation.configurationError) return this.toPublicCoursePayment(payment, { verification: 'not_configured', message: 'Bakong merchant verification is not configured. Please contact admin support.' });
     if (!validation.valid) {
       this.logger.warn(`Rejected course payment ${payment.invoiceNumber}: ${validation.reason}`);
@@ -275,8 +280,8 @@ export class PaymentService {
     }
   }
 
-  private validateBakongTransaction(payment: any, transaction: any) {
-    const configuredAccount = String(this.config.get<string>('BAKONG_ACCOUNT_ID') || '').trim();
+  private validateBakongTransaction(payment: any, transaction: any, settings: BakongRuntimeConfig) {
+    const configuredAccount = String(settings.accountId || '').trim();
     if (!configuredAccount) return { valid: false, configurationError: true, reason: 'BAKONG_ACCOUNT_ID is not configured.' };
 
     const transactionHash = String(transaction?.hash || '').trim();
@@ -326,8 +331,8 @@ export class PaymentService {
     }
   }
 
-  private paymentExpiry() {
-    const expirationMinutes = Math.min(Math.max(Number(this.config.get<string>('PAYMENT_QR_EXPIRES_MINUTES', '10')), 1), 10);
+  private paymentExpiry(settings: BakongRuntimeConfig) {
+    const expirationMinutes = Math.min(Math.max(Number(settings.paymentQrExpiresMinutes), 1), 10);
     return new Date(Date.now() + expirationMinutes * 60 * 1000);
   }
 

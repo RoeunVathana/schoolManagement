@@ -1,0 +1,25 @@
+CREATE TABLE "bakong_settings" (
+    "id" TEXT NOT NULL DEFAULT 'bakong',
+    "registrationPaymentRequired" BOOLEAN NOT NULL DEFAULT false,
+    "registrationFee" TEXT NOT NULL DEFAULT '1.00',
+    "registrationCurrency" TEXT NOT NULL DEFAULT 'USD',
+    "paymentQrExpiresMinutes" INTEGER NOT NULL DEFAULT 10,
+    "apiUrl" TEXT NOT NULL DEFAULT 'https://api-bakong.nbc.gov.kh',
+    "apiTokenCiphertext" TEXT NOT NULL DEFAULT '',
+    "apiTokenIv" TEXT NOT NULL DEFAULT '',
+    "apiTokenTag" TEXT NOT NULL DEFAULT '',
+    "apiEnabled" BOOLEAN NOT NULL DEFAULT true,
+    "accountId" TEXT NOT NULL DEFAULT '',
+    "bakongMerchantName" TEXT NOT NULL DEFAULT '',
+    "bakongMerchantNameKm" TEXT NOT NULL DEFAULT '',
+    "bakongMerchantCity" TEXT NOT NULL DEFAULT '',
+    "bakongMerchantCityKm" TEXT NOT NULL DEFAULT '',
+    "merchantName" TEXT NOT NULL DEFAULT '',
+    "merchantCity" TEXT NOT NULL DEFAULT '',
+    "merchantPhone" TEXT NOT NULL DEFAULT '',
+    "storeLabel" TEXT NOT NULL DEFAULT '',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "bakong_settings_pkey" PRIMARY KEY ("id")
+);
