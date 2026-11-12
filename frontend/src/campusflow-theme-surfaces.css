@@ -27,7 +27,10 @@ body,
 }
 
 body {
-  background-attachment: fixed;
+  /* Keep the page background in the normal scroll layer. Fixed gradients
+     force a full-viewport repaint on every wheel/touch frame on Chromium and
+     are especially noticeable on long storefront pages. */
+  background-attachment: scroll;
   background-color: var(--surface-page);
   background-repeat: no-repeat;
   background-size: cover;
@@ -42,7 +45,7 @@ body {
 .course-reader,
 .not-found-page {
   background: var(--campus-page-background) !important;
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-size: cover;
   color: var(--campus-page-color);
   transition: var(--campus-page-transition);

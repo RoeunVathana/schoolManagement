@@ -104,6 +104,7 @@ body,
 #root {
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
+  background-attachment: scroll !important;
 }
 
 .app-shell-content,
@@ -253,6 +254,14 @@ body,
 .public-community-page .public-community-art-orbit-two {
   animation: none !important;
   background-attachment: scroll !important;
+}
+
+/* Keep the decorative viewport layer isolated from document scrolling. It
+   should be painted once as a compositor layer, not re-rasterized together
+   with every section moving through the viewport. */
+.storefront-ambient-background {
+  contain: paint;
+  isolation: isolate;
 }
 
 .app-shell,
