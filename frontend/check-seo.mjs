@@ -19,6 +19,8 @@ for (const file of requiredFiles) {
 const html = await readFile(new URL('index.html', dist), 'utf8');
 const checks = [
   ['site title', /<title>CampusFlow LMS/i],
+  ['crawlable brand heading', /<h1>CampusFlow LMS[^<]*Practical Online Courses/i],
+  ['crawlable domain link', /href="https:\/\/campusflowlms\.xyz\/"[^>]*>campusflowlms\.xyz/i],
   ['favicon link', /rel="icon"[^>]+href="\/favicon\.ico"/i],
   ['organization schema', /"@type"\s*:\s*"Organization"/i],
   ['organization logo', /"logo"\s*:\s*"https:\/\/campusflowlms\.xyz\/campusflow-logo-square\.png"/i],

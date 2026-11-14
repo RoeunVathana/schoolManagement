@@ -111,6 +111,9 @@
     <link rel="shortcut icon" type="image/png" href="/campusflow-logo-square.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="/campusflow-logo-square.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="alternate" hreflang="en" href="https://campusflowlms.xyz/" />
+    <link rel="alternate" hreflang="km" href="https://campusflowlms.xyz/" />
+    <link rel="alternate" hreflang="x-default" href="https://campusflowlms.xyz/" />
     <title>CampusFlow LMS | Practical Online Courses in Cambodia</title>
     <script type="application/ld+json">
       {
@@ -176,7 +179,29 @@
     <div id="campusflow-boot" role="status" aria-label="Loading CampusFlow">
       <span aria-hidden="true"></span>
     </div>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Crawlable first-party content for search engines and no-JavaScript
+        clients. React replaces this shell immediately after boot, while the
+        same brand, domain, and public links remain available to crawlers.
+      -->
+      <main aria-label="CampusFlow LMS">
+        <h1>CampusFlow LMS — Practical Online Courses in Cambodia</h1>
+        <p>CampusFlow LMS helps students in Cambodia learn practical skills through guided online courses, local teachers, assignments, exams, KHQR payment, and a supportive learning community.</p>
+        <nav aria-label="CampusFlow LMS public links">
+          <a href="/courses">Browse practical courses</a>
+          <a href="/community">Join the learning community</a>
+          <a href="/register">Create a student account</a>
+        </nav>
+        <p>Official website: <a href="https://campusflowlms.xyz/">campusflowlms.xyz</a></p>
+      </main>
+    </div>
+    <noscript>
+      <main aria-label="CampusFlow LMS no JavaScript content">
+        <h1>CampusFlow LMS — Practical Online Courses in Cambodia</h1>
+        <p>Visit campusflowlms.xyz to browse practical online courses and join the CampusFlow learning community.</p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
