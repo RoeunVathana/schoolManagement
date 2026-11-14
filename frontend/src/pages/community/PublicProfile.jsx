@@ -19,6 +19,8 @@ import { isImageTooLarge } from '../../utils/fileValidation';
 const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const MAX_COVER_SIZE = 50 * 1024 * 1024;
 const mediaUrl = (path) => path?.startsWith('http') ? path : `${API_ORIGIN}${path || ''}`;
+const telegramHandle = (value) => String(value || '').replace(/^@+/, '').trim();
+const telegramUrl = (value) => { const handle = telegramHandle(value); return handle ? `https://t.me/${encodeURIComponent(handle)}` : ''; };
 
 export default function PublicProfile() {
   const { id } = useParams();
@@ -44,7 +46,7 @@ export default function PublicProfile() {
   const [coverCropFile, setCoverCropFile] = useState(null);
   const [aboutEditing, setAboutEditing] = useState(false);
   const [aboutBusy, setAboutBusy] = useState(false);
-  const [aboutForm, setAboutForm] = useState({ bio: '', location: '', website: '', school: '', course: '', yearLevel: '' });
+  const [aboutForm, setAboutForm] = useState({ bio: '', location: '', website: '', school: '', course: '', yearLevel: '', telegramUsername: '' });
   const profileInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
@@ -83,7 +85,7 @@ export default function PublicProfile() {
   }, [id, profile, profileStories]);
 
   const beginAboutEdit = () => {
-    setAboutForm({ bio: profileDetails.bio || '', location: profileDetails.location || '', website: profileDetails.website || '', school: profileDetails.school || '', course: profileDetails.course || '', yearLevel: profileDetails.yearLevel || '' });
+    setAboutForm({ bio: profileDetails.bio || '', location: profileDetails.location || '', website: profileDetails.website || '', school: profileDetails.school || '', course: profileDetails.course || '', yearLevel: profileDetails.yearLevel || '', telegramUsername: profileDetails.telegramUsername || '' });
     setAboutEditing(true);
     setNotice('');
   };
@@ -111,7 +113,7 @@ export default function PublicProfile() {
     setAboutBusy(true);
     setNotice('');
     try {
-      const cleared = { bio: '', location: '', website: '', school: '', course: '', yearLevel: '' };
+      const cleared = { bio: '', location: '', website: '', school: '', course: '', yearLevel: '', telegramUsername: '' };
       const updated = unwrap(await api.patch('/auth/profile', cleared));
       setProfile((current) => current ? { ...current, user: { ...current.user, ...updated, profile: updated.profile || current.user.profile } } : current);
       setAboutForm(cleared);
@@ -427,8 +429,10 @@ function SharePostDialog({ text, friends, loading, sending, onClose, onShare }) 
 
 function About({ profile, details, isSelf, editing, form, busy, onEdit, onChange, onSave, onDelete, onCancel }) {
   const text = useCommunityText();
-  const fields = [[text.username, details.username], [text.email, profile.user.email], [text.phone, details.phone || profile.user.phone], [text.location, details.location], [text.school, details.school], [text.course, details.course], [text.yearLevel, details.yearLevel], [text.website, details.website]].filter(([, value]) => value);
-  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>{text.about}</h2></div>{isSelf && !editing && <button type="button" onClick={onEdit} className="community-button community-button-ghost community-button-small">{text.editAbout}</button>}</div>{editing ? <form className="community-about-editor" onSubmit={onSave}><label>{text.bio}<textarea value={form.bio} onChange={(event) => onChange('bio', event.target.value)} rows="4" maxLength="1000" placeholder={text.bioPlaceholder} /></label><div className="community-about-editor-grid"><label>{text.location}<input value={form.location} onChange={(event) => onChange('location', event.target.value)} maxLength="120" /></label><label>{text.website}<input value={form.website} onChange={(event) => onChange('website', event.target.value)} maxLength="180" /></label><label>{text.school}<input value={form.school} onChange={(event) => onChange('school', event.target.value)} maxLength="160" /></label><label>{text.course}<input value={form.course} onChange={(event) => onChange('course', event.target.value)} maxLength="160" /></label><label>{text.yearLevel}<input value={form.yearLevel} onChange={(event) => onChange('yearLevel', event.target.value)} maxLength="80" /></label></div><div className="community-about-editor-actions"><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.updating : text.saveAbout}</button><button type="button" disabled={busy} onClick={onCancel} className="community-button community-button-ghost">{text.cancelAbout}</button><button type="button" disabled={busy} onClick={onDelete} className="community-button community-button-danger">{text.deleteAbout}</button></div></form> : <><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}{isSelf && !fields.length && !details.bio && <div className="community-about-empty"><p>{text.memberBio}</p><button type="button" onClick={onEdit} className="community-text-link">{text.editAbout} →</button></div>}</>}</section>;
+  const canShowTelegram = ['TEACHER', 'STUDENT', 'CUSTOMER'].includes(profile.user.role);
+  const telegramDisplay = telegramHandle(details.telegramUsername) ? '@' + telegramHandle(details.telegramUsername) : '';
+  const fields = [[text.username, details.username], [text.email, profile.user.email], [text.phone, details.phone || profile.user.phone], [text.location, details.location], [text.school, details.school], [text.course, details.course], [text.yearLevel, details.yearLevel], [text.website, details.website], ...(canShowTelegram && telegramDisplay ? [[text.telegramUsername, telegramDisplay]] : [])].filter(([, value]) => value);
+  return <section className="community-about-card"><div className="community-section-heading"><div><span className="community-section-marker community-section-marker-blue" /><h2>{text.about}</h2></div>{isSelf && !editing && <button type="button" onClick={onEdit} className="community-button community-button-ghost community-button-small">{text.editAbout}</button>}</div>{editing ? <form className="community-about-editor" onSubmit={onSave}><label>{text.bio}<textarea value={form.bio} onChange={(event) => onChange('bio', event.target.value)} rows="4" maxLength="1000" placeholder={text.bioPlaceholder} /></label><div className="community-about-editor-grid"><label>{text.location}<input value={form.location} onChange={(event) => onChange('location', event.target.value)} maxLength="120" /></label><label>{text.website}<input value={form.website} onChange={(event) => onChange('website', event.target.value)} maxLength="180" /></label><label>{text.school}<input value={form.school} onChange={(event) => onChange('school', event.target.value)} maxLength="160" /></label><label>{text.course}<input value={form.course} onChange={(event) => onChange('course', event.target.value)} maxLength="160" /></label><label>{text.yearLevel}<input value={form.yearLevel} onChange={(event) => onChange('yearLevel', event.target.value)} maxLength="80" /></label>{canShowTelegram && <label>{text.telegramUsername}<input value={form.telegramUsername} onChange={(event) => onChange('telegramUsername', event.target.value)} maxLength="64" placeholder="@yourusername" autoComplete="off" /></label>}</div><div className="community-about-editor-actions"><button type="submit" disabled={busy} className="community-button community-button-primary">{busy ? text.updating : text.saveAbout}</button><button type="button" disabled={busy} onClick={onCancel} className="community-button community-button-ghost">{text.cancelAbout}</button><button type="button" disabled={busy} onClick={onDelete} className="community-button community-button-danger">{text.deleteAbout}</button></div></form> : <><div className="community-about-grid">{fields.map(([label, value]) => <div key={label}><span>{label}</span><strong>{label === text.telegramUsername && telegramUrl(value) ? <a href={telegramUrl(value)} target="_blank" rel="noreferrer">{value}</a> : value}</strong></div>)}</div>{details.bio && <p className="community-about-bio">{details.bio}</p>}{isSelf && !fields.length && !details.bio && <div className="community-about-empty"><p>{text.memberBio}</p><button type="button" onClick={onEdit} className="community-text-link">{text.editAbout} →</button></div>}</>}</section>;
 }
 
 function PersonCard({ person }) {

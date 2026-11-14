@@ -298,6 +298,21 @@ export class MailService {
     );
   }
 
+  async sendFriendMessageNotification(email: string, receiverName: string, senderName: string, messageBody: string, conversationId: string) {
+    const displaySender = (senderName || 'A friend').replace(/[\r\n]+/g, ' ').trim().slice(0, 120) || 'A friend';
+    const safeSender = this.escapeHtml(displaySender);
+    const safePreview = this.escapeHtml((messageBody || 'Sent you a new message.').trim().slice(0, 500));
+    const appUrl = (this.config.get<string>('PUBLIC_APP_URL') || this.config.get<string>('FRONTEND_URL') || 'https://campusflowlms.xyz').trim().replace(/\/+$/, '');
+    const chatUrl = `${appUrl}/chat?conversation=${encodeURIComponent(conversationId)}`;
+    return this.sendCommunityEmail(
+      email,
+      `CampusFlow: ${displaySender} sent you a new message`,
+      `Hello ${receiverName || 'there'},\n\n${displaySender} sent you a new CampusFlow message:\n\n${messageBody || 'Sent you a new message.'}\n\nOpen the conversation: ${chatUrl}`,
+      `<p><strong>${safeSender}</strong> sent you a new message on CampusFlow.</p><div style="margin:18px 0;padding:16px;border-radius:14px;background:#eef4fb;white-space:pre-wrap;word-break:break-word">${safePreview}</div><p><a href="${this.escapeHtml(chatUrl)}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#102846;color:#fff;text-decoration:none;font-weight:700">Open chat</a></p>`,
+      receiverName,
+    );
+  }
+
   private async sendCommunityEmail(email: string, subject: string, text: string, body: string, receiverName: string) {
     return this.sendEmail({
       from: this.from,

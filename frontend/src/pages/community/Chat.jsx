@@ -60,6 +60,7 @@ export default function Chat() {
   const { user } = useContext(AuthContext);
   const requestedUserId = location.state?.userId || '';
   const requestedGroupId = location.state?.groupId || '';
+  const requestedConversationId = new URLSearchParams(location.search).get('conversation') || '';
   const [conversations, setConversations] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
@@ -169,6 +170,11 @@ export default function Chat() {
   }, [loadConversations]);
   useEffect(() => { if (requestedUserId) openConversation(requestedUserId); }, [requestedUserId, openConversation]);
   useEffect(() => { if (requestedGroupId) openGroup(requestedGroupId); }, [requestedGroupId, openGroup]);
+  useEffect(() => {
+    if (!requestedConversationId || !conversations.length) return;
+    const requestedConversation = conversations.find((conversation) => conversation.id === requestedConversationId);
+    if (requestedConversation && activeConversation?.id !== requestedConversation.id) selectConversation(requestedConversation);
+  }, [requestedConversationId, conversations, activeConversation?.id]);
   useEffect(() => {
     const conversationId = activeConversation?.id;
     shouldAutoScrollRef.current = true;

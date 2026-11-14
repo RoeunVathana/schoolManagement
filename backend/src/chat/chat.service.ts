@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { MediaType, MessageReactionType, Role, UserStatus } from '@prisma/client';
 import { existsSync } from 'fs';
 import { basename, extname } from 'path';
@@ -7,13 +7,16 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MediaStorageService } from '../media/media-storage.service';
 import { isLearnerRole } from '../common/learner-roles';
+import { MailService } from '../auth/mail.service';
 
 const userSelect = { id: true, fullName: true, role: true, phone: true, profileImageUrl: true, lastSeenAt: true, profile: { select: { avatar: true, username: true } } } as const;
 const DIRECT_CHAT_ROLES: Role[] = [Role.STUDENT, Role.CUSTOMER, Role.TEACHER];
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService, private readonly media: MediaStorageService) {}
+  private readonly logger = new Logger(ChatService.name);
+
+  constructor(private readonly prisma: PrismaService, private readonly notifications: NotificationsService, private readonly media: MediaStorageService, private readonly mail: MailService) {}
 
   private pair(first: string, second: string) {
     return first < second ? [first, second] as const : [second, first] as const;
@@ -190,6 +193,7 @@ export class ChatService {
     } else if (conversation.userAId && conversation.userBId) {
       const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
       await this.notifications.createMessageNotification(recipientId, userId, messageBody);
+      void this.notifyDirectMessageByEmail(conversation, userId, messageBody);
     }
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
@@ -213,6 +217,7 @@ export class ChatService {
     } else if (conversation.userAId && conversation.userBId) {
       const recipientId = conversation.userAId === userId ? conversation.userBId : conversation.userAId;
       await this.notifications.createMessageNotification(recipientId, userId, notificationBody);
+      void this.notifyDirectMessageByEmail(conversation, userId, notificationBody);
     }
     return this.presentMessage({ ...message, reactions: [] }, userId);
   }
@@ -307,5 +312,21 @@ export class ChatService {
     await this.assertParticipant(conversationId, userId);
     await this.prisma.message.updateMany({ where: { conversationId, senderId: { not: userId }, readAt: null }, data: { readAt: new Date() } });
     return { message: 'Conversation marked as read' };
+  }
+
+  private async notifyDirectMessageByEmail(conversation: { id: string; groupId?: string | null; userAId?: string | null; userBId?: string | null }, senderId: string, messageBody: string) {
+    if (conversation.groupId || !conversation.userAId || !conversation.userBId) return;
+    const recipientId = conversation.userAId === senderId ? conversation.userBId : conversation.userAId;
+    if (!recipientId || recipientId === senderId) return;
+    try {
+      const [sender, recipient] = await Promise.all([
+        this.prisma.user.findUnique({ where: { id: senderId }, select: { fullName: true } }),
+        this.prisma.user.findUnique({ where: { id: recipientId }, select: { email: true, fullName: true, status: true } }),
+      ]);
+      if (!recipient?.email || recipient.status !== UserStatus.ACTIVE) return;
+      await this.mail.sendFriendMessageNotification(recipient.email, recipient.fullName, sender?.fullName || 'A friend', messageBody, conversation.id);
+    } catch (error) {
+      this.logger.warn(`Friend message email could not be sent: ${error instanceof Error ? error.message : 'unknown error'}`);
+    }
   }
 }

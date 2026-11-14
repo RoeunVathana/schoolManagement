@@ -244,7 +244,7 @@ export class AuthService {
     return { message: 'Password changed successfully. Please sign in again.' };
   }
 
-  async updateProfile(userId: string, input: { currentPassword?: string; fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; bio?: string; location?: string; website?: string; school?: string; course?: string; yearLevel?: string; language?: string }) {
+  async updateProfile(userId: string, input: { currentPassword?: string; fullName?: string; phone?: string; password?: string; gender?: string; dateOfBirth?: string; address?: string; guardianName?: string; guardianPhone?: string; specialization?: string; bio?: string; location?: string; website?: string; telegramUsername?: string; school?: string; course?: string; yearLevel?: string; language?: string }) {
     let current = await this.prisma.user.findUniqueOrThrow({ where: { id: userId }, include: { profile: true, student: true, teacher: true } });
     const changingPassword = Boolean(input.password);
     if (changingPassword && (!input.currentPassword || !(await bcrypt.compare(input.currentPassword, current.password)))) {
@@ -261,6 +261,11 @@ export class AuthService {
     if (input.language !== undefined) userData.language = input.language === 'km' ? 'km' : 'en';
     if (input.password) userData.password = await bcrypt.hash(input.password, this.passwordHashRounds());
     for (const key of ['bio', 'location', 'website', 'school', 'course', 'yearLevel']) if (input[key as keyof typeof input] !== undefined) profileData[key] = input[key as keyof typeof input]?.trim() || null;
+    if (input.telegramUsername !== undefined) {
+      const telegramUsername = input.telegramUsername.trim().replace(/^@/, '');
+      if (telegramUsername && !/^[A-Za-z0-9_]{5,32}$/.test(telegramUsername)) throw new BadRequestException('Telegram username must be 5-32 letters, numbers or underscores.');
+      profileData.telegramUsername = telegramUsername || null;
+    }
     const profile = await this.prisma.$transaction(async (tx) => {
       if (Object.keys(userData).length) await tx.user.update({ where: { id: userId }, data: userData });
       if (Object.keys(profileData).length && current.profile) await tx.profile.update({ where: { userId }, data: profileData });

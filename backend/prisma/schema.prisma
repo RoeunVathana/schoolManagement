@@ -188,6 +188,7 @@ model Profile {
   phone         String?
   location      String?
   website       String?
+  telegramUsername String?
   school        String?
   course        String?
   yearLevel     String?
