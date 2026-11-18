@@ -15,6 +15,8 @@ export const dashboardLinks = {
   CUSTOMER: [['dashboard', '/student/dashboard', 'dashboard'], ['profile', '/student/profile', 'profile'], ['friends', '/friends', 'friends'], ['groups', '/groups', 'groups'], ['message', '/chat', 'chat'], ['myCourses', '/student/courses', 'courses'], ['schedule', '/student/schedule', 'schedule'], ['homework', '/student/homework', 'homework'], ['grades', '/student/grades', 'grades'], ['attendance', '/student/attendance', 'attendance'], ['examResults', '/student/exams', 'exams'], ['certificates', '/student/certificates', 'certificates'], ['announcements', '/student/announcements', 'announcements']],
 };
 
+dashboardLinks.ADMIN.splice(5, 0, ['curriculum', '/admin/curriculum', 'courses']);
+
 const iconPaths = {
   dashboard: ['M4 4h6v6H4z', 'M14 4h6v6h-6z', 'M4 14h6v6H4z', 'M14 14h6v6h-6z'],
   profile: ['M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z', 'M4 21a8 8 0 0 1 16 0'],

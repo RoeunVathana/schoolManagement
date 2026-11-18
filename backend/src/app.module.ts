@@ -39,6 +39,7 @@ import { CacheModule } from './cache/cache.module';
 import { ContactModule } from './contact/contact.module';
 import { MailModule } from './mail/mail.module';
 import { CodeRunnerModule } from './code-runner/code-runner.module';
+import { ProgrammingContentModule } from './programming-content/programming-content.module';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { CodeRunnerModule } from './code-runner/code-runner.module';
     ContactModule,
     MailModule,
     CodeRunnerModule,
+    ProgrammingContentModule,
   ],
   controllers: [RootController, HealthController],
 })

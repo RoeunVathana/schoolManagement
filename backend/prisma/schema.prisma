@@ -728,6 +728,22 @@ model MailSetting {
   @@map("mail_settings")
 }
 
+model ProgrammingCourseContent {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?  @db.Text
+  codeLabel   String?
+  tip         String?  @db.Text
+  content     Json
+  createdById  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([updatedAt])
+  @@map("programming_course_content")
+}
+
 model BakongSetting {
   id                          String   @id @default("bakong")
   registrationPaymentRequired Boolean  @default(false)

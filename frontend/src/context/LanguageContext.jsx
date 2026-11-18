@@ -14,6 +14,11 @@ const dictionary = {
   }
 };
 
+dictionary.en.curriculum = 'Curriculum';
+dictionary.en.curriculumPage = 'Manage programming languages, units and lessons.';
+dictionary.km.curriculum = 'កម្មវិធីសិក្សា';
+dictionary.km.curriculumPage = 'គ្រប់គ្រងភាសា ឯកតា និងមេរៀនសរសេរកូដ។';
+
 const phraseAliases = {
   en: {
     'CampusFlow': 'CampusFlow', 'Directory': 'Directory', 'Curriculum': 'Curriculum', 'Administration': 'Administration', 'Admin overview': 'Admin overview', 'Teacher workspace': 'Teacher workspace', 'Student space': 'Student space', 'Your profile': 'Your profile', 'Your teaching day, at a glance.': 'Your teaching day, at a glance.', 'Keep an eye on your classes, student activity and work waiting for review.': 'Keep an eye on your classes, student activity and work waiting for review.', 'Keep your momentum going.': 'Keep your momentum going.', 'Everything you need for your classes, deadlines and results in one place.': 'Everything you need for your classes, deadlines and results in one place.', 'Courses': 'Courses', 'Students': 'Students', 'Teachers': 'Teachers', 'Users & permissions': 'Users & permissions', soundOn: '🔔 Sound', soundOff: '🔕 Muted'

@@ -20,6 +20,7 @@ const Courses = lazy(() => import('../pages/admin/Courses'));
 const Users = lazy(() => import('../pages/admin/Users'));
 const AdminSimple = lazy(() => import('../pages/admin/Simple'));
 const AdminLearningManagement = lazy(() => import('../pages/admin/LearningManagement'));
+const AdminCurriculum = lazy(() => import('../pages/admin/Curriculum'));
 const AdminTelegramSettings = lazy(() => import('../pages/admin/TelegramSettings'));
 const AdminMailSettings = lazy(() => import('../pages/admin/MailSettings'));
 const AdminBakongSettings = lazy(() => import('../pages/admin/BakongSettings'));
@@ -82,6 +83,7 @@ export default function AppRoutes() {
           <Route path="admin/students" element={<Students />} />
           <Route path="admin/teachers" element={<Teachers />} />
           <Route path="admin/courses" element={<Courses />} />
+          <Route path="admin/curriculum" element={<AdminCurriculum />} />
           <Route path="admin/users" element={<Users />} />
           <Route path="admin/telegram-settings" element={<AdminTelegramSettings />} />
           <Route path="admin/mail-settings" element={<AdminMailSettings />} />

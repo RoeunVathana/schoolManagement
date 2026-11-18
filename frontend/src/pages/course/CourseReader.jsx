@@ -2626,12 +2626,27 @@ function CodePlayground({ course, lesson, runRequest = 0 }) {
   );
 }
 
+export { courseCatalog };
+
 export default function CourseReader() {
   const { slug = "html" } = useParams();
   const { language } = useLanguage();
   const { loading: authLoading } = useAuth();
   const copy = getReaderText(language);
-  const sourceCourse = courseCatalog[slug] || courseCatalog.html;
+  const defaultCourse = courseCatalog[slug] || courseCatalog.html;
+  const [managedCourse, setManagedCourse] = useState(null);
+  useEffect(() => {
+    let active = true;
+    setManagedCourse(null);
+    api.get(`/programming-content/${encodeURIComponent(slug)}`)
+      .then((response) => {
+        const content = unwrap(response);
+        if (active && String(content?.slug || '').toLowerCase() === String(slug).toLowerCase() && Array.isArray(content.lessons) && content.lessons.some((unit) => Array.isArray(unit?.items) && unit.items.length)) setManagedCourse(content);
+      })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, [slug]);
+  const sourceCourse = managedCourse && String(managedCourse.slug).toLowerCase() === String(slug).toLowerCase() ? managedCourse : defaultCourse;
   const course = useMemo(() => localizeCourseForLanguage(sourceCourse, language), [sourceCourse, language]);
   // Every subject now uses the same full-course reading flow. The catalog is
   // normalized above so each lesson has original CampusFlow detail, keywords,
