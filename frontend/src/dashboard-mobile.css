@@ -1,0 +1,125 @@
+/* Keep the admin dashboard fluid on narrow phones without creating a second
+   scrolling surface. The document remains the only vertical scroll owner. */
+.dashboard-mobile-layout,
+.dashboard-mobile-layout > *,
+.dashboard-mobile-layout .dashboard-panel,
+.dashboard-mobile-layout .dashboard-chart-shell,
+.dashboard-mobile-layout .dashboard-course-chart,
+.dashboard-mobile-layout .recharts-responsive-container {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dashboard-mobile-layout .dashboard-chart-shell,
+.dashboard-mobile-layout .dashboard-course-chart {
+  overflow: hidden;
+}
+
+.dashboard-mobile-layout .dashboard-hero-actions > *,
+.dashboard-mobile-layout .dashboard-quick-action,
+.dashboard-mobile-layout .dashboard-pulse-row {
+  min-width: 0;
+}
+
+.dashboard-mobile-layout .dashboard-panel h2,
+.dashboard-mobile-layout .dashboard-panel p,
+.dashboard-mobile-layout .dashboard-quick-action strong,
+.dashboard-mobile-layout .dashboard-quick-action small,
+.dashboard-mobile-layout .dashboard-pulse-row span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 639px) {
+  .dashboard-mobile-layout {
+    padding-bottom: 0.5rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero {
+    margin-bottom: 1rem;
+    border-radius: 1.35rem;
+    padding: 1.1rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero-content {
+    gap: 1.1rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero h1 {
+    font-size: clamp(1.65rem, 8vw, 2.25rem);
+    line-height: 1.08;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero p {
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero-actions {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-mobile-layout .dashboard-hero-actions > * {
+    display: flex;
+    min-height: 2.8rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dashboard-mobile-layout .dashboard-stat-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-analytics-grid,
+  .dashboard-mobile-layout .dashboard-lower-grid {
+    gap: 0.85rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-panel {
+    border-radius: 1.25rem;
+    padding: 1rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-chart-shell {
+    height: clamp(13.5rem, 56vw, 17rem) !important;
+  }
+
+  .dashboard-mobile-layout .dashboard-course-chart {
+    height: clamp(11.5rem, 48vw, 14rem) !important;
+  }
+
+  .dashboard-mobile-layout .dashboard-quick-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-mobile-layout .dashboard-quick-action {
+    padding: 0.7rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-pulse-row > div:first-child {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-mobile-layout .dashboard-hero {
+    padding: 0.9rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-panel {
+    padding: 0.85rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-hero h1 {
+    font-size: 1.65rem;
+  }
+
+  .dashboard-mobile-layout .dashboard-chart-shell {
+    height: 13rem !important;
+  }
+
+  .dashboard-mobile-layout .dashboard-course-chart {
+    height: 11rem !important;
+  }
+}

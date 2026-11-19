@@ -18,6 +18,7 @@ import './public-mobile-menu-grid.css';
 import './macbook-navbar.css';
 import './navbar-icon-text-polish.css';
 import './storefront-language-spacing.css';
+import './dashboard-mobile.css';
 // Keep the native-scroll contract last so route-specific styles cannot
 // re-enable smooth scrolling, reveal motion, or expensive page transforms.
 import './natural-scroll.css';
