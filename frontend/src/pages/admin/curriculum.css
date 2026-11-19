@@ -115,8 +115,11 @@
 
   .curriculum-unit-panel {
     height: 100%;
-    max-height: none;
-    overflow: visible;
+    max-height: calc(100dvh - 7.5rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
   }
 }
 
