@@ -105,6 +105,21 @@
   scrollbar-width: thin;
 }
 
+/* On wide screens the editor column is the grid's full-height reference.
+   Let the unit navigator stretch with it instead of stopping at a separate
+   viewport cap and leaving an empty panel beside the lesson editor. */
+@media (min-width: 1280px) {
+  .curriculum-content-grid {
+    align-items: stretch;
+  }
+
+  .curriculum-unit-panel {
+    height: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
 .curriculum-page input,
 .curriculum-page textarea,
 .curriculum-page select {
