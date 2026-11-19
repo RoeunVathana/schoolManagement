@@ -52,6 +52,35 @@
   background: rgb(248 250 252 / .68);
 }
 
+/* Keep the curriculum navigator in the same deep, layered palette as the
+   rest of the admin workspace when dark mode is active. The light fallback
+   above was otherwise rendered as a washed-out gray card. */
+.dark .curriculum-unit-card {
+  border-color: #294861;
+  background: linear-gradient(145deg, #142b43 0%, #102238 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .035), 0 12px 28px rgb(0 0 0 / .16);
+}
+
+.dark .curriculum-unit-card:hover {
+  border-color: #3e9bc3;
+  background: linear-gradient(145deg, #173750 0%, #122a43 100%);
+}
+
+.dark .curriculum-unit-card.is-active {
+  border-color: #43b8e5;
+  background: linear-gradient(145deg, #19425a 0%, #14364d 100%);
+  box-shadow: inset 0 1px 0 rgb(141 228 202 / .08), 0 14px 30px rgb(0 0 0 / .22);
+}
+
+.dark .curriculum-unit-card .curriculum-lesson-list {
+  border-color: #31556d;
+}
+
+.dark .curriculum-lesson-row.is-active {
+  background: rgb(36 87 111 / .72);
+  box-shadow: inset 0 0 0 1px rgb(84 202 236 / .16), 0 6px 14px rgb(0 0 0 / .14);
+}
+
 .curriculum-unit-card:hover {
   border-color: rgb(56 189 248 / .58);
   transform: translateY(-1px);
