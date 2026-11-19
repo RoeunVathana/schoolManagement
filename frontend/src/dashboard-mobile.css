@@ -29,6 +29,19 @@
   overflow-wrap: anywhere;
 }
 
+/* The dashboard navbar is fixed above the mobile drawer. Start the drawer
+   below it so the close control and the first navigation item are never
+   hidden behind the header. Desktop keeps the full-height sidebar. */
+@media (max-width: 1023px) {
+  #dashboard-navigation.sidebar-shell {
+    top: var(--dashboard-navbar-height, 4rem) !important;
+    right: auto !important;
+    bottom: auto !important;
+    height: calc(100dvh - var(--dashboard-navbar-height, 4rem)) !important;
+    z-index: 90 !important;
+  }
+}
+
 @media (max-width: 639px) {
   .dashboard-mobile-layout {
     padding-bottom: 0.5rem;
