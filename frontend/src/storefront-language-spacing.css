@@ -1,0 +1,26 @@
+/* The storefront selector is flag-only now; do not reserve space for the
+   removed EN/KH label or add horizontal padding around the control. */
+.site-public-navbar [data-language-menu] > .language-menu-trigger {
+  width: max-content !important;
+  min-width: 0 !important;
+  padding-inline: 0 !important;
+  gap: .3rem !important;
+}
+
+/* Keep the compact control easy to tap without bringing back the wide
+   label-sized button on phones. */
+@media (max-width: 767px) {
+  .site-public-navbar [data-language-menu] > .language-menu-trigger {
+    min-width: 2.75rem !important;
+    min-height: 2.65rem !important;
+    height: 2.65rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-public-navbar [data-language-menu] > .language-menu-trigger {
+    min-width: 2.6rem !important;
+    min-height: 2.55rem !important;
+    height: 2.55rem !important;
+  }
+}
