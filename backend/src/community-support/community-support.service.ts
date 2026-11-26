@@ -160,10 +160,10 @@ export class CommunitySupportService {
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: this.config.get<string>('OPENAI_TTS_MODEL') || 'gpt-4o-mini-tts',
-            voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
+            voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'onyx',
             input: cleanText,
             instructions: language === 'km'
-              ? 'Speak in warm, clear, natural Khmer like a friendly human support person. Use a relaxed conversational pace, gentle intonation, natural short pauses between phrases, and smooth sentence endings. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
+              ? 'Speak in a warm, clear, natural adult male Khmer voice like a friendly human support person. Use a relaxed conversational pace, gentle masculine intonation, natural short pauses between phrases, and smooth sentence endings. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
               : 'Speak like a warm, patient human customer-support person at a natural conversational pace, with short pauses and friendly intonation.',
             response_format: 'mp3',
           }),
@@ -213,7 +213,7 @@ export class CommunitySupportService {
           }],
           response_format: { type: 'audio' },
           generation_config: {
-            speech_config: [{ voice: this.config.get<string>('GEMINI_TTS_VOICE') || 'Kore' }],
+            speech_config: [{ voice: this.config.get<string>('GEMINI_TTS_VOICE') || 'Charon' }],
           },
         }),
         signal: controller.signal,
