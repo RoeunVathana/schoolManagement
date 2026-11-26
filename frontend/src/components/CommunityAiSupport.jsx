@@ -88,6 +88,11 @@ function speechLocale(content, language) {
   return /[\u1780-\u17ff]/u.test(content) || language === 'km' ? 'km-KH' : 'en-US';
 }
 
+// Khmer voices tend to render noticeably slower than English on phones. Keep
+// the faster pace in one place so generated audio and browser fallback match.
+const KHMER_AUDIO_PLAYBACK_RATE = 1.28;
+const KHMER_BROWSER_SPEECH_RATE = 1.18;
+
 function createSilentAudioDataUrl() {
   const dataLength = 800;
   const buffer = new ArrayBuffer(44 + dataLength);
@@ -222,7 +227,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
           || voices.find((item) => item.default);
         if (voice) utterance.voice = voice;
         utterance.lang = locale;
-        utterance.rate = locale === 'km-KH' ? 1.08 : 0.96;
+        utterance.rate = locale === 'km-KH' ? KHMER_BROWSER_SPEECH_RATE : 0.96;
         utterance.pitch = 1.02;
         utterance.volume = 0.96;
         utterance.onstart = () => { speechRef.current = utterance; setSpeakingId(message.id); };
@@ -256,8 +261,13 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
       audio.preload = 'auto';
       audio.playsInline = true;
       audio.setAttribute('playsinline', 'true');
-      audio.defaultPlaybackRate = locale === 'km-KH' ? 1.12 : 1;
-      audio.playbackRate = locale === 'km-KH' ? 1.12 : 1;
+      const playbackRate = locale === 'km-KH' ? KHMER_AUDIO_PLAYBACK_RATE : 1;
+      audio.defaultPlaybackRate = playbackRate;
+      audio.playbackRate = playbackRate;
+      // Preserve the natural Khmer pitch while the audio is made brisker.
+      audio.preservesPitch = true;
+      audio.mozPreservesPitch = true;
+      audio.webkitPreservesPitch = true;
       audioRef.current = audio;
       audioUrlRef.current = url;
       speechAbortRef.current = null;
