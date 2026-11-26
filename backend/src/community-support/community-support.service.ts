@@ -111,34 +111,69 @@ export class CommunitySupportService {
     this.lastRequestByUser.set(speechKey, now);
 
     const geminiApiKey = this.config.get<string>('GEMINI_API_KEY')?.trim();
-    if (geminiApiKey) return this.geminiSpeech(geminiApiKey, cleanText, language);
-
-    const apiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
-    if (!apiKey) throw new HttpException('AI speech is not configured.', HttpStatus.SERVICE_UNAVAILABLE);
-
-    const response = await fetch('https://api.openai.com/v1/audio/speech', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: this.config.get<string>('OPENAI_TTS_MODEL') || 'gpt-4o-mini-tts',
-        voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
-        input: cleanText,
-        instructions: language === 'km'
-          ? 'Speak clearly and warmly in natural Khmer. Use a friendly customer-support tone, with comfortable pauses and human-like intonation.'
-          : 'Speak like a warm, patient human customer-support person. Use a natural pace, comfortable pauses, and friendly intonation.',
-        response_format: 'mp3',
-      }),
-    });
-
-    if (!response.ok) {
-      const detail = await response.text().catch(() => '');
-      throw new HttpException(detail || 'AI speech generation failed.', HttpStatus.BAD_GATEWAY);
+    if (geminiApiKey) {
+      const configuredModel = this.config.get<string>('GEMINI_TTS_MODEL')?.trim();
+      const models = [
+        configuredModel,
+        'gemini-3.8-flash-tts',
+        'gemini-3.8-flash-lite-tts',
+        'gemini-3.1-flash-tts-preview',
+        'gemini-2.5-flash-preview-tts',
+      ].filter((model, index, list): model is string => Boolean(model) && list.indexOf(model) === index);
+      for (const model of models) {
+        try {
+          return await this.geminiSpeech(geminiApiKey, cleanText, language, model);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Unknown Gemini speech error';
+          console.warn(`Gemini community speech failed for ${model}: ${message}`);
+        }
+      }
     }
 
-    return { audio: Buffer.from(await response.arrayBuffer()), contentType: 'audio/mpeg' };
+    const apiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
+    if (apiKey) {
+      try {
+        const response = await fetch('https://api.openai.com/v1/audio/speech', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: this.config.get<string>('OPENAI_TTS_MODEL') || 'gpt-4o-mini-tts',
+            voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
+            input: cleanText,
+            instructions: language === 'km'
+              ? 'Speak clearly and warmly in natural Khmer. Use a friendly customer-support tone, with comfortable pauses and human-like intonation.'
+              : 'Speak like a warm, patient human customer-support person. Use a natural pace, comfortable pauses, and friendly intonation.',
+            response_format: 'mp3',
+          }),
+        });
+
+        if (!response.ok) {
+          const detail = await response.text().catch(() => '');
+          throw new Error(detail || 'OpenAI speech generation failed.');
+        }
+        return { audio: Buffer.from(await response.arrayBuffer()), contentType: 'audio/mpeg' };
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown OpenAI speech error';
+        console.warn(`OpenAI community speech failed: ${message}`);
+      }
+    }
+
+    // Keep Khmer speech working when a configured provider is temporarily out
+    // of quota. This endpoint is only used as a last-resort audio fallback;
+    // normal traffic still uses Gemini or OpenAI for the more natural voice.
+    if (this.config.get<string>('GOOGLE_TRANSLATE_TTS_FALLBACK') !== 'false') {
+      try {
+        return await this.googleTranslateSpeech(cleanText, language);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown Google speech error';
+        console.warn(`Google Translate community speech fallback failed: ${message}`);
+      }
+    }
+
+    throw new HttpException('AI speech is temporarily unavailable.', HttpStatus.SERVICE_UNAVAILABLE);
   }
 
-  private async geminiSpeech(apiKey: string, text: string, language: SpeechLanguage): Promise<SpeechResult> {
+  private async geminiSpeech(apiKey: string, text: string, language: SpeechLanguage, model: string): Promise<SpeechResult> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25000);
     try {
@@ -146,7 +181,7 @@ export class CommunitySupportService {
         method: 'POST',
         headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: this.config.get<string>('GEMINI_TTS_MODEL') || 'gemini-3.8-flash-tts',
+          model,
           input: [{
             type: 'user_input',
             content: [{
@@ -180,6 +215,63 @@ export class CommunitySupportService {
     } finally {
       clearTimeout(timeout);
     }
+  }
+
+  private async googleTranslateSpeech(text: string, language: SpeechLanguage): Promise<SpeechResult> {
+    const chunks = this.splitSpeechText(text, 180);
+    const audioParts: Buffer[] = [];
+    const locale = language === 'km' ? 'km' : 'en';
+
+    for (const chunk of chunks) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      try {
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${locale}&q=${encodeURIComponent(chunk)}`;
+        const response = await fetch(url, {
+          headers: { Accept: 'audio/mpeg' },
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`Google Translate returned HTTP ${response.status}`);
+        audioParts.push(Buffer.from(await response.arrayBuffer()));
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    if (!audioParts.length) throw new Error('Google Translate returned no audio');
+    return { audio: Buffer.concat(audioParts), contentType: 'audio/mpeg' };
+  }
+
+  private splitSpeechText(text: string, maxLength: number) {
+    const normalized = text.replace(/\s+/gu, ' ').trim();
+    if (normalized.length <= maxLength) return [normalized];
+    const sentences = normalized.split(/(?<=[.!?។៕])\s+/u);
+    const chunks: string[] = [];
+    let current = '';
+    for (const sentence of sentences) {
+      if (!current) {
+        current = sentence;
+      } else if ((current.length + sentence.length + 1) <= maxLength) {
+        current += ` ${sentence}`;
+      } else {
+        chunks.push(current);
+        current = sentence;
+      }
+    }
+    if (current) chunks.push(current);
+    return chunks.flatMap((chunk) => {
+      if (chunk.length <= maxLength) return [chunk];
+      const words = chunk.split(' ');
+      const parts: string[] = [];
+      let part = '';
+      for (const word of words) {
+        if (!part) part = word;
+        else if ((part.length + word.length + 1) <= maxLength) part += ` ${word}`;
+        else { parts.push(part); part = word; }
+      }
+      if (part) parts.push(part);
+      return parts;
+    });
   }
 
   private fallbackKhmer(question: string) {
