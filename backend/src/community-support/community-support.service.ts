@@ -117,7 +117,6 @@ export class CommunitySupportService {
         configuredModel,
         'gemini-3.8-flash-tts',
         'gemini-3.8-flash-lite-tts',
-        'gemini-3.1-flash-tts-preview',
         'gemini-2.5-flash-preview-tts',
       ].filter((model, index, list): model is string => Boolean(model) && list.indexOf(model) === index);
       for (const model of models) {
@@ -187,12 +186,6 @@ export class CommunitySupportService {
             content: [{
               type: 'text',
               text,
-              annotations: [{
-                type: 'speech_metadata',
-                style: language === 'km'
-                  ? 'warm, natural, clear Khmer customer-support voice at a distinctly brisk conversational pace, about 1.3x normal, with very short pauses and connected phrasing'
-                  : 'warm, natural customer-support voice at a natural conversational pace with short pauses',
-              }],
             }],
           }],
           response_format: { type: 'audio' },
