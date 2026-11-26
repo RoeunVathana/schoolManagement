@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 type SupportResult = { answer: string; source: 'ai' | 'fallback'; configured: boolean };
 type SpeechLanguage = 'en' | 'km';
+type SpeechResult = { audio: Buffer; contentType: 'audio/mpeg' | 'audio/wav' };
 
 @Injectable()
 export class CommunitySupportService {
@@ -48,7 +49,7 @@ export class CommunitySupportService {
     }
   }
 
-  async speech(userId: string, text: string, language: SpeechLanguage): Promise<Buffer> {
+  async speech(userId: string, text: string, language: SpeechLanguage): Promise<SpeechResult> {
     const cleanText = text.trim().slice(0, 2000);
     if (!cleanText) throw new HttpException('Speech text is required.', HttpStatus.BAD_REQUEST);
 
@@ -57,6 +58,9 @@ export class CommunitySupportService {
     const lastRequest = this.lastRequestByUser.get(speechKey) || 0;
     if (now - lastRequest < 700) throw new HttpException('Please wait a moment before playing another reply.', HttpStatus.TOO_MANY_REQUESTS);
     this.lastRequestByUser.set(speechKey, now);
+
+    const geminiApiKey = this.config.get<string>('GEMINI_API_KEY')?.trim();
+    if (geminiApiKey) return this.geminiSpeech(geminiApiKey, cleanText, language);
 
     const apiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
     if (!apiKey) throw new HttpException('AI speech is not configured.', HttpStatus.SERVICE_UNAVAILABLE);
@@ -80,7 +84,51 @@ export class CommunitySupportService {
       throw new HttpException(detail || 'AI speech generation failed.', HttpStatus.BAD_GATEWAY);
     }
 
-    return Buffer.from(await response.arrayBuffer());
+    return { audio: Buffer.from(await response.arrayBuffer()), contentType: 'audio/mpeg' };
+  }
+
+  private async geminiSpeech(apiKey: string, text: string, language: SpeechLanguage): Promise<SpeechResult> {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000);
+    try {
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
+        method: 'POST',
+        headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: this.config.get<string>('GEMINI_TTS_MODEL') || 'gemini-3.8-flash-tts',
+          input: [{
+            type: 'user_input',
+            content: [{
+              type: 'text',
+              text,
+              annotations: [{
+                type: 'speech_metadata',
+                style: language === 'km'
+                  ? 'warm, natural, clear Khmer customer-support voice with friendly intonation and comfortable pauses'
+                  : 'warm, natural customer-support voice with friendly intonation and comfortable pauses',
+              }],
+            }],
+          }],
+          response_format: { type: 'audio' },
+          generation_config: {
+            speech_config: [{ voice: this.config.get<string>('GEMINI_TTS_VOICE') || 'Kore' }],
+          },
+        }),
+        signal: controller.signal,
+      });
+      const data = await response.json() as {
+        steps?: Array<{ content?: Array<{ type?: string; data?: string }> }>;
+        error?: { message?: string };
+      };
+      if (!response.ok) throw new Error(data.error?.message || 'Gemini speech generation failed');
+      const audioData = data.steps?.flatMap((step) => step.content || [])
+        .reverse()
+        .find((content) => content.type === 'audio' && content.data)?.data;
+      if (!audioData) throw new Error('Gemini speech returned no audio');
+      return { audio: Buffer.from(audioData, 'base64'), contentType: 'audio/wav' };
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   private fallbackKhmer(question: string) {

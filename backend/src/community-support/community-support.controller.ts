@@ -25,8 +25,8 @@ export class CommunitySupportController {
 
   @Post('speech')
   async speech(@CurrentUser() user: { id: string }, @Body() dto: CommunitySpeechDto, @Res() response: Response) {
-    const audio = await this.support.speech(user.id, dto.text, dto.language || 'en');
-    response.set({ 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store', 'Content-Length': audio.length });
-    response.send(audio);
+    const result = await this.support.speech(user.id, dto.text, dto.language || 'en');
+    response.set({ 'Content-Type': result.contentType, 'Cache-Control': 'no-store', 'Content-Length': result.audio.length });
+    response.send(result.audio);
   }
 }

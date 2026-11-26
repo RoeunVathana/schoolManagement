@@ -19,8 +19,8 @@ export class PublicCommunitySupportController {
   @Post('public/speech')
   @ApiOperation({ summary: 'Generate spoken CampusFlow AI support without signing in' })
   async speech(@Ip() ip: string, @Body() dto: CommunitySpeechDto, @Res() response: Response) {
-    const audio = await this.support.speech(`guest:${ip || 'unknown'}`, dto.text, dto.language || 'en');
-    response.set({ 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store', 'Content-Length': audio.length });
-    response.send(audio);
+    const result = await this.support.speech(`guest:${ip || 'unknown'}`, dto.text, dto.language || 'en');
+    response.set({ 'Content-Type': result.contentType, 'Cache-Control': 'no-store', 'Content-Length': result.audio.length });
+    response.send(result.audio);
   }
 }
