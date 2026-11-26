@@ -287,6 +287,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     event?.preventDefault();
     const value = (preset || question).trim();
     if (!value || busy) return;
+    const requestedAction = suggestedAction(value, { publicMode, user, text });
     setBusy(true);
     setError('');
     setQuestion('');
@@ -300,7 +301,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
         role: 'assistant',
         text: result.answer,
         source: result.source,
-        action: suggestedAction(value, { publicMode, user, text }),
+        action: requestedAction,
       };
       setMessages((current) => [...current, assistantMessage]);
       if (autoSpeak) {
@@ -313,6 +314,12 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
       }
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.unavailable);
+      // Keep explicit navigation commands useful even when the AI provider is
+      // temporarily unavailable or times out. The route is already known from
+      // the customer's intent, so a provider failure should not block it.
+      if (requestedAction?.auto) {
+        window.setTimeout(() => openAction(requestedAction), 700);
+      }
     } finally {
       setBusy(false);
     }
