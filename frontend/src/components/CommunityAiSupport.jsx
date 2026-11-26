@@ -88,6 +88,29 @@ function speechLocale(content, language) {
   return /[\u1780-\u17ff]/u.test(content) || language === 'km' ? 'km-KH' : 'en-US';
 }
 
+function createSilentAudioDataUrl() {
+  const dataLength = 800;
+  const buffer = new ArrayBuffer(44 + dataLength);
+  const view = new DataView(buffer);
+  const writeText = (offset, value) => [...value].forEach((character, index) => view.setUint8(offset + index, character.charCodeAt(0)));
+  writeText(0, 'RIFF');
+  view.setUint32(4, buffer.byteLength - 8, true);
+  writeText(8, 'WAVE');
+  writeText(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, 8000, true);
+  view.setUint32(28, 8000, true);
+  view.setUint16(32, 1, true);
+  view.setUint16(34, 8, true);
+  writeText(36, 'data');
+  view.setUint32(40, dataLength, true);
+  let binary = '';
+  new Uint8Array(buffer).forEach((byte) => { binary += String.fromCharCode(byte); });
+  return `data:audio/wav;base64,${window.btoa(binary)}`;
+}
+
 export default function CommunityAiSupport({ publicMode = false, dockOpen = true, onOpenChange }) {
   const { user } = useAuth();
   const { language } = useLanguage();
@@ -114,6 +137,9 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const speechRef = useRef(null);
   const speechAbortRef = useRef(null);
   const audioRef = useRef(null);
+  const audioUnlockRef = useRef(null);
+  const audioUnlockPromiseRef = useRef(null);
+  const audioUnlockedRef = useRef(false);
   const audioUrlRef = useRef(null);
   const voicesRef = useRef([]);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
@@ -123,6 +149,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     speechAbortRef.current?.abort();
     if (audioRef.current) audioRef.current.pause();
+    if (audioUnlockRef.current) audioUnlockRef.current.pause();
     if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current);
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
   }, []);
@@ -152,6 +179,30 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
     speechRef.current = null;
     setSpeakingId(null);
+  }
+
+  // iOS Safari requires a user gesture before it allows an audio element to
+  // play. Prime a short silent clip from the tap/click, then the generated
+  // voice audio can be attached after the API request completes.
+  function primeAudioPlayback() {
+    if (typeof window === 'undefined' || typeof window.Audio !== 'function' || audioUnlockedRef.current) return;
+    const audio = audioUnlockRef.current || new window.Audio(createSilentAudioDataUrl());
+    audioUnlockRef.current = audio;
+    audio.preload = 'auto';
+    audio.muted = true;
+    audio.playsInline = true;
+    audio.setAttribute('playsinline', 'true');
+    if (!audioUnlockPromiseRef.current) {
+      audioUnlockPromiseRef.current = audio.play()
+        .then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audioUnlockedRef.current = true;
+        })
+        .catch(() => {
+          audioUnlockPromiseRef.current = null;
+        });
+    }
   }
 
   function speakBrowserMessage(message) {
@@ -186,6 +237,8 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
 
   async function playMessage(message) {
     if (!message?.text || typeof window === 'undefined') return;
+    primeAudioPlayback();
+    const unlockPromise = audioUnlockPromiseRef.current;
     stopSpeaking();
     const controller = new AbortController();
     speechAbortRef.current = controller;
@@ -193,9 +246,13 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
       const endpoint = publicMode ? '/api/community-support/public/speech' : '/api/community-support/speech';
       const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal });
       if (controller.signal.aborted) return;
+      if (unlockPromise) await unlockPromise;
       const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
+      audio.preload = 'auto';
+      audio.playsInline = true;
+      audio.setAttribute('playsinline', 'true');
       audioRef.current = audio;
       audioUrlRef.current = url;
       speechAbortRef.current = null;
@@ -219,7 +276,10 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     setPanelMounted(true);
     onOpenChange?.(true);
     window.requestAnimationFrame(() => setOpen(true));
-    if (speakWelcome && autoSpeak) void playMessage({ id: 'welcome', text: text.welcome });
+    if (speakWelcome && autoSpeak) {
+      primeAudioPlayback();
+      void playMessage({ id: 'welcome', text: text.welcome });
+    }
   };
 
   const closePanel = () => {
@@ -288,6 +348,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     const value = (preset || question).trim();
     if (!value || busy) return;
     const requestedAction = suggestedAction(value, { publicMode, user, text });
+    if (autoSpeak) primeAudioPlayback();
     setBusy(true);
     setError('');
     setQuestion('');
@@ -325,6 +386,15 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     }
   };
 
+  const handlePlayMessage = (message) => {
+    if (speakingId === message.id) {
+      stopSpeaking();
+      return;
+    }
+    primeAudioPlayback();
+    void playMessage(message);
+  };
+
   return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px` }} aria-hidden={!dockOpen} className={`support-dock-item ${dockOpen ? 'is-expanded' : 'is-collapsed'} ${panelMounted ? 'is-panel-open' : ''} community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
     {panelMounted && <section className={`community-ai-panel ${panelClosing ? 'is-closing' : open ? 'is-open' : ''} mb-3 flex w-[min(24rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,36,63,.22)] dark:border-slate-700 dark:bg-[#101c30]`} aria-hidden={!open} aria-label={text.title} role="dialog">
       <header className="community-ai-header flex items-center justify-between gap-3 bg-navy px-4 py-3 text-white">
@@ -332,7 +402,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
         <div className="community-ai-header-actions"><span className="community-ai-language-pill">{language === 'km' ? 'ខ្មែរ' : 'EN'}</span><button type="button" onClick={closePanel} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></div>
       </header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">
-        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => (speakingId === message.id ? stopSpeaking() : void playMessage(message))}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <button type="button" className="community-ai-action-button" onClick={() => openAction(message.action)} title={message.action.title}>{message.action.label}</button>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
+        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => handlePlayMessage(message)}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <button type="button" className="community-ai-action-button" onClick={() => openAction(message.action)} title={message.action.title}>{message.action.label}</button>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
         {busy && <div className="flex justify-start"><div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-slate-400 shadow-sm dark:bg-slate-800">{text.thinking}</div></div>}
         <div className="flex flex-wrap gap-1.5">{!hasConversation && text.quickQuestions.map((item) => <button type="button" key={item} onClick={(event) => ask(event, item)} className="rounded-full border border-mint/60 bg-mint/20 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition hover:bg-mint/40 dark:text-mint">{item}</button>)}</div>
       </div>
