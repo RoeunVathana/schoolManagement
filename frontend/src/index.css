@@ -3551,13 +3551,16 @@ a, button, input, textarea, select { max-width: 100%; }
 .dark .community-ai-action-button { border-color: #38516a; color: #c8dae8; background: #182b42; }
 .dark .community-ai-action-button { border-color: rgb(167 145 255 / .28); color: #d9d1ff; background: rgb(111 88 217 / .2); }
 .community-ai-speak-button:disabled { cursor: not-allowed; opacity: .5; }
+.community-ai-speak-spinner { display: inline-block; width: .7rem; height: .7rem; border: 2px solid currentColor; border-right-color: transparent; border-radius: 999px; vertical-align: -.1rem; animation: communityAiSpin .7s linear infinite; }
 .community-ai-voice-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .45rem .75rem; margin-bottom: .55rem; }
 .community-ai-voice-toggle { display: inline-flex; align-items: center; gap: .4rem; color: #5b6f83; font-size: .68rem; font-weight: 850; cursor: pointer; }
 .community-ai-voice-toggle input { width: .95rem; height: .95rem; accent-color: #6f58d9; }
 .dark .community-ai-voice-toggle { color: #bdd0df; }
 .community-ai-voice-status { display: inline-flex; align-items: center; gap: .32rem; color: #8a9bab; font-size: .62rem; font-weight: 750; }
 .community-ai-voice-status.is-ready { color: #168665; }
+.community-ai-voice-status.is-loading { color: #5b45bc; }
 .dark .community-ai-voice-status.is-ready { color: #83e3c5; }
+@keyframes communityAiSpin { to { transform: rotate(360deg); } }
 @keyframes communityAiAvatarPulse { 0%, 100% { transform: scale(1); box-shadow: inset 0 0 0 2px rgb(255 255 255 / .45), 0 8px 18px rgb(0 0 0 / .22); } 50% { transform: scale(1.06); box-shadow: inset 0 0 0 2px rgb(255 255 255 / .65), 0 0 0 6px rgb(92 224 170 / .15), 0 10px 24px rgb(0 0 0 / .28); } }
 
 @keyframes communityAiPanelIn {

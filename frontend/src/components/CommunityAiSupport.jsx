@@ -21,6 +21,7 @@ const translations = {
     unavailable: 'AI support is temporarily unavailable.',
     listen: 'Listen',
     stop: 'Stop',
+    loadingAudio: 'Loading voice...',
     autoPlay: 'Auto-play replies',
     voiceReady: 'AI voice ready',
     voiceUnavailable: 'AI voice fallback unavailable',
@@ -50,6 +51,7 @@ const translations = {
     unavailable: 'ជំនួយ AI មិនអាចប្រើបានជាបណ្តោះអាសន្នទេ។',
     listen: 'ស្តាប់',
     stop: 'បញ្ឈប់',
+    loadingAudio: 'កំពុងរៀបចំសំឡេង...',
     autoPlay: 'ចាក់សំឡេងចម្លើយដោយស្វ័យប្រវត្តិ',
     voiceReady: 'សំឡេង AI រួចរាល់',
     voiceUnavailable: 'មិនអាចប្រើសំឡេងបម្រុងបានទេ',
@@ -134,6 +136,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [layoutViewportHeight, setLayoutViewportHeight] = useState(0);
   const [speakingId, setSpeakingId] = useState(null);
+  const [speechLoadingId, setSpeechLoadingId] = useState(null);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [autoSpeak, setAutoSpeak] = useState(() => {
     try {
@@ -194,6 +197,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
     speechRef.current = null;
     setSpeakingId(null);
+    setSpeechLoadingId(null);
   }
 
   function clearSpeechRetry() {
@@ -284,6 +288,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
     stopSpeaking();
     const controller = new AbortController();
     speechAbortRef.current = controller;
+    setSpeechLoadingId(message.id);
     try {
       const endpoint = publicMode ? '/api/community-support/public/speech' : '/api/community-support/speech';
       const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal, timeout: AI_REQUEST_TIMEOUT_MS, suppressSuccessToast: true });
@@ -306,15 +311,19 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
       audioRef.current = audio;
       audioUrlRef.current = url;
       speechAbortRef.current = null;
-      audio.onplay = () => setSpeakingId(message.id);
+      audio.onplay = () => {
+        setSpeechLoadingId(null);
+        setSpeakingId(message.id);
+      };
       return await new Promise((resolve, reject) => {
-        audio.onended = () => { if (audioRef.current === audio) { audioRef.current = null; setSpeakingId(null); URL.revokeObjectURL(url); audioUrlRef.current = null; } resolve(); };
+        audio.onended = () => { if (audioRef.current === audio) { audioRef.current = null; setSpeakingId(null); setSpeechLoadingId(null); URL.revokeObjectURL(url); audioUrlRef.current = null; } resolve(); };
         audio.onerror = () => reject(new Error('AI audio could not be played'));
         audio.play().catch(reject);
       });
     } catch (requestError) {
       if (controller.signal.aborted) return;
       speechAbortRef.current = null;
+      setSpeechLoadingId(null);
       scheduleSpeechRetry(message);
       // Khmer falls back to the device voice only when the server voice is unavailable.
       return speakBrowserMessage(message);
@@ -474,12 +483,17 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
   };
 
   const handlePlayMessage = (message) => {
-    if (speakingId === message.id) {
+    if (speakingId === message.id || speechLoadingId === message.id) {
       stopSpeaking();
       return;
     }
     primeAudioPlayback();
     void playMessage(message);
+  };
+
+  const speechButtonContent = (message) => {
+    if (speechLoadingId === message.id) return <><span className="community-ai-speak-spinner" aria-hidden="true" /> {text.loadingAudio}</>;
+    return speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`;
   };
 
   const handleQuestionKeyDown = (event) => {
@@ -495,11 +509,11 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
         <div className="community-ai-header-actions"><span className="community-ai-language-pill">{language === 'km' ? 'ខ្មែរ' : 'EN'}</span><button type="button" onClick={closePanel} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></div>
       </header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">
-        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => handlePlayMessage(message)}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <a href={message.action.to} className="community-ai-action-button" onClick={(event) => handleActionLink(event, message.action)} title={message.action.title}>{message.action.label} ↗</a>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
+        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => handlePlayMessage(message)} aria-busy={speechLoadingId === message.id}>{speechButtonContent(message)}</button>{message.action && <a href={message.action.to} className="community-ai-action-button" onClick={(event) => handleActionLink(event, message.action)} title={message.action.title}>{message.action.label} ↗</a>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
         {busy && <div className="flex justify-start"><div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-slate-400 shadow-sm dark:bg-slate-800">{text.thinking}</div></div>}
         <div className="flex flex-wrap gap-1.5">{!hasConversation && text.quickQuestions.map((item) => <button type="button" key={item} onClick={(event) => ask(event, item)} className="rounded-full border border-mint/60 bg-mint/20 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition hover:bg-mint/40 dark:text-mint">{item}</button>)}</div>
       </div>
-      <form onSubmit={ask} className="border-t border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-[#101c30]"><div className="community-ai-voice-bar"><label className="community-ai-voice-toggle"><input type="checkbox" checked={autoSpeak} onChange={handleAutoSpeak} /> <span>{text.autoPlay}</span></label><span className={`community-ai-voice-status ${speechSupported ? 'is-ready' : ''}`}><i aria-hidden="true" /> {speechSupported ? text.voiceReady : text.voiceUnavailable}</span></div><div className="flex items-end gap-2"><textarea value={question} onChange={(event) => setQuestion(event.target.value)} onKeyDown={handleQuestionKeyDown} rows="2" maxLength="1000" disabled={busy} placeholder={text.placeholder} className="min-h-[2.75rem] min-w-0 flex-1 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-mint focus:ring-4 focus:ring-mint/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white" /><button type="submit" disabled={!question.trim() || busy} className="rounded-xl bg-mint px-3.5 py-2.5 text-sm font-black text-navy transition hover:bg-[#83e3c5] disabled:cursor-not-allowed disabled:opacity-50">{text.send}</button></div>{error && <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-300">{error}</p>}</form>
+      <form onSubmit={ask} className="border-t border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-[#101c30]"><div className="community-ai-voice-bar"><label className="community-ai-voice-toggle"><input type="checkbox" checked={autoSpeak} onChange={handleAutoSpeak} /> <span>{text.autoPlay}</span></label><span className={`community-ai-voice-status ${speechLoadingId ? 'is-loading' : speechSupported ? 'is-ready' : ''}`}><i aria-hidden="true" /> {speechLoadingId ? text.loadingAudio : speechSupported ? text.voiceReady : text.voiceUnavailable}</span></div><div className="flex items-end gap-2"><textarea value={question} onChange={(event) => setQuestion(event.target.value)} onKeyDown={handleQuestionKeyDown} rows="2" maxLength="1000" disabled={busy} placeholder={text.placeholder} className="min-h-[2.75rem] min-w-0 flex-1 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-mint focus:ring-4 focus:ring-mint/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white" /><button type="submit" disabled={!question.trim() || busy} className="rounded-xl bg-mint px-3.5 py-2.5 text-sm font-black text-navy transition hover:bg-[#83e3c5] disabled:cursor-not-allowed disabled:opacity-50">{text.send}</button></div>{error && <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-300">{error}</p>}</form>
     </section>}
     <button type="button" onClick={togglePanel} aria-expanded={open} aria-label={text.open} className={`community-ai-launcher ${open ? 'is-open' : ''} flex h-12 items-center gap-2 rounded-full border border-white/20 bg-[#6f58d9] px-4 text-sm font-black text-white shadow-xl shadow-[#6f58d9]/30 transition hover:-translate-y-0.5 hover:bg-[#604bc6]`}><span className="community-ai-launcher-avatar" aria-hidden="true">✦</span><span className="hidden sm:inline">{text.button}</span></button>
   </div>;
