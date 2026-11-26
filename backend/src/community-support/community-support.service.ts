@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 type SupportResult = { answer: string; source: 'ai' | 'fallback'; configured: boolean };
+type SpeechLanguage = 'en' | 'km';
 
 @Injectable()
 export class CommunitySupportService {
@@ -45,6 +46,41 @@ export class CommunitySupportService {
       console.warn(`Community AI support fallback: ${message}`);
       return { answer: this.fallback(cleanQuestion), source: 'fallback', configured: true };
     }
+  }
+
+  async speech(userId: string, text: string, language: SpeechLanguage): Promise<Buffer> {
+    const cleanText = text.trim().slice(0, 2000);
+    if (!cleanText) throw new HttpException('Speech text is required.', HttpStatus.BAD_REQUEST);
+
+    const now = Date.now();
+    const speechKey = `speech:${userId}`;
+    const lastRequest = this.lastRequestByUser.get(speechKey) || 0;
+    if (now - lastRequest < 700) throw new HttpException('Please wait a moment before playing another reply.', HttpStatus.TOO_MANY_REQUESTS);
+    this.lastRequestByUser.set(speechKey, now);
+
+    const apiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
+    if (!apiKey) throw new HttpException('AI speech is not configured.', HttpStatus.SERVICE_UNAVAILABLE);
+
+    const response = await fetch('https://api.openai.com/v1/audio/speech', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: this.config.get<string>('OPENAI_TTS_MODEL') || 'gpt-4o-mini-tts',
+        voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
+        input: cleanText,
+        instructions: language === 'km'
+          ? 'Speak clearly and warmly in natural Khmer. Use a friendly customer-support tone, with comfortable pauses and human-like intonation.'
+          : 'Speak like a warm, patient human customer-support person. Use a natural pace, comfortable pauses, and friendly intonation.',
+        response_format: 'mp3',
+      }),
+    });
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '');
+      throw new HttpException(detail || 'AI speech generation failed.', HttpStatus.BAD_GATEWAY);
+    }
+
+    return Buffer.from(await response.arrayBuffer());
   }
 
   private fallbackKhmer(question: string) {

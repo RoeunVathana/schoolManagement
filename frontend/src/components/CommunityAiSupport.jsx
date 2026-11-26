@@ -22,8 +22,8 @@ const translations = {
     listen: 'Listen',
     stop: 'Stop',
     autoPlay: 'Auto-play replies',
-    voiceReady: 'Natural voice ready',
-    voiceUnavailable: 'Voice is not available in this browser',
+    voiceReady: 'AI voice ready',
+    voiceUnavailable: 'AI voice fallback unavailable',
     openCourses: 'Open courses',
     openFriends: 'Open friends',
     openMessages: 'Open messages',
@@ -50,8 +50,8 @@ const translations = {
     listen: 'ស្តាប់',
     stop: 'បញ្ឈប់',
     autoPlay: 'ចាក់សំឡេងចម្លើយដោយស្វ័យប្រវត្តិ',
-    voiceReady: 'សំឡេងធម្មជាតិរួចរាល់',
-    voiceUnavailable: 'កម្មវិធីរុករកនេះមិនអាចប្រើសំឡេងបានទេ',
+    voiceReady: 'សំឡេង AI រួចរាល់',
+    voiceUnavailable: 'មិនអាចប្រើសំឡេងបម្រុងបានទេ',
     openCourses: 'បើកវគ្គសិក្សា',
     openFriends: 'បើកមិត្តភក្តិ',
     openMessages: 'បើកសារ',
@@ -70,15 +70,17 @@ function suggestedAction(question, { publicMode, user, text }) {
   // This keeps a broad support reply from suggesting an unrelated redirect.
   const content = question.toLowerCase();
   const privatePath = user?.role === 'CUSTOMER' ? '/customer/profile' : user?.role === 'TEACHER' ? '/teacher/profile' : '/student/profile';
-  const needsSignIn = (path, label) => publicMode || !user ? { to: '/login/student', label: text.signIn, title: label } : { to: path, label, title: label };
+  const autoRedirect = /\b(?:go|open|show|take me|bring me|navigate|redirect|visit)\b|បើក|ទៅកាន់|នាំខ្ញុំ/u.test(content);
+  const route = (to, label, extra = {}) => ({ to, label, title: label, auto: autoRedirect, ...extra });
+  const needsSignIn = (path, label) => publicMode || !user ? route('/login/student', text.signIn) : route(path, label);
 
-  if (/course|courses|buy|purchase|payment|pay|khqr|វគ្គសិក្សា|ទិញ|បង់/.test(content)) return { to: '/courses#courses', label: text.openCourses, title: text.openCourses, target: 'courses' };
+  if (/course|courses|buy|purchase|payment|pay|khqr|វគ្គសិក្សា|ទិញ|បង់/.test(content)) return route('/courses#courses', text.openCourses, { target: 'courses' });
   if (/friend|friends|មិត្ត|ស្នើ/.test(content)) return needsSignIn('/friends', text.openFriends);
   if (/message|messages|chat|ជជែក|សារ/.test(content)) return needsSignIn('/chat', text.openMessages);
-  if (/profile|post|posts|បង្ហោះ|ប្រវត្តិរូប/.test(content)) return publicMode ? { to: '/community', label: text.openCommunity, title: text.openCommunity } : { to: privatePath, label: text.openProfile, title: text.openProfile };
-  if (/community|សហគមន៍/.test(content)) return { to: '/community', label: text.openCommunity, title: text.openCommunity };
-  if (/lab|code|programming|កូដ|មន្ទីរពិសោធន៍/.test(content)) return { to: '/lab', label: text.openLab, title: text.openLab };
-  if (/support|contact|account|staff|ជំនួយ|ទំនាក់ទំនង|គណនី/.test(content)) return { to: '/contact', label: text.openSupport, title: text.openSupport };
+  if (/profile|post|posts|បង្ហោះ|ប្រវត្តិរូប/.test(content)) return publicMode ? route('/community', text.openCommunity) : route(privatePath, text.openProfile);
+  if (/community|សហគមន៍/.test(content)) return route('/community', text.openCommunity);
+  if (/lab|code|programming|កូដ|មន្ទីរពិសោធន៍/.test(content)) return route('/lab', text.openLab);
+  if (/support|contact|account|staff|ជំនួយ|ទំនាក់ទំនង|គណនី/.test(content)) return route('/contact', text.openSupport);
   return null;
 }
 
@@ -110,12 +112,18 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const [messages, setMessages] = useState(() => [{ id: 'welcome', role: 'assistant', text: translations.en.welcome }]);
   const closeTimerRef = useRef(null);
   const speechRef = useRef(null);
+  const speechAbortRef = useRef(null);
+  const audioRef = useRef(null);
+  const audioUrlRef = useRef(null);
   const voicesRef = useRef([]);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
 
   useEffect(() => () => {
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    speechAbortRef.current?.abort();
+    if (audioRef.current) audioRef.current.pause();
+    if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current);
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
   }, []);
 
@@ -130,35 +138,78 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   }, []);
 
   function stopSpeaking() {
+    speechAbortRef.current?.abort();
+    speechAbortRef.current = null;
+    if (audioRef.current) {
+      audioRef.current.onended = null;
+      audioRef.current.onerror = null;
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    }
+    if (audioUrlRef.current && typeof URL !== 'undefined') URL.revokeObjectURL(audioUrlRef.current);
+    audioRef.current = null;
+    audioUrlRef.current = null;
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
     speechRef.current = null;
     setSpeakingId(null);
   }
 
-  function speakMessage(message) {
-    if (!speechSupported || !message?.text || typeof window === 'undefined') return;
+  function speakBrowserMessage(message) {
+    if (!speechSupported || !message?.text || typeof window === 'undefined') return Promise.resolve();
     const synthesis = window.speechSynthesis;
-    if (!synthesis) return;
+    if (!synthesis) return Promise.resolve();
     stopSpeaking();
+    return new Promise((resolve) => {
+      try {
+        const utterance = new window.SpeechSynthesisUtterance(message.text.replace(/https?:\/\/\S+/g, ''));
+        const locale = speechLocale(message.text, language);
+        const voices = voicesRef.current.length ? voicesRef.current : synthesis.getVoices();
+        const voice = voices.find((item) => item.lang?.toLowerCase().startsWith(locale.slice(0, 2).toLowerCase()))
+          || voices.find((item) => item.lang?.toLowerCase().startsWith(locale.split('-')[0].toLowerCase()))
+          || voices.find((item) => item.default);
+        if (voice) utterance.voice = voice;
+        utterance.lang = locale;
+        utterance.rate = locale === 'km-KH' ? 0.9 : 0.96;
+        utterance.pitch = 1.02;
+        utterance.volume = 0.96;
+        utterance.onstart = () => { speechRef.current = utterance; setSpeakingId(message.id); };
+        utterance.onend = () => { if (speechRef.current === utterance) { speechRef.current = null; setSpeakingId(null); } resolve(); };
+        utterance.onerror = () => { if (speechRef.current === utterance) { speechRef.current = null; setSpeakingId(null); } resolve(); };
+        speechRef.current = utterance;
+        synthesis.speak(utterance);
+      } catch {
+        setSpeakingId(null);
+        resolve();
+      }
+    });
+  }
+
+  async function playMessage(message) {
+    if (!message?.text || typeof window === 'undefined') return;
+    stopSpeaking();
+    const controller = new AbortController();
+    speechAbortRef.current = controller;
     try {
-      const utterance = new window.SpeechSynthesisUtterance(message.text.replace(/https?:\/\/\S+/g, ''));
-      const locale = speechLocale(message.text, language);
-      const voices = voicesRef.current.length ? voicesRef.current : synthesis.getVoices();
-      const voice = voices.find((item) => item.lang?.toLowerCase().startsWith(locale.slice(0, 2).toLowerCase()))
-        || voices.find((item) => item.lang?.toLowerCase().startsWith(locale.split('-')[0].toLowerCase()))
-        || voices.find((item) => item.default);
-      if (voice) utterance.voice = voice;
-      utterance.lang = locale;
-      utterance.rate = locale === 'km-KH' ? 0.9 : 0.96;
-      utterance.pitch = 1.02;
-      utterance.volume = 0.96;
-      utterance.onstart = () => { speechRef.current = utterance; setSpeakingId(message.id); };
-      utterance.onend = () => { if (speechRef.current === utterance) { speechRef.current = null; setSpeakingId(null); } };
-      utterance.onerror = () => { if (speechRef.current === utterance) { speechRef.current = null; setSpeakingId(null); } };
-      speechRef.current = utterance;
-      synthesis.speak(utterance);
-    } catch {
-      setSpeakingId(null);
+      const endpoint = publicMode ? '/api/community-support/public/speech' : '/api/community-support/speech';
+      const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal });
+      if (controller.signal.aborted) return;
+      const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audioUrlRef.current = url;
+      speechAbortRef.current = null;
+      audio.onplay = () => setSpeakingId(message.id);
+      return await new Promise((resolve, reject) => {
+        audio.onended = () => { if (audioRef.current === audio) { audioRef.current = null; setSpeakingId(null); URL.revokeObjectURL(url); audioUrlRef.current = null; } resolve(); };
+        audio.onerror = () => reject(new Error('AI audio could not be played'));
+        audio.play().catch(reject);
+      });
+    } catch (requestError) {
+      if (controller.signal.aborted) return;
+      speechAbortRef.current = null;
+      // Khmer falls back to the device voice only when the server voice is unavailable.
+      return speakBrowserMessage(message);
     }
   }
 
@@ -168,7 +219,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     setPanelMounted(true);
     onOpenChange?.(true);
     window.requestAnimationFrame(() => setOpen(true));
-    if (speakWelcome && autoSpeak) speakMessage({ id: 'welcome', text: text.welcome });
+    if (speakWelcome && autoSpeak) void playMessage({ id: 'welcome', text: text.welcome });
   };
 
   const closePanel = () => {
@@ -252,7 +303,14 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
         action: suggestedAction(value, { publicMode, user, text }),
       };
       setMessages((current) => [...current, assistantMessage]);
-      if (autoSpeak) window.setTimeout(() => speakMessage(assistantMessage), 80);
+      if (autoSpeak) {
+        window.setTimeout(async () => {
+          await playMessage(assistantMessage);
+          if (assistantMessage.action?.auto) openAction(assistantMessage.action);
+        }, 80);
+      } else if (assistantMessage.action?.auto) {
+        window.setTimeout(() => openAction(assistantMessage.action), 900);
+      }
     } catch (requestError) {
       setError(requestError.response?.data?.message || text.unavailable);
     } finally {
@@ -267,7 +325,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
         <div className="community-ai-header-actions"><span className="community-ai-language-pill">{language === 'km' ? 'ខ្មែរ' : 'EN'}</span><button type="button" onClick={closePanel} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></div>
       </header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">
-        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => (speakingId === message.id ? stopSpeaking() : speakMessage(message))} disabled={!speechSupported}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <button type="button" className="community-ai-action-button" onClick={() => openAction(message.action)} title={message.action.title}>{message.action.label}</button>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
+        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => (speakingId === message.id ? stopSpeaking() : void playMessage(message))}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <button type="button" className="community-ai-action-button" onClick={() => openAction(message.action)} title={message.action.title}>{message.action.label}</button>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
         {busy && <div className="flex justify-start"><div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-slate-400 shadow-sm dark:bg-slate-800">{text.thinking}</div></div>}
         <div className="flex flex-wrap gap-1.5">{!hasConversation && text.quickQuestions.map((item) => <button type="button" key={item} onClick={(event) => ask(event, item)} className="rounded-full border border-mint/60 bg-mint/20 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition hover:bg-mint/40 dark:text-mint">{item}</button>)}</div>
       </div>
