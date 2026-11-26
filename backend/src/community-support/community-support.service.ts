@@ -19,33 +19,79 @@ export class CommunitySupportService {
     if (now - lastRequest < 1200) throw new HttpException('Please wait a moment before asking again.', HttpStatus.TOO_MANY_REQUESTS);
     this.lastRequestByUser.set(userId, now);
 
-    const apiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
-    if (!apiKey) return { answer: this.fallback(cleanQuestion), source: 'fallback', configured: false };
+    const openAiKey = this.config.get<string>('OPENAI_API_KEY')?.trim();
+    const geminiApiKey = this.config.get<string>('GEMINI_API_KEY')?.trim();
 
+    if (openAiKey) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 25000);
+        const response = await fetch('https://api.openai.com/v1/responses', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${openAiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: this.config.get<string>('OPENAI_MODEL') || 'gpt-4o-mini',
+            instructions: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
+            input: `Answer entirely in ${responseLanguage}. User question: ${cleanQuestion}`,
+            max_output_tokens: 220,
+          }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        const data = await response.json() as { output_text?: string; output?: Array<{ content?: Array<{ text?: string }> }>; error?: { message?: string } };
+        if (!response.ok) throw new Error(data.error?.message || 'AI support request failed');
+        const answer = data.output_text || data.output?.flatMap((item) => item.content || []).map((content) => content.text || '').join('').trim();
+        if (!answer) throw new Error('AI support returned an empty answer');
+        return { answer, source: 'ai', configured: true };
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown OpenAI support error';
+        console.warn(`OpenAI community support failed: ${message}`);
+      }
+    }
+
+    if (geminiApiKey) {
+      try {
+        return await this.geminiAnswer(geminiApiKey, cleanQuestion, responseLanguage);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown Gemini support error';
+        console.warn(`Gemini community support failed: ${message}`);
+      }
+    }
+
+    const configured = Boolean(openAiKey || geminiApiKey);
+    return { answer: this.fallback(cleanQuestion), source: 'fallback', configured };
+  }
+
+  private async geminiAnswer(apiKey: string, question: string, responseLanguage: string): Promise<SupportResult> {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000);
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 25000);
-      const response = await fetch('https://api.openai.com/v1/responses', {
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+        headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: this.config.get<string>('OPENAI_MODEL') || 'gpt-4o-mini',
-          instructions: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
-          input: `Answer entirely in ${responseLanguage}. User question: ${cleanQuestion}`,
-          max_output_tokens: 220,
+          model: this.config.get<string>('GEMINI_TEXT_MODEL') || 'gemini-2.5-flash',
+          system_instruction: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
+          input: `Answer entirely in ${responseLanguage}. User question: ${question}`,
+          generation_config: { max_output_tokens: 220, temperature: 0.35 },
+          store: false,
         }),
         signal: controller.signal,
       });
-      clearTimeout(timeout);
-      const data = await response.json() as { output_text?: string; output?: Array<{ content?: Array<{ text?: string }> }>; error?: { message?: string } };
-      if (!response.ok) throw new Error(data.error?.message || 'AI support request failed');
-      const answer = data.output_text || data.output?.flatMap((item) => item.content || []).map((content) => content.text || '').join('').trim();
-      if (!answer) throw new Error('AI support returned an empty answer');
+      const data = await response.json() as {
+        output_text?: string;
+        output?: Array<{ content?: Array<{ text?: string }> }>;
+        steps?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+        error?: { message?: string };
+      };
+      if (!response.ok) throw new Error(data.error?.message || 'Gemini support request failed');
+      const answer = data.output_text
+        || data.output?.flatMap((item) => item.content || []).map((content) => content.text || '').join('').trim()
+        || data.steps?.flatMap((step) => step.content || []).filter((content) => content.type === 'text').map((content) => content.text || '').join('').trim();
+      if (!answer) throw new Error('Gemini support returned an empty answer');
       return { answer, source: 'ai', configured: true };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown AI support error';
-      console.warn(`Community AI support fallback: ${message}`);
-      return { answer: this.fallback(cleanQuestion), source: 'fallback', configured: true };
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
