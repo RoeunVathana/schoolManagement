@@ -120,7 +120,7 @@ function createSilentAudioDataUrl() {
   return `data:audio/wav;base64,${window.btoa(binary)}`;
 }
 
-export default function CommunityAiSupport({ publicMode = false, dockOpen = true, onOpenChange }) {
+export default function CommunityAiSupport({ publicMode = false, autoReadWelcome = false, dockOpen = true, onOpenChange }) {
   const { user } = useAuth();
   const { language } = useLanguage();
   const navigate = useNavigate();
@@ -153,6 +153,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const audioUrlRef = useRef(null);
   const layoutViewportHeightRef = useRef(0);
   const voicesRef = useRef([]);
+  const autoReadWelcomeRef = useRef(false);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
 
@@ -319,6 +320,27 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   }, [dockOpen, open, panelMounted, panelClosing]);
 
   const togglePanel = () => (open ? closePanel() : openPanel({ speakWelcome: true }));
+
+  // Keep the AI panel closed on public pages, but read the welcome sentence
+  // in the background when the page loads. Mobile browsers can block page-load
+  // audio, so retry once on the first user gesture.
+  useEffect(() => {
+    if (!autoReadWelcome || !autoSpeak || autoReadWelcomeRef.current) return undefined;
+    autoReadWelcomeRef.current = true;
+    const welcomeMessage = { id: 'welcome-auto', text: text.welcome };
+    primeAudioPlayback();
+    void playMessage(welcomeMessage);
+    const retryAfterGesture = () => {
+      primeAudioPlayback();
+      void playMessage(welcomeMessage);
+    };
+    window.addEventListener('pointerdown', retryAfterGesture, { once: true, passive: true });
+    window.addEventListener('keydown', retryAfterGesture, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', retryAfterGesture);
+      window.removeEventListener('keydown', retryAfterGesture);
+    };
+  }, [autoReadWelcome, autoSpeak, text.welcome]);
 
   useEffect(() => {
     setMessages((current) => current.length === 1 ? [{ ...current[0], text: text.welcome }] : current);

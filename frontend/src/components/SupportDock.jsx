@@ -12,7 +12,7 @@ export default function SupportDock({ publicMode = false, alwaysShow = false }) 
   const closeLabel = isKhmer ? 'បិទឧបករណ៍ជំនួយ' : 'Close support tools';
 
   return <>
-    <CommunityAiSupport publicMode={publicMode} dockOpen={expanded} onOpenChange={setAiOpen} />
+    <CommunityAiSupport publicMode={publicMode} autoReadWelcome={publicMode && alwaysShow} dockOpen={expanded} onOpenChange={setAiOpen} />
     <TelegramSupport alwaysShow={alwaysShow} publicMode={publicMode} dockOpen={expanded && !aiOpen} />
     <button
       type="button"
