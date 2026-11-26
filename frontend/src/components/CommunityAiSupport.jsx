@@ -92,6 +92,7 @@ function speechLocale(content, language) {
 // the faster pace in one place so generated audio and browser fallback match.
 const KHMER_AUDIO_PLAYBACK_RATE = 1.55;
 const KHMER_BROWSER_SPEECH_RATE = 1.35;
+const AI_REQUEST_TIMEOUT_MS = 40000;
 
 function createSilentAudioDataUrl() {
   const dataLength = 800;
@@ -251,7 +252,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     speechAbortRef.current = controller;
     try {
       const endpoint = publicMode ? '/api/community-support/public/speech' : '/api/community-support/speech';
-      const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal });
+      const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal, timeout: AI_REQUEST_TIMEOUT_MS });
       if (controller.signal.aborted) return;
       if (unlockPromise) await unlockPromise;
       const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: 'audio/mpeg' });
@@ -376,7 +377,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     setMessages((current) => [...current, { id: makeMessageId('user'), role: 'user', text: value }]);
     try {
       const endpoint = publicMode ? '/api/community-support/public' : '/api/community-support';
-      const result = unwrap(await api.post(endpoint, { question: value }));
+      const result = unwrap(await api.post(endpoint, { question: value }, { timeout: AI_REQUEST_TIMEOUT_MS }));
       const assistantMessage = {
         id: makeMessageId('assistant'),
         role: 'assistant',
