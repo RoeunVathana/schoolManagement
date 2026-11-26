@@ -154,12 +154,15 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
   const layoutViewportHeightRef = useRef(0);
   const voicesRef = useRef([]);
   const autoReadWelcomeRef = useRef(false);
+  const pendingSpeechRef = useRef(null);
+  const speechRetryListenerRef = useRef(null);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
 
   useEffect(() => () => {
     if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     speechAbortRef.current?.abort();
+    clearSpeechRetry();
     if (audioRef.current) audioRef.current.pause();
     if (audioUnlockRef.current) audioUnlockRef.current.pause();
     if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current);
@@ -191,6 +194,32 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
     speechRef.current = null;
     setSpeakingId(null);
+  }
+
+  function clearSpeechRetry() {
+    const listener = speechRetryListenerRef.current;
+    if (typeof window !== 'undefined' && listener) {
+      window.removeEventListener('pointerdown', listener);
+      window.removeEventListener('keydown', listener);
+    }
+    speechRetryListenerRef.current = null;
+    pendingSpeechRef.current = null;
+  }
+
+  function scheduleSpeechRetry(message) {
+    pendingSpeechRef.current = message;
+    if (typeof window === 'undefined' || speechRetryListenerRef.current) return;
+    const retry = () => {
+      speechRetryListenerRef.current = null;
+      const pendingMessage = pendingSpeechRef.current;
+      pendingSpeechRef.current = null;
+      if (!pendingMessage) return;
+      primeAudioPlayback();
+      void playMessage(pendingMessage);
+    };
+    speechRetryListenerRef.current = retry;
+    window.addEventListener('pointerdown', retry, { once: true, passive: true });
+    window.addEventListener('keydown', retry, { once: true });
   }
 
   // iOS Safari requires a user gesture before it allows an audio element to
@@ -249,6 +278,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
 
   async function playMessage(message) {
     if (!message?.text || typeof window === 'undefined') return;
+    clearSpeechRetry();
     primeAudioPlayback();
     const unlockPromise = audioUnlockPromiseRef.current;
     stopSpeaking();
@@ -285,6 +315,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
     } catch (requestError) {
       if (controller.signal.aborted) return;
       speechAbortRef.current = null;
+      scheduleSpeechRetry(message);
       // Khmer falls back to the device voice only when the server voice is unavailable.
       return speakBrowserMessage(message);
     }
