@@ -198,6 +198,19 @@ export class CommunitySupportService {
   private async geminiSpeech(apiKey: string, text: string, language: SpeechLanguage, model: string): Promise<SpeechResult> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25000);
+    const supportsSpeechStyle = model.startsWith('gemini-3.8-');
+    const speechContent = {
+      type: 'text',
+      text,
+      ...(supportsSpeechStyle ? {
+        annotations: [{
+          type: 'speech_metadata',
+          style: language === 'km'
+            ? 'warm, clear, natural adult male Khmer voice; relaxed conversational pace; gentle intonation; friendly human support tone'
+            : 'warm, clear, natural adult male support voice; relaxed conversational pace; gentle and friendly intonation',
+        }],
+      } : {}),
+    };
     try {
       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
         method: 'POST',
@@ -206,10 +219,7 @@ export class CommunitySupportService {
           model,
           input: [{
             type: 'user_input',
-            content: [{
-              type: 'text',
-              text,
-            }],
+            content: [speechContent],
           }],
           response_format: { type: 'audio' },
           generation_config: {
@@ -219,11 +229,12 @@ export class CommunitySupportService {
         signal: controller.signal,
       });
       const data = await response.json() as {
+        output_audio?: { data?: string };
         steps?: Array<{ content?: Array<{ type?: string; data?: string }> }>;
         error?: { message?: string };
       };
       if (!response.ok) throw new Error(data.error?.message || 'Gemini speech generation failed');
-      const audioData = data.steps?.flatMap((step) => step.content || [])
+      const audioData = data.output_audio?.data || data.steps?.flatMap((step) => step.content || [])
         .reverse()
         .find((content) => content.type === 'audio' && content.data)?.data;
       if (!audioData) throw new Error('Gemini speech returned no audio');
