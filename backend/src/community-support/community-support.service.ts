@@ -50,11 +50,16 @@ export class CommunitySupportService {
     }
 
     if (geminiApiKey) {
-      try {
-        return await this.geminiAnswer(geminiApiKey, cleanQuestion, responseLanguage);
-      } catch (error) {
-        const message = error instanceof Error ? error.message : 'Unknown Gemini support error';
-        console.warn(`Gemini community support failed: ${message}`);
+      const configuredModel = this.config.get<string>('GEMINI_TEXT_MODEL')?.trim();
+      const models = [configuredModel || 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite']
+        .filter((model, index, list) => list.indexOf(model) === index);
+      for (const model of models) {
+        try {
+          return await this.geminiAnswer(geminiApiKey, cleanQuestion, responseLanguage, model);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Unknown Gemini support error';
+          console.warn(`Gemini community support failed for ${model}: ${message}`);
+        }
       }
     }
 
@@ -62,30 +67,32 @@ export class CommunitySupportService {
     return { answer: this.fallback(cleanQuestion), source: 'fallback', configured };
   }
 
-  private async geminiAnswer(apiKey: string, question: string, responseLanguage: string): Promise<SupportResult> {
+  private async geminiAnswer(apiKey: string, question: string, responseLanguage: string, model: string): Promise<SupportResult> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25000);
     try {
-      const model = this.config.get<string>('GEMINI_TEXT_MODEL') || 'gemini-3.8-flash';
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
         method: 'POST',
         headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.' }],
-          },
-          contents: [{ role: 'user', parts: [{ text: `Answer entirely in ${responseLanguage}. User question: ${question}` }] }],
-          generationConfig: { maxOutputTokens: 220, temperature: 0.35 },
+          model,
+          system_instruction: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
+          input: `Answer entirely in ${responseLanguage}. User question: ${question}`,
+          generation_config: { max_output_tokens: 220, temperature: 0.35 },
+          store: false,
         }),
         signal: controller.signal,
       });
       const data = await response.json() as {
-        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+        output_text?: string;
+        output?: Array<{ content?: Array<{ text?: string }> }>;
+        steps?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
         error?: { message?: string };
       };
       if (!response.ok) throw new Error(data.error?.message || 'Gemini support request failed');
-      const answer = data.candidates?.flatMap((candidate) => candidate.content?.parts || [])
-        .map((part) => part.text || '').join('').trim();
+      const answer = data.output_text
+        || data.output?.flatMap((item) => item.content || []).map((content) => content.text || '').join('').trim()
+        || data.steps?.flatMap((step) => step.content || []).filter((content) => content.type === 'text').map((content) => content.text || '').join('').trim();
       if (!answer) throw new Error('Gemini support returned an empty answer');
       return { answer, source: 'ai', configured: true };
     } finally {
