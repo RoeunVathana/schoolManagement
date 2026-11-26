@@ -364,6 +364,12 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     if (action.target) window.setTimeout(() => document.getElementById(action.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 140);
   };
 
+  const handleActionLink = (event, action) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    openAction(action);
+  };
+
   const ask = async (event, preset) => {
     event?.preventDefault();
     const value = (preset || question).trim();
@@ -433,7 +439,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
         <div className="community-ai-header-actions"><span className="community-ai-language-pill">{language === 'km' ? 'ខ្មែរ' : 'EN'}</span><button type="button" onClick={closePanel} className="rounded-lg px-2 py-1 text-xl leading-none text-white/70 hover:bg-white/10 hover:text-white" aria-label={text.close}>×</button></div>
       </header>
       <div className="community-ai-messages max-h-[min(62vh,28rem)] space-y-3 overflow-y-auto bg-slate-50/80 p-3 dark:bg-slate-950/30">
-        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => handlePlayMessage(message)}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <button type="button" className="community-ai-action-button" onClick={() => openAction(message.action)} title={message.action.title}>{message.action.label}</button>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
+        {messages.map((message) => <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 ${message.role === 'user' ? 'rounded-br-md bg-navy text-white' : 'rounded-bl-md bg-white text-slate-700 shadow-sm dark:bg-slate-800 dark:text-slate-200'}`}><p className="whitespace-pre-wrap">{message.text}</p>{message.role === 'assistant' && <div className="community-ai-message-tools"><button type="button" className="community-ai-speak-button" onClick={() => handlePlayMessage(message)}>{speakingId === message.id ? `■ ${text.stop}` : `▶ ${text.listen}`}</button>{message.action && <a href={message.action.to} className="community-ai-action-button" onClick={(event) => handleActionLink(event, message.action)} title={message.action.title}>{message.action.label} ↗</a>}</div>}{message.source === 'fallback' && <p className="mt-1 text-[10px] font-bold text-slate-400">{text.fallback}</p>}</div></div>)}
         {busy && <div className="flex justify-start"><div className="rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-slate-400 shadow-sm dark:bg-slate-800">{text.thinking}</div></div>}
         <div className="flex flex-wrap gap-1.5">{!hasConversation && text.quickQuestions.map((item) => <button type="button" key={item} onClick={(event) => ask(event, item)} className="rounded-full border border-mint/60 bg-mint/20 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition hover:bg-mint/40 dark:text-mint">{item}</button>)}</div>
       </div>

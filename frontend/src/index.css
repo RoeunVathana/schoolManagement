@@ -3514,6 +3514,7 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-ai-speak-button:hover,
 .community-ai-action-button:hover { border-color: rgb(34 158 217 / .45); color: #14536a; background: #eefaff; transform: translateY(-1px); }
 .community-ai-action-button { border-color: rgb(111 88 217 / .22); color: #5b45bc; background: rgb(111 88 217 / .08); }
+.community-ai-action-button { text-decoration: none; }
 .dark .community-ai-speak-button,
 .dark .community-ai-action-button { border-color: #38516a; color: #c8dae8; background: #182b42; }
 .dark .community-ai-action-button { border-color: rgb(167 145 255 / .28); color: #d9d1ff; background: rgb(111 88 217 / .2); }
