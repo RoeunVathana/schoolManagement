@@ -153,7 +153,6 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const audioUrlRef = useRef(null);
   const layoutViewportHeightRef = useRef(0);
   const voicesRef = useRef([]);
-  const autoReadWelcomeRef = useRef(false);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
 
@@ -320,26 +319,6 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   }, [dockOpen, open, panelMounted, panelClosing]);
 
   const togglePanel = () => (open ? closePanel() : openPanel({ speakWelcome: true }));
-
-  // Public landing pages open the assistant and try to read its greeting on
-  // arrival. Mobile browsers may block the first autoplay attempt, so keep a
-  // one-time gesture retry ready for the first tap or key press.
-  useEffect(() => {
-    if (!publicMode || !dockOpen || autoReadWelcomeRef.current) return undefined;
-    autoReadWelcomeRef.current = true;
-    openPanel({ speakWelcome: true });
-    const retryAfterGesture = () => {
-      if (!autoSpeak) return;
-      primeAudioPlayback();
-      void playMessage({ id: 'welcome', text: text.welcome });
-    };
-    window.addEventListener('pointerdown', retryAfterGesture, { once: true, passive: true });
-    window.addEventListener('keydown', retryAfterGesture, { once: true });
-    return () => {
-      window.removeEventListener('pointerdown', retryAfterGesture);
-      window.removeEventListener('keydown', retryAfterGesture);
-    };
-  }, [autoSpeak, dockOpen, publicMode, text.welcome]);
 
   useEffect(() => {
     setMessages((current) => current.length === 1 ? [{ ...current[0], text: text.welcome }] : current);
