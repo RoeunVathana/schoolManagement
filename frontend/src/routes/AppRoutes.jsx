@@ -71,7 +71,7 @@ export default function AppRoutes() {
     <Route path="/courses/:id" element={<Storefront />} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
-    <Route path="/community" element={<CommunityLanding />} />
+    <Route path="/community/*" element={<CommunityLanding />} />
     <Route path="/404" element={<NotFound />} />
     <Route path="/" element={<Storefront />} />
     <Route element={<ProtectedRoute />}>

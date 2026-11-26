@@ -22,6 +22,10 @@ function getAllowedOrigins(config: ConfigService, nodeEnv: string): string[] {
     'https://campusflowlms.xyz',
     'https://www.campusflowlms.xyz',
     nodeEnv === 'production' ? 'https://campusflowlms.xyz' : 'http://localhost:5173',
+    // Vite may bind to the IPv4 loopback address during local responsive
+    // testing. Keep the browser origin equivalent to localhost so API calls
+    // do not fail only because the test uses 127.0.0.1.
+    nodeEnv === 'production' ? '' : 'http://127.0.0.1:5173',
   ]
     .filter((value): value is string => typeof value === 'string')
     .flatMap((value) => value.split(','))

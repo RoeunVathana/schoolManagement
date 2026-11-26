@@ -11,5 +11,5 @@ export default function BrandLogo({ className = '', alt = 'CampusFlow logo' }) {
   const [sourceIndex, setSourceIndex] = useState(0);
   const source = logoSources[sourceIndex];
 
-  return <img src={source} alt={alt} width="96" height="96" loading="eager" decoding="async" fetchPriority="high" referrerPolicy="no-referrer" className={`block h-full w-full object-contain ${className}`} onError={() => setSourceIndex((current) => Math.min(current + 1, logoSources.length - 1))} />;
+  return <img src={source} alt={alt} width="96" height="96" loading="eager" decoding="async" referrerPolicy="no-referrer" className={`block h-full w-full object-contain ${className}`} onError={() => setSourceIndex((current) => Math.min(current + 1, logoSources.length - 1))} />;
 }

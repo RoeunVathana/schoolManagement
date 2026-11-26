@@ -11,7 +11,7 @@ import SiteWelcomePopup from './components/SiteWelcomePopup';
 
 function RouteSeo() {
   const { pathname } = useLocation();
-  if (pathname === '/' || pathname === '/courses' || pathname.startsWith('/courses/') || pathname === '/community' || pathname === '/about' || pathname === '/contact') return null;
+  if (pathname === '/' || pathname === '/courses' || pathname.startsWith('/courses/') || pathname === '/community' || pathname === '/community/' || pathname === '/about' || pathname === '/contact') return null;
 
   const privateRoute = /^(\/admin|\/teacher|\/student|\/customer|\/profile|\/friends|\/groups|\/chat)/.test(pathname);
   const authRoute = /^(\/login|\/register|\/forgot-password)/.test(pathname);

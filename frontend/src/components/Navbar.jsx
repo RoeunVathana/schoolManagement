@@ -62,6 +62,7 @@ export default function Navbar({ onMenu, menuOpen = false }) {
   const audioUnlocked = useRef(false);
   const dashboardSearchRef = useRef(null);
   const dashboardSearchInputRef = useRef(null);
+  const mobileDashboardSearchInputRef = useRef(null);
   const [dashboardSearchOpen, setDashboardSearchOpen] = useState(false);
   const [dashboardSearchQuery, setDashboardSearchQuery] = useState('');
 
@@ -162,7 +163,12 @@ export default function Navbar({ onMenu, menuOpen = false }) {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         setDashboardSearchOpen(true);
-        window.requestAnimationFrame(() => dashboardSearchInputRef.current?.focus());
+        window.requestAnimationFrame(() => {
+          const input = window.matchMedia('(max-width: 639px)').matches
+            ? mobileDashboardSearchInputRef.current
+            : dashboardSearchInputRef.current;
+          input?.focus();
+        });
       }
       if (event.key === 'Escape') setDashboardSearchOpen(false);
     };
@@ -218,13 +224,17 @@ export default function Navbar({ onMenu, menuOpen = false }) {
     <div className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
       <div ref={dashboardSearchRef} className={`dashboard-search relative w-10 min-w-10 sm:w-[clamp(9rem,18vw,14rem)] sm:min-w-0 lg:w-[clamp(13rem,20vw,17rem)] ${dashboardSearchOpen ? 'is-open' : ''}`}>
         <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition focus-within:border-[#229ed9] focus-within:ring-2 focus-within:ring-[#229ed9]/15 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300">
-          <SearchIcon />
+          <span className="dashboard-search-icon"><SearchIcon /></span>
           <input ref={dashboardSearchInputRef} type="search" value={dashboardSearchQuery} onFocus={() => setDashboardSearchOpen(true)} onChange={(event) => { setDashboardSearchQuery(event.target.value); setDashboardSearchOpen(true); }} onKeyDown={(event) => { if (event.key === 'Enter' && filteredDashboardSearchItems[0]) selectDashboardSearchItem(filteredDashboardSearchItems[0].path); }} placeholder={language === 'km' ? 'ស្វែងរកទំព័រ...' : 'Search dashboard pages...'} aria-label={language === 'km' ? 'ស្វែងរកទំព័រផ្ទាំងគ្រប់គ្រង' : 'Search dashboard pages'} aria-expanded={dashboardSearchOpen} className="hidden min-w-0 flex-1 bg-transparent px-2 text-xs font-semibold text-ink outline-none placeholder:text-slate-400 sm:block dark:text-white" />
-          <button type="button" onClick={() => { setDashboardSearchOpen((current) => !current); window.requestAnimationFrame(() => dashboardSearchInputRef.current?.focus()); }} className="flex h-full w-full items-center justify-center sm:hidden" aria-label={language === 'km' ? 'បើកការស្វែងរក' : 'Open dashboard search'} aria-expanded={dashboardSearchOpen}><SearchIcon /></button>
+          <button type="button" onClick={() => { const nextOpen = !dashboardSearchOpen; setDashboardSearchOpen(nextOpen); window.requestAnimationFrame(() => { if (!nextOpen) return; const input = window.matchMedia('(max-width: 639px)').matches ? mobileDashboardSearchInputRef.current : dashboardSearchInputRef.current; input?.focus(); }); }} className="flex h-full w-full items-center justify-center sm:hidden" aria-label={language === 'km' ? 'បើកការស្វែងរក' : 'Open dashboard search'} aria-expanded={dashboardSearchOpen}><SearchIcon /></button>
           <kbd className="mr-2 hidden rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[9px] font-bold text-slate-400 lg:inline dark:border-slate-600 dark:bg-slate-700">⌘K</kbd>
         </div>
         {dashboardSearchOpen && <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(28rem,70vh)] w-[min(23rem,calc(100vw-1.5rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-950/15 dark:border-slate-700 dark:bg-[#101d31]">
-          <div className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[.16em] text-slate-400">{language === 'km' ? 'ទំព័រផ្ទាំងគ្រប់គ្រង' : 'Dashboard pages'}</div>
+          <div className="dashboard-search-mobile-field sm:hidden">
+            <SearchIcon />
+            <input ref={mobileDashboardSearchInputRef} type="search" value={dashboardSearchQuery} onChange={(event) => { setDashboardSearchQuery(event.target.value); setDashboardSearchOpen(true); }} onKeyDown={(event) => { if (event.key === 'Enter' && filteredDashboardSearchItems[0]) selectDashboardSearchItem(filteredDashboardSearchItems[0].path); }} placeholder={language === 'km' ? 'ស្វែងរកទំព័រ...' : 'Search dashboard pages...'} aria-label={language === 'km' ? 'ស្វែងរកទំព័រផ្ទាំងគ្រប់គ្រង' : 'Search dashboard pages'} />
+          </div>
+          <div className="dashboard-search-panel-title px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[.16em] text-slate-400">{language === 'km' ? 'ទំព័រផ្ទាំងគ្រប់គ្រង' : 'Dashboard pages'}</div>
           {filteredDashboardSearchItems.length ? filteredDashboardSearchItems.map((item) => <button type="button" key={item.path} onClick={() => selectDashboardSearchItem(item.path)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-slate-100 dark:hover:bg-slate-800">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#eaf7f3] text-[#1c8c74] dark:bg-emerald-950/40 dark:text-[#8de4ca]"><NavIcon name={item.icon} /></span>
             <span className="min-w-0 flex-1"><span className="block truncate text-xs font-extrabold text-ink dark:text-white">{item.label}</span><span className="mt-0.5 block truncate text-[10px] font-semibold text-slate-400">{item.path}</span></span>

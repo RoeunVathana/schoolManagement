@@ -17,7 +17,14 @@
   box-shadow: 0 4px 14px rgb(16 36 63 / .05);
 }
 
-.dashboard-search > div:first-child > svg {
+.dashboard-search-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-search > div:first-child > .dashboard-search-icon {
   color: #5f879a;
 }
 
@@ -61,10 +68,43 @@
   background: #7da7ba padding-box;
 }
 
-.dashboard-search.is-open > div:last-child > div:first-child {
+.dashboard-search.is-open > div:last-child > .dashboard-search-panel-title {
   padding: .35rem .55rem .5rem !important;
   color: #6d8498;
   letter-spacing: .12em;
+}
+
+.dashboard-search-mobile-field {
+  display: none;
+  align-items: center;
+  gap: .5rem;
+  margin: .1rem .1rem .55rem;
+  min-height: 2.75rem;
+  padding: .55rem .7rem;
+  border: 1px solid rgb(148 163 184 / .34);
+  border-radius: .8rem;
+  background: #f8fafc;
+  color: #5f879a;
+}
+
+.dashboard-search-mobile-field:focus-within {
+  border-color: rgb(34 158 217 / .68);
+  box-shadow: 0 0 0 3px rgb(34 158 217 / .14);
+}
+
+.dashboard-search-mobile-field input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #142b49;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.dashboard-search-mobile-field input::placeholder {
+  color: #94a3b8;
 }
 
 .dashboard-search.is-open > div:last-child > button {
@@ -98,6 +138,16 @@
   background: #182b43;
 }
 
+.dark .dashboard-search-mobile-field {
+  border-color: rgb(100 141 174 / .48);
+  background: #14243a;
+  color: #8de4ca;
+}
+
+.dark .dashboard-search-mobile-field input {
+  color: #ffffff;
+}
+
 @media (min-width: 640px) and (max-width: 1023px) {
   .dashboard-search {
     flex: 1 1 clamp(11rem, 23vw, 16rem);
@@ -119,7 +169,36 @@
     width: 2.6rem;
     min-height: 2.6rem;
     padding-inline: 0;
-    box-shadow: 0 5px 14px rgb(16 36 63 / .08);
+    border-color: rgb(148 163 184 / .36);
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 5px 14px rgb(16 36 63 / .1), inset 0 1px 0 rgb(255 255 255 / .9);
+  }
+
+  .dashboard-search > div:first-child > .dashboard-search-icon {
+    display: none;
+  }
+
+  .dashboard-search > div:first-child > button {
+    border-radius: inherit;
+    color: #5f879a;
+    transition: color .2s ease, background-color .2s ease;
+  }
+
+  .dashboard-search > div:first-child > button:hover,
+  .dashboard-search > div:first-child > button:focus-visible {
+    color: #176a85;
+    background: #eef8fb;
+  }
+
+  .dashboard-search > div:first-child > button svg {
+    width: 1rem;
+    height: 1rem;
+    stroke-width: 2.1;
+  }
+
+  .dashboard-search-mobile-field {
+    display: flex;
   }
 
   .dashboard-search.is-open > div:last-child {
@@ -148,6 +227,45 @@
     right: max(.5rem, env(safe-area-inset-right));
     width: calc(100vw - 1rem) !important;
     max-height: min(24rem, calc(100dvh - 8rem)) !important;
+  }
+}
+
+@media (max-width: 639px) {
+  /* Keep the dashboard language control as a compact flag button. The
+     language remains selectable from the menu, but EN/KH should not compete
+     with the other small header controls. */
+  .app-navbar [data-dashboard-language] > button {
+    width: 2.45rem !important;
+    min-width: 2.45rem !important;
+    height: 2.45rem !important;
+    min-height: 2.45rem !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+  }
+
+  .app-navbar [data-dashboard-language] .language-switcher-short,
+  .app-navbar [data-dashboard-language] .language-switcher-chevron {
+    display: none !important;
+  }
+
+  .app-navbar [data-dashboard-language] .language-switcher-flag {
+    width: 1.35rem !important;
+    height: .9rem !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-navbar [data-dashboard-language] > button {
+    width: 2.35rem !important;
+    min-width: 2.35rem !important;
+    height: 2.35rem !important;
+    min-height: 2.35rem !important;
+  }
+
+  .app-navbar [data-dashboard-language] .language-switcher-flag {
+    width: 1.25rem !important;
+    height: .84rem !important;
   }
 }
 

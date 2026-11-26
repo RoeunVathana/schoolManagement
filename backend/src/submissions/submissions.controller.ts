@@ -187,7 +187,7 @@ import { MediaStorageService } from '../media/media-storage.service';
     const { page, limit, skip } = pagination(q.page, q.limit);
     const where = { assignmentId, ...(q.status ? { status: q.status } : {}) };
     const [data, total] = await Promise.all([
-      this.prisma.submission.findMany({ where, skip, take: limit, include: { student: { include: { user: { select: { fullName: true, email: true } } } }, assignment: { include: { course: true } }, grade: true, attachments: { orderBy: { createdAt: 'asc' } } } }),
+      this.prisma.submission.findMany({ where, skip, take: limit, include: { student: { include: { user: { select: { fullName: true, email: true } } } }, assignment: { include: { course: true } }, grade: true, attachments: { orderBy: { createdAt: 'asc' } } }, orderBy: [{ submittedAt: 'desc' }, { id: 'desc' }] }),
       this.prisma.submission.count({ where }),
     ]);
     return paginationResult(data, total, page, limit);
@@ -207,7 +207,7 @@ import { MediaStorageService } from '../media/media-storage.service';
       where.assignment = { teacherId: teacher.id };
     }
     const [data, total] = await Promise.all([
-      this.prisma.submission.findMany({ where, skip, take: limit, include: { student: { include: { user: { select: { fullName: true } } } }, assignment: { include: { course: true } }, grade: true, attachments: { orderBy: { createdAt: 'asc' } } } }),
+      this.prisma.submission.findMany({ where, skip, take: limit, include: { student: { include: { user: { select: { fullName: true } } } }, assignment: { include: { course: true } }, grade: true, attachments: { orderBy: { createdAt: 'asc' } } }, orderBy: [{ submittedAt: 'desc' }, { id: 'desc' }] }),
       this.prisma.submission.count({ where }),
     ]);
     return paginationResult(data, total, page, limit);
