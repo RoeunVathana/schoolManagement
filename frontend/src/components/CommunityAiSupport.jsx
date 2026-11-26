@@ -93,10 +93,10 @@ function speechLocale(content, language) {
   return /[\u1780-\u17ff]/u.test(content) || language === 'km' ? 'km-KH' : 'en-US';
 }
 
-// Khmer voices tend to render noticeably slower than English on phones. Keep
-// the faster pace in one place so generated audio and browser fallback match.
-const KHMER_AUDIO_PLAYBACK_RATE = 1.55;
-const KHMER_BROWSER_SPEECH_RATE = 1.35;
+// Keep Khmer speech slightly brisk without making the voice sound rushed or
+// metallic on phones. The provider already generates a natural speaking pace.
+const KHMER_AUDIO_PLAYBACK_RATE = 1.18;
+const KHMER_BROWSER_SPEECH_RATE = 1.1;
 const AI_REQUEST_TIMEOUT_MS = 40000;
 
 function createSilentAudioDataUrl() {

@@ -163,7 +163,7 @@ export class CommunitySupportService {
             voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
             input: cleanText,
             instructions: language === 'km'
-              ? 'Speak clearly and warmly in natural Khmer at a distinctly brisk conversational pace, about 1.3x normal. Keep pauses very short, connect phrases naturally, and never stretch syllables or add slow dramatic pauses.'
+              ? 'Speak in warm, clear, natural Khmer like a friendly human support person. Use a relaxed conversational pace, gentle intonation, natural short pauses between phrases, and smooth sentence endings. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
               : 'Speak like a warm, patient human customer-support person at a natural conversational pace, with short pauses and friendly intonation.',
             response_format: 'mp3',
           }),
