@@ -1184,15 +1184,21 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
             <InfoCard label={copy.courseSchedule} value={canViewLearningContent ? `${course.schedules?.length || 0} ${copy.sessions}` : t("courseContentLocked")} />
           </div>
            {courseTags(course).length > 0 && <div className="mt-5 flex flex-wrap gap-2">{courseTags(course).map((tag) => <span key={tag} className="rounded-full border border-[#8de4ca]/60 bg-[#effcf7] px-3 py-1.5 text-xs font-bold text-[#17624e] dark:border-[#2f8b78] dark:bg-[#122e35] dark:text-[#a5f1dc]">✓ {tag}</span>)}</div>}
-           <section className="mt-10 rounded-[1.6rem] bg-[#10243f] p-6 text-white sm:p-7">
-            <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">{copy.whatYouGet}</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {copy.includes.map((item) => (
-                <div key={item} className="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-3 text-sm font-bold text-white/85">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#8de4ca] text-xs font-black text-[#10243f]">✓</span>
-                  {item}
-                </div>
-              ))}
+           <section className="relative mt-10 overflow-hidden rounded-[2rem] border border-[#8de4ca]/20 bg-gradient-to-br from-[#10243f] via-[#12304f] to-[#0d1e36] p-6 text-white shadow-xl shadow-[#10243f]/15 sm:p-7">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#229ed9]/15 blur-2xl" />
+            <div className="relative">
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-xs font-extrabold uppercase tracking-[.22em] text-[#a5f1dc]">{copy.whatYouGet}</p>
+                <span className="hidden rounded-full border border-white/10 bg-white/[.08] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.16em] text-white/55 sm:inline-flex">{copy.includes.length} included</span>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {copy.includes.map((item) => (
+                  <div key={item} className="flex min-h-[4.5rem] items-center gap-3 rounded-2xl border border-white/10 bg-white/[.08] px-4 py-3 text-sm font-bold leading-6 text-white/90 shadow-inner shadow-white/[.03] transition hover:border-[#8de4ca]/40 hover:bg-white/[.12]">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8de4ca] text-sm font-black text-[#10243f] shadow-lg shadow-[#8de4ca]/15">✓</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
           {canViewLearningContent ? <>
@@ -1244,17 +1250,22 @@ function CourseDetail({ course, copy, language, t, user, buyBusy, onBuy, isPurch
             </div>
           </section>
           </> : (
-            <section className="mt-12 rounded-[1.7rem] border border-[#8de4ca]/25 bg-[#10243f] p-6 text-white shadow-xl shadow-[#10243f]/15 sm:p-8">
-              <div className="flex gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#8de4ca] text-xl text-[#10243f]" aria-hidden="true">âœ“</span>
-                <div>
+             <section className="relative mt-12 overflow-hidden rounded-[2rem] border border-[#8de4ca]/30 bg-gradient-to-br from-[#10243f] via-[#143b59] to-[#0b2139] p-6 text-white shadow-xl shadow-[#10243f]/20 sm:p-8">
+              <div className="pointer-events-none absolute -bottom-24 -right-16 h-56 w-56 rounded-full border-[28px] border-[#8de4ca]/10" />
+              <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_15rem] lg:items-center">
+                <div className="flex items-start gap-4">
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#8de4ca] text-2xl font-black text-[#10243f] shadow-xl shadow-[#8de4ca]/15" aria-hidden="true">✓</span>
+                  <div className="min-w-0">
                   <p className="text-xs font-extrabold uppercase tracking-[.2em] text-[#a5f1dc]">{t("courseContentLocked")}</p>
                   <h2 className="mt-3 text-2xl font-black tracking-tight">{['STUDENT', 'CUSTOMER'].includes(user?.role) ? t("purchaseToUnlock") : t("signInToUnlock")}</h2>
                   <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">{t("courseContentLockedHint")}</p>
+                  </div>
+                </div>
+                <div className="relative flex flex-col gap-3">
                   {!user ? (
-                    <Link to="/login/student" state={{ from: `/courses/${course.id}` }} className="mt-6 inline-flex rounded-xl bg-[#8de4ca] px-4 py-3 text-sm font-extrabold text-[#10243f] transition hover:bg-[#a5f1dc]">{t("signInToUnlock")}</Link>
+                    <Link to="/login/student" state={{ from: `/courses/${course.id}` }} className="inline-flex w-full items-center justify-center rounded-2xl bg-[#8de4ca] px-4 py-3.5 text-sm font-extrabold text-[#10243f] shadow-lg shadow-[#8de4ca]/10 transition hover:-translate-y-0.5 hover:bg-[#a5f1dc]">{t("signInToUnlock")}</Link>
                   ) : ['STUDENT', 'CUSTOMER'].includes(user.role) && !isPurchased ? (
-                    paymentOpen ? <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="mt-6 rounded-xl bg-[#229ed9] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button> : <p className="mt-6 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-bold text-white/75">{paymentStatus.closedHint}</p>
+                    paymentOpen ? <button type="button" onClick={() => onBuy(course)} disabled={buyBusy === course.id} className="inline-flex w-full items-center justify-center rounded-2xl bg-[#229ed9] px-4 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-[#229ed9]/15 transition hover:-translate-y-0.5 hover:bg-[#168dcc] disabled:opacity-60">{buyBusy === course.id ? "..." : t("buyCourse")}</button> : <p className="rounded-2xl border border-white/15 bg-white/[.08] px-4 py-3.5 text-center text-sm font-bold leading-6 text-white/75">{paymentStatus.closedHint}</p>
                   ) : null}
                 </div>
               </div>
