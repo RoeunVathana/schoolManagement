@@ -220,7 +220,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
           || voices.find((item) => item.default);
         if (voice) utterance.voice = voice;
         utterance.lang = locale;
-        utterance.rate = locale === 'km-KH' ? 0.9 : 0.96;
+        utterance.rate = locale === 'km-KH' ? 1.08 : 0.96;
         utterance.pitch = 1.02;
         utterance.volume = 0.96;
         utterance.onstart = () => { speechRef.current = utterance; setSpeakingId(message.id); };
@@ -250,9 +250,12 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
       const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
+      const locale = speechLocale(message.text, language);
       audio.preload = 'auto';
       audio.playsInline = true;
       audio.setAttribute('playsinline', 'true');
+      audio.defaultPlaybackRate = locale === 'km-KH' ? 1.12 : 1;
+      audio.playbackRate = locale === 'km-KH' ? 1.12 : 1;
       audioRef.current = audio;
       audioUrlRef.current = url;
       speechAbortRef.current = null;

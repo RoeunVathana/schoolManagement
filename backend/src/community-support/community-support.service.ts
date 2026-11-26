@@ -141,8 +141,8 @@ export class CommunitySupportService {
             voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'marin',
             input: cleanText,
             instructions: language === 'km'
-              ? 'Speak clearly and warmly in natural Khmer. Use a friendly customer-support tone, with comfortable pauses and human-like intonation.'
-              : 'Speak like a warm, patient human customer-support person. Use a natural pace, comfortable pauses, and friendly intonation.',
+              ? 'Speak clearly and warmly in natural Khmer at a normal, slightly brisk conversational pace. Use short pauses and friendly human intonation; do not speak slowly or stretch syllables.'
+              : 'Speak like a warm, patient human customer-support person at a natural conversational pace, with short pauses and friendly intonation.',
             response_format: 'mp3',
           }),
         });
@@ -190,8 +190,8 @@ export class CommunitySupportService {
               annotations: [{
                 type: 'speech_metadata',
                 style: language === 'km'
-                  ? 'warm, natural, clear Khmer customer-support voice with friendly intonation and comfortable pauses'
-                  : 'warm, natural customer-support voice with friendly intonation and comfortable pauses',
+                  ? 'warm, natural, clear Khmer customer-support voice at a normal, slightly brisk conversational pace with short pauses'
+                  : 'warm, natural customer-support voice at a natural conversational pace with short pauses',
               }],
             }],
           }],
