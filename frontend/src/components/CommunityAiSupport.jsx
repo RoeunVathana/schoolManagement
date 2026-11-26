@@ -123,6 +123,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const [layoutViewportHeight, setLayoutViewportHeight] = useState(0);
   const [speakingId, setSpeakingId] = useState(null);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [autoSpeak, setAutoSpeak] = useState(() => {
@@ -141,6 +142,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   const audioUnlockPromiseRef = useRef(null);
   const audioUnlockedRef = useRef(false);
   const audioUrlRef = useRef(null);
+  const layoutViewportHeightRef = useRef(0);
   const voicesRef = useRef([]);
   const canUse = publicMode || ['STUDENT', 'CUSTOMER', 'TEACHER'].includes(user?.role);
   const hasConversation = useMemo(() => messages.length > 1, [messages.length]);
@@ -311,13 +313,18 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
   useEffect(() => {
     if (!open || typeof window === 'undefined') {
       setKeyboardOffset(0);
+      setLayoutViewportHeight(0);
+      layoutViewportHeightRef.current = 0;
       return undefined;
     }
     const viewport = window.visualViewport;
+    layoutViewportHeightRef.current = Math.max(layoutViewportHeightRef.current, window.innerHeight);
     const updateKeyboardOffset = () => {
-      if (!viewport) return;
-      const offset = Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop);
+      const layoutHeight = layoutViewportHeightRef.current || window.innerHeight;
+      const visibleHeight = viewport?.height || window.innerHeight;
+      const offset = Math.max(0, layoutHeight - visibleHeight - (viewport?.offsetTop || 0));
       setKeyboardOffset(offset > 80 ? Math.min(offset, window.innerHeight * 0.75) : 0);
+      setLayoutViewportHeight(layoutHeight);
     };
     updateKeyboardOffset();
     viewport?.addEventListener('resize', updateKeyboardOffset);
@@ -398,7 +405,7 @@ export default function CommunityAiSupport({ publicMode = false, dockOpen = true
     void playMessage(message);
   };
 
-  return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px` }} aria-hidden={!dockOpen} className={`support-dock-item ${dockOpen ? 'is-expanded' : 'is-collapsed'} ${panelMounted ? 'is-panel-open' : ''} community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
+  return <div style={{ '--community-keyboard-offset': `${keyboardOffset}px`, '--community-layout-height': `${layoutViewportHeight || (typeof window !== 'undefined' ? window.innerHeight : 0)}px` }} aria-hidden={!dockOpen} className={`support-dock-item ${dockOpen ? 'is-expanded' : 'is-collapsed'} ${panelMounted ? 'is-panel-open' : ''} community-ai-support ${publicMode ? 'community-ai-support-public' : ''} ${keyboardOffset ? 'is-keyboard-open' : ''} fixed bottom-20 right-3 z-40 sm:bottom-24 sm:right-6`}>
     {panelMounted && <section className={`community-ai-panel ${panelClosing ? 'is-closing' : open ? 'is-open' : ''} mb-3 flex w-[min(24rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(16,36,63,.22)] dark:border-slate-700 dark:bg-[#101c30]`} aria-hidden={!open} aria-label={text.title} role="dialog">
       <header className="community-ai-header flex items-center justify-between gap-3 bg-navy px-4 py-3 text-white">
         <div className="community-ai-brand"><span className={`community-ai-avatar ${speakingId ? 'is-speaking' : ''}`} aria-hidden="true"><span>✦</span></span><div><p className="text-sm font-black">{text.title}</p><p className="mt-0.5 text-[11px] font-semibold text-mint">{text.subtitle}</p><span className="community-ai-status"><i aria-hidden="true" /> {text.online}</span></div></div>

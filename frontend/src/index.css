@@ -3320,16 +3320,20 @@ a, button, input, textarea, select { max-width: 100%; }
 
 .community-ai-support-public.is-keyboard-open {
   bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + var(--community-keyboard-offset, 0px));
+  max-height: calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem);
 }
 
 .community-ai-support-public.is-keyboard-open .community-ai-panel {
-  max-height: calc(100dvh - 1rem);
+  height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
+  max-height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
   margin-bottom: .5rem;
 }
 
 .community-ai-support-public.is-keyboard-open .community-ai-messages {
-  max-height: min(42dvh, 20rem);
-  min-height: 5rem;
+  min-height: 0;
+  max-height: none;
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
 
 .community-ai-support-public .community-ai-launcher {
@@ -3379,6 +3383,14 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-ai-support-public.is-keyboard-open .community-ai-panel {
     width: 100%;
     border-radius: 1rem;
+    height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
+    max-height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
+  }
+
+  .community-ai-support-public.is-keyboard-open .community-ai-messages {
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 auto;
   }
 
   .community-ai-support-public.is-keyboard-open .community-ai-launcher {
