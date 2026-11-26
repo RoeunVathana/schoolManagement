@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function SupportDock({ publicMode = false, alwaysShow = false }) {
   const { language } = useLanguage();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(() => publicMode && alwaysShow);
   const [aiOpen, setAiOpen] = useState(false);
   const isKhmer = language === 'km';
   const label = isKhmer ? 'បើកឧបករណ៍ជំនួយ' : 'Open support tools';
