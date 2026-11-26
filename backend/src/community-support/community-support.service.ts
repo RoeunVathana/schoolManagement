@@ -66,28 +66,26 @@ export class CommunitySupportService {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25000);
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
+      const model = this.config.get<string>('GEMINI_TEXT_MODEL') || 'gemini-2.5-flash';
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
         method: 'POST',
         headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: this.config.get<string>('GEMINI_TEXT_MODEL') || 'gemini-2.5-flash',
-          system_instruction: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.',
-          input: `Answer entirely in ${responseLanguage}. User question: ${question}`,
-          generation_config: { max_output_tokens: 220, temperature: 0.35 },
-          store: false,
+          systemInstruction: {
+            parts: [{ text: 'You are CampusFlow Community Support. Help Students, Customers, and Teachers use the CampusFlow learning community. Sound like a warm, patient human support person speaking aloud: use short natural sentences, contractions when appropriate, and one clear next step. Avoid markdown tables, long lists, raw URLs, and robotic phrasing. Use the exact names of visible buttons or pages when helpful. Explain how to use profiles, posts, visibility, friend requests, accepted-friend messaging, courses, and account settings. Never claim to see private messages, private posts, passwords, payment records, or another user’s private data. Do not invent school policies. If a request needs staff access, tell the user to contact CampusFlow support. Keep answers under 120 words.' }],
+          },
+          contents: [{ role: 'user', parts: [{ text: `Answer entirely in ${responseLanguage}. User question: ${question}` }] }],
+          generationConfig: { maxOutputTokens: 220, temperature: 0.35 },
         }),
         signal: controller.signal,
       });
       const data = await response.json() as {
-        output_text?: string;
-        output?: Array<{ content?: Array<{ text?: string }> }>;
-        steps?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
         error?: { message?: string };
       };
       if (!response.ok) throw new Error(data.error?.message || 'Gemini support request failed');
-      const answer = data.output_text
-        || data.output?.flatMap((item) => item.content || []).map((content) => content.text || '').join('').trim()
-        || data.steps?.flatMap((step) => step.content || []).filter((content) => content.type === 'text').map((content) => content.text || '').join('').trim();
+      const answer = data.candidates?.flatMap((candidate) => candidate.content?.parts || [])
+        .map((part) => part.text || '').join('').trim();
       if (!answer) throw new Error('Gemini support returned an empty answer');
       return { answer, source: 'ai', configured: true };
     } finally {
