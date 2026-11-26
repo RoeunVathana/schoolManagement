@@ -31,6 +31,7 @@ const translations = {
     openCommunity: 'Open community',
     openLab: 'Open programming lab',
     openSupport: 'Open support',
+    openWebsite: 'Open CampusFlow website',
     signIn: 'Sign in to continue',
   },
   km: {
@@ -59,6 +60,7 @@ const translations = {
     openCommunity: 'បើកសហគមន៍',
     openLab: 'បើកមន្ទីរពិសោធន៍កូដ',
     openSupport: 'បើកជំនួយ',
+    openWebsite: 'បើកគេហទំព័រ CampusFlow',
     signIn: 'ចូលគណនីដើម្បីបន្ត',
   },
 };
@@ -81,6 +83,7 @@ function suggestedAction(question, { publicMode, user, text }) {
   if (/community|សហគមន៍/.test(content)) return route('/community', text.openCommunity);
   if (/lab|code|programming|កូដ|មន្ទីរពិសោធន៍/.test(content)) return route('/lab', text.openLab);
   if (/support|contact|account|staff|ជំនួយ|ទំនាក់ទំនង|គណនី/.test(content)) return route('/contact', text.openSupport);
+  if (/\b(?:website|web\s*site|site|url|link)\b|គេហទំព័រ|វេបសាយ|តំណ/u.test(content)) return route('/', text.openWebsite, { auto: false });
   return null;
 }
 
