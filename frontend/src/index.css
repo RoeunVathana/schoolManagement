@@ -3326,7 +3326,8 @@ a, button, input, textarea, select { max-width: 100%; }
 .community-ai-support-public.is-keyboard-open .community-ai-panel {
   height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
   max-height: min(calc(var(--community-layout-height, 100dvh) - var(--community-keyboard-offset, 0px) - 1rem), 40rem);
-  margin-bottom: .5rem;
+  margin-top: .5rem;
+  margin-bottom: 0;
 }
 
 /* The launcher is already hidden while the panel is open. Remove it from
@@ -3618,7 +3619,8 @@ a, button, input, textarea, select { max-width: 100%; }
   .app-shell-chat .community-ai-support.is-panel-open .community-ai-panel {
     width: calc(100vw - 1rem);
     max-height: min(calc(100dvh - 1rem), 34rem);
-    margin-bottom: .5rem;
+    margin-top: .5rem;
+    margin-bottom: 0;
     border-radius: 1.15rem;
   }
 
