@@ -160,11 +160,12 @@ export class CommunitySupportService {
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             model: this.config.get<string>('OPENAI_TTS_MODEL') || 'gpt-4o-mini-tts',
-            voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'onyx',
+            voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'cedar',
             input: cleanText,
             instructions: language === 'km'
               ? 'Speak in a warm, clear, natural adult male Khmer voice like a friendly human support person. Use a relaxed conversational pace, gentle masculine intonation, natural short pauses between phrases, and smooth sentence endings. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
               : 'Speak like a warm, patient human customer-support person at a natural conversational pace, with short pauses and friendly intonation.',
+            speed: 1.0,
             response_format: 'mp3',
           }),
         });
