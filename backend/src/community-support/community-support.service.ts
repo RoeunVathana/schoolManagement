@@ -124,7 +124,9 @@ export class CommunitySupportService {
   }
 
   async speech(userId: string, text: string, language: SpeechLanguage): Promise<SpeechResult> {
-    const cleanText = text.trim().slice(0, 2000);
+    // Flatten line breaks and repeated whitespace so TTS does not insert
+    // unnatural gaps between paragraphs, bullets, or wrapped Khmer text.
+    const cleanText = text.replace(/\s+/gu, ' ').trim().slice(0, 2000);
     if (!cleanText) throw new HttpException('Speech text is required.', HttpStatus.BAD_REQUEST);
 
     const now = Date.now();
@@ -163,9 +165,9 @@ export class CommunitySupportService {
             voice: this.config.get<string>('OPENAI_TTS_VOICE') || 'cedar',
             input: cleanText,
             instructions: language === 'km'
-              ? 'Speak in a warm, clear, natural adult male Khmer voice like a friendly human support person. Use a relaxed conversational pace, gentle masculine intonation, natural short pauses between phrases, and smooth sentence endings. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
+              ? 'Speak in a warm, clear, natural adult male Khmer voice like a friendly human support person. Use a smooth connected delivery, gentle masculine intonation, and only brief pauses at sentence punctuation. Do not pause between individual Khmer words or clauses. Keep pronunciation clear without sounding robotic, rushed, or overly dramatic.'
               : 'Speak like a warm, patient human customer-support person at a natural conversational pace, with short pauses and friendly intonation.',
-            speed: 1.0,
+            speed: 1.02,
             response_format: 'mp3',
           }),
         });
@@ -207,7 +209,7 @@ export class CommunitySupportService {
         annotations: [{
           type: 'speech_metadata',
           style: language === 'km'
-            ? 'warm, clear, natural adult male Khmer voice; relaxed conversational pace; gentle intonation; friendly human support tone'
+            ? 'warm, clear, natural adult male Khmer voice; smooth connected delivery; brief pauses only at sentence punctuation; no pauses between Khmer words; gentle intonation; friendly human support tone'
             : 'warm, clear, natural adult male support voice; relaxed conversational pace; gentle and friendly intonation',
         }],
       } : {}),
