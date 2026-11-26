@@ -3329,6 +3329,12 @@ a, button, input, textarea, select { max-width: 100%; }
   margin-bottom: .5rem;
 }
 
+/* The launcher is already hidden while the panel is open. Remove it from
+   layout flow as well so it does not push the keyboard-safe panel upward. */
+.community-ai-support-public.is-keyboard-open .community-ai-launcher {
+  display: none;
+}
+
 .community-ai-support-public.is-keyboard-open .community-ai-messages {
   min-height: 0;
   max-height: none;
