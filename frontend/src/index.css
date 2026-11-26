@@ -3360,10 +3360,34 @@ a, button, input, textarea, select { max-width: 100%; }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Phone and tablet portrait: let the public assistant fill the available
+   support lane instead of keeping the desktop 25rem card anchored to the
+   right edge with an oversized empty strip beside it. */
+@media (max-width: 820px) {
+  .community-ai-support-public {
+    right: max(.75rem, env(safe-area-inset-right)) !important;
+    left: max(.75rem, env(safe-area-inset-left));
+  }
+
+  .community-ai-support-public .community-ai-panel {
+    width: 100%;
+    max-width: none;
+  }
+
+  .community-ai-support-public.is-keyboard-open {
+    right: max(.5rem, env(safe-area-inset-right)) !important;
+    left: max(.5rem, env(safe-area-inset-left));
+  }
+
+  .community-ai-support-public.is-keyboard-open .community-ai-panel {
+    width: 100%;
+  }
+}
+
 @media (max-width: 620px) {
   .community-ai-support-public {
     right: .75rem !important;
-    left: auto;
+    left: .75rem;
     bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + 3.75rem);
   }
 
@@ -3374,7 +3398,8 @@ a, button, input, textarea, select { max-width: 100%; }
   }
 
   .community-ai-support-public .community-ai-panel {
-    width: min(25rem, calc(100vw - 1.5rem));
+    width: 100%;
+    max-width: none;
     max-height: calc(100dvh - 5rem);
   }
 
