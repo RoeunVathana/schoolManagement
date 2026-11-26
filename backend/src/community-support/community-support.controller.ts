@@ -20,7 +20,7 @@ export class CommunitySupportController {
 
   @Post()
   answer(@CurrentUser() user: { id: string }, @Body() dto: CommunitySupportDto) {
-    return this.support.answer(user.id, dto.question);
+    return this.support.answer(user.id, dto.question, dto.history, dto.language);
   }
 
   @Post('speech')

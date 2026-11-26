@@ -13,7 +13,7 @@ export class PublicCommunitySupportController {
   @Post('public')
   @ApiOperation({ summary: 'Ask CampusFlow AI support without signing in' })
   answer(@Ip() ip: string, @Body() dto: CommunitySupportDto) {
-    return this.support.answer(`guest:${ip || 'unknown'}`, dto.question);
+    return this.support.answer(`guest:${ip || 'unknown'}`, dto.question, dto.history, dto.language);
   }
 
   @Post('public/speech')
