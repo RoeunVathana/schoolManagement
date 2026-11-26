@@ -90,8 +90,8 @@ function speechLocale(content, language) {
 
 // Khmer voices tend to render noticeably slower than English on phones. Keep
 // the faster pace in one place so generated audio and browser fallback match.
-const KHMER_AUDIO_PLAYBACK_RATE = 1.28;
-const KHMER_BROWSER_SPEECH_RATE = 1.18;
+const KHMER_AUDIO_PLAYBACK_RATE = 1.55;
+const KHMER_BROWSER_SPEECH_RATE = 1.35;
 
 function createSilentAudioDataUrl() {
   const dataLength = 800;
