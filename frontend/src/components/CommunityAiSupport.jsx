@@ -286,7 +286,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
     speechAbortRef.current = controller;
     try {
       const endpoint = publicMode ? '/api/community-support/public/speech' : '/api/community-support/speech';
-      const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal, timeout: AI_REQUEST_TIMEOUT_MS });
+      const response = await api.post(endpoint, { text: message.text, language: speechLocale(message.text, language) === 'km-KH' ? 'km' : 'en' }, { responseType: 'blob', signal: controller.signal, timeout: AI_REQUEST_TIMEOUT_MS, suppressSuccessToast: true });
       if (controller.signal.aborted) return;
       if (unlockPromise) await unlockPromise;
       const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type: 'audio/mpeg' });
@@ -443,7 +443,7 @@ export default function CommunityAiSupport({ publicMode = false, autoReadWelcome
         .filter((message) => message.id !== 'welcome' && (message.role === 'user' || message.role === 'assistant') && message.text?.trim())
         .slice(-8)
         .map(({ role, text: messageText }) => ({ role, text: messageText.trim().slice(0, 1000) }));
-      const result = unwrap(await api.post(endpoint, { question: value, language, history }, { timeout: AI_REQUEST_TIMEOUT_MS }));
+      const result = unwrap(await api.post(endpoint, { question: value, language, history }, { timeout: AI_REQUEST_TIMEOUT_MS, suppressSuccessToast: true }));
       const assistantMessage = {
         id: makeMessageId('assistant'),
         role: 'assistant',

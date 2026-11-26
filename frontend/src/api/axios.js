@@ -21,6 +21,7 @@ function notifyServerBusy(error) {
 
 function notifyMutationSuccess(response) {
   if (typeof window === 'undefined') return;
+  if (response.config?.suppressSuccessToast) return;
   const method = String(response.config?.method || 'get').toLowerCase();
   if (!['post', 'put', 'patch', 'delete'].includes(method)) return;
 
