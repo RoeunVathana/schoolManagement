@@ -31,6 +31,24 @@
   overflow-wrap: normal !important;
 }
 
+/* Khmer action/file labels need to stay intact. Let the assignment table
+   grow inside its existing horizontal scroller instead of breaking one glyph
+   per line when a translated label is wider than a narrow cell. */
+.learning-record-table-assignments .table-desktop-view td a,
+.learning-record-table-assignments .table-desktop-view td button,
+.learning-record-table-assignments .table-desktop-view td a > span,
+.learning-record-table-assignments .table-desktop-view td button > span {
+  max-width: none;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+  white-space: nowrap !important;
+}
+
+.learning-record-table-assignments .table-desktop-view td a,
+.learning-record-table-assignments .table-desktop-view td button {
+  flex: 0 0 auto;
+}
+
 @media (min-width: 1101px) {
   .learning-record-table-submissions .table-desktop-view table {
     min-width: 96rem !important;
