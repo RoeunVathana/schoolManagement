@@ -3372,6 +3372,13 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-ai-support-public .community-ai-panel {
     width: 100%;
     max-width: none;
+    max-height: min(78dvh, 42rem, calc(100dvh - 6rem));
+    margin-top: .25rem;
+  }
+
+  .community-ai-support-public .community-ai-messages {
+    max-height: min(54dvh, 30rem, calc(100dvh - 13rem));
+    min-height: 14rem;
   }
 
   .community-ai-support-public.is-keyboard-open {
@@ -3400,11 +3407,11 @@ a, button, input, textarea, select { max-width: 100%; }
   .community-ai-support-public .community-ai-panel {
     width: 100%;
     max-width: none;
-    max-height: calc(100dvh - 5rem);
+    max-height: min(78dvh, 42rem, calc(100dvh - 6rem));
   }
 
   .community-ai-support-public .community-ai-messages {
-    max-height: calc(100dvh - 12rem);
+    max-height: min(54dvh, 30rem, calc(100dvh - 13rem));
     min-height: 14rem;
   }
 
